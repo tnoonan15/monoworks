@@ -1,0 +1,26 @@
+<Project name="Gui" fileversion="2.0" DefaultNamespace="MonoWorks.Gui" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assemblyKeyFile="." assembly="MonoWorks.Gui" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assemblyKeyFile="." assembly="MonoWorks.Gui" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="ResourceManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Project" localcopy="True" refto="Base" />
+    <ProjectReference type="Project" localcopy="True" refto="Model" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../../../../../usr/lib/cli/qyoto-1.0/qt-dotnet.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.OpenGl.dll" />
+  </References>
+</Project>

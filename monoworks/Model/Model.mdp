@@ -1,0 +1,47 @@
+<Project name="Model" fileversion="2.0" DefaultNamespace="MonoWorks.Model" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assembly="MonoWorks.Model" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assembly="MonoWorks.Model" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="Camera.cs" subtype="Code" buildaction="Compile" />
+    <File name="RubberBand.cs" subtype="Code" buildaction="Compile" />
+    <File name="Entity.cs" subtype="Code" buildaction="Compile" />
+    <File name="Document.cs" subtype="Code" buildaction="Compile" />
+    <File name="ViewportToolbar.xml" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Sketchs" subtype="Directory" buildaction="Compile" />
+    <File name="Sketchs/Arc.cs" subtype="Code" buildaction="Compile" />
+    <File name="Sketchs/Sketchable.cs" subtype="Code" buildaction="Compile" />
+    <File name="Sketchs/Vertex.cs" subtype="Code" buildaction="Compile" />
+    <File name="Sketchs/Sketch.cs" subtype="Code" buildaction="Compile" />
+    <File name="Features" subtype="Directory" buildaction="Compile" />
+    <File name="Features/Feature.cs" subtype="Code" buildaction="Compile" />
+    <File name="Sketchs/Line.cs" subtype="Code" buildaction="Compile" />
+    <File name="Reference" subtype="Directory" buildaction="Compile" />
+    <File name="Reference/RefPlane.cs" subtype="Code" buildaction="Compile" />
+    <File name="Reference/Reference.cs" subtype="Code" buildaction="Compile" />
+    <File name="Reference/RefLine.cs" subtype="Code" buildaction="Compile" />
+    <File name="Features/Extrusion.cs" subtype="Code" buildaction="Compile" />
+    <File name="Features/Sweep.cs" subtype="Code" buildaction="Compile" />
+    <File name="Momento.cs" subtype="Code" buildaction="Compile" />
+    <File name="IViewport.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.OpenGl.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <ProjectReference type="Project" localcopy="True" refto="Base" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  </References>
+</Project>
