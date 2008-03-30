@@ -1,0 +1,9 @@
+<Project name="Resources" fileversion="2.0" newfilesearch="OnLoadAutoInsert" ctype="GenericProject">
+  <Configurations active="Default">
+    <Configuration name="Default" ctype="GenericProjectConfiguration">
+      <Output directory="." />
+      <Build debugmode="True" />
+      <Execution runwithwarnings="True" consolepause="True" />
+    </Configuration>
+  </Configurations>
+</Project>

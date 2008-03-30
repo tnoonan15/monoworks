@@ -1,0 +1,16 @@
+
+<ui>
+	<toolbar  name='ViewportToolbar'>
+		<toolitem action='standardView'/>
+		<toolitem action='frontView'/>
+		<toolitem action='backView'/>
+		<toolitem action='topView'/>
+		<toolitem action='bottomView'/>
+		<toolitem action='leftView'/>
+		<toolitem action='rightView'/>
+		<separator/>
+		<toolitem action='wireframe'/>
+		<toolitem action='flat'/>
+		<toolitem action='shaded'/>
+	</toolbar>
+</ui>
