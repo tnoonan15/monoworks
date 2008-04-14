@@ -16,6 +16,7 @@
 ////    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 using gl = Tao.OpenGl.Gl;
 
@@ -28,12 +29,59 @@ namespace MonoWorks.Model
 	/// </summary>
 	public class Document : Entity
 	{
+		
+		static uint DocCounter = 0;
+		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public Document() : base()
 		{
+			entityRegistry = new Dictionary<long,Entity>();
+			RegisterEntity(this);
+			
+			DocCounter++;
+			Name = String.Format("document{0}", DocCounter);
 		}
+		
+		
+		/// <value>
+		/// Returns itself.
+		/// </value>
+		public override Document GetDocument()
+		{
+			return this;
+		}
+		
+#region Entity Registry
+		
+		protected Dictionary<long, Entity> entityRegistry;
+		
+		/// <summary>
+		/// Registers an entity with the document.
+		/// The document keeps a flat list of entities it contains that can 
+		/// be looked by id.
+		/// </summary>
+		/// <param name="entity"> A <see cref="Entity"/> to add to the document. </param>
+		protected override void RegisterEntity(Entity entity)
+		{
+			entityRegistry[entity.Id] = entity;
+		}
+		
+		/// <summary>
+		/// Returns the entity with the given id.
+		/// </summary>
+		/// <param name="id"> A valid entity id. </param>
+		/// <returns> The <see cref="Entity"/> with the id. </returns>
+		public Entity GetEntity(long id)
+		{
+			if (entityRegistry.ContainsKey(id))
+				return entityRegistry[id];
+			else
+				throw new Exception(String.Format("Document does not contain an entity with id {0}", id));
+		}
+		
+#endregion
 
 		
 #region Children

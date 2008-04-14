@@ -33,65 +33,13 @@ namespace MonoWorks.Viewer
 	{	
 		public static int Main(String[] args)
 		{
-			
-			
-			/** create a dummy document **/
-			Document document = new Document();
-			
-			
-			// add the reference line
-			RefLine refLine1 = new RefLine(new mwb.Point(0.0, 0.0, 0.0), new mwb.Vector(0.0, 1.0, 0.0));
-			document.AddReference(refLine1);
-			
-			/* create the extrusion */
-			Sketch extSketch = new Sketch();			
-			
-			// add the line
-			mwb.Point p1 = new mwb.Point(-1.0, 0.0, -1.0);
-			mwb.Point p2 = new mwb.Point(1.0, 0.0, -1.0);
-			mwb.Point p3 = new mwb.Point(1.0, 0.0, 1.0);
-			Line line1 = new Line(p1, p2);
-			line1.Points.Add(p3);
-			extSketch.AddChild(line1);
-			
-			// add the arc
-			Arc arc1 = new Arc(p2, p3, new mwb.Vector(0.0, 1.0, 0.0), mwb.Angle.Pi()/-2.0);
-			extSketch.AddChild(arc1);
-			
-			// add the extrusion
-			Extrusion ext1 = new Extrusion(extSketch);
-			ext1.Path = refLine1;
-			ext1.Travel = new mwb.Length(1.0);
-			
-			document.AddFeature(ext1);
-			
-			
-			/* create the sweep */
-			Sketch sweepSketch = new Sketch();
-			
-			// add the line
-			mwb.Point p4 = new mwb.Point(1.0, 1.5, 0.0);
-			mwb.Point p5 = new mwb.Point(1.0, 2.5, 0.0);
-			mwb.Point p6 = new mwb.Point(1.0, 2.0, 0.0);
-			Line line2 = new Line(p4, p5);
-			sweepSketch.AddChild(line2);
-			
-			// add the arc			
-			Arc arc2 = new Arc(p6, p4, new mwb.Vector(0.0, 0.0, 1.0), mwb.Angle.Pi());
-			sweepSketch.AddChild(arc2);
-			
-			// create the sweep
-			Sweep sweep1 = new Sweep(sweepSketch);
-			sweep1.Axis = refLine1;
-			sweep1.Travel = mwb.Angle.Pi()*-1;
-			document.AddFeature( sweep1);
-			
-		        QApplication app = new QApplication(args);
-			Viewport window = new Viewport(document);   
-			window.SetWindowTitle("MonoWorks Viewer");
-			window.Size = new QSize(600,600);
-		        window.Show();
-		        return QApplication.Exec();
+						
+				new QApplication(args);
+				DocFrame frame = new DocFrame();
+				frame.SetWindowTitle("MonoWorks Viewer");
+				frame.Size = new QSize(700,600);
+				frame.Show();
+				return QApplication.Exec();
 		    }
 	}
 	

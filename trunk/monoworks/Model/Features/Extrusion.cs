@@ -142,7 +142,7 @@ namespace MonoWorks.Model
 			
 			// cycle through sketch children
 			gl.glColor3f(0.5f, 0.5f, 0.5f);
-			foreach (Sketchable sketchable in this.Sketch.Children)
+			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.RawPoints;

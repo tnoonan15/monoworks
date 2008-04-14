@@ -31,21 +31,16 @@ using MonoWorks.Model;
 namespace MonoWorks.Gui
 {
 	
-	/// <summary>
-	/// Dictionary that maps the mouse event mask to an interaction action.
-	/// </summary>
+	// Dictionary that maps the mouse event mask to an interaction action.
 	using MouseMap = Dictionary<int, MouseAction>;
 		
-	/// <summary>
-	/// Dictionary that maps the mouse event mask to a cursor.
-	/// </summary>
+	
+	// Dictionary that maps the mouse event mask to a cursor.
 	using CursorMap = Dictionary<MouseAction, QCursor>;
 	
 	
-	/// <summary>
-	/// Dictionary that maps the scroll event mask to an interaction action.
-	/// </summary>
-	using ScrollMap = Dictionary<int, ScrollAction>;
+	// Dictionary that maps the scroll event mask to an interaction action.
+	using ScrollMap = Dictionary<long, ScrollAction>;
 	
 	
 	/// <summary>
@@ -62,7 +57,6 @@ namespace MonoWorks.Gui
 	
 	/// <summary>
 	/// The Viewport class represents a viewable area for rendering models,
-	/// as well as a toolbar that controls viewing options.
 	/// </summary>
 	public class Viewport : QGLWidget, IViewport
 	{
@@ -128,6 +122,9 @@ namespace MonoWorks.Gui
 		
 #region Document
 		
+		/// <value>
+		/// The document associated with this viewport.
+		/// </value>
 		protected Document document;		
 		/// <value>
 		/// The document associated with this viewport.
@@ -157,6 +154,9 @@ namespace MonoWorks.Gui
 		}
 		
 
+		/// <value>
+		/// The current mouse interaction action.
+		/// </value>
 		protected MouseAction mouseAction;
 		/// <value>
 		/// The current mouse interaction action.
@@ -166,9 +166,15 @@ namespace MonoWorks.Gui
 			get {return mouseAction;}
 		}
 		
+		/// <value>
+		/// The cursor map.
+		/// </value>
 		protected CursorMap cursorMap;
 		
 		
+		/// <value>
+		/// Maps mouse event masks to interaction actions.
+		/// </value>
 		protected MouseMap mouseMap;
 		/// <value>
 		/// Maps mouse event masks to interaction actions.
@@ -179,6 +185,9 @@ namespace MonoWorks.Gui
 		}
 		
 		
+		/// <value>
+		/// Maps scroll event masks to interaction actions.
+		/// </value>
 		protected ScrollMap scrollMap;
 		/// <value>
 		/// Maps scroll event masks to interaction actions.
@@ -188,7 +197,9 @@ namespace MonoWorks.Gui
 			get {return scrollMap;}
 		}
 		
-		
+		/// <value>
+		/// Last x position.
+		/// </value>
 		protected double lastX;
 		/// <value>
 		/// The x value of the last mouse position.
@@ -198,6 +209,9 @@ namespace MonoWorks.Gui
 			get {return lastX;}
 		}
 		
+		/// <value>
+		/// Last y position.
+		/// </value>
 		protected double lastY;
 		/// <value>
 		/// The y value of the last mouse position.
@@ -208,6 +222,9 @@ namespace MonoWorks.Gui
 		}
 		
 		
+		/// <value>
+		/// Current x position.
+		/// </value>
 		protected double currentX;
 		/// <value>
 		/// The x value of the current mouse position.
@@ -217,6 +234,9 @@ namespace MonoWorks.Gui
 			get {return currentX;}
 		}
 		
+		/// <value>
+		/// Current y position.
+		/// </value>
 		protected double currentY;
 		/// <value>
 		/// The y value of the current mouse position.
@@ -226,7 +246,9 @@ namespace MonoWorks.Gui
 			get {return currentY;}
 		}
 		
-		
+		/// <value>
+		/// Time of the last rendering.
+		/// </value>
 		protected DateTime lastExposed;
 		
 #endregion
@@ -245,7 +267,9 @@ namespace MonoWorks.Gui
 			lastY = evt.Y();
 			
 			// get the mask for this button event
-			int mask = (int)evt.Button() | evt.Modifiers();
+//			Console.WriteLine("mouse event modifiers: {0}", evt.Modifiers());
+//			int mask = (int)evt.Button() | (int)evt.Modifiers();
+			int mask = (int)evt.Button();
 				
 			// determine if the mask is present in the map
 			if (mouseMap.ContainsKey(mask))
@@ -267,6 +291,7 @@ namespace MonoWorks.Gui
 					rubberBand.Enabled = true;
 				}
 			}
+			UpdateGL();
 
 		}
 			
@@ -350,7 +375,8 @@ namespace MonoWorks.Gui
 		{
 			
 			// determine what action to do based on the scroll map
-			ScrollAction action = scrollMap[evt.Modifiers()];
+//			ScrollAction action = scrollMap[evt.Buttons()];
+			ScrollAction action = scrollMap[0];
 			
 			// decide what to do based on the action
 			switch (action)
@@ -424,8 +450,80 @@ namespace MonoWorks.Gui
 			
 				
 		
+#region Views
+		
+		/// <summary>
+		/// Sets the camera to the standard view.
+		/// </summary>
+		[Q_SLOT("StandardView()")]
+		public void StandardView()
+		{
+			camera.StandardView();
+		}
+		
+		/// <summary>
+		/// Sets the camera to the front view.
+		/// </summary>
+		[Q_SLOT("FrontView()")]
+		public void FrontView()
+		{
+			camera.FrontView();
+		}
+		
+		/// <summary>
+		/// Sets the camera to the back view.
+		/// </summary>
+		[Q_SLOT("BackView()")]
+		public void BackView()
+		{
+			camera.BackView();
+		}
+		
+		/// <summary>
+		/// Sets the camera to the top view.
+		/// </summary>
+		[Q_SLOT("TopView()")]
+		public void TopView()
+		{
+			camera.TopView();
+		}
+		
+		/// <summary>
+		/// Sets the camera to the bottom view.
+		/// </summary>
+		[Q_SLOT("BottomView()")]
+		public void BottomView()
+		{
+			camera.BottomView();
+		}
+		
+		/// <summary>
+		/// Sets the camera to the right view.
+		/// </summary>
+		[Q_SLOT("RightView()")]
+		public void RightView()
+		{
+			camera.RightView();
+		}
+		
+		/// <summary>
+		/// Sets the camera to the left view.
+		/// </summary>
+		[Q_SLOT("LeftView()")]
+		public void LeftView()
+		{
+			camera.LeftView();
+		}
+		
+#endregion
+		
+		
+		
 #region Rendering
 		
+		/// <value>
+		/// Rubberband object.
+		/// </value>
 		protected RubberBand rubberBand;
 		/// <value>
 		/// The rubber band used for zooming and seleting.
@@ -446,8 +544,10 @@ namespace MonoWorks.Gui
 		}
 
 		
-//		QImage image;
 		
+		/// <summary>
+		/// Initializes the OpenGL rendering.
+		/// </summary>
 		protected override void InitializeGL()
 		{
 			gl.glShadeModel(gl.GL_SMOOTH);
@@ -458,9 +558,6 @@ namespace MonoWorks.Gui
 			gl.glDepthFunc(gl.GL_LEQUAL);						// The Type Of Depth Test To Do
 			// Really Nice Perspective Calculations
 			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);	
-
-			int randomList = gl.glGenLists(1);
-			Console.WriteLine("random list: {0}", randomList);
 			
 			// initialize Qt overlay
 //			image = new QImage(Width(), Height(), QImage.Format.Format_ARGB32_Premultiplied);
@@ -496,6 +593,7 @@ namespace MonoWorks.Gui
 //			painter.SetRenderHint( QPainter.RenderHint.Antialiasing );
 //			painter.End();
 		}
+		
 		
 #endregion
 		

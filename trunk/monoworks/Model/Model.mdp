@@ -33,9 +33,10 @@
     <File name="Reference/Reference.cs" subtype="Code" buildaction="Compile" />
     <File name="Reference/RefLine.cs" subtype="Code" buildaction="Compile" />
     <File name="Features/Extrusion.cs" subtype="Code" buildaction="Compile" />
-    <File name="Features/Sweep.cs" subtype="Code" buildaction="Compile" />
+    <File name="Features/Revolution.cs" subtype="Code" buildaction="Compile" />
     <File name="Momento.cs" subtype="Code" buildaction="Compile" />
     <File name="IViewport.cs" subtype="Code" buildaction="Compile" />
+    <File name="TestDocument.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.OpenGl.dll" />

@@ -15,12 +15,25 @@
   </Configurations>
   <Contents>
     <File name="ResourceManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport.cs" subtype="Code" buildaction="Compile" />
+    <File name="UiManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree" subtype="Directory" buildaction="Compile" />
+    <File name="Tree/TreeWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree/TreeWidgetItem.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree/TreeModel.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree/ModelIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="Toolbox.cs" subtype="Code" buildaction="Compile" />
+    <File name="Toolshelf.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport" subtype="Directory" buildaction="Compile" />
+    <File name="Viewport/ViewportToolbar.cs" subtype="Code" buildaction="Compile" />
+    <File name="DocFrame.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport/Viewport.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />
     <ProjectReference type="Project" localcopy="True" refto="Model" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../../../../../usr/lib/cli/qyoto-1.0/qt-dotnet.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.OpenGl.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../../../../../usr/lib/kde4/lib/cli/qyoto-4.3/qt-dotnet.dll" />
   </References>
 </Project>

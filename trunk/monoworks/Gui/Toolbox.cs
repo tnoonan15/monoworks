@@ -1,4 +1,4 @@
-//    Main.cs - MonoWorks Project
+// Toolbox.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -19,28 +19,37 @@
 using System;
 
 using Qyoto;
-	
-using MonoWorks.Model;
-using mwb = MonoWorks.Base;
 
-namespace MonoWorks.Studio
-{		
+
+
+namespace MonoWorks.Gui
+{
+	
 	/// <summary>
-	/// Entry point for the MonoWorks Studio.
+	/// A toolbox shows a list of shelves, with one visible at a time.
+	/// Each shelve contains an icon view that has tools.
 	/// </summary>
-	class Studio
-	{	
-		public static int Main(String[] args)
+	public class Toolbox : QToolBox
+	{
+
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Toolbox(QWidget parent) : base(parent)
 		{
-			
-			new QApplication(args);
-			MainWindow window = new MainWindow();   
-			window.SetWindowTitle("MonoWorks Studio");
-			window.Size = new QSize(800, 600);
-			window.Show();
-			return QApplication.Exec();
 		}
 		
+		
+		/// <summary>
+		/// Creates a toolshelf in the toolbox.
+		/// </summary>
+		/// <param name="name"> The name of the shelf. </param>
+		/// <returns> The new <see cref="Toolshelf"/>. </returns>
+		public Toolshelf AddShelf(string name)
+		{
+			Toolshelf shelf = new Toolshelf(this);
+			this.AddItem(shelf, name);
+			return shelf;
+		}
 	}
-	
 }

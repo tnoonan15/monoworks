@@ -47,7 +47,7 @@ namespace MonoWorks.Model
 		/// <value>
 		/// Returns a list of sketchables.
 		/// </value>
-		public List<Sketchable> Children
+		public List<Sketchable> Sketchables
 		{
 			get
 			{
