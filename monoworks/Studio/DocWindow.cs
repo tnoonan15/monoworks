@@ -1,4 +1,4 @@
-//    Main.cs - MonoWorks Project
+// DocWindow.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -19,28 +19,42 @@
 using System;
 
 using Qyoto;
-	
+
 using MonoWorks.Model;
-using mwb = MonoWorks.Base;
+using MonoWorks.Gui;
 
 namespace MonoWorks.Studio
-{		
+{
+	
 	/// <summary>
-	/// Entry point for the MonoWorks Studio.
+	/// The DocWindow is an MDI subwindow to the main Studio window.
+	/// It contains a MonoWorks document.
 	/// </summary>
-	class Studio
-	{	
-		public static int Main(String[] args)
+	public class DocWindow : QMdiSubWindow
+	{
+		protected MainWindow mainWindow;
+		protected DocFrame docFrame;
+		
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public DocWindow(MainWindow parent) : base(parent)
 		{
+			mainWindow = parent;
 			
-			new QApplication(args);
-			MainWindow window = new MainWindow();   
-			window.SetWindowTitle("MonoWorks Studio");
-			window.Size = new QSize(800, 600);
-			window.Show();
-			return QApplication.Exec();
+			docFrame = new DocFrame(this);			
+			this.SetWidget(docFrame);
+			
 		}
 		
+		
+		protected override void MouseReleaseEvent (QMouseEvent arg1)
+		{
+			base.MouseReleaseEvent (arg1);
+			Console.WriteLine("DocWindow mouse released");
+			docFrame.Viewport.Repaint();
+		}
+
+		
 	}
-	
 }

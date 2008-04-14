@@ -440,6 +440,69 @@ namespace MonoWorks.Model
 		
 #endregion
 
+
+		
+#region Views
+		
+		/// <summary>
+		/// Sets the camera to the standard view.
+		/// </summary>
+		public void StandardView()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Sets the camera to the front view.
+		/// </summary>
+		public void FrontView()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Sets the camera to the back view.
+		/// </summary>
+		public void BackView()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Sets the camera to the top view.
+		/// </summary>
+		public void TopView()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Sets the camera to the bottom view.
+		/// </summary>
+		public void BottomView()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Sets the camera to the right view.
+		/// </summary>
+		public void RightView()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Sets the camera to the left view.
+		/// </summary>
+		public void LeftView()
+		{
+			
+		}
+		
+#endregion
+		
+		
 		
 #region Animation
 	

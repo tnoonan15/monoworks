@@ -1,4 +1,4 @@
-//    Main.cs - MonoWorks Project
+// TreeView.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -19,28 +19,24 @@
 using System;
 
 using Qyoto;
-	
-using MonoWorks.Model;
-using mwb = MonoWorks.Base;
 
-namespace MonoWorks.Studio
-{		
-	/// <summary>
-	/// Entry point for the MonoWorks Studio.
-	/// </summary>
-	class Studio
-	{	
-		public static int Main(String[] args)
-		{
-			
-			new QApplication(args);
-			MainWindow window = new MainWindow();   
-			window.SetWindowTitle("MonoWorks Studio");
-			window.Size = new QSize(800, 600);
-			window.Show();
-			return QApplication.Exec();
-		}
-		
-	}
+using MonoWorks.Model;
+
+namespace MonoWorks.Gui
+{
 	
+	/// <summary>
+	/// The tree view is the view component of the model/view framework used to
+	/// represent the document as a tree structure.
+	/// </summary>
+	public class TreeView : QTreeView
+	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		/// <param name="parent"> The tree view's parent widget. </param>
+		public TreeView(QWidget parent) : base(parent)
+		{
+		}
+	}
 }

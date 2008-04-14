@@ -1,4 +1,4 @@
-// Sweep.cs - MonoWorks Project
+// Revolution.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -27,16 +27,16 @@ namespace MonoWorks.Model
 {
 	
 	/// <summary>
-	/// The Sweep is a features that sweeps a sketch about an axis.
+	/// The Revolution is a features that sweeps a sketch about an axis.
 	/// </summary>
-	public class Sweep : Feature
+	public class Revolution : Feature
 	{		
 		
 		/// <summary>
 		/// Constructor that initializes the sketch.
 		/// </summary>
 		/// <param name="sketch"> A <see cref="Sketch"/> to extrude. </param>
-		public Sweep(Sketch sketch) : base(sketch)
+		public Revolution(Sketch sketch) : base(sketch)
 		{
 		}
 		
@@ -61,7 +61,7 @@ namespace MonoWorks.Model
 #region Attributes
 		
 		/// <value>
-		/// Sweep axis.
+		/// Revolution axis.
 		/// </value>
 		public RefLine Axis
 		{
@@ -75,7 +75,7 @@ namespace MonoWorks.Model
 
 		
 		/// <value>
-		/// Sweep travel.
+		/// Revolution travel.
 		/// </value>
 		public Angle Travel
 		{
@@ -108,7 +108,7 @@ namespace MonoWorks.Model
 			
 			// cycle through sketch children
 			gl.glColor3f(0.5f, 0.5f, 0.5f);
-			foreach (Sketchable sketchable in this.Sketch.Children)
+			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.RawPoints;

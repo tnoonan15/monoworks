@@ -1,4 +1,4 @@
-//    Main.cs - MonoWorks Project
+// ModelIndex.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -19,28 +19,31 @@
 using System;
 
 using Qyoto;
-	
-using MonoWorks.Model;
-using mwb = MonoWorks.Base;
 
-namespace MonoWorks.Studio
-{		
-	/// <summary>
-	/// Entry point for the MonoWorks Studio.
-	/// </summary>
-	class Studio
-	{	
-		public static int Main(String[] args)
+using MonoWorks.Model;
+
+namespace MonoWorks.Gui
+{
+	
+	
+	public class ModelIndex : QModelIndex 
+	{
+		
+		public ModelIndex() : base()
 		{
-			
-			new QApplication(args);
-			MainWindow window = new MainWindow();   
-			window.SetWindowTitle("MonoWorks Studio");
-			window.Size = new QSize(800, 600);
-			window.Show();
-			return QApplication.Exec();
 		}
 		
+		public ModelIndex(QModelIndex index) : base(index)
+		{
+			
+		}
+		
+		protected long id;
+
+		public long Id
+		{
+			get {return id;}
+			set {id = value;}
+		}
 	}
-	
 }

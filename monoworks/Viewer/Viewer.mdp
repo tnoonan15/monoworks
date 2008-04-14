@@ -19,8 +19,8 @@
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <ProjectReference type="Project" localcopy="True" refto="Base" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../../../../../usr/lib/cli/qyoto-1.0/qt-dotnet.dll" />
     <ProjectReference type="Project" localcopy="True" refto="Model" />
     <ProjectReference type="Project" localcopy="True" refto="Gui" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../../../../../usr/lib/kde4/lib/cli/qyoto-4.3/qt-dotnet.dll" />
   </References>
 </Project>

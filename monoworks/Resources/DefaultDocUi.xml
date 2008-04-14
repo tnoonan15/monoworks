@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ui>
+	<Actions>
+		<Action name="Standard View" slot="StandardView()" icon="standard-view"  statusTip="Use the standard view of the scene"/>
+		<Action name="Front View" slot="FrontView()" icon="front-view"  statusTip="View the front of the scene"/>
+		<Action name="Back View" slot="BackView()" icon="back-view"  statusTip="View the back of the scene"/>
+		<Action name="Top View" slot="TopView()" icon="top-view"  statusTip="View the top of the scene"/>
+		<Action name="Bottom View" slot="BottomView()" icon="bottom-view"  statusTip="View the botton of the scene"/>
+		<Action name="Right View" slot="RightView()" icon="right-view"  statusTip="View the right side of the scene"/>
+		<Action name="Left View" slot="LeftView()" icon="left-view"  statusTip="View the left side of the scene"/>
+		
+	</Actions>
+
+	<Toolbars>
+		<Toolbar name="DocView">
+			<ToolItem action="Standard View"/>
+			<ToolItem action="Front View"/>
+			<ToolItem action="Back View"/>
+			<ToolItem action="Top View"/>
+			<ToolItem action="Bottom View"/>
+			<ToolItem action="Right View"/>
+			<ToolItem action="Left View"/>
+		</Toolbar>
+	</Toolbars>
+</Ui>

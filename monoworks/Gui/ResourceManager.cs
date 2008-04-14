@@ -43,6 +43,9 @@ namespace MonoWorks.Gui
 			if (!Initialized) // only do this once
 			{
 				Initialized = true;
+				
+				// load the icons
+				InitializeIcons();
 								
 				// load the cursors
 				InitializeCursors();
@@ -57,6 +60,59 @@ namespace MonoWorks.Gui
 		{
 			get {return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../../Resources/";}
 		}
+		
+		
+		
+#region Icons
+
+		private static Dictionary<string, QIcon> Icons;
+		
+		/// <summary>
+		/// Loads the icons from files.
+		/// </summary>		
+		private static void InitializeIcons()
+		{
+			Icons = new Dictionary<string,QIcon>();
+			
+			// list of sizes to read in
+			int[] sizes = {22, 48};
+			
+			foreach (int size in sizes) // iterate thriugh size directories
+			{	
+				DirectoryInfo info = new DirectoryInfo(ResourceDirectory + "icons" + 
+				                                       String.Format("{0}", size) + "/");
+				foreach (FileInfo fileInfo in info.GetFiles("*.png")) // iterate through images in this directory
+				{
+					string name = fileInfo.Name.Split('.')[0];
+					if (Icons.ContainsKey(name)) // if the icon already exists
+						Icons[name].AddFile(fileInfo.FullName);
+					else // the icon doesn't exist yet
+					{
+						QIcon icon = new QIcon(fileInfo.FullName);
+						Icons[name] = icon;
+					}
+				}
+			}
+			
+		}
+		
+		/// <summary>
+		/// Gets the icon with the given name.
+		/// </summary>
+		/// <param name="name"> The name of the icon to get. </param>
+		/// <returns>The <see cref="QIcon"/>, or null if it didn't find it.
+		/// </returns>
+		public static QIcon GetIcon(string name)
+		{
+			QIcon icon = null;
+			if (Icons.ContainsKey(name))
+				icon = Icons[name];
+			else
+				throw new Exception("Icon " + name  + " not a valid resource");
+			return icon;
+		}
+		
+#endregion
 		
 	
 		
