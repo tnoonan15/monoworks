@@ -110,7 +110,6 @@
     <File name="svg/sketch_icons.svg" subtype="Code" buildaction="Nothing" />
     <File name="svg/view_icons.svg" subtype="Code" buildaction="Nothing" />
     <File name="DefaultUi.xml" subtype="Code" buildaction="Nothing" />
-    <File name="DefaultDocUi.xml" subtype="Code" buildaction="Nothing" />
     <File name="icons22/back-view.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/bottom-view.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/front-view.png" subtype="Code" buildaction="Nothing" />
@@ -136,5 +135,9 @@
     <File name="icons48/revolution.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/sweep.png" subtype="Code" buildaction="Nothing" />
     <File name="svg/feature_icons.svg" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/arc.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/arc.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/line.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/spline.png" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

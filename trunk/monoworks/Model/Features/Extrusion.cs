@@ -71,7 +71,11 @@ namespace MonoWorks.Model
 		public RefLine Path
 		{
 			get {return (RefLine)CurrentMomento["path"];}
-			set {CurrentMomento["path"] = value;}
+			set
+			{
+				CurrentMomento["path"] = value;
+				MakeDirty();
+			}
 		}		
 		
 
@@ -81,7 +85,11 @@ namespace MonoWorks.Model
 		public Angle Sweep
 		{
 			get {return (Angle)CurrentMomento["sweep"];}
-			set {CurrentMomento["sweep"] = value;}
+			set
+			{
+				CurrentMomento["sweep"] = value;
+				MakeDirty();
+			}
 		}
 		
 		
@@ -91,7 +99,11 @@ namespace MonoWorks.Model
 		public double Scale
 		{
 			get {return (double)CurrentMomento["scale"];}
-			set {CurrentMomento["scale"] = value;}
+			set
+			{
+				CurrentMomento["scale"] = value;
+				MakeDirty();
+			}
 		}
 		
 		
@@ -101,7 +113,11 @@ namespace MonoWorks.Model
 		public Length Travel
 		{
 			get {return (Length)CurrentMomento["travel"];}
-			set {CurrentMomento["travel"] = value;}
+			set
+			{
+				CurrentMomento["travel"] = value;
+				MakeDirty();
+			}
 		}
 		
 #endregion
@@ -111,11 +127,14 @@ namespace MonoWorks.Model
 #region Rendering
 
 		/// <summary>
-		/// Renders the extrusion to the given viewport.
+		/// Computes the display lists. 
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void Render(IViewport viewport)
+		public override void ComputeGeometry()
 		{
+			base.ComputeGeometry();
+						
+			gl.glNewList(displayLists, gl.GL_COMPILE);
+			
 			// determine sweep and scaling factors
 			int N = 1;
 //			Angle dSweep;
@@ -149,24 +168,24 @@ namespace MonoWorks.Model
 				for (int n=0; n<N; n++)
 				{
 					gl.glBegin(gl.GL_QUAD_STRIP);
-//					gl.glBegin(gl.GL_POINTS);
 					foreach (Vector vert in verts)
 					{
 						gl.glVertex3d(vert[0], vert[1], vert[2]);	
 						gl.glVertex3d(vert[0]+direction[0]*dTravel, vert[1]+direction[1]*dTravel, vert[2]+direction[2]*dTravel); 
+						bounds.Resize(vert);
+						bounds.Resize(vert + direction*dTravel);
 //						gl.glTranslated(direction[0]*dTravel, direction[1]*dTravel, direction[2]*dTravel);
 //						gl.glVertex3d(vert[0], vert[1], vert[2]);		
 //						gl.glTranslated(-direction[0]*dTravel, -direction[1]*dTravel, -direction[2]*dTravel); 
 					}
 					gl.glEnd();
-					gl.glTranslated(direction[0]*dTravel, direction[1]*dTravel, direction[2]*dTravel);
+//					gl.glTranslated(direction[0]*dTravel, direction[1]*dTravel, direction[2]*dTravel);
 				}
-				gl.glTranslated(-direction[0]*Travel.Value, -direction[1]*Travel.Value, -direction[2]*Travel.Value);
+//				gl.glTranslated(-direction[0]*Travel.Value, -direction[1]*Travel.Value, -direction[2]*Travel.Value);
 			}
 			
-		}
-
-		
+			gl.glEndList();
+		}	
 		
 #endregion
 		

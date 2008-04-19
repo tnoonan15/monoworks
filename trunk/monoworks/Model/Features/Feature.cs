@@ -91,7 +91,7 @@ namespace MonoWorks.Model
 		/// <value>
 		/// The number of display lists.
 		/// </value>
-		public const int NumLists = 2;
+		public const int NumLists = 1;
 		
 #endregion
 		

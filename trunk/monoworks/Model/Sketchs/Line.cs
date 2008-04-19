@@ -88,7 +88,10 @@ namespace MonoWorks.Model
 		{
 			rawPoints = new Vector[Points.Count];
 			for (int i=0; i<Points.Count; i++)
+			{
 				rawPoints[i] = Points[i].ToVector();
+				bounds.Resize(rawPoints[i]);
+			}
 		}
 		
 		

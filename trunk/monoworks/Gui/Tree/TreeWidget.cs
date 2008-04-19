@@ -44,6 +44,8 @@ namespace MonoWorks.Gui
 			this.ColumnCount = 1;
 			this.SetHeaderLabel("Name");
 			
+			this.Size = new QSize(150, 200);
+			
 			this.Document = document;
 		}
 		

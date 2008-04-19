@@ -30,7 +30,6 @@ namespace MonoWorks.Gui
 	/// </summary>
 	public class DocFrame : QSplitter
 	{
-		protected QSplitter splitter;
 		protected QVBoxLayout vbox;
 		protected ViewportToolbar viewportToolbar;
 //		protected TreeModel treeModel;
@@ -52,15 +51,17 @@ namespace MonoWorks.Gui
 //			treeModel = new TreeModel(document);
 //			treeView = new TreeView(this);
 //			treeView.SetModel(treeModel);
-//			splitter.AddWidget(treeView);
-			treeWidget = new TreeWidget(splitter, document);
+//			this.AddWidget(treeView);
+			treeWidget = new TreeWidget(this, document);
 			this.AddWidget(treeWidget);
 			
 			// create the viewport frame
-			QFrame frame = new QFrame(splitter);
+			QFrame frame = new QFrame(this);
 			this.AddWidget(frame);
-			vbox = new QVBoxLayout(this);
-			frame.SetLayout(vbox);			
+			vbox = new QVBoxLayout(frame);
+			frame.SetLayout(vbox);		
+			
+			this.SetStretchFactor(0, 0);
 			
 			// add the viewport and toolbar
 			viewport = new Viewport(document);
