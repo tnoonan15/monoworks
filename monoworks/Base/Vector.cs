@@ -207,6 +207,39 @@ namespace MonoWorks.Base
 		
 #endregion
 		
+
+#region Comparison
+		
+		/// <summary>
+		/// Keeps the smallest value in each dimension.
+		/// </summary>
+		/// <param name="other"> Another <see cref="Vector"/>. </param>
+		public void KeepMinima(Vector other)
+		{
+			for (int i=0; i<3; i++)
+				val[i] = Math.Min( val[i], other[i]);
+		}
+		
+		/// <summary>
+		/// Keeps the largest value in each dimension.
+		/// </summary>
+		/// <param name="other"> Another <see cref="Vector"/>. </param>
+		public void KeepMaxima(Vector other)
+		{
+			for (int i=0; i<3; i++)
+				val[i] = Math.Max( val[i], other[i]);
+		}
+		
+#endregion
+		
+		
+		/// <summary>
+		/// Produces a vector of the copy.
+		/// </summary>
+		public Vector Copy()
+		{
+			return new Vector(val[0], val[1], val[2]);
+		}
 		
 		/// <summary>
 		/// Returns a string displaying the coordinate values.

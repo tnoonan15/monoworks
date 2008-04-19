@@ -15,7 +15,10 @@
 		<Action name="Paste" slot="EditPaste()" icon="edit-paste" shortcut="Ctrl+V" statusTip="Paste the clipboard"/>
 		
 		<Action name="New Sketch" slot="NewSketch()" icon="add-sketch" statusTip="Create a new sketch"/>
-		<Action name="Edit Sketch" slot="EditSketch()" icon="sketch" statusTip="Edit the selected sketch"/>
+		<Action name="Edit Sketch" slot="EditSketch()" icon="sketch" statusTip="Edit the selected sketch"/>		
+		<Action name="Line" slot="SketchLine()" icon="line" statusTip="Add a line to the sketch"/>		
+		<Action name="Arc" slot="SketchArc()" icon="arc" statusTip="Add an arc to the sketch"/>		
+		<Action name="Spline" slot="SketchSpline()" icon="spline" statusTip="Add a spline to the sketch"/>
 		
 		<Action name="Extrusion" slot="AddExtrusion()" icon="extrusion" statusTip="Add an extrusion"/>
 		<Action name="Revolution" slot="AddRevolution()" icon="revolution" statusTip="Add a revolution"/>
@@ -67,6 +70,9 @@
 		<Toolshelf name="Sketch">
 			<Tool action="New Sketch"/>
 			<Tool action="Edit Sketch"/>
+			<Tool action="Line"/>
+			<Tool action="Arc"/>
+			<Tool action="Spline"/>
 		</Toolshelf>
 		<Toolshelf name="Features">
 			<Tool action="Extrusion"/>

@@ -122,6 +122,8 @@ namespace MonoWorks.Model
 						Vector pos2 = relPos.Rotate(Axis.Direction, dTravel * (n+1));
 						gl.glVertex3d(pos1[0], pos1[1], pos1[2]);	 
 						gl.glVertex3d(pos2[0], pos2[1], pos2[2]);	 
+						bounds.Resize(pos1);
+						bounds.Resize(pos2);
 					}
 					gl.glEnd();
 				}
@@ -130,15 +132,7 @@ namespace MonoWorks.Model
 			gl.glEndList();
 		}
 		
-		/// <summary>
-		/// Renders the extrusion to the given viewport.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-//		public override void Render(Viewport viewport)
-//		{
-//		}
 
-		
 		
 #endregion
 	}

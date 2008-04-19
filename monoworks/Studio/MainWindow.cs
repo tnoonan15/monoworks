@@ -200,9 +200,67 @@ namespace MonoWorks.Studio
 		{
 			Console.WriteLine("Edit Sketch");
 		}
+				
+		/// <summary>
+		/// Add a line to the current sketch.
+		/// </summary>
+		[Q_SLOT("SketchLine()")]
+		public void SketchLine()
+		{
+			Console.WriteLine("Sketch Line");
+		}
+				
+		/// <summary>
+		/// Add an arc to the current sketch.
+		/// </summary>
+		[Q_SLOT("SketchArc()")]
+		public void SketchArc()
+		{
+			Console.WriteLine("Sketch Arc");
+		}
+				
+		/// <summary>
+		/// Add a spline to the current sketch.
+		/// </summary>
+		[Q_SLOT("SketchSpline()")]
+		public void SketchSpline()
+		{
+			Console.WriteLine("Sketch Spline");
+		}
 		
 #endregion
 		
+		
+#region Features
+						
+		/// <summary>
+		/// Add an extrusion.
+		/// </summary>
+		[Q_SLOT("AddExtrusion()")]
+		public void AddExtrusion()
+		{
+			Console.WriteLine("Add Extrusion");
+		}
+				
+		/// <summary>
+		/// Add a revolution.
+		/// </summary>
+		[Q_SLOT("AddRevolution()")]
+		public void AddRevolution()
+		{
+			Console.WriteLine("Add Revolutioni");
+		}
+				
+		/// <summary>
+		/// Add a sweep.
+		/// </summary>
+		[Q_SLOT("AddSweep()")]
+		public void AddSweep()
+		{
+			Console.WriteLine("Add Sweep");
+		}		
+		
+#endregion
 		
 	}
 	

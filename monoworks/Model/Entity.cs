@@ -40,6 +40,7 @@ namespace MonoWorks.Model
 			IdCounter++;
 			id = IdCounter;
 			dirty = false;
+			bounds = new Bounds();
 			children = new EntityList();
 			dependencies = new EntityList();
 			momentos = new List<Momento>();
@@ -67,6 +68,7 @@ namespace MonoWorks.Model
 		}
 		
 #endregion
+		
 		
 		
 
@@ -214,6 +216,7 @@ namespace MonoWorks.Model
 			Momento momento = new Momento();
 			momento["name"] = "entity";
 			momentos.Add(momento);
+			MakeDirty();
 		}
 		
 		/// <value>
@@ -266,12 +269,27 @@ namespace MonoWorks.Model
 		/// </summary>
 		protected bool dirty;
 		
+
+		protected Bounds bounds;
+		/// <summary>
+		/// The bounding box of the entity.
+		/// Should be updated by ComputeGeometry().
+		/// </summary>
+		public Bounds Bounds
+		{
+			get {return bounds;}
+			set {bounds = value;}
+		}
+		
+		
 		/// <summary>
 		/// Makes the entity dirty.
 		/// </summary>
 		public void MakeDirty()
 		{
 			dirty = true;
+			if (parent != null)
+				parent.MakeDirty();
 		}
 		
 		/// <summary>
@@ -279,7 +297,14 @@ namespace MonoWorks.Model
 		/// </summary>
 		public virtual void ComputeGeometry()
 		{
+			
 			dirty = false;
+			
+			foreach (Entity child in children)
+			{
+				child.ComputeGeometry();
+				bounds.Resize(child.Bounds);
+			}
 		}
 		
 		
@@ -292,6 +317,7 @@ namespace MonoWorks.Model
 		{
 			if (dirty)
 				ComputeGeometry();
+			bounds.Render(viewport);
 		}
 		
 #endregion

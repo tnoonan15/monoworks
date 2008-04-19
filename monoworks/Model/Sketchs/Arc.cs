@@ -146,6 +146,7 @@ namespace MonoWorks.Model
 			{
 				Vector thisPos = centerVec + radius.Rotate(Normal, dSweep*i);
 				rawPoints[i] = thisPos;
+				bounds.Resize(rawPoints[i]);
 			}
 		}
 		

@@ -126,9 +126,12 @@ namespace MonoWorks.Model
 		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public override void Render(IViewport viewport)
 		{
+			viewport.Camera.Place();
+			
+			base.Render(viewport);
+			
 //			gl.glShadeModel(gl.GL_SMOOTH);
 				
-			viewport.Camera.Place();
 			foreach (Entity child in children)
 			{
 				child.Render(viewport);

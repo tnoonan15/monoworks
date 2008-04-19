@@ -37,7 +37,7 @@ namespace MonoWorks.Viewer
 				new QApplication(args);
 				DocFrame frame = new DocFrame();
 				frame.SetWindowTitle("MonoWorks Viewer");
-				frame.Size = new QSize(700,600);
+				frame.Size = new QSize(800,600);
 				frame.Show();
 				return QApplication.Exec();
 		    }

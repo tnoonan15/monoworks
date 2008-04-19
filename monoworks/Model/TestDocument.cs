@@ -27,15 +27,28 @@ namespace MonoWorks.Model
 	/// </summary>
 	public class TestDocument : Document
 	{
+		RefLine refLine;
+		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public TestDocument() : base()
 		{			
-			
 			// add the reference line
-			RefLine refLine1 = new RefLine(new Point(0.0, 0.0, 0.0), new Vector(0.0, 1.0, 0.0));
-			AddReference(refLine1);
+			refLine = new RefLine(new Point(0.0, 0.0, 0.0), new Vector(0.0, 1.0, 0.0));
+			AddReference(refLine);
+			
+			CreateExtrusion();
+			
+			CreateRevolution();
+		}
+		
+		
+		/// <summary>
+		/// Create the extrusion.
+		/// </summary>
+		protected void CreateExtrusion()
+		{		
 			
 			/* create the extrusion */
 			Sketch extSketch = new Sketch();			
@@ -54,12 +67,18 @@ namespace MonoWorks.Model
 			
 			// add the extrusion
 			Extrusion ext1 = new Extrusion(extSketch);
-			ext1.Path = refLine1;
+			ext1.Path = refLine;
 			ext1.Travel = new Length(1.0);
 			
 			AddFeature(ext1);
-			
-			
+		}
+		
+		
+		/// <summary>
+		/// Creates the revolution.
+		/// </summary>
+		protected void CreateRevolution()
+		{
 			/* create the revolution */
 			Sketch revolutionSketch = new Sketch();
 			
@@ -76,7 +95,7 @@ namespace MonoWorks.Model
 			
 			// create the revolution
 			Revolution revolution1 = new Revolution(revolutionSketch);
-			revolution1.Axis = refLine1;
+			revolution1.Axis = refLine;
 			revolution1.Travel = Angle.Pi()*-1;
 			AddFeature( revolution1);
 		}
