@@ -53,6 +53,7 @@ namespace MonoWorks.Gui
 //			treeView.SetModel(treeModel);
 //			this.AddWidget(treeView);
 			treeWidget = new TreeWidget(this, document);
+			treeWidget.SetMaximumSize(150, 1000);
 			this.AddWidget(treeWidget);
 			
 			// create the viewport frame

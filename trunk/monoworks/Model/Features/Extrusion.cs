@@ -53,7 +53,7 @@ namespace MonoWorks.Model
 			base.AddMomento();
 			Momento momento = momentos[momentos.Count-1];
 			momento["path"] = new RefLine();
-			momento["sweep"] = new Angle();
+			momento["spin"] = new Angle();
 			momento["scale"] = 1.0;
 			momento["travel"] = new Length();
 		}
@@ -80,14 +80,14 @@ namespace MonoWorks.Model
 		
 
 		/// <value>
-		/// Sweep angle.
+		/// Spin angle.
 		/// </value>
-		public Angle Sweep
+		public Angle Spin
 		{
-			get {return (Angle)CurrentMomento["sweep"];}
+			get {return (Angle)CurrentMomento["spin"];}
 			set
 			{
-				CurrentMomento["sweep"] = value;
+				CurrentMomento["spin"] = value;
 				MakeDirty();
 			}
 		}
@@ -125,30 +125,83 @@ namespace MonoWorks.Model
 		
 		
 #region Rendering
-
+		
 		/// <summary>
-		/// Computes the display lists. 
+		/// Computes the wireframe geometry.
 		/// </summary>
-		public override void ComputeGeometry()
+		public override void ComputeWireframeGeometry()
 		{
-			base.ComputeGeometry();
-						
-			gl.glNewList(displayLists, gl.GL_COMPILE);
+			base.ComputeWireframeGeometry();
 			
-			// determine sweep and scaling factors
+			gl.glNewList(displayLists + WireframeListOffset, gl.GL_COMPILE);
+			
+			
 			int N = 1;
-//			Angle dSweep;
+			double dTravel = Travel.Value / (double)N;
+			Vector direction = Path.Direction;
+			
+			// cycle through sketch children
+			gl.glColor3f(0.5f, 0.5f, 0.5f);
+			foreach (Sketchable sketchable in this.Sketch.Sketchables)
+			{
+				// add the wireframe points
+				sketchable.ComputeGeometry();
+				Vector[] verts = sketchable.WireframePoints;
+				foreach (Vector vert in verts)
+				{
+					gl.glBegin(gl.GL_LINES);
+					for (int n=0; n<=N; n++)
+					{
+						gl.glVertex3d(vert[0]+direction[0]*dTravel*((double)n), 
+						              vert[1]+direction[1]*dTravel*((double)n), 
+						              vert[2]+direction[2]*dTravel*((double)n));  
+					}
+					gl.glEnd();
+				}
+				
+				// add the solid points at the ends
+				verts = sketchable.SolidPoints;
+				gl.glBegin(gl.GL_LINE_STRIP);
+				foreach (Vector vert in verts)
+				{
+					gl.glVertex3d(vert[0], vert[1], vert[2]);	 
+				}
+				gl.glEnd();
+				gl.glBegin(gl.GL_LINE_STRIP);
+				foreach (Vector vert in verts)
+				{
+					gl.glVertex3d(vert[0]+direction[0]*dTravel, vert[1]+direction[1]*dTravel, vert[2]+direction[2]*dTravel);  
+				}
+				gl.glEnd();
+			}
+			
+			gl.glEndList();
+		}
+		
+		
+		/// <summary>
+		/// Computes the solid geometry.
+		/// </summary>
+		public override void ComputeSolidGeometry()
+		{
+			base.ComputeSolidGeometry();
+			
+			gl.glNewList(displayLists + SolidListOffset, gl.GL_COMPILE);
+			
+			// determine spin and scaling factors
+			int N = 1;
+//			Angle dSpin;
 //			double dScale;
-//			bool isSweeped = false;
+//			bool isSpined = false;
 //			bool isScaled = false;
-//			if (Sweep.Value != 0.0 || Scale != 1)
+//			if (Spin.Value != 0.0 || Scale != 1)
 //			{
 //				N = 24; // number of divisions
 //				
-//				if (Sweep.Value != 0.0)
+//				if (Spin.Value != 0.0)
 //				{
-//					isSweeped = true;
-//					dSweep = Sweep / (double)N;
+//					isSpined = true;
+//					dSpin = Spin / (double)N;
 //				}
 //				if (Scale != 1.0)
 //				{
@@ -164,7 +217,7 @@ namespace MonoWorks.Model
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				sketchable.ComputeGeometry();
-				Vector[] verts = sketchable.RawPoints;
+				Vector[] verts = sketchable.SolidPoints;
 				for (int n=0; n<N; n++)
 				{
 					gl.glBegin(gl.GL_QUAD_STRIP);
@@ -185,7 +238,7 @@ namespace MonoWorks.Model
 			}
 			
 			gl.glEndList();
-		}	
+		}
 		
 #endregion
 		

@@ -141,13 +141,19 @@ namespace MonoWorks.Model
 			Vector centerVec = Center.ToVector();
 			Vector radius = (Start-Center).ToVector();
 			Angle dSweep = Sweep / (double)N;
-			rawPoints = new Vector[N+1];
+			solidPoints = new Vector[N+1];
 			for (int i=0; i<=N; i++)
 			{
 				Vector thisPos = centerVec + radius.Rotate(Normal, dSweep*i);
-				rawPoints[i] = thisPos;
-				bounds.Resize(rawPoints[i]);
+				solidPoints[i] = thisPos;
+				bounds.Resize(solidPoints[i]);
 			}
+			
+			// make the wireframe points the first, middle, and last solid points
+			wireframePoints = new Vector[3];
+			wireframePoints[0] = solidPoints[0];
+			wireframePoints[1] = solidPoints[solidPoints.Length/2];
+			wireframePoints[2] = solidPoints[solidPoints.Length-1];
 		}
 		
 #endregion

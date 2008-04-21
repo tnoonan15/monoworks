@@ -62,7 +62,7 @@ namespace MonoWorks.Model
 				viewport.Camera.PlaceOverlay();
 									
 				gl.glBegin(gl.GL_LINE_STRIP);
-					gl.glColor3f(1.0f, 1.0f, 1.0f);
+					gl.glColor3f(1.0f, 0.0f, 1.0f);
 					gl.glLineWidth(1.5f);
 					gl.glVertex3d(m_startX, m_startY, 0);
 					gl.glVertex3d(m_startX, m_stopY, 0);

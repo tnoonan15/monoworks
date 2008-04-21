@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Collections.Generic;
 
 using Qyoto;
 
@@ -44,6 +45,8 @@ namespace MonoWorks.Gui
 		{
 			this.viewport = viewport;
 			
+			solidActions = new Dictionary<SolidMode,QAction>();
+			
 			CreateActions();
 		}
 		
@@ -52,6 +55,7 @@ namespace MonoWorks.Gui
 		{
 			QAction action;
 			
+			// view actions
 			action = new QAction(ResourceManager.GetIcon("standard-view"), "Standard View", this);
 			action.StatusTip = "Go to the standard view";
 			this.AddAction(action);
@@ -79,7 +83,120 @@ namespace MonoWorks.Gui
 			action = new QAction(ResourceManager.GetIcon("left-view"), "Left View", this);
 			action.StatusTip = "View the left side of the scene";
 			this.AddAction(action);
+
+			
+			this.AddSeparator();
+			
+			
+			// wireframe action
+			wireframeAction = new QAction(ResourceManager.GetIcon("wireframe"), "Wireframe", this);
+			wireframeAction.StatusTip = "Toggles the display of the wireframe";
+			wireframeAction.Checkable = true;
+			this.AddAction(wireframeAction);
+			Connect(wireframeAction, SIGNAL("triggered()"), this, SLOT("ToggleWireframe()"));
+
+			
+			this.AddSeparator();
+			
+			
+			// solid actions
+			action = new QAction(ResourceManager.GetIcon("nosolid"), "No Solid", this);
+			action.StatusTip = "Don't display solid surfaces";
+			action.Checkable = true;
+			this.AddAction(action);
+			solidActions[SolidMode.None] = action;
+			Connect(action, SIGNAL("triggered()"), this, SLOT("NoSolid()"));
+			
+			action = new QAction(ResourceManager.GetIcon("flat"), "Flat", this);
+			action.StatusTip = "Display flat solid surfaces";
+			action.Checkable = true;
+			this.AddAction(action);
+			solidActions[SolidMode.Flat] = action;
+			Connect(action, SIGNAL("triggered()"), this, SLOT("FlatSolid()"));
+			
+			action = new QAction(ResourceManager.GetIcon("smooth"), "Smooth", this);
+			action.StatusTip = "Display smooth solid surfaces";
+			action.Checkable = true;
+			this.AddAction(action);
+			solidActions[SolidMode.Smooth] = action;
+			Connect(action, SIGNAL("triggered()"), this, SLOT("SmoothSolid()"));
+			
+			UpdateSolidActions();
+			
 		}
+		
+
+		
+#region Wireframe
+		
+		protected QAction wireframeAction;
+		
+		/// <summary>
+		/// Toggles the display of the wireframe.
+		/// </summary>
+		[Q_SLOT("ToggleWireframe()")]
+		public void ToggleWireframe()
+		{
+			Console.WriteLine("toggle wireframe");
+			viewport.RenderManager.ShowWireframe = wireframeAction.Checked;
+			viewport.Paint();
+		}
+		
+#endregion
+		
+		
+#region Solid Actions
+		
+		protected Dictionary<SolidMode, QAction> solidActions;
+		
+		/// <summary>
+		/// Don't display solid surfaces.
+		/// </summary>
+		[Q_SLOT("NoSolid()")]
+		public void NoSolid()
+		{
+			viewport.RenderManager.SolidMode = SolidMode.None;
+			UpdateSolidActions();
+			viewport.Initialize();
+		}
+		
+		/// <summary>
+		/// Display flat solid surfaces.
+		/// </summary>
+		[Q_SLOT("FlatSolid()")]
+		public void FlatSolid()
+		{
+			viewport.RenderManager.SolidMode = SolidMode.Flat;
+			UpdateSolidActions();
+			viewport.Initialize();
+		}
+		
+		/// <summary>
+		/// Display smooth solid surfaces.
+		/// </summary>
+		[Q_SLOT("SmoothSolid()")]
+		public void SmoothSolid()
+		{
+			viewport.RenderManager.SolidMode = SolidMode.Smooth;
+			UpdateSolidActions();
+			viewport.Initialize();
+		}
+		
+		/// <summary>
+		/// Updates the solid actions to be consistent with the render manager.
+		/// </summary>
+		protected void UpdateSolidActions()
+		{
+			foreach (int mode in Enum.GetValues(typeof(SolidMode)))
+			{
+				if (viewport.RenderManager.SolidMode == (SolidMode)mode)
+					solidActions[(SolidMode)mode].Checked = true;
+				else
+					solidActions[(SolidMode)mode].Checked = false;
+			}
+		}
+		
+#endregion
 		
 	}
 }

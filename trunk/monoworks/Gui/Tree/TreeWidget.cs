@@ -74,7 +74,11 @@ namespace MonoWorks.Gui
 		public virtual void Refresh()
 		{
 			this.Clear();
-			docItem = new TreeWidgetItem(this, document);
+			
+//			QTreeWidgetItem topItem = new QTreeWidgetItem(this);
+//			QTreeWidgetItem item = new QTreeWidgetItem(docItem);
+			
+//			docItem = new TreeWidgetItem(this, document);
 //			TreeWidgetItem item = new TreeWidgetItem(this, document);
 //			this.AddTopLevelItem(docItem);
 //			TreeWidgetItem item;
