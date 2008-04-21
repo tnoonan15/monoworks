@@ -168,6 +168,8 @@ namespace MonoWorks.Model
 			gl.glEnable(gl.GL_LIGHTING);
 			gl.glEnable(gl.GL_LIGHT0);
 			gl.glEnable(gl.GL_LIGHT1);
+			gl.glEnable(gl.GL_LIGHT2);
+			gl.glEnable(gl.GL_LIGHT3);
 		}
 		
 		
@@ -191,6 +193,10 @@ namespace MonoWorks.Model
 			gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightPos0);
 			float[] lightPos1 = new float[]{-lightDist, -lightDist, -lightDist,2f};
 			gl.glLightfv(gl.GL_LIGHT1, gl.GL_POSITION, lightPos1);
+			float[] lightPos2 = new float[]{lightDist, lightDist, -lightDist,2f};
+			gl.glLightfv(gl.GL_LIGHT2, gl.GL_POSITION, lightPos2);
+			float[] lightPos3 = new float[]{-lightDist, -lightDist, lightDist,2f};
+			gl.glLightfv(gl.GL_LIGHT3, gl.GL_POSITION, lightPos3);
 		}
 		
 		

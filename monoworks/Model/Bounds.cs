@@ -166,8 +166,8 @@ namespace MonoWorks.Model
 			if (minima != null)
 			{
 	//			Console.WriteLine("bounding box minima: {0}, maxima: {1}", minima, maxima);
-				gl.glColor3d(0.0, 0.0, 1.0);
 				gl.glLineWidth( 2.0f);
+				gl.glColor3f(0.0f, 0.0f, 1.0f);
 				gl.glBegin(gl.GL_LINE);
 				
 				// minimum z box

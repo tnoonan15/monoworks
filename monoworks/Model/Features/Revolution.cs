@@ -94,24 +94,77 @@ namespace MonoWorks.Model
 #region Rendering
 
 		/// <summary>
-		/// Computes the display lists. 
+		/// Computes the wireframe geometry. 
 		/// </summary>
-		public override void ComputeGeometry()
+		public override void ComputeWireframeGeometry()
 		{
-			base.ComputeGeometry();
+			base.ComputeWireframeGeometry();
 			
 			// determine sweep and scaling factors
 			int N = 64;
 			Angle dTravel = Travel / (double)N;
 
-			gl.glNewList(displayLists, gl.GL_COMPILE);
+			gl.glNewList(displayLists+WireframeListOffset, gl.GL_COMPILE);
+			
+			// cycle through sketch children
+			gl.glColor3f(0.5f, 0.5f, 0.5f);
+			foreach (Sketchable sketchable in this.Sketch.Sketchables)
+			{
+				// add the wireframe points
+				sketchable.ComputeGeometry();
+				Vector[] verts = sketchable.WireframePoints;
+				foreach (Vector vert in verts)
+				{
+					gl.glBegin(gl.GL_LINE_STRIP);
+					for (int n=0; n<=N; n++)
+					{
+						Vector relPos = vert - Axis.Center.ToVector();
+						Vector pos1 = relPos.Rotate(Axis.Direction, dTravel * n);
+						gl.glVertex3d(pos1[0], pos1[1], pos1[2]);	 
+					}
+					gl.glEnd();
+				}
+				
+				// add the solid points at the ends
+				verts = sketchable.SolidPoints;
+				gl.glBegin(gl.GL_LINE_STRIP);
+				foreach (Vector vert in verts)
+				{
+					gl.glVertex3d(vert[0], vert[1], vert[2]);	 
+				}
+				gl.glEnd();
+				gl.glBegin(gl.GL_LINE_STRIP);
+				foreach (Vector vert in verts)
+				{
+					Vector relPos = vert - Axis.Center.ToVector();
+					Vector pos = relPos.Rotate(Axis.Direction, Travel );
+					gl.glVertex3d(pos[0], pos[1], pos[2]);	 
+				}
+				gl.glEnd();
+			}
+			
+			gl.glEndList();
+		}
+
+		/// <summary>
+		/// Computes the solid geometry. 
+		/// </summary>
+		public override void ComputeSolidGeometry()
+		{
+			base.ComputeSolidGeometry();
+			
+			// determine sweep and scaling factors
+			int N = 64;
+			Angle dTravel = Travel / (double)N;
+
+			gl.glNewList(displayLists+SolidListOffset, gl.GL_COMPILE);
 			
 			// cycle through sketch children
 			gl.glColor3f(0.5f, 0.5f, 0.5f);
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				sketchable.ComputeGeometry();
-				Vector[] verts = sketchable.RawPoints;
+				Vector[] verts = sketchable.SolidPoints;
 				for (int n=0; n<N; n++)
 				{
 					gl.glBegin(gl.GL_QUAD_STRIP);

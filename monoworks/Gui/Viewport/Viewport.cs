@@ -105,6 +105,8 @@ namespace MonoWorks.Gui
 			scrollMap[(int)Qt.Modifier.CTRL] = ScrollAction.VERTICAL_PAN;
 			scrollMap[(int)Qt.Modifier.SHIFT] = ScrollAction.HORIZONTAL_PAN;
 
+			// initialize the render manager
+			renderManager = new RenderManager();
 			
 			this.SetAttribute(Qt.WidgetAttribute.WA_NoSystemBackground);
 		}
@@ -250,6 +252,16 @@ namespace MonoWorks.Gui
 		/// Time of the last rendering.
 		/// </value>
 		protected DateTime lastExposed;
+		
+		
+		protected RenderManager renderManager;
+		/// <value>
+		/// The viewport render manager.
+		/// </value>
+		public RenderManager RenderManager
+		{
+			get {return renderManager;}
+		}
 		
 #endregion
 		
@@ -550,19 +562,35 @@ namespace MonoWorks.Gui
 		/// </summary>
 		protected override void InitializeGL()
 		{
-			gl.glShadeModel(gl.GL_SMOOTH);
-//			gl.glShadeModel(gl.GL_FLAT);
+			RenderManager.SetupSolidMode();
+			
 			gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);			// Black Background
 			gl.glClearDepth(1.0f);								// Depth Buffer Setup
 			gl.glEnable(gl.GL_DEPTH_TEST);						// Enables Depth Testing
 			gl.glDepthFunc(gl.GL_LEQUAL);						// The Type Of Depth Test To Do
 			// Really Nice Perspective Calculations
-			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);	
+			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
+			
+			// enable color tracking
+			gl.glEnable(gl.GL_COLOR_MATERIAL);
+			// set material properties which will be assigned by glColor
+			gl.glColorMaterial(gl.GL_FRONT, gl.GL_AMBIENT_AND_DIFFUSE);
+
 			
 			// initialize Qt overlay
 //			image = new QImage(Width(), Height(), QImage.Format.Format_ARGB32_Premultiplied);
 //			image.Fill(Qt.QRgba(0, 0, 0, 127));
 			
+		}
+				
+		/// <summary>
+		/// Initialize drawing.
+		/// Calls InitializeGL().
+		/// </summary>
+		public void Initialize()
+		{
+			InitializeGL();
+			UpdateGL();
 		}
 				
 		
@@ -571,6 +599,7 @@ namespace MonoWorks.Gui
 		/// </summary>
 		protected override void PaintGL()
 		{
+			base.PaintGL();
 			
 			// Clear The Screen And The Depth Buffer
 			gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
@@ -593,6 +622,19 @@ namespace MonoWorks.Gui
 //			painter.SetRenderHint( QPainter.RenderHint.Antialiasing );
 //			painter.End();
 		}
+		
+				
+		/// <summary>
+		/// Paint to the current context.
+		/// Calls UpdateGL().
+		/// </summary>
+		public void Paint()
+		{
+			UpdateGL();
+		}
+		
+
+
 		
 		
 #endregion

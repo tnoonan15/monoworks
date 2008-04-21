@@ -65,17 +65,35 @@ namespace MonoWorks.Model
 			base.AddMomento();
 			Momento momento = momentos[momentos.Count-1];
 			momento["sketch"] = new Sketch();
+			momento["material"] = new Material();
+			momento["cartoonColor"] = new Color();
 		}
-		
-#endregion
-	
-		
-#region Sketch
-
+				
+		/// <value>
+		/// The feature's sketch.
+		/// </value>
 		public Sketch Sketch
 		{
 			get {return (Sketch)CurrentMomento["sketch"];}
 			set {CurrentMomento["sketch"] = value;}
+		}
+
+		/// <value>
+		/// The feature's material.
+		/// </value>
+		public Material Material
+		{
+			get {return (Material)CurrentMomento["material"];}
+			set {CurrentMomento["material"] = value;}
+		}
+		
+		/// <value>
+		/// The feature's color when being rendered in cartoon mode.
+		/// </value>
+		public Color CartoonColor
+		{
+			get {return (Color)CurrentMomento["cartoonColor"];}
+			set {CurrentMomento["cartoonColor"] = value;}
 		}
 	
 #endregion
@@ -91,7 +109,18 @@ namespace MonoWorks.Model
 		/// <value>
 		/// The number of display lists.
 		/// </value>
-		public const int NumLists = 1;
+		protected const int NumLists = 2;
+		
+		/// <value>
+		/// The offset of the solid list.
+		/// </value>
+		protected const int SolidListOffset = 0;
+		
+		/// <value>
+		/// The offset of the wireframe list.
+		/// </value>
+		protected const int WireframeListOffset = 1;
+		
 		
 #endregion
 		
@@ -115,9 +144,9 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Computes the feature's geometry.
 		/// </summary>
-		public override void ComputeGeometry ()
+		public override void ComputeGeometry()
 		{
-			base.ComputeGeometry ();
+			base.ComputeGeometry();
 			
 			// ensure the display lists are empty
 			if (gl.glIsList(displayLists)==0)
@@ -125,18 +154,41 @@ namespace MonoWorks.Model
 				gl.glDeleteLists(displayLists, NumLists); // delete the lists
 			}
 			displayLists = gl.glGenLists(NumLists); // regenerate the display lists
+			
+			ComputeWireframeGeometry();
+			
+			ComputeSolidGeometry();
 		}
-
 		
+		/// <summary>
+		/// Computes the wireframe geometry.
+		/// </summary>
+		public virtual void ComputeWireframeGeometry()
+		{
+		}	
+		
+		/// <summary>
+		/// Computes the solid geometry.
+		/// </summary>
+		public virtual void ComputeSolidGeometry()
+		{
+		}		
 		
 		/// <summary>
 		/// Renders the feature, recomputing geometry if necessary.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		 public override void Render (IViewport viewport)
+		 public override void Render(IViewport viewport)
 		{
 			base.Render(viewport);
-			gl.glCallList(displayLists);
+			
+			// render solid geometry
+			if (viewport.RenderManager.SolidMode != SolidMode.None)
+				gl.glCallList(displayLists+SolidListOffset);
+			
+			// render the wireframe
+			if (viewport.RenderManager.ShowWireframe)
+				gl.glCallList(displayLists+WireframeListOffset);
 		}
 
 		

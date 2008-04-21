@@ -27,15 +27,40 @@ namespace MonoWorks.Model
 	/// </summary>
 	public interface IViewport
 	{
-		
+		/// <summary>
+		/// Returns the viewport width.
+		/// </summary>
 		int Width();
 		
+		/// <summary>
+		/// Returns the viewport height.
+		/// </summary>
 		int Height();
 		
+		/// <value>
+		/// Access the viewport camera.
+		/// </value>
 		Camera Camera
 		{
 			get;
 		}
 		
+		/// <summary>
+		/// Initializes the rendering.
+		/// </summary>
+		void Initialize();
+		
+		/// <summary>
+		/// Performs the rendering for one frame.
+		/// </summary>
+		void Paint();
+
+		/// <value>
+		/// Access the viewport's render manager.
+		/// </value>
+		RenderManager RenderManager
+		{
+			get;
+		}
 	}
 }

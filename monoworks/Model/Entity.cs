@@ -317,7 +317,7 @@ namespace MonoWorks.Model
 		{
 			if (dirty)
 				ComputeGeometry();
-			bounds.Render(viewport);
+//			bounds.Render(viewport);
 		}
 		
 #endregion

@@ -38,6 +38,9 @@
     <File name="IViewport.cs" subtype="Code" buildaction="Compile" />
     <File name="TestDocument.cs" subtype="Code" buildaction="Compile" />
     <File name="Bounds.cs" subtype="Code" buildaction="Compile" />
+    <File name="Material.cs" subtype="Code" buildaction="Compile" />
+    <File name="Color.cs" subtype="Code" buildaction="Compile" />
+    <File name="RenderManager.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.OpenGl.dll" />

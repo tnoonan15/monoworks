@@ -86,12 +86,16 @@ namespace MonoWorks.Model
 		/// </summary>
 		public override void ComputeGeometry()
 		{
-			rawPoints = new Vector[Points.Count];
+			solidPoints = new Vector[Points.Count];
 			for (int i=0; i<Points.Count; i++)
 			{
-				rawPoints[i] = Points[i].ToVector();
-				bounds.Resize(rawPoints[i]);
+				solidPoints[i] = Points[i].ToVector();
+				bounds.Resize(solidPoints[i]);
 			}
+			
+			// for lines, the solid and wireframe points are the same
+			wireframePoints = solidPoints;
+			
 		}
 		
 		
@@ -101,7 +105,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public override void DrawVertices()
 		{
-			if (Points.Count != rawPoints.Length)
+			if (Points.Count != solidPoints.Length)
 				ComputeGeometry();
 			base.DrawVertices();
 		}

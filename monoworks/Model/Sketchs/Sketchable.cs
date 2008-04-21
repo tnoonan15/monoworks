@@ -32,20 +32,31 @@ namespace MonoWorks.Model
 		
 		public Sketchable() : base()
 		{
-			rawPoints = new Vector[0];
+			solidPoints = new Vector[0];
+			wireframePoints = new Vector[0];
 		}
 
 		
 #region Points
 		
-		protected Vector[] rawPoints;
+		protected Vector[] solidPoints;
 		/// <summary>
-		/// The points associated with this sketchable.
+		/// The points needed to render the solid.
 		/// These should be generated with ComputeGeometry().
 		/// </summary>
-		public Vector[] RawPoints
+		public Vector[] SolidPoints
 		{
-			get {return rawPoints;}
+			get {return solidPoints;}
+		}
+		
+		protected Vector[] wireframePoints;
+		/// <summary>
+		/// The points needed to render the wireframe.
+		/// These should be generated with ComputeGeometry().
+		/// </summary>
+		public Vector[] WireframePoints
+		{
+			get {return wireframePoints;}
 		}
 		
 #endregion
@@ -71,7 +82,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public virtual void DrawVertices()
 		{
-			foreach (Vector vector in rawPoints)
+			foreach (Vector vector in solidPoints)
 			{
 				gl.glVertex3d(vector[0], vector[1], vector[2]);
 			}
