@@ -47,6 +47,8 @@ namespace MonoWorks.Gui
 			
 			solidActions = new Dictionary<SolidMode,QAction>();
 			
+			colorActions = new Dictionary<ColorMode,QAction>(); 
+			
 			CreateActions();
 		}
 		
@@ -122,6 +124,27 @@ namespace MonoWorks.Gui
 			Connect(action, SIGNAL("triggered()"), this, SLOT("SmoothSolid()"));
 			
 			UpdateSolidActions();
+
+			
+			this.AddSeparator();
+			
+			
+			// color actions
+			action = new QAction(ResourceManager.GetIcon("cartoon"), "Cartoon", this);
+			action.StatusTip = "Draw solid surfaces in cartoon colors";
+			action.Checkable = true;
+			this.AddAction(action);
+			colorActions[ColorMode.Cartoon] = action;
+			Connect(action, SIGNAL("triggered()"), this, SLOT("CartoonMode()"));
+			
+			action = new QAction(ResourceManager.GetIcon("realistic"), "Realistic", this);
+			action.StatusTip = "Draw solid surfaces in realistic colors and materials";
+			action.Checkable = true;
+			this.AddAction(action);
+			colorActions[ColorMode.Realistic] = action;
+			Connect(action, SIGNAL("triggered()"), this, SLOT("RealisticMode()"));
+			
+			UpdateColorActions();
 			
 		}
 		
@@ -137,7 +160,6 @@ namespace MonoWorks.Gui
 		[Q_SLOT("ToggleWireframe()")]
 		public void ToggleWireframe()
 		{
-			Console.WriteLine("toggle wireframe");
 			viewport.RenderManager.ShowWireframe = wireframeAction.Checked;
 			viewport.Paint();
 		}
@@ -193,6 +215,49 @@ namespace MonoWorks.Gui
 					solidActions[(SolidMode)mode].Checked = true;
 				else
 					solidActions[(SolidMode)mode].Checked = false;
+			}
+		}
+		
+#endregion
+		
+		
+#region Solid Actions
+		
+		protected Dictionary<ColorMode, QAction> colorActions;
+		
+		/// <summary>
+		/// Set color mode to cartoon.
+		/// </summary>
+		[Q_SLOT("CartoonMode()")]
+		public void CartoonMode()
+		{
+			viewport.RenderManager.ColorMode = ColorMode.Cartoon;
+			UpdateColorActions();
+			viewport.Paint();
+		}
+		
+		/// <summary>
+		/// Set color mode to realistic.
+		/// </summary>
+		[Q_SLOT("RealisticMode()")]
+		public void RealisticMode()
+		{
+			viewport.RenderManager.ColorMode = ColorMode.Realistic;
+			UpdateColorActions();
+			viewport.Paint();
+		}
+		
+		/// <summary>
+		/// Updates the color actions to be consistent with the render manager.
+		/// </summary>
+		protected void UpdateColorActions()
+		{
+			foreach (int mode in Enum.GetValues(typeof(ColorMode)))
+			{
+				if (viewport.RenderManager.ColorMode == (ColorMode)mode)
+					colorActions[(ColorMode)mode].Checked = true;
+				else
+					colorActions[(ColorMode)mode].Checked = false;
 			}
 		}
 		

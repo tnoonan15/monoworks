@@ -141,7 +141,6 @@ namespace MonoWorks.Model
 			Vector direction = Path.Direction;
 			
 			// cycle through sketch children
-			gl.glColor3f(0.5f, 0.5f, 0.5f);
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				// add the wireframe points
@@ -213,16 +212,23 @@ namespace MonoWorks.Model
 			Vector direction = Path.Direction;
 			
 			// cycle through sketch children
-			gl.glColor3f(0.5f, 0.5f, 0.5f);
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.SolidPoints;
+				Vector[] directions = sketchable.Directions;
 				for (int n=0; n<N; n++)
 				{
 					gl.glBegin(gl.GL_QUAD_STRIP);
-					foreach (Vector vert in verts)
+					for (int i=0; i<verts.Length; i++)
 					{
+						Vector vert = verts[i];
+						
+						// add the normal
+						Vector normal = directions[i].Cross(direction).Normalize();
+						gl.glNormal3d(normal[0], normal[1], normal[2]);
+						
+						// add the vertex
 						gl.glVertex3d(vert[0], vert[1], vert[2]);	
 						gl.glVertex3d(vert[0]+direction[0]*dTravel, vert[1]+direction[1]*dTravel, vert[2]+direction[2]*dTravel); 
 						bounds.Resize(vert);

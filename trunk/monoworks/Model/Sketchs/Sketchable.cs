@@ -34,6 +34,7 @@ namespace MonoWorks.Model
 		{
 			solidPoints = new Vector[0];
 			wireframePoints = new Vector[0];
+			directions = new Vector[0];
 		}
 
 		
@@ -57,6 +58,16 @@ namespace MonoWorks.Model
 		public Vector[] WireframePoints
 		{
 			get {return wireframePoints;}
+		}
+		
+		protected Vector[] directions;
+		/// <summary>
+		/// The direction vectors corresponding to each solid point.
+		/// These should be generated with ComputeGeometry().
+		/// </summary>
+		public Vector[] Directions
+		{
+			get {return directions;}
 		}
 		
 #endregion

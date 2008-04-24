@@ -32,5 +32,18 @@ namespace MonoWorks.Model
 		public Reference() : base()
 		{
 		}
+		
+		
+		/// <summary>
+		/// Render the reference item.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public override void Render(IViewport viewport)
+		{
+			base.Render(viewport);
+			
+			viewport.RenderManager.ReferenceColor.Setup();
+		}
+
 	}
 }

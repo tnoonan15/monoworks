@@ -38,8 +38,8 @@ namespace MonoWorks.Model
 			refLine = new RefLine(new Point(0.0, 0.0, 0.0), new Vector(0.0, 1.0, 0.0));
 			AddReference(refLine);
 			
-			CreateRevolution();
 			CreateExtrusion();
+			CreateRevolution();
 			
 		}
 		
@@ -97,6 +97,7 @@ namespace MonoWorks.Model
 			Revolution revolution1 = new Revolution(revolutionSketch);
 			revolution1.Axis = refLine;
 			revolution1.Travel = Angle.Pi()*-1;
+			revolution1.CartoonColor = colorManager.GetColor("Red");
 			AddFeature( revolution1);
 		}
 	}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Colors>
+	<Color name="Black" value="000000"/>
+	<Color name="White" value="ffffff"/>
+	<Color name="Red" value="ff0000"/>
+	<Color name="Green" value="00ff00"/>
+	<Color name="Blue" value="0000ff"/>
+	<Color name="Yellow" value="ffff00"/>
+	<Color name="Cyan" value="00ffff"/>
+	<Color name="Magenta" value="ff00ff"/>
+	<Color name="Gray" value="f0f0f0"/>
+	<Color name="Dark Blue" value="0000f0"/>
+</Colors>

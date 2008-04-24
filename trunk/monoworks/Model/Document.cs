@@ -40,6 +40,8 @@ namespace MonoWorks.Model
 			entityRegistry = new Dictionary<long,Entity>();
 			RegisterEntity(this);
 			
+			ColorManager = new ColorManager();
+			
 			DocCounter++;
 			Name = String.Format("document{0}", DocCounter);
 		}
@@ -52,6 +54,18 @@ namespace MonoWorks.Model
 		{
 			return this;
 		}
+		
+
+		protected ColorManager colorManager;
+		/// <value>
+		/// The color manager for this document.
+		/// </value>
+		public ColorManager ColorManager
+		{
+			get {return colorManager;}
+			set {colorManager = value;}
+		}
+		
 		
 #region Entity Registry
 		

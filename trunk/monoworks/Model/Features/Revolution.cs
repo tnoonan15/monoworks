@@ -107,19 +107,28 @@ namespace MonoWorks.Model
 			gl.glNewList(displayLists+WireframeListOffset, gl.GL_COMPILE);
 			
 			// cycle through sketch children
-			gl.glColor3f(0.5f, 0.5f, 0.5f);
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				// add the wireframe points
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.WireframePoints;
-				foreach (Vector vert in verts)
+				Vector[] directions = sketchable.Directions;
+				for (int i=0; i<verts.Length; i++)
 				{
+					Vector vert = verts[i];
+					
 					gl.glBegin(gl.GL_LINE_STRIP);
 					for (int n=0; n<=N; n++)
 					{
 						Vector relPos = vert - Axis.Center.ToVector();
 						Vector pos1 = relPos.Rotate(Axis.Direction, dTravel * n);
+						
+						// add the normal
+						Vector travel = (pos1-Axis.Center.ToVector()).Cross(Axis.Direction);
+						Vector normal = directions[i].Cross(travel).Normalize();
+						gl.glNormal3d(normal[0], normal[1], normal[2]);
+						
+						// add the vertex
 						gl.glVertex3d(pos1[0], pos1[1], pos1[2]);	 
 					}
 					gl.glEnd();
@@ -160,7 +169,6 @@ namespace MonoWorks.Model
 			gl.glNewList(displayLists+SolidListOffset, gl.GL_COMPILE);
 			
 			// cycle through sketch children
-			gl.glColor3f(0.5f, 0.5f, 0.5f);
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
 				sketchable.ComputeGeometry();
