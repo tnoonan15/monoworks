@@ -139,5 +139,9 @@
     <File name="icons48/arc.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/line.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/spline.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/cartoon.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/nosolid.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/realistic.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/smooth.png" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

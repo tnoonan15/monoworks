@@ -79,7 +79,7 @@ namespace MonoWorks.Model
 		}
 
 		/// <value>
-		/// The feature's material.
+		/// The feature's material (used in realistic mode).
 		/// </value>
 		public Material Material
 		{
@@ -149,10 +149,11 @@ namespace MonoWorks.Model
 			base.ComputeGeometry();
 			
 			// ensure the display lists are empty
-			if (gl.glIsList(displayLists)==0)
+			if (gl.glIsList(displayLists)!=0)
 			{
 				gl.glDeleteLists(displayLists, NumLists); // delete the lists
 			}
+			
 			displayLists = gl.glGenLists(NumLists); // regenerate the display lists
 			
 			ComputeWireframeGeometry();
@@ -184,11 +185,31 @@ namespace MonoWorks.Model
 			
 			// render solid geometry
 			if (viewport.RenderManager.SolidMode != SolidMode.None)
+			{
+				switch (viewport.RenderManager.ColorMode)
+				{
+				case ColorMode.Cartoon:
+					CartoonColor.Setup();
+					break;
+				case ColorMode.Realistic:
+					Material.Setup();
+					break;
+				}
+				gl.glEnable(gl.GL_LIGHTING);
+				gl.glEnable(gl.GL_POLYGON_OFFSET_FILL);
 				gl.glCallList(displayLists+SolidListOffset);
+				gl.glDisable(gl.GL_POLYGON_OFFSET_FILL);
+				gl.glDisable(gl.GL_LIGHTING);
+			}
 			
 			// render the wireframe
 			if (viewport.RenderManager.ShowWireframe)
+			{
+				gl.glLineWidth( viewport.RenderManager.WireframeWidth);
+				gl.glMaterialf(gl.GL_FRONT_AND_BACK, gl.GL_SHININESS, 0.0f);
+				viewport.RenderManager.WireframeColor.Setup();
 				gl.glCallList(displayLists+WireframeListOffset);
+			}
 		}
 
 		

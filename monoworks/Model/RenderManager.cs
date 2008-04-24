@@ -27,6 +27,11 @@ namespace MonoWorks.Model
 	/// </summary>
 	public enum SolidMode {None, Flat, Smooth};
 	
+	/// <summary>
+	/// The color mode determine what color/material to use for solid surfaces.
+	/// </summary>
+	public enum ColorMode {Cartoon, Realistic};
+	
 	
 	/// <summary>
 	/// The RenderManager class manages the rendering process for a viewport.
@@ -39,10 +44,21 @@ namespace MonoWorks.Model
 		/// </summary>
 		public RenderManager()
 		{
-			showWireframe = false;
+			this.colorManager = new ColorManager();
+			
 			solidMode = SolidMode.Flat;
+			colorMode = ColorMode.Cartoon;
+			
+			showWireframe = false;
+			wireframeColor = colorManager.GetColor("Black");
+			wireframeWidth = 1.5f;
+			
+			referenceColor = colorManager.GetColor("Cyan");
 		}
 		
+		
+		protected ColorManager colorManager;
+
 		
 #region Wireframe Display
 		
@@ -55,6 +71,42 @@ namespace MonoWorks.Model
 			get {return showWireframe;}
 			set {showWireframe = value;}
 		}
+		
+		
+		protected Color wireframeColor;
+		/// <value>
+		/// The wireframe color.
+		/// </value>
+		public Color WireframeColor
+		{
+			get {return wireframeColor;}
+			set {wireframeColor = value;}
+		}
+		
+		protected float wireframeWidth;
+		/// <value>
+		/// Wireframe width.
+		/// </value>
+		public float WireframeWidth
+		{
+			get {return wireframeWidth;}
+			set {wireframeWidth = value;}
+		}
+		
+#endregion
+		
+		
+#region Reference Items
+		
+		protected Color referenceColor;
+		/// <value>
+		/// The color of reference items;
+		/// </value>
+		public Color ReferenceColor
+		{
+			get {return referenceColor;}
+			set {referenceColor = value;}
+		}		
 		
 #endregion
 		
@@ -91,7 +143,20 @@ namespace MonoWorks.Model
 
 #endregion
 		
+
+#region Color Mode
 		
+		protected ColorMode colorMode;
+		/// <value>
+		/// The feature's color mode.
+		/// </value>
+		public ColorMode ColorMode
+		{
+			get {return colorMode;}
+			set {colorMode = value;}
+		}		
+		
+#endregion
 		
 	}
 }

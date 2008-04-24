@@ -142,11 +142,15 @@ namespace MonoWorks.Model
 			Vector radius = (Start-Center).ToVector();
 			Angle dSweep = Sweep / (double)N;
 			solidPoints = new Vector[N+1];
+			directions = new Vector[N+1];
 			for (int i=0; i<=N; i++)
 			{
 				Vector thisPos = centerVec + radius.Rotate(Normal, dSweep*i);
 				solidPoints[i] = thisPos;
 				bounds.Resize(solidPoints[i]);
+				
+				// compute the direction
+				directions[i] = (thisPos-centerVec).Cross(Normal).Normalize();
 			}
 			
 			// make the wireframe points the first, middle, and last solid points

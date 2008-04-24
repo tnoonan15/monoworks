@@ -41,6 +41,8 @@
     <File name="Material.cs" subtype="Code" buildaction="Compile" />
     <File name="Color.cs" subtype="Code" buildaction="Compile" />
     <File name="RenderManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="ColorManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="DefaultColors.xml" subtype="Code" buildaction="Nothing" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.OpenGl.dll" />

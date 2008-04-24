@@ -564,18 +564,31 @@ namespace MonoWorks.Gui
 		{
 			RenderManager.SetupSolidMode();
 			
-			gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);			// Black Background
+			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);			// white Background
 			gl.glClearDepth(1.0f);								// Depth Buffer Setup
 			gl.glEnable(gl.GL_DEPTH_TEST);						// Enables Depth Testing
 			gl.glDepthFunc(gl.GL_LEQUAL);						// The Type Of Depth Test To Do
 			// Really Nice Perspective Calculations
 			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
 			
+//			gl.glEnable(gl.GL_BLEND);
+//			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_DST_ALPHA);
+			gl.glEnable(gl.GL_LINE_SMOOTH);
+			
 			// enable color tracking
 			gl.glEnable(gl.GL_COLOR_MATERIAL);
 			// set material properties which will be assigned by glColor
-			gl.glColorMaterial(gl.GL_FRONT, gl.GL_AMBIENT_AND_DIFFUSE);
+			gl.glColorMaterial(gl.GL_FRONT_AND_BACK, gl.GL_AMBIENT_AND_DIFFUSE);
 
+			// enable polygon offset so wireframes are displayed correctly
+			gl.glPolygonOffset(1f, 1f);
+			
+			// enable the lighting
+//			gl.glEnable(gl.GL_LIGHTING);
+			gl.glEnable(gl.GL_LIGHT0);
+//			gl.glEnable(gl.GL_LIGHT1);
+//			gl.glEnable(gl.GL_LIGHT2);
+//			gl.glEnable(gl.GL_LIGHT3);
 			
 			// initialize Qt overlay
 //			image = new QImage(Width(), Height(), QImage.Format.Format_ARGB32_Premultiplied);
@@ -603,6 +616,18 @@ namespace MonoWorks.Gui
 			
 			// Clear The Screen And The Depth Buffer
 			gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
+			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);			// white Background
+			
+			// place the lights
+			float lightDist = 10f;
+			float[] lightAmbient = new float[]{0.2f, 0.2f, 0.2f};
+			float[] lightDiffuse = new float[]{0.5f, 0.5f, 0.5f};
+			float[] lightSpecular = new float[]{0.1f, 0.1f, 0.1f};
+			float[] lightPos0 = new float[]{lightDist, lightDist, -lightDist,2f};
+			gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightPos0);
+			gl.glLightfv(gl.GL_LIGHT0, gl.GL_AMBIENT, lightAmbient);
+			gl.glLightfv(gl.GL_LIGHT0, gl.GL_DIFFUSE, lightDiffuse);
+			gl.glLightfv(gl.GL_LIGHT0, gl.GL_SPECULAR, lightSpecular);
 			
 			document.Render(this);
 
@@ -612,9 +637,10 @@ namespace MonoWorks.Gui
 			// keep track of frame rate
 			double frameRate = 10000000.0 / (double)(DateTime.Now.Ticks - lastExposed.Ticks);
 			lastExposed = DateTime.Now;
-			gl.glColor3f(1f, 1f, 1f);
+			gl.glColor3f(0f, 0f, 0f);
 			this.RenderText(5, Height()-5, String.Format("{0:f2} fps", frameRate));
 			
+			gl.glFlush();
 			
 			// test out the Qt overlay
 //			QPainter painter = new QPainter();

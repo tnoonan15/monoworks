@@ -32,6 +32,64 @@ namespace MonoWorks.Model
 		/// </summary>
 		public Color()
 		{
+			rgb = new byte[]{0, 0, 255};
 		}
+		
+		/// <summary>
+		/// Initialization constructor.
+		/// </summary>
+		/// <param name="red"> The red component. </param>
+		/// <param name="green"> The green component. </param>
+		/// <param name="blue"> The blue component. </param>
+		public Color(byte red, byte green, byte blue)
+		{
+			rgb = new byte[]{red, green, blue};
+		}
+		
+		
+#region Components
+		
+		protected byte[] rgb;
+		/// <value>
+		/// The RGB components of the color.
+		/// </value>
+		public byte[] RGB
+		{
+			get {return rgb;}
+			set
+			{
+				if (value.Length==3)
+					rgb = value;
+				else
+					throw new Exception("RGB vectors must have 3 components.");
+			}
+		}
+		
+		/// <value>
+		/// Returns an array of floats representing the red, green, and blue components. 
+		/// </value>
+		public float[] RGBf
+		{
+			get {return new float[]{(float)rgb[0]/255f, (float)rgb[1]/255f, (float)rgb[2]/255f};} 
+		}
+		
+#endregion
+		
+		
+#region OpenGL Commands
+		
+		/// <summary>
+		/// Sets the color of the current OpenGL context.
+		/// </summary>
+		public void Setup()
+		{
+//			gl.glColor3bv(rgb); // this doesn't seem to work like it should
+			gl.glColor3fv(RGBf);
+		}
+		
+#endregion
+		
+		
+		
 	}
 }

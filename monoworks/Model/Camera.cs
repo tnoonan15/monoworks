@@ -163,13 +163,6 @@ namespace MonoWorks.Model
 
 			// Calculate The Aspect Ratio Of The Window
 			glu.gluPerspective((float)fov["deg"], (float)width/(float)height, 0.1f, 1000.0f);
-			
-			// enable the lighting
-			gl.glEnable(gl.GL_LIGHTING);
-			gl.glEnable(gl.GL_LIGHT0);
-			gl.glEnable(gl.GL_LIGHT1);
-			gl.glEnable(gl.GL_LIGHT2);
-			gl.glEnable(gl.GL_LIGHT3);
 		}
 		
 		
@@ -187,16 +180,12 @@ namespace MonoWorks.Model
 			              center[0], center[1], center[2],
 			              upVec[0], upVec[1], upVec[2]);
 			
-			// place the lights
-			float lightDist = 5f;
-			float[] lightPos0 = new float[]{lightDist, lightDist, lightDist,2f};
-			gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightPos0);
-			float[] lightPos1 = new float[]{-lightDist, -lightDist, -lightDist,2f};
-			gl.glLightfv(gl.GL_LIGHT1, gl.GL_POSITION, lightPos1);
-			float[] lightPos2 = new float[]{lightDist, lightDist, -lightDist,2f};
-			gl.glLightfv(gl.GL_LIGHT2, gl.GL_POSITION, lightPos2);
-			float[] lightPos3 = new float[]{-lightDist, -lightDist, lightDist,2f};
-			gl.glLightfv(gl.GL_LIGHT3, gl.GL_POSITION, lightPos3);
+//			float[] lightPos1 = new float[]{-lightDist, -lightDist, -lightDist,2f};
+//			gl.glLightfv(gl.GL_LIGHT1, gl.GL_POSITION, lightPos1);
+//			float[] lightPos2 = new float[]{lightDist, lightDist, -lightDist,2f};
+//			gl.glLightfv(gl.GL_LIGHT2, gl.GL_POSITION, lightPos2);
+//			float[] lightPos3 = new float[]{-lightDist, -lightDist, lightDist,2f};
+//			gl.glLightfv(gl.GL_LIGHT3, gl.GL_POSITION, lightPos3);
 		}
 		
 		

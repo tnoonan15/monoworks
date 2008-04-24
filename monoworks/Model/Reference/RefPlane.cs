@@ -33,5 +33,22 @@ namespace MonoWorks.Model
 		public RefPlane() : base()
 		{
 		}
+		
+		
+#region Rendering
+
+		/// <summary>
+		/// Renders the line to the viewport.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public override void Render(IViewport viewport)
+		{
+			base.Render(viewport);
+			
+		}
+
+		
+#endregion
+		
 	}
 }

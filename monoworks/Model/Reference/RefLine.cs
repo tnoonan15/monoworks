@@ -105,11 +105,12 @@ namespace MonoWorks.Model
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
 		public override void Render (IViewport viewport)
 		{
+			base.Render(viewport);
+			
 			// pick points out of view to render
 			double t = 4;
 			
 			// render the points
-			gl.glColor3f(0.3f, 0.3f, 0.5f);
 			gl.glBegin(gl.GL_LINE);
 			Vector endPoint = Center.ToVector() + Direction * t;
 			gl.glVertex3d(endPoint[0], endPoint[1], endPoint[2]);

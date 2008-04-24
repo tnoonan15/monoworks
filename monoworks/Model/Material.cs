@@ -33,29 +33,42 @@ namespace MonoWorks.Model
 		/// </summary>
 		public Material()
 		{
+			color = new Color(128, 128, 128);
+			specularColor = new Color(255, 255, 255);
+			shininess = 0.00f;
 		}
 		
 		
 #region Attributes
 
-		protected Color ambientColor;
+		protected Color color;
 		/// <value>
-		/// The ambient color.
+		/// The ambient and diffuse color.
 		/// </value>
-		public Color AmbientColor
+		public Color Color
 		{
-			get {return ambientColor;}
-			set {ambientColor = value;}
+			get {return color;}
+			set {color = value;}
 		}
 
-		protected Color diffuseColor;
+		protected Color specularColor;
 		/// <value>
-		/// The ambient diffuse color.
+		/// The speculat color.
 		/// </value>
-		public Color DiffuseColor
+		public Color SpecularColor
 		{
-			get {return diffuseColor;}
-			set {diffuseColor = value;}
+			get {return specularColor;}
+			set {specularColor = value;}
+		}
+		
+		protected float shininess;
+		/// <value>
+		/// The shininess of the object.
+		/// </value>
+		public float Shininess
+		{
+			get {return shininess;}
+			set {shininess = value;}
 		}
 				
 #endregion
@@ -68,7 +81,9 @@ namespace MonoWorks.Model
 		/// </summary>
 		public virtual void Setup()
 		{
-			
+			gl.glMaterialfv(gl.GL_FRONT_AND_BACK, gl.GL_AMBIENT_AND_DIFFUSE, color.RGBf);
+			gl.glMaterialfv(gl.GL_FRONT_AND_BACK, gl.GL_SPECULAR, specularColor.RGBf);
+			gl.glMaterialf(gl.GL_FRONT_AND_BACK, gl.GL_SHININESS, shininess);
 		}
 		
 #endregion
