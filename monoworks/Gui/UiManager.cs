@@ -270,6 +270,7 @@ namespace MonoWorks.Gui
 			((QMainWindow)parent).AddDockWidget(QDockWidget.DockWidgetArea.RightDockWidgetArea, dockWidget);
 			currentToolbox = new Toolbox(dockWidget);
 			dockWidget.SetWidget(currentToolbox);
+
 			toolboxes[name] = currentToolbox;
 		}
 		

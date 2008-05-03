@@ -1,4 +1,4 @@
-// Toolbox.cs - MonoWorks Project
+// Toolshelf.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -20,36 +20,28 @@ using System;
 
 using Qyoto;
 
-
-
 namespace MonoWorks.Gui
 {
 	
 	/// <summary>
-	/// A toolbox shows a list of shelves, with one visible at a time.
-	/// Each shelve contains an icon view that has tools.
+	/// A toolshelf is contained inside a toolbox. 
+	/// It contains a list of icons representing different tools.
 	/// </summary>
-	public class Toolbox : QToolBox
+	public class Toolshelf : QToolBar
 	{
 
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Toolbox(QWidget parent) : base(parent)
+		/// <param name="parent"> The  <see cref="Toolbox"/> this shelf belongs to. </param>
+		public Toolshelf(Toolbox parent) : base(parent)
 		{
+			this.IconSize = new QSize(48, 48);
+			this.Orientation = Orientation.Vertical;
+			this.SetToolButtonStyle( ToolButtonStyle.ToolButtonTextUnderIcon);
 		}
+				
+ 
 		
-		
-		/// <summary>
-		/// Creates a toolshelf in the toolbox.
-		/// </summary>
-		/// <param name="name"> The name of the shelf. </param>
-		/// <returns> The new <see cref="Toolshelf"/>. </returns>
-		public Toolshelf AddShelf(string name)
-		{
-			Toolshelf shelf = new Toolshelf(this);
-			this.AddItem(shelf, name);
-			return shelf;
-		}
 	}
 }

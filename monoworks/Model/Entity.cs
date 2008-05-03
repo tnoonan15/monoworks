@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Model
 {
 		
@@ -46,6 +48,7 @@ namespace MonoWorks.Model
 			momentos = new List<Momento>();
 			AddMomento();
 			currentMomento = 0;
+			isSelected = false;
 		}
 
 
@@ -317,7 +320,37 @@ namespace MonoWorks.Model
 		{
 			if (dirty)
 				ComputeGeometry();
-//			bounds.Render(viewport);
+			if (isSelected)
+				bounds.Render(viewport);
+		}
+		
+#endregion
+		
+		
+#region Selection
+		
+		protected bool isSelected;
+
+		public bool IsSelected
+		{
+			get {return isSelected;}
+			set {isSelected = value;}
+		}
+		
+#endregion
+		
+		
+#region Hit Test
+		
+		/// <summary>
+		/// Performs a hit test with two vectors lying on a 3D line.
+		/// </summary>
+		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
+		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
+		/// <returns> True if the entity was hit. </returns>
+		public virtual bool HitTest(Vector v1, Vector v2)
+		{
+			return bounds.HitTest(v1, v2);
 		}
 		
 #endregion

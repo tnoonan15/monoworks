@@ -108,7 +108,12 @@ namespace MonoWorks.Gui
 			// initialize the render manager
 			renderManager = new RenderManager();
 			
-			this.SetAttribute(Qt.WidgetAttribute.WA_NoSystemBackground);
+			// initially not picking
+			IsPicking = false;
+			
+			this.Format().SetDoubleBuffer(true);
+			this.Format().SetSampleBuffers(true);
+//			this.SetAttribute(Qt.WidgetAttribute.WA_NoSystemBackground);
 		}
 		
 		
@@ -263,6 +268,17 @@ namespace MonoWorks.Gui
 			get {return renderManager;}
 		}
 		
+		
+		protected bool isPicking;
+		/// <summary>
+		/// If true, the mouse interaction is used for picking objects instead of interactions.
+		/// </summary>
+		public bool IsPicking
+		{
+			get {return isPicking;}
+			set {isPicking = value;}
+		}
+		
 #endregion
 		
 		
@@ -279,30 +295,59 @@ namespace MonoWorks.Gui
 			lastY = evt.Y();
 			
 			// get the mask for this button event
-//			Console.WriteLine("mouse event modifiers: {0}", evt.Modifiers());
 //			int mask = (int)evt.Button() | (int)evt.Modifiers();
 			int mask = (int)evt.Button();
 				
-			// determine if the mask is present in the map
-			if (mouseMap.ContainsKey(mask))
-			{
-				// store the current action
-				mouseAction = mouseMap[mask];
+			if (IsPicking) // if the mouse press should be used to pick objects
+			{	
+				double[] modelViewMatrix = new double[16];
+				double[] projectionMatrix = new double[16];
+				double frontX, frontY, frontZ;
+				double backX, backY, backZ;
 				
-				// set the override cursor
-				if (cursorMap.ContainsKey(mouseAction))
-				{
-					QApplication.SetOverrideCursor(new QCursor(cursorMap[mouseAction]));
-				}
+				gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX, modelViewMatrix);
+				gl.glGetDoublev(gl.GL_PROJECTION_MATRIX, projectionMatrix);
+
+				lastY = Height() - lastY;
 				
-				// special stuff for zooming
-				if (mouseAction==MouseAction.ZOOM)
+				
+				glu.gluUnProject(lastX, lastY, 0.0, modelViewMatrix, projectionMatrix, 
+				                 new int[]{0, 0, Width(), Height()}, out frontX, out frontY, out frontZ);
+				glu.gluUnProject(lastX, lastY, 1.0, modelViewMatrix, projectionMatrix, 
+				                 new int[]{0, 0, Width(), Height()}, out backX, out backY, out backZ);
+				
+//				Console.WriteLine("pick from {0}, {1}, {2} to {3}, {4}, {5}", frontX, frontY, frontZ, backX, backY, backZ);
+				
+				// construct the hit vectors
+				mwb.Vector v1 = new mwb.Vector(frontX, frontY, frontZ);
+				mwb.Vector v2 = new mwb.Vector(backX, backY, backZ);
+				
+				document.HitTest(v1, v2);
+			}				
+			else // the mouse press should be used for interaction
+			{				
+				// determine if the mask is present in the map
+				if (mouseMap.ContainsKey(mask))
 				{
-					rubberBand.StartX = (int)lastX;
-					rubberBand.StartY = (int)lastY;
-					rubberBand.Enabled = true;
+					// store the current action
+					mouseAction = mouseMap[mask];
+					
+					// set the override cursor
+					if (cursorMap.ContainsKey(mouseAction))
+					{
+						QApplication.SetOverrideCursor(new QCursor(cursorMap[mouseAction]));
+					}
+					
+					// special stuff for zooming
+					if (mouseAction==MouseAction.ZOOM)
+					{
+						rubberBand.StartX = (int)lastX;
+						rubberBand.StartY = (int)lastY;
+						rubberBand.Enabled = true;
+					}
 				}
 			}
+					
 			UpdateGL();
 
 		}
@@ -553,6 +598,7 @@ namespace MonoWorks.Gui
 		protected override void ResizeGL(int width, int height)
 		{							
 			camera.Configure();
+			PaintGL();
 		}
 
 		
@@ -641,6 +687,8 @@ namespace MonoWorks.Gui
 			this.RenderText(5, Height()-5, String.Format("{0:f2} fps", frameRate));
 			
 			gl.glFlush();
+			
+			SwapBuffers();
 			
 			// test out the Qt overlay
 //			QPainter painter = new QPainter();

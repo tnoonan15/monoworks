@@ -162,7 +162,7 @@ namespace MonoWorks.Model
 			gl.glLoadIdentity();
 
 			// Calculate The Aspect Ratio Of The Window
-			glu.gluPerspective((float)fov["deg"], (float)width/(float)height, 0.1f, 1000.0f);
+			glu.gluPerspective((float)fov["deg"], (float)width/(float)height, 0.1f, 20.0f);
 		}
 		
 		

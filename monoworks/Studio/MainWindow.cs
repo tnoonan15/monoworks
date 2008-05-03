@@ -181,6 +181,20 @@ namespace MonoWorks.Studio
 #endregion
 		
 		
+#region View
+				
+		/// <summary>
+		/// Opens the render preferences dialog.
+		/// </summary>
+		[Q_SLOT("RenderPreferences()")]
+		public void RenderPreferences()
+		{
+			Console.WriteLine("Render Preferences");
+		}
+		
+#endregion
+		
+		
 #region Sketches
 				
 		/// <summary>

@@ -166,7 +166,7 @@ namespace MonoWorks.Model
 			if (minima != null)
 			{
 	//			Console.WriteLine("bounding box minima: {0}, maxima: {1}", minima, maxima);
-				gl.glLineWidth( 2.0f);
+				gl.glLineWidth( 1.5f);
 				gl.glColor3f(0.0f, 0.0f, 1.0f);
 				gl.glBegin(gl.GL_LINE);
 				
@@ -215,6 +215,81 @@ namespace MonoWorks.Model
 		
 #endregion
 		
+		
+#region Hit Test		
+		
+		protected bool GetIntersection( double fDst1, double fDst2, Vector P1, Vector P2, out Vector Hit)
+		{
+			Hit = null;
+			if ( (fDst1 * fDst2) >= 0.0f)
+				return false;
+			if ( fDst1 == fDst2)
+				return false; 
+			Hit = P1 + (P2-P1) * ( -fDst1/(fDst2-fDst1) );
+			return true;
+		}
+		
+		protected bool InBox( Vector Hit, Vector minima, Vector maxima, int Axis)
+		{
+			if ( Axis==1 && Hit[2] > minima[2] && Hit[2] < maxima[2] && Hit[1] > minima[1] && Hit[1] < maxima[1])
+				return true;
+			if ( Axis==2 && Hit[2] > minima[2] && Hit[2] < maxima[2] && Hit[0] > minima[0] && Hit[0] < maxima[0])
+				return true;
+			if ( Axis==3 && Hit[0] > minima[0] && Hit[0] < maxima[0] && Hit[1] > minima[1] && Hit[1] < maxima[1])
+				return true;
+			return false;
+		}
+		
+		/// <summary>
+		/// Performs a hit test with two vectors lying on a 3D line.
+		/// </summary>
+		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
+		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
+		/// <returns> True if the entity was hit. </returns>
+		public virtual bool HitTest(Vector v1, Vector v2)
+		{
+			Vector Hit;
+
+			// returns true if line (v1, v2) intersects with the box (minima, maxima)
+			// returns intersection point in Hit
+//			int CheckLineBox( Vector minima, Vector maxima, Vector v1, Vector v2, Vector &Hit)
+//			{
+			
+			// check if the line lies entirely outside the box
+			if (v2[0] < minima[0] && v1[0] < minima[0])
+				return false;
+			if (v2[0] > maxima[0] && v1[0] > maxima[0])
+				return false;
+			if (v2[1] < minima[1] && v1[1] < minima[1])
+				return false;
+			if (v2[1] > maxima[1] && v1[1] > maxima[1])
+				return false;
+			if (v2[2] < minima[2] && v1[2] < minima[2])
+				return false;
+			if (v2[2] > maxima[2] && v1[2] > maxima[2])
+				return false;
+			
+			// check if the line lies entirely inside the box
+			if (v1[0] > minima[0] && v1[0] < maxima[0] &&
+			    v1[1] > minima[1] && v1[1] < maxima[1] &&
+			    v1[2] > minima[2] && v1[2] < maxima[2]) 
+			    {Hit = v1; 
+			    return true;}
+			
+			// check if the line intersects any of the individual sides
+			if ( (GetIntersection( v1[0]-minima[0], v2[0]-minima[0], v1, v2, out Hit) && InBox( Hit, minima, maxima, 1 ))
+			  || (GetIntersection( v1[1]-minima[1], v2[1]-minima[1], v1, v2, out Hit) && InBox( Hit, minima, maxima, 2 )) 
+			  || (GetIntersection( v1[2]-minima[2], v2[2]-minima[2], v1, v2, out Hit) && InBox( Hit, minima, maxima, 3 )) 
+			  || (GetIntersection( v1[0]-maxima[0], v2[0]-maxima[0], v1, v2, out Hit) && InBox( Hit, minima, maxima, 1 )) 
+			  || (GetIntersection( v1[1]-maxima[1], v2[1]-maxima[1], v1, v2, out Hit) && InBox( Hit, minima, maxima, 2 )) 
+			  || (GetIntersection( v1[2]-maxima[2], v2[2]-maxima[2], v1, v2, out Hit) && InBox( Hit, minima, maxima, 3 )))
+				return true;
+
+			return false;
+
+		}
+		
+#endregion
 		
 	}
 }

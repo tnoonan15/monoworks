@@ -14,6 +14,9 @@
 		<Action name="Copy" slot="EditCopy()" icon="edit-copy" shortcut="Ctrl+C" statusTip="Copy the current selection to the clipboard"/>
 		<Action name="Paste" slot="EditPaste()" icon="edit-paste" shortcut="Ctrl+V" statusTip="Paste the clipboard"/>
 		
+		<Action name="Render Preferences" slot="RenderPreferences()" icon="render-preferences" statusTip="Rendering preferences"/>
+				
+		
 		<Action name="New Sketch" slot="NewSketch()" icon="add-sketch" statusTip="Create a new sketch"/>
 		<Action name="Edit Sketch" slot="EditSketch()" icon="sketch" statusTip="Edit the selected sketch"/>		
 		<Action name="Line" slot="SketchLine()" icon="line" statusTip="Add a line to the sketch"/>		
@@ -44,6 +47,21 @@
 			<MenuItem action="Copy"/>
 			<MenuItem action="Paste"/>
 		</Menu>
+		<Menu name="View">
+			<MenuItem action="Render Preferences"/>
+		</Menu>
+		<Menu name="Sketch">
+			<MenuItem action="New Sketch"/>
+			<MenuItem action="Edit Sketch"/>
+			<MenuItem action="Line"/>
+			<MenuItem action="Arc"/>
+			<MenuItem action="Spline"/>
+		</Menu>
+		<Menu name="Features">
+			<MenuItem action="Extrusion"/>
+			<MenuItem action="Revolution"/>
+			<MenuItem action="Sweep"/>
+		</Menu>
 	</Menus>
 
 	<Toolbars>
@@ -66,7 +84,7 @@
 		</Toolbar>
 	</Toolbars>
 	
-	<Toolbox name="Entity Toolbox">
+	<Toolbox name="Entity">
 		<Toolshelf name="Sketch">
 			<Tool action="New Sketch"/>
 			<Tool action="Edit Sketch"/>

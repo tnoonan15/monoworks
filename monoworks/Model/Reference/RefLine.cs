@@ -97,8 +97,32 @@ namespace MonoWorks.Model
 #endregion
 		
 		
+#region Geometry
+
+		protected Vector start;
+		
+		protected Vector stop;
+		
+#endregion
+		
+		
 #region Rendering
 
+		/// <summary>
+		/// Computes the line's geometry.
+		/// </summary>
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			double t=4;
+			start = Center.ToVector() - Direction * t;
+			bounds.Resize(start);
+			stop = Center.ToVector() + Direction * t;
+			bounds.Resize(stop);
+		}
+
+		
 		/// <summary>
 		/// Renders the line to the viewport.
 		/// </summary>
@@ -106,16 +130,11 @@ namespace MonoWorks.Model
 		public override void Render (IViewport viewport)
 		{
 			base.Render(viewport);
-			
-			// pick points out of view to render
-			double t = 4;
-			
+						
 			// render the points
 			gl.glBegin(gl.GL_LINE);
-			Vector endPoint = Center.ToVector() + Direction * t;
-			gl.glVertex3d(endPoint[0], endPoint[1], endPoint[2]);
-			endPoint = Center.ToVector() - Direction * t;
-			gl.glVertex3d(endPoint[0], endPoint[1], endPoint[2]); 
+			gl.glVertex3d(start[0], start[1], start[2]);
+			gl.glVertex3d(stop[0], stop[1], stop[2]); 
 			gl.glEnd();
 		}
 
