@@ -20,6 +20,8 @@ using System.Collections.Generic;
 
 using gl = Tao.OpenGl.Gl;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Model
 {
 	
@@ -106,7 +108,7 @@ namespace MonoWorks.Model
 		/// <param name="sketch"> A <see cref="Sketch"/> to add to the document. </param>
 		public void AddSketch(Sketch sketch)
 		{
-			children.Add(sketch);
+			AddChild(sketch);
 		}
 	
 	
@@ -116,7 +118,7 @@ namespace MonoWorks.Model
 		/// <param name="reference"> A <see cref="Reference"/> to add to the document. </param>
 		public void AddReference(Reference reference)
 		{
-			children.Add(reference);
+			AddChild(reference);
 		}
 	
 	
@@ -126,7 +128,7 @@ namespace MonoWorks.Model
 		/// <param name="feature"> A <see cref="Feature"/> to add to the document. </param>
 		public void AddFeature(Feature feature)
 		{
-			children.Add(feature);
+			AddChild(feature);
 		}
 	
 #endregion
@@ -144,16 +146,55 @@ namespace MonoWorks.Model
 			
 			base.Render(viewport);
 			
-//			gl.glShadeModel(gl.GL_SMOOTH);
-				
+			// render the kids
 			foreach (Entity child in children)
 			{
 				child.Render(viewport);
+			}
+			
+			// render the hit line
+			if (hitLine != null)
+			{
+//				gl.glBegin(gl.GL_LINE);
+//				gl.glVertex3d(hitLine[0][0], hitLine[0][1], hitLine[0][2]);
+//				gl.glVertex3d(hitLine[1][0], hitLine[1][1], hitLine[1][2]);
+//				gl.glEnd();
 			}
 		}
 		
 #endregion
 		
+		
+#region Hit Test
+				
+		private Vector[] hitLine;
+		
+		/// <summary>
+		/// Performs a hit test with two vectors lying on a 3D line.
+		/// </summary>
+		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
+		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
+		/// <returns> True if the entity was hit. </returns>
+		public override bool HitTest(Vector v1, Vector v2)
+		{
+			if (base.HitTest(v1, v2)) // only perform hit test on children if it hits the document bounding box
+			{
+				foreach (Entity entity in entityRegistry.Values)
+				{
+					if (entity != this)
+					{
+						entity.IsSelected = entity.HitTest(v1, v2);
+					}
+				}
+			}
+			
+			hitLine = new Vector[]{v1, v2};
+			
+			return false;
+		}
+
+		
+#endregion
 		
 	}
 	

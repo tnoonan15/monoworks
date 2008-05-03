@@ -48,7 +48,7 @@ namespace MonoWorks.Gui
 			solidActions = new Dictionary<SolidMode,QAction>();
 			
 			colorActions = new Dictionary<ColorMode,QAction>(); 
-			
+						
 			CreateActions();
 		}
 		
@@ -146,6 +146,17 @@ namespace MonoWorks.Gui
 			
 			UpdateColorActions();
 			
+
+			this.AddSeparator();
+			
+			
+			pickAction = new QAction(ResourceManager.GetIcon("picking"), "Toggle Picking", this);
+			pickAction.StatusTip = "Toggles between picking and interaction mode";
+			pickAction.Checkable = true;
+			this.AddAction(pickAction);
+			Connect(pickAction, SIGNAL("triggered()"), this, SLOT("TogglePicking()"));
+			
+			
 		}
 		
 
@@ -221,7 +232,7 @@ namespace MonoWorks.Gui
 #endregion
 		
 		
-#region Solid Actions
+#region Color Actions
 		
 		protected Dictionary<ColorMode, QAction> colorActions;
 		
@@ -259,6 +270,24 @@ namespace MonoWorks.Gui
 				else
 					colorActions[(ColorMode)mode].Checked = false;
 			}
+		}
+		
+#endregion
+		
+		
+		
+#region Picking
+		
+		QAction pickAction;
+				
+		/// <summary>
+		/// Toggles picking.
+		/// </summary>
+		[Q_SLOT("TogglePicking()")]
+		public void TogglePicking()
+		{
+			Console.WriteLine("toggle picking");
+			viewport.IsPicking = !viewport.IsPicking;
 		}
 		
 #endregion

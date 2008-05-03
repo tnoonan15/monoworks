@@ -62,5 +62,14 @@ namespace MonoWorks.Model
 		{
 			get;
 		}
+		
+		/// <summary>
+		/// If true, the mouse interaction is used for picking objects instead of interactions.
+		/// </summary>
+		bool IsPicking
+		{
+			get;
+			set;
+		}
 	}
 }

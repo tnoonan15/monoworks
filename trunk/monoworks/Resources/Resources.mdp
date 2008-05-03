@@ -143,5 +143,12 @@
     <File name="icons22/nosolid.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/realistic.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/smooth.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/display.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/preferences-other.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/render-preferences.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/3d.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/preferences-other.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/preferences.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/render-preferences.png" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>
