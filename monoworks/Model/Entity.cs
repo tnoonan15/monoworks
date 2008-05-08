@@ -51,7 +51,13 @@ namespace MonoWorks.Model
 			isSelected = false;
 		}
 
-
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public virtual string TypeName
+		{
+			get {return "entity";}
+		}
 		
 #region The Document
 		
@@ -217,7 +223,7 @@ namespace MonoWorks.Model
 		protected virtual void AddMomento()
 		{
 			Momento momento = new Momento();
-			momento["name"] = "entity";
+			momento["name"] = TypeName;
 			momentos.Add(momento);
 			MakeDirty();
 		}

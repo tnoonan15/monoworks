@@ -54,6 +54,15 @@ namespace MonoWorks.Model
 			Center = center;
 			Direction = direction;
 		}
+		
+
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "refline";}
+		}
 
 		
 #region Momentos

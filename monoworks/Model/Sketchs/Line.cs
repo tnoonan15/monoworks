@@ -49,6 +49,15 @@ namespace MonoWorks.Model
 			Points.Add(p1);
 			Points.Add(p2);
 		}
+		
+
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "line";}
+		}
 	
 
 #region Momentos

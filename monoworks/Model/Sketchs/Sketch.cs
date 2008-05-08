@@ -34,14 +34,23 @@ namespace MonoWorks.Model
 		{
 		}
 		
+
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "sketch";}
+		}
+		
 		
 		/// <summary>
 		/// Adds a child sketchable.
 		/// </summary>
 		/// <param name="sketch"> A <see cref="Sketchable"/> to add as a chid. </param>
-		public virtual void AddChild(Sketchable sketch)
+		public virtual void AddChild(Sketchable sketchable)
 		{
-			children.Add(sketch);
+			AddChild((Entity)sketchable);
 		}
 		
 		/// <value>

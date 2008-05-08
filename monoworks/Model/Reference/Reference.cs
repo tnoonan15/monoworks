@@ -33,6 +33,15 @@ namespace MonoWorks.Model
 		{
 		}
 		
+
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "reference";}
+		}
+		
 		
 		/// <summary>
 		/// Render the reference item.

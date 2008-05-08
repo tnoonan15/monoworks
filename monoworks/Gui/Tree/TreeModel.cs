@@ -57,57 +57,7 @@ namespace MonoWorks.Gui
 		
 
 #region Model Indexing
-
-		/// <summary>
-		/// Gets the entity represented by the given model index.
-		/// </summary>
-		/// <param name="index"> A <see cref="QModelIndex"/> representing an entity. </param>
-		/// <returns>The <see cref="Entity"/> represented by the index. </returns>
-		public Entity GetEntity(QModelIndex index)
-		{
-			long id = ((ModelIndex)index).Id; // get the entity id
-			return document.GetEntity(id);
-			
-//			return indexRegistry[index.GetHashCode()];
-			
-			// create a list of indices that trace back to the document
-//			List<QModelIndex> indices = new List<QModelIndex>();
-//			while (index.Parent().IsValid()) // while the index still has a parent
-//			{
-//				Console.WriteLine("index parent valid: {0}", index.Parent().IsValid());
-//				indices.Add(index);
-//				index = index.Parent();
-//			}
-//			
-//			// traverse the indices to find the entity
-//			Entity theEntity = document;
-//			foreach (QModelIndex ind in indices)
-//				theEntity = theEntity.GetNthChild(ind.Row());
-//			return theEntity;
-		}
-		
-		protected void RegisterIndex(QModelIndex index, Entity entity)
-		{
-//			indexRegistry[index.GetHashCode()] = entity;
-			
-		}
-		
-		
-		/// <summary>
-		/// Generates a dictionary of variants that represent the item.
-		/// </summary>
-		/// <param name="index"> A <see cref="QModelIndex"/>. </param>
-		/// <returns> A <see cref="Dictionary`2"/> containing an entry for each role. </returns>
-//		public override Dictionary<int, QVariant> ItemData (QModelIndex index)
-//		{
-//			Dictionary<int, QVariant> data = base.ItemData(index);
-//			Entity entity = GetEntity(index); // get the associated entity
-//			data[(int)Qt.ItemDataRole.DisplayRole] = entity.Name;
-//			return data;
-//		}
-
-		
-		
+	
 		/// <summary>
 		/// Returns the index for a given position.
 		/// </summary>
@@ -117,14 +67,15 @@ namespace MonoWorks.Gui
 		/// <returns> A <see cref="QModelIndex"/> representing the given position in the model. </returns>
 		public override QModelIndex Index (int row, int column, QModelIndex parent)
 		{
-			Entity entity;
+			// get the parent entity
+			Entity parentEntity;
 			if (parent.IsValid())
-				entity = GetEntity(parent).GetNthChild(row);
+				parentEntity = (Entity)parent.InternalPointer();
 			else
-				entity = document;
-			ModelIndex index = new ModelIndex(CreateIndex(row, column, entity.Id));
-			index.Id = entity.Id;
-			RegisterIndex(index, entity);
+				parentEntity = document;
+			
+			Entity entity = parentEntity.GetNthChild(row);
+			QModelIndex index = CreateIndex(row, column, entity);
 			return index;
 		}
 		
@@ -136,8 +87,12 @@ namespace MonoWorks.Gui
 		/// <returns> The number of children of the parent. </returns>
 		public override int RowCount (QModelIndex parent)
 		{
-			Entity entity = GetEntity(parent);
-			return entity.NumChildren;
+			Entity parentEntity;
+			if (parent.IsValid())
+				parentEntity = (Entity)parent.InternalPointer();
+			else
+				parentEntity = document;
+			return parentEntity.NumChildren;
 		}
 		
 		/// <summary>
@@ -151,16 +106,19 @@ namespace MonoWorks.Gui
 		/// <summary>
 		/// Gets the index of the parent of the given entity.
 		/// </summary>
-		/// <param name="child"> A <see cref="QModelIndex"/> representing an entity. </param>
+		/// <param name="index"> A <see cref="QModelIndex"/> representing an entity. </param>
 		/// <returns> The <see cref="QModelIndex"/> of the parent. </returns>
-		public override QModelIndex Parent(QModelIndex child)
+		public override QModelIndex Parent(QModelIndex index)
 		{			
-			Entity entity = GetEntity(child);
+			if (!index.IsValid())
+				return new QModelIndex();
+
+			Entity entity = (Entity)index.InternalPointer();
+			Entity parent = entity.Parent;
+			if (parent==document)
+				return new QModelIndex();
 			int row = entity.Parent.ChildIndex(entity);
-			ModelIndex index = new ModelIndex(CreateIndex(row, 0, entity.Parent.Id));
-			index.Id = entity.Id;
-			RegisterIndex(index, entity);
-			return index;
+			return CreateIndex(row, 0, parent);
 		}
 
 
@@ -178,8 +136,9 @@ namespace MonoWorks.Gui
 		/// <returns> A <see cref="QVariant"/> representing the data. </returns>
 		public override QVariant Data (QModelIndex index, int role)
 		{
-			Entity entity = GetEntity(index);
-			Dictionary<int, QVariant> data = ItemData(index);
+			if (!index.IsValid())
+				return new QVariant();
+			Entity entity = (Entity)index.InternalPointer();
 			switch (role)
 			{
 			case (int)Qt.ItemDataRole.DisplayRole:
@@ -187,7 +146,7 @@ namespace MonoWorks.Gui
 			case (int)Qt.ItemDataRole.DecorationRole:
 				return ResourceManager.GetIcon("block");
 			default:
-				return data[role];
+				return new QVariant();
 			}
 		}
 

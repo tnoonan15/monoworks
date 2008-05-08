@@ -32,9 +32,9 @@ namespace MonoWorks.Gui
 	{
 		protected QVBoxLayout vbox;
 		protected ViewportToolbar viewportToolbar;
-//		protected TreeModel treeModel;
-//		protected TreeView treeView;
-		protected TreeWidget treeWidget;
+		protected TreeModel treeModel;
+		protected TreeView treeView;
+//		protected TreeWidget treeWidget;
 			
 		/// <summary>
 		/// Default constructor.
@@ -48,13 +48,13 @@ namespace MonoWorks.Gui
 			document = new TestDocument();
 						
 			// create the tree model and view
-//			treeModel = new TreeModel(document);
-//			treeView = new TreeView(this);
-//			treeView.SetModel(treeModel);
-//			this.AddWidget(treeView);
-			treeWidget = new TreeWidget(this, document);
-			treeWidget.SetMaximumSize(150, 1000);
-			this.AddWidget(treeWidget);
+			treeModel = new TreeModel(document);
+			treeView = new TreeView(this);
+			treeView.SetModel(treeModel);
+			this.AddWidget(treeView);
+//			treeWidget = new TreeWidget(this, document);
+//			treeWidget.SetMaximumSize(150, 1000);
+//			this.AddWidget(treeWidget);
 			
 			// create the viewport frame
 			QFrame frame = new QFrame(this);
@@ -91,8 +91,8 @@ namespace MonoWorks.Gui
 			{
 				document = value;
 				viewport.Document = document;
-				treeWidget.Document = document;
-//				treeModel.Document = document;
+//				treeWidget.Document = document;
+				treeModel.Document = document;
 			}
 		}
 

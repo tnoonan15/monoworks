@@ -17,7 +17,7 @@
    version="1.0"
    sodipodi:docname="feature_icons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/home/andy/csharp/MonoWorks/Resources/icons48/sweep.png"
+   inkscape:export-filename="/home/andy/csharp/MonoWorks/Resources/icons48/extrusion.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -217,7 +217,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.020833"
-     inkscape:cx="24"
+     inkscape:cx="11.387523"
      inkscape:cy="24"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
@@ -241,7 +241,7 @@
      inkscape:label="extrusion"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <path
        id="path3235"
@@ -312,15 +312,16 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="sweep"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        id="path9540"
-       style="fill:url(#radialGradient9582);fill-opacity:1;stroke:#0c005a;stroke-width:1.50000000000000000;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
+       style="fill:url(#radialGradient9582);fill-opacity:1;stroke:#0c005a;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
        d="M 10.10102,1.6077016 C 10.036023,1.5822131 9.9803575,1.5630982 9.9139122,1.5434495 C 8.531023,1.1345173 7.1266413,2.1233531 6.7791318,3.7506717 C 6.4316229,5.3779908 7.2719318,7.0306001 8.6301624,7.430597 C 27.679248,13.813454 34.097248,17.949621 32.525369,23.225328 C 31.06301,28.13345 18.419246,30.896032 18.555559,30.918716 L 18.691871,30.941399 L 21.424085,44.637642 C 21.441802,44.637642 43.226587,34.528744 44.116667,24.45691 C 45.006746,14.385077 35.322728,9.1754684 9.9554646,1.5535415"
        sodipodi:nodetypes="csscscccsc" />
     <path
        sodipodi:type="arc"
-       style="fill:url(#linearGradient9564);fill-opacity:1;stroke:#0c005a;stroke-width:1.36592090000000010;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:url(#linearGradient9564);fill-opacity:1;stroke:#0c005a;stroke-width:1.3659209;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path9536"
        sodipodi:cx="23.228733"
        sodipodi:cy="40.015121"
