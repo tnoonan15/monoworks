@@ -17,7 +17,7 @@
       <Entry build="True" name="Resources" configuration="Default" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="Viewer" single="True">
+  <StartMode startupentry="Studio" single="True">
     <Execute type="None" entry="Base" />
     <Execute type="None" entry="Model" />
     <Execute type="None" entry="App" />

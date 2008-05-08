@@ -52,6 +52,15 @@ namespace MonoWorks.Model
 			Normal = normal;
 			Sweep = sweep;
 		}
+		
+
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "arc";}
+		}
 	
 
 #region Momentos

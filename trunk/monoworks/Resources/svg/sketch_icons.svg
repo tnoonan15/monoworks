@@ -18,7 +18,7 @@
    sodipodi:docbase="/home/andy/aavalanche/resources/svg"
    sodipodi:docname="sketch_icons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/home/andy/csharp/MonoWorks/Resources/icons48/spline.png"
+   inkscape:export-filename="/home/andy/csharp/MonoWorks/Resources/icons48/line.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    sodipodi:modified="TRUE"
@@ -151,7 +151,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.020833"
-     inkscape:cx="24"
+     inkscape:cx="11.387523"
      inkscape:cy="24"
      inkscape:document-units="px"
      inkscape:current-layer="layer5"
@@ -193,7 +193,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="line"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -264,7 +264,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="spline"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
        d="M 9.0930549,34.799168 C 3.711977,-16.785544 43.054524,59.835894 38.878751,8.8302399"

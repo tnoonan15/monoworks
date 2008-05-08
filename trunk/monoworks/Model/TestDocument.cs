@@ -52,6 +52,7 @@ namespace MonoWorks.Model
 			
 			/* create the extrusion */
 			Sketch extSketch = new Sketch();			
+			AddSketch(extSketch);
 			
 			// add the line
 			Point p1 = new Point(-1.0, 0.0, -1.0);
@@ -81,6 +82,7 @@ namespace MonoWorks.Model
 		{
 			/* create the revolution */
 			Sketch revolutionSketch = new Sketch();
+			AddSketch(revolutionSketch);
 			
 			// add the line
 			Point p4 = new Point(1.0, 1.5, 0.0);

@@ -41,6 +41,14 @@ namespace MonoWorks.Model
 		{
 		}
 		
+
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "extrusion";}
+		}
 	
 
 #region Momentos

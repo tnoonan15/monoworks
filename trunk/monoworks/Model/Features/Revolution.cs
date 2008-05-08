@@ -41,6 +41,15 @@ namespace MonoWorks.Model
 		}
 		
 
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "revolution";}
+		}
+		
+
 #region Momentos
 				
 		/// <summary>

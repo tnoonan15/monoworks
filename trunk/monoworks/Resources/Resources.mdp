@@ -125,9 +125,7 @@
     <File name="icons48/edit-paste.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/edit-redo.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/edit-undo.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons48/edit.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/sketch.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons48/tool.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/extrusion.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/revolution.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/sweep.png" subtype="Code" buildaction="Nothing" />
@@ -147,8 +145,8 @@
     <File name="icons22/preferences-other.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/render-preferences.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/3d.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons48/preferences-other.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/preferences.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons48/render-preferences.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/picking.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48" subtype="Directory" buildaction="Compile" />
   </Contents>
 </Project>

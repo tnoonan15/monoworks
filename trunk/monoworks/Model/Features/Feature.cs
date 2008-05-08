@@ -53,6 +53,15 @@ namespace MonoWorks.Model
 		{
 			gl.glDeleteLists(displayLists, NumLists);
 		}
+		
+
+		/// <value>
+		/// Name of the type.
+		/// </value>
+		public override string TypeName
+		{
+			get {return "feature";}
+		}
 	
 
 #region Momentos
