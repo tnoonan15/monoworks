@@ -17,8 +17,6 @@
     <File name="ResourceManager.cs" subtype="Code" buildaction="Compile" />
     <File name="UiManager.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree" subtype="Directory" buildaction="Compile" />
-    <File name="Tree/TreeWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="Tree/TreeWidgetItem.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree/TreeModel.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport" subtype="Directory" buildaction="Compile" />
