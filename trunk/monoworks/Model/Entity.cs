@@ -31,7 +31,33 @@ namespace MonoWorks.Model
 	public class Entity
 	{
 		
-		protected static long IdCounter = 0; 
+#region Counting
+
+		/// <summary>
+		/// Counter for the ID given to each new entity.
+		/// </summary>
+		protected static long IdCounter = 0;
+		
+		/// <summary>
+		/// Dictionary of counters used to give unique names to each new entity.
+		/// </summary>
+		protected static Dictionary<string, int> entityCounters = new Dictionary<string,int>();
+		
+		/// <summary>
+		/// Gets the counter for the given entity type.
+		/// </summary>
+		/// <param name="name"> An entity type name. </param>
+		/// <returns> The current count for the given entity. </returns>
+		protected static int GetCount(string name)
+		{
+			if (!entityCounters.ContainsKey(name)) // there isn't already an entry for this type
+				entityCounters[name] = 0;
+			
+			entityCounters[name]++;
+			return entityCounters[name];
+		}
+		
+#endregion
 		
 		/// <summary>
 		/// Default constructor.
@@ -224,7 +250,7 @@ namespace MonoWorks.Model
 		protected virtual void AddMomento()
 		{
 			Momento momento = new Momento();
-			momento["name"] = TypeName;
+			momento["name"] = TypeName + Entity.GetCount(TypeName).ToString();
 			momentos.Add(momento);
 			MakeDirty();
 		}

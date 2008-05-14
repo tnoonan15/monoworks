@@ -32,15 +32,22 @@ namespace MonoWorks.Gui
 	/// </summary>
 	public class TreeModel : QAbstractItemModel
 	{
-			
-//		Dictionary<int, Entity> indexRegistry;
+
+		/// <summary>
+		/// Converts a model index to its associated entity.
+		/// </summary>
+		/// <param name="index"> A <see cref="QModelIndex"/>. </param>
+		/// <returns> The <see cref="Entity"/> associated with the index. </returns>
+		protected static Entity IndexToEntity(QModelIndex index)
+		{
+			return (Entity)index.InternalPointer();
+		}
 		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public TreeModel(Document document) : base()
 		{
-//			indexRegistry = new Dictionary<int,Entity>();
 			this.document = document;
 		}
 		
@@ -70,7 +77,7 @@ namespace MonoWorks.Gui
 			// get the parent entity
 			Entity parentEntity;
 			if (parent.IsValid())
-				parentEntity = (Entity)parent.InternalPointer();
+				parentEntity = IndexToEntity(parent);
 			else
 				parentEntity = document;
 			
@@ -89,7 +96,7 @@ namespace MonoWorks.Gui
 		{
 			Entity parentEntity;
 			if (parent.IsValid())
-				parentEntity = (Entity)parent.InternalPointer();
+				parentEntity = IndexToEntity(parent);
 			else
 				parentEntity = document;
 			return parentEntity.NumChildren;
@@ -113,7 +120,7 @@ namespace MonoWorks.Gui
 			if (!index.IsValid())
 				return new QModelIndex();
 
-			Entity entity = (Entity)index.InternalPointer();
+			Entity entity = IndexToEntity(index);
 			Entity parent = entity.Parent;
 			if (parent==document)
 				return new QModelIndex();
@@ -138,13 +145,13 @@ namespace MonoWorks.Gui
 		{
 			if (!index.IsValid())
 				return new QVariant();
-			Entity entity = (Entity)index.InternalPointer();
+			Entity entity = IndexToEntity(index);
 			switch (role)
 			{
 			case (int)Qt.ItemDataRole.DisplayRole:
 				return entity.Name;
 			case (int)Qt.ItemDataRole.DecorationRole:
-				return ResourceManager.GetIcon("block");
+				return ResourceManager.GetIcon(entity.TypeName);
 			default:
 				return new QVariant();
 			}
