@@ -92,7 +92,7 @@ namespace MonoWorks.Model
 			set
 			{
 				CurrentMomento["center"] = value;
-				ComputeGeometry();
+				MakeDirty();
 			}
 		}
 
@@ -105,7 +105,7 @@ namespace MonoWorks.Model
 			set
 			{
 				CurrentMomento["start"] = value;
-				ComputeGeometry();
+				MakeDirty();
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace MonoWorks.Model
 			set
 			{
 				CurrentMomento["normal"] = value;
-				ComputeGeometry();
+				MakeDirty();
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace MonoWorks.Model
 			set
 			{
 				CurrentMomento["sweep"] = value;
-				ComputeGeometry();
+				MakeDirty();
 			}
 		}
 			
@@ -146,6 +146,8 @@ namespace MonoWorks.Model
 		/// </summary>
 		public override void ComputeGeometry()
 		{
+			base.ComputeGeometry();
+			
 			int N = 24; // temporary number of divisions
 			Vector centerVec = Center.ToVector();
 			Vector radius = (Start-Center).ToVector();

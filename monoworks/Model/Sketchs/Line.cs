@@ -95,6 +95,8 @@ namespace MonoWorks.Model
 		/// </summary>
 		public override void ComputeGeometry()
 		{
+			base.ComputeGeometry();
+			
 			solidPoints = new Vector[Points.Count];
 			directions = new Vector[Points.Count];
 			for (int i=0; i<Points.Count; i++)
