@@ -123,6 +123,7 @@ namespace MonoWorks.Model
 			child.SetDocument(GetDocument());
 			RegisterEntity(child);
 			child.parent = this;
+			MakeDirty();
 		}
 		
 		/// <summary>
@@ -198,8 +199,8 @@ namespace MonoWorks.Model
 		/// <param name="child"> A <see cref="Entity"/> that's a child and dependency. </param>
 		protected virtual void AddDependantChild(Entity child)
 		{
-			children.Add(child);
-			dependencies.Add(child);
+			AddChild(child);
+			AddDependency(child);
 		}
 		
 #endregion
@@ -309,10 +310,13 @@ namespace MonoWorks.Model
 			
 			dirty = false;
 			
+			// update the children's geometry and resize the bounds
+			Console.WriteLine("updating entity geometry");
 			foreach (Entity child in children)
 			{
 				child.ComputeGeometry();
 				bounds.Resize(child.Bounds);
+				Console.WriteLine("child bounds {0}", child.Bounds);
 			}
 		}
 		
@@ -336,7 +340,9 @@ namespace MonoWorks.Model
 #region Selection
 		
 		protected bool isSelected;
-
+		/// <value>
+		/// Whether the entity is selected.
+		/// </value>
 		public bool IsSelected
 		{
 			get {return isSelected;}

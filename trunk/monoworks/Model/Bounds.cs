@@ -88,6 +88,16 @@ namespace MonoWorks.Model
 			}
 		}		
 		
+		/// <summary>
+		/// Returns a string representing the bounds.
+		/// </summary>
+		/// <returns> A string saying the minima and maxima. </returns>
+		public override string ToString ()
+		{
+			return String.Format("from {0} to {1}", minima, maxima);
+		}
+
+		
 #endregion
 		
 		
@@ -165,7 +175,7 @@ namespace MonoWorks.Model
 		{
 			if (minima != null)
 			{
-	//			Console.WriteLine("bounding box minima: {0}, maxima: {1}", minima, maxima);
+				Console.WriteLine("bounding box minima: {0}, maxima: {1}", minima, maxima);
 				gl.glLineWidth( 1.5f);
 				gl.glColor3f(0.0f, 0.0f, 1.0f);
 				gl.glBegin(gl.GL_LINE);

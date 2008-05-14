@@ -137,6 +137,15 @@ namespace MonoWorks.Model
 #region Rendering
 		
 		/// <summary>
+		/// Computes the geometry of the document.
+		/// </summary>
+		public override void ComputeGeometry()
+		{
+			Console.WriteLine("recomputing document bounds.");
+			base.ComputeGeometry();
+		}
+		
+		/// <summary>
 		/// Renders the document to the given viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
@@ -155,10 +164,10 @@ namespace MonoWorks.Model
 			// render the hit line
 			if (hitLine != null)
 			{
-//				gl.glBegin(gl.GL_LINE);
-//				gl.glVertex3d(hitLine[0][0], hitLine[0][1], hitLine[0][2]);
-//				gl.glVertex3d(hitLine[1][0], hitLine[1][1], hitLine[1][2]);
-//				gl.glEnd();
+				gl.glBegin(gl.GL_LINE);
+				gl.glVertex3d(hitLine[0][0], hitLine[0][1], hitLine[0][2]);
+				gl.glVertex3d(hitLine[1][0], hitLine[1][1], hitLine[1][2]);
+				gl.glEnd();
 			}
 		}
 		
@@ -177,12 +186,15 @@ namespace MonoWorks.Model
 		/// <returns> True if the entity was hit. </returns>
 		public override bool HitTest(Vector v1, Vector v2)
 		{
+			Console.WriteLine("attempting hit test {0}", base.HitTest(v1, v2));
+			Console.WriteLine("document bounds: {0}", bounds);
 			if (base.HitTest(v1, v2)) // only perform hit test on children if it hits the document bounding box
 			{
 				foreach (Entity entity in entityRegistry.Values)
 				{
 					if (entity != this)
 					{
+						Console.WriteLine("hitting entity {0}: {1}", entity.Name, entity.HitTest(v1, v2));
 						entity.IsSelected = entity.HitTest(v1, v2);
 					}
 				}

@@ -148,5 +148,11 @@
     <File name="icons48/preferences.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/picking.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48" subtype="Directory" buildaction="Compile" />
+    <File name="icons48/document-new.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/document-open.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/document-properties.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/document-save-all.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/document-save-as.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/document-save.png" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>
