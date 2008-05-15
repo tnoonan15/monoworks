@@ -46,6 +46,8 @@ namespace MonoWorks.Model
 			
 			DocCounter++;
 			Name = String.Format("document{0}", DocCounter);
+			
+			selected = new List<Entity>();
 		}
 		
 		
@@ -141,7 +143,6 @@ namespace MonoWorks.Model
 		/// </summary>
 		public override void ComputeGeometry()
 		{
-			Console.WriteLine("recomputing document bounds.");
 			base.ComputeGeometry();
 		}
 		
@@ -186,25 +187,44 @@ namespace MonoWorks.Model
 		/// <returns> True if the entity was hit. </returns>
 		public override bool HitTest(Vector v1, Vector v2)
 		{
-			Console.WriteLine("attempting hit test {0}", base.HitTest(v1, v2));
-			Console.WriteLine("document bounds: {0}", bounds);
+			selected.Clear();
+			bool somethingChanged = false;
 			if (base.HitTest(v1, v2)) // only perform hit test on children if it hits the document bounding box
 			{
 				foreach (Entity entity in entityRegistry.Values)
 				{
 					if (entity != this)
 					{
-						Console.WriteLine("hitting entity {0}: {1}", entity.Name, entity.HitTest(v1, v2));
-						entity.IsSelected = entity.HitTest(v1, v2);
+						bool hit = entity.HitTest(v1, v2);
+						if (hit != entity.IsSelected)
+						{
+							entity.IsSelected = hit;
+							somethingChanged = true;
+							if (entity.IsSelected)
+								selected.Add(entity);
+						}
 					}
 				}
 			}
 			
 			hitLine = new Vector[]{v1, v2};
 			
-			return false;
+			return somethingChanged;
 		}
+		
+#endregion
+		
+		
+#region Selection
 
+		protected List<Entity> selected;
+		/// <value>
+		/// The list of selected entities.
+		/// </value>
+		public List<Entity> Selected
+		{
+			get {return selected;}
+		}
 		
 #endregion
 		

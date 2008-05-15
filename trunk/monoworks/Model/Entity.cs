@@ -337,12 +337,10 @@ namespace MonoWorks.Model
 			dirty = false;
 			
 			// update the children's geometry and resize the bounds
-			Console.WriteLine("updating entity geometry");
 			foreach (Entity child in children)
 			{
 				child.ComputeGeometry();
 				bounds.Resize(child.Bounds);
-				Console.WriteLine("child bounds {0}", child.Bounds);
 			}
 		}
 		
