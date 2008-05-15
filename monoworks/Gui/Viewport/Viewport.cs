@@ -56,6 +56,16 @@ namespace MonoWorks.Gui
 	
 	
 	/// <summary>
+	/// Custom signals for the viewport.
+	/// </summary>
+	public interface IViewportSignals
+	{
+		[Q_SIGNAL]
+		void SelectionChanged();
+	}
+	
+	
+	/// <summary>
 	/// The Viewport class represents a viewable area for rendering models,
 	/// </summary>
 	public class Viewport : QGLWidget, IViewport
@@ -126,6 +136,13 @@ namespace MonoWorks.Gui
 			this.document = document;
 		}
 		
+		/// <value>
+		/// Emits custom signals.
+		/// </value>
+		protected new IViewportSignals Emit
+		{ 
+			get { return (IViewportSignals)Q_EMIT; }
+		}
 		
 #region Document
 		
@@ -147,9 +164,6 @@ namespace MonoWorks.Gui
 		
 #region Attributes
 		
-		/// <value>
-		/// The camera.
-		/// </value>
 		protected Camera camera;
 		/// <value>
 		/// Accesses the viewport camera.
@@ -160,10 +174,6 @@ namespace MonoWorks.Gui
 			set {camera = value;}
 		}
 		
-
-		/// <value>
-		/// The current mouse interaction action.
-		/// </value>
 		protected MouseAction mouseAction;
 		/// <value>
 		/// The current mouse interaction action.
@@ -179,9 +189,6 @@ namespace MonoWorks.Gui
 		protected CursorMap cursorMap;
 		
 		
-		/// <value>
-		/// Maps mouse event masks to interaction actions.
-		/// </value>
 		protected MouseMap mouseMap;
 		/// <value>
 		/// Maps mouse event masks to interaction actions.
@@ -191,10 +198,6 @@ namespace MonoWorks.Gui
 			get {return mouseMap;}
 		}
 		
-		
-		/// <value>
-		/// Maps scroll event masks to interaction actions.
-		/// </value>
 		protected ScrollMap scrollMap;
 		/// <value>
 		/// Maps scroll event masks to interaction actions.
@@ -204,9 +207,6 @@ namespace MonoWorks.Gui
 			get {return scrollMap;}
 		}
 		
-		/// <value>
-		/// Last x position.
-		/// </value>
 		protected double lastX;
 		/// <value>
 		/// The x value of the last mouse position.
@@ -216,9 +216,6 @@ namespace MonoWorks.Gui
 			get {return lastX;}
 		}
 		
-		/// <value>
-		/// Last y position.
-		/// </value>
 		protected double lastY;
 		/// <value>
 		/// The y value of the last mouse position.
@@ -228,11 +225,7 @@ namespace MonoWorks.Gui
 			get {return lastY;}
 		}
 		
-		
-		/// <value>
-		/// Current x position.
-		/// </value>
-		protected double currentX;
+		double currentX;
 		/// <value>
 		/// The x value of the current mouse position.
 		/// </value>
@@ -241,9 +234,6 @@ namespace MonoWorks.Gui
 			get {return currentX;}
 		}
 		
-		/// <value>
-		/// Current y position.
-		/// </value>
 		protected double currentY;
 		/// <value>
 		/// The y value of the current mouse position.
@@ -322,7 +312,8 @@ namespace MonoWorks.Gui
 				mwb.Vector v1 = new mwb.Vector(frontX, frontY, frontZ);
 				mwb.Vector v2 = new mwb.Vector(backX, backY, backZ);
 				
-				document.HitTest(v1, v2);
+				if (document.HitTest(v1, v2))
+					this.Emit.SelectionChanged();
 			}				
 			else // the mouse press should be used for interaction
 			{				
@@ -702,6 +693,7 @@ namespace MonoWorks.Gui
 		/// Paint to the current context.
 		/// Calls UpdateGL().
 		/// </summary>
+		[Q_SLOT]
 		public void Paint()
 		{
 			UpdateGL();

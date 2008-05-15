@@ -52,9 +52,6 @@ namespace MonoWorks.Gui
 			treeView = new TreeView(this);
 			treeView.SetModel(treeModel);
 			this.AddWidget(treeView);
-//			treeWidget = new TreeWidget(this, document);
-//			treeWidget.SetMaximumSize(150, 1000);
-//			this.AddWidget(treeWidget);
 			
 			// create the viewport frame
 			QFrame frame = new QFrame(this);
@@ -69,6 +66,10 @@ namespace MonoWorks.Gui
 			viewportToolbar = new ViewportToolbar(frame, viewport);
 			vbox.AddWidget(viewportToolbar);
 			vbox.AddWidget(viewport);
+			
+			// connect the tree view with the viewport
+			Connect(treeView, SIGNAL("PaintViewport()"), viewport, SLOT("Paint()"));
+			Connect(viewport, SIGNAL("SelectionChanged()"), treeView, SLOT("OnExternalSelectionChanged()"));
 						
 		}
 				

@@ -26,6 +26,7 @@ using MonoWorks.Model;
 namespace MonoWorks.Gui
 {
 	
+	
 	/// <summary>
 	/// The TreeModel implements the QAbtractItemModel interface for a document.
 	/// It is used by the TreeView to provide a tree representation of the document.
@@ -38,10 +39,11 @@ namespace MonoWorks.Gui
 		/// </summary>
 		/// <param name="index"> A <see cref="QModelIndex"/>. </param>
 		/// <returns> The <see cref="Entity"/> associated with the index. </returns>
-		protected static Entity IndexToEntity(QModelIndex index)
+		public static Entity IndexToEntity(QModelIndex index)
 		{
 			return (Entity)index.InternalPointer();
 		}
+		
 		
 		/// <summary>
 		/// Default constructor.
@@ -62,7 +64,7 @@ namespace MonoWorks.Gui
 			set {document = value;}
 		}
 		
-
+		
 #region Model Indexing
 	
 		/// <summary>
@@ -72,7 +74,7 @@ namespace MonoWorks.Gui
 		/// <param name="column"> The column number. </param>
 		/// <param name="parent"> The parent <see cref="QModelIndex"/>. </param>
 		/// <returns> A <see cref="QModelIndex"/> representing the given position in the model. </returns>
-		public override QModelIndex Index (int row, int column, QModelIndex parent)
+		public override QModelIndex Index(int row, int column, QModelIndex parent)
 		{
 			// get the parent entity
 			Entity parentEntity;
@@ -92,7 +94,7 @@ namespace MonoWorks.Gui
 		/// </summary>
 		/// <param name="parent"> A <see cref="QModelIndex"/> representing the entity parent. </param>
 		/// <returns> The number of children of the parent. </returns>
-		public override int RowCount (QModelIndex parent)
+		public override int RowCount(QModelIndex parent)
 		{
 			Entity parentEntity;
 			if (parent.IsValid())
@@ -105,7 +107,7 @@ namespace MonoWorks.Gui
 		/// <summary>
 		/// Returns the number of columns (always 1).
 		/// </summary>
-		public override int ColumnCount (QModelIndex parent)
+		public override int ColumnCount(QModelIndex parent)
 		{
 			return 1;
 		}
@@ -128,6 +130,17 @@ namespace MonoWorks.Gui
 			return CreateIndex(row, 0, parent);
 		}
 
+		
+		/// <summary>
+		/// Creates an index for the given entity.
+		/// </summary>
+		/// <param name="entity"> A <see cref="Entity"/>. </param>
+		/// <returns> A <see cref="QModelIndex"/> representing the entity. </returns>
+		public QModelIndex GetIndex(Entity entity)
+		{
+			int row = entity.Parent.ChildIndex(entity);
+			return CreateIndex(row, 0, entity);
+		}
 
 		
 #endregion

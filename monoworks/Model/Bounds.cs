@@ -175,7 +175,6 @@ namespace MonoWorks.Model
 		{
 			if (minima != null)
 			{
-				Console.WriteLine("bounding box minima: {0}, maxima: {1}", minima, maxima);
 				gl.glLineWidth( 1.5f);
 				gl.glColor3f(0.0f, 0.0f, 1.0f);
 				gl.glBegin(gl.GL_LINE);
