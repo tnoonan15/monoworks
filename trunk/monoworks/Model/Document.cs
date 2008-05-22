@@ -83,7 +83,8 @@ namespace MonoWorks.Model
 		/// <param name="entity"> A <see cref="Entity"/> to add to the document. </param>
 		protected override void RegisterEntity(Entity entity)
 		{
-			entityRegistry[entity.Id] = entity;
+			if (!entityRegistry.ContainsKey(entity.Id))
+				entityRegistry[entity.Id] = entity;
 		}
 		
 		/// <summary>
@@ -165,10 +166,10 @@ namespace MonoWorks.Model
 			// render the hit line
 			if (hitLine != null)
 			{
-				gl.glBegin(gl.GL_LINE);
-				gl.glVertex3d(hitLine[0][0], hitLine[0][1], hitLine[0][2]);
-				gl.glVertex3d(hitLine[1][0], hitLine[1][1], hitLine[1][2]);
-				gl.glEnd();
+//				gl.glBegin(gl.GL_LINE);
+//				gl.glVertex3d(hitLine[0][0], hitLine[0][1], hitLine[0][2]);
+//				gl.glVertex3d(hitLine[1][0], hitLine[1][1], hitLine[1][2]);
+//				gl.glEnd();
 			}
 		}
 		
@@ -187,6 +188,7 @@ namespace MonoWorks.Model
 		/// <returns> True if the entity was hit. </returns>
 		public override bool HitTest(Vector v1, Vector v2)
 		{
+			lastSelected = null;
 			selected.Clear();
 			bool somethingChanged = false;
 			if (base.HitTest(v1, v2)) // only perform hit test on children if it hits the document bounding box
@@ -203,6 +205,8 @@ namespace MonoWorks.Model
 							if (entity.IsSelected)
 								selected.Add(entity);
 						}
+						if (entity.IsSelected)
+							lastSelected = entity;
 					}
 				}
 			}
@@ -224,6 +228,24 @@ namespace MonoWorks.Model
 		public List<Entity> Selected
 		{
 			get {return selected;}
+		}
+		
+		/// <summary>
+		/// Deselects all children.
+		/// </summary>
+		public void DeselectAll()
+		{
+			foreach (Entity child in selected)
+				child.IsSelected = false;
+		}
+		
+		protected Entity lastSelected;
+		/// <value>
+		/// The entity that was last selected.
+		/// </value>
+		public Entity LastSelected
+		{
+			get {return lastSelected;}
 		}
 		
 #endregion

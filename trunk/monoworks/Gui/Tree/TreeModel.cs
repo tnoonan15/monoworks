@@ -41,7 +41,10 @@ namespace MonoWorks.Gui
 		/// <returns> The <see cref="Entity"/> associated with the index. </returns>
 		public static Entity IndexToEntity(QModelIndex index)
 		{
-			return (Entity)index.InternalPointer();
+//			Console.WriteLine("begin index to entity");
+			Entity entity = (Entity)index.InternalPointer();
+//			Console.WriteLine("entity name {0}", entity.Name);
+			return entity;
 		}
 		
 		
@@ -76,15 +79,22 @@ namespace MonoWorks.Gui
 		/// <returns> A <see cref="QModelIndex"/> representing the given position in the model. </returns>
 		public override QModelIndex Index(int row, int column, QModelIndex parent)
 		{
+//			Console.WriteLine("begin index");
 			// get the parent entity
 			Entity parentEntity;
 			if (parent.IsValid())
+			{
 				parentEntity = IndexToEntity(parent);
+			}
 			else
+			{
+//				Console.WriteLine("invalid parent");
 				parentEntity = document;
+			}
 			
 			Entity entity = parentEntity.GetNthChild(row);
 			QModelIndex index = CreateIndex(row, column, entity);
+//			Console.WriteLine("end index");
 			return index;
 		}
 		
@@ -96,11 +106,18 @@ namespace MonoWorks.Gui
 		/// <returns> The number of children of the parent. </returns>
 		public override int RowCount(QModelIndex parent)
 		{
+//			Console.WriteLine("begin row count");
 			Entity parentEntity;
 			if (parent.IsValid())
+			{
 				parentEntity = IndexToEntity(parent);
+			}
 			else
+			{
+//				Console.WriteLine("parent is document");
 				parentEntity = document;
+			}
+//			Console.WriteLine("{0} rows", parentEntity.NumChildren);
 			return parentEntity.NumChildren;
 		}
 		
@@ -118,16 +135,25 @@ namespace MonoWorks.Gui
 		/// <param name="index"> A <see cref="QModelIndex"/> representing an entity. </param>
 		/// <returns> The <see cref="QModelIndex"/> of the parent. </returns>
 		public override QModelIndex Parent(QModelIndex index)
-		{			
+		{
+//			Console.WriteLine("begin parent");
 			if (!index.IsValid())
+			{
+//				Console.WriteLine("invalid index");
 				return new QModelIndex();
+			}
 
 			Entity entity = IndexToEntity(index);
 			Entity parent = entity.Parent;
 			if (parent==document)
+			{
+//				Console.WriteLine("parent is document");
 				return new QModelIndex();
+			}
 			int row = entity.Parent.ChildIndex(entity);
-			return CreateIndex(row, 0, parent);
+			QModelIndex parentIndex =CreateIndex(row, 0, parent);
+//			Console.WriteLine("end parent");
+			return parentIndex;
 		}
 
 		
@@ -138,8 +164,11 @@ namespace MonoWorks.Gui
 		/// <returns> A <see cref="QModelIndex"/> representing the entity. </returns>
 		public QModelIndex GetIndex(Entity entity)
 		{
+//			Console.WriteLine("begin get index");
 			int row = entity.Parent.ChildIndex(entity);
-			return CreateIndex(row, 0, entity);
+			QModelIndex index = CreateIndex(row, 0, entity);
+//			Console.WriteLine("end get index");
+			return index;
 		}
 
 		
@@ -147,6 +176,15 @@ namespace MonoWorks.Gui
 		
 		
 #region Data Access
+		
+	
+		public override QVariant HeaderData(int section, Qt.Orientation orientation, int role)
+		{
+			if (orientation == Qt.Orientation.Horizontal && role == (int) Qt.ItemDataRole.DisplayRole)
+				return document.Name;
+			
+			return new QVariant();
+		}
 		
 		/// <summary>
 		/// Accesses the data for the given model index.
@@ -156,16 +194,20 @@ namespace MonoWorks.Gui
 		/// <returns> A <see cref="QVariant"/> representing the data. </returns>
 		public override QVariant Data (QModelIndex index, int role)
 		{
+//			Console.WriteLine("begin data");
 			if (!index.IsValid())
 				return new QVariant();
 			Entity entity = IndexToEntity(index);
 			switch (role)
 			{
 			case (int)Qt.ItemDataRole.DisplayRole:
+//				Console.WriteLine("entity name: {0}", entity.Name);
 				return entity.Name;
 			case (int)Qt.ItemDataRole.DecorationRole:
+//				Console.WriteLine("entity decoration");
 				return ResourceManager.GetIcon(entity.TypeName);
 			default:
+//				Console.WriteLine("other role");
 				return new QVariant();
 			}
 		}

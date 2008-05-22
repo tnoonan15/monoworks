@@ -26,6 +26,10 @@
     <File name="Toolbox" subtype="Directory" buildaction="Compile" />
     <File name="Toolbox/Toolbox.cs" subtype="Code" buildaction="Compile" />
     <File name="Toolbox/Toolshelf.cs" subtype="Code" buildaction="Compile" />
+    <File name="EntityMenu.cs" subtype="Code" buildaction="Compile" />
+    <File name="DocumentMenu.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport/ViewportMenu.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree/TreeMenu.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />
