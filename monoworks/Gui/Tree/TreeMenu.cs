@@ -1,6 +1,6 @@
-// Main.cs - MonoWorks Project
+// TreeMenu.cs - ScratchNotes
 //
-// Copyright Andy Selvig 2008
+// Copyright (C) 2008 Andy Selvig
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,31 +17,26 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Collections.Generic;
 
 using Qyoto;
 
 using MonoWorks.Model;
-using mwb = MonoWorks.Base;
-using MonoWorks.Gui;
 
-namespace MonoWorks.Viewer
-{	
-	/// <summary>
-	/// Entrypoint for the MonoWorks Viewer.
-	/// </summary>
-	class Viewer
-	{	
-		public static int Main(String[] args)
-		{
-						
-				new QApplication(args);
-				DocFrame frame = new DocFrame();
-				frame.SetWindowTitle("MonoWorks Viewer");
-				frame.Size = new QSize(900,700);
-//			frame.Treeview.ExpandAll();
-				frame.Show();
-				return QApplication.Exec();
-		    }
-	}
+namespace MonoWorks.Gui
+{
 	
+	/// <summary>
+	/// The TreeMenu is a context menu that acts on the tree when no entity is selected.
+	/// </summary>
+	public class TreeMenu : DocumentMenu
+	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		/// <param name="viewport"> The <see cref="Viewport"/>. </param>
+		public TreeMenu(TreeView treeView, Document document) : base(treeView, document)
+		{
+		}
+	}
 }

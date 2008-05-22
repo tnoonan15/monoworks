@@ -49,6 +49,7 @@ namespace MonoWorks.Gui
 		public TreeView(QWidget parent) : base(parent)
 		{
 			this.selectionMode = SelectionMode.ExtendedSelection;
+			this.UniformRowHeights = true;
 		}
 	
 		
@@ -59,7 +60,6 @@ namespace MonoWorks.Gui
 		{ 
 			get { return (ITreeSignals)Q_EMIT; }
 		}
-
 
 		
 #region Selection
@@ -100,6 +100,43 @@ namespace MonoWorks.Gui
 			}
 		}
 
+				
+#endregion
+		
+		
+#region Context Menu
+		
+		/// <summary>
+		/// Handles mouse press events.
+		/// </summary>
+		/// <param name="evt"> A <see cref="QMouseEvent"/>. </param>
+		protected override void MousePressEvent(QMouseEvent evt)
+		{
+			base.MousePressEvent(evt);
+			
+			if (evt.Button() == MouseButton.RightButton)
+			{
+				// get the point to create the menu at
+				QPoint globalPoint = MapToGlobal(evt.Pos());
+				globalPoint.SetY(globalPoint.Y() + 25); // TOTAL HACK
+				
+				// get the currently selected entity
+				QModelIndex index = this.SelectionModel().CurrentIndex();
+				if (index.IsValid()) // something is selected
+				{
+					Entity entity = TreeModel.IndexToEntity(index);
+					
+					Console.WriteLine("right click at {0}, {1} ({2}, {3})", evt.Pos().X(), evt.Pos().Y(), globalPoint.X(), globalPoint.Y());
+					EntityMenu menu = new EntityMenu(this, entity);
+					menu.Popup(globalPoint);
+				}
+				else // nothing is selected
+				{
+					TreeMenu menu = new TreeMenu(this, ((TreeModel)Model()).Document);
+					menu.Popup(globalPoint);
+				}
+			}
+		}
 				
 #endregion
 

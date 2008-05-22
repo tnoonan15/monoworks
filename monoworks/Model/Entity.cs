@@ -156,7 +156,7 @@ namespace MonoWorks.Model
 		/// Removes the child from the entity's children list.
 		/// </summary>
 		/// <param name="child"> The <see cref="Entity"/> to remove. </param>
-		protected virtual void RemoveChild(Entity child)
+		public virtual void RemoveChild(Entity child)
 		{
 			children.Remove(child);
 		}

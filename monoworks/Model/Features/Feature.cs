@@ -39,6 +39,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public Feature(Sketch sketch) : base()
 		{
+			this.document = sketch.GetDocument();
 			this.Sketch = sketch;
 			
 			// initialize the display lists
@@ -52,8 +53,7 @@ namespace MonoWorks.Model
 		~Feature()
 		{
 			gl.glDeleteLists(displayLists, NumLists);
-		}
-		
+		}		
 
 		/// <value>
 		/// Name of the type.
@@ -63,6 +63,7 @@ namespace MonoWorks.Model
 			get {return "feature";}
 		}
 	
+		
 
 #region Momentos
 				
@@ -73,7 +74,7 @@ namespace MonoWorks.Model
 		{
 			base.AddMomento();
 			Momento momento = momentos[momentos.Count-1];
-			momento["sketch"] = new Sketch();
+			momento["sketch"] = null;
 			momento["material"] = new Material();
 			momento["cartoonColor"] = new Color();
 		}
@@ -84,7 +85,16 @@ namespace MonoWorks.Model
 		public Sketch Sketch
 		{
 			get {return (Sketch)CurrentMomento["sketch"];}
-			set {CurrentMomento["sketch"] = value;}
+			set
+			{
+				// remove the old sketch if there was one
+//				if (Sketch != null)
+//					RemoveChild(Sketch);
+				CurrentMomento["sketch"] = value;
+				// assign the sketch as a child of this feature
+				value.Parent.RemoveChild(value);
+				AddChild(value);
+			}
 		}
 
 		/// <value>
@@ -133,20 +143,7 @@ namespace MonoWorks.Model
 		
 #endregion
 		
-		
-#region Normals
-
-		/// <summary>
-		/// Sets the OpenGL normal vector for a quadrilateral defined by the given corners.
-		/// </summary>
-		protected static void QuadNormal(Vector c1, Vector c2, Vector c3, Vector c4)
-		{
 			
-		}
-		
-#endregion
-		
-		
 		
 #region Rendering
 

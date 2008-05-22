@@ -33,7 +33,6 @@ namespace MonoWorks.Gui
 		protected QVBoxLayout vbox;
 		protected ViewportToolbar viewportToolbar;
 		protected TreeModel treeModel;
-		protected TreeView treeView;
 //		protected TreeWidget treeWidget;
 			
 		/// <summary>
@@ -59,7 +58,7 @@ namespace MonoWorks.Gui
 			vbox = new QVBoxLayout(frame);
 			frame.SetLayout(vbox);		
 			
-			this.SetStretchFactor(0, 0);
+//			this.SetStretchFactor(0, 0);
 			
 			// add the viewport and toolbar
 			viewport = new Viewport(document);
@@ -106,6 +105,16 @@ namespace MonoWorks.Gui
 			get {return viewport;}
 		}
 		
+		
+		protected TreeView treeView;
+		/// <value>
+		/// The tree view widget.
+		/// </value>
+		public TreeView Treeview
+		{
+			get {return treeView;}
+			set {treeView = value;}
+		}
 		
 	}
 }

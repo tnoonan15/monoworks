@@ -87,6 +87,7 @@ namespace MonoWorks.Model
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
 		public override void Render(IViewport viewport)
 		{
+			base.Render(viewport);
 			foreach (Sketchable child in children)
 			{
 				child.Render(viewport);

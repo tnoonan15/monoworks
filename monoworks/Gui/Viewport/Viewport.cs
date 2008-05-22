@@ -312,8 +312,28 @@ namespace MonoWorks.Gui
 				mwb.Vector v1 = new mwb.Vector(frontX, frontY, frontZ);
 				mwb.Vector v2 = new mwb.Vector(backX, backY, backZ);
 				
+				// perform the hit test
 				if (document.HitTest(v1, v2))
 					this.Emit.SelectionChanged();
+
+				Console.WriteLine("viewport hit");
+				
+				// if it was a right click, create a context menu
+				if (evt.Button() == MouseButton.RightButton)
+				{
+					if (document.LastSelected == null) // nothing was selected
+					{
+						Console.WriteLine("nothing selected");
+						ViewportMenu menu = new ViewportMenu(this);
+						menu.Popup(MapToGlobal(evt.Pos()));
+					}
+					else // something was selected
+					{
+						Console.WriteLine("{0} selected", document.LastSelected.Name);
+						EntityMenu menu = new EntityMenu(this, document.LastSelected);
+						menu.Popup(MapToGlobal(evt.Pos()));
+					}
+				}
 			}				
 			else // the mouse press should be used for interaction
 			{				
