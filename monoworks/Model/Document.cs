@@ -48,6 +48,10 @@ namespace MonoWorks.Model
 			Name = String.Format("document{0}", DocCounter);
 			
 			selected = new List<Entity>();
+			
+			// initialize actions
+			currentAction = -1;
+			actionList = new List<Action>();
 		}
 		
 		
@@ -102,6 +106,56 @@ namespace MonoWorks.Model
 		
 #endregion
 
+		
+#region Undo and Redo
+
+		/// <summary>
+		/// List of entity lists defining the entities that have had edit operations performed on them.
+		/// </summary>
+		protected List<Action> actionList;
+		
+		/// <summary>
+		/// The current edit action index.
+		/// </summary>
+		protected int currentAction;
+		
+		/// <summary>
+		/// Adds the given edit action to the action list.
+		/// </summary>
+		/// <param name="action"> A <see cref="Action"/>. </param>
+		public void AddAction(Action action)
+		{
+			actionList.Add(action);
+			currentAction++;
+		}
+		
+		/// <summary>
+		/// Undo the last action.
+		/// </summary>
+		public void Undo()
+		{
+			if (currentAction > -1)
+			{
+				actionList[currentAction].Undo();
+				currentAction--;
+			}
+		}
+		
+		/// <summary>
+		/// Undo the last undone action.
+		/// </summary>
+		public void Redo()
+		{
+			if (currentAction < actionList.Count-1)
+			{
+				currentAction++;
+				actionList[currentAction].Redo();
+			}
+		}
+		
+#endregion
+		
+		
 		
 #region Children
 	

@@ -48,6 +48,7 @@ namespace MonoWorks.Gui
 			// add actions
 			AddAction(actions["cut"]);
 			AddAction(actions["copy"]);
+			AddAction(actions["delete"]);
 			AddSeparator();
 			AddAction(actions["properties"]);
 		}
@@ -68,6 +69,8 @@ namespace MonoWorks.Gui
 			Connect(actions["cut"], SIGNAL("triggered()"), this, SLOT("OnCut()"));
 			actions["copy"] = new QAction(ResourceManager.GetIcon("edit-copy"), "Copy", this);
 			Connect(actions["copy"], SIGNAL("triggered()"), this, SLOT("OnCopy()"));
+			actions["delete"] = new QAction(ResourceManager.GetIcon("delete"), "Delete", this);
+			Connect(actions["delete"], SIGNAL("triggered()"), this, SLOT("OnDelete()"));
 			
 			actions["properties"] = new QAction(ResourceManager.GetIcon("preferences"), "Properties", this);
 			Connect(actions["properties"], SIGNAL("triggered()"), this, SLOT("OnProperties()"));
@@ -94,6 +97,15 @@ namespace MonoWorks.Gui
 		protected void OnCopy()
 		{
 			Console.WriteLine("copy");
+		}
+		
+		/// <summary>
+		/// Delete the entity.
+		/// </summary>
+		[Q_SLOT]
+		protected void OnDelete()
+		{
+			Console.WriteLine("delete");
 		}
 		
 		/// <summary>
