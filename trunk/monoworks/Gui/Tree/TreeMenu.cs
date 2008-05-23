@@ -1,4 +1,4 @@
-// TreeMenu.cs - ScratchNotes
+// TreeMenu.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //

@@ -1,4 +1,4 @@
-// ViewportMenu.cs - ScratchNotes
+// ViewportMenu.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
