@@ -255,6 +255,14 @@ namespace MonoWorks.Model
 			MakeDirty();
 		}
 		
+		/// <summary>
+		/// Takes a snapshot of the current momento and makes a new one.
+		/// </summary>
+		public void Snapshot()
+		{
+			momentos.Add(CurrentMomento.Duplicate());
+		}
+		
 		/// <value>
 		/// The current momento.
 		/// </value>
@@ -321,11 +329,19 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Makes the entity dirty.
 		/// </summary>
-		public void MakeDirty()
+		public virtual void MakeDirty()
 		{
 			dirty = true;
 			if (parent != null)
 				parent.MakeDirty();
+		}
+		
+		/// <summary>
+		/// Makes only the entity dirty (not its parent).
+		/// </summary>
+		public virtual void ForceDirty()
+		{
+			dirty = true;
 		}
 		
 		/// <summary>
@@ -341,6 +357,8 @@ namespace MonoWorks.Model
 			{
 				child.ComputeGeometry();
 				bounds.Resize(child.Bounds);
+				if (child is Reference)
+					child.ForceDirty();
 			}
 		}
 		

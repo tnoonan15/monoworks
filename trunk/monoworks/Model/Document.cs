@@ -125,8 +125,11 @@ namespace MonoWorks.Model
 		/// <param name="action"> A <see cref="Action"/>. </param>
 		public void AddAction(Action action)
 		{
+			// remove all actions after the current one
+			actionList.RemoveRange(currentAction+1, actionList.Count - currentAction - 1);
+			
 			actionList.Add(action);
-			currentAction++;
+			currentAction = actionList.Count - 1;
 		}
 		
 		/// <summary>
@@ -187,6 +190,17 @@ namespace MonoWorks.Model
 		{
 			AddChild(feature);
 		}
+		
+		
+		/// <summary>
+		/// Makes the document dirty.
+		/// </summary>
+		/// <remarks>Makes all reference items dirty as well.</remarks>
+		public override void MakeDirty()
+		{
+			base.MakeDirty();
+		}
+
 	
 #endregion
 		

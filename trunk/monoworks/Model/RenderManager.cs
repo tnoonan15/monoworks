@@ -53,7 +53,7 @@ namespace MonoWorks.Model
 			wireframeColor = colorManager.GetColor("Black");
 			wireframeWidth = 1.5f;
 			
-			referenceColor = colorManager.GetColor("Cyan");
+			referenceColor = new Color(0, 128, 0, 128);
 		}
 		
 		

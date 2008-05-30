@@ -30,7 +30,8 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Sketch() : base()
+		/// <param name="plane">The reference plane that the sketch lies on.</param>
+		public Sketch(RefPlane plane) : base()
 		{
 		}
 		
@@ -42,6 +43,30 @@ namespace MonoWorks.Model
 		{
 			get {return "sketch";}
 		}
+		
+		
+#region Attributes
+						
+		/// <summary>
+		/// Appends a momento to the momento list.
+		/// </summary>
+		protected override void AddMomento()
+		{
+			base.AddMomento();
+			Momento momento = momentos[momentos.Count-1];
+			momento["plane"] = new RefPlane();
+		}
+		
+		/// <summary>
+		/// The plane that the sketch lies on.
+		/// </summary>
+		public RefPlane Plane
+		{
+			get {return (RefPlane)CurrentMomento["plane"];}
+			set {CurrentMomento["plane"]= value;}
+		}
+		
+#endregion
 		
 		
 		/// <summary>

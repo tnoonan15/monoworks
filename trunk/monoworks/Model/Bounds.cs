@@ -108,9 +108,18 @@ namespace MonoWorks.Model
 		/// </value>
 		public Vector Center
 		{
+			get {return (minima + maxima) / 2;}
+		}
+		
+		/// <value>
+		/// The "radius" of the box.
+		/// </value>
+		/// <remarks>Basically the average of the width in each dimension.</remarks>
+		public double Radius
+		{
 			get
 			{
-				return (minima + maxima) / 2;
+				return (maxima[0] + maxima[1] + maxima[2] - minima[0] + minima[1] + minima[2]) / 3.0; 
 			}
 		}
 		
