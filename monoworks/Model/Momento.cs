@@ -22,12 +22,31 @@ using System.Collections.Generic;
 namespace MonoWorks.Model
 {
 	
-	
+	/// <summary>
+	/// The Momento class represents an entity's attributes at a single point in time.
+	/// The Entity class uses momentos to keep track of state and undo/redo state changes.
+	/// </summary>
 	public class Momento : Dictionary<string, object>
 	{
-		
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public Momento() : base()
 		{
+		}
+		
+		/// <summary>
+		/// Duplicates the momento.
+		/// </summary>
+		/// <returns> A new <see cref="Momento"/> with the same attributes. </returns>
+		public Momento Duplicate()
+		{
+			Momento other = new Momento();
+			foreach (KeyValuePair<string, object> attr in this)
+			{
+				other[attr.Key] = attr.Value;
+			}
+			return other;
 		}
 	}
 }

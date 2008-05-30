@@ -50,8 +50,12 @@ namespace MonoWorks.Model
 		protected void CreateExtrusion()
 		{		
 			
-			/* create the extrusion */
-			Sketch extSketch = new Sketch();			
+			// create the sketch
+			RefPlane plane = new RefPlane();
+			plane.Plane.Center = new Point(0.0,0.0,0.0);
+			plane.Plane.Normal = new Vector(0.0, 1.0, 0.0);
+			AddReference(plane);
+			Sketch extSketch = new Sketch(plane);			
 			AddSketch(extSketch);
 			
 			// add the line
@@ -80,8 +84,12 @@ namespace MonoWorks.Model
 		/// </summary>
 		protected void CreateRevolution()
 		{
-			/* create the revolution */
-			Sketch revolutionSketch = new Sketch();
+			// create the sketch
+			RefPlane plane = new RefPlane();
+			plane.Plane.Center = new Point(0.0,0.0,0.0);
+			plane.Plane.Normal = new Vector(0.0, 0.0, 1.0);
+			AddReference(plane);
+			Sketch revolutionSketch = new Sketch(plane);
 			AddSketch(revolutionSketch);
 			
 			// add the line

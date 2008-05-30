@@ -24,10 +24,7 @@ using gl = Tao.OpenGl.Gl;
 using MonoWorks.Base;
 
 namespace MonoWorks.Model
-{
-	
-	using Momento = Dictionary<string, object>;
-	
+{	
 	
 	/// <summary>
 	/// Refline represents an infinite 2D line in 3D space.
@@ -65,8 +62,8 @@ namespace MonoWorks.Model
 		}
 
 		
-#region Momentos
-				
+#region Attributes
+						
 		/// <summary>
 		/// Appends a momento to the momento list.
 		/// </summary>
@@ -77,11 +74,7 @@ namespace MonoWorks.Model
 			momento["center"] = new Point();
 			momento["direction"] = new Vector();
 		}
-		
-#endregion
-		
-		
-#region Attributes
+				
 		
 		/// <value>
 		/// A point that is intersected by the line.

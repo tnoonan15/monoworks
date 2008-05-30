@@ -32,7 +32,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public Color()
 		{
-			rgb = new byte[]{0, 0, 255};
+			rgba = new byte[]{0, 0, 255, 255};
 		}
 		
 		/// <summary>
@@ -43,25 +43,37 @@ namespace MonoWorks.Model
 		/// <param name="blue"> The blue component. </param>
 		public Color(byte red, byte green, byte blue)
 		{
-			rgb = new byte[]{red, green, blue};
+			rgba = new byte[]{red, green, blue, 255};
+		}
+		
+		/// <summary>
+		/// Initialization constructor.
+		/// </summary>
+		/// <param name="red"> The red component. </param>
+		/// <param name="green"> The green component. </param>
+		/// <param name="blue"> The blue component. </param>
+		/// <param name="alpha"> The alpha component. </param>
+		public Color(byte red, byte green, byte blue, byte alpha)
+		{
+			rgba = new byte[]{red, green, blue, alpha};
 		}
 		
 		
 #region Components
 		
-		protected byte[] rgb;
+		protected byte[] rgba;
 		/// <value>
 		/// The RGB components of the color.
 		/// </value>
-		public byte[] RGB
+		public byte[] RGBA
 		{
-			get {return rgb;}
+			get {return rgba;}
 			set
 			{
-				if (value.Length==3)
-					rgb = value;
+				if (value.Length==4)
+					rgba = value;
 				else
-					throw new Exception("RGB vectors must have 3 components.");
+					throw new Exception("RGB vectors must have 4 components.");
 			}
 		}
 		
@@ -70,7 +82,15 @@ namespace MonoWorks.Model
 		/// </value>
 		public float[] RGBf
 		{
-			get {return new float[]{(float)rgb[0]/255f, (float)rgb[1]/255f, (float)rgb[2]/255f};} 
+			get {return new float[]{(float)rgba[0]/255f, (float)rgba[1]/255f, (float)rgba[2]/255f};} 
+		}
+		
+		/// <value>
+		/// Returns an array of floats representing the red, green, blue, and alpha components. 
+		/// </value>
+		public float[] RGBAf
+		{
+			get {return new float[]{(float)rgba[0]/255f, (float)rgba[1]/255f, (float)rgba[2]/255f, (float)rgba[3]/255f};} 
 		}
 		
 #endregion
@@ -84,7 +104,7 @@ namespace MonoWorks.Model
 		public void Setup()
 		{
 //			gl.glColor3bv(rgb); // this doesn't seem to work like it should
-			gl.glColor3fv(RGBf);
+			gl.glColor4fv(RGBAf);
 		}
 		
 #endregion
