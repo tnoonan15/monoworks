@@ -27,12 +27,14 @@ namespace MonoWorks.Gui
 {
 	
 	/// <summary>
-	/// Custom signals for the tree model.
+	/// Custom signals for the tree view.
 	/// </summary>
 	public interface ITreeSignals
 	{
 		[Q_SIGNAL]
 		void PaintViewport();
+		[Q_SIGNAL]
+		void EntityAttributes();
 	}
 	
 	/// <summary>
@@ -73,11 +75,20 @@ namespace MonoWorks.Gui
 		{
 			base.SelectionChanged(selected, deselected);
 			
+			// change the selection on the entities
 			foreach (QModelIndex index in selected.Indexes())
 				TreeModel.IndexToEntity(index).IsSelected = true;
 			foreach (QModelIndex index in deselected.Indexes())
 				TreeModel.IndexToEntity(index).IsSelected = false;
 
+			// set the last selected value
+			List<QModelIndex> selectedIndices = selected.Indexes();
+			if (selectedIndices.Count > 0)
+			{
+				((TreeModel)this.Model()).Document.LastSelected = 
+					TreeModel.IndexToEntity(selectedIndices[selectedIndices.Count-1]);
+			}
+			
 			this.Emit.PaintViewport();
 			
 		}
@@ -138,6 +149,30 @@ namespace MonoWorks.Gui
 			}
 		}
 				
+#endregion
+		
+		
+#region Attributes Frame
+		
+		/// <summary>
+		/// Handles double click events.
+		/// </summary>
+		/// <param name="evt"> A <see cref="QMouseEvent"/>. </param>
+		protected override void MouseDoubleClickEvent(QMouseEvent evt)
+		{
+			base.MouseDoubleClickEvent(evt);
+						
+			// get the currently selected entity
+			QModelIndex index = this.SelectionModel().CurrentIndex();
+			if (index.IsValid()) // something is selected
+			{
+				Emit.EntityAttributes();
+			}
+			else // nothing is selected
+			{
+			}
+		}
+
 #endregion
 
 	}

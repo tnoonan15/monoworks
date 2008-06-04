@@ -129,7 +129,7 @@ namespace MonoWorks.Model
 		/// Renders the line to the viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void Render (IViewport viewport)
+		protected override void Render (IViewport viewport)
 		{
 			base.Render(viewport);
 						

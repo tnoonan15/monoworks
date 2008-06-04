@@ -96,7 +96,14 @@ namespace MonoWorks.Model
 		{
 			return String.Format("from {0} to {1}", minima, maxima);
 		}
-
+		
+		/// <summary>
+		/// Resets the bounds so that the next resize will initialize it.
+		/// </summary>
+		public void Reset()
+		{
+			isSet = false;
+		}
 		
 #endregion
 		
@@ -119,7 +126,10 @@ namespace MonoWorks.Model
 		{
 			get
 			{
-				return (maxima[0] + maxima[1] + maxima[2] - minima[0] + minima[1] + minima[2]) / 3.0; 
+				if (isSet)
+					return (maxima[0] + maxima[1] + maxima[2] - minima[0] + minima[1] + minima[2]) / 3.0;
+				else
+					return 0;
 			}
 		}
 		
@@ -182,7 +192,7 @@ namespace MonoWorks.Model
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
 		public virtual void Render(IViewport viewport)
 		{
-			if (minima != null)
+			if (isSet && minima != null)
 			{
 				gl.glLineWidth( 1.5f);
 				gl.glColor3f(0.0f, 0.0f, 1.0f);

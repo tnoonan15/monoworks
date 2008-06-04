@@ -30,6 +30,11 @@
     <File name="DocumentMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport/ViewportMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree/TreeMenu.cs" subtype="Code" buildaction="Compile" />
+    <File name="Attributes" subtype="Directory" buildaction="Compile" />
+    <File name="Attributes/Frame.cs" subtype="Code" buildaction="Compile" />
+    <File name="Attributes/Control.cs" subtype="Code" buildaction="Compile" />
+    <File name="Attributes/Item.cs" subtype="Code" buildaction="Compile" />
+    <File name="Attributes/StringControl.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />

@@ -154,5 +154,8 @@
     <File name="icons48/document-save-all.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/document-save-as.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/document-save.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/refplane.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/apply.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/cancel.png" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

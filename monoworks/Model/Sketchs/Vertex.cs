@@ -59,7 +59,7 @@ namespace MonoWorks.Model
 		/// Renders the sketch to the given viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void Render(IViewport viewport)
+		protected override void Render(IViewport viewport)
 		{
 			gl.glBegin(gl.GL_POINTS);
 			gl.glVertex3d(m_pos[0].Value, m_pos[1].Value, m_pos[2].Value); 

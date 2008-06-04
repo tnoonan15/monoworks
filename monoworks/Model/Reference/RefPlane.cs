@@ -93,7 +93,7 @@ namespace MonoWorks.Model
 			base.ComputeGeometry();
 			
 			double radius = GetDocument().Bounds.Radius; // radius of the bounds
-			Console.WriteLine("bounds radius {0}", radius);
+//			Console.WriteLine("bounds radius {0}", radius);
 
 			Vector direction = Plane.Normal;
 			Vector corner;
@@ -107,10 +107,12 @@ namespace MonoWorks.Model
 			
 			// generate the corner points
 			quadCorners = new Vector[4];
+			bounds.Reset();
 			for (int i=0; i<4; i++)
 			{
-				Console.WriteLine("quad corner at {0}", Plane.Center.ToVector() + corner);
+//				Console.WriteLine("quad corner at {0}", Plane.Center.ToVector() + corner);
 				quadCorners[i] = Plane.Center.ToVector() + corner;
+				bounds.Resize(quadCorners[i]);
 				corner = corner.Rotate(direction, new Angle(Angle.PI/2.0));
 			}
 			
@@ -121,7 +123,7 @@ namespace MonoWorks.Model
 		/// Renders the plane to the viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void Render(IViewport viewport)
+		protected override void Render(IViewport viewport)
 		{
 			base.Render(viewport);
 			

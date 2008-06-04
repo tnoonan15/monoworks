@@ -33,7 +33,6 @@ namespace MonoWorks.Gui
 		protected QVBoxLayout vbox;
 		protected ViewportToolbar viewportToolbar;
 		protected TreeModel treeModel;
-//		protected TreeWidget treeWidget;
 			
 		/// <summary>
 		/// Default constructor.
@@ -50,21 +49,27 @@ namespace MonoWorks.Gui
 			treeModel = new TreeModel(document);
 			treeView = new TreeView(this);
 			treeView.SetModel(treeModel);
-			this.AddWidget(treeView);
+			
+			// create the attribute frame
+			attributeFrame = new Attributes.Frame(this);
+			attributeFrame.SetVisible(false);
+			Connect(treeView, SIGNAL("EntityAttributes()"), this, SLOT("OnEntityAttributes()"));
 			
 			// create the viewport frame
 			QFrame frame = new QFrame(this);
-			this.AddWidget(frame);
+			frame.FrameShape = Shape.Box;
+			frame.FrameShadow = Shadow.Sunken;
 			vbox = new QVBoxLayout(frame);
+			vbox.Margin = 0;
+			vbox.Spacing = 0;
 			frame.SetLayout(vbox);		
-			
-//			this.SetStretchFactor(0, 0);
-			
+						
 			// add the viewport and toolbar
 			viewport = new Viewport(document);
 			viewportToolbar = new ViewportToolbar(frame, viewport);
 			vbox.AddWidget(viewportToolbar);
 			vbox.AddWidget(viewport);
+			
 			
 			// connect the tree view with the viewport
 			Connect(treeView, SIGNAL("PaintViewport()"), viewport, SLOT("Paint()"));
@@ -91,7 +96,6 @@ namespace MonoWorks.Gui
 			{
 				document = value;
 				viewport.Document = document;
-//				treeWidget.Document = document;
 				treeModel.Document = document;
 			}
 		}
@@ -115,6 +119,52 @@ namespace MonoWorks.Gui
 			get {return treeView;}
 			set {treeView = value;}
 		}
+		
+		
+#region Entity Attributes
+		
+		/// <summary>
+		/// The entity attributes frame.
+		/// </summary>
+		protected Attributes.Frame attributeFrame;
+		
+		/// <summary>
+		/// Shows the attributes frame for the current entity.
+		/// </summary>
+		[Q_SLOT]
+		public void OnEntityAttributes()
+		{
+			Entity entity = document.LastSelected;
+			if (entity != null)
+			{
+//				attributeFrame = new AttributeFrame();
+//				this.InsertWidget(1, attributeFrame);
+				attributeFrame.Entity = entity;
+				attributeFrame.SetVisible(true);
+			}
+		}
+		
+		/// <summary>
+		/// Cancels the entity action editing.
+		/// </summary>
+		[Q_SLOT]
+		public void EntityAttributesCancel()
+		{
+			Console.WriteLine("entity attributes cancel");
+			attributeFrame.SetVisible(false);
+		}
+		
+		/// <summary>
+		/// Applies the entity action editing.
+		/// </summary>
+		[Q_SLOT]
+		public void EntityAttributesApply()
+		{
+			Console.WriteLine("entity attributes apply");
+			attributeFrame.SetVisible(false);
+		}
+		
+#endregion
 		
 	}
 }

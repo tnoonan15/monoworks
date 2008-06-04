@@ -628,8 +628,10 @@ namespace MonoWorks.Gui
 			// Really Nice Perspective Calculations
 			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
 			
-//			gl.glEnable(gl.GL_BLEND);
+			gl.glEnable(gl.GL_BLEND);
+//			gl.glBlendFunc(gl.GL_ONE_MINUS_DST_ALPHA, gl.GL_DST_ALPHA);
 //			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_DST_ALPHA);
+			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
 			gl.glEnable(gl.GL_LINE_SMOOTH);
 			
 			// enable color tracking
