@@ -106,17 +106,20 @@ namespace MonoWorks.Model
 			base.ComputeGeometry();
 		}
 		
+
+		public override void RenderOpaque(IViewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			Render(viewport);
+		}
+		
 		/// <summary>
 		/// Renders the sketch to the given viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void Render(IViewport viewport)
+		protected override void Render(IViewport viewport)
 		{
 			base.Render(viewport);
-			foreach (Sketchable child in children)
-			{
-				child.Render(viewport);
-			}
 		}
 		
 #endregion

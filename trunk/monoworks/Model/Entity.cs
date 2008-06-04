@@ -285,6 +285,19 @@ namespace MonoWorks.Model
 		}
 		
 		/// <value>
+		/// The names of the attributes.
+		/// </value>
+		public string[] AttributeNames
+		{
+			get
+			{
+				string[] array = new string[CurrentMomento.Count];
+				CurrentMomento.Keys.CopyTo(array, 0);
+				return array;
+			}
+		}
+		
+		/// <value>
 		/// Gets the item name.
 		/// </value>
 		public string Name
@@ -322,7 +335,6 @@ namespace MonoWorks.Model
 		public Bounds Bounds
 		{
 			get {return bounds;}
-			set {bounds = value;}
 		}
 		
 		
@@ -356,24 +368,49 @@ namespace MonoWorks.Model
 			foreach (Entity child in children)
 			{
 				child.ComputeGeometry();
-				bounds.Resize(child.Bounds);
 				if (child is Reference)
 					child.ForceDirty();
+				else
+					bounds.Resize(child.Bounds);
 			}
 		}
 		
 		
 		/// <summary>
 		/// Renders the entity to the given viewport.
-		/// This must be implemented by subclasses.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public virtual void Render(IViewport viewport)
+		/// <remarks>
+		/// This must be implemented by subclasses.
+		/// This method does not care about transparency and is generally called by either
+		/// RenderOpaque() or RenderTransparent().
+		///</remarks>
+		protected virtual void Render(IViewport viewport)
 		{
 			if (dirty)
 				ComputeGeometry();
 			if (isSelected)
 				bounds.Render(viewport);
+		}
+		
+		/// <summary>
+		/// Renders the opaque portion of the entity.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public virtual void RenderOpaque(IViewport viewport)
+		{
+			foreach (Entity child in children)
+				child.RenderOpaque(viewport);
+		}
+		
+		/// <summary>
+		/// Renders the transparent portion of the entity, 
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public virtual void RenderTransparent(IViewport viewport)
+		{
+			foreach (Entity child in children)
+				child.RenderTransparent(viewport);
 		}
 		
 #endregion

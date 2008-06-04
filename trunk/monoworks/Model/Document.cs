@@ -219,17 +219,17 @@ namespace MonoWorks.Model
 		/// Renders the document to the given viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void Render(IViewport viewport)
+		public new void Render(IViewport viewport)
 		{
 			viewport.Camera.Place();
 			
 			base.Render(viewport);
 			
-			// render the kids
-			foreach (Entity child in children)
-			{
-				child.Render(viewport);
-			}
+			// render the opaque geometry
+			RenderOpaque(viewport);
+			
+			// render the transparent geometry
+			RenderTransparent(viewport);
 			
 			// render the hit line
 			if (hitLine != null)
@@ -314,6 +314,7 @@ namespace MonoWorks.Model
 		public Entity LastSelected
 		{
 			get {return lastSelected;}
+			set {lastSelected = value;}
 		}
 		
 #endregion

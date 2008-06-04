@@ -44,10 +44,34 @@ namespace MonoWorks.Model
 		
 		
 		/// <summary>
+		/// If the reference color is opaque, renders it.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public override void RenderOpaque(IViewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			
+			if (viewport.RenderManager.ReferenceColor.IsOpaque())
+				Render(viewport);
+		}
+		
+		/// <summary>
+		/// If the reference color is transparent, renders it.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public override void RenderTransparent(IViewport viewport)
+		{
+			base.RenderTransparent(viewport);
+			
+			if (!viewport.RenderManager.ReferenceColor.IsOpaque())
+				Render(viewport);
+		}
+		
+		/// <summary>
 		/// Render the reference item.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void Render(IViewport viewport)
+		protected override void Render(IViewport viewport)
 		{
 			base.Render(viewport);
 			

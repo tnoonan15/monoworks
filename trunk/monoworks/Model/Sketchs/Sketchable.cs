@@ -83,11 +83,17 @@ namespace MonoWorks.Model
 		
 #region Rendering
 
+		public override void RenderOpaque(IViewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			Render(viewport);
+		}
+		
 		/// <summary>
 		/// Renders the sketchable to the viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void Render (IViewport viewport)
+		protected override void Render(IViewport viewport)
 		{
 			gl.glColor3f(1.0f, 1.0f, 1.0f);
 			gl.glBegin(gl.GL_LINE_STRIP);

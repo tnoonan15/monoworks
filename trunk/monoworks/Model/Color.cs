@@ -93,6 +93,16 @@ namespace MonoWorks.Model
 			get {return new float[]{(float)rgba[0]/255f, (float)rgba[1]/255f, (float)rgba[2]/255f, (float)rgba[3]/255f};} 
 		}
 		
+		/// <summary>
+		/// Returns true if the color is opaque.
+		/// </summary>
+		public bool IsOpaque()
+		{
+			if (rgba[3]<255)
+				return false;
+			return true;
+		}
+		
 #endregion
 		
 		

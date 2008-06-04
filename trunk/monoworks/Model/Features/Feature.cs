@@ -180,12 +180,33 @@ namespace MonoWorks.Model
 		public virtual void ComputeSolidGeometry()
 		{
 		}		
+
+		
+		/// <summary>
+		/// If the feature is opaque, renders it.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public override void RenderOpaque(IViewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			Render(viewport);
+		}
+				
+		/// <summary>
+		/// If the feature is transparent, renders it.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public override void RenderTransparent(IViewport viewport)
+		{
+			base.RenderTransparent(viewport);
+//			Render(viewport);
+		}
 		
 		/// <summary>
 		/// Renders the feature, recomputing geometry if necessary.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		 public override void Render(IViewport viewport)
+		 protected override void Render(IViewport viewport)
 		{
 			base.Render(viewport);
 			
