@@ -24,9 +24,12 @@
     <File name="Matrix.cs" subtype="Code" buildaction="Compile" />
     <File name="Quaternion.cs" subtype="Code" buildaction="Compile" />
     <File name="Plane.cs" subtype="Code" buildaction="Compile" />
+    <File name="DimensionManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="DefaultUnits.xml" subtype="Code" buildaction="Nothing" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   </References>
 </Project>

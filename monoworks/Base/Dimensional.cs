@@ -18,9 +18,9 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace MonoWorks.Base
 {
+
 	using UnitsHash = Dictionary<String, double>;
 	
 	/// <summary>
@@ -47,17 +47,11 @@ namespace MonoWorks.Base
 	{
 		
 		/// <summary>
-		/// A hash containing the multiplication factors for each unit.
-		/// </summary>
-		protected UnitsHash m_unitFactors;
-		
-		/// <summary>
 		/// Default Dimensional constructor.
 		/// </summary>
 		public Dimensional() 
 		{
-			m_val = 0;
-			m_unitFactors = new UnitsHash();
+			val = 0;
 		}
 		
 		/// <summary>
@@ -66,11 +60,36 @@ namespace MonoWorks.Base
 		/// <param name="val">Value in default units.</param>
 		public Dimensional(double val) : this()
 		{
-			m_val = val;
+			this.val = val;
 		}
 		
 		
 #region Units
+		
+		/// <value>
+		/// The unqualified name of the class.
+		/// </value>
+		public string ClassName
+		{
+			get
+			{
+				string[] nameComps = this.GetType().ToString().Split('.');
+				return nameComps[nameComps.Length-1];
+			}
+		}
+		
+
+		/// <value>
+		/// The units factors for this object.
+		/// </value>
+		protected UnitsHash UnitFactors
+		{
+			get
+			{
+				return DimensionManager.CurrentInstance.GetUnits(this.ClassName);
+			}
+		}
+		
 		
 		/// <summary>
 		/// Returns the default unit string.  
@@ -87,12 +106,19 @@ namespace MonoWorks.Base
 		{
 			get
 			{
-				string[] units = new string[m_unitFactors.Count];
-				m_unitFactors.Keys.CopyTo(units, 0);
+				string[] units = new string[UnitFactors.Count];
+				UnitFactors.Keys.CopyTo(units, 0);
 				return units;
 			}
 		}
 		
+		/// <value>
+		/// The name of the display units for this object.
+		/// </value>
+		public string DisplayUnits
+		{
+			get {return DimensionManager.CurrentInstance.GetDisplayUnits(this.ClassName);}
+		}
 		
 #endregion
 		
@@ -102,15 +128,24 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// The value of the dimensional.
 		/// </summary>
-		protected double m_val;
+		protected double val;
 		
 		/// <value>
 		/// The raw value of the Dimensional (in default units).
 		/// </value>
 		public double Value
 		{
-			get {return m_val;}
-			set {m_val = value;}
+			get {return val;}
+			set {val = value;}
+		}
+		
+		/// <value>
+		/// The value in display units.
+		/// </value>
+		public double DisplayValue
+		{
+			get {return this[DisplayUnits];}
+			set {this[this.DisplayUnits] = value;}
 		}
 			
 		/// <summary>
@@ -121,15 +156,15 @@ namespace MonoWorks.Base
 		{
 			get 
 			{
-				if (!m_unitFactors.ContainsKey(units))
+				if (!UnitFactors.ContainsKey(units))
 					throw new UnitException(units);
-				return m_val / m_unitFactors[units];
+				return val / UnitFactors[units];
 			}
 			set 
 			{
-				if (!m_unitFactors.ContainsKey(units))
+				if (!UnitFactors.ContainsKey(units))
 					throw new UnitException(units);
-				m_val = value * m_unitFactors[units]; 
+				val = value * UnitFactors[units]; 
 			}
 		}
 				

@@ -1,4 +1,4 @@
-// StringControl.cs - MonoWorks Project
+// AngleControl.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -20,41 +20,48 @@ using System;
 
 using Qyoto;
 
+using MonoWorks.Base;
 using MonoWorks.Model;
 
 namespace MonoWorks.Gui.Attributes
 {
 	
 	/// <summary>
-	/// Control for string attributes.
+	/// Control for a text attribute.
 	/// </summary>
-	public class StringControl : Control
+	public class AngleControl : Control
 	{
-		protected QLineEdit lineEdit;
+		QDoubleSpinBox spinBox;
 		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="parent"> The parent <see cref="Item"/>. </param>
-		public StringControl(Item parent) : base(parent)
+		public AngleControl(Item parent) : base(parent)
 		{
-			lineEdit = new QLineEdit(this);
-			hbox.AddWidget(lineEdit);
-			Connect(lineEdit, SIGNAL("returnPressed()"), this, SLOT("OnAttributeUpdated()"));
+			spinBox = new QDoubleSpinBox(this);
+			spinBox.SetRange(-720, 720);
+			spinBox.SingleStep = 15;
+			hbox.AddWidget(spinBox);
+			Connect(spinBox, SIGNAL("valueChanged(double)"), this, SLOT("OnAttributeUpdated()"));
 		}
 		
 		public override void PopulateValue(Entity entity, string name)
 		{
 			base.PopulateValue(entity, name);
-			
-			lineEdit.SetText( (string)entity.GetAttribute(name));
+
+			Angle val = (Angle)entity.GetAttribute(name);
+			spinBox.Value = val.DisplayValue;
 		}
-		
+				
 		public override void CommitValue()
 		{
-			entity.SetAttribute(name, lineEdit.Text);
+			base.CommitValue();
+			Angle val = (Angle)entity.GetAttribute(name);
+			val.DisplayValue = spinBox.Value;
+			entity.MakeDirty();
 		}
-		
 
+		
 	}
 }

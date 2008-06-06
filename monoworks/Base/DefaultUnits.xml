@@ -1,0 +1,13 @@
+<Dimensionals>
+	<Dimensional name="Length" defaultUnits="m" displayUnits="m">
+		<Units name="m">1.0</Units>
+		<Units name="cm">0.01</Units>
+		<Units name="mm">0.001</Units>
+		<Units name="inch">0.0254</Units>
+		<Units name="foot">0.3048</Units>
+	</Dimensional>
+	<Dimensional name="Angle" defaultUnits="rad" displayUnits="deg">
+		<Units name="rad">1.0</Units>
+		<Units name="deg">0.0174532925</Units>
+	</Dimensional>
+</Dimensionals>

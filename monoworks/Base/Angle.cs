@@ -49,11 +49,7 @@ namespace MonoWorks.Base
 		/// Default angle constructor.
 		/// </summary>
 		public Angle()  : base()
-		{
-			m_unitFactors["rad"] = 1;
-//				m_unitFactors["deg"] = 180.0/PI;
-			m_unitFactors["deg"] = PI/180.0;
-			
+		{		
 		}
 		
 		/// <summary>
@@ -65,7 +61,7 @@ namespace MonoWorks.Base
 		/// </param>
 		public Angle(double val) : this()
 		{
-			m_val = val;
+			this.val = val;
 		}
 		
 		
@@ -102,7 +98,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator +(Angle lhs, Angle rhs)
 		{
-			return new Angle(lhs.m_val+rhs.m_val);
+			return new Angle(lhs.val+rhs.val);
 		}
 		
 		/// <summary>
@@ -110,7 +106,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator -(Angle lhs, Angle rhs)
 		{
-			return new Angle(lhs.m_val-rhs.m_val);
+			return new Angle(lhs.val-rhs.val);
 		}
 		
 		/// <summary>
@@ -118,7 +114,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator *(Angle lhs, double rhs)
 		{
-			return new Angle(lhs.m_val*rhs);
+			return new Angle(lhs.val*rhs);
 		}
 		
 		/// <summary>
@@ -126,7 +122,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator /(Angle lhs, double rhs)
 		{
-			return new Angle(lhs.m_val/rhs);
+			return new Angle(lhs.val/rhs);
 		}
 		
 #endregion
@@ -142,7 +138,7 @@ namespace MonoWorks.Base
 		/// </returns>
 		public double Sin()
 		{
-			return Math.Sin(m_val);
+			return Math.Sin(val);
 		}
 		
 		
@@ -154,7 +150,7 @@ namespace MonoWorks.Base
 		/// </returns>
 		public double Cos()
 		{
-			return Math.Cos(m_val);
+			return Math.Cos(val);
 		}
 		
 		
@@ -166,7 +162,7 @@ namespace MonoWorks.Base
 		/// </returns>
 		public double Tan()
 		{
-			return Math.Tan(m_val);
+			return Math.Tan(val);
 		}
 		
 		

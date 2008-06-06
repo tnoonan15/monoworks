@@ -1,4 +1,4 @@
-// StringControl.cs - MonoWorks Project
+// LengthControl.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -20,41 +20,46 @@ using System;
 
 using Qyoto;
 
+using MonoWorks.Base;
 using MonoWorks.Model;
 
 namespace MonoWorks.Gui.Attributes
 {
 	
 	/// <summary>
-	/// Control for string attributes.
+	/// Control for a text attribute.
 	/// </summary>
-	public class StringControl : Control
+	public class LengthControl : Control
 	{
-		protected QLineEdit lineEdit;
+		QDoubleSpinBox spinBox;
 		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="parent"> The parent <see cref="Item"/>. </param>
-		public StringControl(Item parent) : base(parent)
+		public LengthControl(Item parent) : base(parent)
 		{
-			lineEdit = new QLineEdit(this);
-			hbox.AddWidget(lineEdit);
-			Connect(lineEdit, SIGNAL("returnPressed()"), this, SLOT("OnAttributeUpdated()"));
+			spinBox = new QDoubleSpinBox(this);
+			hbox.AddWidget(spinBox);
+			Connect(spinBox, SIGNAL("valueChanged(double)"), this, SLOT("OnAttributeUpdated()"));
 		}
 		
 		public override void PopulateValue(Entity entity, string name)
 		{
 			base.PopulateValue(entity, name);
-			
-			lineEdit.SetText( (string)entity.GetAttribute(name));
+
+			Length val = (Length)entity.GetAttribute(name);
+			spinBox.Value = val.DisplayValue;
 		}
 		
 		public override void CommitValue()
 		{
-			entity.SetAttribute(name, lineEdit.Text);
+			base.CommitValue();
+			Length val = (Length)entity.GetAttribute(name);
+			val.DisplayValue = spinBox.Value;
+			entity.MakeDirty();
 		}
-		
 
+		
 	}
 }
