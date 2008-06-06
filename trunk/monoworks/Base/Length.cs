@@ -16,7 +16,7 @@
 //    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-
+using System.Collections.Generic;
 
 namespace MonoWorks.Base
 {
@@ -29,11 +29,6 @@ namespace MonoWorks.Base
 		
 		public Length()  : base()
 		{
-			m_unitFactors["m"] = 1;
-			m_unitFactors["cm"] = 0.01;
-			m_unitFactors["mm"] = 0.001;
-			m_unitFactors["inch"] = 0.0254;
-			m_unitFactors["foot"] = 0.3048;
 			
 		}
 		
@@ -45,7 +40,7 @@ namespace MonoWorks.Base
 		/// </param>
 		public Length(double val) : this()
 		{
-			m_val = val;
+			this.val = val;
 		}
 		
 		
@@ -56,7 +51,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator +(Length lhs, Length rhs)
 		{
-			return new Length(lhs.m_val+rhs.m_val);
+			return new Length(lhs.val+rhs.val);
 		}
 		
 		/// <summary>
@@ -64,7 +59,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator -(Length lhs, Length rhs)
 		{
-			return new Length(lhs.m_val-rhs.m_val);
+			return new Length(lhs.val-rhs.val);
 		}
 		
 		/// <summary>
@@ -72,7 +67,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator *(Length lhs, double rhs)
 		{
-			return new Length(lhs.m_val*rhs);
+			return new Length(lhs.val*rhs);
 		}
 		
 		/// <summary>
@@ -80,7 +75,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator /(Length lhs, double rhs)
 		{
-			return new Length(lhs.m_val/rhs);
+			return new Length(lhs.val/rhs);
 		}
 		
 #endregion

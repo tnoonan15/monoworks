@@ -284,6 +284,22 @@ namespace MonoWorks.Model
 				throw new Exception("This entity does not contain an attribute named " + name + ".");
 		}
 		
+		/// <summary>
+		/// Sets an attribute.
+		/// </summary>
+		/// <param name="name"> The attribute's name. </param>
+		/// <param name="value"> The attribute's value. </param>
+		public void SetAttribute(string name, object value)
+		{
+			if (CurrentMomento.ContainsKey(name))
+			{
+				CurrentMomento[name] = value;
+				MakeDirty();
+			}
+			else
+				throw new Exception("This entity does not contain an attribute named " + name + ".");
+		}
+		
 		/// <value>
 		/// The names of the attributes.
 		/// </value>

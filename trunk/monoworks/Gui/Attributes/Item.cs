@@ -30,12 +30,17 @@ namespace MonoWorks.Gui.Attributes
 	/// </summary>
 	public class Item : QFrame
 	{
+
+		protected Frame frame;
+		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="parent"> The parent <see cref="AttributeFrame"/>. </param>
 		public Item(Frame parent, string name) : base(parent)
 		{
+			this.frame = parent;
+			
 			// style
 			FrameShape = Shape.Box;
 			SetBackgroundRole( QPalette.ColorRole.Light);
@@ -45,7 +50,6 @@ namespace MonoWorks.Gui.Attributes
 			layoutBox.AddWidget( new QLabel(name, this));
 			Control control = GetControl(parent.Entity, name); 
 			layoutBox.AddWidget(control);
-			Connect(control, SIGNAL("AttributeUpdated()"), parent, SLOT("OnAttributeUpdated()"));
 		}
 		
 		/// <summary>
@@ -63,12 +67,26 @@ namespace MonoWorks.Gui.Attributes
 			case "System.String":
 				widget = new StringControl(this);
 				break;
+			case "MonoWorks.Base.Length":
+				widget = new LengthControl(this);
+				break;
+			case "MonoWorks.Base.Angle":
+				widget = new AngleControl(this);
+				break;
 			default:
-				widget = new NullWidget(this);
+				widget = new Control(this);
 				break;
 			}
 			widget.PopulateValue(entity, name);
 			return widget;
+		}
+		
+		/// <summary>
+		/// Handles an attribute being updated.
+		/// </summary>
+		public void OnAttributeUpdated()
+		{
+			frame.OnAttributeUpdated();
 		}
 	}
 }

@@ -117,10 +117,8 @@ namespace MonoWorks.Gui.Attributes
 		
 #region Updating
 		
-		[Q_SLOT]
 		public void OnAttributeUpdated()
 		{
-			Console.WriteLine("attribute updated");
 			docFrame.Viewport.Paint();
 		}
 		
