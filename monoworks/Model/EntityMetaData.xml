@@ -1,0 +1,75 @@
+<Entity name="Entity">
+	<Attribute name="name" type="System.String">
+		The entity's name.
+	</Attribute>
+	
+	<!-- Features -->
+	<Entity name="Feature">
+		<Attribute name="sketch" type="MonoWorks.Model.Sketch">
+			The Sketch that the feature is based on.
+		</Attribute>
+		<Entity name="Extrusion">
+			<Attribute name="path" type="MonoWorks.Model.RefLine">
+				The line that the extrusion is follows.
+			</Attribute>
+			<Attribute name="spin" type="MonoWorks.Base.Angle">
+				The spin angle about the path.
+			</Attribute>
+			<Attribute name="scale" type="double">
+				The scaling factor between that beginning and end of the extrusion.
+			</Attribute>
+			<Attribute name="travel" type="MonoWorks.Base.Length">
+				The distance travelled by the extrusion.
+			</Attribute>
+		</Entity>
+		<Entity name="Revolution">
+			<Attribute name="axis" type="MonoWorks.Model.RefLine">
+				The axis of rotation.
+			</Attribute>
+			<Attribute name="travel" type="MonoWorks.Base.Angle">
+				The angle travelled by the revolutoin.
+			</Attribute>
+		</Entity>
+	</Entity>
+	
+	<!-- References -->
+	<Entity name="Referenece">
+		<Entity name="RefLine">
+			<Attribute name="center" type="MonoWorks.Base.Point">
+				A point intersected by the line.
+			</Attribute>
+			<Attribute name="direction" type="MonoWorks.Base.Vector">
+				The direction vector of the line.
+			</Attribute>
+		</Entity>
+		<Entity name="RefPlane">
+			<Attribute name="plane" type="MonoWorks.Base.Plane">
+				The plane object.
+			</Attribute>
+		</Entity>
+	</Entity>
+	
+	<!-- Sketchables -->
+	<Entity name="Sketchable">
+		<Entity name="Line">
+			<Attribute name="points" type="List(MonoWorks.Base.Point)">
+				The points representing the vertices of the line.
+			</Attribute>
+		</Entity>
+		<Entity name="Arc">
+			<Attribute name="center" type="MonoWorks.Base.Point">
+				The center of the arc.
+			</Attribute>
+			<Attribute name="start" type="MonoWorks.Base.Point">
+				The starting point of the arc.
+			</Attribute>
+			<Attribute name="normal" type="MonoWorks.Base.Vector">
+				The normal vector of the arc.
+			</Attribute>
+			<Attribute name="sweep" type="MonoWorks.Base.Angle">
+				The sweep angle of the arc.
+			</Attribute>
+		</Entity>	
+	</Entity>
+	
+</Entity>
