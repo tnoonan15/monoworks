@@ -15,8 +15,9 @@
 		<Action name="Paste" slot="EditPaste()" icon="edit-paste" shortcut="Ctrl+V" statusTip="Paste the clipboard"/>
 		
 		<Action name="Render Preferences" slot="RenderPreferences()" icon="render-preferences" statusTip="Rendering preferences"/>
-				
 		
+		<Action name="Script Editor" slot="OpenScriptEditor()" icon="script-editor" statusTip="Opens the script editor"/>
+			
 		<Action name="New Sketch" slot="NewSketch()" icon="add-sketch" statusTip="Create a new sketch"/>
 		<Action name="Edit Sketch" slot="EditSketch()" icon="sketch" statusTip="Edit the selected sketch"/>		
 		<Action name="Line" slot="SketchLine()" icon="line" statusTip="Add a line to the sketch"/>		
@@ -36,6 +37,8 @@
 			<MenuItem action="Save"/>
 			<MenuItem action="Save As"/>
 			<MenuItem action="Close"/>
+			<Separator/>
+			<MenuItem action="Script Editor"/>
 			<Separator/>
 			<MenuItem action="Quit"/>
 		</Menu>
@@ -71,6 +74,8 @@
 			<ToolItem action="Save"/>
 			<ToolItem action="Save As"/>
 			<ToolItem action="Close"/>
+			<Separator/>
+			<ToolItem action="Script Editor"/>
 			<Separator/>
 			<ToolItem action="Quit"/>
 		</Toolbar>

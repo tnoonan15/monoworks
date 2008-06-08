@@ -39,6 +39,8 @@
     <File name="Attributes/AngleControl.cs" subtype="Code" buildaction="Compile" />
     <File name="Editor" subtype="Directory" buildaction="Compile" />
     <File name="Menus" subtype="Directory" buildaction="Compile" />
+    <File name="Editor/Window.cs" subtype="Code" buildaction="Compile" />
+    <File name="Editor/Document.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />
