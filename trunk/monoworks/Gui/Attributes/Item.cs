@@ -32,14 +32,16 @@ namespace MonoWorks.Gui.Attributes
 	{
 
 		protected Frame frame;
+		protected AttributeMetaData attribute;
 		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="parent"> The parent <see cref="AttributeFrame"/>. </param>
-		public Item(Frame parent, string name) : base(parent)
+		public Item(Frame parent, AttributeMetaData attribute) : base(parent)
 		{
 			this.frame = parent;
+			this.attribute = attribute;
 			
 			// style
 			FrameShape = Shape.Box;
@@ -47,22 +49,24 @@ namespace MonoWorks.Gui.Attributes
 			
 			// add the label and control
 			QVBoxLayout layoutBox = new QVBoxLayout(this);
-			layoutBox.AddWidget( new QLabel(name, this));
-			Control control = GetControl(parent.Entity, name); 
+			layoutBox.AddWidget( new QLabel(attribute.Name, this));
+			Control control = GetControl(attribute.Type); 
+			control.PopulateValue(parent.Entity, attribute.Name);
 			layoutBox.AddWidget(control);
+			
+			// set the description
+			this.ToolTip = attribute.Description;
 		}
 		
 		/// <summary>
-		/// Gets a widget for the given entity attribute.
+		/// Gets a widget for the given attribute type.
 		/// </summary>
-		/// <param name="entity"> A <see cref="Entity"/>. </param>
-		/// <param name="name">The name of the attribute. </param>
+		/// <param name="type"> The type of the control. </param>
 		/// <returns> A new <see cref="AttributeControl"/>. </returns>
-		protected Control GetControl(Entity entity, string name)
+		protected Control GetControl(string type)
 		{
-			object obj = entity.GetAttribute(name);
 			Control widget;
-			switch (obj.GetType().ToString())
+			switch (type)
 			{
 			case "System.String":
 				widget = new StringControl(this);
@@ -77,7 +81,6 @@ namespace MonoWorks.Gui.Attributes
 				widget = new Control(this);
 				break;
 			}
-			widget.PopulateValue(entity, name);
 			return widget;
 		}
 		

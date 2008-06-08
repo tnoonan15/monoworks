@@ -24,6 +24,7 @@ namespace MonoWorks.Model
 {
 		
 	using EntityList = List<Entity>;
+	
 
 	/// <summary>
 	/// The Entity class is the base class for all MonoWorks model objects.
@@ -83,6 +84,18 @@ namespace MonoWorks.Model
 		public virtual string TypeName
 		{
 			get {return "entity";}
+		}
+		
+		/// <value>
+		/// The unqualified name of the class.
+		/// </value>
+		public string ClassName
+		{
+			get
+			{
+				string[] nameComps = this.GetType().ToString().Split('.');
+				return nameComps[nameComps.Length-1];
+			}
 		}
 		
 #region The Document
@@ -243,6 +256,15 @@ namespace MonoWorks.Model
 		/// Current momento number.
 		/// </summary>
 		protected int currentMomento;
+		
+		/// <summary>
+		/// Gets the attribute meta data for this entity (and all of its super classes).
+		/// </summary>
+		/// <returns> A list of attribute meta data. </returns>
+		public List<AttributeMetaData> GetAttributeMetaData()
+		{
+			return EntityMetaData.TopLevel.GetEntity(this.ClassName).AttributeList;
+		}
 		
 		/// <summary>
 		/// Appends a momento to the momento list.

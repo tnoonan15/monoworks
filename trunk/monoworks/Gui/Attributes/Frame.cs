@@ -101,10 +101,10 @@ namespace MonoWorks.Gui.Attributes
 			{
 				this.entity = value;
 				Clear();
-				
-				foreach (string name in entity.AttributeNames)
+				EntityMetaData entityData = EntityMetaData.TopLevel.GetEntity(entity.ClassName);
+				foreach (AttributeMetaData attribute in entityData.AttributeList)
 				{
-					Item item = new Item(this, name);
+					Item item = new Item(this, attribute);
 					vbox.AddWidget(item, 0);
 					items.Add(item);
 				}
