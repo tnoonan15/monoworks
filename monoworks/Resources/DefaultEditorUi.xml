@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ui>
+	<Actions>
+		<Action name="New Python" slot="NewPython()" icon="python" shortcut="Ctrl+N" statusTip="Create a new Python script"/>
+		<Action name="New Ruby" slot="NewPython()" icon="ruby" shortcut="Ctrl+R" statusTip="Create a new Ruby script"/>
+		<Action name="Open" slot="OpenFile()" icon="open" shortcut="Ctrl+O" statusTip="Open an existing file"/>
+		<Action name="Save" slot="SaveFile()" icon="save" shortcut="Ctrl+S" statusTip="Save the current file"/>
+		<Action name="Save As" slot="SaveFileAs()" icon="save-as" shortcut="Ctrl+A" statusTip="Save the current file with a different name"/>
+		<Action name="Close Script" slot="CloseFile()" icon="close" shortcut="Ctrl+W" statusTip="Close the current script"/>
+		<Action name="Close Editor" slot="Quit()" icon="exit" shortcut="Ctrl+Q" statusTip="Close the script editor"/>
+		
+		<Action name="Undo" slot="Undo()" icon="edit-undo" shortcut="Ctrl+Z" statusTip="Undo the last action"/>
+		<Action name="Redo" slot="Redo()" icon="edit-redo" shortcut="Ctrl+Y" statusTip="Redo the last undone action"/>
+		<Action name="Cut" slot="EditCut()" icon="edit-cut" shortcut="Ctrl+X" statusTip="Cut the current selection to the clipboard"/>
+		<Action name="Copy" slot="EditCopy()" icon="edit-copy" shortcut="Ctrl+C" statusTip="Copy the current selection to the clipboard"/>
+		<Action name="Paste" slot="EditPaste()" icon="edit-paste" shortcut="Ctrl+V" statusTip="Paste the clipboard"/>
+	
+	</Actions>
+
+	<Menus>
+		<Menu name="File">
+			<MenuItem action="New Python"/>
+			<MenuItem action="New Ruby"/>
+			<MenuItem action="Open"/>
+			<MenuItem action="Save"/>
+			<MenuItem action="Save As"/>
+			<MenuItem action="Close Script"/>
+			<Separator/>
+			<MenuItem action="Close Editor"/>
+		</Menu>
+		<Menu name="Edit">
+			<MenuItem action="Undo"/>
+			<MenuItem action="Redo"/>
+			<Separator/>
+			<MenuItem action="Cut"/>
+			<MenuItem action="Copy"/>
+			<MenuItem action="Paste"/>
+		</Menu>
+	</Menus>
+
+	<Toolbars>
+		<Toolbar name="File">
+			<ToolItem action="New Python"/>
+			<ToolItem action="New Ruby"/>
+			<ToolItem action="Open"/>
+			<ToolItem action="Save"/>
+			<ToolItem action="Save As"/>
+			<ToolItem action="Close Script"/>
+			<Separator/>
+			<ToolItem action="Close Editor"/>
+		</Toolbar>
+		<Toolbar name="Edit">
+			<ToolItem action="Undo"/>
+			<ToolItem action="Redo"/>
+			<Separator/>
+			<ToolItem action="Cut"/>
+			<ToolItem action="Copy"/>
+			<ToolItem action="Paste"/>
+		</Toolbar>
+	</Toolbars>
+		
+</Ui>

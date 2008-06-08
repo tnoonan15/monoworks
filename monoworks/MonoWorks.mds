@@ -4,7 +4,6 @@
       <Entry build="True" name="Base" configuration="Debug" />
       <Entry build="True" name="Studio" configuration="Debug" />
       <Entry build="True" name="Model" configuration="Debug" />
-      <Entry build="True" name="Viewer" configuration="Debug" />
       <Entry build="True" name="Gui" configuration="Debug" />
       <Entry build="True" name="Resources" configuration="Default" />
     </Configuration>
@@ -12,17 +11,15 @@
       <Entry build="True" name="Base" configuration="Release" />
       <Entry build="True" name="Studio" configuration="Release" />
       <Entry build="True" name="Model" configuration="Release" />
-      <Entry build="True" name="Viewer" configuration="Release" />
       <Entry build="True" name="Gui" configuration="Release" />
       <Entry build="True" name="Resources" configuration="Default" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="Viewer" single="True">
+  <StartMode startupentry="Studio" single="True">
     <Execute type="None" entry="Base" />
     <Execute type="None" entry="Model" />
     <Execute type="None" entry="App" />
     <Execute type="None" entry="ModelView" />
-    <Execute type="None" entry="Viewer" />
     <Execute type="None" entry="Gui" />
     <Execute type="None" entry="Resources" />
   </StartMode>
@@ -30,7 +27,6 @@
     <Entry filename="Base/Base.mdp" />
     <Entry filename="Studio/Studio.mdp" />
     <Entry filename="Model/Model.mdp" />
-    <Entry filename="Viewer/Viewer.mdp" />
     <Entry filename="Gui/Gui.mdp" />
     <Entry filename="Resources/Resources.mdp" />
   </Entries>

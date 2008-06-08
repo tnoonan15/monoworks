@@ -29,9 +29,9 @@ namespace MonoWorks.Gui
 	/// The UiManager loads toolbars and menus from an XML file and places them in the window.
 	/// It can then write the modified configuration back to a file.
 	/// </summary>
-	public class UiManager
+	public class UiManager<WindowType> where WindowType: QMainWindow
 	{
-		protected QWidget parent;
+		protected WindowType parent;
 		
 		/// <summary>
 		/// Default constructor.
@@ -57,7 +57,7 @@ namespace MonoWorks.Gui
 		/// <summary>
 		/// Parent initialization constructor.
 		/// </summary>
-		public UiManager(QMainWindow parent) : this()
+		public UiManager(WindowType parent) : this()
 		{
 			this.parent = parent;
 		}
@@ -89,7 +89,19 @@ namespace MonoWorks.Gui
 		/// </summary>
 		public virtual void Load()
 		{
-			Load(ResourceManager.ResourceDirectory + "DefaultUi.xml");
+			string fileName;
+			switch (typeof(WindowType).ToString())
+			{
+			case "MonoWorks.Studio.MainWindow":
+				fileName = "DefaultUi.xml";
+				break;
+			case "MonoWorks.Gui.Editor.Window":
+				fileName = "DefaultEditorUi.xml";
+				break;
+			default:
+				throw new Exception("Invalid type for UiManager");
+			}
+			Load(ResourceManager.ResourceDirectory + fileName);
 		}
 		
 		
@@ -157,16 +169,6 @@ namespace MonoWorks.Gui
 		}
 		
 		
-		/// <value>
-		/// The widget that actions should get assigned to.
-		/// </value>
-		protected virtual QObject ActionWidget
-		{
-			get {return parent;}
-		}
-			
-		
-		
 		/// <summary>
 		/// Creates a new action from the UI file stream.
 		/// </summary>
@@ -190,7 +192,7 @@ namespace MonoWorks.Gui
 				action.StatusTip = (string)reader.GetAttribute("statusTip");
 			
 			// connect the slot
-			QObject.Connect(action, QObject.SIGNAL("triggered()"), ActionWidget, QObject.SLOT((string)reader.GetAttribute("slot")));
+			QObject.Connect(action, QObject.SIGNAL("triggered()"), parent, QObject.SLOT((string)reader.GetAttribute("slot")));
 		}
 	
 		
@@ -203,7 +205,7 @@ namespace MonoWorks.Gui
 		protected virtual void CreateMenu(XmlReader reader)
 		{
 			string name = (string)reader.GetAttribute("name");
-			QMenu menu = ((QMainWindow)parent).MenuBar().AddMenu(name);
+			QMenu menu = parent.MenuBar().AddMenu(name);
 			currentMenu = menu;
 			menus[name] = menu;
 		}
@@ -234,7 +236,7 @@ namespace MonoWorks.Gui
 		protected virtual void CreateToolbar(XmlReader reader)
 		{
 			string name = (string)reader.GetAttribute("name");
-			QToolBar toolbar = ((QMainWindow)parent).AddToolBar(name);
+			QToolBar toolbar = parent.AddToolBar(name);
 			currentToolbar = toolbar;
 			toolbar.Size = new QSize(48, 48);
 			toolbars[name] = toolbar;
@@ -267,7 +269,7 @@ namespace MonoWorks.Gui
 		{
 			string name = (string)reader.GetAttribute("name");
 			QDockWidget dockWidget = new QDockWidget(name, parent);
-			((QMainWindow)parent).AddDockWidget(QDockWidget.DockWidgetArea.RightDockWidgetArea, dockWidget);
+			parent.AddDockWidget(QDockWidget.DockWidgetArea.RightDockWidgetArea, dockWidget);
 			currentToolbox = new Toolbox(dockWidget);
 			dockWidget.SetWidget(currentToolbox);
 

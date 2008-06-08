@@ -58,19 +58,12 @@
     <File name="icons22/info.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/leftView.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/line.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons22/mini_rect.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/move.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/new.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/no3D.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/open-recent.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/open.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons22/pen.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons22/plane.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons22/point.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons22/polygon.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons22/polyline.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/preferences.png" subtype="Code" buildaction="Nothing" />
-    <File name="icons22/rectangle.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/refline.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/remove.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/rightView.png" subtype="Code" buildaction="Nothing" />
@@ -157,5 +150,10 @@
     <File name="icons22/refplane.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/apply.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/cancel.png" subtype="Code" buildaction="Nothing" />
+    <File name="DefaultEditorUi.xml" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/play.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/python.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/ruby.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons22/script-editor.png" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

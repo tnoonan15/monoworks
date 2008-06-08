@@ -40,7 +40,7 @@ namespace MonoWorks.Studio
 			ResourceManager.Initialize();
 			
 			// load the UI
-			uiManager = new UiManager(this);
+			uiManager = new UiManager<MainWindow>(this);
 			uiManager.Load();
 			
 			// add the document area
@@ -56,7 +56,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// User interface manager.
 		/// </summary>
-		protected UiManager uiManager;
+		protected UiManager<MainWindow> uiManager;
 
 		protected QMdiArea docArea;
 		
@@ -74,7 +74,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Create a new file.
 		/// </summary>
-		[Q_SLOT("NewFile()")]
+		[Q_SLOT()]
 		public void NewFile()
 		{
 			DocWindow docWindow = new DocWindow(this);
@@ -85,7 +85,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Open an existing.
 		/// </summary>
-		[Q_SLOT("OpenFile()")]
+		[Q_SLOT()]
 		public void OpenFile()
 		{
 			Console.WriteLine("Open FIle");
@@ -94,7 +94,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Save the current file.
 		/// </summary>
-		[Q_SLOT("SaveFile()")]
+		[Q_SLOT()]
 		public void SaveFile()
 		{
 			Console.WriteLine("Save FIle");
@@ -103,7 +103,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Save the current file with a different name.
 		/// </summary>
-		[Q_SLOT("SaveFileAs()")]
+		[Q_SLOT()]
 		public void SaveFileAs()
 		{
 			Console.WriteLine("Save File As");
@@ -112,16 +112,28 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Close the current file.
 		/// </summary>
-		[Q_SLOT("CloseFile()")]
+		[Q_SLOT()]
 		public void CloseFile()
 		{
 			Console.WriteLine("Close File");
 		}
 		
 		/// <summary>
+		/// Opens the script editor.
+		/// </summary>
+		[Q_SLOT()]
+		public void OpenScriptEditor()
+		{
+			Console.WriteLine("open script editor");
+			MonoWorks.Gui.Editor.Window window = new MonoWorks.Gui.Editor.Window();
+			window.WindowTitle = "MonoWorks Script Editor";
+			window.Show();
+		}
+		
+		/// <summary>
 		/// Quits the application.
 		/// </summary>
-		[Q_SLOT("Quit()")]
+		[Q_SLOT()]
 		public void Quit()
 		{
 			Console.WriteLine("Quit");
@@ -136,7 +148,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Undo the last action.
 		/// </summary>
-		[Q_SLOT("Undo()")]
+		[Q_SLOT()]
 		public void Undo()
 		{
 			Console.WriteLine("Undo");
@@ -145,7 +157,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Redo the last undone action.
 		/// </summary>
-		[Q_SLOT("Redo()")]
+		[Q_SLOT()]
 		public void Redo()
 		{
 			Console.WriteLine("Redo");
@@ -154,7 +166,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Copy the current selection to the clipboard.
 		/// </summary>
-		[Q_SLOT("EditCopy()")]
+		[Q_SLOT()]
 		public void EditCopy()
 		{
 			Console.WriteLine("Copy");
@@ -163,7 +175,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Cut the current selection to the clipboard.
 		/// </summary>
-		[Q_SLOT("EditCut()")]
+		[Q_SLOT()]
 		public void EditCut()
 		{
 			Console.WriteLine("Cut");
@@ -172,7 +184,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Pastes the clipboard.
 		/// </summary>
-		[Q_SLOT("EditPaste()")]
+		[Q_SLOT()]
 		public void EditPaste()
 		{
 			Console.WriteLine("Paste");
@@ -186,7 +198,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Opens the render preferences dialog.
 		/// </summary>
-		[Q_SLOT("RenderPreferences()")]
+		[Q_SLOT()]
 		public void RenderPreferences()
 		{
 			Console.WriteLine("Render Preferences");
@@ -200,7 +212,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Create a new sketch.
 		/// </summary>
-		[Q_SLOT("NewSketch()")]
+		[Q_SLOT()]
 		public void NewSketch()
 		{
 			Console.WriteLine("New Sketch");
@@ -209,7 +221,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Edit the current sketch.
 		/// </summary>
-		[Q_SLOT("EditSketch()")]
+		[Q_SLOT()]
 		public void EditSketch()
 		{
 			Console.WriteLine("Edit Sketch");
@@ -218,7 +230,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Add a line to the current sketch.
 		/// </summary>
-		[Q_SLOT("SketchLine()")]
+		[Q_SLOT()]
 		public void SketchLine()
 		{
 			Console.WriteLine("Sketch Line");
@@ -227,7 +239,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Add an arc to the current sketch.
 		/// </summary>
-		[Q_SLOT("SketchArc()")]
+		[Q_SLOT()]
 		public void SketchArc()
 		{
 			Console.WriteLine("Sketch Arc");
@@ -236,7 +248,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Add a spline to the current sketch.
 		/// </summary>
-		[Q_SLOT("SketchSpline()")]
+		[Q_SLOT()]
 		public void SketchSpline()
 		{
 			Console.WriteLine("Sketch Spline");
@@ -250,7 +262,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Add an extrusion.
 		/// </summary>
-		[Q_SLOT("AddExtrusion()")]
+		[Q_SLOT()]
 		public void AddExtrusion()
 		{
 			Console.WriteLine("Add Extrusion");
@@ -259,7 +271,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Add a revolution.
 		/// </summary>
-		[Q_SLOT("AddRevolution()")]
+		[Q_SLOT()]
 		public void AddRevolution()
 		{
 			Console.WriteLine("Add Revolutioni");
@@ -268,7 +280,7 @@ namespace MonoWorks.Studio
 		/// <summary>
 		/// Add a sweep.
 		/// </summary>
-		[Q_SLOT("AddSweep()")]
+		[Q_SLOT()]
 		public void AddSweep()
 		{
 			Console.WriteLine("Add Sweep");
