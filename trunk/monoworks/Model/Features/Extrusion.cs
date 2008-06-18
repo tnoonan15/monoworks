@@ -56,14 +56,14 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Appends a momento to the momento list.
 		/// </summary>
-		protected override void AddMomento()
+		protected override Momento DefaultMomento()
 		{
-			base.AddMomento();
-			Momento momento = momentos[momentos.Count-1];
+			Momento momento = base.DefaultMomento();
 			momento["path"] = new RefLine();
 			momento["spin"] = new Angle();
 			momento["scale"] = 1.0;
 			momento["travel"] = new Length();
+			return momento;
 		}
 		
 #endregion
@@ -78,12 +78,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public RefLine Path
 		{
-			get {return (RefLine)CurrentMomento["path"];}
-			set
-			{
-				CurrentMomento["path"] = value;
-				MakeDirty();
-			}
+			get {return (RefLine)this["path"];}
+			set {this["path"] = value;}
 		}		
 		
 
@@ -92,12 +88,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public Angle Spin
 		{
-			get {return (Angle)CurrentMomento["spin"];}
-			set
-			{
-				CurrentMomento["spin"] = value;
-				MakeDirty();
-			}
+			get {return (Angle)this["spin"];}
+			set {this["spin"] = value;}
 		}
 		
 		
@@ -106,12 +98,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public double Scale
 		{
-			get {return (double)CurrentMomento["scale"];}
-			set
-			{
-				CurrentMomento["scale"] = value;
-				MakeDirty();
-			}
+			get {return (double)this["scale"];}
+			set {this["scale"] = value;}
 		}
 		
 		
@@ -120,12 +108,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public Length Travel
 		{
-			get {return (Length)CurrentMomento["travel"];}
-			set
-			{
-				CurrentMomento["travel"] = value;
-				MakeDirty();
-			}
+			get {return (Length)this["travel"];}
+			set {this["travel"] = value;}
 		}
 		
 #endregion

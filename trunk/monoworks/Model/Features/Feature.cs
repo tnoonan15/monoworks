@@ -42,6 +42,11 @@ namespace MonoWorks.Model
 			this.document = sketch.GetDocument();
 			this.Sketch = sketch;
 			
+			// Copy the working momento back to the first momento to take into account 
+			// the sketch. This has to be done becuase the Entity constructor sets the first 
+			// momento but we want the sketch to be included.
+			momentos[0]["sketch"] = sketch;
+			
 			// initialize the display lists
 			displayLists = 0;
 		}
@@ -67,16 +72,13 @@ namespace MonoWorks.Model
 
 #region Momentos
 				
-		/// <summary>
-		/// Appends a momento to the momento list.
-		/// </summary>
-		protected override void AddMomento()
+		protected override Momento DefaultMomento()
 		{
-			base.AddMomento();
-			Momento momento = momentos[momentos.Count-1];
+			Momento momento = base.DefaultMomento();
 			momento["sketch"] = null;
 			momento["material"] = new Material();
 			momento["cartoonColor"] = new Color();
+			return momento;
 		}
 				
 		/// <value>
@@ -84,13 +86,13 @@ namespace MonoWorks.Model
 		/// </value>
 		public Sketch Sketch
 		{
-			get {return (Sketch)CurrentMomento["sketch"];}
+			get {return (Sketch)this["sketch"];}
 			set
 			{
 				// remove the old sketch if there was one
 //				if (Sketch != null)
 //					RemoveChild(Sketch);
-				CurrentMomento["sketch"] = value;
+				this["sketch"] = value;
 				// assign the sketch as a child of this feature
 				value.Parent.RemoveChild(value);
 				AddChild(value);
@@ -102,8 +104,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public Material Material
 		{
-			get {return (Material)CurrentMomento["material"];}
-			set {CurrentMomento["material"] = value;}
+			get {return (Material)this["material"];}
+			set {this["material"] = value;}
 		}
 		
 		/// <value>
@@ -111,8 +113,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public Color CartoonColor
 		{
-			get {return (Color)CurrentMomento["cartoonColor"];}
-			set {CurrentMomento["cartoonColor"] = value;}
+			get {return (Color)this["cartoonColor"];}
+			set {this["cartoonColor"] = value;}
 		}
 	
 #endregion

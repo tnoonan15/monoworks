@@ -64,15 +64,12 @@ namespace MonoWorks.Model
 		
 #region Attributes
 						
-		/// <summary>
-		/// Appends a momento to the momento list.
-		/// </summary>
-		protected override void AddMomento()
+		protected override Momento DefaultMomento()
 		{
-			base.AddMomento();
-			Momento momento = momentos[momentos.Count-1];
+			Momento momento = base.DefaultMomento();
 			momento["center"] = new Point();
 			momento["direction"] = new Vector();
+			return momento;
 		}
 				
 		
@@ -81,8 +78,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public Point Center
 		{
-			get {return (Point)CurrentMomento["center"];}
-			set { CurrentMomento["center"] = value;}
+			get {return (Point)this["center"];}
+			set { this["center"] = value;}
 		}
 		
 		
@@ -91,8 +88,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public Vector Direction
 		{
-			get {return (Vector)CurrentMomento["direction"];}
-			set { CurrentMomento["direction"] = value;}
+			get {return (Vector)this["direction"];}
+			set { this["direction"] = value;}
 		}
 		
 		
