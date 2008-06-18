@@ -65,17 +65,14 @@ namespace MonoWorks.Model
 
 #region Momentos
 				
-		/// <summary>
-		/// Appends a momento to the momento list.
-		/// </summary>
-		protected override void AddMomento()
+		protected override Momento DefaultMomento()
 		{
-			base.AddMomento();
-			Momento momento = momentos[momentos.Count-1];
+			Momento momento = base.DefaultMomento();
 			momento["center"] = new Point();
 			momento["start"] = new Point();
 			momento["normal"] = new Vector();
 			momento["sweep"] = new Angle();
+			return momento;
 		}
 		
 #endregion
@@ -88,11 +85,10 @@ namespace MonoWorks.Model
 		/// </value>
 		public Point Center
 		{
-			get {return (Point)CurrentMomento["center"];}
+			get {return (Point)this["center"];}
 			set
 			{
-				CurrentMomento["center"] = value;
-				MakeDirty();
+				this["center"] = value;
 			}
 		}
 
@@ -101,11 +97,10 @@ namespace MonoWorks.Model
 		/// </value>
 		public Point Start
 		{
-			get {return (Point)CurrentMomento["start"];}
+			get {return (Point)this["start"];}
 			set
 			{
-				CurrentMomento["start"] = value;
-				MakeDirty();
+				this["start"] = value;
 			}
 		}
 
@@ -114,11 +109,10 @@ namespace MonoWorks.Model
 		/// </value>
 		public Vector Normal
 		{
-			get {return (Vector)CurrentMomento["normal"];}
+			get {return (Vector)this["normal"];}
 			set
 			{
-				CurrentMomento["normal"] = value;
-				MakeDirty();
+				this["normal"] = value;
 			}
 		}
 
@@ -128,11 +122,10 @@ namespace MonoWorks.Model
 		/// </value>
 		public Angle Sweep
 		{
-			get {return (Angle)CurrentMomento["sweep"];}
+			get {return (Angle)this["sweep"];}
 			set
 			{
-				CurrentMomento["sweep"] = value;
-				MakeDirty();
+				this["sweep"] = value;
 			}
 		}
 			

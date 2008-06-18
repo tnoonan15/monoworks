@@ -43,7 +43,7 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// The Dimensional class represents dimensional quantities. 
 	/// </summary>
-	public class Dimensional
+	public class Dimensional : ICopyable
 	{
 		
 		/// <summary>
@@ -61,6 +61,14 @@ namespace MonoWorks.Base
 		public Dimensional(double val) : this()
 		{
 			this.val = val;
+		}
+		
+		
+		public object DeepCopy()
+		{
+			Dimensional other = (Dimensional)System.Activator.CreateInstance(this.GetType());
+			other.val = val;
+			return other;
 		}
 		
 		

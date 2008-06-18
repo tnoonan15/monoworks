@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Model
 {
 	
@@ -44,7 +46,10 @@ namespace MonoWorks.Model
 			Momento other = new Momento();
 			foreach (KeyValuePair<string, object> attr in this)
 			{
-				other[attr.Key] = attr.Value;
+				if (attr.Value is ICopyable)
+					other[attr.Key] = ((ICopyable)attr.Value).DeepCopy();
+				else
+					other[attr.Key] = attr.Value;
 			}
 			return other;
 		}

@@ -59,13 +59,13 @@ namespace MonoWorks.Gui.Attributes
 			cancelButton.icon = ResourceManager.GetIcon("cancel");
 			cancelButton.IconSize = new QSize(48, 48);
 			buttonBox.AddWidget(cancelButton);
-			Connect(cancelButton, SIGNAL("clicked()"), docFrame, SLOT("EntityAttributesCancel()"));
+			Connect(cancelButton, SIGNAL("clicked()"), this, SLOT("EntityAttributesCancel()"));
 			// okay button
 			QPushButton applyButton = new QPushButton(buttonFrame);
 			applyButton.icon = ResourceManager.GetIcon("apply");
 			applyButton.IconSize = new QSize(48, 48);
 			buttonBox.AddWidget(applyButton);
-			Connect(applyButton, SIGNAL("clicked()"), docFrame, SLOT("EntityAttributesApply()"));
+			Connect(applyButton, SIGNAL("clicked()"), this, SLOT("EntityAttributesApply()"));
 		}
 		
 		/// <summary>
@@ -117,9 +117,55 @@ namespace MonoWorks.Gui.Attributes
 		
 #region Updating
 		
+		/// <summary>
+		/// Called when one of the attributes was updated.
+		/// </summary>
 		public void OnAttributeUpdated()
 		{
 			docFrame.Viewport.Paint();
+		}
+		
+		/// <value>
+		/// Whether any of the attributes were updated.
+		/// </value>
+		protected bool WasUpdated
+		{
+			get
+			{
+				foreach (Item item in items)
+				{
+					if (item.WasUpdated)
+						return true;
+				}
+				return false;
+			}
+		}
+		
+#endregion
+		
+		
+#region Exiting
+				
+		/// <summary>
+		/// Cancels the entity action editing.
+		/// </summary>
+		[Q_SLOT]
+		public void EntityAttributesCancel()
+		{
+			Console.WriteLine("entity attributes cancel");
+			docFrame.CloseEntityAttributes();
+			entity.Revert();
+		}
+		
+		/// <summary>
+		/// Applies the entity action editing.
+		/// </summary>
+		[Q_SLOT]
+		public void EntityAttributesApply()
+		{
+			Console.WriteLine("entity attributes apply");
+			docFrame.CloseEntityAttributes();
+			entity.Snapshot();
 		}
 		
 #endregion

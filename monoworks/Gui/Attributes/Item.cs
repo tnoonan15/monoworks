@@ -43,6 +43,8 @@ namespace MonoWorks.Gui.Attributes
 			this.frame = parent;
 			this.attribute = attribute;
 			
+			wasUpdated = false;
+			
 			// style
 			FrameShape = Shape.Box;
 			SetBackgroundRole( QPalette.ColorRole.Light);
@@ -84,12 +86,26 @@ namespace MonoWorks.Gui.Attributes
 			return widget;
 		}
 		
+		
+#region Attribute Updating
+				
 		/// <summary>
 		/// Handles an attribute being updated.
 		/// </summary>
 		public void OnAttributeUpdated()
 		{
+			wasUpdated = true;
 			frame.OnAttributeUpdated();
 		}
+
+		protected bool wasUpdated;
+		/// <value>
+		/// Whether the attribute has been updated.
+		/// </value>
+		public bool WasUpdated
+		{
+			get {return wasUpdated;}
+		}
+#endregion
 	}
 }

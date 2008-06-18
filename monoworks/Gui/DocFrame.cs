@@ -145,22 +145,10 @@ namespace MonoWorks.Gui
 		}
 		
 		/// <summary>
-		/// Cancels the entity action editing.
+		/// Closes the entity attributes frame.
 		/// </summary>
-		[Q_SLOT]
-		public void EntityAttributesCancel()
+		public void CloseEntityAttributes()
 		{
-			Console.WriteLine("entity attributes cancel");
-			attributeFrame.SetVisible(false);
-		}
-		
-		/// <summary>
-		/// Applies the entity action editing.
-		/// </summary>
-		[Q_SLOT]
-		public void EntityAttributesApply()
-		{
-			Console.WriteLine("entity attributes apply");
 			attributeFrame.SetVisible(false);
 		}
 		

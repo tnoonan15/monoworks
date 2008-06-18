@@ -72,10 +72,13 @@ namespace MonoWorks.Model
 			bounds = new Bounds();
 			children = new EntityList();
 			dependencies = new EntityList();
-			momentos = new List<Momento>();
-			AddMomento();
-			currentMomento = 0;
 			isSelected = false;
+			
+			// initialize momentos
+			momentos = new List<Momento>();
+			workingMomento = DefaultMomento();
+			currentMomentoIndex = 0;
+			Snapshot();
 		}
 
 		/// <value>
@@ -118,6 +121,143 @@ namespace MonoWorks.Model
 #endregion
 		
 		
+
+#region Momentos
+		
+		/// <summary>
+		/// List of momentos.
+		/// </summary>
+		protected List<Momento> momentos;
+		
+		/// <summary>
+		/// Current momento number.
+		/// </summary>
+		protected int currentMomentoIndex;
+		
+		/// <summary>
+		/// The working momento.
+		/// </summary>
+		protected Momento workingMomento;		
+		
+		/// <summary>
+		/// Gets the attribute meta data for this entity (and all of its super classes).
+		/// </summary>
+		/// <returns> A list of attribute meta data. </returns>
+		public List<AttributeMetaData> GetAttributeMetaData()
+		{
+			return EntityMetaData.TopLevel.GetEntity(this.ClassName).AttributeList;
+		}
+		
+		/// <summary>
+		/// Generates the default momento.
+		/// </summary>
+		protected virtual Momento DefaultMomento()
+		{
+			Momento momento = new Momento();
+			momento["name"] = TypeName + Entity.GetCount(TypeName).ToString();
+			return momento;
+		}
+		
+		/// <summary>
+		/// Removes the momentos after the current one.
+		/// </summary>
+		public void RemoveLeadingMomentos()
+		{
+			Console.WriteLine("current momento: {0}, num momentos: {1}", currentMomentoIndex, momentos.Count);
+			if (currentMomentoIndex < momentos.Count-1)
+				momentos.RemoveRange(currentMomentoIndex+1, momentos.Count-currentMomentoIndex+1);
+		}
+		
+		/// <summary>
+		/// Takes a snapshot of the current momento and makes a new one.
+		/// </summary>
+		public void Snapshot()
+		{
+			RemoveLeadingMomentos();
+			momentos.Add(workingMomento.Duplicate());
+			currentMomentoIndex = momentos.Count - 1;
+		}
+		
+		/// <summary>
+		/// Reverts the working momento to the current one.
+		/// </summary>
+		public void Revert()
+		{
+			workingMomento = momentos[currentMomentoIndex].Duplicate();
+			MakeDirty();
+		}
+				
+		/// <summary>
+		/// Returns the attribute of the given name.
+		/// </summary>
+		/// <param name="name"> Name of the attribute. </param>
+		/// <returns> The attribute </returns>
+		public object GetAttribute(string name)
+		{
+			if (workingMomento.ContainsKey(name))
+				return workingMomento[name];
+			else
+				throw new Exception("This entity does not contain an attribute named " + name + ".");
+		}
+		
+		/// <summary>
+		/// Sets an attribute.
+		/// </summary>
+		/// <param name="name"> The attribute's name. </param>
+		/// <param name="value"> The attribute's value. </param>
+		public void SetAttribute(string name, object value)
+		{
+			if (workingMomento.ContainsKey(name))
+			{
+				workingMomento[name] = value;
+				MakeDirty();
+			}
+			else
+				throw new Exception("This entity does not contain an attribute named " + name + ".");
+		}
+		
+		/// <value>
+		/// Attribute accessors.
+		/// </value>
+		public object this[string name]
+		{
+			get {return GetAttribute(name);}
+			set {SetAttribute(name, value);}
+		}
+		
+		/// <value>
+		/// The names of the attributes.
+		/// </value>
+		public string[] AttributeNames
+		{
+			get
+			{
+				string[] array = new string[workingMomento.Count];
+				workingMomento.Keys.CopyTo(array, 0);
+				return array;
+			}
+		}
+		
+		/// <value>
+		/// Gets the item name.
+		/// </value>
+		public string Name
+		{
+			get {return (string)workingMomento["name"];}
+			set {workingMomento["name"] = value;}
+		}
+		
+		
+		protected long id;
+		/// <value>
+		/// Gets the item id.
+		/// </value>
+		public long Id
+		{
+			get {return id;}
+		}
+		
+#endregion		
 		
 
 #region Children
@@ -243,118 +383,7 @@ namespace MonoWorks.Model
 		}
 		
 #endregion
-		
 
-#region Momentos
-		
-		/// <summary>
-		/// List of momentos.
-		/// </summary>
-		protected List<Momento> momentos;
-		
-		/// <summary>
-		/// Current momento number.
-		/// </summary>
-		protected int currentMomento;
-		
-		/// <summary>
-		/// Gets the attribute meta data for this entity (and all of its super classes).
-		/// </summary>
-		/// <returns> A list of attribute meta data. </returns>
-		public List<AttributeMetaData> GetAttributeMetaData()
-		{
-			return EntityMetaData.TopLevel.GetEntity(this.ClassName).AttributeList;
-		}
-		
-		/// <summary>
-		/// Appends a momento to the momento list.
-		/// </summary>
-		protected virtual void AddMomento()
-		{
-			Momento momento = new Momento();
-			momento["name"] = TypeName + Entity.GetCount(TypeName).ToString();
-			momentos.Add(momento);
-			MakeDirty();
-		}
-		
-		/// <summary>
-		/// Takes a snapshot of the current momento and makes a new one.
-		/// </summary>
-		public void Snapshot()
-		{
-			momentos.Add(CurrentMomento.Duplicate());
-		}
-		
-		/// <value>
-		/// The current momento.
-		/// </value>
-		protected Momento CurrentMomento
-		{
-			get {return momentos[currentMomento];}
-		}
-		
-		/// <summary>
-		/// Returns the attribute of the given name.
-		/// </summary>
-		/// <param name="name"> Name of the attribute. </param>
-		/// <returns> The attribute </returns>
-		public object GetAttribute(string name)
-		{
-			if (CurrentMomento.ContainsKey(name))
-				return CurrentMomento[name];
-			else
-				throw new Exception("This entity does not contain an attribute named " + name + ".");
-		}
-		
-		/// <summary>
-		/// Sets an attribute.
-		/// </summary>
-		/// <param name="name"> The attribute's name. </param>
-		/// <param name="value"> The attribute's value. </param>
-		public void SetAttribute(string name, object value)
-		{
-			if (CurrentMomento.ContainsKey(name))
-			{
-				CurrentMomento[name] = value;
-				MakeDirty();
-			}
-			else
-				throw new Exception("This entity does not contain an attribute named " + name + ".");
-		}
-		
-		/// <value>
-		/// The names of the attributes.
-		/// </value>
-		public string[] AttributeNames
-		{
-			get
-			{
-				string[] array = new string[CurrentMomento.Count];
-				CurrentMomento.Keys.CopyTo(array, 0);
-				return array;
-			}
-		}
-		
-		/// <value>
-		/// Gets the item name.
-		/// </value>
-		public string Name
-		{
-			get {return (string)CurrentMomento["name"];}
-			set {CurrentMomento["name"] = value;}
-		}
-		
-		
-		protected long id;
-		/// <value>
-		/// Gets the item id.
-		/// </value>
-		public long Id
-		{
-			get {return id;}
-		}
-		
-#endregion
 		
 		
 #region Rendering

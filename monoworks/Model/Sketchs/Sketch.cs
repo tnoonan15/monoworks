@@ -47,14 +47,11 @@ namespace MonoWorks.Model
 		
 #region Attributes
 						
-		/// <summary>
-		/// Appends a momento to the momento list.
-		/// </summary>
-		protected override void AddMomento()
+		protected override Momento DefaultMomento()
 		{
-			base.AddMomento();
-			Momento momento = momentos[momentos.Count-1];
+			Momento momento = base.DefaultMomento();
 			momento["plane"] = new RefPlane();
+			return momento;
 		}
 		
 		/// <summary>
@@ -62,8 +59,8 @@ namespace MonoWorks.Model
 		/// </summary>
 		public RefPlane Plane
 		{
-			get {return (RefPlane)CurrentMomento["plane"];}
-			set {CurrentMomento["plane"]= value;}
+			get {return (RefPlane)this["plane"];}
+			set {this["plane"]= value;}
 		}
 		
 #endregion

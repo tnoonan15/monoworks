@@ -52,15 +52,12 @@ namespace MonoWorks.Model
 
 #region Momentos
 				
-		/// <summary>
-		/// Appends a momento to the momento list.
-		/// </summary>
-		protected override void AddMomento()
+		protected override Momento DefaultMomento()
 		{
-			base.AddMomento();
-			Momento momento = momentos[momentos.Count-1];
+			Momento momento = base.DefaultMomento();
 			momento["axis"] = new RefLine();
 			momento["travel"] = new Angle();
+			return momento;
 		}
 		
 #endregion
@@ -74,12 +71,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public RefLine Axis
 		{
-			get {return (RefLine)CurrentMomento["axis"];}
-			set
-			{
-				CurrentMomento["axis"] = value;
-				MakeDirty();
-			}
+			get {return (RefLine)this["axis"];}
+			set {this["axis"] = value;}
 		}	
 
 		
@@ -88,12 +81,8 @@ namespace MonoWorks.Model
 		/// </value>
 		public Angle Travel
 		{
-			get {return (Angle)CurrentMomento["travel"];}
-			set
-			{
-				CurrentMomento["travel"] = value;
-				MakeDirty();
-			}
+			get {return (Angle)this["travel"];}
+			set {this["travel"] = value;}
 		}			
 				
 #endregion
