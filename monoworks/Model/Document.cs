@@ -135,7 +135,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Undo the last action.
 		/// </summary>
-		public void Undo()
+		public override void Undo()
 		{
 			if (currentAction > -1)
 			{
@@ -147,7 +147,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Undo the last undone action.
 		/// </summary>
-		public void Redo()
+		public override void Redo()
 		{
 			if (currentAction < actionList.Count-1)
 			{

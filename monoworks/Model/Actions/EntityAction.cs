@@ -31,22 +31,40 @@ namespace MonoWorks.Model
 	/// </summary>
 	public class EntityAction : Action
 	{
+		protected EntityList entities;
+		
 		/// <summary>
 		/// Default constructor (single entity).
 		/// </summary>
-		/// <param name="entity"> The <see cref="Entity"/> that was edited.
-		/// </param>
+		/// <param name="entity"> The <see cref="Entity"/> that was edited. </param>
 		public EntityAction(Entity entity) : base()
 		{
+			entities = new EntityList();
+			entities.Add(entity);
 		}
 		
 		/// <summary>
 		/// Default constructor (multiple entities).
 		/// </summary>
-		/// <param name="entities"> A <see cref="EntityList"/> containing all entities that were edited.
-		/// </param>
+		/// <param name="entities"> A <see cref="EntityList"/> containing all entities that were edited. </param>
 		public EntityAction(EntityList entities) : base()
 		{
+			this.entities = entities;
 		}
+		
+		
+		public override void Undo()
+		{
+			foreach (Entity entity in entities)
+				entity.Undo();
+		}
+		
+		public override void Redo()
+		{
+			foreach (Entity entity in entities)
+				entity.Redo();
+		}
+
+
 	}
 }

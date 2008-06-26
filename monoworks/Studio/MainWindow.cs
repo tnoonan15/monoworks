@@ -20,6 +20,7 @@
 using System;
 using Qyoto;
 
+using MonoWorks.Model;
 using MonoWorks.Gui;
 
 namespace MonoWorks.Studio
@@ -64,7 +65,20 @@ namespace MonoWorks.Studio
 		
 
 #region Document Windows
-				
+	
+		// The current document window.
+		public DocWindow CurrentDocWindow
+		{
+			get {return (DocWindow)docArea.CurrentSubWindow();}
+		}
+		
+		/// <value>
+		/// The current document.
+		/// </value>
+		public Document CurrentDocument
+		{
+			get {return CurrentDocWindow.Document;}
+		}
 		
 #endregion
 		
@@ -152,6 +166,8 @@ namespace MonoWorks.Studio
 		public void Undo()
 		{
 			Console.WriteLine("Undo");
+			CurrentDocument.Undo();
+			CurrentDocWindow.Refresh();
 		}
 		
 		/// <summary>
@@ -161,6 +177,8 @@ namespace MonoWorks.Studio
 		public void Redo()
 		{
 			Console.WriteLine("Redo");
+			CurrentDocument.Redo();
+			CurrentDocWindow.Refresh();
 		}
 		
 		/// <summary>

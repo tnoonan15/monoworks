@@ -166,6 +166,7 @@ namespace MonoWorks.Gui.Attributes
 			Console.WriteLine("entity attributes apply");
 			docFrame.CloseEntityAttributes();
 			entity.Snapshot();
+			docFrame.Document.AddAction( new EntityAction(entity) );
 		}
 		
 #endregion

@@ -26,8 +26,6 @@
     <File name="Toolbox" subtype="Directory" buildaction="Compile" />
     <File name="Toolbox/Toolbox.cs" subtype="Code" buildaction="Compile" />
     <File name="Toolbox/Toolshelf.cs" subtype="Code" buildaction="Compile" />
-    <File name="EntityMenu.cs" subtype="Code" buildaction="Compile" />
-    <File name="DocumentMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport/ViewportMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree/TreeMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="Attributes" subtype="Directory" buildaction="Compile" />
@@ -41,6 +39,8 @@
     <File name="Menus" subtype="Directory" buildaction="Compile" />
     <File name="Editor/Window.cs" subtype="Code" buildaction="Compile" />
     <File name="Editor/Document.cs" subtype="Code" buildaction="Compile" />
+    <File name="Menus/DocumentMenu.cs" subtype="Code" buildaction="Compile" />
+    <File name="Menus/EntityMenu.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />

@@ -54,7 +54,22 @@ namespace MonoWorks.Studio
 			Console.WriteLine("DocWindow mouse released");
 			docFrame.Viewport.Repaint();
 		}
+		
+		/// <summary>
+		/// Refresh the window.
+		/// </summary>
+		public void Refresh()
+		{
+			docFrame.Viewport.Repaint();
+		}
 
+		/// <value>
+		/// The document belonging to this window.
+		/// </value>
+		public Document Document
+		{
+			get {return docFrame.Document;}
+		}
 		
 	}
 }

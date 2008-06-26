@@ -24,31 +24,19 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// The Action class is the base class for editing actions that are tracked by the document. 
 	/// </summary>
-	public class Action
+	public abstract class Action
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public Action()
-		{
-		}
 		
 
 		/// <summary>
 		/// Undo the action.
 		/// </summary>
-		public virtual void Undo()
-		{
-			throw new Exception("Undo() must be implemented by subclasses.");
-		}
+		public abstract void Undo();
 		
 		/// <summary>
 		/// Redo the action.
 		/// </summary>
-		public virtual void Redo()
-		{
-			throw new Exception("Redo() must be implemented by subclasses.");
-		}
+		public abstract void Redo();
 		
 	}
 }
