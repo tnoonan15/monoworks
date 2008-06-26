@@ -155,5 +155,6 @@
     <File name="icons22/python.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/ruby.png" subtype="Code" buildaction="Nothing" />
     <File name="icons22/script-editor.png" subtype="Code" buildaction="Nothing" />
+    <File name="svg/monoworks-logo.svg" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

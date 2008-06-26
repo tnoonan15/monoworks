@@ -186,6 +186,32 @@ namespace MonoWorks.Model
 			workingMomento = momentos[currentMomentoIndex].Duplicate();
 			MakeDirty();
 		}
+		
+		/// <summary>
+		/// Goes to the previous momento, if there is one.
+		/// </summary>
+		public virtual void Undo()
+		{
+			if (currentMomentoIndex >0)
+			{
+				currentMomentoIndex--;
+				workingMomento = momentos[currentMomentoIndex];
+				MakeDirty();
+			}
+		}
+		
+		/// <summary>
+		/// Goes to the next momento, if there is one.
+		/// </summary>
+		public virtual void Redo()
+		{
+			if (currentMomentoIndex < momentos.Count-1)
+			{
+				currentMomentoIndex++;
+				workingMomento = momentos[currentMomentoIndex];
+				MakeDirty();
+			}
+		}
 				
 		/// <summary>
 		/// Returns the attribute of the given name.
