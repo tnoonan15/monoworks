@@ -15,7 +15,6 @@
   </Configurations>
   <Contents>
     <File name="ResourceManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="UiManager.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree" subtype="Directory" buildaction="Compile" />
     <File name="Tree/TreeModel.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
@@ -35,12 +34,10 @@
     <File name="Attributes/StringControl.cs" subtype="Code" buildaction="Compile" />
     <File name="Attributes/LengthControl.cs" subtype="Code" buildaction="Compile" />
     <File name="Attributes/AngleControl.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editor" subtype="Directory" buildaction="Compile" />
     <File name="Menus" subtype="Directory" buildaction="Compile" />
-    <File name="Editor/Window.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editor/Document.cs" subtype="Code" buildaction="Compile" />
     <File name="Menus/DocumentMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="Menus/EntityMenu.cs" subtype="Code" buildaction="Compile" />
+    <File name="AbstractController.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />

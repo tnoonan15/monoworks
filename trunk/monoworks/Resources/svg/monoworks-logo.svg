@@ -17,9 +17,9 @@
    version="1.0"
    sodipodi:docname="monoworks-logo.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/var/www/drupal6/themes/monoworks/logo32.png"
-   inkscape:export-xdpi="17.18"
-   inkscape:export-ydpi="17.18">
+   inkscape:export-filename="/home/andy/csharp/MonoWorks/Resources/logo/MonoWorksLogo.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
@@ -175,8 +175,8 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1150"
+     inkscape:window-width="1280"
+     inkscape:window-height="750"
      inkscape:window-x="0"
      inkscape:window-y="25" />
   <metadata

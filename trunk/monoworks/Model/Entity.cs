@@ -165,7 +165,7 @@ namespace MonoWorks.Model
 		{
 			Console.WriteLine("current momento: {0}, num momentos: {1}", currentMomentoIndex, momentos.Count);
 			if (currentMomentoIndex < momentos.Count-1)
-				momentos.RemoveRange(currentMomentoIndex+1, momentos.Count-currentMomentoIndex+1);
+				momentos.RemoveRange(currentMomentoIndex+1, momentos.Count-currentMomentoIndex);
 		}
 		
 		/// <summary>

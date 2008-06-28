@@ -28,6 +28,11 @@
 		<Action name="Revolution" slot="AddRevolution()" icon="revolution" statusTip="Add a revolution"/>
 		<Action name="Sweep" slot="AddSweep()" icon="sweep" statusTip="Add a sweep"/>
 		
+		<Action name="Ref Point" slot="AddRefPoint()" icon="refpoint" statusTip="Add a reference point"/>
+		<Action name="Ref Line" slot="AddRefLine()" icon="refline" statusTip="Add a reference line"/>
+		<Action name="Ref Plane" slot="AddRefPlane()" icon="refplane" statusTip="Add a reference plane"/>
+		
+		
 	</Actions>
 
 	<Menus>
@@ -65,6 +70,11 @@
 			<MenuItem action="Revolution"/>
 			<MenuItem action="Sweep"/>
 		</Menu>
+		<Menu name="Reference">
+			<MenuItem action="Ref Point"/>
+			<MenuItem action="Ref Line"/>
+			<MenuItem action="Ref Plane"/>
+		</Menu>
 	</Menus>
 
 	<Toolbars>
@@ -101,6 +111,11 @@
 			<Tool action="Extrusion"/>
 			<Tool action="Revolution"/>
 			<Tool action="Sweep"/>
+		</Toolshelf>
+		<Toolshelf name="Reference">
+			<Tool action="Ref Point"/>
+			<Tool action="Ref Line"/>
+			<Tool action="Ref Plane"/>
 		</Toolshelf>
 	</Toolbox>
 	
