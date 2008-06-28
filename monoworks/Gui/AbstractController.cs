@@ -1,4 +1,4 @@
-// UiLoader.cs - MonoWorks Project
+// AbstractController.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -26,19 +26,19 @@ namespace MonoWorks.Gui
 {
 	
 	/// <summary>
-	/// The UiManager loads toolbars and menus from an XML file and places them in the window.
-	/// It can then write the modified configuration back to a file.
+	/// Base class for all window controllers.
 	/// </summary>
-	public class UiManager<WindowType> where WindowType: QMainWindow
+	public abstract class AbstractController<WindowType> : QObject where WindowType : QMainWindow
 	{
-		protected WindowType parent;
 		
 		/// <summary>
 		/// Default constructor.
-		/// Only to be used by this class and its subclasses.
 		/// </summary>
-		protected UiManager()
-		{			
+		/// <param name="window"> A <see cref="QMainWindow"/> to control. </param>
+		public AbstractController(WindowType window)
+		{
+			this.window = window;
+			
 			actions = new Dictionary<string,QAction>();
 			
 			toolbars = new Dictionary<string,QToolBar>();
@@ -54,15 +54,18 @@ namespace MonoWorks.Gui
 			currentToolshelf = null;
 		}
 		
-		/// <summary>
-		/// Parent initialization constructor.
-		/// </summary>
-		public UiManager(WindowType parent) : this()
+		
+		protected WindowType window;
+		/// <value>
+		/// The window that is being controlled.
+		/// </value>
+		public WindowType Window
 		{
-			this.parent = parent;
+			get {return window;}
+			set {window = value;}
 		}
 		
-
+		
 #region Ui Elements
 		
 		protected Dictionary<string, QAction> actions;
@@ -82,6 +85,7 @@ namespace MonoWorks.Gui
 #endregion
 		
 		
+		
 #region Loading
 		
 		/// <summary>
@@ -95,7 +99,7 @@ namespace MonoWorks.Gui
 			case "MonoWorks.Studio.MainWindow":
 				fileName = "DefaultUi.xml";
 				break;
-			case "MonoWorks.Gui.Editor.Window":
+			case "MonoWorks.Editor.Window":
 				fileName = "DefaultEditorUi.xml";
 				break;
 			default:
@@ -180,9 +184,9 @@ namespace MonoWorks.Gui
 			string iconName = (string)reader.GetAttribute("icon");
 			QIcon icon = ResourceManager.GetIcon(iconName); // get the icon
 			if (icon == null) // there is no icon
-				action = new QAction(name, parent);
+				action = new QAction(name, Window);
 			else // there is an icon
-				action = new QAction(ResourceManager.GetIcon(iconName), name, parent);
+				action = new QAction(ResourceManager.GetIcon(iconName), name, Window);
 			actions[name] = action;
 			
 			// assign the action attributes
@@ -192,7 +196,7 @@ namespace MonoWorks.Gui
 				action.StatusTip = (string)reader.GetAttribute("statusTip");
 			
 			// connect the slot
-			QObject.Connect(action, QObject.SIGNAL("triggered()"), parent, QObject.SLOT((string)reader.GetAttribute("slot")));
+			QObject.Connect(action, QObject.SIGNAL("triggered()"), this, QObject.SLOT((string)reader.GetAttribute("slot")));
 		}
 	
 		
@@ -205,7 +209,7 @@ namespace MonoWorks.Gui
 		protected virtual void CreateMenu(XmlReader reader)
 		{
 			string name = (string)reader.GetAttribute("name");
-			QMenu menu = parent.MenuBar().AddMenu(name);
+			QMenu menu = Window.MenuBar().AddMenu(name);
 			currentMenu = menu;
 			menus[name] = menu;
 		}
@@ -236,7 +240,7 @@ namespace MonoWorks.Gui
 		protected virtual void CreateToolbar(XmlReader reader)
 		{
 			string name = (string)reader.GetAttribute("name");
-			QToolBar toolbar = parent.AddToolBar(name);
+			QToolBar toolbar = Window.AddToolBar(name);
 			currentToolbar = toolbar;
 			toolbar.Size = new QSize(48, 48);
 			toolbars[name] = toolbar;
@@ -268,8 +272,8 @@ namespace MonoWorks.Gui
 		protected virtual void CreateToolbox(XmlReader reader)
 		{
 			string name = (string)reader.GetAttribute("name");
-			QDockWidget dockWidget = new QDockWidget(name, parent);
-			parent.AddDockWidget(QDockWidget.DockWidgetArea.RightDockWidgetArea, dockWidget);
+			QDockWidget dockWidget = new QDockWidget(name, Window);
+			Window.AddDockWidget(QDockWidget.DockWidgetArea.RightDockWidgetArea, dockWidget);
 			currentToolbox = new Toolbox(dockWidget);
 			dockWidget.SetWidget(currentToolbox);
 

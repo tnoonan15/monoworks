@@ -1,4 +1,4 @@
-// Window.cs - MonoWorks Project
+// Document.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -19,53 +19,20 @@
 using System;
 
 using Qyoto;
+//using QScintilla;
 
-namespace MonoWorks.Gui.Editor
+namespace MonoWorks.Editor
 {
+	
 	/// <summary>
-	/// The main editor window.
-	/// </summary>	
-	public class Window : QMainWindow
+	/// The editor document class.
+	/// </summary>
+	public class Document : QTextEdit
 	{
-				
-		public Window() : base()
+		
+		public Document(Window parent) : base(parent)
 		{
-			// load the UI
-			uiManager = new UiManager<Window>(this);
-			uiManager.Load();
 			
-			// add the document area
-			docArea = new QMdiArea(this);
-			this.SetCentralWidget(docArea);
 		}
-
-		
-#region UI 
-
-		/// <summary>
-		/// User interface manager.
-		/// </summary>
-		protected UiManager<Window> uiManager;
-
-		protected QMdiArea docArea;
-		
-#endregion
-		
-		
-#region File I/O
-		
-		/// <summary>
-		/// Create a new Python script.
-		/// </summary>
-		[Q_SLOT()]
-		public void NewPython()
-		{
-			Document document = new Document(this);
-			docArea.AddSubWindow(document);
-			document.ShowMaximized();
-		}
-		
-#endregion
-		
 	}
 }

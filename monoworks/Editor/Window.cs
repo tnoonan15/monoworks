@@ -1,4 +1,4 @@
-// Document.cs - MonoWorks Project
+// Window.cs - MonoWorks Project
 //
 // Copyright (C) 2008 Andy Selvig
 //
@@ -19,20 +19,46 @@
 using System;
 
 using Qyoto;
-//using QScintilla;
 
-namespace MonoWorks.Gui.Editor
+using MonoWorks.Gui;
+
+namespace MonoWorks.Editor
 {
-	
 	/// <summary>
-	/// The editor document class.
-	/// </summary>
-	public class Document : QTextEdit
+	/// The main editor window.
+	/// </summary>	
+	public class Window : QMainWindow
 	{
-		
-		public Document(Window parent) : base(parent)
+				
+		public Window() : base()
 		{
+			// create controller
+			controller = new Controller(this);
+			controller.Load();
 			
+			// add the document area
+			docArea = new QMdiArea(this);
+			this.SetCentralWidget(docArea);
+			
+			this.WindowIcon = ResourceManager.GetIcon("MonoWorksLogo");
 		}
+
+		
+#region UI 
+
+		protected Controller controller;
+		
+		protected QMdiArea docArea;
+		/// <value>
+		/// The doc area.
+		/// </value>
+		public QMdiArea DocArea
+		{
+			get {return docArea;}
+		}
+		
+#endregion
+		
+		
 	}
 }
