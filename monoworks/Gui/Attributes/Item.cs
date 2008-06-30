@@ -52,7 +52,7 @@ namespace MonoWorks.Gui.Attributes
 			// add the label and control
 			QVBoxLayout layoutBox = new QVBoxLayout(this);
 			layoutBox.AddWidget( new QLabel(attribute.Name, this));
-			Control control = GetControl(attribute.Type); 
+			Control control = GetControl(attribute.TypeName); 
 			control.PopulateValue(parent.Entity, attribute.Name);
 			layoutBox.AddWidget(control);
 			

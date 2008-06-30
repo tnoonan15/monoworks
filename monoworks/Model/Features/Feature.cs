@@ -60,27 +60,9 @@ namespace MonoWorks.Model
 			gl.glDeleteLists(displayLists, NumLists);
 		}		
 
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "feature";}
-		}
-	
-		
 
 #region Momentos
-				
-		protected override Momento DefaultMomento()
-		{
-			Momento momento = base.DefaultMomento();
-			momento["sketch"] = null;
-			momento["material"] = new Material();
-			momento["cartoonColor"] = new Color();
-			return momento;
-		}
-				
+								
 		/// <value>
 		/// The feature's sketch.
 		/// </value>

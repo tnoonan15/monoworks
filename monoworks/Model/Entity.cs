@@ -80,14 +80,6 @@ namespace MonoWorks.Model
 			currentMomentoIndex = 0;
 			Snapshot();
 		}
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public virtual string TypeName
-		{
-			get {return "entity";}
-		}
 		
 		/// <value>
 		/// The unqualified name of the class.
@@ -99,6 +91,14 @@ namespace MonoWorks.Model
 				string[] nameComps = this.GetType().ToString().Split('.');
 				return nameComps[nameComps.Length-1];
 			}
+		}
+		
+		/// <value>
+		/// This entity's meta data.
+		/// </value>
+		public EntityMetaData MetaData
+		{
+			get {return EntityMetaData.TopLevel.GetEntity(ClassName);}
 		}
 		
 #region The Document
@@ -140,21 +140,17 @@ namespace MonoWorks.Model
 		protected Momento workingMomento;		
 		
 		/// <summary>
-		/// Gets the attribute meta data for this entity (and all of its super classes).
-		/// </summary>
-		/// <returns> A list of attribute meta data. </returns>
-		public List<AttributeMetaData> GetAttributeMetaData()
-		{
-			return EntityMetaData.TopLevel.GetEntity(this.ClassName).AttributeList;
-		}
-		
-		/// <summary>
 		/// Generates the default momento.
 		/// </summary>
-		protected virtual Momento DefaultMomento()
+		protected Momento DefaultMomento()
 		{
 			Momento momento = new Momento();
-			momento["name"] = TypeName + Entity.GetCount(TypeName).ToString();
+			foreach (AttributeMetaData attribute in MetaData.AttributeList)
+			{
+				if (!attribute.IsEntity)
+					momento[attribute.Name] = attribute.Instantiate();
+			}
+			momento["name"] = ClassName + Entity.GetCount(ClassName).ToString();
 			return momento;
 		}
 		
@@ -220,7 +216,7 @@ namespace MonoWorks.Model
 		/// <returns> The attribute </returns>
 		public object GetAttribute(string name)
 		{
-			if (workingMomento.ContainsKey(name))
+			if (MetaData.ContainsAttribute(name))
 				return workingMomento[name];
 			else
 				throw new Exception("This entity does not contain an attribute named " + name + ".");
@@ -233,7 +229,7 @@ namespace MonoWorks.Model
 		/// <param name="value"> The attribute's value. </param>
 		public void SetAttribute(string name, object value)
 		{
-			if (workingMomento.ContainsKey(name))
+			if (MetaData.ContainsAttribute(name))
 			{
 				workingMomento[name] = value;
 				MakeDirty();
@@ -250,20 +246,7 @@ namespace MonoWorks.Model
 			get {return GetAttribute(name);}
 			set {SetAttribute(name, value);}
 		}
-		
-		/// <value>
-		/// The names of the attributes.
-		/// </value>
-		public string[] AttributeNames
-		{
-			get
-			{
-				string[] array = new string[workingMomento.Count];
-				workingMomento.Keys.CopyTo(array, 0);
-				return array;
-			}
-		}
-		
+				
 		/// <value>
 		/// Gets the item name.
 		/// </value>

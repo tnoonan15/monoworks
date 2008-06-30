@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Xml;
 
 using MonoWorks.Base;
@@ -48,13 +49,13 @@ namespace MonoWorks.Model
 			get {return name;}
 		}
 		
-		private string type;
+		private string typeName;
 		/// <value>
 		/// The attribute's type.
 		/// </value>
-		public string Type
+		public string TypeName
 		{
-			get {return type;}
+			get {return typeName;}
 		}
 		
 		private string description;
@@ -65,6 +66,84 @@ namespace MonoWorks.Model
 		{
 			get {return description;}
 		}		
+		
+#endregion
+				
+
+#region Instantiation
+		
+		/// <value>
+		/// The type of the attribute.
+		/// </value>
+		protected Type TheType
+		{
+			get
+			{
+				// look for a list
+				bool isList = typeName.StartsWith("List(");
+				string type_ = typeName;
+				if (isList)
+				{
+					type_ = typeName.Substring(5, typeName.Length-6);
+				}
+				
+				// load the assembly
+				string[] typeComps = type_.Split('.');
+				string asmName = "";
+				for (int i=0; i<typeComps.Length-1; i++)
+				{
+					asmName += typeComps[i] + ".";
+				}
+				Assembly asm = Assembly.Load(asmName.Substring(0, asmName.Length-1));
+				
+				// get the type
+				Type theType = null;
+				if (type_.StartsWith("System"))
+					theType = Type.GetType(type_, true);
+				else
+					theType =asm.GetType(type_, true);
+				
+				return theType;
+			}
+		}
+		
+		/// <value>
+		/// True if the attribute is an entity.
+		/// </value>
+		public bool IsEntity
+		{
+			get
+			{
+				Type theType = TheType;
+				return theType.IsSubclassOf(typeof(MonoWorks.Model.Entity));
+			}
+		}
+		
+		
+		/// <summary>
+		/// Tries to instantiate an object of this attribute's class.
+		/// </summary>
+		/// <returns> An instance of the attribute. </returns>
+		/// <remarks>Throws an exception if it can't make the instance. </remarks>
+		public object Instantiate()
+		{
+			bool isList = typeName.StartsWith("List(");
+			Type theType = TheType; 
+			object obj = null;
+			if (theType == typeof(System.String))
+				return "";
+			if (isList)
+			{
+				Type genListType = Type.GetType("System.Collections.Generic.List`1");
+				Type listType = genListType.MakeGenericType(theType);
+				obj = Activator.CreateInstance(listType);
+			}
+			else // not a list
+			{
+				obj = Activator.CreateInstance(theType);
+			}
+			return obj;
+		}
 		
 #endregion
 		
@@ -78,7 +157,7 @@ namespace MonoWorks.Model
 		public void FromXML(XmlReader reader)
 		{
 			name = reader.GetAttribute("name");
-			type = reader.GetAttribute("type");
+			typeName = reader.GetAttribute("type");
 			reader.Read();
 			description = reader.Value.Trim();
 		}

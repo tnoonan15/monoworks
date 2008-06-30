@@ -40,35 +40,7 @@ namespace MonoWorks.Model
 		public Extrusion(Sketch sketch) : base(sketch)
 		{
 		}
-		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "extrusion";}
-		}
-	
-
-#region Momentos
-				
-		/// <summary>
-		/// Appends a momento to the momento list.
-		/// </summary>
-		protected override Momento DefaultMomento()
-		{
-			Momento momento = base.DefaultMomento();
-			momento["path"] = new RefLine();
-			momento["spin"] = new Angle();
-			momento["scale"] = 1.0;
-			momento["travel"] = new Length();
-			return momento;
-		}
-		
-#endregion
-		
-
+			
 		
 #region Attributes
 		

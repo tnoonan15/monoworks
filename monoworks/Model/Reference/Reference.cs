@@ -32,16 +32,7 @@ namespace MonoWorks.Model
 		public Reference() : base()
 		{
 		}
-		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "reference";}
-		}
-		
+				
 		
 		/// <summary>
 		/// If the reference color is opaque, renders it.

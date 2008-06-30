@@ -34,26 +34,10 @@ namespace MonoWorks.Model
 		public Sketch(RefPlane plane) : base()
 		{
 		}
-		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "sketch";}
-		}
-		
+				
 		
 #region Attributes
 						
-		protected override Momento DefaultMomento()
-		{
-			Momento momento = base.DefaultMomento();
-			momento["plane"] = new RefPlane();
-			return momento;
-		}
-		
 		/// <summary>
 		/// The plane that the sketch lies on.
 		/// </summary>

@@ -37,15 +37,6 @@ namespace MonoWorks.Model
 			directions = new Vector[0];
 		}
 		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "sketchable";}
-		}
-
 		
 #region Points
 		

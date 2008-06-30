@@ -3,10 +3,24 @@
 		The entity's name.
 	</Attribute>
 	
+	<!-- Documents -->
+	<Entity name="Document">
+		<Entity name="TestDocument"></Entity>
+	</Entity>
+	
+	<!-- Sketch -->
+	<Entity name="Sketch"></Entity>
+	
 	<!-- Features -->
 	<Entity name="Feature">
 		<Attribute name="sketch" type="MonoWorks.Model.Sketch">
 			The Sketch that the feature is based on.
+		</Attribute>
+		<Attribute name="cartoonColor" type="MonoWorks.Model.Color">
+			The color for cartoon mode.
+		</Attribute>
+		<Attribute name="material" type="MonoWorks.Model.Material">
+			The feature's material.
 		</Attribute>
 		<Entity name="Extrusion">
 			<Attribute name="path" type="MonoWorks.Model.RefLine">
@@ -15,7 +29,7 @@
 			<Attribute name="spin" type="MonoWorks.Base.Angle">
 				The spin angle about the path.
 			</Attribute>
-			<Attribute name="scale" type="double">
+			<Attribute name="scale" type="System.Double">
 				The scaling factor between that beginning and end of the extrusion.
 			</Attribute>
 			<Attribute name="travel" type="MonoWorks.Base.Length">
