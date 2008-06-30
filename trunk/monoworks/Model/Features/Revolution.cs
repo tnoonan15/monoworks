@@ -40,30 +40,7 @@ namespace MonoWorks.Model
 		{
 		}
 		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "revolution";}
-		}
-		
-
-#region Momentos
-				
-		protected override Momento DefaultMomento()
-		{
-			Momento momento = base.DefaultMomento();
-			momento["axis"] = new RefLine();
-			momento["travel"] = new Angle();
-			return momento;
-		}
-		
-#endregion
-		
-
-		
+			
 #region Attributes
 		
 		/// <value>

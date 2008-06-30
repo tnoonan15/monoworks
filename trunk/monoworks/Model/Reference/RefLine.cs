@@ -52,27 +52,9 @@ namespace MonoWorks.Model
 			Direction = direction;
 		}
 		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "refline";}
-		}
-
 		
 #region Attributes
-						
-		protected override Momento DefaultMomento()
-		{
-			Momento momento = base.DefaultMomento();
-			momento["center"] = new Point();
-			momento["direction"] = new Vector();
-			return momento;
-		}
-				
-		
+								
 		/// <value>
 		/// A point that is intersected by the line.
 		/// </value>

@@ -39,24 +39,9 @@ namespace MonoWorks.Model
 			quadCorners = null;
 		}
 		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "refplane";}
-		}
 		
 		
 #region Attributes
-						
-		protected override Momento DefaultMomento()
-		{
-			Momento momento = base.DefaultMomento();
-			momento["plane"] = new Plane();
-			return momento;
-		}
 		
 		/// <value>
 		/// The plane geometry.

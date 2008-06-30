@@ -205,7 +205,7 @@ namespace MonoWorks.Gui
 				return entity.Name;
 			case (int)Qt.ItemDataRole.DecorationRole:
 //				Console.WriteLine("entity decoration");
-				return ResourceManager.GetIcon(entity.TypeName);
+				return ResourceManager.GetIcon(entity.ClassName.ToLower());
 			default:
 //				Console.WriteLine("other role");
 				return new QVariant();

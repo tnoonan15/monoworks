@@ -53,30 +53,7 @@ namespace MonoWorks.Model
 			Sweep = sweep;
 		}
 		
-
-		/// <value>
-		/// Name of the type.
-		/// </value>
-		public override string TypeName
-		{
-			get {return "arc";}
-		}
 	
-
-#region Momentos
-				
-		protected override Momento DefaultMomento()
-		{
-			Momento momento = base.DefaultMomento();
-			momento["center"] = new Point();
-			momento["start"] = new Point();
-			momento["normal"] = new Vector();
-			momento["sweep"] = new Angle();
-			return momento;
-		}
-		
-#endregion
-		
 		
 #region Attributes
 

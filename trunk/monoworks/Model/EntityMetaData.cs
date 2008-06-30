@@ -87,10 +87,11 @@ namespace MonoWorks.Model
 						return data;
 				}
 			}
-			throw new Exception("Entity named " + entityName + " does not have meta data.");
+			throw new Exception("Entity " + entityName + " does not have meta data.");
 		}
 		
 #endregion
+		
 		
 		
 #region Attributes
@@ -111,6 +112,21 @@ namespace MonoWorks.Model
 					data.Add(attributes[key]);
 				return data;
 			}
+		}
+		
+		/// <summary>
+		/// Wether the entity contains an attribute of the given name.
+		/// </summary>
+		/// <param name="name"> The name of the attribute. </param>
+		public bool ContainsAttribute(string name)
+		{
+			List<AttributeMetaData> attributeList = AttributeList;
+			foreach (AttributeMetaData attribute in attributeList)
+			{
+				if (attribute.Name == name)
+					return true;
+			}
+			return false;
 		}
 		
 #endregion
