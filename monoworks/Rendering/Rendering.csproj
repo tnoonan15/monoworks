@@ -1,0 +1,98 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</ProjectGuid>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>Rendering</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>Rendering</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ISE.FreeType, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Win32\ISE.FreeType.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.Externals, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Win32\Tao.Externals.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bounds.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="ColorManager.cs" />
+    <Compile Include="InteractionStateBase.cs" />
+    <Compile Include="IViewport.cs" />
+    <Compile Include="Lighting.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="Renderable.cs" />
+    <Compile Include="RenderManager.cs" />
+    <Compile Include="RubberBand.cs" />
+    <Compile Include="TextRenderer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DefaultColors.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".svn\all-wcprops" />
+    <None Include=".svn\entries" />
+    <None Include=".svn\format" />
+    <None Include=".svn\text-base\Bounds.cs.svn-base" />
+    <None Include=".svn\text-base\Camera.cs.svn-base" />
+    <None Include=".svn\text-base\Color.cs.svn-base" />
+    <None Include=".svn\text-base\ColorManager.cs.svn-base" />
+    <None Include=".svn\text-base\DefaultColors.xml.svn-base" />
+    <None Include=".svn\text-base\InteractionStateBase.cs.svn-base" />
+    <None Include=".svn\text-base\IViewport.cs.svn-base" />
+    <None Include=".svn\text-base\Lighting.cs.svn-base" />
+    <None Include=".svn\text-base\Material.cs.svn-base" />
+    <None Include=".svn\text-base\Renderable.cs.svn-base" />
+    <None Include=".svn\text-base\Rendering.mdp.svn-base" />
+    <None Include=".svn\text-base\RenderManager.cs.svn-base" />
+    <None Include=".svn\text-base\RubberBand.cs.svn-base" />
+    <None Include=".svn\text-base\TextRenderer.cs.svn-base" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".svn\prop-base\" />
+    <Folder Include=".svn\props\" />
+    <Folder Include=".svn\tmp\prop-base\" />
+    <Folder Include=".svn\tmp\props\" />
+    <Folder Include=".svn\tmp\text-base\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>
