@@ -59,7 +59,11 @@ namespace MonoWorks.Model
 		/// </summary>
 		~Feature()
 		{
-			gl.glDeleteLists(displayLists, NumLists);
+			// causes memory access violationg on Windows, don't know why
+			//if (gl.glIsList(displayLists) != 0)
+			//{
+			//    gl.glDeleteLists(displayLists, NumLists); // delete the lists
+			//}
 		}		
 
 

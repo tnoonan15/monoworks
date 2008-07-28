@@ -94,14 +94,16 @@ namespace MonoWorks.Model
 				{
 					asmName += typeComps[i] + ".";
 				}
-				Assembly asm = Assembly.Load(asmName.Substring(0, asmName.Length-1));
 				
 				// get the type
 				Type theType = null;
 				if (type_.StartsWith("System"))
 					theType = Type.GetType(type_, true);
 				else
-					theType =asm.GetType(type_, true);
+				{
+					Assembly asm = Assembly.Load(asmName.Substring(0, asmName.Length - 1));
+					theType = asm.GetType(type_, true);
+				}
 				
 				return theType;
 			}

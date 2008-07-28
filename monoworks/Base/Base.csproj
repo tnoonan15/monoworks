@@ -7,10 +7,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>Base</AssemblyName>
+    <AssemblyName>MonoWorks.Base</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>Base</RootNamespace>
+    <RootNamespace>MonoWorks.Base</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,7 +48,7 @@
     <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DefaultUnits.xml" />
+    <EmbeddedResource Include="DefaultUnits.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".svn\all-wcprops" />
@@ -75,6 +75,7 @@
     <Folder Include=".svn\tmp\prop-base\" />
     <Folder Include=".svn\tmp\props\" />
     <Folder Include=".svn\tmp\text-base\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

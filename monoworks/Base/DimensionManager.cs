@@ -69,7 +69,12 @@ namespace MonoWorks.Base
 		protected static DimensionManager Default()
 		{
 			Assembly asm = Assembly.GetExecutingAssembly();
-			return FromStream(asm.GetManifestResourceStream("DefaultUnits.xml"));
+			foreach (string resName in asm.GetManifestResourceNames())
+			{
+				if (resName.Contains("DefaultUnits"))
+					return FromStream(asm.GetManifestResourceStream(resName));
+			}
+			throw new Exception("DimensionManager couldn't find a DefaultUnits.xml resource.");
 		}
 		
 		/// <summary>

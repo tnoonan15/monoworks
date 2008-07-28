@@ -148,8 +148,8 @@ namespace MonoWorks.Rendering
 		public virtual void Configure()
 		{						
 			// get the width and height
-			int width = viewport.Width();
-			int height = viewport.Height();
+			int width = viewport.WidthGL;
+			int height = viewport.HeightGL;
 			
 			// prevent divide by zero
 			if (height==0)	
@@ -213,7 +213,7 @@ namespace MonoWorks.Rendering
 			// translate the camera so that something drawn in the
 			// x-y plane maps directly to the screen
 			gl.glTranslatef(-0.5f, -0.5f, -1.2f);
-			gl.glScalef(1f/(float)viewport.Width(), 1f/(float)viewport.Height(), 1.0f);
+			gl.glScalef(1f/(float)viewport.WidthGL, 1f/(float)viewport.HeightGL, 1.0f);
 			
 		}
 		
@@ -236,7 +236,7 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-				return fov.Sin() * Math.Abs((center-pos).Magnitude)/ (double)viewport.Height();
+				return fov.Sin() * Math.Abs((center-pos).Magnitude)/ (double)viewport.HeightGL;
 			}
 		}
 			
@@ -329,7 +329,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanLeft()
 		{
-			Pan(-panFactor*(double)viewport.Height(), 0);
+			Pan(-panFactor*(double)viewport.HeightGL, 0);
 		}
 		
 		/// <summary>
@@ -337,7 +337,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanRight()
 		{
-			Pan(panFactor*(double)viewport.Height(), 0);
+			Pan(panFactor*(double)viewport.HeightGL, 0);
 		}
 		
 		/// <summary>
@@ -345,7 +345,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanUp()
 		{
-			Pan(0, panFactor*(double)viewport.Height());
+			Pan(0, panFactor*(double)viewport.HeightGL);
 		}
 		
 		/// <summary>
@@ -353,7 +353,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanDown()
 		{
-			Pan(0, -panFactor*(double)viewport.Height());
+			Pan(0, -panFactor*(double)viewport.HeightGL);
 		}
 		
 #endregion
@@ -403,13 +403,13 @@ namespace MonoWorks.Rendering
 		public virtual void Zoom(double startX, double startY, double stopX, double stopY)
 		{						
 			// pan the camera so it's centered on the new viewing area
-			double newCenterX = (startX+stopX - (double)viewport.Width())/2.0; 
-			double newCenterY = (startY+stopY - (double)viewport.Height())/2.0; 
+			double newCenterX = (startX+stopX - (double)viewport.WidthGL)/2.0; 
+			double newCenterY = (startY+stopY - (double)viewport.HeightGL)/2.0; 
 			Pan(-newCenterX, -newCenterY);
 			
 			// determine the relative height and width of the new viewport
-			double newW = Math.Abs(startX-stopX) / (double)viewport.Width();
-			double newH = Math.Abs(startY-stopY) / (double)viewport.Height(); 
+			double newW = Math.Abs(startX-stopX) / (double)viewport.WidthGL;
+			double newH = Math.Abs(startY-stopY) / (double)viewport.HeightGL; 
 			double newRatio = Math.Max(newH, newW);		
 			
 			// move the camera closer to the center
