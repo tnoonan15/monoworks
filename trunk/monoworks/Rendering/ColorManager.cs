@@ -40,7 +40,17 @@ namespace MonoWorks.Rendering
 		{
 			colors = new Dictionary<string,Color>();
 			Assembly asm = Assembly.GetExecutingAssembly();
-			Load(asm.GetManifestResourceStream("DefaultColors.xml"));
+			bool loaded = false;
+			foreach (string resName in asm.GetManifestResourceNames())
+			{
+				if (resName.Contains("DefaultColors"))
+				{
+					Load(asm.GetManifestResourceStream(resName));
+					loaded = true;
+				}
+			}
+			if (!loaded)
+				throw new Exception("ColorManager couldn't find a DefaultColors.xml resource.");
 		}
 		
 

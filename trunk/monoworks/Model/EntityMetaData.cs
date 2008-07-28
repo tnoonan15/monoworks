@@ -76,18 +76,12 @@ namespace MonoWorks.Model
 				EntityMetaData data = null;
 				foreach (EntityMetaData child in children.Values)
 				{
-					try
-					{
-						data = child.GetEntity(entityName);
-					}
-					catch (Exception ex)
-					{
-					}
+					data = child.GetEntity(entityName);
 					if (data != null)
 						return data;
 				}
 			}
-			throw new Exception("Entity " + entityName + " does not have meta data.");
+			return null;
 		}
 		
 #endregion

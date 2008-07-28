@@ -7,10 +7,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>Rendering</AssemblyName>
+    <AssemblyName>MonoWorks.Rendering</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>Rendering</RootNamespace>
+    <RootNamespace>MonoWorks.Rendering</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,7 +57,7 @@
     <Compile Include="TextRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DefaultColors.xml" />
+    <EmbeddedResource Include="DefaultColors.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".svn\all-wcprops" />
@@ -90,6 +90,7 @@
     <Folder Include=".svn\tmp\prop-base\" />
     <Folder Include=".svn\tmp\props\" />
     <Folder Include=".svn\tmp\text-base\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

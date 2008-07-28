@@ -98,16 +98,6 @@ namespace MonoWorks.GuiGtk
 			get {return interactionState;}
 		}
 		
-//		protected Document document = null;		
-//		/// <value>
-//		/// The document associated with this viewport.
-//		/// </value>
-//		public Document Document
-//		{
-//			get {return document;}
-//			set {document = value;}
-//		}
-//		
 		/// <value>
 		/// The rubber band used for selection and zooming.
 		/// </value>
@@ -190,16 +180,16 @@ namespace MonoWorks.GuiGtk
 			{
 			case InteractionMode.Rotate:
 				camera.Rotate(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
-				Paint();
+				PaintGL();
 				break;
 			case InteractionMode.Pan:
 				camera.Pan(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
-				Paint();
+				PaintGL();
 				break;
 			case InteractionMode.Dolly:
 				double factor = (args.Event.Y - interactionState.LastY) / (int)Allocation.Height;
 				camera.Dolly(factor);
-				Paint();
+				PaintGL();
 				break;
 			}
 			interactionState.RegisterMotion(args.Event);
@@ -214,7 +204,7 @@ namespace MonoWorks.GuiGtk
 					camera.DollyIn();
 				else if (args.Event.Direction == Gdk.ScrollDirection.Down)
 					camera.DollyOut();
-				Paint();
+				PaintGL();
 				break;
 			}
 		}
@@ -229,30 +219,13 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Initialize the OpenGL rendering.
 		/// </summary>
-		public void Initialize()
+		public void InitializeGL()
 		{			
-			gl.glShadeModel(gl.GL_SMOOTH);						// Enables Smooth Shading
-			gl.glClearColor (1.0f, 1.0f, 1.0f, 0.0f);
-			gl.glClearDepth (1.0f);
-			
-			gl.glEnable (gl.GL_AUTO_NORMAL);
-			gl.glEnable (gl.GL_NORMALIZE);
-			gl.glEnable (gl.GL_DEPTH_TEST);						// Enables Depth Testing
-			gl.glEnable (gl.GL_BLEND);
-			gl.glEnable (gl.GL_COLOR_MATERIAL);
-
-			gl.glBlendFunc (gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
-			gl.glDepthFunc (gl.GL_LEQUAL);						// The Type Of Depth Test To Do
-
-			gl.glFrontFace (gl.GL_CW);
-			
-			gl.glShadeModel (gl.GL_SMOOTH);
-			// Really Nice Perspective Calculations
-			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
+			renderManager.InitializeGL();
 			
 			camera.Configure();
 						
-			Paint();
+			PaintGL();
 		}
 
 		/// <summary>
@@ -265,7 +238,7 @@ namespace MonoWorks.GuiGtk
 				return;
 			
 			// Run the state setup routine
-			Initialize();
+			InitializeGL();
 		}
 
 		/// <summary>
@@ -292,16 +265,20 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		protected void OnExposed (object o, EventArgs e)
 		{
-			Paint();
+			PaintGL();
 		}
 		
-		public void Paint()
+
+		/// <summary>
+		/// Renders the scene.
+		/// </summary>
+		public void PaintGL()
 		{
 			if (this.MakeCurrent() == 0)
 				return;
 			
 			// Clear the scene
-			gl.glClear (gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
+			renderManager.ClearScene();
 
 			camera.Place();
 			
@@ -323,17 +300,17 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// The width of the viewport.
 		/// </summary>
-		public int Width()
+		public int WidthGL
 		{
-			return Allocation.Width;
+			get {return Allocation.Width;}
 		}
 		
 		/// <summary>
 		/// The height of the viewport.
 		/// </summary>
-		public int Height()
+		public int HeightGL
 		{
-			return Allocation.Height;
+			get {return Allocation.Height;}
 		}
 		
 #endregion

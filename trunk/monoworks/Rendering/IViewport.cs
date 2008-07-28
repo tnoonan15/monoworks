@@ -29,12 +29,18 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Returns the viewport width.
 		/// </summary>
-		int Width();
+		int WidthGL
+		{
+			get;
+		}
 		
 		/// <summary>
 		/// Returns the viewport height.
 		/// </summary>
-		int Height();
+		int HeightGL
+		{
+			get;
+		}
 		
 		/// <value>
 		/// Access the viewport camera.
@@ -47,12 +53,12 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Initializes the rendering.
 		/// </summary>
-		void Initialize();
+		void InitializeGL();
 		
 		/// <summary>
 		/// Performs the rendering for one frame.
 		/// </summary>
-		void Paint();
+		void PaintGL();
 
 		/// <value>
 		/// Access the viewport's render manager.
@@ -77,5 +83,20 @@ namespace MonoWorks.Rendering
 		{
 			get;
 		}
+
+
+		/// <summary>
+		/// Adds a renderable to the rendering list.
+		/// </summary>
+		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
+		void AddRenderable(Renderable renderable);
+
+		/// <summary>
+		/// Removes a renderable from the rendering list.
+		/// </summary>
+		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
+		void RemoveRenderable(Renderable renderable);
+
+
 	}
 }

@@ -59,6 +59,45 @@ namespace MonoWorks.Rendering
 		
 		protected ColorManager colorManager;
 
+
+		/// <summary>
+		/// Initialize the OpenGL rendering.
+		/// </summary>
+		/// <remarks> This should only really be called once at the beginning.</remarks>
+		public void InitializeGL()
+		{
+
+			gl.glShadeModel(gl.GL_SMOOTH);						// Enables Smooth Shading
+			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+			gl.glClearDepth(1.0f);
+
+			gl.glEnable(gl.GL_AUTO_NORMAL);
+			gl.glEnable(gl.GL_NORMALIZE);
+			gl.glEnable(gl.GL_COLOR_MATERIAL);
+
+			// depth testing
+			gl.glEnable(gl.GL_DEPTH_TEST);
+			gl.glDepthFunc(gl.GL_LEQUAL); // The Type Of Depth Test To Do
+
+			// blending
+			gl.glEnable(gl.GL_BLEND);
+			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
+
+			gl.glFrontFace(gl.GL_CW);
+
+			// Really Nice Perspective Calculations
+			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
+		}
+
+		/// <summary>
+		/// Clears the scene for the next rendering frame.
+		/// </summary>
+		/// <remarks> This should be done at the beginning of each frame.</remarks>
+		public virtual void ClearScene()
+		{
+			gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
+		}
+
 		
 #region Wireframe Display
 		
