@@ -20,6 +20,8 @@ using System.Collections.Generic;
 
 using MonoWorks.Base;
 
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Model
 {
 		
@@ -29,7 +31,7 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// The Entity class is the base class for all MonoWorks model objects.
 	/// </summary>
-	public class Entity
+	public class Entity : Renderable
 	{
 		
 #region Counting
@@ -159,7 +161,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public void RemoveLeadingMomentos()
 		{
-			Console.WriteLine("current momento: {0}, num momentos: {1}", currentMomentoIndex, momentos.Count);
+//			Console.WriteLine("current momento: {0}, num momentos: {1}", currentMomentoIndex, momentos.Count);
 			if (currentMomentoIndex < momentos.Count-1)
 				momentos.RemoveRange(currentMomentoIndex+1, momentos.Count-currentMomentoIndex);
 		}
@@ -283,8 +285,7 @@ namespace MonoWorks.Model
 		
 		/// <summary>
 		/// Registers an entity with the document.
-		/// The document keeps a flat list of entities it contains that can 
-		/// be looked by id.
+		/// The document keeps a flat list of entities it contains that can be looked up by id.
 		/// </summary>
 		/// <param name="entity"> A <see cref="Entity"/> to add to the document. </param>
 		protected virtual void RegisterEntity(Entity entity)
@@ -396,30 +397,14 @@ namespace MonoWorks.Model
 		
 		
 #region Rendering
-		
-		/// <summary>
-		/// True if the entity is dirty and needs its geometry recomputed.
-		/// </summary>
-		protected bool dirty;
-		
-
-		protected Bounds bounds;
-		/// <summary>
-		/// The bounding box of the entity.
-		/// Should be updated by ComputeGeometry().
-		/// </summary>
-		public Bounds Bounds
-		{
-			get {return bounds;}
-		}
-		
+			
 		
 		/// <summary>
 		/// Makes the entity dirty.
 		/// </summary>
-		public virtual void MakeDirty()
+		public override void MakeDirty()
 		{
-			dirty = true;
+			base.MakeDirty();
 			if (parent != null)
 				parent.MakeDirty();
 		}
@@ -435,10 +420,9 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Computes the geometry of entity and stores it for rendering.
 		/// </summary>
-		public virtual void ComputeGeometry()
+		public override void ComputeGeometry()
 		{
-			
-			dirty = false;
+			base.ComputeGeometry();
 			
 			// update the children's geometry and resize the bounds
 			foreach (Entity child in children)
@@ -461,33 +445,45 @@ namespace MonoWorks.Model
 		/// This method does not care about transparency and is generally called by either
 		/// RenderOpaque() or RenderTransparent().
 		///</remarks>
-		protected virtual void Render(IViewport viewport)
-		{
-			if (dirty)
-				ComputeGeometry();
-			if (isSelected)
-				bounds.Render(viewport);
-		}
+//		protected override void Render(IViewport viewport)
+//		{
+//		}
 		
 		/// <summary>
 		/// Renders the opaque portion of the entity.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public virtual void RenderOpaque(IViewport viewport)
+		public override void RenderOpaque(IViewport viewport)
 		{
+			base.RenderOpaque(viewport);
 			foreach (Entity child in children)
 				child.RenderOpaque(viewport);
+			if (isSelected)
+				bounds.Render(viewport);
 		}
 		
 		/// <summary>
 		/// Renders the transparent portion of the entity, 
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public virtual void RenderTransparent(IViewport viewport)
+		public override void RenderTransparent(IViewport viewport)
 		{
+			base.RenderTransparent(viewport);
 			foreach (Entity child in children)
 				child.RenderTransparent(viewport);
 		}
+		
+		/// <summary>
+		/// Renders the overlay portion of the entity.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		public override void RenderOverlay(IViewport viewport)
+		{
+			base.RenderOverlay(viewport);
+			foreach (Entity child in children)
+				child.RenderTransparent(viewport);
+		}
+
 		
 #endregion
 		

@@ -20,6 +20,7 @@ using System;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Model
 {
@@ -105,9 +106,9 @@ namespace MonoWorks.Model
 		/// Renders the plane to the viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		protected override void Render(IViewport viewport)
+		public override void RenderTransparent(IViewport viewport)
 		{
-			base.Render(viewport);
+			base.RenderTransparent(viewport);
 			
 			viewport.RenderManager.ReferenceColor.Setup();
 			

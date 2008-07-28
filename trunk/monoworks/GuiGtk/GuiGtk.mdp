@@ -1,0 +1,40 @@
+<Project name="GuiGtk" fileversion="2.0" Description="Gtk port of the MonoWorks GUI components." DefaultNamespace="MonoWorks.GuiGtk" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assembly="GuiGtk" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assembly="GuiGtk" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="." subtype="Directory" buildaction="Compile" />
+    <File name="Viewport" subtype="Directory" buildaction="Compile" />
+    <File name="Viewport/Viewport.cs" subtype="Code" buildaction="Compile" />
+    <File name="DocFrame.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree" subtype="Directory" buildaction="Compile" />
+    <File name="Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport/InteractionState.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Project" localcopy="True" refto="Base" />
+    <ProjectReference type="Project" localcopy="True" refto="Model" />
+    <ProjectReference type="Project" localcopy="True" refto="Rendering" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtksourceview-sharp, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtkglarea-sharp, Version=0.0.3.0, Culture=neutral, PublicKeyToken=7df758c0fb49fe62" />
+    <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.OpenGl.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/gtkglarea-sharp.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.FreeType.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/ISE.FreeType.dll" />
+  </References>
+</Project>

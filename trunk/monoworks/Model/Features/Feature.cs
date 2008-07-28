@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 using glu = Tao.OpenGl.Glu;
 
+using MonoWorks.Rendering;
+
 using MonoWorks.Base;
 
 namespace MonoWorks.Model
@@ -167,16 +169,6 @@ namespace MonoWorks.Model
 
 		
 		/// <summary>
-		/// If the feature is opaque, renders it.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void RenderOpaque(IViewport viewport)
-		{
-			base.RenderOpaque(viewport);
-			Render(viewport);
-		}
-				
-		/// <summary>
 		/// If the feature is transparent, renders it.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
@@ -190,9 +182,9 @@ namespace MonoWorks.Model
 		/// Renders the feature, recomputing geometry if necessary.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		 protected override void Render(IViewport viewport)
+		 public override void RenderOpaque(IViewport viewport)
 		{
-			base.Render(viewport);
+			base.RenderOpaque(viewport);
 			
 			// render solid geometry
 			if (viewport.RenderManager.SolidMode != SolidMode.None)

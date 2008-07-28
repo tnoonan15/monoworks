@@ -1,0 +1,81 @@
+// IViewport.cs - MonoWorks Project
+//
+//    Copyright Andy Selvig 2008
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU Lesser General Public License as published 
+//    by the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public 
+//    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+
+namespace MonoWorks.Rendering
+{
+	
+	/// <summary>
+	/// The IViewport interface defines an interface for MonoWorks viewports. 
+	/// This lets the model interact with viewports in a GUI-independant manner.
+	/// </summary>
+	public interface IViewport
+	{
+		/// <summary>
+		/// Returns the viewport width.
+		/// </summary>
+		int Width();
+		
+		/// <summary>
+		/// Returns the viewport height.
+		/// </summary>
+		int Height();
+		
+		/// <value>
+		/// Access the viewport camera.
+		/// </value>
+		Camera Camera
+		{
+			get;
+		}
+		
+		/// <summary>
+		/// Initializes the rendering.
+		/// </summary>
+		void Initialize();
+		
+		/// <summary>
+		/// Performs the rendering for one frame.
+		/// </summary>
+		void Paint();
+
+		/// <value>
+		/// Access the viewport's render manager.
+		/// </value>
+		RenderManager RenderManager
+		{
+			get;
+		}
+		
+		/// <value>
+		/// The interaction state.
+		/// </value>
+		InteractionStateBase InteractionState
+		{
+			get;
+		}
+		
+		/// <value>
+		/// The lighting effects for the viewport.
+		/// </value>
+		Lighting Lighting
+		{
+			get;
+		}
+	}
+}

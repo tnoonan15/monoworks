@@ -21,7 +21,7 @@ using gl=Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>

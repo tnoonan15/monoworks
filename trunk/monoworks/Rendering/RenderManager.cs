@@ -19,7 +19,7 @@ using System;
 
 using gl = Tao.OpenGl.Gl;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>

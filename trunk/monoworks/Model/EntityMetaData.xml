@@ -16,10 +16,10 @@
 		<Attribute name="sketch" type="MonoWorks.Model.Sketch">
 			The Sketch that the feature is based on.
 		</Attribute>
-		<Attribute name="cartoonColor" type="MonoWorks.Model.Color">
+		<Attribute name="cartoonColor" type="MonoWorks.Rendering.Color">
 			The color for cartoon mode.
 		</Attribute>
-		<Attribute name="material" type="MonoWorks.Model.Material">
+		<Attribute name="material" type="MonoWorks.Rendering.Material">
 			The feature's material.
 		</Attribute>
 		<Entity name="Extrusion">

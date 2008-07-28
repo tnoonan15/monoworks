@@ -1223,5 +1223,9 @@
     <File name="icons48/refline.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/refplane.png" subtype="Code" buildaction="Nothing" />
     <File name="icons48/refpoint.png" subtype="Code" buildaction="Nothing" />
+    <File name="icons48/MonoWorksLogo.png" subtype="Code" buildaction="Nothing" />
+    <File name="logo/MonoWorksLogo.png" subtype="Code" buildaction="Nothing" />
+    <File name="logo/Splashscreen.png" subtype="Code" buildaction="Nothing" />
+    <File name="svg/splashscreen.svg" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

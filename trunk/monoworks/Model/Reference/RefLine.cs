@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Model
 {	
@@ -108,9 +109,9 @@ namespace MonoWorks.Model
 		/// Renders the line to the viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		protected override void Render (IViewport viewport)
+		public override void RenderOpaque(IViewport viewport)
 		{
-			base.Render(viewport);
+			base.RenderOpaque(viewport);
 						
 			// render the points
 			gl.glBegin(gl.GL_LINE);
