@@ -18,6 +18,8 @@
 
 using System;
 
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Model
 {
 	
@@ -33,19 +35,7 @@ namespace MonoWorks.Model
 		{
 		}
 				
-		
-		/// <summary>
-		/// If the reference color is opaque, renders it.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void RenderOpaque(IViewport viewport)
-		{
-			base.RenderOpaque(viewport);
-			
-			if (viewport.RenderManager.ReferenceColor.IsOpaque())
-				Render(viewport);
-		}
-		
+				
 		/// <summary>
 		/// If the reference color is transparent, renders it.
 		/// </summary>
@@ -55,18 +45,19 @@ namespace MonoWorks.Model
 			base.RenderTransparent(viewport);
 			
 			if (!viewport.RenderManager.ReferenceColor.IsOpaque())
-				Render(viewport);
+				viewport.RenderManager.ReferenceColor.Setup();
 		}
 		
 		/// <summary>
 		/// Render the reference item.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		protected override void Render(IViewport viewport)
+		public override void RenderOpaque(IViewport viewport)
 		{
-			base.Render(viewport);
+			base.RenderOpaque(viewport);
 			
-			viewport.RenderManager.ReferenceColor.Setup();
+			if (viewport.RenderManager.ReferenceColor.IsOpaque())
+				viewport.RenderManager.ReferenceColor.Setup();
 		}
 
 	}

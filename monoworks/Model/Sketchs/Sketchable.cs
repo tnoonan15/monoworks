@@ -20,6 +20,7 @@ using System;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Model
 {
@@ -77,22 +78,12 @@ namespace MonoWorks.Model
 		public override void RenderOpaque(IViewport viewport)
 		{
 			base.RenderOpaque(viewport);
-			Render(viewport);
-		}
-		
-		/// <summary>
-		/// Renders the sketchable to the viewport.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		protected override void Render(IViewport viewport)
-		{
 			gl.glColor3f(1.0f, 1.0f, 1.0f);
 			gl.glBegin(gl.GL_LINE_STRIP);
 			DrawVertices();
 			gl.glEnd();
-			
 		}
-
+		
 		
 		/// <summary>
 		/// Draws the vertices to the OpenGL context.

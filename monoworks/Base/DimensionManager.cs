@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.IO;
+using System.Reflection;
 
 namespace MonoWorks.Base
 {
@@ -32,7 +34,7 @@ namespace MonoWorks.Base
 		
 #region Singleton
 		
-		private static DimensionManager currentInstance = FromFile("../../../Base/DefaultUnits.xml");
+		private static DimensionManager currentInstance = Default();
 		/// <value>
 		/// The current singleton instance.
 		/// </value>
@@ -61,11 +63,34 @@ namespace MonoWorks.Base
 #region File I/0
 		
 		/// <summary>
+		/// Gets the default dimension manager.
+		/// </summary>
+		/// <returns> The default <see cref="DimensionManager"/>. </returns>
+		protected static DimensionManager Default()
+		{
+			Assembly asm = Assembly.GetExecutingAssembly();
+			return FromStream(asm.GetManifestResourceStream("DefaultUnits.xml"));
+		}
+		
+		/// <summary>
 		/// Reads a dimension manager from an XML file.
 		/// </summary>
 		/// <param name="fileName"> The name of the file to read from. </param>
 		/// <returns> A new <see cref="DimensionManager"/>. </returns>
 		public static DimensionManager FromFile(string fileName)
+		{
+			Stream stream = new FileStream(fileName, FileMode.Open);
+			DimensionManager manager = FromStream(stream);
+			stream.Close();
+			return manager;
+		}
+		
+		/// <summary>
+		/// Reads a dimension manager from an XML strem.
+		/// </summary>
+		/// <param name="fileName"> The name of the file to read from. </param>
+		/// <returns> A new <see cref="DimensionManager"/>. </returns>
+		public static DimensionManager FromStream(Stream stream)
 		{
 			DimensionManager manager = new DimensionManager();
 			
@@ -75,7 +100,7 @@ namespace MonoWorks.Base
 			string defaultUnits = null;
 			string displayUnits = null;
 
-			XmlTextReader reader = new XmlTextReader(fileName);
+			XmlTextReader reader = new XmlTextReader(stream);
 			
 			while (!reader.EOF)
 			{

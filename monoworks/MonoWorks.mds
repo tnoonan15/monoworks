@@ -2,36 +2,38 @@
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="Base" configuration="Debug" />
-      <Entry build="True" name="Studio" configuration="Debug" />
       <Entry build="True" name="Model" configuration="Debug" />
-      <Entry build="True" name="Gui" configuration="Debug" />
       <Entry build="True" name="Resources" configuration="Default" />
-      <Entry build="True" name="Editor" configuration="Debug" />
+      <Entry build="True" name="Rendering" configuration="Debug" />
+      <Entry build="True" name="GuiGtk" configuration="Debug" />
+      <Entry build="True" name="ViewerGtk" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="Base" configuration="Release" />
-      <Entry build="True" name="Studio" configuration="Release" />
       <Entry build="True" name="Model" configuration="Release" />
-      <Entry build="True" name="Gui" configuration="Release" />
       <Entry build="True" name="Resources" configuration="Default" />
-      <Entry build="True" name="Editor" configuration="Release" />
+      <Entry build="True" name="Rendering" configuration="Release" />
+      <Entry build="True" name="GuiGtk" configuration="Release" />
+      <Entry build="True" name="ViewerGtk" configuration="Release" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="Studio" single="True">
+  <StartMode startupentry="ViewerGtk" single="True">
     <Execute type="None" entry="Base" />
     <Execute type="None" entry="Model" />
     <Execute type="None" entry="App" />
     <Execute type="None" entry="ModelView" />
-    <Execute type="None" entry="Gui" />
     <Execute type="None" entry="Resources" />
     <Execute type="None" entry="Editor" />
+    <Execute type="None" entry="Rendering" />
+    <Execute type="None" entry="GuiGtk" />
+    <Execute type="None" entry="ViewerGtk" />
   </StartMode>
   <Entries>
     <Entry filename="Base/Base.mdp" />
-    <Entry filename="Studio/Studio.mdp" />
     <Entry filename="Model/Model.mdp" />
-    <Entry filename="Gui/Gui.mdp" />
     <Entry filename="Resources/Resources.mdp" />
-    <Entry filename="Editor/Editor.mdp" />
+    <Entry filename="Rendering/Rendering.mdp" />
+    <Entry filename="GuiGtk/GuiGtk.mdp" />
+    <Entry filename="ViewerGtk/ViewerGtk.mdp" />
   </Entries>
 </Combine>

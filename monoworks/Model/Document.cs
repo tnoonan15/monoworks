@@ -22,6 +22,8 @@ using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Model
 {
 	
@@ -219,27 +221,27 @@ namespace MonoWorks.Model
 		/// Renders the document to the given viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public new void Render(IViewport viewport)
-		{
-			viewport.Camera.Place();
-			
-			base.Render(viewport);
-			
-			// render the opaque geometry
-			RenderOpaque(viewport);
-			
-			// render the transparent geometry
-			RenderTransparent(viewport);
-			
-			// render the hit line
-			if (hitLine != null)
-			{
-//				gl.glBegin(gl.GL_LINE);
-//				gl.glVertex3d(hitLine[0][0], hitLine[0][1], hitLine[0][2]);
-//				gl.glVertex3d(hitLine[1][0], hitLine[1][1], hitLine[1][2]);
-//				gl.glEnd();
-			}
-		}
+//		public new void Render(IViewport viewport)
+//		{
+//			viewport.Camera.Place();
+//			
+//			base.Render(viewport);
+//			
+//			// render the opaque geometry
+//			RenderOpaque(viewport);
+//			
+//			// render the transparent geometry
+//			RenderTransparent(viewport);
+//			
+//			// render the hit line
+//			if (hitLine != null)
+//			{
+////				gl.glBegin(gl.GL_LINE);
+////				gl.glVertex3d(hitLine[0][0], hitLine[0][1], hitLine[0][2]);
+////				gl.glVertex3d(hitLine[1][0], hitLine[1][1], hitLine[1][2]);
+////				gl.glEnd();
+//			}
+//		}
 		
 #endregion
 		

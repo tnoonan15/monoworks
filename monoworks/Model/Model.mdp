@@ -15,8 +15,6 @@
   </Configurations>
   <Contents>
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="Camera.cs" subtype="Code" buildaction="Compile" />
-    <File name="RubberBand.cs" subtype="Code" buildaction="Compile" />
     <File name="Entity.cs" subtype="Code" buildaction="Compile" />
     <File name="Document.cs" subtype="Code" buildaction="Compile" />
     <File name="ViewportToolbar.xml" subtype="Code" buildaction="EmbedAsResource" />
@@ -34,14 +32,7 @@
     <File name="Features/Extrusion.cs" subtype="Code" buildaction="Compile" />
     <File name="Features/Revolution.cs" subtype="Code" buildaction="Compile" />
     <File name="Momento.cs" subtype="Code" buildaction="Compile" />
-    <File name="IViewport.cs" subtype="Code" buildaction="Compile" />
     <File name="TestDocument.cs" subtype="Code" buildaction="Compile" />
-    <File name="Bounds.cs" subtype="Code" buildaction="Compile" />
-    <File name="Material.cs" subtype="Code" buildaction="Compile" />
-    <File name="Color.cs" subtype="Code" buildaction="Compile" />
-    <File name="RenderManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="ColorManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="DefaultColors.xml" subtype="Code" buildaction="Nothing" />
     <File name="Actions" subtype="Directory" buildaction="Compile" />
     <File name="Actions/Action.cs" subtype="Code" buildaction="Compile" />
     <File name="Actions/EntityAction.cs" subtype="Code" buildaction="Compile" />
@@ -55,5 +46,6 @@
     <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <ProjectReference type="Project" localcopy="True" refto="Base" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Project" localcopy="True" refto="Rendering" />
   </References>
 </Project>

@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Model
 {
 	
@@ -91,17 +93,8 @@ namespace MonoWorks.Model
 		public override void RenderOpaque(IViewport viewport)
 		{
 			base.RenderOpaque(viewport);
-			Render(viewport);
 		}
 		
-		/// <summary>
-		/// Renders the sketch to the given viewport.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		protected override void Render(IViewport viewport)
-		{
-			base.Render(viewport);
-		}
 		
 #endregion
 		

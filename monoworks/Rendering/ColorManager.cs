@@ -19,8 +19,12 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Reflection;
+using System.IO;
 
-namespace MonoWorks.Model
+
+
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
@@ -35,7 +39,8 @@ namespace MonoWorks.Model
 		public ColorManager()
 		{
 			colors = new Dictionary<string,Color>();
-			Load("../../../Model/DefaultColors.xml");
+			Assembly asm = Assembly.GetExecutingAssembly();
+			Load(asm.GetManifestResourceStream("DefaultColors.xml"));
 		}
 		
 
@@ -80,11 +85,11 @@ namespace MonoWorks.Model
 #region File I/O
 		
 		/// <summary>
-		/// Loads colors from the specified file.
+		/// Loads colors from the specified file stream.
 		/// </summary>
-		public virtual void Load(string fileName)
+		public virtual void Load(Stream stream)
 		{
-			XmlReader reader = new XmlTextReader(fileName);
+			XmlReader reader = new XmlTextReader(stream);
 			
 			while (!reader.EOF) // while there's still something left to read
 			{

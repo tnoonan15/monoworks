@@ -1,19 +1,19 @@
-////   Camera.cs - MonoWorks Project
-////
-////    Copyright Andy Selvig 2008
-////
-////    This program is free software: you can redistribute it and/or modify
-////    it under the terms of the GNU Lesser General Public License as published 
-////    by the Free Software Foundation, either version 3 of the License, or
-////    (at your option) any later version.
-////
-////    This program is distributed in the hope that it will be useful,
-////    but WITHOUT ANY WARRANTY; without even the implied warranty of
-////    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-////    GNU Lesser General Public License for more details.
-////
-////    You should have received a copy of the GNU Lesser General Public 
-////    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//   Camera.cs - MonoWorks Project
+//
+//    Copyright Andy Selvig 2008
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU Lesser General Public License as published 
+//    by the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public 
+//    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 
@@ -22,7 +22,7 @@ using glu = Tao.OpenGl.Glu;
 using MonoWorks.Base;
 
 
-namespace MonoWorks.Model
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
@@ -190,21 +190,6 @@ namespace MonoWorks.Model
 		
 		
 		/// <summary>
-		/// Configures the camera for drawing overlays.
-		/// </summary>
-		public virtual void ConfigureOverlay()
-		{				
-			// initialize the projection matrix
-			gl.glMatrixMode(gl.GL_PROJECTION);
-			gl.glLoadIdentity();
-			
-			// set the 2D ortho projection to the viewport size 
-			glu.gluOrtho2D(0, viewport.Width(), viewport.Height(), 0);
-			
-		}
-		
-		
-		/// <summary>
 		/// Resets the camera to the default position.
 		/// </summary>
 		public virtual void Reset()
@@ -227,8 +212,8 @@ namespace MonoWorks.Model
 			
 			// translate the camera so that something drawn in the
 			// x-y plane maps directly to the screen
-			gl.glTranslatef(-0.5f, 0.5f, -1.2f);
-			gl.glScalef(1f/(float)viewport.Width(), -1f/(float)viewport.Height(), 1.0f);
+			gl.glTranslatef(-0.5f, -0.5f, -1.2f);
+			gl.glScalef(1f/(float)viewport.Width(), 1f/(float)viewport.Height(), 1.0f);
 			
 		}
 		
