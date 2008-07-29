@@ -40,7 +40,7 @@ namespace MonoWorks.Rendering
 			dirty = true;
 		}
 
-		protected Bounds bounds;
+		protected Bounds bounds = new Bounds();
 		/// <summary>
 		/// The bounding box of the renderable.
 		/// Should be updated by ComputeGeometry().

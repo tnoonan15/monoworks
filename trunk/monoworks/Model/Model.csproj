@@ -68,21 +68,6 @@
     <Content Include="ViewportToolbar.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".svn\all-wcprops" />
-    <None Include=".svn\entries" />
-    <None Include=".svn\format" />
-    <None Include=".svn\text-base\AssemblyInfo.cs.svn-base" />
-    <None Include=".svn\text-base\AttributeMetaData.cs.svn-base" />
-    <None Include=".svn\text-base\Document.cs.svn-base" />
-    <None Include=".svn\text-base\Entity.cs.svn-base" />
-    <None Include=".svn\text-base\EntityMetaData.cs.svn-base" />
-    <None Include=".svn\text-base\EntityMetaData.xml.svn-base" />
-    <None Include=".svn\text-base\Model.mdp.svn-base" />
-    <None Include=".svn\text-base\Momento.cs.svn-base" />
-    <None Include=".svn\text-base\TestDocument.cs.svn-base" />
-    <None Include=".svn\text-base\ViewportToolbar.xml.svn-base" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
@@ -91,13 +76,6 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include=".svn\prop-base\" />
-    <Folder Include=".svn\props\" />
-    <Folder Include=".svn\tmp\prop-base\" />
-    <Folder Include=".svn\tmp\props\" />
-    <Folder Include=".svn\tmp\text-base\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

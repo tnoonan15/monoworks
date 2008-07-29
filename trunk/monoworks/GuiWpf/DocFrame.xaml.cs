@@ -25,6 +25,7 @@ namespace MonoWorks.GuiWpf
 			WindowsFormsHost host = new WindowsFormsHost();
 			host.Child = viewport;
 			viewportFrame.Content = host;
+			
 
 			// connect the viewport resize event
 			host.SizeChanged += new SizeChangedEventHandler(OnViewportSizeChanged);
@@ -57,7 +58,8 @@ namespace MonoWorks.GuiWpf
 			}
 		}
 
-	
+
+
 
 
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -66,7 +68,6 @@ namespace MonoWorks.GuiWpf
 
 			viewport.ResizeGL();
 		}
-
 
 		void OnViewportSizeChanged(object sender, SizeChangedEventArgs e)
 		{

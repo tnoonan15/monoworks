@@ -155,7 +155,7 @@ namespace MonoWorks.Rendering
 			if (height==0)	
 				height=1;	
 			
-			gl.glViewport (0, 0, width, height);
+			gl.glViewport(0, 0, width, height);
 			
 			// initialize the projection matrix
 			gl.glMatrixMode(gl.GL_PROJECTION);
@@ -163,9 +163,30 @@ namespace MonoWorks.Rendering
 
 			// Calculate The Aspect Ratio Of The Window
 			glu.gluPerspective((float)fov["deg"], (float)width/(float)height, 0.1f, 20.0f);
+
+			//  store the projection matrix
+			gl.glGetDoublev(gl.GL_PROJECTION_MATRIX, projectionMatrix);
+
+			// store the viewport size
+			//gl.glGetIntegerv(gl.GL_VIEWPORT, viewportSize);
+			viewportSize = new int[] {0, 0, width, height};
 		}
+
+		/// <summary>
+		/// The projection matrix.
+		/// </summary>
+		protected double[] projectionMatrix = new double[16];
 		
-		
+		/// <summary>
+		/// The model-view matrix.
+		/// </summary>
+		protected double[] modelMatrix = new double[16];
+
+		/// <summary>
+		/// The stored size of the viewport.
+		/// </summary>
+		protected int[] viewportSize = new int[4];
+
 		/// <summary>
 		/// Places the camera in it's position of the next drawing operation.
 		/// </summary>
@@ -179,25 +200,10 @@ namespace MonoWorks.Rendering
 			glu.gluLookAt(pos[0], pos[1], pos[2], 
 			              center[0], center[1], center[2],
 			              upVec[0], upVec[1], upVec[2]);
-			
-//			float[] lightPos1 = new float[]{-lightDist, -lightDist, -lightDist,2f};
-//			gl.glLightfv(gl.GL_LIGHT1, gl.GL_POSITION, lightPos1);
-//			float[] lightPos2 = new float[]{lightDist, lightDist, -lightDist,2f};
-//			gl.glLightfv(gl.GL_LIGHT2, gl.GL_POSITION, lightPos2);
-//			float[] lightPos3 = new float[]{-lightDist, -lightDist, lightDist,2f};
-//			gl.glLightfv(gl.GL_LIGHT3, gl.GL_POSITION, lightPos3);
-		}
-		
-		
-		/// <summary>
-		/// Resets the camera to the default position.
-		/// </summary>
-		public virtual void Reset()
-		{
-//				AnimateTo(new Vector(0.0, 0.0, 7.0), new Vector(0.0, 0.0, 0.0), new Vector(0.0, 1.0, 0.0));
-			pos = new Vector(0.0, 0.0, 7.0);
-			center = new Vector(0.0, 0.0, 0.0);
-			upVec = new Vector(0.0, 1.0, 0.0);
+
+
+			//  store the model-view matrix
+			gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX, modelMatrix);
 		}
 		
 		
@@ -214,7 +220,18 @@ namespace MonoWorks.Rendering
 			// x-y plane maps directly to the screen
 			gl.glTranslatef(-0.5f, -0.5f, -1.2f);
 			gl.glScalef(1f/(float)viewport.WidthGL, 1f/(float)viewport.HeightGL, 1.0f);
-			
+
+		}
+
+
+		/// <summary>
+		/// Resets the camera to the default position.
+		/// </summary>
+		public virtual void Reset()
+		{
+			pos = new Vector(0.0, 0.0, 7.0);
+			center = new Vector(0.0, 0.0, 0.0);
+			upVec = new Vector(0.0, 1.0, 0.0);
 		}
 		
 		
@@ -239,7 +256,21 @@ namespace MonoWorks.Rendering
 				return fov.Sin() * Math.Abs((center-pos).Magnitude)/ (double)viewport.HeightGL;
 			}
 		}
-			
+
+
+		/// <summary>
+		/// Converts the vector in world coordinates to screen coordinates.
+		/// </summary>
+		/// <param name="world"> A 3D vector in workd coordinates.</param>
+		/// <returns> The corresponding 2D screen coordinates.</returns>
+		public ScreenCoord WorldToScreen(Vector world)
+		{
+			double screenX, screenY, screenZ;
+			glu.gluProject(world[0], world[1], world[2],
+				modelMatrix, projectionMatrix, viewportSize,
+				out screenX, out screenY, out screenZ);
+			return new ScreenCoord((int)screenX, (int)screenY);
+		}
 		
 #endregion
 		
