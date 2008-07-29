@@ -231,13 +231,14 @@ namespace MonoWorks.GuiWpf
 
 			renderManager.ClearScene();
 
-			camera.Place();
 
 			// render the rendering list
+			camera.Place(); // place the camera for 3D rendering
 			foreach (Renderable renderable in renderables)
 				renderable.RenderOpaque(this);
 			foreach (Renderable renderable in renderables)
 				renderable.RenderTransparent(this);
+			camera.PlaceOverlay(); // place the camera for overlay rendering
 			foreach (Renderable renderable in renderables)
 				renderable.RenderOverlay(this);
 

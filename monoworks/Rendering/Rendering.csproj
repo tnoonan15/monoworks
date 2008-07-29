@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Tao.Externals, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -55,28 +56,10 @@
     <Compile Include="RenderManager.cs" />
     <Compile Include="RubberBand.cs" />
     <Compile Include="TextRenderer.cs" />
+    <Compile Include="Transform.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".svn\all-wcprops" />
-    <None Include=".svn\entries" />
-    <None Include=".svn\format" />
-    <None Include=".svn\text-base\Bounds.cs.svn-base" />
-    <None Include=".svn\text-base\Camera.cs.svn-base" />
-    <None Include=".svn\text-base\Color.cs.svn-base" />
-    <None Include=".svn\text-base\ColorManager.cs.svn-base" />
-    <None Include=".svn\text-base\DefaultColors.xml.svn-base" />
-    <None Include=".svn\text-base\InteractionStateBase.cs.svn-base" />
-    <None Include=".svn\text-base\IViewport.cs.svn-base" />
-    <None Include=".svn\text-base\Lighting.cs.svn-base" />
-    <None Include=".svn\text-base\Material.cs.svn-base" />
-    <None Include=".svn\text-base\Renderable.cs.svn-base" />
-    <None Include=".svn\text-base\Rendering.mdp.svn-base" />
-    <None Include=".svn\text-base\RenderManager.cs.svn-base" />
-    <None Include=".svn\text-base\RubberBand.cs.svn-base" />
-    <None Include=".svn\text-base\TextRenderer.cs.svn-base" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -85,11 +68,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".svn\prop-base\" />
-    <Folder Include=".svn\props\" />
-    <Folder Include=".svn\tmp\prop-base\" />
-    <Folder Include=".svn\tmp\props\" />
-    <Folder Include=".svn\tmp\text-base\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />

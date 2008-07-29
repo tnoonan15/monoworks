@@ -51,12 +51,17 @@ namespace MonoWorks.Rendering
 			this.minima = minima;
 			this.maxima = maxima;
 		}
-		
-		
+
+
+		protected bool isSet;
 		/// <value>
 		/// Is true if the values have been set.
 		/// </value>
-		protected bool isSet;
+		public bool IsSet
+		{
+			get { return isSet; }
+			set { isSet = value; }
+		}
 		
 		
 #region Minima and Maxima
@@ -71,6 +76,7 @@ namespace MonoWorks.Rendering
 			set
 			{
 				minima = value;
+				isSet = maxima != null;
 			}
 		}
 		
@@ -85,6 +91,7 @@ namespace MonoWorks.Rendering
 			set
 			{
 				maxima = value;
+				isSet = minima != null;
 			}
 		}		
 		
@@ -116,6 +123,14 @@ namespace MonoWorks.Rendering
 		public Vector Center
 		{
 			get {return (minima + maxima) / 2;}
+		}
+
+		/// <summary>
+		/// The size of the bounds in each dimension.
+		/// </summary>
+		public Vector Size
+		{
+			get { return maxima - minima; }
 		}
 		
 		/// <value>
@@ -196,7 +211,7 @@ namespace MonoWorks.Rendering
 			{
 				gl.glLineWidth( 1.5f);
 				gl.glColor3f(0.0f, 0.0f, 1.0f);
-				gl.glBegin(gl.GL_LINE);
+				gl.glBegin(gl.GL_LINES);
 				
 				// minimum z box
 				gl.glVertex3d(minima[0], minima[1], minima[2]);

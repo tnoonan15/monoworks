@@ -8,8 +8,8 @@
 //    (at your option) any later version.
 //
 //    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANaxis[1] WARRANTaxis[1]; without even the implied warranty of
-//    MERCHANTABILITaxis[1] or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //    GNU Lesser General Public License for more details.
 //
 //    axis[1]ou should have received a copy of the GNU Lesser General Public 
@@ -173,6 +173,28 @@ namespace MonoWorks.Base
 		public static Vector operator/(Vector vector, double factor)
 		{
 			return new Vector(vector[0]/factor, vector[1]/factor, vector[2]/factor);
+		}
+
+		/// <summary>
+		/// Element-by-element multiplication.
+		/// </summary>
+		/// <param name="lhs"> The left hand operand. </param>
+		/// <param name="rhs"> The right hand operand. </param>
+		/// <returns> The resulting <see cref="Vector"/>. </returns>
+		public static Vector operator*(Vector lhs, Vector rhs)
+		{
+			return new Vector(lhs[0] * rhs[0], lhs[1] * rhs[1], lhs[2] * rhs[2]);
+		}
+
+		/// <summary>
+		/// Element-by-element division.
+		/// </summary>
+		/// <param name="lhs"> The left hand operand. </param>
+		/// <param name="rhs"> The right hand operand. </param>
+		/// <returns> The resulting <see cref="Vector"/>. </returns>
+		public static Vector operator/(Vector lhs, Vector rhs)
+		{
+			return new Vector(lhs[0] / rhs[0], lhs[1] / rhs[1], lhs[2] / rhs[2]);
 		}
 		
 #endregion

@@ -19,6 +19,9 @@
 using System;
 using System.Collections.Generic;
 
+using gl = Tao.OpenGl.Gl;
+
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.Plotting
@@ -29,11 +32,51 @@ namespace MonoWorks.Plotting
 	/// </summary>
 	public class Axis : Plottable
 	{
-
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		/// <param name="parent"></param>
 		public Axis(AxesBox parent)
 			: base(parent)
 		{
 		}
+
+
+		protected ScreenCoord start = new ScreenCoord();
+		/// <summary>
+		/// The starting position of the axis.
+		/// </summary>
+		public ScreenCoord Start
+		{
+			get { return start; }
+			set { start = value; }
+		}
+
+		protected ScreenCoord stop = new ScreenCoord();
+		/// <summary>
+		/// The stopping position of the axes.
+		/// </summary>
+		public ScreenCoord Stop
+		{
+			get { return stop; }
+			set { stop = value; }
+		}
+
+
+		public override void RenderOverlay(IViewport viewport)
+		{
+			base.RenderOverlay(viewport);
+
+			Console.WriteLine("rendering axis from {0} to {1}", start, stop);
+
+			gl.glBegin(gl.GL_LINES);
+
+			gl.glVertex2i(start.X, start.Y);
+			gl.glVertex2i(stop.X, stop.Y);
+
+			gl.glEnd();
+		}
+	
 
 	}
 }

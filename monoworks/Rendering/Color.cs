@@ -32,7 +32,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public Color()
 		{
-			rgba = new byte[]{0, 0, 255, 255};
+			rgba = new byte[]{0, 0, 0, 255};
 		}
 		
 		/// <summary>
@@ -57,7 +57,33 @@ namespace MonoWorks.Rendering
 		{
 			rgba = new byte[]{red, green, blue, alpha};
 		}
-		
+
+
+		/// <summary>
+		/// Float initialization constructor.
+		/// </summary>
+		/// <param name="red"> The red component. </param>
+		/// <param name="green"> The green component. </param>
+		/// <param name="blue"> The blue component. </param>
+		/// <param name="alpha"> The alpha component. </param>
+		public Color(float red, float green, float blue) : this(red, green, blue, 1F)
+		{
+
+		}
+
+
+
+		/// <summary>
+		/// Float initialization constructor with alpha.
+		/// </summary>
+		/// <param name="red"> The red component. </param>
+		/// <param name="green"> The green component. </param>
+		/// <param name="blue"> The blue component. </param>
+		/// <param name="alpha"> The alpha component. </param>
+		public Color(float red, float green, float blue, float alpha)
+		{
+			rgba = new byte[] { (byte)(red * 255f), (byte)(green * 255f), (byte)(blue * 255f), (byte)(alpha * 255f) };
+		}
 		
 #region Components
 		
@@ -102,6 +128,64 @@ namespace MonoWorks.Rendering
 				return false;
 			return true;
 		}
+
+		/// <summary>
+		/// Access a component of the color as a float.
+		/// </summary>
+		/// <param name="index"> 0-3 corresponding to rgba.</param>
+		/// <returns> The given component.</returns>
+		public float this[int index]
+		{
+			get
+			{
+				if (index < 0 || index > 3)
+					throw new Exception("Color component must be between 0 and 3");
+				return (float)rgba[index] / 255f;
+			}
+			set
+			{
+				if (index < 0 || index > 3)
+					throw new Exception("Color component must be between 0 and 3");
+				rgba[index] = (byte)(value * 255f);
+			}
+		}
+
+		/// <summary>
+		/// The red component.
+		/// </summary>
+		public float Redf
+		{
+			get { return this[0]; }
+			set { this[0] = value; }
+		}
+
+		/// <summary>
+		/// The green component.
+		/// </summary>
+		public float Greenf
+		{
+			get { return this[1]; }
+			set { this[1] = value; }
+		}
+
+		/// <summary>
+		/// The blue component.
+		/// </summary>
+		public float Bluef
+		{
+			get { return this[2]; }
+			set { this[2] = value; }
+		}
+
+		/// <summary>
+		/// The alpha component.
+		/// </summary>
+		public float Alphaf
+		{
+			get { return this[3]; }
+			set { this[3] = value; }
+		}
+	
 		
 #endregion
 		
