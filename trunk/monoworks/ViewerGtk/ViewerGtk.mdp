@@ -24,10 +24,7 @@
     <ProjectReference type="Project" localcopy="True" refto="Base" />
     <ProjectReference type="Project" localcopy="True" refto="Model" />
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/gtkglarea-sharp.dll" />
     <ProjectReference type="Gac" localcopy="True" refto="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.FreeType.dll" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/ISE.FreeType.dll" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Tao.Externals.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/gtkglarea-sharp.dll" />
   </References>
 </Project>

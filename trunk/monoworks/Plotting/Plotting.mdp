@@ -1,0 +1,30 @@
+<Project name="Plotting" fileversion="2.0" Description="MonoWorks plotting library." DefaultNamespace="MonoWorks.Plotting" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assembly="MonoWorks.Plotting" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assembly="Plotting" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="AxesBox.cs" subtype="Code" buildaction="Compile" />
+    <File name="Axis.cs" subtype="Code" buildaction="Compile" />
+    <File name="DataSet.cs" subtype="Code" buildaction="Compile" />
+    <File name="Plottable.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Project" localcopy="True" refto="Base" />
+    <ProjectReference type="Project" localcopy="True" refto="Rendering" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.FreeType.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.Externals.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/ISE.FreeType.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/gtkglarea-sharp.dll" />
+  </References>
+</Project>
