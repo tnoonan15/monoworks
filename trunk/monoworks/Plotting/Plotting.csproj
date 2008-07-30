@@ -53,6 +53,7 @@
     <Compile Include="Plottable.cs" />
     <Compile Include="ArrayDataSet.cs" />
     <Compile Include="PointPlot.cs" />
+    <Compile Include="TestAxes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">

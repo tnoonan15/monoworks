@@ -142,7 +142,7 @@ namespace MonoWorks.Rendering
 			get
 			{
 				if (isSet)
-					return (maxima[0] + maxima[1] + maxima[2] - minima[0] + minima[1] + minima[2]) / 3.0;
+					return (maxima[0] + maxima[1] + maxima[2] - minima[0] - minima[1] - minima[2]) / 3.0;
 				else
 					return 0;
 			}
@@ -196,11 +196,75 @@ namespace MonoWorks.Rendering
 		}
 		
 #endregion
-		
-		
-		
+
+
+
+#region Outside Edges
+
+		/// <summary>
+		/// Gets the most outside edges from the viewpoint of a camera.
+		/// </summary>
+		/// <param name="viewport"> The viewport containing the camera.</param>
+		/// <returns> The low and high end of each edge (6 elements).</returns>
+		public Vector[] GetOutsideEdges(IViewport viewport)
+		{
+			Vector[] edges = new Vector[6];
+			Vector camPos = viewport.Camera.Position;
+			Vector camCenter = viewport.Camera.Center;
+
+			double zVal = minima[2]; // z value of the x and y axes
+			if (camPos[2] < camCenter[2]) // z position of the camera is negative
+				zVal = maxima[2]; // draw the z axis on top
+
+			// big, fugly if statement
+			if (camPos[0] >= camCenter[0] && camPos[1] >= camCenter[1])
+			{
+				edges[0] = new Vector(minima[0], maxima[1], zVal); // x axis
+				edges[1] = new Vector(maxima[0], maxima[1], zVal);
+				edges[2] = new Vector(maxima[0], minima[1], zVal); // y axis
+				edges[3] = new Vector(maxima[0], maxima[1], zVal);
+				edges[4] = new Vector(maxima[0], minima[1], minima[2]); // z axis
+				edges[5] = new Vector(maxima[0], minima[1], maxima[2]);
+			}
+			else if (camPos[0] < camCenter[0] && camPos[1] >= camCenter[1])
+			{
+				edges[0] = new Vector(minima[0], maxima[1], zVal); // x axis
+				edges[1] = new Vector(maxima[0], maxima[1], zVal);
+				edges[2] = new Vector(minima[0], minima[1], zVal); // y axis
+				edges[3] = new Vector(minima[0], maxima[1], zVal);
+				edges[4] = new Vector(maxima[0], maxima[1], minima[2]); // z axis
+				edges[5] = new Vector(maxima[0], maxima[1], maxima[2]);
+			}
+			else if (camPos[0] < camCenter[0] && camPos[1] < camCenter[1])
+			{
+				edges[0] = new Vector(minima[0], minima[1], zVal); // x axis
+				edges[1] = new Vector(maxima[0], minima[1], zVal);
+				edges[2] = new Vector(minima[0], minima[1], zVal); // y axis
+				edges[3] = new Vector(minima[0], maxima[1], zVal);
+				edges[4] = new Vector(minima[0], maxima[1], minima[2]); // z axis
+				edges[5] = new Vector(minima[0], maxima[1], maxima[2]);
+			}
+			else if (camPos[0] >= camCenter[0] && camPos[1] < camCenter[1])
+			{
+				edges[0] = new Vector(minima[0], minima[1], minima[2]); // x axis
+				edges[1] = new Vector(maxima[0], minima[1], minima[2]);
+				edges[2] = new Vector(maxima[0], minima[1], minima[2]); // y axis
+				edges[3] = new Vector(maxima[0], maxima[1], minima[2]);
+				edges[4] = new Vector(minima[0], minima[1], minima[2]); // z axis
+				edges[5] = new Vector(minima[0], minima[1], maxima[2]);
+			}
+
+
+			return edges;
+		}
+
+
+#endregion
+
+
+
 #region Rendering
-		
+
 		/// <summary>
 		/// Renders the bounding box to the given viewport.
 		/// </summary>
@@ -258,6 +322,7 @@ namespace MonoWorks.Rendering
 		
 #endregion
 		
+
 		
 #region Hit Test		
 		
@@ -333,6 +398,54 @@ namespace MonoWorks.Rendering
 		}
 		
 #endregion
-		
+
+
+
+#region Prettifying
+
+		/// <summary>
+		/// Returns a nice step that is between 1/5 to 1/8 of the range.
+		/// </summary>
+		/// <param name="min"> The minimum value of the range.</param>
+		/// <param name="max"> the maximum value of the range.</param>
+		/// <returns> The nice step size.</returns>
+		public static double NiceStep(double min, double max)
+		{
+			double range = max - min;
+
+			// get the order of magnitude of the range
+			// which is a good first guess for the step
+			double step = Math.Pow(10, Math.Floor(Math.Log10(max - min)));
+
+			// adjust step up if it's too low
+			while (range / step > 8)
+				step *= 2.0;
+
+			// adjust step down if it's too high
+			while (range / step < 5)
+				step /= 2.0;
+
+			return step;
+		}
+
+		/// <summary>
+		/// Makes each dimension an even multiple of a "nice" number.
+		/// </summary>
+		/// <remarks> "nice" numbers are determined using multiples of NiceStep(minima, maxima).</remarks>
+		public void Prettify()
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				double step = NiceStep(minima[i], maxima[i]);
+				minima[i] = Math.Floor(minima[i] / step) * step;
+				maxima[i] = Math.Ceiling(maxima[i] / step) * step;
+			}
+
+		}
+
+
+#endregion
+
+
 	}
 }

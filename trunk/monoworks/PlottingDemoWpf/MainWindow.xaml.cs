@@ -27,29 +27,16 @@ namespace MonoWorks.PlottingDemoWpf
 			host.Child = viewport;
 			dockPanel.Children.Add(host);
 			viewport.Camera.Center = new MonoWorks.Base.Vector(0, 0, 0);
-			viewport.Camera.Position = new MonoWorks.Base.Vector(4, 0, 0);
+			viewport.Camera.Position = new MonoWorks.Base.Vector(7, 0, 0);
 			viewport.Camera.UpVector = new MonoWorks.Base.Vector(0, 0, 1);
 			viewport.Camera.RecomputeUpVector();
 
 			// connect the viewport resize event
 			host.SizeChanged += new SizeChangedEventHandler(OnViewportSizeChanged);
 
-			// make the array data set
-			arrayData = new ArrayDataSet(1024,4);
-			Random rand = new Random();
-			for (int r = 0; r < arrayData.NumRows; r++)
-			{
-				arrayData[r, 0] = rand.NextDouble() * 2 * Math.PI;
-				arrayData[r, 1] = rand.NextDouble() * Math.PI;
-				arrayData[r, 2] = Math.Sin(arrayData[r, 0]) * Math.Cos(arrayData[r, 1]);
-			}
-
-			// add an axes box and plot
-			AxesBox axes = new AxesBox();
+			// add the test axes
+			TestAxes axes = new TestAxes();
 			viewport.AddRenderable(axes);
-			PointPlot plot1 = new PointPlot(axes);
-			plot1.DataSet = arrayData;
-
 
 		}
 
