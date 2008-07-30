@@ -44,7 +44,7 @@ namespace MonoWorks.Rendering
 			
 			// set default field of view
 			fov = new Angle();
-			fov["deg"] = 45.0;
+			fov["deg"] = 35.0;
 			
 			// set default interaction factors
 			dollyFactor = 0.15;

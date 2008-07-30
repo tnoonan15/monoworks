@@ -122,7 +122,7 @@ namespace MonoWorks.Plotting
 				x = dataSet[r, indices[0]];
 				y = dataSet[r, indices[1]];
 				z = dataSet[r, indices[2]];
-				parent.PlotToRenderSpace.Apply(ref x, ref y, ref z);
+				parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 				//Console.WriteLine("adding vertex at {0}, {1}, {2}", x, y, z);
 				gl.glVertex3d(x, y, z);
 			}

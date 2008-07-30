@@ -29,7 +29,7 @@ namespace MonoWorks.Plotting
 	/// <summary>
 	/// How the axes are arranged.
 	/// </summary>
-	public enum AxesArrangement {Origin, Outside, All, None};
+	public enum AxesArrangement {Origin, Outside};
 
 	/// <summary>
 	/// How the axes are resized.
@@ -60,7 +60,7 @@ namespace MonoWorks.Plotting
 			bounds.Minima = new Vector(-1, -1, -1);
 			bounds.Maxima = new Vector(1, 1, 1);
 
-			Arrangement = AxesArrangement.Origin;
+			Arrangement = AxesArrangement.Outside;
 		}
 
 
@@ -115,8 +115,6 @@ namespace MonoWorks.Plotting
 
 				// regenerate the axes
 				int numAxes = 3;
-				if (arrangement == AxesArrangement.All)
-					numAxes = 12;
 				axes.Clear();
 				axes.Capacity = numAxes;
 				for (int n = 0; n < numAxes; n++)
@@ -142,19 +140,15 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		protected List<Axis> axes = new List<Axis>();
 
+
 		/// <summary>
-		/// Updates the axes based on arrangement and bounds.
+		/// Updates the axes based on plot bounds.
 		/// </summary>
 		protected void UpdateAxes()
 		{
-			switch (arrangement)
-			{
-			case AxesArrangement.Origin: // the axes should be placed at the lowest end of each range
-
-				break;
-			default:
-				throw new Exception(String.Format("arrangement {0} not supported", arrangement));
-			}
+			// generate the ticks
+			foreach (Axis axis in axes)
+				axis.GenerateTicks(axes.IndexOf(axis));
 		}
 
 		/// <summary>
@@ -163,21 +157,26 @@ namespace MonoWorks.Plotting
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
 		protected void RenderAxes(IViewport viewport)
 		{
-			Console.WriteLine("rendering the axes");
 			// update the positions
 			switch (arrangement)
 			{
 			case AxesArrangement.Origin: // the axes should be placed at the lowest end of each range
-				axes[0].Start = viewport.Camera.WorldToScreen(bounds.Minima);
-				axes[0].Stop = viewport.Camera.WorldToScreen(new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]));
-				axes[1].Start = viewport.Camera.WorldToScreen(bounds.Minima);
-				axes[1].Stop = viewport.Camera.WorldToScreen(new Vector(bounds.Minima[0], bounds.Maxima[1], bounds.Minima[2]));
-				axes[2].Start = viewport.Camera.WorldToScreen(bounds.Minima);
-				axes[2].Stop = viewport.Camera.WorldToScreen(new Vector(bounds.Minima[0], bounds.Minima[1], bounds.Maxima[2]));
+				axes[0].Start = bounds.Minima;
+				axes[1].Start = axes[0].Start;
+				axes[2].Start = axes[0].Start;
+				axes[0].Stop = new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]);
+				axes[1].Stop = new Vector(bounds.Minima[0], bounds.Maxima[1], bounds.Minima[2]);
+				axes[2].Stop = new Vector(bounds.Minima[0], bounds.Minima[1], bounds.Maxima[2]);
 				break;
 
 			case AxesArrangement.Outside: // the axes should be placed along the oustide of the viewable area
-				
+				Vector[] edges = bounds.GetOutsideEdges(viewport);
+				for (int i = 0; i < 3; i++)
+				{
+					axes[i].Start = edges[2 * i];
+					axes[i].Stop = edges[2 * i + 1];
+					axes[i].DirtyTicks();
+				}
 				break;
 
 			default:
@@ -195,13 +194,13 @@ namespace MonoWorks.Plotting
 
 		#region Geometry
 
-		protected Transform plotToRenderSpace = new Transform();
+		protected Transform plotToWorldSpace = new Transform();
 		/// <summary>
-		/// Transformation to go from plot to render space.
+		/// Transformation to go from plot to world space.
 		/// </summary>
-		public Transform PlotToRenderSpace
+		public Transform PlotToWorldSpace
 		{
-			get { return plotToRenderSpace; }
+			get { return plotToWorldSpace; }
 		}
 
 		/// <summary>
@@ -224,14 +223,20 @@ namespace MonoWorks.Plotting
 						if (child.PlotBounds.IsSet)
 							plotBounds.Resize(child.PlotBounds);
 					}
+
+					// make the plot bounds pretty
+					plotBounds.Prettify();
 				}
 
 				if (plotBounds.IsSet) // only proceed if the plot bounds are set
 				{
 					// compute the plot-render transformation
-					plotToRenderSpace.Compute(plotBounds, bounds);
+					plotToWorldSpace.Compute(plotBounds, bounds);
 
-					// force the children to recompute their bounds
+					// udpate the axes
+					UpdateAxes();
+
+					// force the children to recompute their geometry
 					foreach (Plottable child in children)
 					{
 						child.ComputeGeometry();
@@ -240,8 +245,6 @@ namespace MonoWorks.Plotting
 
 			}
 
-			// udpate the axes
-			UpdateAxes();
 
 		}
 
