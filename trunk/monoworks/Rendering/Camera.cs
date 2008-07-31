@@ -38,13 +38,13 @@ namespace MonoWorks.Rendering
 			viewport = theViewport;
 			
 			// set default positioning
-			pos = new Vector(0.0, 0.0, 7.0);
+			pos = new Vector(0.0, 0.0, 9.0);
 			upVec = new Vector(0.0, 1.0, 0.0);
 			center = new Vector();
 			
 			// set default field of view
 			fov = new Angle();
-			fov["deg"] = 35.0;
+			fov["deg"] = 30.0;
 			
 			// set default interaction factors
 			dollyFactor = 0.15;

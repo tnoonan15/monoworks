@@ -100,6 +100,7 @@ namespace MonoWorks.Plotting
 		#endregion
 
 
+
 		#region Axes
 
 		protected AxesArrangement arrangement;
@@ -252,6 +253,23 @@ namespace MonoWorks.Plotting
 
 
 
+		#region Title
+
+
+		protected TextRenderer title = new TextRenderer();
+		/// <summary>
+		/// The title.
+		/// </summary>
+		public string Title
+		{
+			get { return title.Text; }
+			set { title.Text = value; }
+		}
+
+
+		#endregion
+
+
 		#region Rendering
 
 		public override void RenderOpaque(IViewport viewport)
@@ -276,8 +294,14 @@ namespace MonoWorks.Plotting
 			// render the axes
 			RenderAxes(viewport);
 
-			//foreach (Plottable child in children)
-			//    child.RenderOverlay(viewport);
+			// render the title
+			//title.Position = new ScreenCoord(300, 300);
+			//title.Text = "Blah Blah";
+			//title.RenderOverlay(viewport);
+
+			// render the child overlays
+			foreach (Plottable child in children)
+				child.RenderOverlay(viewport);
 		}
 
 		#endregion

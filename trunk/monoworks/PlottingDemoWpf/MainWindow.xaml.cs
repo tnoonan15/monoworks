@@ -27,7 +27,7 @@ namespace MonoWorks.PlottingDemoWpf
 			host.Child = viewport;
 			dockPanel.Children.Add(host);
 			viewport.Camera.Center = new MonoWorks.Base.Vector(0, 0, 0);
-			viewport.Camera.Position = new MonoWorks.Base.Vector(7, 0, 0);
+			viewport.Camera.Position = new MonoWorks.Base.Vector(9, 0, 0);
 			viewport.Camera.UpVector = new MonoWorks.Base.Vector(0, 0, 1);
 			viewport.Camera.RecomputeUpVector();
 
