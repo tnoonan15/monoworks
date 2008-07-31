@@ -77,7 +77,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\Win32\Tao.Externals.dll</HintPath>
     </Reference>
-    <Reference Include="Tao.Platform.Windows, Version=1.0.0.4, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL" />
+    <Reference Include="Tao.Platform.Windows, Version=1.0.0.4, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Win32\Tao.Platform.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
