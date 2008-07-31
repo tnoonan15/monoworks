@@ -87,6 +87,16 @@ namespace MonoWorks.Plotting
 			get { return tickVals; }
 		}
 
+		protected TextRenderer[] tickLabels;
+		/// <summary>
+		/// The labels on the ticks.
+		/// </summary>
+		public TextRenderer[] TickLabels
+		{
+			get { return tickLabels; }
+		}
+
+
 		/// <summary>
 		/// The dimension that this axis represents.
 		/// </summary>
@@ -109,14 +119,24 @@ namespace MonoWorks.Plotting
 			double range = max- min;
 			double step = Bounds.NiceStep(min, max);
 
-			// compute the tick values
+			// determine the number of ticks
 			double numTicks = Math.Floor(range / step); // number of ticks
 			if (numTicks < 1) // this should never happen, there must be an error in NiceStep()
 				throw new Exception("The number of ticks is less than one. There might be and error in Bounds.NiceStep().");
+
+			// compute the tick values
 			tickVals = new double[(int)numTicks];
 			tickVals[0] = Math.Ceiling(min / step) * step;
 			for (int i = 1; i < (int)numTicks; i++)
 				tickVals[i] = tickVals[i - 1] + step;
+
+			// store the tick labels
+			tickLabels = new TextRenderer[tickVals.Length];
+			for (int i = 0; i < (int)numTicks; i++)
+			{
+				tickLabels[i] = new TextRenderer(10);
+				tickLabels[i].Text = tickVals[i].ToString();
+			}
 		}
 
 
@@ -179,30 +199,30 @@ namespace MonoWorks.Plotting
 
 			// get the angle of the main axis line
 			bool isVertical = false, ishorizontal = false;
-			double tickAngle = 0;
+			Angle tickAngle = new Angle();
 			if (startCoord.X == stopCoord.X) // the axis is vertical
 			{
 				isVertical = true;
 				if (startCoord.X < viewport.WidthGL / 2) // it's on the left side
-					tickAngle = Math.PI;
+					tickAngle = Angle.Pi();
 				else
-					tickAngle = 0;
+					tickAngle = new Angle();
 				//Console.WriteLine("axis {0} is vertical with angle {1}", dimension, tickAngle);
 			}
 			if (startCoord.Y == stopCoord.Y) // the axis is horizontal
 			{
 				ishorizontal = true;
 				if (startCoord.Y < viewport.HeightGL / 2) // it's on the bottom side
-					tickAngle = 3 * Math.PI / 2;
+					tickAngle = Angle.Pi() * 1.5;
 				else
-					tickAngle = Math.PI / 2;
+					tickAngle = Angle.Pi() * 0.5;
 				//Console.WriteLine("axis {0} is horizontal with angle {1}", dimension, tickAngle);
 			}
 			if (ishorizontal && isVertical) // the axis is singular, don't render it
 				return;
 			if (!ishorizontal && !isVertical) // the axis is sloped
 			{
-				tickAngle = Math.Atan2(stopCoord.Y - startCoord.Y, stopCoord.X - startCoord.X);
+				tickAngle = Angle.ArcTan(stopCoord.Y - startCoord.Y, stopCoord.X - startCoord.X);
 				//Console.WriteLine("axis {0} goes from {1} to {2} with tick angle {3}", dimension, startCoord, stopCoord, tickAngle * 180 / Math.PI);
 
 				// determine which direction to flip it
@@ -210,25 +230,41 @@ namespace MonoWorks.Plotting
 				if (dimension == 2) // need to flip the sign on the z axis
 					sign = -1;
 				if (startCoord.Y < viewport.HeightGL / 2) // it's on the bottom side
-					tickAngle -= sign * Math.PI / 2;
+					tickAngle -= new Angle(sign * Math.PI / 2.0);
 				else
-					tickAngle += sign * Math.PI / 2;
+					tickAngle += new Angle(sign * Math.PI / 2.0);
 
-				//tickAngle += (Math.PI / 2) * Math.Sign(tickAngle);
 			}
 
 			// compute tick position
 			ComputeTickPositions();
+
+			// update tick alignment
+			ISE.FTFontAlign newAlignment = ISE.FTFontAlign.FT_ALIGN_CENTERED;
+			//if (tickAngle 
 
 			// the ticks
 			for (int i = 0; i < tickPositions.Length; i++)
 			{
 				startCoord = viewport.Camera.WorldToScreen(tickPositions[i]);
 				gl.glVertex2d(startCoord.X, startCoord.Y); // the point where the tick intersects the axis
-				gl.glVertex2d(startCoord.X + tickLength * Math.Cos(tickAngle), startCoord.Y + tickLength * Math.Sin(tickAngle)); //the other point 
+				gl.glVertex2d(startCoord.X + tickLength * tickAngle.Cos(), startCoord.Y + tickLength * tickAngle.Sin()); //the other point 
+
+
+
+				// store the label position
+				tickLabels[i].Position[0] = startCoord.X + 2 * tickLength * tickAngle.Cos();
+				tickLabels[i].Position[1] = startCoord.Y + 2 * tickLength * tickAngle.Sin();
 			}
 
 			gl.glEnd();
+
+			// render the labels
+			for (int i = 0; i < tickPositions.Length; i++)
+			{
+				tickLabels[i].Alignment = newAlignment;
+				tickLabels[i].RenderOverlay(viewport);
+			}
 		}
 	
 

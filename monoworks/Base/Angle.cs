@@ -20,7 +20,10 @@ using System;
 
 namespace MonoWorks.Base
 {
-	
+	/// <summary>
+	/// The standard compas directions.
+	/// </summary>
+	public enum Direction { North, South, East, West };
 		
 	/// <summary>
 	/// The Angle class represents length quantities. 
@@ -31,7 +34,7 @@ namespace MonoWorks.Base
 		/// The radian value of pi.
 		/// Use Pi() to get the Angle object.
 		/// </summary>
-		public const double PI = 3.14159;
+		public const double PI = Math.PI;
 		
 		
 		/// <summary>
@@ -88,8 +91,7 @@ namespace MonoWorks.Base
 		
 #endregion
 		
-		
-		
+			
 		
 #region Arithmatic
 		
@@ -124,9 +126,42 @@ namespace MonoWorks.Base
 		{
 			return new Angle(lhs.val/rhs);
 		}
+
+		/// <summary>
+		/// Increments the angle by Pi.
+		/// </summary>
+		public void IncByPi()
+		{
+			val += PI;
+		}
+
+		/// <summary>
+		/// Decrements the angle by Pi.
+		/// </summary>
+		public void DecByPi()
+		{
+			val -= PI;
+		}
+
+		/// <summary>
+		/// Increments the angle by Pi/2.
+		/// </summary>
+		public void IncByHalfPi()
+		{
+			val += 0.5*PI;
+		}
+
+		/// <summary>
+		/// Decrements the angle by Pi/2.
+		/// </summary>
+		public void DecByHalfPi()
+		{
+			val -= 0.5*PI;
+		}
 		
 #endregion
-		
+	
+	
 		
 #region Trigonometry
 		
@@ -208,15 +243,35 @@ namespace MonoWorks.Base
 		/// <returns>
 		/// The new angle.
 		/// </returns>
-		public static Angle ArcTan(double x, double y)
+		public static Angle ArcTan(double y, double x)
 		{
-			return new Angle(Math.Atan2(x, y));
+			return new Angle(Math.Atan2(y, x));
 		}
 		
 		
 #endregion
-		
-		
+
+
+
+#region Direction
+
+		/// <summary>
+		/// The direction of the angle.
+		/// </summary>
+		public Direction Direction
+		{
+			get
+			{
+				// get rid of extra revolutions
+				//double val_ = val % PI;
+				//if (val_ < PI/4 || val_ > 
+				return Direction.North;
+			}
+		}
+
+#endregion
+
+
 	}
 
 }

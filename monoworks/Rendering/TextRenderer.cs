@@ -109,7 +109,7 @@ namespace MonoWorks.Rendering
 			{
 				int Errors = 0;
 				FTFont font = new FTFont("FreeSans.ttf", out Errors);
-				font.ftRenderToTexture(size, 96);
+				font.ftRenderToTexture(size, 192*4);
 				fonts[size] = font;
 				return font;
 			}
@@ -138,14 +138,19 @@ namespace MonoWorks.Rendering
 		/// Renders the text to the viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public void Render(IViewport viewport)
+		public void RenderOverlay(IViewport viewport)
 		{
-			viewport.Camera.PlaceOverlay();
+			gl.glMatrixMode(gl.GL_MODELVIEW);
+			gl.glPushMatrix();
+
 			font.ftBeginFont();
 			color.Setup();
-			gl.glTranslated(position[0], position[1], 0); 
-			font.ftWrite("Hello World");
+			gl.glTranslated(position[0], position[1], position[2]); 
+			font.ftWrite(text);
 			font.ftEndFont();
+
+			gl.glMatrixMode(gl.GL_MODELVIEW);
+			gl.glPopMatrix();
 		}
 		
 		
