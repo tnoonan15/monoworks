@@ -218,8 +218,10 @@ namespace MonoWorks.Rendering
 			
 			// translate the camera so that something drawn in the
 			// x-y plane maps directly to the screen
-			gl.glTranslatef(-0.5f, -0.5f, -1.2f);
-			gl.glScalef(1f/(float)viewport.WidthGL, 1f/(float)viewport.HeightGL, 1.0f);
+			float ar = (float)viewport.WidthGL / (float)viewport.HeightGL; // viewport aspect ratio
+			float dz = 0.5f / (float)((fov * 0.5).Tan()); // amount to translate in the z dimension to counteract perspective
+			gl.glTranslatef(-0.5f * ar, -0.5f, -dz);
+			gl.glScalef(1f / (float)viewport.HeightGL, 1f / (float)viewport.HeightGL, 1.0f);
 
 		}
 
