@@ -134,7 +134,7 @@ namespace MonoWorks.Plotting
 			tickLabels = new TextRenderer[tickVals.Length];
 			for (int i = 0; i < (int)numTicks; i++)
 			{
-				tickLabels[i] = new TextRenderer(10);
+				tickLabels[i] = new TextRenderer(14);
 				tickLabels[i].Text = tickVals[i].ToString();
 			}
 		}
