@@ -280,13 +280,14 @@ namespace MonoWorks.GuiGtk
 			// Clear the scene
 			renderManager.ClearScene();
 
-			camera.Place();
 			
 			// render the rendering list
+			camera.Place();
 			foreach (Renderable renderable in renderables)
 				renderable.RenderOpaque(this);
 			foreach (Renderable renderable in renderables)
 				renderable.RenderTransparent(this);
+			camera.PlaceOverlay();
 			foreach (Renderable renderable in renderables)
 				renderable.RenderOverlay(this);
 

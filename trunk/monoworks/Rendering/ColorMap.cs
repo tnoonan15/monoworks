@@ -1,4 +1,4 @@
-// MainWindow.cs - MonoWorks Project
+// ColorMap.cs - Slate Mono Application Framework
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,46 +18,52 @@
 
 using System;
 
-using MonoWorks.Plotting;
-using MonoWorks.GuiGtk;
-
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.Rendering
 {
 	
+	public enum ColorMapMode {Hsv};
+	
 	/// <summary>
-	/// Main window for the Gtk port of the plotting demo.
+	/// Maps a number of values to a distribution of colors.
 	/// </summary>
-	public class MainWindow : Gtk.Window
+	/// <remarks> Used for automatically generating a set of unique colors for a set of points.</remarks>
+	public class ColorMap
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public MainWindow() : base(Gtk.WindowType.Toplevel)
+		public ColorMap()
 		{
-			SetSizeRequest(800,800);
-			Title = "MonoWorks Plotting Demo";
-			
-			DeleteEvent += OnDeleteEvent;
-			
-			// add the viewport
-			Viewport viewport = new Viewport();
-			Add(viewport);
-			TestAxes axes = new TestAxes();
-			viewport.AddRenderable(axes);
-			
-			viewport.Camera.Center = new MonoWorks.Base.Vector(0, 0, 0);
-			viewport.Camera.Position = new MonoWorks.Base.Vector(7, 0, 0);
-			viewport.Camera.UpVector = new MonoWorks.Base.Vector(0, 0, 1);
-			viewport.Camera.RecomputeUpVector();
-			
-			ShowAll();
+		}
+		
+		protected ColorMapMode mode;
+		/// <value>
+		/// The color map mode.
+		/// </value>
+		public ColorMapMode Mode
+		{
+			get {return mode;}
+			set {mode = value;}
+		}
+		
+
+		/// <summary>
+		/// Gets num evenly distributed colors.
+		/// </summary>
+		/// <param name="num"> The number of colors to get. </param>
+		/// <returns> The colors. </returns>
+		public Color[] GetColors(int num)
+		{
+			float s = 1f;
+			float v = 1f;
+			Color[] colors = new Color[num];
+			for (int i=0; i<num; i++)
+			{
+				colors[i] = Color.FromHsv((float)i/num * 360f, s, v);
+			}
+			return colors;
 		}
 		
 		
-		protected void OnDeleteEvent(object sender, Gtk.DeleteEventArgs args)
-		{
-			args.RetVal = true;
-			Gtk.Application.Quit();
-		}
 	}
 }

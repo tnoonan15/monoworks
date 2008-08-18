@@ -147,6 +147,7 @@ namespace MonoWorks.Rendering
 			color.Setup();
 			gl.glTranslated(position[0], position[1], position[2]); 
 			font.ftWrite(text);
+//			font.ftWrite("Hello");
 			font.ftEndFont();
 
 			gl.glMatrixMode(gl.GL_MODELVIEW);

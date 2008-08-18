@@ -75,6 +75,18 @@ namespace MonoWorks.Base
 					throw new Exception("index is out of bounds!");	
 				val[index] = value;
 			}
+		}		
+
+		/// <value>
+		/// The index of the dimension with the largest value.
+		/// </value>
+		public int LargestDimension
+		{
+			get
+			{
+				double max = Math.Max(Math.Max(val[0], val[1]), val[2]);
+				return Array.IndexOf(val, max);
+			}
 		}
 		
 #endregion
@@ -198,7 +210,7 @@ namespace MonoWorks.Base
 		}
 		
 #endregion
-		
+				
 		
 #region Rotation
 		
@@ -209,15 +221,6 @@ namespace MonoWorks.Base
 		/// <param name="angle"> Angle of rotation. </param>
 		public Vector Rotate(Vector axis, Angle angle)
 		{
-			// matrix method
-//			double s = angle.Sin();
-//			double c = angle.Cos();
-//			double t = 1.0 - c;
-//			Matrix R = new Matrix(t*Math.Pow(axis[0],2) + c, t*axis[0]*axis[1] + s*axis[2], t*axis[0]*axis[2] - s*axis[1], 
-//			                      t*axis[0]*axis[1] - s*axis[2], t*Math.Pow(axis[1],2) + c, t*axis[1]*axis[2] + s*axis[0],
-//			                      t*axis[0]*axis[2] + s*axis[1], t*axis[1]*axis[2] - s*axis[0], t*Math.Pow(axis[2],2) + c);
-//			return R * this;			
-			
 			// quaternion method
 			Quaternion R = new Quaternion();
 			R.Scalar = (angle/2.0).Cos();
@@ -270,5 +273,29 @@ namespace MonoWorks.Base
 		{
 			return String.Format("[{0}, {1}, {2}]", val[0], val[1], val[2]);
 		}
+		
+		/// <summary>
+		/// Compares two vectors to see if they are the same.
+		/// </summary>
+		/// <param name="other"> Something to compare to.</param>
+		/// <returns> True if they're the same (have the same x, y, and z). </returns>
+		public override bool Equals(object other)
+		{
+			if (other == null)
+				return false;
+			if (!(other is Vector))
+				throw new Exception("Only compare Vectors to other Vectors.");
+			double[] otherVal = (other as Vector).val;
+			return val[0]==otherVal[0] && val[1]==otherVal[1] && val[2]==otherVal[2]; 
+		}
+		
+		
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
+		
+		
 	}
 }

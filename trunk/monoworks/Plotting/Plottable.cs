@@ -41,7 +41,6 @@ namespace MonoWorks.Plotting
 		{
 			if (parent != null)
 				parent.AddChild(this);
-			displayList = gl.glGenLists(1);
 		}
 
 		~Plottable()
@@ -75,7 +74,7 @@ namespace MonoWorks.Plotting
 
 
 
-		#region Bounds
+#region Bounds
 
 		/// <summary>
 		/// Updates the plot bounds based on the children.
@@ -96,11 +95,11 @@ namespace MonoWorks.Plotting
 			set { plotBounds = value; }
 		}
 
-		#endregion
+#endregion
 
 
 
-		#region Geometry
+#region Geometry
 
 		/// <summary>
 		/// Each plottable gets a display list.
@@ -118,6 +117,16 @@ namespace MonoWorks.Plotting
 				gl.glDeleteLists(displayList, 1);
 			}
 		}
+		
+		
+		/// <summary>
+		/// Calls the plottable display list if it's valid.
+		/// </summary>
+		public void CallDisplayList()
+		{			
+			if (gl.glIsList(displayList) != 0)
+				gl.glCallList(displayList);
+		}
 
 		public override void ComputeGeometry()
 		{
@@ -126,11 +135,11 @@ namespace MonoWorks.Plotting
 
 		}
 
-		#endregion
+#endregion
 
 
 
-		#region Rendering
+#region Rendering
 
 
 		public override void RenderOpaque(IViewport viewport)
@@ -148,7 +157,7 @@ namespace MonoWorks.Plotting
 			color.Setup();
 		}
 
-		#endregion
+#endregion
 
 
 	}

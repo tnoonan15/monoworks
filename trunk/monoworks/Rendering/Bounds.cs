@@ -63,6 +63,26 @@ namespace MonoWorks.Rendering
 			set { isSet = value; }
 		}
 		
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
+		
+		/// <summary>
+		/// Compares two bounds to see if they are the same.
+		/// </summary>
+		/// <param name="other"> Something to compare to.</param>
+		/// <returns> True if they're the same (have the same minima and maxima. </returns>
+		public override bool Equals(object other)
+		{
+			if (!(other is Bounds))
+				throw new Exception("Only compare Bounds to other Bounds.");
+			return minima==(other as Bounds).minima && maxima==(other as Bounds).maxima; 
+		}
+
+		
 		
 #region Minima and Maxima
 		
@@ -254,13 +274,56 @@ namespace MonoWorks.Rendering
 				edges[5] = new Vector(minima[0], minima[1], maxima[2]);
 			}
 
-
 			return edges;
 		}
 
-
 #endregion
 
+		
+#region Outside Corners
+		
+		/// <value>
+		/// An array of vectors representing the 8 corners.
+		/// </value>
+		public Vector[] Corners
+		{
+			get
+			{
+				Vector[] corners = new Vector[8];
+				corners[0] = new Vector(minima[0], minima[1], minima[2]);
+				corners[1] = new Vector(maxima[0], minima[1], minima[2]);
+				corners[2] = new Vector(minima[0], maxima[1], minima[2]);
+				corners[3] = new Vector(minima[0], minima[1], maxima[2]);
+				corners[4] = new Vector(maxima[0], maxima[1], maxima[2]);
+				corners[5] = new Vector(minima[0], maxima[1], maxima[2]);
+				corners[6] = new Vector(maxima[0], minima[1], maxima[2]);
+				corners[7] = new Vector(maxima[0], maxima[1], minima[2]);
+				return corners;
+			}
+		}
+		
+		/// <summary>
+		/// Finds the furthest corner from the given point.
+		/// </summary>
+		/// <param name="point"> A <see cref="Vector"/> to compute the distance from. </param>
+		/// <returns> A <see cref="Vector"/> representing the furthest corner. </returns>
+		public Vector FurthestCorner(Vector point)
+		{
+			double dist = 0;
+			Vector furthest = null;
+			foreach (Vector corner in Corners)
+			{
+				double dist_ = (point - corner).Magnitude;
+				if (dist_ > dist)
+				{
+					dist = dist_;
+					furthest = corner;
+				}
+			}
+			return furthest;
+		}
+		
+#endregion
 
 
 #region Rendering
@@ -337,6 +400,14 @@ namespace MonoWorks.Rendering
 			return true;
 		}
 		
+		/// <summary>
+		/// Returns true if the hit is inside a specific axis.
+		/// </summary>
+		/// <param name="Hit"> </param>
+		/// <param name="minima"> </param>
+		/// <param name="maxima"> </param>
+		/// <param name="Axis"> </param>
+		/// <returns> True if there's a hit. </returns>
 		protected bool InBox( Vector Hit, Vector minima, Vector maxima, int Axis)
 		{
 			if ( Axis==1 && Hit[2] > minima[2] && Hit[2] < maxima[2] && Hit[1] > minima[1] && Hit[1] < maxima[1])
@@ -357,11 +428,6 @@ namespace MonoWorks.Rendering
 		public virtual bool HitTest(Vector v1, Vector v2)
 		{
 			Vector Hit;
-
-			// returns true if line (v1, v2) intersects with the box (minima, maxima)
-			// returns intersection point in Hit
-//			int CheckLineBox( Vector minima, Vector maxima, Vector v1, Vector v2, Vector &Hit)
-//			{
 			
 			// check if the line lies entirely outside the box
 			if (v2[0] < minima[0] && v1[0] < minima[0])
@@ -426,6 +492,29 @@ namespace MonoWorks.Rendering
 				step /= 2.0;
 
 			return step;
+		}
+		
+		
+		/// <summary>
+		/// Generates a range of points that include min and max with
+		/// a step defined by NiceStep(min,max).
+		/// </summary>
+		/// <param name="min"> </param>
+		/// <param name="max"> </param>
+		/// <returns> </returns>
+		public static double[] NiceRange(double min, double max)
+		{
+			// determine the step and number of points
+			double step = NiceStep(min, max);
+			int numVals = (int)Math.Ceiling((max-min) / step) + 1; // number of points
+			double[] range = new double[numVals];
+			
+			// populate the range
+			range[0] = Math.Floor(min / step) * step;
+			for (int i = 1; i < numVals; i++)
+				range[i] = range[i - 1] + step;
+			
+			return range;
 		}
 
 		/// <summary>

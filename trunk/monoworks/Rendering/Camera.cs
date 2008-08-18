@@ -400,7 +400,7 @@ namespace MonoWorks.Rendering
 		/// <param name="dx"> The delta in the x dimension. </param>
 		/// <param name="dy"> The delta in the y dimension. </param>
 		public void Rotate(double dx, double dy)
-		{
+		{			
 			// determine the scaling from view to world coordinates
 			double scaling = ViewportToWorldScaling * 6;
 			

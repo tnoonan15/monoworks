@@ -64,7 +64,6 @@ namespace MonoWorks.Plotting
 		}
 
 
-
 #region Ticks
 
 		protected double tickLength;
@@ -97,10 +96,14 @@ namespace MonoWorks.Plotting
 		}
 
 
+		protected int dimension;
 		/// <summary>
 		/// The dimension that this axis represents.
 		/// </summary>
-		protected int dimension;
+		public int Dimension
+		{
+			get {return dimension;}
+		}
 
 		/// <summary>
 		/// The positions of the ticks in 3D world space.
@@ -116,23 +119,13 @@ namespace MonoWorks.Plotting
 			dimension = dim;
 			double min = parent.PlotBounds.Minima[dim];
 			double max = parent.PlotBounds.Maxima[dim];
-			double range = max- min;
-			double step = Bounds.NiceStep(min, max);
-
-			// determine the number of ticks
-			double numTicks = Math.Floor(range / step); // number of ticks
-			if (numTicks < 1) // this should never happen, there must be an error in NiceStep()
-				throw new Exception("The number of ticks is less than one. There might be and error in Bounds.NiceStep().");
-
-			// compute the tick values
-			tickVals = new double[(int)numTicks];
-			tickVals[0] = Math.Ceiling(min / step) * step;
-			for (int i = 1; i < (int)numTicks; i++)
-				tickVals[i] = tickVals[i - 1] + step;
+			
+			// get the tick values
+			tickVals = Bounds.NiceRange(min, max);
 
 			// store the tick labels
 			tickLabels = new TextRenderer[tickVals.Length];
-			for (int i = 0; i < (int)numTicks; i++)
+			for (int i = 0; i < tickVals.Length; i++)
 			{
 				tickLabels[i] = new TextRenderer(14);
 				tickLabels[i].Text = tickVals[i].ToString();
@@ -148,6 +141,18 @@ namespace MonoWorks.Plotting
 		{
 			ticksDirty = true;
 		}
+		
+		/// <value>
+		/// Tick step in world coords.
+		/// </value>
+		public double WorldTickStep
+		{
+			get
+			{
+				double step = tickVals[1] - tickVals[0];
+				return parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+			}
+		}		
 
 		/// <summary>
 		/// Computes the tick positions based on the start and stop vectors.
@@ -157,8 +162,7 @@ namespace MonoWorks.Plotting
 			if (ticksDirty) // only do this if the ticks are dirty
 			{
 				// compute the step
-				double step = tickVals[1] - tickVals[0];
-				double worldStep = parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+				double worldStep = WorldTickStep;
 
 				// compute the tick positions
 				tickPositions = new Vector[tickVals.Length];
@@ -194,8 +198,9 @@ namespace MonoWorks.Plotting
 			gl.glBegin(gl.GL_LINES);
 
 			// the main axis line
-			gl.glVertex2i(startCoord.X, startCoord.Y);
-			gl.glVertex2i(stopCoord.X, stopCoord.Y);
+			// RIGHT NOW, THIS IS COLLIDING WITH THE GRID AND LOOKS FUNNY
+//			gl.glVertex2i(startCoord.X, startCoord.Y);
+//			gl.glVertex2i(stopCoord.X, stopCoord.Y);
 
 			// get the angle of the main axis line
 			bool isVertical = false, ishorizontal = false;

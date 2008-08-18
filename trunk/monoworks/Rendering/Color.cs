@@ -27,6 +27,10 @@ namespace MonoWorks.Rendering
 	/// </summary>
 	public class Color
 	{
+				
+		
+#region Constructors		
+		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
@@ -71,8 +75,6 @@ namespace MonoWorks.Rendering
 
 		}
 
-
-
 		/// <summary>
 		/// Float initialization constructor with alpha.
 		/// </summary>
@@ -84,6 +86,65 @@ namespace MonoWorks.Rendering
 		{
 			rgba = new byte[] { (byte)(red * 255f), (byte)(green * 255f), (byte)(blue * 255f), (byte)(alpha * 255f) };
 		}
+		
+#endregion
+		
+		
+#region HSV Conversions
+		
+		/// <summary>
+		/// Creates a color from the given hsv values.
+		/// </summary>
+		/// <param name="h"> The hue component. </param>
+		/// <param name="s"> The saturation component. </param>
+		/// <param name="v"> The value component. </param>
+		/// <returns> A <see cref="Color"/>. </returns>
+		public static Color FromHsv(float h, float s, float v)
+		{
+			Color color = new Color();
+			color.SetHsv(h, s, v);
+			return color;
+		}
+		
+		/// <summary>
+		/// Sets the HSV values (performs automatic conversion to RGB).
+		/// </summary>
+		/// <param name="h"> The hue component. </param>
+		/// <param name="s"> The saturation component. </param>
+		/// <param name="v"> The value component. </param>
+		public void SetHsv(float h, float s, float v)
+		{
+			int hi = (int)Math.Floor(h/60f) % 6;
+			float f = h/60f - (float)Math.Floor(h/60f);
+			float p = v * (1-s);
+			float q = v * (1-f*s);
+			float t = v * (1 - (1 - f) * s);
+			
+			switch (hi)
+			{
+			case 0:
+				RGBf = new float[]{v,t,p};
+				break;
+			case 1:
+				RGBf = new float[]{q,v,p};
+				break;
+			case 2:
+				RGBf = new float[]{p,v,t};
+				break;
+			case 3:
+				RGBf = new float[]{p,q,v};
+				break;
+			case 4:
+				RGBf = new float[]{t,p,v};
+				break;
+			case 5:
+				RGBf = new float[]{v,p,q};
+				break;
+			}
+		}
+		
+#endregion
+		
 		
 #region Components
 		
@@ -109,6 +170,13 @@ namespace MonoWorks.Rendering
 		public float[] RGBf
 		{
 			get {return new float[]{(float)rgba[0]/255f, (float)rgba[1]/255f, (float)rgba[2]/255f};} 
+			set
+			{
+				if (value.Length != 3)
+					throw new Exception("RGB vectors must have 3 components.");
+				for (int i=0; i<value.Length; i++)
+					this[i] = value[i];				
+			}
 		}
 		
 		/// <value>
