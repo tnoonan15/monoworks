@@ -32,6 +32,20 @@ namespace MonoWorks.Rendering
 	/// </summary>
 	public class ColorManager
 	{
+		
+#region Singleton
+		
+		protected static ColorManager instance = new ColorManager(); 
+		/// <summary>
+		/// The singleton instance.
+		/// </summary>
+		public static ColorManager Global
+		{
+			get {return instance;}
+		}
+		
+#endregion
+		
 		/// <summary>
 		/// Default constructor.
 		/// Reads Resources/DefaultColors.xml for the default colors.
@@ -72,6 +86,13 @@ namespace MonoWorks.Rendering
 				throw new Exception(name + " is not a valid color");
 		}
 		
+		/// <value>
+		/// Gets a color by name.
+		/// </value>
+		public Color this[string name]
+		{
+			get {return GetColor(name);}
+		}
 		
 		/// <value>
 		/// A list of names of the colors.
@@ -144,11 +165,6 @@ namespace MonoWorks.Rendering
 			colors[name] = new Color(red, green, blue);
 		}
 		
-		
-//		protected byte Hex2Byte(string)
-//		{
-//			
-//		}
 		
 #endregion
 		

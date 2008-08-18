@@ -18,6 +18,11 @@
     <File name="Axis.cs" subtype="Code" buildaction="Compile" />
     <File name="DataSet.cs" subtype="Code" buildaction="Compile" />
     <File name="Plottable.cs" subtype="Code" buildaction="Compile" />
+    <File name="ArrayDataSet.cs" subtype="Code" buildaction="Compile" />
+    <File name="PointPlot.cs" subtype="Code" buildaction="Compile" />
+    <File name="TestAxes.cs" subtype="Code" buildaction="Compile" />
+    <File name="Grid.cs" subtype="Code" buildaction="Compile" />
+    <File name="PlotIndex.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />

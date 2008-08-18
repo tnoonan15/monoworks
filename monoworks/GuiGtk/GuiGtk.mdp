@@ -29,12 +29,12 @@
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="gtksourceview-sharp, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="gtkglarea-sharp, Version=0.0.3.0, Culture=neutral, PublicKeyToken=7df758c0fb49fe62" />
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/gtkglarea-sharp.dll" />
     <ProjectReference type="Gac" localcopy="True" refto="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.FreeType.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/ISE.FreeType.dll" />
+    <ProjectReference type="Project" localcopy="True" refto="Plotting" />
   </References>
 </Project>

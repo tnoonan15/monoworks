@@ -44,20 +44,20 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public RenderManager()
 		{
-			this.colorManager = new ColorManager();
+//			this.colorManager = new ColorManager();
 			
 			solidMode = SolidMode.Flat;
 			colorMode = ColorMode.Cartoon;
 			
 			showWireframe = false;
-			wireframeColor = colorManager.GetColor("Black");
+			wireframeColor = ColorManager.Global["Black"];
 			wireframeWidth = 1.5f;
 			
 			referenceColor = new Color(0, 128, 0, 128);
 		}
 		
 		
-		protected ColorManager colorManager;
+//		protected ColorManager colorManager;
 
 
 		/// <summary>

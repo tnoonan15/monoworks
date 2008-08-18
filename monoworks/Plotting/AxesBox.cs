@@ -61,10 +61,24 @@ namespace MonoWorks.Plotting
 			bounds.Maxima = new Vector(1, 1, 1);
 
 			Arrangement = AxesArrangement.Outside;
+			
+			// make the grids
+			for (int i=0; i<grids.Length; i++)
+				grids[i] = new Grid(this);			
+			grids[0].Axes[0] = axes[0];
+			grids[0].Axes[1] = axes[1];
+			grids[1].Axes[0] = axes[1];
+			grids[1].Axes[1] = axes[2];
+			grids[2].Axes[0] = axes[0];
+			grids[2].Axes[1] = axes[2];
+			
+//			title = new TextRenderer();
+//			title.Text = "";
 		}
 
+				
 
-		#region Children
+#region Children
 
 		/// <summary>
 		/// The children being plotted on this axes.
@@ -97,11 +111,11 @@ namespace MonoWorks.Plotting
 			plottable.Parent = null;
 		}
 
-		#endregion
+#endregion
 
 
 
-		#region Axes
+#region Axes
 
 		protected AxesArrangement arrangement;
 		/// <value>
@@ -189,11 +203,50 @@ namespace MonoWorks.Plotting
 				axis.RenderOverlay(viewport);
 		}
 
-		#endregion
+#endregion
+
+		
+#region Grids
+		
+		/// <value>
+		/// The grids.
+		/// </value>
+		protected Grid[] grids = new Grid[3];
+		
+		/// <summary>
+		/// The furthest corner of the bounding box from the camera.
+		/// </summary>
+		protected Vector furthestCorner = null;
+				
+		/// <summary>
+		/// Update the positions of the grids.
+		/// </summary>
+		protected void UpdateGrids(IViewport viewport)
+		{
+			// check if the furthest point from the camera is the same
+			Vector furthestCorner_ = bounds.FurthestCorner(viewport.Camera.Position);
+			if (furthestCorner == null || furthestCorner_ != furthestCorner)
+			{
+				furthestCorner = furthestCorner_;
+				foreach (Grid grid in grids)
+					grid.Corner = furthestCorner;
+			}
+		}
+		
+		/// <summary>
+		/// Render the grids.
+		/// </summary>
+		protected void RenderGrids(IViewport viewport)
+		{			
+			// render them
+			foreach (Grid grid in grids)
+				grid.RenderOpaque(viewport);
+		}
+		
+#endregion
 
 
-
-		#region Geometry
+#region Geometry
 
 		protected Transform plotToWorldSpace = new Transform();
 		/// <summary>
@@ -249,38 +302,40 @@ namespace MonoWorks.Plotting
 
 		}
 
-		#endregion
+#endregion
 
 
 
-		#region Title
+#region Title
 
 
-		protected TextRenderer title = new TextRenderer();
-		/// <summary>
-		/// The title.
-		/// </summary>
-		public string Title
-		{
-			get { return title.Text; }
-			set { title.Text = value; }
-		}
+//		protected TextRenderer title = new TextRenderer(14);
+//		/// <summary>
+//		/// The title.
+//		/// </summary>
+//		public string Title
+//		{
+//			get { return title.Text; }
+//			set { title.Text = value; }
+//		}
 
 
-		#endregion
+#endregion
 
 
-		#region Rendering
+#region Rendering
 
 		public override void RenderOpaque(IViewport viewport)
 		{
 			base.RenderOpaque(viewport);
 
-
-			//bounds.Render(viewport);
-
 			gl.glColor3b(0, 0, 0);
-
+			
+			// render the grids
+			UpdateGrids(viewport);
+			RenderGrids(viewport);
+			
+			// render the children
 			foreach (Plottable child in children)
 				child.RenderOpaque(viewport);
 			
@@ -295,16 +350,16 @@ namespace MonoWorks.Plotting
 			RenderAxes(viewport);
 
 			// render the title
-			//title.Position = new ScreenCoord(300, 300);
-			//title.Text = "Blah Blah";
-			//title.RenderOverlay(viewport);
+//			title.Position = new Vector(300, 300, 0);
+//			title.Text = "Blah Blah";
+//			title.RenderOverlay(viewport);
 
 			// render the child overlays
 			foreach (Plottable child in children)
 				child.RenderOverlay(viewport);
 		}
 
-		#endregion
+#endregion
 
 	}
 }

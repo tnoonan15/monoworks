@@ -248,7 +248,7 @@ namespace MonoWorks.Model
 		
 #region Hit Test
 				
-		private Vector[] hitLine;
+//		private Vector[] hitLine;
 		
 		/// <summary>
 		/// Performs a hit test with two vectors lying on a 3D line.
@@ -281,7 +281,7 @@ namespace MonoWorks.Model
 				}
 			}
 			
-			hitLine = new Vector[]{v1, v2};
+//			hitLine = new Vector[]{v1, v2};
 			
 			return somethingChanged;
 		}
