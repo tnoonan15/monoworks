@@ -48,6 +48,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ColorManager.cs" />
+    <Compile Include="ColorMap.cs" />
     <Compile Include="InteractionStateBase.cs" />
     <Compile Include="IViewport.cs" />
     <Compile Include="Lighting.cs" />

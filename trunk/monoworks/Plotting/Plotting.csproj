@@ -50,6 +50,8 @@
     <Compile Include="AxesBox.cs" />
     <Compile Include="Axis.cs" />
     <Compile Include="DataSet.cs" />
+    <Compile Include="Grid.cs" />
+    <Compile Include="PlotIndex.cs" />
     <Compile Include="Plottable.cs" />
     <Compile Include="ArrayDataSet.cs" />
     <Compile Include="PointPlot.cs" />
