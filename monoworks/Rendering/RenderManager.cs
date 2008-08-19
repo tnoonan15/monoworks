@@ -67,7 +67,6 @@ namespace MonoWorks.Rendering
 		public void InitializeGL()
 		{
 
-			gl.glShadeModel(gl.GL_SMOOTH);						// Enables Smooth Shading
 			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 			gl.glClearDepth(1.0f);
 
@@ -80,6 +79,7 @@ namespace MonoWorks.Rendering
 			gl.glDepthFunc(gl.GL_LEQUAL); // The Type Of Depth Test To Do
 
 			// blending
+			gl.glShadeModel(gl.GL_SMOOTH);						// Enables Smooth Shading
 			gl.glEnable(gl.GL_BLEND);
 			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
 
