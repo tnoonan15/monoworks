@@ -48,7 +48,7 @@ namespace MonoWorks.Plotting
 			// add an axes box and plot
 			PointPlot plot1 = new PointPlot(this);
 			plot1.DataSet = arrayData;
-			plot1[ColumnIndex.Color] = 3;
+			plot1[ColumnIndex.Shape] = 3;
 		}
 
 

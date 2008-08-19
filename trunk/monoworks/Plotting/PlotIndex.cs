@@ -113,6 +113,23 @@ namespace MonoWorks.Plotting
 			set {SetValue(i, value);}
 		}
 		
+		/// <value>
+		/// The number of points that are on (true).
+		/// </value>
+		public int NumOn
+		{
+			get
+			{
+				int numOn = 0;
+				foreach (bool val in values)
+				{
+					if (val)
+						numOn++;
+				}
+				return numOn;
+			}
+		}
+		
 #endregion
 		
 		

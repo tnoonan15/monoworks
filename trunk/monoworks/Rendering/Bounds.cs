@@ -475,7 +475,20 @@ namespace MonoWorks.Rendering
 		/// <param name="min"> The minimum value of the range.</param>
 		/// <param name="max"> the maximum value of the range.</param>
 		/// <returns> The nice step size.</returns>
+		/// <remarks> The default desired number of steps is 7.</remarks>
 		public static double NiceStep(double min, double max)
+		{
+			return NiceStep(min, max, 7);
+		}
+
+		/// <summary>
+		/// Returns a nice step that is between 1/5 to 1/8 of the range.
+		/// </summary>
+		/// <param name="min"> The minimum value of the range.</param>
+		/// <param name="max"> the maximum value of the range.</param>
+		/// <param name="desiredNumSteps"> The desired number of steps between min and max (will get within +/- 1).</param>
+		/// <returns> The nice step size.</returns>
+		public static double NiceStep(double min, double max, double desiredNumSteps)
 		{
 			double range = max - min;
 
@@ -484,11 +497,11 @@ namespace MonoWorks.Rendering
 			double step = Math.Pow(10, Math.Floor(Math.Log10(max - min)));
 
 			// adjust step up if it's too low
-			while (range / step > 8)
+			while (range / step > desiredNumSteps+1)
 				step *= 2.0;
 
 			// adjust step down if it's too high
-			while (range / step < 5)
+			while (range / step < desiredNumSteps-1)
 				step /= 2.0;
 
 			return step;
@@ -504,8 +517,22 @@ namespace MonoWorks.Rendering
 		/// <returns> </returns>
 		public static double[] NiceRange(double min, double max)
 		{
+			return NiceRange(min, max, 7);
+		}
+		
+		
+		/// <summary>
+		/// Generates a range of points that include min and max with
+		/// a step defined by NiceStep(min,max).
+		/// </summary>
+		/// <param name="min"> </param>
+		/// <param name="max"> </param>
+		/// <param name="desiredNumSteps"> The desired number of steps in the range (will get within +/- 1).</param>
+		/// <returns> </returns>
+		public static double[] NiceRange(double min, double max, double desiredNumSteps)
+		{
 			// determine the step and number of points
-			double step = NiceStep(min, max);
+			double step = NiceStep(min, max, desiredNumSteps);
 			int numVals = (int)Math.Ceiling((max-min) / step) + 1; // number of points
 			double[] range = new double[numVals];
 			

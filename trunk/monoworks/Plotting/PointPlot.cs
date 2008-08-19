@@ -111,7 +111,7 @@ namespace MonoWorks.Plotting
 		/// The plot shape.
 		/// </value>
 		/// <remarks> This is only used if the shape column is -1.</remarks>
-		public PlotShape PlotShape
+		public PlotShape Shape
 		{
 			get {return shape;}
 			set {shape = value;}
@@ -124,6 +124,16 @@ namespace MonoWorks.Plotting
 		public ColorMap ColorMap
 		{
 			get {return colorMap;}
+		}
+		
+		protected float markerSize = 4f;
+		/// <value>
+		/// The marker size;
+		/// </value>
+		public float MarkerSize
+		{
+			get {return markerSize;}
+			set {markerSize = value;}
 		}
 		
 #endregion
@@ -182,12 +192,52 @@ namespace MonoWorks.Plotting
 			}
 			
 
-			// generate shapes
-			PlotIndex shapeIndex = new PlotIndex(dataSet.NumRows);
+			// generate shapes		
+			double[] shapeRange; // the range of values that the shapes correspond to
+			PlotShape[] shapes; // the shapes
+			PlotIndex shapeIndex = null; // the index of points for the current shape 
+			if (this[ColumnIndex.Shape] < 0) // use the predefined shape
+			{
+				shapeRange = new double[]{0, 0};
+				shapes = new PlotShape[]{shape};
+				shapeIndex = new PlotIndex(dataSet.NumRows);
+			}
+			else // use predefined shapes
+			{
+				double min, max; // the min/max of the shape column
+				dataSet.ColumnMinMax(this[ColumnIndex.Shape], out min, out max);
+				double[] shapeRange_ = Bounds.NiceRange(min, max);
+				min = shapeRange_[0];
+				max = shapeRange_[shapeRange_.Length-1];
+				shapeRange = new double[3]{min, (max+min)/2, max}; 
+				shapes = new PlotShape[]{PlotShape.Circle, PlotShape.Square};
+			}
 			
 
 			// generate sizes
-			PlotIndex sizeIndex = new PlotIndex(dataSet.NumRows);
+			PlotIndex sizeIndex = null;
+			float[] sizes; // the sizes
+			double[] sizeRange; // the range of values that the size correspond to
+			if (this[ColumnIndex.Size] < 0) // use the predefined sizes
+			{
+				sizeRange = new double[]{0,0};
+				sizes = new float[]{markerSize};
+				sizeIndex = new PlotIndex(dataSet.NumRows);
+			}
+			else // generate sizes from a range
+			{
+				double min, max; // the min/max of the size column
+				dataSet.ColumnMinMax(this[ColumnIndex.Size], out min, out max);
+				sizeRange = Bounds.NiceRange(min, max, 2.5);
+				for (int i=0; i<sizeRange.Length; i++)
+					Console.WriteLine("marker size range {0}", sizeRange[i]);
+				sizes = new float[sizeRange.Length-1];
+				for (int i=0; i<sizes.Length; i++)
+				{
+					sizes[i] = (float)2*i + 1f;
+					Console.WriteLine("marker size {0}", sizes[i]);
+				}
+			}
 			
 			
 			
@@ -197,12 +247,27 @@ namespace MonoWorks.Plotting
 			gl.glNewList(displayList, gl.GL_COMPILE);
 
 				
-			for (int shapeI=0; shapeI<1; shapeI++) // cycle through shapes
+			for (int shapeI=0; shapeI<shapes.Length; shapeI++) // cycle through shapes
 			{
+				// compute the index for this shape
+				if (this[ColumnIndex.Shape] >= 0)
+					shapeIndex = dataSet.GetColumnIndex(this[ColumnIndex.Shape], shapeRange[shapeI], shapeRange[shapeI+1]);
+				Console.WriteLine("{0} points for shape {1}", shapeIndex.NumOn, shapes[shapeI]);
+
+				// set the marker
+				if (shapes[shapeI]==PlotShape.Circle)
+					gl.glEnable(gl.GL_POINT_SMOOTH);
+				else
+					gl.glDisable(gl.GL_POINT_SMOOTH);
 				
-				for (int sizeI=0; sizeI<1; sizeI++) // cycle through sizes
+				for (int sizeI=0; sizeI<sizes.Length; sizeI++) // cycle through sizes
 				{
-					gl.glPointSize(3F);
+					// compute the index for this size
+					if (this[ColumnIndex.Size] >= 0)
+						sizeIndex = dataSet.GetColumnIndex(this[ColumnIndex.Size], sizeRange[sizeI], sizeRange[sizeI+1]);
+					
+					// begin the rendering
+					gl.glPointSize(sizes[sizeI]); // set the size
 					gl.glBegin(gl.GL_POINTS);
 			
 					for (int colorI=0; colorI<colors.Length; colorI++) // cycle through colors
@@ -232,13 +297,14 @@ namespace MonoWorks.Plotting
 							}
 						}
 					} // colorI
+					
+					gl.glEnd();
 						
 				} // sizeI
 				
 			} // shapeI
 				
 						
-			gl.glEnd();
 
 			gl.glEndList();
 		}
