@@ -44,15 +44,37 @@ namespace MonoWorks.Plotting
 				arrayData[r, 2] = Math.Sin(arrayData[r, 0]) * Math.Cos(arrayData[r, 1]);
 				arrayData[r, 3] = arrayData[r, 0] + arrayData[r, 1];
 			}
+			arrayData.SetColumnName(0, "x");
+			arrayData.SetColumnName(1, "y");
+			arrayData.SetColumnName(2, "sin(x)*cos(y)");
+			arrayData.SetColumnName(3, "x + y");
+						
 
 			// add an axes box and plot
-			PointPlot plot1 = new PointPlot(this);
-			plot1.DataSet = arrayData;
-			plot1[ColumnIndex.Shape] = 3;
+			pointPlot = new PointPlot(this);
+			pointPlot.DataSet = arrayData;
+			pointPlot.Shape = PlotShape.Square;
 		}
 
 
 		protected ArrayDataSet arrayData;
+		/// <value>
+		/// The array data set.
+		/// </value>
+		public ArrayDataSet ArrayData
+		{
+			get {return arrayData;}
+		}
+		
 
+		protected PointPlot pointPlot;
+		/// <value>
+		/// The point plot.
+		/// </value>
+		public PointPlot PointPlot
+		{
+			get {return pointPlot;}
+		}
+		
 	}
 }

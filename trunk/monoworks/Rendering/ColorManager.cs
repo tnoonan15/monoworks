@@ -163,6 +163,7 @@ namespace MonoWorks.Rendering
 			byte blue = Convert.ToByte(valueString.Substring(4, 2), 16);
 			
 			colors[name] = new Color(red, green, blue);
+			colors[name].Name = name;
 		}
 		
 		
