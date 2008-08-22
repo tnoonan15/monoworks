@@ -60,7 +60,11 @@ namespace MonoWorks.Plotting
 		public ArrayDataSet DataSet
 		{
 			get { return dataSet; }
-			set { dataSet = value; }
+			set
+			{
+				dataSet = value;
+				MakeDirty();
+			}
 		}
 
 
@@ -78,6 +82,7 @@ namespace MonoWorks.Plotting
 				if (value.Length != 6)
 					throw new Exception("Point plot column arrays should have 6 elements.");
 				columns = value; 
+				MakeDirty();
 			}
 		}
 
@@ -87,7 +92,11 @@ namespace MonoWorks.Plotting
 		public int this[int index]
 		{
 			get	{return columns[index];}
-			set	{columns[index] = value;}
+			set
+			{
+				columns[index] = value;
+				MakeDirty();
+			}
 		}
 
 		/// <summary>
@@ -96,9 +105,22 @@ namespace MonoWorks.Plotting
 		public int this[ColumnIndex column]
 		{
 			get	{return columns[(int)column];}
-			set	{columns[(int)column] = value;}
+			set
+			{
+				columns[(int)column] = value;
+				MakeDirty();
+			}
 		}
 		
+		/// <summary>
+		/// Gets the column name for the given index.
+		/// </summary>
+		/// <param name="column"> A <see cref="ColumnIndex"/>. </param>
+		/// <returns> The column's name. </returns>
+		public string GetColumnName(ColumnIndex column)
+		{
+			return dataSet.GetColumnName(this[column]);
+		}
 
 #endregion
 		
@@ -114,7 +136,11 @@ namespace MonoWorks.Plotting
 		public PlotShape Shape
 		{
 			get {return shape;}
-			set {shape = value;}
+			set
+			{
+				shape = value;
+				MakeDirty();
+			}
 		}
 		
 		protected ColorMap colorMap = new ColorMap();
@@ -123,7 +149,10 @@ namespace MonoWorks.Plotting
 		/// </value>
 		public ColorMap ColorMap
 		{
-			get {return colorMap;}
+			get
+			{
+				return colorMap;
+			}
 		}
 		
 		protected float markerSize = 4f;
@@ -133,7 +162,21 @@ namespace MonoWorks.Plotting
 		public float MarkerSize
 		{
 			get {return markerSize;}
-			set {markerSize = value;}
+			set
+			{
+				markerSize = value;
+				MakeDirty();
+			}
+		}
+		
+		
+		protected static float[] possibleMarkerSizes = new float[]{2, 4, 6};
+		/// <value>
+		/// The possible marker sizes.
+		/// </value>
+		public static float[] PossibleMarkerSizes
+		{
+			get {return possibleMarkerSizes;}
 		}
 		
 #endregion
@@ -229,14 +272,9 @@ namespace MonoWorks.Plotting
 				double min, max; // the min/max of the size column
 				dataSet.ColumnMinMax(this[ColumnIndex.Size], out min, out max);
 				sizeRange = Bounds.NiceRange(min, max, 2.5);
-				for (int i=0; i<sizeRange.Length; i++)
-					Console.WriteLine("marker size range {0}", sizeRange[i]);
 				sizes = new float[sizeRange.Length-1];
 				for (int i=0; i<sizes.Length; i++)
-				{
 					sizes[i] = (float)2*i + 1f;
-					Console.WriteLine("marker size {0}", sizes[i]);
-				}
 			}
 			
 			
@@ -252,7 +290,6 @@ namespace MonoWorks.Plotting
 				// compute the index for this shape
 				if (this[ColumnIndex.Shape] >= 0)
 					shapeIndex = dataSet.GetColumnIndex(this[ColumnIndex.Shape], shapeRange[shapeI], shapeRange[shapeI+1]);
-				Console.WriteLine("{0} points for shape {1}", shapeIndex.NumOn, shapes[shapeI]);
 
 				// set the marker
 				if (shapes[shapeI]==PlotShape.Circle)

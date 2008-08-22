@@ -49,24 +49,6 @@ namespace MonoWorks.Plotting
 
 
 		/// <summary>
-		/// Sets the size of the array.
-		/// </summary>
-		/// <param name="rows"> The number of rows.</param>
-		/// <param name="cols"> The number of columns.</param>
-		/// <remarks> This will only destroy data if you're making it smaller.</remarks>
-		public void SetSize(int rows, int cols)
-		{
-			// TODO: copy old data over
-			data = new double[rows, cols];
-			
-			// resize the display index
-			if (displayIndex == null)
-				displayIndex = new PlotIndex(rows);
-			else
-				displayIndex.Resize(rows);
-		}
-
-		/// <summary>
 		/// The number of columns.
 		/// </summary>
 		public int NumColumns
@@ -90,8 +72,10 @@ namespace MonoWorks.Plotting
 		{
 			get {return displayIndex;}
 		}
+		
+		
 
-		#region The Data
+#region The Data
 
 		/// <summary>
 		/// The data.
@@ -116,6 +100,39 @@ namespace MonoWorks.Plotting
 			}
 		}
 
+		/// <summary>
+		/// Sets the size of the array.
+		/// </summary>
+		/// <param name="rows"> The number of rows.</param>
+		/// <param name="cols"> The number of columns.</param>
+		/// <remarks> This will only destroy data if you're making it smaller.</remarks>
+		public void SetSize(int rows, int cols)
+		{
+			// TODO: copy old data over
+			data = new double[rows, cols];
+			
+			// resize the display index
+			if (displayIndex == null)
+				displayIndex = new PlotIndex(rows);
+			else
+				displayIndex.Resize(rows);
+			
+			// add extra column names
+			while (columnNames.Count < cols)
+			{
+				columnNames.Add("column" + columnNameCount.ToString());
+				columnNameCount++;
+			}
+			
+			// remove unecessary column names
+			if (cols < columnNames.Count)
+				columnNames.RemoveRange(cols, columnNames.Count - cols - 1);
+		}
+		
+#endregion
+		
+		
+		
 		/// <summary>
 		/// Computes the min and max of a column.
 		/// </summary>
@@ -162,8 +179,51 @@ namespace MonoWorks.Plotting
 			return index;
 		}
 
-		#endregion
 
+		
+#region Column Names
+		
+		protected List<string> columnNames = new List<string>();
+		/// <summary>
+		/// The column names.
+		/// </summary>
+		public IEnumerable<string> ColumnNames
+		{
+			get {return columnNames;}
+		}
+		
+		/// <summary>
+		/// Counts the number of unique column names created.
+		/// </summary>
+		protected int columnNameCount = 0;
+		
+		/// <summary>
+		/// Sets the name of the given column.
+		/// </summary>
+		/// <param name="index"> The column index. </param>
+		/// <param name="name"> The column's name. </param>
+		public void SetColumnName(int index, string name)
+		{
+			if (index < 0 || index >= NumRows)
+				throw new Exception(index.ToString() + " is not a valid index.");
+			
+			columnNames[index] = name;
+		}
+		
+		/// <summary>
+		/// Gets the column name for a given index.
+		/// </summary>
+		/// <param name="index"> The column index. </param>
+		public string GetColumnName(int index)
+		{
+			if (index < 0 || index >= NumRows)
+				throw new Exception(index.ToString() + " is not a valid index.");
+			return columnNames[index];
+		}
+		
+#endregion
+		
+		
 
 	}
 }

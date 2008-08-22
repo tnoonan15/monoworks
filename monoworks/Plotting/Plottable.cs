@@ -39,6 +39,7 @@ namespace MonoWorks.Plotting
 		public Plottable(AxesBox parent)
 			: base()
 		{
+			this.parent = parent;
 			if (parent != null)
 				parent.AddChild(this);
 		}
@@ -59,6 +60,16 @@ namespace MonoWorks.Plotting
 			set { parent = value; }
 		}
 
+
+		/// <summary>
+		/// Makes the parent axes box dirty also.
+		/// </summary>
+		public override void MakeDirty()
+		{
+			if (parent != null)
+				parent.MakeDirty();
+			base.MakeDirty();
+		}
 
 
 		protected Color color = new Color();

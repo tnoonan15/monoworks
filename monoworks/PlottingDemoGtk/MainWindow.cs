@@ -34,14 +34,17 @@ namespace MonoWorks.PlottingDemoGtk
 		/// </summary>
 		public MainWindow() : base(Gtk.WindowType.Toplevel)
 		{
-			SetSizeRequest(800,800);
+			SetSizeRequest(1000,800);
 			Title = "MonoWorks Plotting Demo";
 			
 			DeleteEvent += OnDeleteEvent;
 			
+			Gtk.HBox hbox = new Gtk.HBox();
+			Add(hbox);
+			
 			// add the viewport
-			Viewport viewport = new Viewport();
-			Add(viewport);
+			viewport = new Viewport();
+			hbox.PackEnd(viewport);
 			TestAxes axes = new TestAxes();
 			viewport.AddRenderable(axes);
 			
@@ -50,14 +53,34 @@ namespace MonoWorks.PlottingDemoGtk
 			viewport.Camera.UpVector = new MonoWorks.Base.Vector(0, 0, 1);
 			viewport.Camera.RecomputeUpVector();
 			
+			
+			// add the control pane
+			ControlPane controlPane = new ControlPane(axes);
+			hbox.PackStart(controlPane);
+			controlPane.ControlChanged += OnControlChanged;
+			
 			ShowAll();
 		}
 		
+		/// <summary>
+		/// The viewport.
+		/// </summary>
+		protected Viewport viewport;
 		
 		protected void OnDeleteEvent(object sender, Gtk.DeleteEventArgs args)
 		{
 			args.RetVal = true;
 			Gtk.Application.Quit();
 		}
+		
+		
+		/// <summary>
+		/// Handler for state changed events from the control pane.
+		/// </summary>
+		protected void OnControlChanged()
+		{
+			viewport.PaintGL();
+		}
+		
 	}
 }

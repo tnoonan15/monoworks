@@ -271,6 +271,7 @@ namespace MonoWorks.Plotting
 				// get the new plot bounds if automatically sized
 				if (resizeMode == ResizeMode.Auto) // automatically resize
 				{
+					plotBounds.Reset();
 					foreach (Plottable child in children)
 					{
 						child.UpdateBounds();

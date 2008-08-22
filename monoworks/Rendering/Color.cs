@@ -27,7 +27,17 @@ namespace MonoWorks.Rendering
 	/// </summary>
 	public class Color
 	{
-				
+			
+		protected string name;
+		/// <value>
+		/// The color's name.
+		/// </value>
+		public string Name
+		{
+			get {return name;}
+			set {name = value;}
+		}
+		
 		
 #region Constructors		
 		
