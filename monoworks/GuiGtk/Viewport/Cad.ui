@@ -1,0 +1,11 @@
+<ui>
+	<toolbar name="ViewportToolbar">
+		<toolitem name="Standard View" action="StandardView"/>
+		<toolitem name="Front View" action="FrontView"/>
+		<toolitem name="Back View" action="BackView"/>
+		<toolitem name="Top View" action="TopView"/>
+		<toolitem name="Bottom View" action="BottomView"/>
+		<toolitem name="Left View" action="LeftView"/>
+		<toolitem name="Right View" action="RightView"/>
+	</toolbar>
+</ui>

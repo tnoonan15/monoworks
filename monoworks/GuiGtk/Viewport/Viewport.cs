@@ -98,6 +98,7 @@ namespace MonoWorks.GuiGtk
 			get {return interactionState;}
 		}
 		
+		
 		/// <value>
 		/// The rubber band used for selection and zooming.
 		/// </value>
@@ -176,17 +177,17 @@ namespace MonoWorks.GuiGtk
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
 		{
-			switch (interactionState.MouseMode)
+			switch (interactionState.MouseType)
 			{
-			case InteractionMode.Rotate:
+			case InteractionType.Rotate:
 				camera.Rotate(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
 				PaintGL();
 				break;
-			case InteractionMode.Pan:
+			case InteractionType.Pan:
 				camera.Pan(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
 				PaintGL();
 				break;
-			case InteractionMode.Dolly:
+			case InteractionType.Dolly:
 				double factor = (args.Event.Y - interactionState.LastY) / (int)Allocation.Height;
 				camera.Dolly(factor);
 				PaintGL();
@@ -197,9 +198,9 @@ namespace MonoWorks.GuiGtk
 		
 		protected virtual void OnScroll(object sender, Gtk.ScrollEventArgs args)
 		{
-			switch(interactionState.GetWheelMode(args.Event.State))
+			switch(interactionState.GetWheelType(args.Event.State))
 			{
-			case InteractionMode.Dolly:
+			case InteractionType.Dolly:
 				if (args.Event.Direction == Gdk.ScrollDirection.Up)
 					camera.DollyIn();
 				else if (args.Event.Direction == Gdk.ScrollDirection.Down)
@@ -233,7 +234,6 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		void OnRealized(object o, EventArgs e)
 		{
-			Console.WriteLine("realized");
 			if (MakeCurrent() == 0)
 				return;
 			

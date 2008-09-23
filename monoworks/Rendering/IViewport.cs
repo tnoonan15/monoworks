@@ -19,6 +19,15 @@ using System;
 
 namespace MonoWorks.Rendering
 {
+	/// <summary>
+	/// How the viewport is being used.
+	/// </summary>
+	public enum ViewportUsage {CAD, Plotting};
+	
+	/// <summary>
+	/// The viewing mode of the viewport.
+	/// </summary>
+	public enum ViewMode {TwoD, ThreeD};
 	
 	/// <summary>
 	/// The IViewport interface defines an interface for MonoWorks viewports. 
@@ -83,7 +92,6 @@ namespace MonoWorks.Rendering
 		{
 			get;
 		}
-
 
 		/// <summary>
 		/// Adds a renderable to the rendering list.

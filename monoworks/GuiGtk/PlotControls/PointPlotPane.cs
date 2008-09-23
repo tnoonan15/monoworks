@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.GuiGtk
 {
 	
 	/// <summary>

@@ -26,6 +26,16 @@ namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
+	/// The predefined view directions.
+	/// </summary>
+	public enum ViewDirection {Standard, Front, Back, Left, Right, Top, Bottom};
+	
+	/// <summary>
+	/// The 3D perspective used to render the scene.
+	/// </summary>
+	public enum Projection {Perspective, Parallel};
+	
+	/// <summary>
 	/// The camera class stores the viewing location, up-vector, and view center. 
 	/// </summary>
 	public class Camera
@@ -87,10 +97,6 @@ namespace MonoWorks.Rendering
 			}
 		}
 		
-		
-		/// <value>
-		/// The position of the camera.
-		/// </value>
 		protected Vector pos;
 		/// <value>
 		/// Accesses the position of the camera.
@@ -100,11 +106,7 @@ namespace MonoWorks.Rendering
 			get	{return pos;}
 			set	{pos = value;}
 		}
-		
-		
-		/// <value>
-		/// The up-vector of the camera.
-		/// </value>
+				
 		protected Vector upVec;
 		/// <value>
 		/// Accesses the up-vector of the camera.
@@ -121,10 +123,6 @@ namespace MonoWorks.Rendering
 			}
 		}
 		
-		
-		/// <value>
-		/// The point the camera is looking at.
-		/// </value>
 		protected Vector center;
 		/// <value>
 		/// Accesses the point the camera is looking at.
@@ -161,8 +159,18 @@ namespace MonoWorks.Rendering
 			gl.glMatrixMode(gl.GL_PROJECTION);
 			gl.glLoadIdentity();
 
-			// Calculate The Aspect Ratio Of The Window
-			glu.gluPerspective((float)fov["deg"], (float)width/(float)height, 0.1f, 20.0f);
+			if (projection == Projection.Perspective)
+			{
+				// set the perspective projection matrix
+				glu.gluPerspective((float)fov["deg"], (float)width/(float)height, 0.1f, 20.0f);
+			}
+			else // parallel
+			{
+				// determine the size of the viewing box
+				double h = (fov*0.5).Tan() * (pos - center).Magnitude;
+				double ar = (double)width/(double)height;
+				gl.glOrtho(-ar*h, ar*h, -h, h, 0.1, 20);
+			}
 
 			//  store the projection matrix
 			gl.glGetDoublev(gl.GL_PROJECTION_MATRIX, projectionMatrix);
@@ -172,6 +180,31 @@ namespace MonoWorks.Rendering
 			viewportSize = new int[] {0, 0, width, height};
 		}
 
+		protected Projection projection = Projection.Perspective;
+		/// <value>
+		/// The projection.
+		/// </value>
+		public Projection Projection
+		{
+			get {return projection;}
+			set
+			{
+				projection = value;
+				Configure();
+			}
+		}
+		
+		/// <summary>
+		/// Toggles the projection between parallel and perspective.
+		/// </summary>
+		public void ToggleProjection()
+		{
+			if (projection == Projection.Parallel)
+				Projection = Projection.Perspective;
+			else
+				Projection = Projection.Parallel;
+		}
+		
 		/// <summary>
 		/// The projection matrix.
 		/// </summary>
@@ -216,12 +249,22 @@ namespace MonoWorks.Rendering
 			gl.glMatrixMode(gl.GL_MODELVIEW);				
 			gl.glLoadIdentity();
 			
-			// translate the camera so that something drawn in the
-			// x-y plane maps directly to the screen
-			float ar = (float)viewport.WidthGL / (float)viewport.HeightGL; // viewport aspect ratio
-			float dz = 0.5f / (float)((fov * 0.5).Tan()); // amount to translate in the z dimension to counteract perspective
-			gl.glTranslatef(-0.5f * ar, -0.5f, -dz);
-			gl.glScalef(1f / (float)viewport.HeightGL, 1f / (float)viewport.HeightGL, 1.0f);
+			if (projection == Projection.Perspective)
+			{
+				// translate the camera so that something drawn in the
+				// x-y plane maps directly to the screen
+				float ar = (float)viewport.WidthGL / (float)viewport.HeightGL; // viewport aspect ratio
+				float dz = 0.5f / (float)((fov * 0.5).Tan()); // amount to translate in the z dimension to counteract perspective
+				gl.glTranslatef(-0.5f * ar, -0.5f, -dz);
+				gl.glScalef(1f / (float)viewport.HeightGL, 1f / (float)viewport.HeightGL, 1.0f);
+			}
+			else // parallel
+			{
+				double ar = (float)viewport.WidthGL / (float)viewport.HeightGL; // viewport aspect ratio
+				double h = (fov*0.5).Tan() * (pos - center).Magnitude;
+				gl.glTranslated(-ar * h, -h, -1);
+				gl.glScaled(2 * h / (double)viewport.HeightGL, 2 * h / (double)viewport.HeightGL, 1.0);
+			}
 
 		}
 
@@ -318,6 +361,8 @@ namespace MonoWorks.Rendering
 		{
 			Vector travel = (pos - center) * factor;
 			pos = travel + pos;
+			if (projection == Projection.Parallel)
+				Configure(); // dollying in parallel requires reconfiguration
 		}		
 		
 #endregion

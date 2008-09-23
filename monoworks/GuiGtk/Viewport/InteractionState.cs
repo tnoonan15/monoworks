@@ -35,13 +35,13 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public InteractionState() : base()
 		{
-			ConnectMouseMode(1, InteractionMode.Rotate);
-			ConnectMouseMode(2, InteractionMode.Dolly);
-			ConnectMouseMode(3, InteractionMode.Pan);
-			ConnectMouseMode(3, Gdk.ModifierType.ShiftMask, InteractionMode.Dolly);
+			ConnectMouseType(1, InteractionType.Rotate);
+			ConnectMouseType(2, InteractionType.Dolly);
+			ConnectMouseType(3, InteractionType.Pan);
+			ConnectMouseType(3, Gdk.ModifierType.ShiftMask, InteractionType.Dolly);
 			
-			ConnectWheelMode(Gdk.ModifierType.None, InteractionMode.Dolly);
-			ConnectWheelMode(Gdk.ModifierType.ControlMask, InteractionMode.Pan);
+			ConnectWheelType(Gdk.ModifierType.None, InteractionType.Dolly);
+			ConnectWheelType(Gdk.ModifierType.ControlMask, InteractionType.Pan);
 		}
 		
 		
@@ -50,12 +50,12 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Maps the button/modifiers to mouse interaction types.
 		/// </summary>
-		protected Dictionary<uint, InteractionMode> mouseModes = new Dictionary<uint,InteractionMode>();
+		protected Dictionary<uint, InteractionType> mouseTypes = new Dictionary<uint,InteractionType>();
 		
 		/// <summary>
 		/// Maps the modifiers to wheel interaction types.
 		/// </summary>
-		protected Dictionary<Gdk.ModifierType, InteractionMode> wheelModes = new Dictionary<Gdk.ModifierType,InteractionMode>();
+		protected Dictionary<Gdk.ModifierType, InteractionType> wheelModes = new Dictionary<Gdk.ModifierType,InteractionType>();
 		
 		/// <summary>
 		/// Produces a unit key for the button and modifier combo.
@@ -69,34 +69,34 @@ namespace MonoWorks.GuiGtk
 		}
 
 		/// <summary>
-		/// Connects the given button (without modifier) to the interaction mode.
+		/// Connects the given button (without modifier) to the interaction type.
 		/// </summary>
 		/// <param name="button"> The button number. </param>
-		/// <param name="mode"> A <see cref="InteractionMode"/> </param>
-		public void ConnectMouseMode(uint button, InteractionMode mode)
+		/// <param name="type"> A <see cref="InteractionMode"/> </param>
+		public void ConnectMouseType(uint button, InteractionType type)
 		{
-			ConnectMouseMode(button, Gdk.ModifierType.None, mode);
+			ConnectMouseType(button, Gdk.ModifierType.None, type);
 		}		
 		
 		/// <summary>
-		/// Connects the given button and modifier to the interaction mode.
+		/// Connects the given button and modifier to the interaction type.
 		/// </summary>
 		/// <param name="button"> The button number. </param>
 		/// <param name="modifier"> A <see cref="Gdk.ModifierType"/>. </param>
-		/// <param name="mode"> A <see cref="InteractionMode"/> </param>
-		public void ConnectMouseMode(uint button, Gdk.ModifierType modifier, InteractionMode mode)
+		/// <param name="type"> A <see cref="InteractionMode"/> </param>
+		public void ConnectMouseType(uint button, Gdk.ModifierType modifier, InteractionType type)
 		{
-			mouseModes[GetKey(button, modifier)] = mode;
+			mouseTypes[GetKey(button, modifier)] = type;
 		}
 		
 		/// <summary>
-		/// Connects the given modifier to the wheel interaction mode.
+		/// Connects the given modifier to the wheel interaction type.
 		/// </summary>
 		/// <param name="modifier"> A <see cref="Gdk.ModifierType"/>. </param>
-		/// <param name="mode"> A <see cref="InteractionMode"/>. </param>
-		public void ConnectWheelMode(Gdk.ModifierType modifier, InteractionMode mode)
+		/// <param name="type"> A <see cref="InteractionMode"/>. </param>
+		public void ConnectWheelType(Gdk.ModifierType modifier, InteractionType type)
 		{
-			wheelModes[modifier] = mode;
+			wheelModes[modifier] = type;
 		}
 		
 #endregion
@@ -111,10 +111,10 @@ namespace MonoWorks.GuiGtk
 			lastX = evnt.X;
 			lastY = evnt.Y;
 						
-			if (mouseModes.ContainsKey(GetKey(evnt.Button, evnt.State)))
-				mouseMode = mouseModes[GetKey(evnt.Button, evnt.State)];
+			if (mouseTypes.ContainsKey(GetKey(evnt.Button, evnt.State)))
+				mouseType = mouseTypes[GetKey(evnt.Button, evnt.State)];
 			else
-				mouseMode = InteractionMode.None;
+				mouseType = InteractionType.None;
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace MonoWorks.GuiGtk
 		/// <param name="evnt"> A <see cref="Gdk.EventButton"/>. </param>
 		public void RegisterButtonRelease(Gdk.EventButton evnt)
 		{
-			mouseMode = InteractionMode.None;
+			mouseType = InteractionType.None;
 		}
 		
 		/// <summary>
@@ -137,16 +137,16 @@ namespace MonoWorks.GuiGtk
 		}
 		
 		/// <summary>
-		/// Gets the interaction mode for the given wheel modifier.
+		/// Gets the interaction type for the given wheel modifier.
 		/// </summary>
 		/// <param name="modifier"> The <see cref="Gdk.ModifierType"/>. </param>
 		/// <returns> The <see cref="InteractionMode"/> for modifier. </returns>
-		public InteractionMode GetWheelMode(Gdk.ModifierType modifier)
+		public InteractionType GetWheelType(Gdk.ModifierType modifier)
 		{
 			if (wheelModes.ContainsKey(modifier))
 				return wheelModes[modifier];
 			else
-				return InteractionMode.None;
+				return InteractionType.None;
 		}
 		
 	}

@@ -18,6 +18,7 @@
 
 using System;
 
+using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.GuiGtk;
 
@@ -43,8 +44,9 @@ namespace MonoWorks.PlottingDemoGtk
 			Add(hbox);
 			
 			// add the viewport
-			viewport = new Viewport();
-			hbox.PackEnd(viewport);
+			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting);
+			hbox.PackEnd(tooledViewport);
+			viewport = tooledViewport.Viewport;
 			TestAxes axes = new TestAxes();
 			viewport.AddRenderable(axes);
 			
@@ -55,7 +57,7 @@ namespace MonoWorks.PlottingDemoGtk
 			
 			
 			// add the control pane
-			ControlPane controlPane = new ControlPane(axes);
+			PlotPane controlPane = new PlotPane(axes);
 			hbox.PackStart(controlPane);
 			controlPane.ControlChanged += OnControlChanged;
 			
