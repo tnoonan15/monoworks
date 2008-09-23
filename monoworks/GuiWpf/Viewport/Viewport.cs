@@ -146,17 +146,17 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseMove(e);
 
-			switch (interactionState.Mode)
+			switch (interactionState.MouseType)
 			{
-			case InteractionMode.Rotate:
+			case InteractionType.Rotate:
 				camera.Rotate(e.Location.X - interactionState.LastLoc.X, e.Location.Y - interactionState.LastLoc.Y);
 				Draw();
 				break;
-			case InteractionMode.Pan:
+			case InteractionType.Pan:
 				camera.Pan(e.Location.X - interactionState.LastLoc.X, e.Location.Y - interactionState.LastLoc.Y);
 				Draw();
 				break;
-			case InteractionMode.Dolly:
+			case InteractionType.Dolly:
 				double factor = (e.Location.Y - interactionState.LastLoc.Y) / (double)Size.Height;
 				camera.Dolly(factor);
 				Draw();

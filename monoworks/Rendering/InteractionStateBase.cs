@@ -76,15 +76,5 @@ namespace MonoWorks.Rendering
 			set {lastY = value;}
 		}
 		
-		protected InteractionMode mode = InteractionMode.View3D;
-		/// <value>
-		/// The current interaction mode.
-		/// </value>
-		public InteractionMode Mode
-		{
-			get {return mode;}
-			set {mode = value;}
-		}
-		
 	}
 }

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-using System.Windows.Forms.Integration;
-
 using MonoWorks.GuiWpf;
+using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 
 namespace MonoWorks.PlottingDemoWpf
@@ -22,17 +19,14 @@ namespace MonoWorks.PlottingDemoWpf
 			InitializeComponent();
 
 			// add the viewport
-			viewport = new Viewport();
-			WindowsFormsHost host = new WindowsFormsHost();
-			host.Child = viewport;
-			dockPanel.Children.Add(host);
+			tooledViewport = new TooledViewport(ViewportUsage.Plotting);
+			viewport = tooledViewport.Viewport;
+			dockPanel.Children.Add(tooledViewport);
+
 			viewport.Camera.Center = new MonoWorks.Base.Vector(0, 0, 0);
-			viewport.Camera.Position = new MonoWorks.Base.Vector(9, 0, 0);
+			viewport.Camera.Position = new MonoWorks.Base.Vector(7, 0, 0);
 			viewport.Camera.UpVector = new MonoWorks.Base.Vector(0, 0, 1);
 			viewport.Camera.RecomputeUpVector();
-
-			// connect the viewport resize event
-			host.SizeChanged += new SizeChangedEventHandler(OnViewportSizeChanged);
 
 			// add the test axes
 			TestAxes axes = new TestAxes();
@@ -40,17 +34,8 @@ namespace MonoWorks.PlottingDemoWpf
 
 		}
 
-		void OnViewportSizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			viewport.ResizeGL();
-		}
 
-		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-		{
-			base.OnRenderSizeChanged(sizeInfo);
-
-			viewport.ResizeGL();
-		}
+		protected TooledViewport tooledViewport;
 
 		protected Viewport viewport;
 
