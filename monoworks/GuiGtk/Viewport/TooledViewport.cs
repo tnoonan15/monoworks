@@ -134,9 +134,9 @@ namespace MonoWorks.GuiGtk
 			Gtk.UIManager uiManager = new Gtk.UIManager();
 			uiManager.InsertActionGroup(actionGroup, 0);
 			if (usage == ViewportUsage.CAD)
-				uiManager.AddUiFromResource("MonoWorks.GuiGtk.Viewport.Cad.ui");
+				uiManager.AddUiFromResource("Cad.ui");
 			else
-				uiManager.AddUiFromResource("MonoWorks.GuiGtk.Viewport.Plotting.ui");
+				uiManager.AddUiFromResource("Plotting.ui");
 			toolbar = (Gtk.Toolbar)uiManager.GetWidget("/ViewportToolbar");
 			toolbar.ToolbarStyle = Gtk.ToolbarStyle.Icons;
 			PackStart(toolbar, false, true, 0);

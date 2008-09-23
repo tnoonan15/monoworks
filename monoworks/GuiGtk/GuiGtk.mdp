@@ -22,7 +22,23 @@
     <File name="Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport/InteractionState.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport/TooledViewport.cs" subtype="Code" buildaction="Compile" />
+    <File name="PlotControls/PlotPane.cs" subtype="Code" buildaction="Compile" />
+    <File name="PlotControls/PointPlotPane.cs" subtype="Code" buildaction="Compile" />
+    <File name="../Resources/icons22/back-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/bottom-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/cartoon.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/flat.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="../Resources/icons22/front-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/left-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/nosolid.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/perspective.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/right-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/smooth.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/standard-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/top-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/wireframe.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Viewport/Cad.ui" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Viewport/Plotting.ui" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
