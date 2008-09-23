@@ -16,31 +16,20 @@ namespace MonoWorks.GuiWpf
 		/// <remarks> Makes the default mapping.</remarks>
 		public InteractionState()
 		{
-			modes = new Dictionary<MouseButtons, InteractionMode>();
+			modes = new Dictionary<MouseButtons, InteractionType>();
 
-			modes[MouseButtons.Left] = InteractionMode.Rotate;
-			modes[MouseButtons.Middle] = InteractionMode.Dolly;
-			modes[MouseButtons.Right] = InteractionMode.Pan;
+			modes[MouseButtons.Left] = InteractionType.Rotate;
+			modes[MouseButtons.Middle] = InteractionType.Dolly;
+			modes[MouseButtons.Right] = InteractionType.Pan;
 
-			mode = InteractionMode.None;
+			mouseType = InteractionType.None;
 		}
 
 
 		/// <summary>
 		/// Maps the mouse button to the interaction mode.
 		/// </summary>
-		protected Dictionary<MouseButtons, InteractionMode> modes;
-
-
-		protected InteractionMode mode;
-		/// <summary>
-		/// The current interaction mode.
-		/// </summary>
-		public InteractionMode Mode
-		{
-			get { return mode; }
-		}
-
+		protected Dictionary<MouseButtons, InteractionType> modes;
 
 
 		Point lastLoc = new Point();
@@ -70,7 +59,7 @@ namespace MonoWorks.GuiWpf
 		public void OnMouseDown(MouseEventArgs evt)
 		{
 			if (modes.ContainsKey(evt.Button))
-				mode = modes[evt.Button];
+				mouseType = modes[evt.Button];
 			lastLoc = evt.Location;
 			anchorLoc = evt.Location;
 		}
@@ -81,7 +70,7 @@ namespace MonoWorks.GuiWpf
 		/// <param name="evt"></param>
 		public void OnMouseUp(MouseEventArgs evt)
 		{
-			mode = InteractionMode.None;
+			mouseType = InteractionType.None;
 		}
 
 		/// <summary>

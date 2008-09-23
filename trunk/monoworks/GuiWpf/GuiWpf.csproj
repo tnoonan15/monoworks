@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Tree\TreeView.cs" />
     <Compile Include="Viewport\InteractionState.cs" />
+    <Compile Include="Viewport\TooledViewport.cs" />
     <Compile Include="Viewport\Viewport.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -123,5 +124,17 @@
       <DependentUpon>Viewport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\icons\back-view.png" />
+    <EmbeddedResource Include="Viewport\icons\bottom-view.png" />
+    <EmbeddedResource Include="Viewport\icons\flat.png" />
+    <EmbeddedResource Include="Viewport\icons\front-view.png" />
+    <EmbeddedResource Include="Viewport\icons\left-view.png" />
+    <EmbeddedResource Include="Viewport\icons\right-view.png" />
+    <EmbeddedResource Include="Viewport\icons\smooth.png" />
+    <EmbeddedResource Include="Viewport\icons\standard-view.png" />
+    <EmbeddedResource Include="Viewport\icons\top-view.png" />
+    <EmbeddedResource Include="Viewport\icons\wireframe.png" />
   </ItemGroup>
 </Project>
