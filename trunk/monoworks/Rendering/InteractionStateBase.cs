@@ -21,9 +21,14 @@ using System;
 namespace MonoWorks.Rendering
 {
 	/// <summary>
-	/// Possible user interaction modes.
+	/// The interaction modes.
 	/// </summary>
-	public enum InteractionMode {None, Rotate, Pan, Dolly, Zoom};
+	public enum InteractionMode {View3D, Select3D, Select2D};
+	
+	/// <summary>
+	/// Possible user interaction types.
+	/// </summary>
+	public enum InteractionType {None, Select, Rotate, Pan, Dolly, Zoom};
 	
 	/// <summary>
 	/// Base class for mouse interaction state.
@@ -36,18 +41,18 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public InteractionStateBase()
 		{
-			mouseMode = InteractionMode.None;
+			mouseType = InteractionType.None;
 			lastX = 0;
 			lastY = 0;
 		}
 		
-		protected InteractionMode mouseMode;
+		protected InteractionType mouseType;
 		/// <value>
 		/// The current interaction mode.
 		/// </value>
-		public InteractionMode MouseMode
+		public InteractionType MouseType
 		{
-			get {return mouseMode;}
+			get {return mouseType;}
 		}
 		
 		
@@ -69,6 +74,16 @@ namespace MonoWorks.Rendering
 		{
 			get {return lastY;}
 			set {lastY = value;}
+		}
+		
+		protected InteractionMode mode = InteractionMode.View3D;
+		/// <value>
+		/// The current interaction mode.
+		/// </value>
+		public InteractionMode Mode
+		{
+			get {return mode;}
+			set {mode = value;}
 		}
 		
 	}

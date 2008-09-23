@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.GuiGtk
 {
 		
 	/// <summary>
@@ -33,12 +33,12 @@ namespace MonoWorks.PlottingDemoGtk
 	/// <summary>
 	/// Pane that contains controls for the 
 	/// </summary>
-	public class ControlPane : Gtk.VBox
+	public class PlotPane : Gtk.VBox
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public ControlPane(TestAxes axes) : base()
+		public PlotPane(TestAxes axes) : base()
 		{
 			testAxes = axes;
 			
