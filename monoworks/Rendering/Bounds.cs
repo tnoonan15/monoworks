@@ -239,8 +239,9 @@ namespace MonoWorks.Rendering
 		public void Expand(double factor)
 		{
 			Vector center = Center;
-			minima = center + (minima-center)*factor;
-			maxima = center + (maxima-center)*factor;
+			minima = center + (minima - center) * factor;
+			maxima = center + (maxima - center) * factor;
+			//Console.WriteLine("center before expand: {0}, center after expand: {1}", center, Center);
 		}
 		
 #endregion

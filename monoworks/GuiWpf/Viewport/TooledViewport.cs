@@ -113,9 +113,7 @@ namespace MonoWorks.GuiWpf
 		{
 			LoadIcons();
 
-
 			toolbar = new ToolBar();
-			//Button button;
 
 			// add the direction buttons
 			AddDirectionButton(ViewDirection.Standard);
@@ -130,12 +128,31 @@ namespace MonoWorks.GuiWpf
 				AddDirectionButton(ViewDirection.Bottom);
 			toolbar.Items.Add(new Separator());
 
-			// add teh perspective button
+			// add the perspective button
 			ToggleButton button = new ToggleButton();
-			button.Content = "Perspective";
+			button.Content = icons["perspective"];
 			button.IsChecked = true;
 			button.Click += OnToggleProjection;
 			toolbar.Items.Add(button);
+			toolbar.Items.Add(new Separator());
+
+			// add the 2D and 3D buttons
+			RadioButton radio = new RadioButton();
+			radio.Content = icons["2d"];
+			radio.Click += delegate(object sender, RoutedEventArgs args)
+			{ OnSetInteractionMode(InteractionMode.Select2D); };
+			toolbar.Items.Add(radio);
+			radio = new RadioButton();
+			radio.Content = icons["3dSelect"];
+			radio.Click += delegate(object sender, RoutedEventArgs args)
+			{ OnSetInteractionMode(InteractionMode.Select3D); };
+			toolbar.Items.Add(radio);
+			radio = new RadioButton();
+			radio.Content = icons["3dInteract"];
+			radio.IsChecked = true;
+			radio.Click += delegate(object sender, RoutedEventArgs args)
+			{ OnSetInteractionMode(InteractionMode.View3D); };
+			toolbar.Items.Add(radio);
 
 			toolbar.Height = 32;
 			dockPanel.Children.Add(toolbar);
@@ -164,7 +181,8 @@ namespace MonoWorks.GuiWpf
 		/// <param name="direction"></param>
 		protected void OnChangeViewDirection(ViewDirection direction)
 		{
-			Console.WriteLine("view direction changed to {0}", direction);
+			viewport.Camera.SetViewDirection(direction);
+			viewport.PaintGL();
 		}
 
 		/// <summary>
@@ -175,6 +193,16 @@ namespace MonoWorks.GuiWpf
 		protected void OnToggleProjection(object sender, RoutedEventArgs args)
 		{
 			viewport.Camera.ToggleProjection();
+			viewport.PaintGL();
+		}
+
+		/// <summary>
+		/// Sets the viewport interaction mode.
+		/// </summary>
+		/// <param name="mode"></param>
+		protected void OnSetInteractionMode(InteractionMode mode)
+		{
+			viewport.InteractionState.Mode = mode;
 			viewport.PaintGL();
 		}
 
