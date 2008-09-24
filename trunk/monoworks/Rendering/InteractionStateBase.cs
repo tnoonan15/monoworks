@@ -55,6 +55,16 @@ namespace MonoWorks.Rendering
 			get {return mouseType;}
 		}
 		
+		protected InteractionMode mode = InteractionMode.Select2D;
+		/// <value>
+		/// The current interaction mode.
+		/// </value>
+		public InteractionMode Mode
+		{
+			get {return mode;}
+			set {mode = value;}
+		}
+		
 		
 		protected double lastX;
 		/// <value>

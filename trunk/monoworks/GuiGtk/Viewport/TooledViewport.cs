@@ -224,10 +224,13 @@ namespace MonoWorks.GuiGtk
 		/// <param name="direction"> A <see cref="ViewDirection"/>. </param>
 		public void SetViewDirection(ViewDirection direction)
 		{
-			Console.WriteLine("set view direction {0}", direction);
+			viewport.Camera.SetViewDirection(direction);
+			viewport.PaintGL();
 		}
 		
-		
+		/// <summary>
+		/// Handles changing the projection of the camera.
+		/// </summary>
 		protected void OnProjectionChanged(object sender, EventArgs args)
 		{
 			viewport.Camera.ToggleProjection();

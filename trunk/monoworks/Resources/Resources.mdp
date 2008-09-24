@@ -152,5 +152,12 @@
     <File name="cursors/dolly.png" subtype="Code" buildaction="Nothing" />
     <File name="cursors/spin.png" subtype="Code" buildaction="Nothing" />
     <File name="cursors/zoom.png" subtype="Code" buildaction="Nothing" />
+    <File name="svg/cursors.svg" subtype="Code" buildaction="Nothing" />
+    <File name="svg/feature_icons.svg" subtype="Code" buildaction="Nothing" />
+    <File name="svg/monoworks-logo.svg" subtype="Code" buildaction="Nothing" />
+    <File name="svg/ref_icons.svg" subtype="Code" buildaction="Nothing" />
+    <File name="svg/sketch_icons.svg" subtype="Code" buildaction="Nothing" />
+    <File name="svg/splashscreen.svg" subtype="Code" buildaction="Nothing" />
+    <File name="svg/view_icons.svg" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

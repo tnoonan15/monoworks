@@ -160,6 +160,20 @@ namespace MonoWorks.GuiGtk
 			renderables.Remove(renderable);
 		}
 		
+		/// <value>
+		/// The bounds of all renderables.
+		/// </value>
+		public Bounds Bounds
+		{
+			get
+			{
+				Bounds bounds = new Bounds();
+				foreach (Renderable renderable in renderables)
+					bounds.Resize(renderable.Bounds);
+				return bounds;
+			}
+		}
+		
 #endregion
 		
 		
@@ -177,23 +191,46 @@ namespace MonoWorks.GuiGtk
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
 		{
+			bool blocked = false;
+			
 			switch (interactionState.MouseType)
 			{
 			case InteractionType.Rotate:
 				camera.Rotate(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
-				PaintGL();
 				break;
+				
 			case InteractionType.Pan:
-				camera.Pan(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
-				PaintGL();
+				double dx = args.Event.X - interactionState.LastX;
+				double dy = args.Event.Y - interactionState.LastY;
+				
+				// allow the renderables to deal with the interaction
+				foreach (Renderable renderable in renderables)
+				{
+					if (renderable.HandlePan(this, dx, dy))
+						blocked = true;
+				}
+				
+				if (!blocked)
+					camera.Pan(dx, dy);
 				break;
+				
 			case InteractionType.Dolly:
 				double factor = (args.Event.Y - interactionState.LastY) / (int)Allocation.Height;
-				camera.Dolly(factor);
-				PaintGL();
+				
+				// allow the renderables to deal with the interaction
+				foreach (Renderable renderable in renderables)
+				{
+					if (renderable.HandleDolly(this, factor))
+						blocked = true;
+				}
+				
+				if (!blocked)
+					camera.Dolly(factor);
 				break;
 			}
+			
 			interactionState.RegisterMotion(args.Event);
+			PaintGL();
 		}
 		
 		protected virtual void OnScroll(object sender, Gtk.ScrollEventArgs args)

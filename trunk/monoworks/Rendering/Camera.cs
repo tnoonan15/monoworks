@@ -59,28 +59,28 @@ namespace MonoWorks.Rendering
 			// set default interaction factors
 			dollyFactor = 0.15;
 			panFactor = 0.05;
-			
-			// set default animation settings
-			animateNumSteps = 4;
-			animateDuration = 1000.0;
-			animateTimer = new System.Timers.Timer(animateDuration / (double)animateNumSteps);
-			animateTimer.Elapsed += OnAnimate;
-			animateTimer.Enabled = false;
 		}
 		
 
 #region Attributes
 		
-		protected IViewport viewport;
-//		/// <value>
-//		/// The viewport connected to this camera.
-//		/// </value>
-//		public Viewport Viewport
-//		{
-//			get{ return viewport;}
-//			set {viewport = value;}
-//		}
+		protected IViewport viewport;	
 		
+		/// <value>
+		/// The height of the viewport.
+		/// </value>
+		protected double Height
+		{
+			get {return (double)viewport.HeightGL;}
+		}
+		
+		/// <value>
+		/// The width of the viewport.
+		/// </value>
+		protected double Width
+		{
+			get {return (double)viewport.WidthGL;}
+		}
 		
 		protected Angle fov;
 		/// <value>
@@ -110,7 +110,7 @@ namespace MonoWorks.Rendering
 		protected Vector upVec;
 		/// <value>
 		/// Accesses the up-vector of the camera.
-		/// The vector normalized and forced orthatgonal to the 
+		/// The vector normalized and forced orthagonal to the 
 		/// view direction when assigned.
 		/// </value>
 		public Vector UpVector
@@ -131,6 +131,31 @@ namespace MonoWorks.Rendering
 		{
 			get	{return center;}
 			set	{center = value;}
+		}
+		
+		/// <value>
+		/// The vector pointing to the right in screen coords.
+		/// </value>
+		/// <remarks> This is generated when needed so you can do whatever you want with the reference.</remarks>
+		public Vector RightVec
+		{
+			get {return upVec.Cross( (center-pos).Normalize() );}
+		}
+		
+		/// <value>
+		/// The direction of the camera.
+		/// </value>
+		public Vector Direction
+		{
+			get {return pos - center;}
+		}
+		
+		/// <value>
+		/// The distance from the camera to the center of the viewing area.
+		/// </value>
+		public double Distance
+		{
+			get {return (Direction).Magnitude;}
 		}
 		
 		
@@ -167,7 +192,7 @@ namespace MonoWorks.Rendering
 			else // parallel
 			{
 				// determine the size of the viewing box
-				double h = (fov*0.5).Tan() * (pos - center).Magnitude;
+				double h = (fov*0.5).Tan() * Distance;
 				double ar = (double)width/(double)height;
 				gl.glOrtho(-ar*h, ar*h, -h, h, 0.1, 20);
 			}
@@ -237,8 +262,7 @@ namespace MonoWorks.Rendering
 
 			//  store the model-view matrix
 			gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX, modelMatrix);
-		}
-		
+		}		
 		
 		/// <summary>
 		/// Places the camera for overla drawing.
@@ -261,13 +285,12 @@ namespace MonoWorks.Rendering
 			else // parallel
 			{
 				double ar = (float)viewport.WidthGL / (float)viewport.HeightGL; // viewport aspect ratio
-				double h = (fov*0.5).Tan() * (pos - center).Magnitude;
+				double h = (fov*0.5).Tan() * Distance;
 				gl.glTranslated(-ar * h, -h, -1);
-				gl.glScaled(2 * h / (double)viewport.HeightGL, 2 * h / (double)viewport.HeightGL, 1.0);
+				gl.glScaled(2 * h / Height, 2 * h / Height, 1.0);
 			}
 
 		}
-
 
 		/// <summary>
 		/// Resets the camera to the default position.
@@ -277,8 +300,7 @@ namespace MonoWorks.Rendering
 			pos = new Vector(0.0, 0.0, 7.0);
 			center = new Vector(0.0, 0.0, 0.0);
 			upVec = new Vector(0.0, 1.0, 0.0);
-		}
-		
+		}		
 		
 		/// <summary>
 		/// Recomputes the up vector to ensure it is orthographic to the viewing direction.
@@ -288,8 +310,7 @@ namespace MonoWorks.Rendering
 			Vector direction = (center-pos).Normalize();
 			Vector lateral = direction.Cross( upVec);
 			upVec = lateral.Cross( direction);
-		}
-		
+		}		
 		
 		/// <value>
 		/// The scaling from the viewport to world coordinates.
@@ -298,10 +319,9 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-				return fov.Sin() * Math.Abs((center-pos).Magnitude)/ (double)viewport.HeightGL;
+				return fov.Sin() * Math.Abs((center-pos).Magnitude)/ Height;
 			}
 		}
-
 
 		/// <summary>
 		/// Converts the vector in world coordinates to screen coordinates.
@@ -359,7 +379,7 @@ namespace MonoWorks.Rendering
 		/// <param name="factor"> The dolly factor. </param>
 		public void Dolly(double factor)
 		{
-			Vector travel = (pos - center) * factor;
+			Vector travel = Direction * factor;
 			pos = travel + pos;
 			if (projection == Projection.Parallel)
 				Configure(); // dollying in parallel requires reconfiguration
@@ -407,7 +427,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanLeft()
 		{
-			Pan(-panFactor*(double)viewport.HeightGL, 0);
+			Pan(-panFactor*Height, 0);
 		}
 		
 		/// <summary>
@@ -415,7 +435,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanRight()
 		{
-			Pan(panFactor*(double)viewport.HeightGL, 0);
+			Pan(panFactor*Height, 0);
 		}
 		
 		/// <summary>
@@ -423,7 +443,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanUp()
 		{
-			Pan(0, panFactor*(double)viewport.HeightGL);
+			Pan(0, panFactor*Height);
 		}
 		
 		/// <summary>
@@ -431,7 +451,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void PanDown()
 		{
-			Pan(0, -panFactor*(double)viewport.HeightGL);
+			Pan(0, -panFactor*Height);
 		}
 		
 #endregion
@@ -450,7 +470,7 @@ namespace MonoWorks.Rendering
 			double scaling = ViewportToWorldScaling * 6;
 			
 			// compute the lateral (x) compoment of the transformation
-			Vector xRotate = upVec.Cross( (center-pos).Normalize() ) * dx * scaling;
+			Vector xRotate = RightVec * dx * scaling;
 			
 			// compute the view up (y) component of the tranformation
 			Vector yRotate = upVec * dy * scaling;
@@ -481,13 +501,13 @@ namespace MonoWorks.Rendering
 		public virtual void Zoom(double startX, double startY, double stopX, double stopY)
 		{						
 			// pan the camera so it's centered on the new viewing area
-			double newCenterX = (startX+stopX - (double)viewport.WidthGL)/2.0; 
-			double newCenterY = (startY+stopY - (double)viewport.HeightGL)/2.0; 
+			double newCenterX = (startX+stopX - Width)/2.0; 
+			double newCenterY = (startY+stopY - Height)/2.0; 
 			Pan(-newCenterX, -newCenterY);
 			
 			// determine the relative height and width of the new viewport
-			double newW = Math.Abs(startX-stopX) / (double)viewport.WidthGL;
-			double newH = Math.Abs(startY-stopY) / (double)viewport.HeightGL; 
+			double newW = Math.Abs(startX-stopX) / Width;
+			double newH = Math.Abs(startY-stopY) / Height; 
 			double newRatio = Math.Max(newH, newW);		
 			
 			// move the camera closer to the center
@@ -500,62 +520,67 @@ namespace MonoWorks.Rendering
 
 
 		
-#region Views
+#region View Direction
 		
 		/// <summary>
-		/// Sets the camera to the standard view.
+		/// Gets the view vectors for the given view position.
 		/// </summary>
-		public void StandardView()
+		/// <param name="direction"> A <see cref="ViewDirection"/>./ </param>
+		/// <param name="centerOut"> The center. </param>
+		/// <param name="posOut"> The position. </param>
+		/// <param name="upVecOut"> The up vector. </param>
+		public void GetDirectionVectors(ViewDirection direction, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
+			Bounds bounds = viewport.Bounds;
 			
+			// determine the distance needed to view all renderables
+			double dist = bounds.MaxWidth / (fov * 0.5).Tan();
+			
+			centerOut = bounds.Center;
+			Vector travel;
+			switch (direction)
+			{
+			case ViewDirection.Front:
+				travel = new Vector(1, 0, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			case ViewDirection.Back:
+				travel = new Vector(-1, 0, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			case ViewDirection.Left:
+				travel = new Vector(0, -1, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			case ViewDirection.Right:
+				travel = new Vector(0, 1, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			case ViewDirection.Top:
+				travel = new Vector(0, -1, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			case ViewDirection.Bottom:
+				travel = new Vector(0, 1, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			default:
+				travel = new Vector(1, 1, 0.5);
+				travel.Normalize();
+				dist = 0.7 * dist;
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			}
+			posOut = (travel*dist) + centerOut;
 		}
 		
 		/// <summary>
-		/// Sets the camera to the front view.
+		/// Sets the camera view direction.
 		/// </summary>
-		public void FrontView()
+		public void SetViewDirection(ViewDirection direction)
 		{
-			
-		}
-		
-		/// <summary>
-		/// Sets the camera to the back view.
-		/// </summary>
-		public void BackView()
-		{
-			
-		}
-		
-		/// <summary>
-		/// Sets the camera to the top view.
-		/// </summary>
-		public void TopView()
-		{
-			
-		}
-		
-		/// <summary>
-		/// Sets the camera to the bottom view.
-		/// </summary>
-		public void BottomView()
-		{
-			
-		}
-		
-		/// <summary>
-		/// Sets the camera to the right view.
-		/// </summary>
-		public void RightView()
-		{
-			
-		}
-		
-		/// <summary>
-		/// Sets the camera to the left view.
-		/// </summary>
-		public void LeftView()
-		{
-			
+			GetDirectionVectors(direction, out center, out pos, out upVec);
+			RecomputeUpVector();
 		}
 		
 #endregion
@@ -564,55 +589,7 @@ namespace MonoWorks.Rendering
 		
 #region Animation
 	
-		protected double animateDuration;
-		/// <value>
-		/// Duration (in milliseconds) of animation events.
-		/// </value>
-		public double AnimateDuration
-		{
-			get {return animateDuration;}
-			set {animateDuration = value;}
-		}
-
-		protected int animateNumSteps, animateCount;
-		protected Vector animateDiffPos, animateDiffCenter, animateDiffUpVec;
-		System.Timers.Timer animateTimer;
 		
-		/// <summary>
-		/// Animates the camera to the given position.
-		/// </summary>
-		/// <param name="pos"> The final position. </param>
-		/// <param name="center"> The final center. </param>
-		/// <param name="upVec"> the final up-vector.  </param>
-		public virtual void AnimateTo(Vector pos, Vector center, Vector upVec)
-		{
-			animateDiffPos = (pos - pos) / (double)animateNumSteps;
-			animateDiffCenter = (center - center) / (double)animateNumSteps;
-			animateDiffUpVec = (upVec - upVec) / (double)animateNumSteps;
-		
-			animateCount = 0;
-			
-			animateTimer.Enabled = true;
-		}
-			
-		/// <summary>
-		/// Animation callback.
-		/// </summary>
-		protected virtual void OnAnimate(object o, System.Timers.ElapsedEventArgs args)
-		{
-			
-			if (animateCount<animateNumSteps)
-			{
-				Console.WriteLine("animating");
-				pos += animateDiffPos;
-				center += animateDiffCenter;
-				upVec += animateDiffUpVec;
-//				viewport.QueueDraw();
-				animateCount++;
-			}
-			else
-				animateTimer.Enabled = false;
-		}
 		
 		
 #endregion
