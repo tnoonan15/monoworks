@@ -55,7 +55,7 @@ namespace MonoWorks.Rendering
 			get {return mouseType;}
 		}
 		
-		protected InteractionMode mode = InteractionMode.Select2D;
+		protected InteractionMode mode = InteractionMode.View3D;
 		/// <value>
 		/// The current interaction mode.
 		/// </value>

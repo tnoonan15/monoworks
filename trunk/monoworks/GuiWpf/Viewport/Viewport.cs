@@ -114,6 +114,20 @@ namespace MonoWorks.GuiWpf
 			renderables.Remove(renderable);
 		}
 
+		/// <value>
+		/// The bounds of all renderables.
+		/// </value>
+		public new Bounds Bounds
+		{
+			get
+			{
+				Bounds bounds = new Bounds();
+				foreach (Renderable renderable in renderables)
+					bounds.Resize(renderable.Bounds);
+				return bounds;
+			}
+		}
+
 		#endregion
 
 
@@ -145,35 +159,68 @@ namespace MonoWorks.GuiWpf
 		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
+			bool blocked = false;
 
 			switch (interactionState.MouseType)
 			{
 			case InteractionType.Rotate:
 				camera.Rotate(e.Location.X - interactionState.LastLoc.X, e.Location.Y - interactionState.LastLoc.Y);
-				Draw();
 				break;
+
 			case InteractionType.Pan:
-				camera.Pan(e.Location.X - interactionState.LastLoc.X, e.Location.Y - interactionState.LastLoc.Y);
-				Draw();
+				double dx = e.Location.X - interactionState.LastLoc.X;
+				double dy = e.Location.Y - interactionState.LastLoc.Y;
+
+				// allow the renderables to deal with the interaction
+				foreach (Renderable renderable in renderables)
+				{
+					if (renderable.HandlePan(this, dx, dy))
+						blocked = true;
+				}
+				if (!blocked)
+					camera.Pan(dx, dy);
 				break;
+
 			case InteractionType.Dolly:
 				double factor = (e.Location.Y - interactionState.LastLoc.Y) / (double)Size.Height;
-				camera.Dolly(factor);
-				Draw();
+
+				// allow the renderables to deal with the interaction
+				foreach (Renderable renderable in renderables)
+				{
+					if (renderable.HandleDolly(this, factor))
+						blocked = true;
+				}
+
+				if (!blocked)
+					camera.Dolly(factor);
 				break;
 			}
 			interactionState.OnMouseMove(e);
+			Draw();
 		}
 
 
 		protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
 		{
 			base.OnMouseWheel(e);
+			bool blocked = false;
 
+			// use the default dolly factor
+			double factor;
 			if (e.Delta > 0)
-				camera.DollyIn();
+				factor = -camera.DollyFactor;
 			else
-				camera.DollyOut();
+				factor = camera.DollyFactor;
+
+			// allow the renderables to deal with the interaction
+			foreach (Renderable renderable in renderables)
+			{
+				if (renderable.HandleDolly(this, factor))
+					blocked = true;
+			}
+
+			if (!blocked)
+				camera.Dolly(factor);
 			Draw();
 		}
 

@@ -557,12 +557,12 @@ namespace MonoWorks.Rendering
 				upVecOut = new Vector(0, 0, 1);
 				break;
 			case ViewDirection.Top:
-				travel = new Vector(0, -1, 0);
-				upVecOut = new Vector(0, 0, 1);
+				travel = new Vector(0, 0, 1);
+				upVecOut = new Vector(0, 1, 0);
 				break;
 			case ViewDirection.Bottom:
-				travel = new Vector(0, 1, 0);
-				upVecOut = new Vector(0, 0, 1);
+				travel = new Vector(0, 0, -1);
+				upVecOut = new Vector(0, 1, 0);
 				break;
 			default:
 				travel = new Vector(1, 1, 0.5);

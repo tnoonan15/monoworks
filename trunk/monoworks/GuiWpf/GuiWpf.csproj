@@ -137,4 +137,15 @@
     <EmbeddedResource Include="Viewport\icons\top-view.png" />
     <EmbeddedResource Include="Viewport\icons\wireframe.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\icons\perspective.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\icons\2d.png" />
+    <EmbeddedResource Include="Viewport\icons\3d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\icons\3dInteract.png" />
+    <EmbeddedResource Include="Viewport\icons\3dSelect.png" />
+  </ItemGroup>
 </Project>
