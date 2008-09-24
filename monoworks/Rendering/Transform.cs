@@ -86,6 +86,15 @@ namespace MonoWorks.Rendering
 			return scaling * vector + offset;
 		}
 
+		/// <summary>
+		/// Applies the inverse of teh tranform to a vector.
+		/// </summary>
+		/// <param name="vector"> A <see cref="Vector"/>. </param>
+		/// <returns> The tranformed <see cref="Vector"/>. </returns>
+		public Vector InverseApply(Vector vector)
+		{
+			return (vector - offset) / scaling;
+		}
 
 		/// <summary>
 		/// Applies the transformation to the x, y, z.

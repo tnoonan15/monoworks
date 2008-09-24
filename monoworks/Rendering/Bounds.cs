@@ -140,6 +140,7 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The center of the box.
 		/// </value>
+		/// <remarks> This is generated on demand so you can do whatever you want with the instance.</remarks>
 		public Vector Center
 		{
 			get {return (minima + maxima) / 2;}
@@ -148,6 +149,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// The size of the bounds in each dimension.
 		/// </summary>
+		/// <remarks> This is generated on demand so you can do whatever you want with the instance.</remarks>
 		public Vector Size
 		{
 			get { return maxima - minima; }
@@ -165,6 +167,20 @@ namespace MonoWorks.Rendering
 					return (maxima[0] + maxima[1] + maxima[2] - minima[0] - minima[1] - minima[2]) / 3.0;
 				else
 					return 0;
+			}
+		}
+		
+		/// <value>
+		/// The maximum width in any dimension.
+		/// </value>
+		public double MaxWidth
+		{
+			get
+			{
+				double max = 0;
+				for (int i=0; i<3; i++)
+					max = Math.Max(max, maxima[i]-minima[i]);
+				return max;
 			}
 		}
 		
@@ -215,8 +231,34 @@ namespace MonoWorks.Rendering
 			}
 		}
 		
+		/// <summary>
+		/// Expands the bounds in all dimensions by the given factor around the center.
+		/// </summary>
+		/// <param name="factor"> </param>
+		/// <remarks> factors less than one make it contract.</remarks>
+		public void Expand(double factor)
+		{
+			Vector center = Center;
+			minima = center + (minima-center)*factor;
+			maxima = center + (maxima-center)*factor;
+		}
+		
 #endregion
 
+		
+#region Translation
+		
+		/// <summary>
+		/// Translates the bounds by the given difference vector.
+		/// </summary>
+		/// <param name="diff"> A <see cref="Vector"/> to translate by. </param>
+		public void Translate(Vector diff)
+		{
+			minima += diff;
+			maxima += diff;
+		}
+		
+#endregion
 
 
 #region Outside Edges

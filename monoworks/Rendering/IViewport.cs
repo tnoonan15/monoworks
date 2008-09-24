@@ -105,6 +105,9 @@ namespace MonoWorks.Rendering
 		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
 		void RemoveRenderable(Renderable renderable);
 
-
+		/// <value>
+		/// The bounds of all renderables.
+		/// </value>
+		Bounds Bounds {get;}
 	}
 }

@@ -361,6 +361,45 @@ namespace MonoWorks.Plotting
 		}
 
 #endregion
+		
+		
+#region Mouse Interaction
+		
+		/// <summary>
+		/// If in 2D mode, translate the axes limits and prevent the viewport from handling the interaction.
+		/// </summary>
+		public override bool HandlePan(IViewport viewport, double dx, double dy)
+		{			
+			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			{
+				resizeMode = ResizeMode.Manual;
+				// determine the difference to apply to the axes ranges
+				Vector diff = viewport.Camera.RightVec * dx * viewport.Camera.ViewportToWorldScaling + 
+					viewport.Camera.UpVector * dy * viewport.Camera.ViewportToWorldScaling;
+				plotBounds.Translate(diff / plotToWorldSpace.Scaling);
+				MakeDirty();
+				return true;
+			}
+			else
+				return false;
+		}
+		
+		public override bool HandleDolly(IViewport viewport, double factor)
+		{
+			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			{
+				resizeMode = ResizeMode.Manual;
+				plotBounds.Expand(1 + factor);
+				MakeDirty();
+				return true;
+			}
+			else
+				return false;
+		}
+
+
+		
+#endregion
 
 	}
 }

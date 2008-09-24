@@ -91,6 +91,29 @@ namespace MonoWorks.Rendering
 		}
 		
 		
+		/// <summary>
+		/// Allows the renderable to directly handle a pan event.
+		/// </summary>
+		/// <param name="viewport"> The <see cref="IViewport"/> on which the interaction was performed. </param>
+		/// <param name="dx"> The travel in the x screen dimension.</param>
+		/// <param name="dy"> The travel in the y screen dimension.</param>
+		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
+		public virtual bool HandlePan(IViewport viewport, double dx, double dy)
+		{
+			return false;
+		}		
+		
+		/// <summary>
+		/// Allows the renderable to directly handle a dolly event.
+		/// </summary>
+		/// <param name="viewport"> The <see cref="IViewport"/> on which the interaction was performed. </param>
+		/// <param name="factor"> The dolly factor.</param>
+		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
+		public virtual bool HandleDolly(IViewport viewport, double factor)
+		{
+			return false;
+		}
+		
 		
 	}
 	
