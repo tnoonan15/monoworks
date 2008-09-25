@@ -109,5 +109,10 @@ namespace MonoWorks.Rendering
 		/// The bounds of all renderables.
 		/// </value>
 		Bounds Bounds {get;}
+		
+		/// <summary>
+		/// Lets the renderables know that something's been modified.
+		/// </summary>
+		void OnModified();
 	}
 }

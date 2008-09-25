@@ -50,6 +50,14 @@ namespace MonoWorks.Rendering
 			get {return bounds;}
 		}
 
+		/// <summary>
+		/// Called when the viewport changes size or view direction.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		public virtual void OnViewportModified(IViewport viewport)
+		{
+			
+		}
 		
 		/// <summary>
 		/// Forces the renderable to compute its geometry.

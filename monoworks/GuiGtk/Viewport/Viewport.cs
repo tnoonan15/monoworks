@@ -65,9 +65,6 @@ namespace MonoWorks.GuiGtk
 			// make sure the viewport catches all events
 			AddEvents((int)Gdk.EventMask.AllEventsMask);
 			
-			// The GL widget is a minimum of 300x300 pixels 
-			this.SetSizeRequest(600,600);
-			
 			camera = new Camera(this);
 			
 			DeleteEvent += OnWindowDeleteEvent;
@@ -83,6 +80,7 @@ namespace MonoWorks.GuiGtk
 			Realized += OnRealized;
 			SizeAllocated += OnSizeAllocated;
 			ConfigureEvent += OnConfigure;			
+			SizeAllocated += OnResize;
 
 			// initialize the render manager
 			renderManager = new RenderManager();		
@@ -131,6 +129,14 @@ namespace MonoWorks.GuiGtk
 			get {return lighting;}
 		}
 		
+		protected void OnResize(object sender, EventArgs args)
+		{
+			OnModified();
+			if (IsRealized)
+				PaintGL();
+		}
+
+		
 		
 #region Renderable Registry
 		
@@ -172,6 +178,15 @@ namespace MonoWorks.GuiGtk
 					bounds.Resize(renderable.Bounds);
 				return bounds;
 			}
+		}
+		
+		/// <summary>
+		/// Alerts the renderables that the viewport has been modified.
+		/// </summary>
+		public void OnModified()
+		{
+			foreach (Renderable renderable in renderables)
+				renderable.OnViewportModified(this);
 		}
 		
 #endregion

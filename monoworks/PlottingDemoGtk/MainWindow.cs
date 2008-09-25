@@ -35,7 +35,6 @@ namespace MonoWorks.PlottingDemoGtk
 		/// </summary>
 		public MainWindow() : base(Gtk.WindowType.Toplevel)
 		{
-			SetSizeRequest(1000,800);
 			Title = "MonoWorks Plotting Demo";
 			
 			DeleteEvent += OnDeleteEvent;
@@ -58,7 +57,7 @@ namespace MonoWorks.PlottingDemoGtk
 			
 			// add the control pane
 			PlotPane controlPane = new PlotPane(axes);
-			hbox.PackStart(controlPane);
+			hbox.PackStart(controlPane, false, true, 6);
 			controlPane.ControlChanged += OnControlChanged;
 			
 			ShowAll();

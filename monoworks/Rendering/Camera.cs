@@ -315,11 +315,11 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The scaling from the viewport to world coordinates.
 		/// </value>
-		public double ViewportToWorldScaling
+		public double WorldToViewportScaling
 		{
 			get
 			{
-				return fov.Sin() * Math.Abs((center-pos).Magnitude)/ Height;
+				return 2 * (fov / 2).Tan() * Math.Abs(Distance)/ Height;
 			}
 		}
 
@@ -409,7 +409,7 @@ namespace MonoWorks.Rendering
 		public void Pan(double dx, double dy)
 		{
 			// determine the scaling from view to world coordinates
-			double scaling = ViewportToWorldScaling;
+			double scaling = WorldToViewportScaling;
 			
 			// compute the view up (y) component of the tranformation
 			Vector yPan = upVec * dy * scaling;
@@ -467,7 +467,7 @@ namespace MonoWorks.Rendering
 		public void Rotate(double dx, double dy)
 		{			
 			// determine the scaling from view to world coordinates
-			double scaling = ViewportToWorldScaling * 6;
+			double scaling = WorldToViewportScaling * 6;
 			
 			// compute the lateral (x) compoment of the transformation
 			Vector xRotate = RightVec * dx * scaling;
@@ -522,6 +522,16 @@ namespace MonoWorks.Rendering
 		
 #region View Direction
 		
+		
+		protected ViewDirection lastDirection;
+		/// <value>
+		/// The last view direction set.
+		/// </value>
+		public ViewDirection LastDirection
+		{
+			get {return lastDirection;}
+		}
+		
 		/// <summary>
 		/// Gets the view vectors for the given view position.
 		/// </summary>
@@ -541,19 +551,19 @@ namespace MonoWorks.Rendering
 			switch (direction)
 			{
 			case ViewDirection.Front:
-				travel = new Vector(1, 0, 0);
-				upVecOut = new Vector(0, 0, 1);
-				break;
-			case ViewDirection.Back:
-				travel = new Vector(-1, 0, 0);
-				upVecOut = new Vector(0, 0, 1);
-				break;
-			case ViewDirection.Left:
 				travel = new Vector(0, -1, 0);
 				upVecOut = new Vector(0, 0, 1);
 				break;
-			case ViewDirection.Right:
+			case ViewDirection.Back:
 				travel = new Vector(0, 1, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			case ViewDirection.Left:
+				travel = new Vector(-1, 0, 0);
+				upVecOut = new Vector(0, 0, 1);
+				break;
+			case ViewDirection.Right:
+				travel = new Vector(1, 0, 0);
 				upVecOut = new Vector(0, 0, 1);
 				break;
 			case ViewDirection.Top:
@@ -579,6 +589,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void SetViewDirection(ViewDirection direction)
 		{
+			lastDirection = direction;
 			GetDirectionVectors(direction, out center, out pos, out upVec);
 			RecomputeUpVector();
 		}

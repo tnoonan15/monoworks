@@ -39,6 +39,9 @@
     <File name="../Resources/icons22/wireframe.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Viewport/Cad.ui" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Viewport/Plotting.ui" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/2d.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/3dInteract.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/3dSelect.png" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -54,5 +57,6 @@
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.FreeType.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/ISE.FreeType.dll" />
     <ProjectReference type="Project" localcopy="True" refto="Plotting" />
+    <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
 </Project>

@@ -27,6 +27,7 @@ namespace MonoWorks.PlottingDemoGtk
 		{
 			Gtk.Application.Init();
 			MainWindow window = new MainWindow();
+			window.Resize(1000,800);
 			window.ShowAll();
 			Gtk.Application.Run();
 		}

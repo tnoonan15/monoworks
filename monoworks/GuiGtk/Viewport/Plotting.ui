@@ -6,5 +6,9 @@
 		<toolitem name="Left View" action="LeftView"/>
 		<separator/>
 		<toolitem name="Perspective" action="TogglePerspective"/>
+		<separator/>
+		<toolitem name="2D Mode" action="Select2D"/>
+		<toolitem name="3D Selection Mode" action="Select3D"/>
+		<toolitem name="3D View Mode" action="View3D"/>
 	</toolbar>
 </ui>

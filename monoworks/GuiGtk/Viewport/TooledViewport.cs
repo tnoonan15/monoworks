@@ -215,6 +215,27 @@ namespace MonoWorks.GuiGtk
 				action.Activate();
 				action.Activated += OnProjectionChanged;
 				actionGroup.Add(action);
+
+				// interaction mode actions
+				Gtk.RadioAction radio = new Gtk.RadioAction("Select2D", "2D Mode", "2D Mode", "2d", 0);
+				radio.Activated += delegate(object sender, EventArgs args)
+				{ SetInteractionMode(InteractionMode.Select2D);};
+				actionGroup.Add(radio);
+				GLib.SList modeGroup = radio.Group;
+				
+				radio = new Gtk.RadioAction("Select3D", "3D Selection Mode", "3D Selection Mode", "3dSelect", 1);
+				radio.Activated += delegate(object sender, EventArgs args)
+				{ SetInteractionMode(InteractionMode.Select3D);};
+				radio.Group = modeGroup;
+				modeGroup = radio.Group;
+				actionGroup.Add(radio);
+				
+				radio = new Gtk.RadioAction("View3D", "3D View Mode", "3D View Mode", "3dInteract", 2);
+				radio.Activate();
+				radio.Activated += delegate(object sender, EventArgs args)
+				{ SetInteractionMode(InteractionMode.View3D);};
+				radio.Group = modeGroup;
+				actionGroup.Add(radio);
 			}		
 		}
 		
@@ -225,6 +246,7 @@ namespace MonoWorks.GuiGtk
 		public void SetViewDirection(ViewDirection direction)
 		{
 			viewport.Camera.SetViewDirection(direction);
+			viewport.OnModified();
 			viewport.PaintGL();
 		}
 		
@@ -234,6 +256,22 @@ namespace MonoWorks.GuiGtk
 		protected void OnProjectionChanged(object sender, EventArgs args)
 		{
 			viewport.Camera.ToggleProjection();
+			viewport.PaintGL();
+		}
+		
+		/// <summary>
+		/// Sets the interaction mode of the viewport.
+		/// </summary>
+		/// <param name="mode"> A <see cref="InteractionMode"/>. </param>
+		public void SetInteractionMode(InteractionMode mode)
+		{
+			if (mode == InteractionMode.Select2D) // force to front parallel for 2D viewing
+			{
+				viewport.Camera.Projection = Projection.Parallel;
+				viewport.Camera.SetViewDirection(ViewDirection.Front);
+			}
+			viewport.InteractionState.Mode = mode;
+			viewport.OnModified();
 			viewport.PaintGL();
 		}
 		
