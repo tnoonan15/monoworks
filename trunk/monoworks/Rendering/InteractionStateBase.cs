@@ -50,9 +50,16 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The current interaction mode.
 		/// </value>
+		/// <remarks> This will be overriden with Select if it should be rotate but the mode is Select2D or Select3D.</remarks>
 		public InteractionType MouseType
 		{
-			get {return mouseType;}
+			get
+			{
+				if (mode != InteractionMode.View3D && mouseType == InteractionType.Rotate)
+					return InteractionType.Select;
+				else
+					return mouseType;
+			}
 		}
 		
 		protected InteractionMode mode = InteractionMode.View3D;

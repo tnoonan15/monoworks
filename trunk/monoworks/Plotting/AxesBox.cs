@@ -114,6 +114,49 @@ namespace MonoWorks.Plotting
 #endregion
 
 
+#region Resizing
+
+		
+		public override void OnViewportModified(IViewport viewport)
+		{
+			base.OnViewportModified(viewport);
+			
+			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			{
+				double edgeFactor = 0.3 * viewport.Camera.WorldToViewportScaling;
+				Vector center = viewport.Camera.Center;
+				Console.WriteLine("edge scaling: {0}, center: {1}, width: {2}, height: {3}", edgeFactor, center, viewport.WidthGL, viewport.HeightGL);
+				switch (viewport.Camera.LastDirection)
+				{
+				case ViewDirection.Front:
+				case ViewDirection.Back:
+					bounds.Minima[0] = center[0] - edgeFactor * viewport.WidthGL;
+					bounds.Maxima[0] = center[0] + edgeFactor * viewport.WidthGL;
+					bounds.Minima[2] = center[2] - edgeFactor * viewport.HeightGL;
+					bounds.Maxima[2] = center[2] + edgeFactor * viewport.HeightGL;
+					break;
+				case ViewDirection.Left:
+				case ViewDirection.Right:
+					bounds.Minima[1] = center[1] - edgeFactor * viewport.WidthGL;
+					bounds.Maxima[1] = center[1] + edgeFactor * viewport.WidthGL;
+					bounds.Minima[2] = center[2] - edgeFactor * viewport.HeightGL;
+					bounds.Maxima[2] = center[2] + edgeFactor * viewport.HeightGL;
+					break;
+				case ViewDirection.Top:
+				case ViewDirection.Bottom:
+					bounds.Minima[0] = center[0] - edgeFactor * viewport.WidthGL;
+					bounds.Maxima[0] = center[0] + edgeFactor * viewport.WidthGL;
+					bounds.Minima[1] = center[1] - edgeFactor * viewport.HeightGL;
+					bounds.Maxima[1] = center[1] + edgeFactor * viewport.HeightGL;
+					break;
+				}
+				MakeDirty();
+			}
+		}
+
+		
+#endregion
+		
 
 #region Axes
 
@@ -374,8 +417,8 @@ namespace MonoWorks.Plotting
 			{
 				resizeMode = ResizeMode.Manual;
 				// determine the difference to apply to the axes ranges
-				Vector diff = viewport.Camera.RightVec * dx * viewport.Camera.ViewportToWorldScaling + 
-					viewport.Camera.UpVector * dy * viewport.Camera.ViewportToWorldScaling;
+				Vector diff = viewport.Camera.RightVec * dx * viewport.Camera.WorldToViewportScaling + 
+					viewport.Camera.UpVector * dy * viewport.Camera.WorldToViewportScaling;
 				plotBounds.Translate(diff / plotToWorldSpace.Scaling);
 				MakeDirty();
 				return true;
