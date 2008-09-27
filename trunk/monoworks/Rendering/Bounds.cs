@@ -241,7 +241,6 @@ namespace MonoWorks.Rendering
 			Vector center = Center;
 			minima = center + (minima - center) * factor;
 			maxima = center + (maxima - center) * factor;
-			//Console.WriteLine("center before expand: {0}, center after expand: {1}", center, Center);
 		}
 		
 #endregion
@@ -576,15 +575,22 @@ namespace MonoWorks.Rendering
 		{
 			// determine the step and number of points
 			double step = NiceStep(min, max, desiredNumSteps);
-			int numVals = (int)Math.Ceiling((max-min) / step) + 1; // number of points
+			int numVals = (int)Math.Floor((max-min) / step) + 1; // number of points
 			double[] range = new double[numVals];
 			
 			// populate the range
-			range[0] = Math.Floor(min / step) * step;
+			range[0] = Math.Ceiling(min / step) * step;
 			for (int i = 1; i < numVals; i++)
 				range[i] = range[i - 1] + step;
 			
-			return range;
+			if (range[numVals-1] > max) // there were too many points generated
+			{
+				double[] trimmedRange = new double[numVals-1];
+				Array.Copy(range, 0, trimmedRange, 0, numVals-1);
+				return trimmedRange;
+			}
+			else // the correct number of points were generated
+				return range;
 		}
 
 		/// <summary>

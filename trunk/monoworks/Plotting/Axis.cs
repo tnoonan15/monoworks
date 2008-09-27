@@ -128,7 +128,7 @@ namespace MonoWorks.Plotting
 			for (int i = 0; i < tickVals.Length; i++)
 			{
 				tickLabels[i] = new TextRenderer(14);
-				tickLabels[i].Text = tickVals[i].ToString();
+				tickLabels[i].Text = String.Format("{0:0.###}", tickVals[i]);
 			}
 		}
 
@@ -143,7 +143,19 @@ namespace MonoWorks.Plotting
 		}
 		
 		/// <value>
-		/// Tick step in world coords.
+		/// First tick step in world coords.
+		/// </value>
+		public double FirstWorldTickStep
+		{
+			get
+			{
+				double step = tickVals[0] - parent.PlotBounds.Minima[dimension];
+				return parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+			}
+		}	
+		
+		/// <value>
+		/// Tick step (everything but first) in world coords.
 		/// </value>
 		public double WorldTickStep
 		{
@@ -166,10 +178,12 @@ namespace MonoWorks.Plotting
 
 				// compute the tick positions
 				tickPositions = new Vector[tickVals.Length];
-				for (int i = 0; i < tickVals.Length; i++)
+				tickPositions[0] = start.Copy();
+				tickPositions[0][dimension] += FirstWorldTickStep;
+				for (int i = 1; i < tickVals.Length; i++)
 				{
-					tickPositions[i] = start.Copy();
-					tickPositions[i][dimension] += i * worldStep;
+					tickPositions[i] = tickPositions[i-1].Copy();
+					tickPositions[i][dimension] += worldStep;
 				}
 				ticksDirty = false;
 			}

@@ -315,7 +315,7 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The scaling from the viewport to world coordinates.
 		/// </value>
-		public double WorldToViewportScaling
+		public double ViewportToWorldScaling
 		{
 			get
 			{
@@ -409,7 +409,7 @@ namespace MonoWorks.Rendering
 		public void Pan(double dx, double dy)
 		{
 			// determine the scaling from view to world coordinates
-			double scaling = WorldToViewportScaling;
+			double scaling = ViewportToWorldScaling;
 			
 			// compute the view up (y) component of the tranformation
 			Vector yPan = upVec * dy * scaling;
@@ -467,7 +467,7 @@ namespace MonoWorks.Rendering
 		public void Rotate(double dx, double dy)
 		{			
 			// determine the scaling from view to world coordinates
-			double scaling = WorldToViewportScaling * 6;
+			double scaling = ViewportToWorldScaling * 6;
 			
 			// compute the lateral (x) compoment of the transformation
 			Vector xRotate = RightVec * dx * scaling;
@@ -592,6 +592,7 @@ namespace MonoWorks.Rendering
 			lastDirection = direction;
 			GetDirectionVectors(direction, out center, out pos, out upVec);
 			RecomputeUpVector();
+			viewport.OnDirectionChanged();
 		}
 		
 #endregion
