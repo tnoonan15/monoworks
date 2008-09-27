@@ -111,8 +111,13 @@ namespace MonoWorks.Rendering
 		Bounds Bounds {get;}
 		
 		/// <summary>
-		/// Lets the renderables know that something's been modified.
+		/// Lets the renderables know that the viewport has been resized.
 		/// </summary>
-		void OnModified();
+		void OnResized();
+		
+		/// <summary>
+		/// Lets the renderables know that the view direction has been changed.
+		/// </summary>
+		void OnDirectionChanged();
 	}
 }

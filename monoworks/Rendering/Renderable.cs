@@ -51,12 +51,19 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Called when the viewport changes size or view direction.
+		/// Called when the viewport changes size.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
-		public virtual void OnViewportModified(IViewport viewport)
-		{
-			
+		public virtual void OnViewportResized(IViewport viewport)
+		{			
+		}
+
+		/// <summary>
+		/// Called when the viewport changes view direction.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		public virtual void OnViewDirectionChanged(IViewport viewport)
+		{			
 		}
 		
 		/// <summary>

@@ -117,15 +117,18 @@ namespace MonoWorks.Plotting
 #region Resizing
 
 		
-		public override void OnViewportModified(IViewport viewport)
+		public override void OnViewportResized(IViewport viewport)
 		{
-			base.OnViewportModified(viewport);
+			base.OnViewportResized(viewport);
+			
+			bounds.Minima = new Vector(-1, -1, -1);
+			bounds.Maxima = new Vector(1, 1, 1);
 			
 			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
 			{
-				double edgeFactor = 0.3 * viewport.Camera.WorldToViewportScaling;
+				double edgeFactor = 0.32 * viewport.Camera.ViewportToWorldScaling;
 				Vector center = viewport.Camera.Center;
-				Console.WriteLine("edge scaling: {0}, center: {1}, width: {2}, height: {3}", edgeFactor, center, viewport.WidthGL, viewport.HeightGL);
+//				Console.WriteLine("edge scaling: {0}, center: {1}, width: {2}, height: {3}", edgeFactor, center, viewport.WidthGL, viewport.HeightGL);
 				switch (viewport.Camera.LastDirection)
 				{
 				case ViewDirection.Front:
@@ -150,8 +153,20 @@ namespace MonoWorks.Plotting
 					bounds.Maxima[1] = center[1] + edgeFactor * viewport.HeightGL;
 					break;
 				}
-				MakeDirty();
 			}
+			
+			MakeDirty();
+		}
+
+		
+		public override void OnViewDirectionChanged(IViewport viewport)
+		{
+			base.OnViewDirectionChanged(viewport);
+			
+			// reset the resizing mode
+			resizeMode = ResizeMode.Auto;
+			
+			OnViewportResized(viewport);
 		}
 
 		
@@ -327,7 +342,7 @@ namespace MonoWorks.Plotting
 				}
 
 				if (plotBounds.IsSet) // only proceed if the plot bounds are set
-				{
+				{					
 					// compute the plot-render transformation
 					plotToWorldSpace.Compute(plotBounds, bounds);
 
@@ -379,9 +394,31 @@ namespace MonoWorks.Plotting
 			UpdateGrids(viewport);
 			RenderGrids(viewport);
 			
+			// define the clip planes
+			double[] eq = new double[]{1, 0, 0, bounds.Maxima[0]};
+			gl.glClipPlane(gl.GL_CLIP_PLANE0, eq);
+			eq = new double[]{-1, 0, 0, -bounds.Minima[0]};
+			gl.glClipPlane(gl.GL_CLIP_PLANE1, eq);
+			eq = new double[]{0, 1, 0, bounds.Maxima[1]};
+			gl.glClipPlane(gl.GL_CLIP_PLANE2, eq);
+			eq = new double[]{0, -1, 0, -bounds.Minima[1]};
+			gl.glClipPlane(gl.GL_CLIP_PLANE3, eq);
+			eq = new double[]{0, 0, 1, bounds.Maxima[2]};
+			gl.glClipPlane(gl.GL_CLIP_PLANE4, eq);
+			eq = new double[]{0, 0, -1, -bounds.Minima[2]};
+			gl.glClipPlane(gl.GL_CLIP_PLANE5, eq);
+			
+			// enable clipping
+			for (int i=0; i<6; i++)
+				gl.glEnable(gl.GL_CLIP_PLANE0 + i);
+			
 			// render the children
 			foreach (Plottable child in children)
 				child.RenderOpaque(viewport);
+			
+			// disable clipping
+			for (int i=0; i<6; i++)
+				gl.glDisable(gl.GL_CLIP_PLANE0 + i);
 			
 		}
 
@@ -417,8 +454,7 @@ namespace MonoWorks.Plotting
 			{
 				resizeMode = ResizeMode.Manual;
 				// determine the difference to apply to the axes ranges
-				Vector diff = viewport.Camera.RightVec * dx * viewport.Camera.WorldToViewportScaling + 
-					viewport.Camera.UpVector * dy * viewport.Camera.WorldToViewportScaling;
+				Vector diff = (viewport.Camera.RightVec * dx + viewport.Camera.UpVector * dy) * viewport.Camera.ViewportToWorldScaling; 
 				plotBounds.Translate(diff / plotToWorldSpace.Scaling);
 				MakeDirty();
 				return true;

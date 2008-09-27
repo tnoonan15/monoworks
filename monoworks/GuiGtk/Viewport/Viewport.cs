@@ -97,11 +97,6 @@ namespace MonoWorks.GuiGtk
 		}
 		
 		
-		/// <value>
-		/// The rubber band used for selection and zooming.
-		/// </value>
-		protected RubberBand rubberBand = new RubberBand();
-		
 		protected RenderManager renderManager;
 		/// <value>
 		/// The viewport render manager.
@@ -131,7 +126,7 @@ namespace MonoWorks.GuiGtk
 		
 		protected void OnResize(object sender, EventArgs args)
 		{
-			OnModified();
+			OnResized();
 			if (IsRealized)
 				PaintGL();
 		}
@@ -183,25 +178,50 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Alerts the renderables that the viewport has been modified.
 		/// </summary>
-		public void OnModified()
+		public void OnResized()
 		{
 			foreach (Renderable renderable in renderables)
-				renderable.OnViewportModified(this);
+				renderable.OnViewportResized(this);
+		}
+		
+		/// <summary>
+		/// Alerts the renderables that the viewport has been modified.
+		/// </summary>
+		public void OnDirectionChanged()
+		{
+			foreach (Renderable renderable in renderables)
+				renderable.OnViewDirectionChanged(this);
 		}
 		
 #endregion
 		
 		
 #region Mouse Interaction
+	
+		/// <summary>
+		/// The rubber band used for selection and viewing.
+		/// </summary>
+		private RubberBand rubberBand = new RubberBand();
 		
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
 			interactionState.RegisterButtonPress(args.Event);
+			
+			// handle selection
+			if (interactionState.MouseType == InteractionType.Select)
+			{
+				rubberBand.StartX = args.Event.X;
+				rubberBand.StartY = HeightGL - args.Event.Y;
+				rubberBand.Enabled = true;
+			}
 		}
 		
 		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 		{
 			interactionState.RegisterButtonRelease(args.Event);
+			
+			rubberBand.Enabled = false;
+			PaintGL();
 		}
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
@@ -210,6 +230,11 @@ namespace MonoWorks.GuiGtk
 			
 			switch (interactionState.MouseType)
 			{
+			case InteractionType.Select:
+				rubberBand.StopX = args.Event.X;
+				rubberBand.StopY = HeightGL -args.Event.Y;
+				break;
+				
 			case InteractionType.Rotate:
 				camera.Rotate(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
 				break;
@@ -250,21 +275,38 @@ namespace MonoWorks.GuiGtk
 		
 		protected virtual void OnScroll(object sender, Gtk.ScrollEventArgs args)
 		{
+			bool blocked = false;
+			
 			switch(interactionState.GetWheelType(args.Event.State))
 			{
 			case InteractionType.Dolly:
+				double factor = 0;
 				if (args.Event.Direction == Gdk.ScrollDirection.Up)
-					camera.DollyIn();
+					factor = -camera.DollyFactor;
 				else if (args.Event.Direction == Gdk.ScrollDirection.Down)
-					camera.DollyOut();
-				PaintGL();
+					factor = camera.DollyFactor;
+				
+				// allow the renderables to deal with the interaction
+				foreach (Renderable renderable in renderables)
+				{
+					if (renderable.HandleDolly(this, factor))
+						blocked = true;
+				}
+				
+				if (!blocked)
+					camera.Dolly(factor);
 				break;
 			}
+			PaintGL();
 		}
 
 		
 #endregion
 
+		
+#region Selection
+		
+#endregion
 		
 		
 #region OpenGL Methods

@@ -70,8 +70,8 @@ namespace MonoWorks.Rendering
 		/// <param name="bounds2"></param>
 		public void Compute(Bounds bounds1, Bounds bounds2)
 		{
-			offset = bounds2.Minima - bounds1.Minima;
 			scaling = bounds2.Size / bounds1.Size;
+			offset = (bounds2.Minima - bounds1.Minima*scaling);
 		}
 
 
@@ -80,14 +80,14 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		/// <param name="vector"></param>
 		/// <returns> The resulting vector.</returns>
-		/// <remarks> This is basically scaling*vector+offset. </remarks>
+		/// <remarks> This is basically scaling*(vector+offset). </remarks>
 		public Vector Apply(Vector vector)
 		{
 			return scaling * vector + offset;
 		}
 
 		/// <summary>
-		/// Applies the inverse of teh tranform to a vector.
+		/// Applies the inverse of the tranform to a vector.
 		/// </summary>
 		/// <param name="vector"> A <see cref="Vector"/>. </param>
 		/// <returns> The tranformed <see cref="Vector"/>. </returns>

@@ -246,8 +246,8 @@ namespace MonoWorks.GuiGtk
 		public void SetViewDirection(ViewDirection direction)
 		{
 			viewport.Camera.SetViewDirection(direction);
-			viewport.OnModified();
 			viewport.PaintGL();
+			viewport.OnResized();
 		}
 		
 		/// <summary>
@@ -271,7 +271,7 @@ namespace MonoWorks.GuiGtk
 				viewport.Camera.SetViewDirection(ViewDirection.Front);
 			}
 			viewport.InteractionState.Mode = mode;
-			viewport.OnModified();
+			viewport.OnResized();
 			viewport.PaintGL();
 		}
 		

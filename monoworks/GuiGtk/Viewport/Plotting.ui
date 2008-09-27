@@ -3,7 +3,7 @@
 		<toolitem name="Standard View" action="StandardView"/>
 		<toolitem name="Front View" action="FrontView"/>
 		<toolitem name="Top View" action="TopView"/>
-		<toolitem name="Left View" action="LeftView"/>
+		<toolitem name="Right View" action="RightView"/>
 		<separator/>
 		<toolitem name="Perspective" action="TogglePerspective"/>
 		<separator/>

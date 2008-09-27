@@ -96,7 +96,8 @@ namespace MonoWorks.Plotting
 					int nOther = 1 - n; // number of the other axes
 					int dim = axes[n].Dimension; // dimension of this axis
 					int dimOther = axes[nOther].Dimension; // dimension of the other axis
-					double tickStep = axes[n].WorldTickStep; // tick step in world coords
+					double firstTickStep = axes[n].FirstWorldTickStep; // first tick step in world coords
+					double tickStep = axes[n].WorldTickStep; // all other tick steps in world coords
 
 					// get the two points that transverse the axis
 					Vector currentPoint1 = Corner.Copy(); // one of the points moving along the axis
@@ -112,6 +113,9 @@ namespace MonoWorks.Plotting
 						travelSign = 1;
 					else // travel backwards
 						travelSign = -1;
+					
+					currentPoint1[dim] += travelSign*firstTickStep;
+					currentPoint2[dim] += travelSign*firstTickStep;
 					
 					// cycle through tick marks for this dimension
 					for (int t=0; t<axes[n].TickVals.Length; t++)
