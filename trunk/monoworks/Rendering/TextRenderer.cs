@@ -41,15 +41,21 @@ namespace MonoWorks.Rendering
 		{
 		}
 		
+		~TextRenderer()
+		{
+//			font.Dispose();
+		}
+		
 		/// <summary>
 		/// Constructor that takes the font size.
 		/// </summary>
 		/// <param name="size"> The font size. </param>
 		public TextRenderer(int size)
 		{
+			this.size = size;
 			font = GetFont(size);
 			color = new Color(0, 0, 0);
-			position = new Vector();
+			position = new Coord();
 			text = "";
 		}
 		
@@ -63,7 +69,32 @@ namespace MonoWorks.Rendering
 		public string Text
 		{
 			get {return text;}
-			set {text = value;}
+			set
+			{
+				if (size != 14)
+				{
+					// HACK - all but this size has a character offset, no idea why
+					char[] chars = value.ToCharArray();
+					text = "";
+					foreach (char c in chars)
+					{
+						char newC = (char)((int)c + 1);
+						text += newC;
+					}
+				}
+				else
+					text = value;
+			}
+		}
+		
+		
+		protected int size;
+		/// <value>
+		/// The font size.
+		/// </value>
+		public int Size
+		{
+			get {return size;}
 		}
 		
 		protected Color color;
@@ -76,14 +107,24 @@ namespace MonoWorks.Rendering
 			set {color = value;}
 		}
 		
-		protected Vector position;
+		protected Coord position;
 		/// <value>
 		/// The position of the text.
 		/// </value>
-		public Vector Position
+		public Coord Position
 		{
 			get {return position;}
 			set {position = value;}
+		}
+		
+		protected Angle angle = new Angle();
+		/// <value>
+		/// The angle from horizontal.
+		/// </value>
+		public Angle Angle
+		{
+			get {return angle;}
+			set {angle = value;}
 		}
 		
 #endregion
@@ -109,7 +150,7 @@ namespace MonoWorks.Rendering
 			{
 				int Errors = 0;
 				FTFont font = new FTFont("FreeSans.ttf", out Errors);
-				font.ftRenderToTexture(size, 192*4);
+				font.ftRenderToTexture(size, 92);
 				fonts[size] = font;
 				return font;
 			}
@@ -143,9 +184,13 @@ namespace MonoWorks.Rendering
 			gl.glMatrixMode(gl.GL_MODELVIEW);
 			gl.glPushMatrix();
 
+			gl.glTranslated(position.X, position.Y, 0);
+			
+			if (angle.Value != 0)
+				gl.glRotated(angle.Degrees, 0, 0, 1);
+			
 			font.ftBeginFont();
-			color.Setup();
-			gl.glTranslated(position[0], position[1], position[2]); 
+			color.Setup(); 
 			font.ftWrite(text);
 //			font.ftWrite("Hello");
 			font.ftEndFont();

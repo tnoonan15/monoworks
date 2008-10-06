@@ -268,6 +268,14 @@ namespace MonoWorks.Base
 				return Direction.North;
 			}
 		}
+		
+		/// <summary>
+		/// Creates a coord of unit length in the angle's direction.
+		/// </summary>
+		public Coord ToCoord()
+		{
+			return new Coord(Cos(), Sin());
+		}
 
 #endregion
 

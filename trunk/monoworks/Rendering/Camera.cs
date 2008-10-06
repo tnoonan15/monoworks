@@ -54,7 +54,7 @@ namespace MonoWorks.Rendering
 			
 			// set default field of view
 			fov = new Angle();
-			fov["deg"] = 30.0;
+			fov["deg"] = 28.0;
 			
 			// set default interaction factors
 			dollyFactor = 0.15;
@@ -187,14 +187,14 @@ namespace MonoWorks.Rendering
 			if (projection == Projection.Perspective)
 			{
 				// set the perspective projection matrix
-				glu.gluPerspective((float)fov["deg"], (float)width/(float)height, 0.1f, 20.0f);
+				glu.gluPerspective((float)fov["deg"], (float)width/(float)height, (float)(0.001*Distance), (float)(100*Distance));
 			}
 			else // parallel
 			{
 				// determine the size of the viewing box
 				double h = (fov*0.5).Tan() * Distance;
 				double ar = (double)width/(double)height;
-				gl.glOrtho(-ar*h, ar*h, -h, h, 0.1, 20);
+				gl.glOrtho(-ar*h, ar*h, -h, h, 0.001*Distance, 100*Distance);
 			}
 
 			//  store the projection matrix
@@ -328,13 +328,13 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		/// <param name="world"> A 3D vector in workd coordinates.</param>
 		/// <returns> The corresponding 2D screen coordinates.</returns>
-		public ScreenCoord WorldToScreen(Vector world)
+		public Coord WorldToScreen(Vector world)
 		{
 			double screenX, screenY, screenZ;
 			glu.gluProject(world[0], world[1], world[2],
 				modelMatrix, projectionMatrix, viewportSize,
 				out screenX, out screenY, out screenZ);
-			return new ScreenCoord((int)screenX, (int)screenY);
+			return new Coord((int)screenX, (int)screenY);
 		}
 		
 #endregion

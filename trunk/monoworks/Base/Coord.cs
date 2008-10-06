@@ -25,34 +25,34 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// Stores a pair of integer coordinates (representing a position on the screen).
 	/// </summary>
-	public struct ScreenCoord
+	public struct Coord
 	{
 		/// <summary>
 		/// Initialization constructor.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		public ScreenCoord(int x, int y)
+		public Coord(double x, double y)
 		{
-			this.x = x;
-			this.y = y;
+			X = x;
+			Y = y;
 		}
 
-		private int x;
+		private double x;
 		/// <summary>
 		/// The x coordinate.
 		/// </summary>
-		public int X
+		public double X
 		{
 			get { return x; }
 			set { x = value; }
 		}		
 
-		private int y;
+		private double y;
 		/// <summary>
 		/// The y coordinate.
 		/// </summary>
-		public int Y
+		public double Y
 		{
 			get { return y; }
 			set { y = value; }
@@ -62,6 +62,27 @@ namespace MonoWorks.Base
 		public override string ToString()
 		{
 			return String.Format("[{0}, {1}]", x, y);
+		}
+		
+		
+		public static Coord operator+(Coord lhs, Coord rhs)
+		{
+			return new Coord(lhs.X + rhs.X, lhs.Y + rhs.Y);
+		}
+		
+		public static Coord operator-(Coord lhs, Coord rhs)
+		{
+			return new Coord(lhs.X - rhs.X, lhs.Y - rhs.Y);
+		}
+		
+		public static Coord operator*(Coord lhs, double rhs)
+		{
+			return new Coord(lhs.X * rhs, lhs.Y * rhs);
+		}
+		
+		public static Coord operator/(Coord lhs, double rhs)
+		{
+			return new Coord(lhs.X / rhs, lhs.Y / rhs);
 		}
 
 	}

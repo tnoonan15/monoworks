@@ -72,7 +72,8 @@ namespace MonoWorks.Plotting
 			grids[2].Axes[0] = axes[0];
 			grids[2].Axes[1] = axes[2];
 			
-//			title = new TextRenderer();
+			title = new TextRenderer(32);
+			title.Alignment = ISE.FTFontAlign.FT_ALIGN_CENTERED;
 //			title.Text = "";
 		}
 
@@ -214,14 +215,47 @@ namespace MonoWorks.Plotting
 		protected List<Axis> axes = new List<Axis>();
 
 
+		protected string[] axisLabels = new string[3];
+		/// <value>
+		/// The axis labels.
+		/// </value>
+		public string[] AxisLabels
+		{
+			get {return axisLabels;}
+		}
+		
+		/// <summary>
+		/// Updates the axis labels based on the children.
+		/// </summary>
+		protected void UpdateAxisLabels()
+		{
+			foreach (Plottable plottable in children)
+			{
+				if (plottable is PointPlot)
+				{
+					for (int i=0; i<3; i++)
+					{
+						axisLabels[i] = (plottable as PointPlot).GetColumnName(i);
+					}
+				}
+			}
+		}
+
 		/// <summary>
 		/// Updates the axes based on plot bounds.
 		/// </summary>
 		protected void UpdateAxes()
 		{
+			UpdateAxisLabels();
+			
 			// generate the ticks
 			foreach (Axis axis in axes)
+			{
 				axis.GenerateTicks(axes.IndexOf(axis));
+				
+				// assign the axis label
+				axis.Label = axisLabels[axes.IndexOf(axis)];
+			}
 		}
 
 		/// <summary>
@@ -368,32 +402,58 @@ namespace MonoWorks.Plotting
 #region Title
 
 
-//		protected TextRenderer title = new TextRenderer(14);
-//		/// <summary>
-//		/// The title.
-//		/// </summary>
-//		public string Title
-//		{
-//			get { return title.Text; }
-//			set { title.Text = value; }
-//		}
+		protected TextRenderer title;
+		/// <summary>
+		/// The title.
+		/// </summary>
+		public string Title
+		{
+			get { return title.Text; }
+			set { title.Text = value; }
+		}
 
+		/// <summary>
+		/// Renders the title.
+		/// </summary>
+		protected void RenderTitle(IViewport viewport)
+		{
+			// determine the top and center of the bounds
+			double top = 0;
+			double left = 0;
+			double right = 0;
+			foreach (Vector corner in bounds.Corners)
+			{
+				Coord coord = viewport.Camera.WorldToScreen(corner);
+				if (Array.IndexOf(bounds.Corners, corner)==0) // the first one
+				{
+					top = coord.Y;
+					left = coord.X;
+					right = coord.X;
+				}
+				if (coord.Y > top)
+					top = coord.Y;
+				if (coord.X < left)
+					left = coord.X;
+				if (coord.X > right)
+					right = coord.X;
+			}
+			
+			title.Position = new Coord((left+right)/2, top + 64);
+			title.Text = "Blah Blah";
+			title.RenderOverlay(viewport);
+		}
 
 #endregion
 
 
 #region Rendering
-
-		public override void RenderOpaque(IViewport viewport)
-		{
-			base.RenderOpaque(viewport);
-
-			gl.glColor3b(0, 0, 0);
-			
-			// render the grids
-			UpdateGrids(viewport);
-			RenderGrids(viewport);
-			
+		
+		/// <summary>
+		/// Enables clipping for the content rendering.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		protected void EnableClipping(IViewport viewport)
+		{			
 			// define the clip planes
 			double[] eq = new double[]{1, 0, 0, bounds.Maxima[0]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE0, eq);
@@ -408,18 +468,62 @@ namespace MonoWorks.Plotting
 			eq = new double[]{0, 0, -1, -bounds.Minima[2]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE5, eq);
 			
-			// enable clipping
 			for (int i=0; i<6; i++)
 				gl.glEnable(gl.GL_CLIP_PLANE0 + i);
+			
+			// disable clipping for planes orthagonal to view direction
+			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			{
+				switch (viewport.Camera.LastDirection)
+				{
+				case ViewDirection.Front:
+				case ViewDirection.Back:
+					gl.glDisable(gl.GL_CLIP_PLANE2);
+					gl.glDisable(gl.GL_CLIP_PLANE3);
+					break;
+				case ViewDirection.Left:
+				case ViewDirection.Right:
+					gl.glDisable(gl.GL_CLIP_PLANE0);
+					gl.glDisable(gl.GL_CLIP_PLANE1);
+					break;
+				case ViewDirection.Top:
+				case ViewDirection.Bottom:
+					gl.glDisable(gl.GL_CLIP_PLANE4);
+					gl.glDisable(gl.GL_CLIP_PLANE5);
+					break;
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Disables clipping for the content rendering.
+		/// </summary>
+		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		protected void DisableClipping(IViewport viewport)
+		{
+			for (int i=0; i<6; i++)
+				gl.glDisable(gl.GL_CLIP_PLANE0 + i);
+		}
+
+		public override void RenderOpaque(IViewport viewport)
+		{
+			base.RenderOpaque(viewport);
+
+			gl.glColor3b(0, 0, 0);
+			
+			// render the grids
+			UpdateGrids(viewport);
+			RenderGrids(viewport);
+			
+			// enable clipping
+			EnableClipping(viewport);
 			
 			// render the children
 			foreach (Plottable child in children)
 				child.RenderOpaque(viewport);
 			
 			// disable clipping
-			for (int i=0; i<6; i++)
-				gl.glDisable(gl.GL_CLIP_PLANE0 + i);
-			
+			DisableClipping(viewport);
 		}
 
 		public override void RenderOverlay(IViewport viewport)
@@ -431,9 +535,7 @@ namespace MonoWorks.Plotting
 			RenderAxes(viewport);
 
 			// render the title
-//			title.Position = new Vector(300, 300, 0);
-//			title.Text = "Blah Blah";
-//			title.RenderOverlay(viewport);
+			RenderTitle(viewport);
 
 			// render the child overlays
 			foreach (Plottable child in children)

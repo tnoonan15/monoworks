@@ -121,6 +121,16 @@ namespace MonoWorks.Plotting
 		{
 			return dataSet.GetColumnName(this[column]);
 		}
+		
+		/// <summary>
+		/// Gets the name of the column with the given index.
+		/// </summary>
+		/// <param name="index"> </param>
+		/// <returns> The column name. </returns>
+		public string GetColumnName(int index)
+		{
+			return dataSet.GetColumnName(this[index]);
+		}
 
 #endregion
 		

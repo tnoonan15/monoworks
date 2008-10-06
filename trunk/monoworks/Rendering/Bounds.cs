@@ -559,9 +559,8 @@ namespace MonoWorks.Rendering
 		/// <returns> </returns>
 		public static double[] NiceRange(double min, double max)
 		{
-			return NiceRange(min, max, 7);
+			return NiceRange(min, max, 7, false);
 		}
-		
 		
 		/// <summary>
 		/// Generates a range of points that include min and max with
@@ -573,17 +572,51 @@ namespace MonoWorks.Rendering
 		/// <returns> </returns>
 		public static double[] NiceRange(double min, double max, double desiredNumSteps)
 		{
+			return NiceRange(min, max, desiredNumSteps, false);
+		}		
+		
+		/// <summary>
+		/// Generates a range of points that include min and max with
+		/// a step defined by NiceStep(min,max).
+		/// </summary>
+		/// <param name="min"> </param>
+		/// <param name="max"> </param>
+		/// <param name="truncate"> Set true to ensure that the range doesn't exceed the min/max.</param>
+		/// <returns> </returns>
+		public static double[] NiceRange(double min, double max, bool truncate)
+		{
+			return NiceRange(min, max, 7, truncate);
+		}		
+		
+		/// <summary>
+		/// Generates a range of points that include min and max with
+		/// a step defined by NiceStep(min,max).
+		/// </summary>
+		/// <param name="min"> </param>
+		/// <param name="max"> </param>
+		/// <param name="desiredNumSteps"> The desired number of steps in the range (will get within +/- 1).</param>
+		/// <param name="truncate"> Set true to ensure that the range doesn't exceed the min/max.</param>
+		/// <returns> </returns>
+		public static double[] NiceRange(double min, double max, double desiredNumSteps, bool truncate)
+		{
 			// determine the step and number of points
 			double step = NiceStep(min, max, desiredNumSteps);
-			int numVals = (int)Math.Floor((max-min) / step) + 1; // number of points
+			int numVals;
+			if (truncate)
+				numVals = (int)Math.Floor((max-min) / step) + 1; // number of points
+			else
+				numVals = (int)Math.Ceiling((max-min) / step) + 1; // number of points
 			double[] range = new double[numVals];
 			
 			// populate the range
-			range[0] = Math.Ceiling(min / step) * step;
+			if (truncate)
+				range[0] = Math.Ceiling(min / step) * step;
+			else
+				range[0] = Math.Floor(min / step) * step;
 			for (int i = 1; i < numVals; i++)
 				range[i] = range[i - 1] + step;
 			
-			if (range[numVals-1] > max) // there were too many points generated
+			if (truncate && range[numVals-1] > max) // there were too many points generated
 			{
 				double[] trimmedRange = new double[numVals-1];
 				Array.Copy(range, 0, trimmedRange, 0, numVals-1);
