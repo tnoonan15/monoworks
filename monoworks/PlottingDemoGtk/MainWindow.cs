@@ -49,10 +49,7 @@ namespace MonoWorks.PlottingDemoGtk
 			TestAxes axes = new TestAxes();
 			viewport.AddRenderable(axes);
 			
-			viewport.Camera.Center = new MonoWorks.Base.Vector(0, 0, 0);
-			viewport.Camera.Position = new MonoWorks.Base.Vector(7, 0, 0);
-			viewport.Camera.UpVector = new MonoWorks.Base.Vector(0, 0, 1);
-			viewport.Camera.RecomputeUpVector();
+			viewport.Camera.SetViewDirection(ViewDirection.Standard);
 			
 			
 			// add the control pane

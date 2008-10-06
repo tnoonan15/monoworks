@@ -40,6 +40,10 @@ namespace MonoWorks.Plotting
 			: base(parent)
 		{
 			tickLength = 8;
+			
+			label = new TextRenderer(18);
+			label.Text = "label";
+			label.Alignment = ISE.FTFontAlign.FT_ALIGN_CENTERED;
 		}
 
 
@@ -63,6 +67,22 @@ namespace MonoWorks.Plotting
 			set { stop = value; }
 		}
 
+		
+#region Label
+
+		protected TextRenderer label;
+		
+		/// <value>
+		/// The axis label.
+		/// </value>
+		public string Label
+		{
+			get {return label.Text;}
+			set {label.Text = value;}
+		}
+		
+#endregion
+		
 
 #region Ticks
 
@@ -121,7 +141,7 @@ namespace MonoWorks.Plotting
 			double max = parent.PlotBounds.Maxima[dim];
 			
 			// get the tick values
-			tickVals = Bounds.NiceRange(min, max);
+			tickVals = Bounds.NiceRange(min, max, true);
 
 			// store the tick labels
 			tickLabels = new TextRenderer[tickVals.Length];
@@ -198,18 +218,16 @@ namespace MonoWorks.Plotting
 			base.RenderOverlay(viewport);
 
 			// get the screen coordinates of the axis
-			ScreenCoord startCoord = viewport.Camera.WorldToScreen(start);
-			ScreenCoord stopCoord = viewport.Camera.WorldToScreen(stop);
+			Coord startCoord = viewport.Camera.WorldToScreen(start);
+			Coord stopCoord = viewport.Camera.WorldToScreen(stop);
 
 			// flip the coordinates around if they aren't in x order (this helps with drawing ticks)
 			if (startCoord.X > stopCoord.X)
 			{
-				ScreenCoord dummy = stopCoord;
+				Coord dummy = stopCoord;
 				stopCoord = startCoord;
 				startCoord = dummy;
 			}
-
-			gl.glBegin(gl.GL_LINES);
 
 			// the main axis line
 			// RIGHT NOW, THIS IS COLLIDING WITH THE GRID AND LOOKS FUNNY
@@ -257,33 +275,42 @@ namespace MonoWorks.Plotting
 
 			// compute tick position
 			ComputeTickPositions();
+			
+			// render the axis label
+			double labelOffset = 64;
+			Coord labelPos = (startCoord + stopCoord) / 2;
+			label.Position = labelPos + tickAngle.ToCoord() * labelOffset;
+			if (label.Text.Length > 4)
+				label.Angle = Angle.Pi() / 2;
+			else
+				label.Angle = new Angle();
+			label.RenderOverlay(viewport);
 
 			// update tick alignment
 			ISE.FTFontAlign newAlignment = ISE.FTFontAlign.FT_ALIGN_CENTERED;
 			//if (tickAngle 
 
-			// the ticks
+			// render the ticks
+			gl.glBegin(gl.GL_LINES);
 			for (int i = 0; i < tickPositions.Length; i++)
 			{
 				startCoord = viewport.Camera.WorldToScreen(tickPositions[i]);
 				gl.glVertex2d(startCoord.X, startCoord.Y); // the point where the tick intersects the axis
 				gl.glVertex2d(startCoord.X + tickLength * tickAngle.Cos(), startCoord.Y + tickLength * tickAngle.Sin()); //the other point 
 
-
-
 				// store the label position
-				tickLabels[i].Position[0] = startCoord.X + 2 * tickLength * tickAngle.Cos();
-				tickLabels[i].Position[1] = startCoord.Y + 2 * tickLength * tickAngle.Sin();
+				tickLabels[i].Position = startCoord + tickAngle.ToCoord() * 3 * tickLength;
 			}
 
 			gl.glEnd();
 
-			// render the labels
+			// render the tick labels
 			for (int i = 0; i < tickPositions.Length; i++)
 			{
 				tickLabels[i].Alignment = newAlignment;
 				tickLabels[i].RenderOverlay(viewport);
 			}
+			
 		}
 	
 
