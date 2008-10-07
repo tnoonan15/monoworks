@@ -27,7 +27,12 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// The viewing mode of the viewport.
 	/// </summary>
-	public enum ViewMode {TwoD, ThreeD};
+	public enum ViewMode { TwoD, ThreeD };
+
+	/// <summary>
+	/// General delegate for update events with no arguments.
+	/// </summary>
+	public delegate void UpdateHandler();
 	
 	/// <summary>
 	/// The IViewport interface defines an interface for MonoWorks viewports. 
@@ -58,11 +63,21 @@ namespace MonoWorks.Rendering
 		{
 			get;
 		}
+
+		/// <summary>
+		/// Makes the viewport's context the current one.
+		/// </summary>
+		void MakeCurrent();
 		
 		/// <summary>
 		/// Initializes the rendering.
 		/// </summary>
 		void InitializeGL();
+
+		/// <summary>
+		/// Called when the viewport is resized.
+		/// </summary>
+		void ResizeGL();
 		
 		/// <summary>
 		/// Performs the rendering for one frame.
@@ -80,7 +95,7 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The interaction state.
 		/// </value>
-		InteractionStateBase InteractionState
+		InteractionState InteractionState
 		{
 			get;
 		}
@@ -111,13 +126,22 @@ namespace MonoWorks.Rendering
 		Bounds Bounds {get;}
 		
 		/// <summary>
-		/// Lets the renderables know that the viewport has been resized.
-		/// </summary>
-		void OnResized();
-		
-		/// <summary>
 		/// Lets the renderables know that the view direction has been changed.
 		/// </summary>
 		void OnDirectionChanged();
+
+		/// <summary>
+		/// Renders text to the viewport.
+		/// </summary>
+		/// <param name="size"></param>
+		/// <returns></returns>
+		void RenderText(TextDef text);
+
+		/// <summary>
+		/// Renders lots of text to the viewport.
+		/// </summary>
+		/// <param name="size"></param>
+		/// <returns></returns>
+		void RenderText(TextDef[] text);
 	}
 }

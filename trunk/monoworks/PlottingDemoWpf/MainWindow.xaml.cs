@@ -18,28 +18,25 @@ namespace MonoWorks.PlottingDemoWpf
 		{
 			InitializeComponent();
 
-			// add the viewport
-			tooledViewport = new TooledViewport(ViewportUsage.Plotting);
-			viewport = tooledViewport.Viewport;
-			dockPanel.Children.Add(tooledViewport);
+			TabControl book = new TabControl();
+			dockPanel.Children.Add(book);
 
-			viewport.Camera.Center = new MonoWorks.Base.Vector(0, 0, 0);
-			viewport.Camera.Position = new MonoWorks.Base.Vector(7, 0, 0);
-			viewport.Camera.UpVector = new MonoWorks.Base.Vector(0, 0, 1);
-			viewport.Camera.RecomputeUpVector();
+			// create the basic 3D tab
+			Pane3D pane3d = new Pane3D();
+			TabItem item3d = new TabItem();
+			item3d.Header = "Basic 3D";
+			item3d.Content = pane3d;
+			book.Items.Add(item3d);
 
-			// add the test axes
-			TestAxes axes = new TestAxes();
-			viewport.AddRenderable(axes);
 
+			// create the basic 2D tab
+			Pane2D pane2d = new Pane2D();
+			TabItem item2d = new TabItem();
+			item2d.Header = "Basic 2D";
+			item2d.Content = pane2d;
+			book.Items.Add(item2d);
 		}
 
-
-		protected TooledViewport tooledViewport;
-
-		protected Viewport viewport;
-
-		protected ArrayDataSet arrayData;
 
 	}
 }

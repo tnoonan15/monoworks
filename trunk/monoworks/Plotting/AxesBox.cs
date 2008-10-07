@@ -71,9 +71,9 @@ namespace MonoWorks.Plotting
 			grids[1].Axes[1] = axes[2];
 			grids[2].Axes[0] = axes[0];
 			grids[2].Axes[1] = axes[2];
-			
-			title = new TextRenderer(32);
-			title.Alignment = ISE.FTFontAlign.FT_ALIGN_CENTERED;
+
+			title = new TextDef(16);
+			title.HorizontalAlignment = HorizontalAlignment.Center;
 //			title.Text = "";
 		}
 
@@ -402,7 +402,7 @@ namespace MonoWorks.Plotting
 #region Title
 
 
-		protected TextRenderer title;
+		protected TextDef title;
 		/// <summary>
 		/// The title.
 		/// </summary>
@@ -438,9 +438,9 @@ namespace MonoWorks.Plotting
 					right = coord.X;
 			}
 			
-			title.Position = new Coord((left+right)/2, top + 64);
+			title.Position = new Coord((left+right)/2, top + 32);
 			title.Text = "Blah Blah";
-			title.RenderOverlay(viewport);
+			viewport.RenderText(title);
 		}
 
 #endregion

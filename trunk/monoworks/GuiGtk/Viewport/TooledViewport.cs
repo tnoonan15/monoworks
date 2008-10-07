@@ -278,6 +278,11 @@ namespace MonoWorks.GuiGtk
 				viewport.Camera.Projection = Projection.Parallel;
 				viewport.Camera.SetViewDirection(ViewDirection.Front);
 			}
+			else if (viewport.InteractionState.Mode == InteractionMode.Select2D) // transitioning out of 2D
+			{
+				viewport.Camera.Projection = Projection.Perspective;
+				viewport.Camera.SetViewDirection(ViewDirection.Standard);				
+			}
 			viewport.InteractionState.Mode = mode;
 			viewport.OnResized();
 			viewport.PaintGL();

@@ -28,121 +28,53 @@ using MonoWorks.Base;
 
 namespace MonoWorks.Rendering
 {
+	/// <summary>
+	/// Possible values for horizontal text alignment.
+	/// </summary>
+	public enum HorizontalAlignment {Left = FTFontAlign.FT_ALIGN_LEFT, 
+									Right = FTFontAlign.FT_ALIGN_RIGHT,
+									Center = FTFontAlign.FT_ALIGN_CENTERED};
+
+	/// <summary>
+	/// Possible values for vertical text alignment.
+	/// </summary>
+	public enum VerticalAlignment {Top, Bottom, Middle};
 	
 	/// <summary>
 	/// Class for rendering text as an overlay.
 	/// </summary>
 	public class TextRenderer
-	{
+	{	
+		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public TextRenderer() : this(16)
+		/// <remarks> there should be one of these for every viewport.</remarks>
+		public TextRenderer()
 		{
 		}
-		
-		~TextRenderer()
-		{
-//			font.Dispose();
-		}
-		
-		/// <summary>
-		/// Constructor that takes the font size.
-		/// </summary>
-		/// <param name="size"> The font size. </param>
-		public TextRenderer(int size)
-		{
-			this.size = size;
-			font = GetFont(size);
-			color = new Color(0, 0, 0);
-			position = new Coord();
-			text = "";
-		}
-		
-		
-#region Attributes
-
-		protected string text;
-		/// <value>
-		/// The text to render.
-		/// </value>
-		public string Text
-		{
-			get {return text;}
-			set
-			{
-				if (size != 14)
-				{
-					// HACK - all but this size has a character offset, no idea why
-					char[] chars = value.ToCharArray();
-					text = "";
-					foreach (char c in chars)
-					{
-						char newC = (char)((int)c + 1);
-						text += newC;
-					}
-				}
-				else
-					text = value;
-			}
-		}
-		
-		
-		protected int size;
-		/// <value>
-		/// The font size.
-		/// </value>
-		public int Size
-		{
-			get {return size;}
-		}
-		
-		protected Color color;
-		/// <value>
-		/// The text color.
-		/// </value>
-		public Color Color
-		{
-			get {return color;}
-			set {color = value;}
-		}
-		
-		protected Coord position;
-		/// <value>
-		/// The position of the text.
-		/// </value>
-		public Coord Position
-		{
-			get {return position;}
-			set {position = value;}
-		}
-		
-		protected Angle angle = new Angle();
-		/// <value>
-		/// The angle from horizontal.
-		/// </value>
-		public Angle Angle
-		{
-			get {return angle;}
-			set {angle = value;}
-		}
-		
-#endregion
-		
+			
 
 #region The Font
 		
+				
+		/// <value>
+		/// The font for this renderer.
+		/// </value>
+		protected FTFont font = null;
+
+
 		/// <summary>
 		/// Fonts used by the application.
 		/// </summary>
-		protected static Dictionary<int,FTFont> fonts = new Dictionary<int,FTFont>();
-		
+		protected Dictionary<int, FTFont> fonts = new Dictionary<int, FTFont>();
+
 		/// <summary>
 		/// Gets the font for a given size.
 		/// </summary>
 		/// <param name="size"> The font size. </param>
 		/// <returns> A <see cref="FTFont"/>. </returns>
-		protected static FTFont GetFont(int size)
+		protected FTFont GetFont(int size)
 		{
 			if (fonts.ContainsKey(size))
 				return fonts[size];
@@ -155,50 +87,48 @@ namespace MonoWorks.Rendering
 				return font;
 			}
 		}
-				
-		/// <value>
-		/// The font for this renderer.
-		/// </value>
-		protected FTFont font;
-
-		/// <value>
-		/// The font alignment.
-		/// </value>
-		public FTFontAlign Alignment
-		{
-			get {return font.FT_ALIGN;}
-			set
-			{
-				font.FT_ALIGN = value;
-			}
-		}		
 		
 #endregion
-		
+
+
+#region Rendering
+
 		/// <summary>
-		/// Renders the text to the viewport.
+		/// Renders a single piece of text.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public void RenderOverlay(IViewport viewport)
+		/// <param name="text"></param>
+		public void Render(TextDef text)
 		{
 			gl.glMatrixMode(gl.GL_MODELVIEW);
 			gl.glPushMatrix();
 
-			gl.glTranslated(position.X, position.Y, 0);
-			
-			if (angle.Value != 0)
-				gl.glRotated(angle.Degrees, 0, 0, 1);
-			
+			gl.glTranslated(text.Position.X, text.Position.Y, 0);
+
+			if (text.Angle.Value != 0)
+				gl.glRotated(text.Angle.Degrees, 0, 0, 1);
+
+			FTFont font = GetFont(text.Size);
 			font.ftBeginFont();
-			color.Setup(); 
-			font.ftWrite(text);
-//			font.ftWrite("Hello");
+			text.Color.Setup();
+			font.ftWrite(text.Text);
 			font.ftEndFont();
 
 			gl.glMatrixMode(gl.GL_MODELVIEW);
 			gl.glPopMatrix();
 		}
-		
-		
+
+		/// <summary>
+		/// Renders many pieces of text.
+		/// </summary>
+		public void Render(TextDef[] text)
+		{
+			foreach (TextDef text_ in text)
+				Render(text_);
+		}
+
+
+#endregion
+
+
 	}
 }

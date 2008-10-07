@@ -34,8 +34,8 @@ namespace MonoWorks.Base
 		/// <param name="y"></param>
 		public Coord(double x, double y)
 		{
-			X = x;
-			Y = y;
+			this.x = x;
+			this.y = y;
 		}
 
 		private double x;

@@ -60,6 +60,10 @@
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plotting\Plotting.csproj">
+      <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>
+      <Name>Plotting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
@@ -77,6 +81,9 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -103,11 +110,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="DocFrame.xaml.cs">
       <DependentUpon>DocFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlotControls\PointPlotPane.cs" />
     <Compile Include="Tree\TreeView.cs" />
-    <Compile Include="Viewport\InteractionState.cs" />
     <Compile Include="Viewport\TooledViewport.cs" />
     <Compile Include="Viewport\Viewport.cs">
       <SubType>UserControl</SubType>

@@ -124,13 +124,6 @@ namespace MonoWorks.GuiGtk
 			get {return lighting;}
 		}
 		
-		protected void OnResize(object sender, EventArgs args)
-		{
-			OnResized();
-			if (IsRealized)
-				PaintGL();
-		}
-
 		
 		
 #region Renderable Registry
@@ -194,6 +187,36 @@ namespace MonoWorks.GuiGtk
 				renderable.OnViewDirectionChanged(this);
 		}
 		
+#endregion
+
+
+#region Text Renderering
+
+		/// <summary>
+		/// Renders text to the viewport.
+		/// </summary>
+		protected TextRenderer textRenderer = new TextRenderer();
+
+		/// <summary>
+		/// Renders text to the viewport.
+		/// </summary>
+		/// <param name="size"></param>
+		/// <returns></returns>
+		public void RenderText(TextDef text)
+		{
+			textRenderer.Render(text);
+		}
+
+		/// <summary>
+		/// Renders lots of text to the viewport.
+		/// </summary>
+		/// <param name="size"></param>
+		/// <returns></returns>
+		public void RenderText(TextDef[] text)
+		{
+			textRenderer.Render(text);
+		}
+
 #endregion
 		
 		

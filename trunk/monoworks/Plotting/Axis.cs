@@ -41,9 +41,9 @@ namespace MonoWorks.Plotting
 		{
 			tickLength = 8;
 			
-			label = new TextRenderer(18);
+			label = new TextDef(14);
 			label.Text = "label";
-			label.Alignment = ISE.FTFontAlign.FT_ALIGN_CENTERED;
+			label.HorizontalAlignment = HorizontalAlignment.Center;
 		}
 
 
@@ -70,7 +70,7 @@ namespace MonoWorks.Plotting
 		
 #region Label
 
-		protected TextRenderer label;
+		protected TextDef label;
 		
 		/// <value>
 		/// The axis label.
@@ -106,11 +106,11 @@ namespace MonoWorks.Plotting
 			get { return tickVals; }
 		}
 
-		protected TextRenderer[] tickLabels;
+		protected TextDef[] tickLabels;
 		/// <summary>
 		/// The labels on the ticks.
 		/// </summary>
-		public TextRenderer[] TickLabels
+		public TextDef[] TickLabels
 		{
 			get { return tickLabels; }
 		}
@@ -144,10 +144,10 @@ namespace MonoWorks.Plotting
 			tickVals = Bounds.NiceRange(min, max, true);
 
 			// store the tick labels
-			tickLabels = new TextRenderer[tickVals.Length];
+			tickLabels = new TextDef[tickVals.Length];
 			for (int i = 0; i < tickVals.Length; i++)
 			{
-				tickLabels[i] = new TextRenderer(14);
+				tickLabels[i] = new TextDef(14);
 				tickLabels[i].Text = String.Format("{0:0.###}", tickVals[i]);
 			}
 		}
@@ -284,10 +284,10 @@ namespace MonoWorks.Plotting
 				label.Angle = Angle.Pi() / 2;
 			else
 				label.Angle = new Angle();
-			label.RenderOverlay(viewport);
+			viewport.RenderText(label);
 
 			// update tick alignment
-			ISE.FTFontAlign newAlignment = ISE.FTFontAlign.FT_ALIGN_CENTERED;
+			HorizontalAlignment newAlignment = HorizontalAlignment.Center;
 			//if (tickAngle 
 
 			// render the ticks
@@ -306,10 +306,8 @@ namespace MonoWorks.Plotting
 
 			// render the tick labels
 			for (int i = 0; i < tickPositions.Length; i++)
-			{
-				tickLabels[i].Alignment = newAlignment;
-				tickLabels[i].RenderOverlay(viewport);
-			}
+				tickLabels[i].HorizontalAlignment = newAlignment;
+			viewport.RenderText(tickLabels);
 			
 		}
 	
