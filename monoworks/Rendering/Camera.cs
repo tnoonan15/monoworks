@@ -241,11 +241,27 @@ namespace MonoWorks.Rendering
 		/// The model-view matrix.
 		/// </summary>
 		protected double[] modelMatrix = new double[16];
-
+		
 		/// <summary>
 		/// The stored size of the viewport.
 		/// </summary>
 		protected int[] viewportSize = new int[4];
+
+		/// <summary>
+		/// The stored viewport width.
+		/// </summary>
+		public int ViewportWidth
+		{
+			get { return viewportSize[2]; }
+		}
+
+		/// <summary>
+		/// The stored viewport height.
+		/// </summary>
+		public int ViewportHeight
+		{
+			get { return viewportSize[3]; }
+		}
 
 		/// <summary>
 		/// Places the camera in it's position of the next drawing operation.
@@ -402,6 +418,15 @@ namespace MonoWorks.Rendering
 			get {return panFactor;}
 			set {panFactor = value;}
 		}
+
+		/// <summary>
+		/// Pans by diff.
+		/// </summary>
+		/// <param name="diff"></param>
+		public void Pan(Coord diff)
+		{
+			Pan(diff.X, diff.Y);
+		}
 		
 		/// <summary>
 		/// Pans the camera by the given deltas.
@@ -460,7 +485,16 @@ namespace MonoWorks.Rendering
 		
 		
 #region Rotating
-		
+
+		/// <summary>
+		/// Rotate by diff.
+		/// </summary>
+		/// <param name="diff"></param>
+		public void Rotate(Coord diff)
+		{
+			Rotate(diff.X, diff.Y);
+		}
+
 		/// <summary>
 		/// Rotate the camera by the given deltas.
 		/// </summary>

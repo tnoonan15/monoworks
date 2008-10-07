@@ -49,7 +49,7 @@ namespace MonoWorks.Plotting
 		public PointPlot(AxesBox parent)
 			: base(parent)
 		{
-			color = new MonoWorks.Rendering.Color(0F, 0F, 1F);
+			color = ColorManager.Global["Blue"];
 		}
 
 

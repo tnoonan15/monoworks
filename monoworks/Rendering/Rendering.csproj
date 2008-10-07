@@ -60,13 +60,14 @@
     <Compile Include="Color.cs" />
     <Compile Include="ColorManager.cs" />
     <Compile Include="ColorMap.cs" />
-    <Compile Include="InteractionStateBase.cs" />
+    <Compile Include="InteractionState.cs" />
     <Compile Include="IViewport.cs" />
     <Compile Include="Lighting.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Renderable.cs" />
     <Compile Include="RenderManager.cs" />
     <Compile Include="RubberBand.cs" />
+    <Compile Include="TextDef.cs" />
     <Compile Include="TextRenderer.cs" />
     <Compile Include="Transform.cs" />
   </ItemGroup>

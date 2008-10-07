@@ -33,13 +33,16 @@ namespace MonoWorks.GuiWpf
 			host.Child = viewport;
 			dockPanel.Children.Add(host);
 			DockPanel.SetDock(host, Dock.Left | Dock.Right | Dock.Bottom);
+
+
+			UpdateToolbar();
 		}
 
 
 		private DockPanel dockPanel;
 
 
-		#region The Viewport
+#region The Viewport
 
 		protected Viewport viewport;
 		/// <summary>
@@ -67,41 +70,54 @@ namespace MonoWorks.GuiWpf
 			viewport.ResizeGL();
 		}
 
-		#endregion
+#endregion
 
 
-		#region Icons
+#region Icons
 
-		protected static Dictionary<string, Image> icons = null;
+		protected static Dictionary<string, ImageSource> iconSources = null;
 
 		/// <summary>
 		/// Loads the icons from the resources.
 		/// </summary>
 		protected static void LoadIcons()
 		{
-			if (icons == null)
+			if (iconSources == null)
 			{
-				icons = new Dictionary<string, Image>();
+				iconSources = new Dictionary<string, ImageSource>();
 				Assembly asm = Assembly.GetExecutingAssembly();
 				foreach (string name in asm.GetManifestResourceNames())
 				{
 					if (name.EndsWith("png"))
 					{
 						string[] comps = name.Split('.');
-						Image image = new Image();
 						PngBitmapDecoder decoder = new PngBitmapDecoder(asm.GetManifestResourceStream(name), 
 							BitmapCreateOptions.DelayCreation, BitmapCacheOption.Default);
-						image.Source = decoder.Frames[0];
-						icons[comps[comps.Length - 2]] = image;
+						iconSources[comps[comps.Length - 2]] = decoder.Frames[0];
 					}
 				}
 			}
 		}
 
-		#endregion
+
+		/// <summary>
+		/// Renders an icon to an Image.
+		/// </summary>
+		/// <param name="iconName"> The name of the icon.</param>
+		/// <returns></returns>
+		public Image RenderIcon(string iconName)
+		{
+			if (!iconSources.ContainsKey(iconName))
+				throw new Exception("There is no icon called " + iconName);
+			Image image = new Image();
+			image.Source = iconSources[iconName];
+			return image;
+		}
+
+#endregion
 
 
-		#region The Toolbar
+#region The Toolbar
 
 
 		protected ToolBar toolbar;
@@ -129,51 +145,81 @@ namespace MonoWorks.GuiWpf
 			toolbar.Items.Add(new Separator());
 
 			// add the perspective button
-			ToggleButton button = new ToggleButton();
-			button.Content = icons["perspective"];
-			button.IsChecked = true;
-			button.Click += OnToggleProjection;
-			toolbar.Items.Add(button);
+			projectionButton = new ToggleButton();
+			projectionButton.Content = RenderIcon("perspective");
+			projectionButton.Click += OnToggleProjection;
+			toolbar.Items.Add(projectionButton);
 			toolbar.Items.Add(new Separator());
 
 			// add the 2D and 3D buttons
 			RadioButton radio = new RadioButton();
-			radio.Content = icons["2d"];
+			radio.Content = RenderIcon("2d");
 			radio.Click += delegate(object sender, RoutedEventArgs args)
 			{ OnSetInteractionMode(InteractionMode.Select2D); };
 			toolbar.Items.Add(radio);
+			interactionModeButtons[InteractionMode.Select2D] = radio;
+
 			radio = new RadioButton();
-			radio.Content = icons["3dSelect"];
+			radio.Content = RenderIcon("3dSelect");
 			radio.Click += delegate(object sender, RoutedEventArgs args)
 			{ OnSetInteractionMode(InteractionMode.Select3D); };
 			toolbar.Items.Add(radio);
+			interactionModeButtons[InteractionMode.Select3D] = radio;
+
 			radio = new RadioButton();
-			radio.Content = icons["3dInteract"];
-			radio.IsChecked = true;
+			radio.Content = RenderIcon("3dInteract");
 			radio.Click += delegate(object sender, RoutedEventArgs args)
 			{ OnSetInteractionMode(InteractionMode.View3D); };
 			toolbar.Items.Add(radio);
+			interactionModeButtons[InteractionMode.View3D] = radio;
 
 			toolbar.Height = 32;
 			dockPanel.Children.Add(toolbar);
 			DockPanel.SetDock(toolbar, Dock.Top);
-			
 		}
 
 		private void AddDirectionButton(ViewDirection direction)
 		{
 			Button button = new Button();
-			button.Content = icons[direction.ToString().ToLower() + "-view"];
+			button.Content = RenderIcon(direction.ToString().ToLower() + "-view");
 			button.ToolTip = direction.ToString() + " view";
 			button.Click += delegate(object sender, RoutedEventArgs args)
 			{ OnChangeViewDirection(direction); };
 			toolbar.Items.Add(button);
 		}
 
-		#endregion
+
+		ToggleButton projectionButton;
+
+		Dictionary<InteractionMode, RadioButton> interactionModeButtons = new Dictionary<InteractionMode, RadioButton>();
+
+		/// <summary>
+		/// True if the toolbar is being updated by an external source.
+		/// </summary>
+		protected bool externalUpdate = false;
+
+		/// <summary>
+		/// Updates the toolbar with the state of the viewport.
+		/// </summary>
+		protected void UpdateToolbar()
+		{
+			externalUpdate = true;
+
+			projectionButton.IsChecked = viewport.Camera.Projection == Projection.Perspective;
+
+			foreach (InteractionMode mode in interactionModeButtons.Keys)
+			{
+				if (mode == viewport.InteractionState.Mode)
+					interactionModeButtons[mode].IsChecked = true;
+			}
+
+			externalUpdate = false;
+		}
+
+#endregion
 
 
-		#region Actions
+#region Actions
 
 		/// <summary>
 		/// Handles changing the view direction of the camera.
@@ -181,8 +227,12 @@ namespace MonoWorks.GuiWpf
 		/// <param name="direction"></param>
 		protected void OnChangeViewDirection(ViewDirection direction)
 		{
-			viewport.Camera.SetViewDirection(direction);
-			viewport.PaintGL();
+			if (!externalUpdate)
+			{
+				viewport.Camera.SetViewDirection(direction);
+				viewport.PaintGL();
+				UpdateToolbar();
+			}
 		}
 
 		/// <summary>
@@ -192,8 +242,12 @@ namespace MonoWorks.GuiWpf
 		/// <param name="args"></param>
 		protected void OnToggleProjection(object sender, RoutedEventArgs args)
 		{
-			viewport.Camera.ToggleProjection();
-			viewport.PaintGL();
+			if (!externalUpdate)
+			{
+				viewport.Camera.ToggleProjection();
+				viewport.PaintGL();
+				UpdateToolbar();
+			}
 		}
 
 		/// <summary>
@@ -202,11 +256,27 @@ namespace MonoWorks.GuiWpf
 		/// <param name="mode"></param>
 		protected void OnSetInteractionMode(InteractionMode mode)
 		{
-			viewport.InteractionState.Mode = mode;
-			viewport.PaintGL();
+			if (!externalUpdate)
+			{
+				if (mode == InteractionMode.Select2D) // force to front parallel for 2D viewing
+				{
+					viewport.Camera.Projection = Projection.Parallel;
+					viewport.Camera.SetViewDirection(ViewDirection.Front);
+				}
+				else if (viewport.InteractionState.Mode == InteractionMode.Select2D) // transitioning out of 2D
+				{
+					viewport.Camera.Projection = Projection.Perspective;
+					viewport.Camera.SetViewDirection(ViewDirection.Standard);
+				}
+
+				viewport.InteractionState.Mode = mode;
+				viewport.ResizeGL();
+				viewport.PaintGL();
+				UpdateToolbar();
+			}
 		}
 
-		#endregion
+#endregion
 
 	}
 }
