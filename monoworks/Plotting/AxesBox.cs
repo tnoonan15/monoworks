@@ -127,7 +127,7 @@ namespace MonoWorks.Plotting
 			
 			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
 			{
-				double edgeFactor = 0.32 * viewport.Camera.ViewportToWorldScaling;
+				double edgeFactor = 0.35 * viewport.Camera.ViewportToWorldScaling;
 				Vector center = viewport.Camera.Center;
 //				Console.WriteLine("edge scaling: {0}, center: {1}, width: {2}, height: {3}", edgeFactor, center, viewport.WidthGL, viewport.HeightGL);
 				switch (viewport.Camera.LastDirection)

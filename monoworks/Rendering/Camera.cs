@@ -59,6 +59,8 @@ namespace MonoWorks.Rendering
 			// set default interaction factors
 			dollyFactor = 0.15;
 			panFactor = 0.05;
+			
+			lastDirection = ViewDirection.Front;
 		}
 		
 

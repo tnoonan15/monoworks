@@ -1,4 +1,4 @@
-﻿// TestAxes.cs - MonoWorks Project
+﻿// TestAxes3D.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -23,14 +23,14 @@ using System.Collections.Generic;
 namespace MonoWorks.Plotting
 {
 	/// <summary>
-	/// The axes used in the plotting demos.
+	/// The axes used in the 3D plotting demos.
 	/// </summary>
-	public class TestAxes : AxesBox
+	public class TestAxes3D : AxesBox
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public TestAxes()
+		public TestAxes3D()
 			: base()
 		{
 
