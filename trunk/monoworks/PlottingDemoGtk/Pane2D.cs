@@ -1,4 +1,4 @@
-// ControlPane.cs - MonoWorks Project
+// Pane2D.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -17,55 +17,51 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-using System.Collections.Generic;
 
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
+using MonoWorks.GuiGtk;
 
-namespace MonoWorks.GuiGtk
+namespace MonoWorks.PlottingDemoGtk
 {
-		
-	/// <summary>
-	/// Delegate for handling state changed events for custom controls.
-	/// </summary>
-	public delegate void ControlChangedHandler();
 	
 	/// <summary>
-	/// Pane that contains controls for the 
+	/// Pane that contains the 3D portion of the plotting demo.
 	/// </summary>
-	public class PlotPane : Gtk.VBox
+	public class Pane2D : Gtk.HBox
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public PlotPane(TestAxes3D axes) : base()
-		{
-			testAxes = axes;
+		
+		public Pane2D()
+		{			
+			// add the viewport
+			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
+			PackEnd(tooledViewport);
+			viewport = tooledViewport.Viewport;
+			TestAxes2D axes = new TestAxes2D();
+			viewport.AddRenderable(axes);
 			
-			// create the point plot pane
-			PointPlotPane pointPane = new PointPlotPane(axes.PointPlot);
-			PackStart(pointPane, false, true, 6);
-			pointPane.ControlChanged += OnControlChanged;
+			viewport.Camera.Projection = Projection.Parallel;
+			viewport.InteractionState.Mode = InteractionMode.Select2D;
+			viewport.Camera.SetViewDirection(ViewDirection.Front);
+			
+			
+			// add the control pane
+//			PlotPane controlPane = new PlotPane(axes);
+//			PackStart(controlPane, false, true, 6);
+//			controlPane.ControlChanged += OnControlChanged;
 		}
 		
 		/// <summary>
-		/// The test axes.
+		/// The viewport.
 		/// </summary>
-		protected TestAxes3D testAxes;
-		
+		protected Viewport viewport;
 		
 		/// <summary>
-		/// Gets called when the state of any of the child controls has changed.
-		/// </summary>
-		public event ControlChangedHandler ControlChanged;
-		
-		/// <summary>
-		/// Handler for state changed events from the child controls.
+		/// Handler for state changed events from the control pane.
 		/// </summary>
 		protected void OnControlChanged()
 		{
-			ControlChanged();
+			viewport.PaintGL();
 		}
-		
 	}
 }

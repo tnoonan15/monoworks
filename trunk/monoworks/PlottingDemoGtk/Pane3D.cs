@@ -1,4 +1,4 @@
-// MainWindow.cs - MonoWorks Project
+// Pane3D.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -26,47 +26,41 @@ namespace MonoWorks.PlottingDemoGtk
 {
 	
 	/// <summary>
-	/// Main window for the Gtk port of the plotting demo.
+	/// Pane that contains the 3D portion of the plotting demo.
 	/// </summary>
-	public class MainWindow : Gtk.Window
+	public class Pane3D : Gtk.HBox
 	{
+		
+		public Pane3D()
+		{			
+			// add the viewport
+			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting);
+			PackEnd(tooledViewport);
+			viewport = tooledViewport.Viewport;
+			TestAxes3D axes = new TestAxes3D();
+			viewport.AddRenderable(axes);
+			
+			viewport.Camera.SetViewDirection(ViewDirection.Standard);
+			
+			
+			// add the control pane
+			PlotPane controlPane = new PlotPane(axes);
+			PackStart(controlPane, false, true, 6);
+			controlPane.ControlChanged += OnControlChanged;
+		}
+		
 		/// <summary>
-		/// Default constructor.
+		/// The viewport.
 		/// </summary>
-		public MainWindow() : base(Gtk.WindowType.Toplevel)
+		protected Viewport viewport;
+		
+		/// <summary>
+		/// Handler for state changed events from the control pane.
+		/// </summary>
+		protected void OnControlChanged()
 		{
-			Title = "MonoWorks Plotting Demo";
-			
-			DeleteEvent += OnDeleteEvent;
-			
-			// create the notebook
-			book = new Gtk.Notebook();
-			Add(book);
-			book.ChangeCurrentPage += OnPageChanged;
-			
-			// create the 2D page
-			Pane2D pane2D = new Pane2D();
-			book.AppendPage(pane2D, new Gtk.Label("Basic 2D"));
-			
-			// create the 3D page
-			Pane3D pane3D = new Pane3D();
-			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
-			
-			ShowAll();
+			viewport.PaintGL();
 		}
-		
-		Gtk.Notebook book;
-		
-		protected void OnDeleteEvent(object sender, Gtk.DeleteEventArgs args)
-		{
-			args.RetVal = true;
-			Gtk.Application.Quit();
-		}
-		
-		protected void OnPageChanged(object sender, Gtk.ChangeCurrentPageArgs args)
-		{
-			book.CurrentPageWidget.QueueDraw();
-		}
-		
 	}
+	
 }

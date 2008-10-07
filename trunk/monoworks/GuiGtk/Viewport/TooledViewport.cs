@@ -38,22 +38,30 @@ namespace MonoWorks.GuiGtk
 		public TooledViewport() : this (ViewportUsage.CAD)
 		{
 		}
-		
+				
 		/// <summary>
 		/// Constructor that initializes usage.
 		/// </summary>
 		/// <param name="usage"> A <see cref="ViewportUsage"/>. </param>
-		public TooledViewport(ViewportUsage usage)
+		public TooledViewport(ViewportUsage usage) : this(usage, true)
 		{
+		}
+				
+		/// <summary>
+		/// Constructor that initializes usage and whether to show toolbar.
+		/// </summary>
+		public TooledViewport(ViewportUsage usage, bool showToolbar)
+		{			
 			this.usage = usage;
 			viewport = new Viewport();
 			PackEnd(viewport, true, true, 0);
 			
 			LoadIcons();
 			
-			GenerateToolbar();
+			if (showToolbar)
+				GenerateToolbar();
 			
-			ShowAll();
+//			ShowAll();
 		}
 		
 		

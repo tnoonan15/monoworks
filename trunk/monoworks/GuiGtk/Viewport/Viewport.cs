@@ -80,7 +80,7 @@ namespace MonoWorks.GuiGtk
 			Realized += OnRealized;
 			SizeAllocated += OnSizeAllocated;
 			ConfigureEvent += OnConfigure;			
-			SizeAllocated += OnResize;
+//			SizeAllocated += OnResize;
 
 			// initialize the render manager
 			renderManager = new RenderManager();		
@@ -180,6 +180,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void OnResized()
 		{
+			Console.WriteLine("on viewport resized");
 			foreach (Renderable renderable in renderables)
 				renderable.OnViewportResized(this);
 		}
@@ -350,8 +351,13 @@ namespace MonoWorks.GuiGtk
 		/// Called when the viewport is resized.
 		/// </summary>
 		void OnSizeAllocated (object o, Gtk.SizeAllocatedArgs e)
-		{			
+		{		
+			if( !IsRealized || MakeCurrent() == 0)
+				return;	
 			camera.Configure();
+			Console.WriteLine("on viewport resized");
+			foreach (Renderable renderable in renderables)
+				renderable.OnViewportResized(this);
 		}
 		
 		/// <summary>
