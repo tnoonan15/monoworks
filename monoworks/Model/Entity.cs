@@ -488,35 +488,6 @@ namespace MonoWorks.Model
 #endregion
 		
 		
-#region Selection
-		
-		protected bool isSelected;
-		/// <value>
-		/// Whether the entity is selected.
-		/// </value>
-		public bool IsSelected
-		{
-			get {return isSelected;}
-			set {isSelected = value;}
-		}
-		
-#endregion
-		
-		
-#region Hit Test
-		
-		/// <summary>
-		/// Performs a hit test with two vectors lying on a 3D line.
-		/// </summary>
-		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
-		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
-		/// <returns> True if the entity was hit. </returns>
-		public virtual bool HitTest(Vector v1, Vector v2)
-		{
-			return bounds.HitTest(v1, v2);
-		}
-		
-#endregion
 		
 	}
 }

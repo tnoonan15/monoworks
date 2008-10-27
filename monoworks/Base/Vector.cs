@@ -75,7 +75,34 @@ namespace MonoWorks.Base
 					throw new Exception("index is out of bounds!");	
 				val[index] = value;
 			}
-		}		
+		}
+
+		/// <summary>
+		/// The value in the x dimension.
+		/// </summary>
+		public double X
+		{
+			get { return val[0]; }
+			set { val[0] = value; }
+		}
+
+		/// <summary>
+		/// The value in the y dimension.
+		/// </summary>
+		public double Y
+		{
+			get { return val[1]; }
+			set { val[1] = value; }
+		}
+
+		/// <summary>
+		/// The value in the z dimension.
+		/// </summary>
+		public double Z
+		{
+			get { return val[2]; }
+			set { val[2] = value; }
+		}
 
 		/// <value>
 		/// The index of the dimension with the largest value.
@@ -246,6 +273,16 @@ namespace MonoWorks.Base
 		}
 		
 		/// <summary>
+		/// Keeps the smallest value in each dimension.
+		/// </summary>
+		public void KeepMinima(double x, double y, double z)
+		{
+			val[0] = Math.Min(val[0], x);
+			val[1] = Math.Min(val[1], y);
+			val[2] = Math.Min(val[1], z);
+		}
+		
+		/// <summary>
 		/// Keeps the largest value in each dimension.
 		/// </summary>
 		/// <param name="other"> Another <see cref="Vector"/>. </param>
@@ -253,6 +290,16 @@ namespace MonoWorks.Base
 		{
 			for (int i=0; i<3; i++)
 				val[i] = Math.Max( val[i], other[i]);
+		}
+
+		/// <summary>
+		/// Keeps the largest value in each dimension.
+		/// </summary>
+		public void KeepMaxima(double x, double y, double z)
+		{
+			val[0] = Math.Max(val[0], x);
+			val[1] = Math.Max(val[1], y);
+			val[2] = Math.Max(val[1], z);
 		}
 		
 #endregion

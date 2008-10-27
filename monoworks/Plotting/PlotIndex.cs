@@ -17,6 +17,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MonoWorks.Plotting
 {
@@ -24,7 +26,7 @@ namespace MonoWorks.Plotting
 	/// <summary>
 	/// Represents the indices of something to plot.
 	/// </summary>
-	public class PlotIndex
+	public class PlotIndex : IEnumerable<int>
 	{
 		/// <summary>
 		/// Initialization constructor.
@@ -129,6 +131,21 @@ namespace MonoWorks.Plotting
 				return numOn;
 			}
 		}
+
+		/// <summary>
+		/// The first index that's set, or -1 if none are set.
+		/// </summary>
+		public int First
+		{
+			get
+			{
+				foreach (int i in this)
+				{
+					return i;
+				}
+				return -1;
+			}
+		}
 		
 #endregion
 		
@@ -175,7 +192,71 @@ namespace MonoWorks.Plotting
 		}
 		
 #endregion
-		
-		
+
+
+
+#region IEnumerable Members
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerator<int> GetEnumerator()
+		{
+			return new PlotIndexEnum(this);
+		}
+
+#endregion
+
 	}
+
+
+	/// <summary>
+	/// Enumerator for the PlotIndex.
+	/// </summary>
+	public class PlotIndexEnum : IEnumerator<int>
+	{
+
+		public PlotIndexEnum(PlotIndex plotIndex)
+		{
+			this.plotIndex = plotIndex;
+		}
+
+		private PlotIndex plotIndex;
+
+		private int currentRow = -1;
+
+		public int Current
+		{
+			get { return currentRow; }
+		}
+
+		public void Dispose()
+		{
+			//throw new NotImplementedException();
+		}
+
+		object System.Collections.IEnumerator.Current
+		{
+			get { return Current; }
+		}
+
+		public bool MoveNext()
+		{
+			do
+				currentRow++;
+			while (currentRow < plotIndex.Size && !plotIndex[currentRow]);
+			if (currentRow < plotIndex.Size)
+				return true;
+			return false;
+		}
+
+		public void Reset()
+		{
+			currentRow = -1;
+		}
+
+	}
+
 }

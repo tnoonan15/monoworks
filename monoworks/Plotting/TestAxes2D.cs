@@ -36,7 +36,7 @@ namespace MonoWorks.Plotting
 
 			// make the array data set
 			arrayData = new ArrayDataSet(1024*1, 4);
-			double dt = 0.02; // time step
+			double dt = 0.01; // time step
 			for (int r = 0; r < arrayData.NumRows; r++)
 			{
 				double t = r * dt;
@@ -56,12 +56,15 @@ namespace MonoWorks.Plotting
 			pointPlot1.DataSet = arrayData;
 			pointPlot1.Columns[2] = 1;
 			pointPlot1.Shape = PlotShape.Square;
+			pointPlot1.LineVisible = true;
 			
 			// add a plot
 			pointPlot2 = new PointPlot(this);
 			pointPlot2.DataSet = arrayData;
 			pointPlot2.Shape = PlotShape.Circle;
 			pointPlot2.Color = new Color(0, 1f, 0);
+			pointPlot2.LineVisible = true;
+			pointPlot2.LineWidth = 1;
 		}
 
 

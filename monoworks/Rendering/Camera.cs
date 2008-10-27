@@ -310,15 +310,6 @@ namespace MonoWorks.Rendering
 
 		}
 
-		/// <summary>
-		/// Resets the camera to the default position.
-		/// </summary>
-		public virtual void Reset()
-		{
-			pos = new Vector(0.0, 0.0, 7.0);
-			center = new Vector(0.0, 0.0, 0.0);
-			upVec = new Vector(0.0, 1.0, 0.0);
-		}		
 		
 		/// <summary>
 		/// Recomputes the up vector to ensure it is orthographic to the viewing direction.
@@ -329,16 +320,19 @@ namespace MonoWorks.Rendering
 			Vector lateral = direction.Cross( upVec);
 			upVec = lateral.Cross( direction);
 		}		
-		
+
+
+#endregion
+
+
+#region Transformations
+
 		/// <value>
 		/// The scaling from the viewport to world coordinates.
 		/// </value>
 		public double ViewportToWorldScaling
 		{
-			get
-			{
-				return 2 * (fov / 2).Tan() * Math.Abs(Distance)/ Height;
-			}
+			get	{return 2 * (fov / 2).Tan() * Math.Abs(Distance)/ Height;}
 		}
 
 		/// <summary>
@@ -348,11 +342,51 @@ namespace MonoWorks.Rendering
 		/// <returns> The corresponding 2D screen coordinates.</returns>
 		public Coord WorldToScreen(Vector world)
 		{
+			return WorldToScreen(world.X, world.Y, world.Z);
+		}
+
+
+		public Coord WorldToScreen(double x, double y, double z)
+		{
 			double screenX, screenY, screenZ;
-			glu.gluProject(world[0], world[1], world[2],
+			glu.gluProject(x, y, z,
 				modelMatrix, projectionMatrix, viewportSize,
 				out screenX, out screenY, out screenZ);
+			if (screenX == Double.NaN || screenY == Double.NaN)
+				return new Coord(0, 0);
 			return new Coord((int)screenX, (int)screenY);
+		}
+
+
+		/// <summary>
+		/// Unprojects the screen coordinate into a world space hit line.
+		/// </summary>
+		public HitLine ScreenToWorld(Coord screen)
+		{
+			HitLine hitLine = new HitLine();
+			hitLine.Front = ScreenToWorld(screen, false);
+			hitLine.Back = ScreenToWorld(screen, true);
+			hitLine.Camera = this;
+			hitLine.Screen = new Coord(screen.X, ViewportHeight - screen.Y);
+			return hitLine;
+		}
+
+		/// <summary>
+		/// Unprojects the screen coordinate into world space.
+		/// </summary>
+		/// <param name="screen"></param>
+		/// <param name="farPlane"> Whether to project on to the far plane.</param>
+		/// <returns></returns>
+		public Vector ScreenToWorld(Coord screen, bool farPlane)
+		{
+			double x, y, z;
+			double screenZ = 0;
+			if (farPlane)
+				screenZ = 1;
+			glu.gluUnProject(screen.X, screen.Y, screenZ, 
+				modelMatrix, projectionMatrix, viewportSize, 
+				out x, out y, out z);
+			return new Vector(x, y, z);
 		}
 		
 #endregion
@@ -581,6 +615,7 @@ namespace MonoWorks.Rendering
 			
 			// determine the distance needed to view all renderables
 			double dist = bounds.MaxWidth / (fov * 0.5).Tan();
+			Console.WriteLine("camera max width: {0}", bounds.MaxWidth);
 			
 			centerOut = bounds.Center;
 			Vector travel;
@@ -613,7 +648,7 @@ namespace MonoWorks.Rendering
 			default:
 				travel = new Vector(1, 1, 0.5);
 				travel.Normalize();
-				dist = 0.7 * dist;
+				dist = 0.8 * dist;
 				upVecOut = new Vector(0, 0, 1);
 				break;
 			}
@@ -626,8 +661,10 @@ namespace MonoWorks.Rendering
 		public void SetViewDirection(ViewDirection direction)
 		{
 			lastDirection = direction;
+			viewport.ResetBounds();
 			GetDirectionVectors(direction, out center, out pos, out upVec);
 			RecomputeUpVector();
+			viewport.ResizeGL();
 			viewport.OnDirectionChanged();
 		}
 		

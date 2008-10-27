@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 using gl = Tao.OpenGl.Gl;
@@ -36,11 +37,16 @@ namespace MonoWorks.Plotting
 	/// Possible shapes for plots.
 	/// </summary>
 	public enum PlotShape {Circle, Square};
+
+	/// <summary>
+	/// The line style.
+	/// </summary>
+	public enum LineStyle { Solid, Dashed, Dotted };
 	
 	/// <summary>
 	/// Plots a set of points from an ArrayDataSet.
 	/// </summary>
-	public class PointPlot : Plottable
+	public class PointPlot : AbstractPlot
 	{
 		/// <summary>
 		/// Default constructor.
@@ -50,6 +56,7 @@ namespace MonoWorks.Plotting
 			: base(parent)
 		{
 			color = ColorManager.Global["Blue"];
+			DefaultColumns();
 		}
 
 
@@ -63,6 +70,9 @@ namespace MonoWorks.Plotting
 			set
 			{
 				dataSet = value;
+				selectedIndex = new PlotIndex(dataSet.NumRows);
+				selectedIndex.SetAll(false);
+				DefaultColumns();
 				MakeDirty();
 			}
 		}
@@ -70,7 +80,12 @@ namespace MonoWorks.Plotting
 
 #region The Column Indices
 
-		protected int[] columns = new int[]{0, 1, 2, -1, -1, -1};
+		public void DefaultColumns()
+		{
+			columns = new int[] { 0, 1, 2, -1, -1, -1 };
+		}
+
+		protected int[] columns;
 		/// <summary>
 		/// The indices of the columns to plot.
 		/// </summary>
@@ -178,7 +193,21 @@ namespace MonoWorks.Plotting
 				MakeDirty();
 			}
 		}
-		
+
+		protected bool markersVisible = true;
+		/// <summary>
+		/// Whether or not to draw the markers.
+		/// </summary>
+		public bool MarkersVisible
+		{
+			get { return markersVisible; }
+			set
+			{
+				markersVisible = value;
+				MakeDirty();
+			}
+		}
+
 		
 		protected static float[] possibleMarkerSizes = new float[]{2, 4, 6};
 		/// <value>
@@ -188,6 +217,51 @@ namespace MonoWorks.Plotting
 		{
 			get {return possibleMarkerSizes;}
 		}
+
+
+		protected float lineWidth = 2;
+		/// <summary>
+		/// The width of the line, in pixels.
+		/// </summary>
+		public float LineWidth
+		{
+			get { return lineWidth; }
+			set
+			{
+				lineWidth = value;
+				MakeDirty();
+			}
+		}
+
+		protected LineStyle lineStyle;
+		/// <summary>
+		/// The line style.
+		/// </summary>
+		public LineStyle LineStyle
+		{
+			get { return lineStyle; }
+			set
+			{
+				lineStyle = value;
+				MakeDirty();
+			}
+		}
+
+
+		protected bool lineVisible = false;
+		/// <summary>
+		/// Whether or not to draw a line between the points.
+		/// </summary>
+		public bool LineVisible
+		{
+			get { return lineVisible; }
+			set
+			{
+				lineVisible = value;
+				MakeDirty();
+			}
+		}
+
 		
 #endregion
 
@@ -201,21 +275,29 @@ namespace MonoWorks.Plotting
 		{
 			base.UpdateBounds();
 
-			Vector minima = new Vector();
-			Vector maxima = new Vector();
-			for (int i = 0; i < 3; i++)
+			if (dataSet == null)
 			{
-				if (columns[i] < 0 || columns[i] >= dataSet.NumColumns)
-					throw new Exception(String.Format("Index {0} is out of range", columns[i]));
-
-				double min, max;
-				dataSet.ColumnMinMax(columns[i], out min, out max);
-				minima[i] = min;
-				maxima[i] = max;
+				plotBounds.Minima = new Vector(-1, -1, -1);
+				plotBounds.Maxima = new Vector(1, 1, 1);
 			}
-			plotBounds.Minima = minima;
-			plotBounds.Maxima = maxima;
+			else // there's some data there
+			{
 
+				Vector minima = new Vector();
+				Vector maxima = new Vector();
+				for (int i = 0; i < 3; i++)
+				{
+					if (columns[i] < 0 || columns[i] >= dataSet.NumColumns)
+						throw new Exception(String.Format("Index {0} is out of range", columns[i]));
+
+					double min, max;
+					dataSet.ColumnMinMax(columns[i], out min, out max);
+					minima[i] = min;
+					maxima[i] = max;
+				}
+				plotBounds.Minima = minima;
+				plotBounds.Maxima = maxima;
+			}
 		}
 
 
@@ -225,6 +307,8 @@ namespace MonoWorks.Plotting
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
+
+			bounds.Reset();
 			
 			// generate the colors			
 			double[] colorRange; // the range of values that the colors correspond to
@@ -315,7 +399,6 @@ namespace MonoWorks.Plotting
 					
 					// begin the rendering
 					gl.glPointSize(sizes[sizeI]); // set the size
-					gl.glBegin(gl.GL_POINTS);
 			
 					for (int colorI=0; colorI<colors.Length; colorI++) // cycle through colors
 					{				
@@ -324,16 +407,36 @@ namespace MonoWorks.Plotting
 							colorIndex = dataSet.GetColumnIndex(this[ColumnIndex.Color], colorRange[colorI], colorRange[colorI+1]);
 
 						colors[colorI].Setup();
-						
+
 						PlotIndex thisIndex = dataSet.DisplayIndex.Copy();
 						thisIndex.Intersect(colorIndex); // apply the color index
 						thisIndex.Intersect(shapeIndex); // apply the shape index
 						thisIndex.Intersect(sizeIndex); // apply the size index
-						
+
 						// plot the points for this color/shape/size
-						for (int r = 0; r < dataSet.NumRows; r++ )
+						if (markersVisible)
+							gl.glBegin(gl.GL_POINTS);
+						foreach (int r in thisIndex)
 						{
-							if (thisIndex[r])
+							double x, y, z;
+							x = dataSet[r, columns[0]];
+							y = dataSet[r, columns[1]];
+							z = dataSet[r, columns[2]];
+							parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+							if (markersVisible)
+								gl.glVertex3d(x, y, z);
+							bounds.Resize(x, y, z);
+						}
+						if (markersVisible)
+							gl.glEnd();
+
+
+						// plot the line for this color/shape/size
+						if (lineVisible)
+						{
+							gl.glLineWidth(lineWidth);
+							gl.glBegin(gl.GL_LINE_STRIP);
+							foreach (int r in thisIndex)
 							{
 								double x, y, z;
 								x = dataSet[r, columns[0]];
@@ -342,10 +445,12 @@ namespace MonoWorks.Plotting
 								parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 								gl.glVertex3d(x, y, z);
 							}
+							gl.glEnd();
+							gl.glLineWidth(1);
 						}
+
 					} // colorI
 					
-					gl.glEnd();
 						
 				} // sizeI
 				
@@ -361,7 +466,118 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOpaque(viewport);
 
+			if (!visible)
+				return;
+
 			CallDisplayList();
+
+			// render the selection highlight
+			gl.glPointSize(12);
+			color.Inverse.Setup();
+			gl.glBegin(gl.GL_POINTS);
+			foreach (int r in selectedIndex)
+			{
+
+				double x, y, z;
+				x = dataSet[r, columns[0]];
+				y = dataSet[r, columns[1]];
+				z = dataSet[r, columns[2]];
+				parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+				gl.glVertex3d(x, y, z);
+			}
+			gl.glEnd();
+		}
+
+
+		public override void RenderOverlay(IViewport viewport)
+		{
+			base.RenderOverlay(viewport);
+		}
+
+#endregion
+
+
+#region Hitting and Selection
+
+
+		protected PlotIndex selectedIndex;
+		/// <summary>
+		/// The indices of the selected points.
+		/// </summary>
+		public PlotIndex SelectedIndex
+		{
+			get { return selectedIndex; }
+		}
+
+		public override void Deselect()
+		{
+			base.Deselect();
+
+			SelectedIndex.AllOff();
+		}
+
+		public override bool HitTest(HitLine hitLine)
+		{
+			if (!base.HitTest(hitLine))
+				return false;
+
+			// project each point on to the screen and find the shortest distance
+			//Coord[] coords = new Coord[dataSet.DisplayIndex.NumOn];
+			//int i=0;
+			int closestIndex = -1;
+			double shortestDistance = -1;
+			foreach (int r in dataSet.DisplayIndex)
+			{
+				double x = dataSet[r, columns[0]];
+				double y = dataSet[r, columns[1]];
+				double z = dataSet[r, columns[2]];
+				parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+				//coords[i] = hitLine.Camera.WorldToScreen(x, y, z);
+				Coord coord = hitLine.Camera.WorldToScreen(x, y, z);
+
+				// compute the distance
+				double dist = (coord - hitLine.Screen).MagnitudeSquared;
+				if (closestIndex < 0 || dist < shortestDistance)
+				{
+					closestIndex = r;
+					shortestDistance = dist;
+				}
+			}
+
+			// determine if one was selected
+			double tol = 8;
+			//Console.WriteLine("shorted distance {0} at index {1}", Math.Sqrt(shortestDistance), closestIndex);
+			if (shortestDistance < tol * tol)
+			{
+				selectedIndex[closestIndex] = true;
+				isSelected = true;
+				return true;
+			}
+
+
+			return false;
+		}
+
+
+		public override string SelectionDescription
+		{
+			get
+			{
+				// determine which index is selected
+				int r = selectedIndex.First;
+				if (r < 0)
+					return "";
+
+				StringBuilder desc = new StringBuilder();
+				for (int c=0; c<dataSet.NumColumns; c++)
+				{
+					desc.Append(dataSet.GetColumnName(c));
+					desc.Append(": " );
+					desc.Append(dataSet[r, c]);
+					desc.AppendLine("");
+				}
+				return desc.ToString();
+			}
 		}
 
 #endregion

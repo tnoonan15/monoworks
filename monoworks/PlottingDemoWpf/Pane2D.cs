@@ -30,46 +30,27 @@ using MonoWorks.GuiWpf.PlotControls;
 namespace MonoWorks.PlottingDemoWpf
 {
 	/// <summary>
-	/// Contains the 3D portion of the plotting demo.
+	/// Contains the 2D portion of the plotting demo.
 	/// </summary>
-	public class Pane2D : DockPanel
+	public class Pane2D : PaneBase
 	{
 
 		public Pane2D()
 			: base()
 		{
-			// create the viewport
-			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting);
-			viewport = tooledViewport.Viewport;
-
 			// create the axes
 			TestAxes2D axes = new TestAxes2D();
-
-			// add the control pane
-			//PointPlotPane controlPane = new PointPlotPane(axes.PointPlot);
-			//controlPane.ControlUpdated += new UpdateHandler(OnControlUpdated);
-
-			// stack the widgets
-			//Children.Add(controlPane);
-			//DockPanel.SetDock(controlPane, Dock.Left);
-			Children.Add(tooledViewport);
-			DockPanel.SetDock(tooledViewport, Dock.Right);
 
 			// add the test axes
 			viewport.AddRenderable(axes);
 			viewport.Camera.Projection = Projection.Parallel;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
 			viewport.InteractionState.Mode = InteractionMode.Select2D;
+
+			tooledViewport.UpdateToolbar();
+
+			DockViewport();
 		}
 
-		/// <summary>
-		/// Repaint the viewport after a control is updated.
-		/// </summary>
-		void OnControlUpdated()
-		{
-			viewport.PaintGL();
-		}
-
-		protected Viewport viewport;
 	}
 }

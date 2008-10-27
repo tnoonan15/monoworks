@@ -114,7 +114,9 @@
     <Compile Include="DocFrame.xaml.cs">
       <DependentUpon>DocFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlotControls\PointPlotPane.cs" />
+    <Compile Include="PlotControls\AxesControl.cs" />
+    <Compile Include="PlotControls\AxisControl.cs" />
+    <Compile Include="PlotControls\PointPlotControl.cs" />
     <Compile Include="Tree\TreeView.cs" />
     <Compile Include="Viewport\TooledViewport.cs" />
     <Compile Include="Viewport\Viewport.cs">
@@ -155,5 +157,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Viewport\icons\3dInteract.png" />
     <EmbeddedResource Include="Viewport\icons\3dSelect.png" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y "$(TargetPath)" "%25HOMEDRIVE%25%25HOMEPATH%25\clr\"</PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\icons\export.png" />
   </ItemGroup>
 </Project>

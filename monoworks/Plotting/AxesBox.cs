@@ -63,8 +63,11 @@ namespace MonoWorks.Plotting
 			Arrangement = AxesArrangement.Outside;
 			
 			// make the grids
-			for (int i=0; i<grids.Length; i++)
-				grids[i] = new Grid(this);			
+			for (int i = 0; i < grids.Length; i++)
+			{
+				axes[i] = new Axis(this);
+				grids[i] = new Grid(this);
+			}
 			grids[0].Axes[0] = axes[0];
 			grids[0].Axes[1] = axes[1];
 			grids[1].Axes[0] = axes[1];
@@ -72,8 +75,8 @@ namespace MonoWorks.Plotting
 			grids[2].Axes[0] = axes[0];
 			grids[2].Axes[1] = axes[2];
 
-			title = new TextDef(16);
-			title.HorizontalAlignment = HorizontalAlignment.Center;
+			titleDef = new TextDef(16);
+			titleDef.HorizontalAlignment = HorizontalAlignment.Center;
 //			title.Text = "";
 		}
 
@@ -81,10 +84,14 @@ namespace MonoWorks.Plotting
 
 #region Children
 
-		/// <summary>
-		/// The children being plotted on this axes.
-		/// </summary>
-		protected List<Plottable> children = new List<Plottable>();
+        protected List<Plottable> children = new List<Plottable>();
+        /// <summary>
+        /// The children being plotted on this axes.
+        /// </summary>
+        public IEnumerable<Plottable> Children
+        {
+            get { return children; }
+        }
 
 		/// <summary>
 		/// Adds a plottable as a child.
@@ -92,9 +99,9 @@ namespace MonoWorks.Plotting
 		/// <param name="plottable"> A <see cref="Plottable"/>. </param>
 		public void AddChild(Plottable plottable)
 		{
-			if (plottable is Axis)
-				axes.Add(plottable as Axis);
-			else
+			//if (plottable is Axis)
+			//    axes.Add(plottable as Axis);
+			//else
 				children.Add(plottable);
 			plottable.Parent = this;
 		}
@@ -105,9 +112,9 @@ namespace MonoWorks.Plotting
 		/// <param name="plottable"> A <see cref="Plottable"/> that is a child of the axes. </param>
 		public void RemoveChild(Plottable plottable)
 		{
-			if (plottable is Axis)
-				axes.Remove(plottable as Axis);
-			else
+			//if (plottable is Axis)
+			//    axes.Remove(plottable as Axis);
+			//else
 				children.Remove(plottable);
 			plottable.Parent = null;
 		}
@@ -117,13 +124,17 @@ namespace MonoWorks.Plotting
 
 #region Resizing
 
+		public override void ResetBounds()
+		{
+
+			bounds.Minima = new Vector(-1, -1, -1);
+			bounds.Maxima = new Vector(1, 1, 1);
+		}
+
 		
 		public override void OnViewportResized(IViewport viewport)
 		{
 			base.OnViewportResized(viewport);
-			
-			bounds.Minima = new Vector(-1, -1, -1);
-			bounds.Maxima = new Vector(1, 1, 1);
 			
 			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
 			{
@@ -155,7 +166,9 @@ namespace MonoWorks.Plotting
 					break;
 				}
 			}
-			
+
+			foreach (Grid grid in grids)
+				grid.MakeDirty();
 			MakeDirty();
 		}
 
@@ -186,13 +199,7 @@ namespace MonoWorks.Plotting
 			set
 			{
 				arrangement = value;
-
-				// regenerate the axes
-				int numAxes = 3;
-				axes.Clear();
-				axes.Capacity = numAxes;
-				for (int n = 0; n < numAxes; n++)
-					new Axis(this);
+				MakeDirty();
 			}
 		}
 
@@ -209,13 +216,17 @@ namespace MonoWorks.Plotting
 		}
 
 
+		protected Axis[] axes = new Axis[3];
 		/// <summary>
 		/// The individual axes.
 		/// </summary>
-		protected List<Axis> axes = new List<Axis>();
+		public Axis[] Axes
+		{
+			get { return axes; }
+		}
 
 
-		protected string[] axisLabels = new string[3];
+		protected string[] axisLabels = new string[]{"","",""};
 		/// <value>
 		/// The axis labels.
 		/// </value>
@@ -251,10 +262,10 @@ namespace MonoWorks.Plotting
 			// generate the ticks
 			foreach (Axis axis in axes)
 			{
-				axis.GenerateTicks(axes.IndexOf(axis));
+				axis.GenerateTicks(Array.IndexOf(axes, axis));
 				
 				// assign the axis label
-				axis.Label = axisLabels[axes.IndexOf(axis)];
+				axis.Label = axisLabels[Array.IndexOf(axes, axis)];
 			}
 		}
 
@@ -264,31 +275,6 @@ namespace MonoWorks.Plotting
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
 		protected void RenderAxes(IViewport viewport)
 		{
-			// update the positions
-			switch (arrangement)
-			{
-			case AxesArrangement.Origin: // the axes should be placed at the lowest end of each range
-				axes[0].Start = bounds.Minima;
-				axes[1].Start = axes[0].Start;
-				axes[2].Start = axes[0].Start;
-				axes[0].Stop = new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]);
-				axes[1].Stop = new Vector(bounds.Minima[0], bounds.Maxima[1], bounds.Minima[2]);
-				axes[2].Stop = new Vector(bounds.Minima[0], bounds.Minima[1], bounds.Maxima[2]);
-				break;
-
-			case AxesArrangement.Outside: // the axes should be placed along the oustide of the viewable area
-				Vector[] edges = bounds.GetOutsideEdges(viewport);
-				for (int i = 0; i < 3; i++)
-				{
-					axes[i].Start = edges[2 * i];
-					axes[i].Stop = edges[2 * i + 1];
-					axes[i].DirtyTicks();
-				}
-				break;
-
-			default:
-				throw new Exception(String.Format("arrangement {0} not supported", arrangement));
-			}
 
 			// perform the rendering
 			foreach (Axis axis in axes)
@@ -299,11 +285,25 @@ namespace MonoWorks.Plotting
 
 		
 #region Grids
-		
+
 		/// <value>
 		/// The grids.
 		/// </value>
 		protected Grid[] grids = new Grid[3];
+
+		/// <summary>
+		/// Whether the grids are visible.
+		/// </summary>
+		public bool GridVisible
+		{
+			get { return grids[0].Visible; }
+			set 
+			{
+				foreach (Grid grid in grids)
+					grid.Visible = value;
+			}
+		}
+
 		
 		/// <summary>
 		/// The furthest corner of the bounding box from the camera.
@@ -329,7 +329,33 @@ namespace MonoWorks.Plotting
 		/// Render the grids.
 		/// </summary>
 		protected void RenderGrids(IViewport viewport)
-		{			
+		{
+			// update axes the positions
+			switch (arrangement)
+			{
+			case AxesArrangement.Origin: // the axes should be placed at the lowest end of each range
+				axes[0].Start = bounds.Minima;
+				axes[1].Start = axes[0].Start;
+				axes[2].Start = axes[0].Start;
+				axes[0].Stop = new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]);
+				axes[1].Stop = new Vector(bounds.Minima[0], bounds.Maxima[1], bounds.Minima[2]);
+				axes[2].Stop = new Vector(bounds.Minima[0], bounds.Minima[1], bounds.Maxima[2]);
+				break;
+
+			case AxesArrangement.Outside: // the axes should be placed along the oustide of the viewable area
+				Vector[] edges = bounds.GetOutsideEdges(viewport);
+				for (int i = 0; i < 3; i++)
+				{
+					axes[i].Start = edges[2 * i];
+					axes[i].Stop = edges[2 * i + 1];
+					axes[i].DirtyTicks();
+				}
+				break;
+
+			default:
+				throw new Exception(String.Format("arrangement {0} not supported", arrangement));
+			}
+
 			// render them
 			foreach (Grid grid in grids)
 				grid.RenderOpaque(viewport);
@@ -356,8 +382,15 @@ namespace MonoWorks.Plotting
 		{
 			base.ComputeGeometry();
 
+			// count the plots
+			int childCount = 0;
+			foreach (Plottable child in Children)
+			{
+				if (child is AbstractPlot)
+					childCount++;
+			}
 
-			if (children.Count > 0)
+			if (childCount > 0)
 			{
 
 				// get the new plot bounds if automatically sized
@@ -373,23 +406,28 @@ namespace MonoWorks.Plotting
 
 					// make the plot bounds pretty
 					plotBounds.Prettify();
+
+					// ensure all dimensions have non-zero span
+					plotBounds.EnsureNonZeroRanges();
 				}
 
-				if (plotBounds.IsSet) // only proceed if the plot bounds are set
-				{					
-					// compute the plot-render transformation
-					plotToWorldSpace.Compute(plotBounds, bounds);
+			}
+			else // no plot children
+			{
+				plotBounds.Minima = new Vector(-1, -1, -1);
+				plotBounds.Maxima = new Vector(1, 1, 1);
+			}
 
-					// udpate the axes
-					UpdateAxes();
+			// compute the plot-render transformation
+			plotToWorldSpace.Compute(plotBounds, bounds);
 
-					// force the children to recompute their geometry
-					foreach (Plottable child in children)
-					{
-						child.ComputeGeometry();
-					}
-				}
+			// udpate the axes
+			UpdateAxes();
 
+			// force the children to recompute their geometry
+			foreach (Plottable child in children)
+			{
+				child.ComputeGeometry();
 			}
 
 
@@ -402,14 +440,14 @@ namespace MonoWorks.Plotting
 #region Title
 
 
-		protected TextDef title;
+		protected TextDef titleDef;
 		/// <summary>
 		/// The title.
 		/// </summary>
-		public string Title
+		public override string Title
 		{
-			get { return title.Text; }
-			set { title.Text = value; }
+			get { return titleDef.Text; }
+			set { titleDef.Text = value; }
 		}
 
 		/// <summary>
@@ -438,9 +476,8 @@ namespace MonoWorks.Plotting
 					right = coord.X;
 			}
 			
-			title.Position = new Coord((left+right)/2, top + 32);
-			title.Text = "Blah Blah";
-			viewport.RenderText(title);
+			titleDef.Position = new Coord((left+right)/2, top + 32);
+			viewport.RenderText(titleDef);
 		}
 
 #endregion
@@ -509,6 +546,9 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOpaque(viewport);
 
+			if (!visible)
+				return;
+
 			gl.glColor3b(0, 0, 0);
 			
 			// render the grids
@@ -530,6 +570,8 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOverlay(viewport);
 
+			if (!visible)
+				return;
 
 			// render the axes
 			RenderAxes(viewport);
@@ -579,6 +621,87 @@ namespace MonoWorks.Plotting
 		}
 
 
+        public override bool HandleZoom(IViewport viewport, RubberBand rubberBand)
+        {
+            if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			{
+				ResizeMode = ResizeMode.Manual;
+				Vector min = viewport.Camera.ScreenToWorld(rubberBand.Min, false);
+				Vector max = viewport.Camera.ScreenToWorld(rubberBand.Max, false);
+				min = plotToWorldSpace.InverseApply(min);
+				max = plotToWorldSpace.InverseApply(max);
+				switch (viewport.Camera.LastDirection)
+				{
+				case ViewDirection.Front:
+				case ViewDirection.Back:
+					plotBounds.Minima[0] = min.X;
+					plotBounds.Minima[2] = min.Z;
+					plotBounds.Maxima[0] = max.X;
+					plotBounds.Maxima[2] = max.Z;
+					break;
+				case ViewDirection.Top:
+				case ViewDirection.Bottom:
+					plotBounds.Minima[1] = min[1];
+					plotBounds.Minima[2] = min[2];
+					plotBounds.Maxima[1] = max[1];
+					plotBounds.Maxima[2] = max[2];
+					break;
+				case ViewDirection.Left:
+				case ViewDirection.Right:
+					plotBounds.Minima[0] = min[0];
+					plotBounds.Minima[1] = min[1];
+					plotBounds.Maxima[0] = max[0];
+					plotBounds.Maxima[1] = max[1];
+					break;
+				}
+				MakeDirty();
+                return true;
+            }
+            return false;
+        }
+
+
+		public override bool HitTest(HitLine hitLine)
+		{
+			// this isn't true since we can hit axes that are outside the "bounds"
+			//if (!base.HitTest(hitLine))
+			//    return false;
+
+			//bool childHit = false;
+			foreach (Plottable child in children)
+			{
+				if (child is AbstractPlot && child.HitTest(hitLine))
+					return true;
+					//childHit = true;
+			}
+			//return childHit;
+			return false;
+		}
+
+
+		public override void Deselect()
+		{
+			base.Deselect();
+
+			foreach (Plottable child in children)
+			{
+				child.Deselect();
+			}
+
+		}
+
+		public override string SelectionDescription
+		{
+			get
+			{
+				foreach (Plottable child in children)
+				{
+					if (child.IsSelected)
+						return child.SelectionDescription;
+				}
+				return "";
+			}
+		}
 		
 #endregion
 

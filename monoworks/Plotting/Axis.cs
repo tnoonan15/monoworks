@@ -41,7 +41,7 @@ namespace MonoWorks.Plotting
 		{
 			tickLength = 8;
 			
-			label = new TextDef(14);
+			label = new TextDef(12);
 			label.Text = "label";
 			label.HorizontalAlignment = HorizontalAlignment.Center;
 		}
@@ -147,7 +147,7 @@ namespace MonoWorks.Plotting
 			tickLabels = new TextDef[tickVals.Length];
 			for (int i = 0; i < tickVals.Length; i++)
 			{
-				tickLabels[i] = new TextDef(14);
+				tickLabels[i] = new TextDef(11);
 				tickLabels[i].Text = String.Format("{0:0.###}", tickVals[i]);
 			}
 		}
@@ -217,6 +217,9 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOverlay(viewport);
 
+			if (!visible)
+				return;
+
 			// get the screen coordinates of the axis
 			Coord startCoord = viewport.Camera.WorldToScreen(start);
 			Coord stopCoord = viewport.Camera.WorldToScreen(stop);
@@ -277,10 +280,10 @@ namespace MonoWorks.Plotting
 			ComputeTickPositions();
 			
 			// render the axis label
-			double labelOffset = 64;
+			double labelOffset = 80;
 			Coord labelPos = (startCoord + stopCoord) / 2;
 			label.Position = labelPos + tickAngle.ToCoord() * labelOffset;
-			if (label.Text.Length > 4)
+			if (label.Text.Length > 4 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
 				label.Angle = Angle.Pi() / 2;
 			else
 				label.Angle = new Angle();
@@ -299,7 +302,10 @@ namespace MonoWorks.Plotting
 				gl.glVertex2d(startCoord.X + tickLength * tickAngle.Cos(), startCoord.Y + tickLength * tickAngle.Sin()); //the other point 
 
 				// store the label position
-				tickLabels[i].Position = startCoord + tickAngle.ToCoord() * 3 * tickLength;
+				double labelFactor = 3;
+				if (tickAngle.ToCoord().Orientation == Orientation.Horizontal)
+					labelFactor = 4;
+				tickLabels[i].Position = startCoord + tickAngle.ToCoord() * labelFactor * tickLength;
 			}
 
 			gl.glEnd();
