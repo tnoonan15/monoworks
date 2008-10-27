@@ -250,24 +250,19 @@ namespace MonoWorks.Model
 				
 //		private Vector[] hitLine;
 		
-		/// <summary>
-		/// Performs a hit test with two vectors lying on a 3D line.
-		/// </summary>
-		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
-		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
-		/// <returns> True if the entity was hit. </returns>
-		public override bool HitTest(Vector v1, Vector v2)
+
+		public override bool HitTest(HitLine hitLine)
 		{
 			lastSelected = null;
 			selected.Clear();
 			bool somethingChanged = false;
-			if (base.HitTest(v1, v2)) // only perform hit test on children if it hits the document bounding box
+			if (base.HitTest(hitLine)) // only perform hit test on children if it hits the document bounding box
 			{
 				foreach (Entity entity in entityRegistry.Values)
 				{
 					if (entity != this)
 					{
-						bool hit = entity.HitTest(v1, v2);
+						bool hit = entity.HitTest(hitLine);
 						if (hit != entity.IsSelected)
 						{
 							entity.IsSelected = hit;

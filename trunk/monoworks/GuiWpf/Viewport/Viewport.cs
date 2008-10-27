@@ -18,8 +18,11 @@
 
 using System;
 using System.Collections.Generic;
+using swf = System.Windows.Forms;
+using sd = System.Drawing;
 
 using Tao.Platform.Windows;
+
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
@@ -36,15 +39,25 @@ namespace MonoWorks.GuiWpf
 			: base()
 		{
 			InitializeContexts();
-			camera = new Camera(this);
 
+			this.DoubleBuffered = false;
+
+			// create the camera
+			camera = new Camera(this);
 			camera.Configure();
+
+			// create the tooltip
+			toolTip = new swf.ToolTip();
+			toolTip.SetToolTip(this, "");
 
 			// initialize the interactionState
 			interactionState = new InteractionState();
 
 			InitializeGL();
+
 		}
+
+		swf.ToolTip toolTip;
 
 
 		#region IViewport Implementation
@@ -59,16 +72,16 @@ namespace MonoWorks.GuiWpf
 		}
 
 		/// <summary>
-		/// Int width.
+		/// Rendering width.
 		/// </summary>
 		/// <returns></returns>
 		public int WidthGL
 		{
-			get {return Size.Width;}
+			get { return this.Size.Width; }
 		}
 
 		/// <summary>
-		/// Int height.
+		/// Rendering height.
 		/// </summary>
 		/// <returns></returns>
 		public int HeightGL
@@ -103,13 +116,39 @@ namespace MonoWorks.GuiWpf
 #endregion
 
 
+		/// <summary>
+		/// Export the viewport to a bitmap in the given file name.
+		/// </summary>
+		/// <param name="fileName"></param>
+		public void Export(string fileName)
+		{
+			Console.WriteLine("export to {0}", fileName);
+			//sd.Bitmap bitmap = new sd.Bitmap(Width, Height);
+			//DrawToBitmap(bitmap, new sd.Rectangle(0, 0, Width, Height));
+			//bitmap.Save(fileName);
+
+			sd.Bitmap bmp = new sd.Bitmap(this.ClientSize.Width, this.ClientSize.Height);
+			sd.Imaging.BitmapData data =
+			bmp.LockBits(this.ClientRectangle, sd.Imaging.ImageLockMode.WriteOnly,
+			sd.Imaging.PixelFormat.Format24bppRgb);
+			Tao.OpenGl.Gl.glReadPixels(0, 0, this.ClientSize.Width, this.ClientSize.Height, Tao.OpenGl.Gl.GL_BGR, Tao.OpenGl.Gl.GL_UNSIGNED_BYTE,
+			data.Scan0);
+			bmp.UnlockBits(data);
+			bmp.RotateFlip(sd.RotateFlipType.RotateNoneFlipY);
+			bmp.Save(fileName);
+		}
+
 
 #region Renderable Registry
 
-		/// <summary>
-		/// Renderables to render.
-		/// </summary>
-		protected List<Renderable> renderables = new List<Renderable>();
+        protected List<Renderable> renderables = new List<Renderable>();
+        /// <summary>
+        /// Renderables to render.
+        /// </summary>
+        public IEnumerable<Renderable> Renderables
+        {
+            get { return renderables; }
+        }
 
 		/// <summary>
 		/// Adds a renderable to the rendering list.
@@ -144,6 +183,13 @@ namespace MonoWorks.GuiWpf
 					bounds.Resize(renderable.Bounds);
 				return bounds;
 			}
+		}
+
+
+		public void ResetBounds()
+		{
+			foreach (Renderable renderable in renderables)
+				renderable.ResetBounds();
 		}
 
 #endregion
@@ -195,12 +241,74 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseDown(args);
 			interactionState.OnButtonPress(args.Location.Coord(), SwfExtensions.ButtonNumber(args.Button));
+
+			// TODO: make this work for rubber band selection
+			// handle selection and zooming 
+			if (//interactionState.MouseType == InteractionType.Select || 
+				interactionState.MouseType == InteractionType.Zoom)
+			{
+				rubberBand.Start = new Coord(args.Location.X, HeightGL - args.Location.Y);
+				rubberBand.Enabled = true;
+			}
 		}
 
 		protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs args)
 		{
 			base.OnMouseUp(args);
+
+			switch (interactionState.MouseType)
+			{
+			case InteractionType.Select:
+				// determine the 3D position of the hit
+				camera.Place();
+				HitLine hitLine = camera.ScreenToWorld(args.Location.Coord());
+
+				//List<Renderable> hitRends = new List<Renderable>();
+				Renderable hitRend = null;
+				foreach (Renderable renderable in renderables)
+				{
+					renderable.Deselect();
+					if (renderable.HitTest(hitLine))
+					{
+						hitRend = renderable;
+						//hitRends.Add(renderable);
+						break;
+					}
+				}
+
+				// TODO: handle multiple hits with depth checking
+
+				// show the selection tooltip
+				if (hitRend != null)
+				{
+					string description = hitRend.SelectionDescription;
+					if (description.Length > 0)
+					{
+						toolTip.SetToolTip(this, description);
+					}
+				}
+
+				break;
+
+			case InteractionType.Zoom:
+				bool blocked = false;
+				foreach (Renderable renderable in renderables)
+				{
+					if (renderable.HandleZoom(this, rubberBand))
+						blocked = true;
+				}
+				if (!blocked)
+				{
+					// TODO: unblocked zoom
+				}
+				break;
+			}
+
 			interactionState.OnButtonRelease(args.Location.Coord());
+
+			rubberBand.Enabled = false;
+
+			PaintGL();
 		}
 
 		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs args)
@@ -210,6 +318,11 @@ namespace MonoWorks.GuiWpf
 
 			switch (interactionState.MouseType)
 			{
+			case InteractionType.Select:
+			case InteractionType.Zoom:
+				rubberBand.Stop = new Coord(args.Location.X, HeightGL - args.Location.Y);
+				break;
+
 			case InteractionType.Pan:
 				Coord diff = args.Location.Coord() - interactionState.LastPos;
 
@@ -238,7 +351,7 @@ namespace MonoWorks.GuiWpf
 			else
 				interactionState.OnMouseMotion(args.Location.Coord());
 
-			Draw();
+			PaintGL();
 		}
 
 
@@ -263,7 +376,18 @@ namespace MonoWorks.GuiWpf
 
 			if (!blocked)
 				camera.Dolly(factor);
-			Draw();
+			PaintGL();
+		}
+
+		protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
+		{
+			base.OnMouseDoubleClick(e);
+
+			if (interactionState.Mode == InteractionMode.Select2D)
+				camera.SetViewDirection(ViewDirection.Front);
+			else
+				camera.SetViewDirection(ViewDirection.Standard);
+			PaintGL();
 		}
 
 
@@ -303,6 +427,8 @@ namespace MonoWorks.GuiWpf
 			MakeCurrent();
 			camera.Configure();
 
+			Console.WriteLine("viewport resized to {0}, {1}", WidthGL, HeightGL);
+
 			foreach (Renderable renderable in renderables)
 				renderable.OnViewportResized(this);
 
@@ -316,7 +442,6 @@ namespace MonoWorks.GuiWpf
 
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
 		{
-			base.OnPaint(e);
 			
 			if (e.ClipRectangle.Width == 0)
 			{
@@ -324,13 +449,22 @@ namespace MonoWorks.GuiWpf
 			}
 
 			//camera.Configure();
-			PaintGL();
+			Render();
+
+			base.OnPaint(e);
+		}
+
+		public void PaintGL()
+		{
+			Draw();
+			//Draw();
+			//Render();
 		}
 
 		/// <summary>
 		/// Renders the scene.
 		/// </summary>
-		public void PaintGL()
+		public void Render()
 		{
 			MakeCurrent();
 
@@ -353,7 +487,7 @@ namespace MonoWorks.GuiWpf
 			// render the rubber band
 			rubberBand.Render(this);
 
-			SwapBuffers();
+			//SwapBuffers();
 		}
 
 #endregion

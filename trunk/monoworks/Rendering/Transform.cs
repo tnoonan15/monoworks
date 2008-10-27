@@ -97,7 +97,7 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Applies the transformation to the x, y, z.
+		/// Applies the transformation to x, y, z.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -109,6 +109,18 @@ namespace MonoWorks.Rendering
 			z = scaling[2] * z + offset[2];
 		}
 
+		/// <summary>
+		/// Applies the inverse transformation to x, y, z.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public void InverseApply(ref double x, ref double y, ref double z)
+		{
+			x = (x - offset[0]) / scaling[0];
+			y = (y - offset[1]) / scaling[1];
+			z = (z - offset[2]) / scaling[2];
+		}
 
 		/// <summary>
 		/// Applies the transformation to a single dimension.

@@ -146,9 +146,11 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-				if (mode != InteractionMode.View3D && mouseType == InteractionType.Rotate)
-					return InteractionType.Select;
-				else
+                if (mode != InteractionMode.View3D && mouseType == InteractionType.Rotate)
+                    return InteractionType.Select;
+                else if (mode == InteractionMode.Select2D && mouseType == InteractionType.Dolly)
+                    return InteractionType.Zoom;
+                else
 					return mouseType;
 			}
 		}

@@ -1,4 +1,4 @@
-﻿// ScreenCoord.cs - MonoWorks Project
+﻿// Coord.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -22,46 +22,38 @@ using System.Collections.Generic;
 
 namespace MonoWorks.Base
 {
+	public enum Orientation {Horizontal, Vertical};
+
 	/// <summary>
-	/// Stores a pair of integer coordinates (representing a position on the screen).
+	/// Stores a pair of coordinates (representing a position on the screen).
 	/// </summary>
 	public struct Coord
 	{
 		/// <summary>
 		/// Initialization constructor.
 		/// </summary>
-		/// <param name="x"></param>
+		/// <param name="X"></param>
 		/// <param name="y"></param>
-		public Coord(double x, double y)
+		public Coord(double X, double Y)
 		{
-			this.x = x;
-			this.y = y;
+			this.X = X;
+			this.Y = Y;
 		}
 
-		private double x;
 		/// <summary>
-		/// The x coordinate.
+		/// The X coordinate.
 		/// </summary>
-		public double X
-		{
-			get { return x; }
-			set { x = value; }
-		}		
+		public double X;
 
-		private double y;
 		/// <summary>
 		/// The y coordinate.
 		/// </summary>
-		public double Y
-		{
-			get { return y; }
-			set { y = value; }
-		}
+		public double Y;
 
 
 		public override string ToString()
 		{
-			return String.Format("[{0}, {1}]", x, y);
+			return String.Format("[{0}, {1}]", X, Y);
 		}
 		
 		
@@ -83,6 +75,36 @@ namespace MonoWorks.Base
 		public static Coord operator/(Coord lhs, double rhs)
 		{
 			return new Coord(lhs.X / rhs, lhs.Y / rhs);
+		}
+
+
+		/// <summary>
+		/// The square of the magnitude of the coord.
+		/// </summary>
+		public double MagnitudeSquared
+		{
+			get { return X*X + Y*Y; }
+		}
+
+		/// <summary>
+		/// The magnitude of the coord.
+		/// </summary>
+		public double Magnitude
+		{
+			get { return Math.Sqrt(MagnitudeSquared); }
+		}
+
+		/// <summary>
+		/// Returns whether the coord is more horizontal of vertical.
+		/// </summary>
+		public Orientation Orientation
+		{
+			get
+			{
+				if (Math.Abs(X) > Math.Abs(Y))
+					return Orientation.Horizontal;
+				return Orientation.Vertical;
+			}
 		}
 
 	}

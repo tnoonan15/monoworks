@@ -266,10 +266,24 @@ namespace MonoWorks.Rendering
 	
 		
 #endregion
-		
-		
+
+
+#region Other Operations
+
+		/// <summary>
+		/// Returns the "inverse" color.
+		/// </summary>
+		public Color Inverse
+		{
+			get { return new Color(Greenf, Bluef, Redf); }
+		}
+
+
+#endregion
+
+
 #region OpenGL Commands
-		
+
 		/// <summary>
 		/// Sets the color of the current OpenGL context.
 		/// </summary>

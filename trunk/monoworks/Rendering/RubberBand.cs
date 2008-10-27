@@ -19,6 +19,8 @@ using System;
 using gl = Tao.OpenGl.Gl;
 using glu = Tao.OpenGl.Glu;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Rendering
 {
 		
@@ -33,10 +35,10 @@ namespace MonoWorks.Rendering
 		public RubberBand()
 		{
 			// initialize the position
-			m_startX = 0.0;
-			m_startY = 0.0;
-			m_stopX = 0.0;
-			m_stopY = 0.0;
+			start.X = 0.0;
+			start.Y = 0.0;
+			stop.X = 0.0;
+			stop.Y = 0.0;
 		}
 
 		
@@ -64,11 +66,11 @@ namespace MonoWorks.Rendering
 				gl.glBegin(gl.GL_LINE_STRIP);
 					gl.glColor3f(1.0f, 0.0f, 1.0f);
 					gl.glLineWidth(1.5f);
-					gl.glVertex3d(m_startX, m_startY, 0);
-					gl.glVertex3d(m_startX, m_stopY, 0);
-					gl.glVertex3d(m_stopX, m_stopY, 0);
-					gl.glVertex3d(m_stopX, m_startY, 0);		
-					gl.glVertex3d(m_startX, m_startY, 0);			
+					gl.glVertex3d(start.X, start.Y, 0);
+					gl.glVertex3d(start.X, stop.Y, 0);
+					gl.glVertex3d(stop.X, stop.Y, 0);
+					gl.glVertex3d(stop.X, start.Y, 0);		
+					gl.glVertex3d(start.X, start.Y, 0);			
 				gl.glEnd();
 				
 			}
@@ -79,45 +81,41 @@ namespace MonoWorks.Rendering
 		
 		
 #region Position
-	
-		protected double m_startX;
+
+		protected Coord start;
 		/// <summary>
-		/// The starting x position.
+		/// The starting position.
 		/// </summary>
-		public double StartX
+		public Coord Start
 		{
-			get {return m_startX;}
-			set {m_startX = value;}
+			get { return start; }
+			set { start = value; }
 		}
-	
-		protected double m_stopX;
+
+		protected Coord stop;
 		/// <summary>
-		/// The end x position.
+		/// The stop position.
 		/// </summary>
-		public double StopX
+		public Coord Stop
 		{
-			get {return m_stopX;}
-			set {m_stopX = value;}
+			get { return stop; }
+			set { stop = value; }
 		}
-	
-		protected double m_startY;
+
 		/// <summary>
-		/// The starting y position.
+		/// The point closest to the lower left.
 		/// </summary>
-		public double StartY
+		public Coord Min
 		{
-			get {return m_startY;}
-			set {m_startY = value;}
+			get { return new Coord(Math.Min(start.X, stop.X), Math.Min(start.Y, stop.Y)); }
 		}
-	
-		protected double m_stopY;
+
 		/// <summary>
-		/// The end y position.
+		/// The point closest to the upper right.
 		/// </summary>
-		public double StopY
+		public Coord Max
 		{
-			get {return m_stopY;}
-			set {m_stopY = value;}
+			get { return new Coord(Math.Max(start.X, stop.X), Math.Max(start.Y, stop.Y)); }
 		}
 		
 #endregion

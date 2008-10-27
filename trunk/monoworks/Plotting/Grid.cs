@@ -138,12 +138,18 @@ namespace MonoWorks.Plotting
 		public override void RenderOpaque(IViewport viewport)
 		{
 			base.RenderOpaque(viewport);
-			
+
+			if (!visible)
+				return;
+
 			CallDisplayList();
 		}
 
-		
-		
+
+		public override bool HitTest(HitLine hitLine)
+		{
+			return false;
+		}
 		
 	}
 }

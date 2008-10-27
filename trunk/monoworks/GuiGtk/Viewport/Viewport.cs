@@ -230,9 +230,10 @@ namespace MonoWorks.GuiGtk
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
 			interactionState.RegisterButtonPress(args.Event);
-			
-			// handle selection
-			if (interactionState.MouseType == InteractionType.Select)
+
+			// handle selection and zooming 
+			if (interactionState.MouseType == InteractionType.Select ||
+				interactionState.MouseType == InteractionType.Zoom)
 			{
 				rubberBand.StartX = args.Event.X;
 				rubberBand.StartY = HeightGL - args.Event.Y;
@@ -242,6 +243,25 @@ namespace MonoWorks.GuiGtk
 		
 		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 		{
+			switch (interactionState.MouseType)
+			{
+			case InteractionType.Select:
+				break;
+
+			case InteractionType.Zoom:
+				bool blocked = false;
+				foreach (Renderable renderable in renderables)
+				{
+					if (renderable.HandleZoom(this, rubberBand))
+						blocked = true;
+				}
+				if (!blocked)
+				{
+					// TODO: zoom
+				}
+				break;
+			}
+
 			interactionState.RegisterButtonRelease(args.Event);
 			
 			rubberBand.Enabled = false;

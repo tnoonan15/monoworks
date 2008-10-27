@@ -207,7 +207,27 @@ namespace MonoWorks.Rendering
 				maxima = vector.Copy();
 			}		
 		}
-		
+
+		/// <summary>
+		/// Resizes the bounds to fit x, y, and z.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public void Resize(double x, double y, double z)
+		{
+			if (isSet) // the bounds have already been set
+			{
+				minima.KeepMinima(x, y, z);
+				maxima.KeepMaxima(x, y, z);
+			}
+			else // the bounds haven't been set
+			{
+				isSet = true;
+				minima = new Vector(x, y, z);
+				maxima = new Vector(x, y, z);
+			}	
+		}
 		
 		/// <summary>
 		/// Resizes the bounds to fit another bounds.
@@ -464,41 +484,42 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Performs a hit test with two vectors lying on a 3D line.
 		/// </summary>
-		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
-		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
+		/// <param name="hitLine"> A <see cref="HitLine"/> defining the hit. </param>
 		/// <returns> True if the entity was hit. </returns>
-		public virtual bool HitTest(Vector v1, Vector v2)
+		public virtual bool HitTest(HitLine hitLine)
 		{
 			Vector Hit;
 			
 			// check if the line lies entirely outside the box
-			if (v2[0] < minima[0] && v1[0] < minima[0])
+			if (hitLine.Back[0] < minima[0] && hitLine.Front[0] < minima[0])
 				return false;
-			if (v2[0] > maxima[0] && v1[0] > maxima[0])
+			if (hitLine.Back[0] > maxima[0] && hitLine.Front[0] > maxima[0])
 				return false;
-			if (v2[1] < minima[1] && v1[1] < minima[1])
+			if (hitLine.Back[1] < minima[1] && hitLine.Front[1] < minima[1])
 				return false;
-			if (v2[1] > maxima[1] && v1[1] > maxima[1])
+			if (hitLine.Back[1] > maxima[1] && hitLine.Front[1] > maxima[1])
 				return false;
-			if (v2[2] < minima[2] && v1[2] < minima[2])
+			if (hitLine.Back[2] < minima[2] && hitLine.Front[2] < minima[2])
 				return false;
-			if (v2[2] > maxima[2] && v1[2] > maxima[2])
+			if (hitLine.Back[2] > maxima[2] && hitLine.Front[2] > maxima[2])
 				return false;
 			
 			// check if the line lies entirely inside the box
-			if (v1[0] > minima[0] && v1[0] < maxima[0] &&
-			    v1[1] > minima[1] && v1[1] < maxima[1] &&
-			    v1[2] > minima[2] && v1[2] < maxima[2]) 
-			    {Hit = v1; 
-			    return true;}
+			if (hitLine.Front[0] > minima[0] && hitLine.Front[0] < maxima[0] &&
+			    hitLine.Front[1] > minima[1] && hitLine.Front[1] < maxima[1] &&
+			    hitLine.Front[2] > minima[2] && hitLine.Front[2] < maxima[2]) 
+			{
+				Hit = hitLine.Front; 
+			    return true;
+			}
 			
 			// check if the line intersects any of the individual sides
-			if ( (GetIntersection( v1[0]-minima[0], v2[0]-minima[0], v1, v2, out Hit) && InBox( Hit, minima, maxima, 1 ))
-			  || (GetIntersection( v1[1]-minima[1], v2[1]-minima[1], v1, v2, out Hit) && InBox( Hit, minima, maxima, 2 )) 
-			  || (GetIntersection( v1[2]-minima[2], v2[2]-minima[2], v1, v2, out Hit) && InBox( Hit, minima, maxima, 3 )) 
-			  || (GetIntersection( v1[0]-maxima[0], v2[0]-maxima[0], v1, v2, out Hit) && InBox( Hit, minima, maxima, 1 )) 
-			  || (GetIntersection( v1[1]-maxima[1], v2[1]-maxima[1], v1, v2, out Hit) && InBox( Hit, minima, maxima, 2 )) 
-			  || (GetIntersection( v1[2]-maxima[2], v2[2]-maxima[2], v1, v2, out Hit) && InBox( Hit, minima, maxima, 3 )))
+			if ( (GetIntersection( hitLine.Front[0]-minima[0], hitLine.Back[0]-minima[0], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 1 ))
+			  || (GetIntersection( hitLine.Front[1]-minima[1], hitLine.Back[1]-minima[1], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 2 )) 
+			  || (GetIntersection( hitLine.Front[2]-minima[2], hitLine.Back[2]-minima[2], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 3 )) 
+			  || (GetIntersection( hitLine.Front[0]-maxima[0], hitLine.Back[0]-maxima[0], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 1 )) 
+			  || (GetIntersection( hitLine.Front[1]-maxima[1], hitLine.Back[1]-maxima[1], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 2 )) 
+			  || (GetIntersection( hitLine.Front[2]-maxima[2], hitLine.Back[2]-maxima[2], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 3 )))
 				return true;
 
 			return false;
@@ -599,6 +620,9 @@ namespace MonoWorks.Rendering
 		/// <returns> </returns>
 		public static double[] NiceRange(double min, double max, double desiredNumSteps, bool truncate)
 		{
+			if (min == max)
+				return new double[] { min, max };
+
 			// determine the step and number of points
 			double step = NiceStep(min, max, desiredNumSteps);
 			int numVals;
@@ -635,12 +659,30 @@ namespace MonoWorks.Rendering
 			for (int i = 0; i < 3; i++)
 			{
 				double step = NiceStep(minima[i], maxima[i]);
-				minima[i] = Math.Floor(minima[i] / step) * step;
-				maxima[i] = Math.Ceiling(maxima[i] / step) * step;
+				if (step > 0) // avoid divide by zero
+				{
+					minima[i] = Math.Floor(minima[i] / step) * step;
+					maxima[i] = Math.Ceiling(maxima[i] / step) * step;
+				}
 			}
 
 		}
 
+		/// <summary>
+		/// Ensures that the max-min of all ranges is greater than zero.
+		/// </summary>
+		/// <remarks> Anything equal to zero will be offset by 1 in each direction.</remarks>
+		public void EnsureNonZeroRanges()
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (minima[i] == maxima[i])
+				{
+					minima[i]--;
+					maxima[i]++;
+				}
+			}
+		}
 
 #endregion
 

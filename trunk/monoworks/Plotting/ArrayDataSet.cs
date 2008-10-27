@@ -19,6 +19,7 @@
 	
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 
 namespace MonoWorks.Plotting
@@ -130,9 +131,10 @@ namespace MonoWorks.Plotting
 		}
 		
 #endregion
-		
-		
-		
+
+
+#region Column Info
+
 		/// <summary>
 		/// Computes the min and max of a column.
 		/// </summary>
@@ -179,10 +181,11 @@ namespace MonoWorks.Plotting
 			return index;
 		}
 
+#endregion
 
-		
+
 #region Column Names
-		
+
 		protected List<string> columnNames = new List<string>();
 		/// <summary>
 		/// The column names.
@@ -216,14 +219,85 @@ namespace MonoWorks.Plotting
 		/// <param name="index"> The column index. </param>
 		public string GetColumnName(int index)
 		{
-			if (index < 0 || index >= NumRows)
+			if (index < 0 || index >= NumColumns)
 				throw new Exception(index.ToString() + " is not a valid index.");
 			return columnNames[index];
 		}
 		
 #endregion
-		
-		
+
+
+
+#region File I/O
+
+		/// <summary>
+		/// Loads a data set from a delimited text file.
+		/// </summary>
+		/// <param name="filePath"></param>
+		/// <param name="delimiter"></param>
+		/// <returns></returns>
+		//public static ArrayDataSet FromFile(string filePath, string delimiter)
+		//{
+		//    ArrayDataSet dataSet = new ArrayDataSet();
+		//    dataSet.FromFile(filePath, delimiter);
+		//    return dataSet;
+		//}
+
+		/// <summary>
+		/// Reads data from a delimited text file.
+		/// </summary>
+		/// <param name="filePath"></param>
+		/// <param name="delimiter"></param>
+		public void FromFile(string filePath, char delimiter)
+		{
+			StreamReader reader = File.OpenText(filePath);
+
+			// parse the header
+			string headerLine = reader.ReadLine();
+			string[] headers = headerLine.Split(delimiter);
+			int numCols = headers.Length;
+
+            // read the rows
+            long pos = reader.BaseStream.Position;
+            bool keepGoing = true;
+            List<string[]> rows = new List<string[]>();
+            while (keepGoing)
+            {
+                string line = reader.ReadLine();
+                if (line == null || line.Length == 0)
+                    keepGoing = false;
+                else
+                {
+                    string[] row = line.Split(delimiter);
+                    if (row.Length != numCols) 
+                        throw new IOException(String.Format("Row {0} has {1} components when it should have {2}.", rows.Count, row.Length, numCols));
+                    rows.Add(row);
+                }
+
+                if (reader.EndOfStream)
+                    keepGoing = false;
+            }
+
+            // initialize
+            SetSize(rows.Count, numCols);
+            columnNames.Clear();
+            foreach (string header in headers)
+                columnNames.Add(header);
+
+            // parse the data
+            for (int r=0; r<rows.Count; r++)
+            {
+                for (int c = 0; c < numCols; c++)
+                    data[r, c] = Double.Parse(rows[r][c]);
+            }
+
+			reader.Close();
+		}
+
+
+
+#endregion
+
 
 	}
 }

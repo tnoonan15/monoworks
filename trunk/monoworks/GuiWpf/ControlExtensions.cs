@@ -97,4 +97,48 @@ namespace MonoWorks.GuiWpf
 		}
 	}
 
+
+	/// <summary>
+	/// Extensions for the WPF grid to get rid of some of those lame static methods.
+	/// </summary>
+	public static class GridExtensions
+	{
+		/// <summary>
+		/// Adds element to the grid at the given row an dcolumn.
+		/// </summary>
+		/// <param name="grid"></param>
+		/// <param name="element"></param>
+		/// <param name="row"></param>
+		/// <param name="col"></param>
+		public static void AddAt(this Grid grid, UIElement element, int row, int col)
+		{
+			grid.Children.Add(element);
+			Grid.SetColumn(element, col);
+			Grid.SetRow(element, row);
+		}
+
+		/// <summary>
+		/// Adds a row definition with automatic height.
+		/// </summary>
+		/// <param name="grid"></param>
+		public static RowDefinition AddAutoRow(this Grid grid)
+		{
+			RowDefinition rowDef = new RowDefinition();
+			rowDef.Height = GridLength.Auto;
+			grid.RowDefinitions.Add(rowDef);
+			return rowDef;
+		}
+
+		/// <summary>
+		/// Adds a column definition.
+		/// </summary>
+		public static ColumnDefinition AddColumn(this Grid grid)
+		{
+			ColumnDefinition colDef = new ColumnDefinition();
+			grid.ColumnDefinitions.Add(colDef);
+			return colDef;
+		}
+
+	}
+
 }

@@ -29,17 +29,20 @@ namespace MonoWorks.GuiWpf
 			// create the viewport
 			viewport = new Viewport();
 
-			WindowsFormsHost host = new WindowsFormsHost();
+			host = new WindowsFormsHost();
 			host.Child = viewport;
 			dockPanel.Children.Add(host);
 			DockPanel.SetDock(host, Dock.Left | Dock.Right | Dock.Bottom);
 
 
 			UpdateToolbar();
+
 		}
 
 
 		private DockPanel dockPanel;
+
+		private WindowsFormsHost host;
 
 
 #region The Viewport
@@ -67,6 +70,9 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnRenderSizeChanged(sizeInfo);
 
+			Console.WriteLine("tooled viewport resized to {0}, {1}", host.ActualWidth, host.ActualHeight);
+
+			//viewport.Size= new System.Drawing.Size((int)host.ActualWidth, (int)host.ActualHeight);
 			viewport.ResizeGL();
 		}
 
@@ -147,6 +153,7 @@ namespace MonoWorks.GuiWpf
 			// add the perspective button
 			projectionButton = new ToggleButton();
 			projectionButton.Content = RenderIcon("perspective");
+			projectionButton.ToolTip = "Toggle the projection (perspective or parallel)";
 			projectionButton.Click += OnToggleProjection;
 			toolbar.Items.Add(projectionButton);
 			toolbar.Items.Add(new Separator());
@@ -154,6 +161,7 @@ namespace MonoWorks.GuiWpf
 			// add the 2D and 3D buttons
 			RadioButton radio = new RadioButton();
 			radio.Content = RenderIcon("2d");
+			radio.ToolTip = "2D Interaction Mode";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
 			{ OnSetInteractionMode(InteractionMode.Select2D); };
 			toolbar.Items.Add(radio);
@@ -161,6 +169,7 @@ namespace MonoWorks.GuiWpf
 
 			radio = new RadioButton();
 			radio.Content = RenderIcon("3dSelect");
+			radio.ToolTip = "3D Selection Mode";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
 			{ OnSetInteractionMode(InteractionMode.Select3D); };
 			toolbar.Items.Add(radio);
@@ -168,10 +177,20 @@ namespace MonoWorks.GuiWpf
 
 			radio = new RadioButton();
 			radio.Content = RenderIcon("3dInteract");
+			radio.ToolTip = "3D Interaction Mode";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
 			{ OnSetInteractionMode(InteractionMode.View3D); };
 			toolbar.Items.Add(radio);
 			interactionModeButtons[InteractionMode.View3D] = radio;
+			toolbar.Items.Add(new Separator());
+
+			// add the export button
+			Button exportButton = new Button();
+			exportButton.Content = RenderIcon("export");
+			exportButton.ToolTip = "Export the viewport to a bitmap.";
+			exportButton.Click += OnExport;
+			toolbar.Items.Add(exportButton);
+
 
 			toolbar.Height = 32;
 			dockPanel.Children.Add(toolbar);
@@ -193,6 +212,33 @@ namespace MonoWorks.GuiWpf
 
 		Dictionary<InteractionMode, RadioButton> interactionModeButtons = new Dictionary<InteractionMode, RadioButton>();
 
+
+		/// <summary>
+		/// Prompts the user for a location and exports the viewport.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void OnExport(object sender, RoutedEventArgs e)
+		{
+			// Configure save file dialog box
+			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+			dlg.FileName = "export"; // Default file name
+			dlg.DefaultExt = ".png"; // Default file extension
+			dlg.Filter = "PNG Image File (.png)|*.png"; // Filter files by extension
+
+			// Show save file dialog box
+			Nullable<bool> result = dlg.ShowDialog();
+
+			// Process save file dialog box results
+			if (result == true)
+			{
+				// Save document
+				Viewport.Export(dlg.FileName);
+			}
+
+		}
+
+
 		/// <summary>
 		/// True if the toolbar is being updated by an external source.
 		/// </summary>
@@ -201,7 +247,7 @@ namespace MonoWorks.GuiWpf
 		/// <summary>
 		/// Updates the toolbar with the state of the viewport.
 		/// </summary>
-		protected void UpdateToolbar()
+		public void UpdateToolbar()
 		{
 			externalUpdate = true;
 

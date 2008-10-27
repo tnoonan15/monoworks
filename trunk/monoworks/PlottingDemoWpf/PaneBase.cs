@@ -1,4 +1,4 @@
-﻿// Pane3D.cs - MonoWorks Project
+﻿// PaneBase.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 
 using System.Windows;
-using System.Windows.Controls;
+using swc = System.Windows.Controls;
 
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
@@ -29,37 +29,47 @@ using MonoWorks.GuiWpf.PlotControls;
 
 namespace MonoWorks.PlottingDemoWpf
 {
-	/// <summary>
-	/// Contains the 3D portion of the plotting demo.
-	/// </summary>
-	public class Pane3D : PaneBase
+	public class PaneBase : swc.Grid
 	{
 
-		public Pane3D() : base()
+		public PaneBase()
+			: base()
 		{
-			// create the axes
-			TestAxes3D axes = new TestAxes3D();
+			// create the rows
+			swc.RowDefinition row = new swc.RowDefinition();
+			RowDefinitions.Add(row);
+			row = new swc.RowDefinition();
+			RowDefinitions.Add(row);
 
-			// add the plot control
-			PointPlotControl plotControl = new PointPlotControl();
-			plotControl.Plot = axes.PointPlot;
-			plotControl.ControlUpdated += OnUpdated;
-			this.AddAt(plotControl, 0, 0);
-
-
-			// add the axes control
-			AxesControl axesControl = new AxesControl();
-			axesControl.Axes = axes;
-			axesControl.ControlUpdated += OnUpdated;
-			this.AddAt(axesControl, 1, 0);
-
-			DockViewport();
+			// create the columns
+			swc.ColumnDefinition col = new swc.ColumnDefinition();
+			col.Width = new GridLength(200);
+			ColumnDefinitions.Add(col);
+			col = new swc.ColumnDefinition();
+			ColumnDefinitions.Add(col);
 
 
-			// add the test axes
-			viewport.AddRenderable(axes);
-			viewport.Camera.SetViewDirection(ViewDirection.Standard);
-
+			// create the viewport
+			tooledViewport = new TooledViewport(ViewportUsage.Plotting);
+			viewport = tooledViewport.Viewport;
 		}
+
+		protected void DockViewport()
+		{
+			this.AddAt(tooledViewport, 0, 1);
+			swc.Grid.SetRowSpan(tooledViewport, 2);
+		}
+
+		/// <summary>
+		/// Repaint the viewport after a control is updated.
+		/// </summary>
+		public void OnUpdated()
+		{
+			viewport.PaintGL();
+		}
+
+		protected Viewport viewport;
+
+		protected TooledViewport tooledViewport;
 	}
 }

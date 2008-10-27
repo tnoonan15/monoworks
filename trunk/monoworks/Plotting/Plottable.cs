@@ -60,6 +60,15 @@ namespace MonoWorks.Plotting
 			set { parent = value; }
 		}
 
+        protected string title = "";
+        /// <summary>
+        /// The title of the plottable.
+        /// </summary>
+        public virtual string Title
+        {
+            get { return title; }
+            set { title = value; }
+        }
 
 		/// <summary>
 		/// Makes the parent axes box dirty also.

@@ -18,7 +18,7 @@ namespace MonoWorks.PlottingDemoWpf
 		{
 			InitializeComponent();
 
-			TabControl book = new TabControl();
+			book = new TabControl();
 			dockPanel.Children.Add(book);
 
 			// create the basic 3D tab
@@ -35,6 +35,16 @@ namespace MonoWorks.PlottingDemoWpf
 			item2d.Header = "Basic 2D";
 			item2d.Content = pane2d;
 			book.Items.Add(item2d);
+
+			book.SelectionChanged += OnPageChanged;
+		}
+
+		TabControl book;
+
+		void OnPageChanged(object sender, SelectionChangedEventArgs e)
+		{
+			//((book.SelectedItem as TabItem).Content as PaneBase).OnUpdated();
+			Console.WriteLine("page changed");
 		}
 
 

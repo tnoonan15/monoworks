@@ -18,6 +18,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.IO;
 
 using gl = Tao.OpenGl.Gl;
 using ft=Tao.FreeType;
@@ -81,7 +83,8 @@ namespace MonoWorks.Rendering
 			else
 			{
 				int Errors = 0;
-				FTFont font = new FTFont("FreeSans.ttf", out Errors);
+				string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+				FTFont font = new FTFont(dir + @"\FreeSans.ttf", out Errors);
 				font.ftRenderToTexture(size, 92);
 				fonts[size] = font;
 				return font;
@@ -111,6 +114,7 @@ namespace MonoWorks.Rendering
 			font.ftBeginFont();
 			text.Color.Setup();
 			font.ftWrite(text.Text);
+			font.FT_ALIGN = (FTFontAlign)text.HorizontalAlignment;
 			font.ftEndFont();
 
 			gl.glMatrixMode(gl.GL_MODELVIEW);

@@ -124,6 +124,11 @@ namespace MonoWorks.Rendering
 		/// The bounds of all renderables.
 		/// </value>
 		Bounds Bounds {get;}
+
+		/// <summary>
+		/// Resets the bounds of all child renderables.
+		/// </summary>
+		void ResetBounds();
 		
 		/// <summary>
 		/// Lets the renderables know that the view direction has been changed.
