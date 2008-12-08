@@ -24,7 +24,7 @@
 		</Attribute>
 		<Entity name="Extrusion">
 			<Attribute name="path" type="MonoWorks.Model.RefLine">
-				The line that the extrusion is follows.
+				The line that the extrusion follows.
 			</Attribute>
 			<Attribute name="spin" type="MonoWorks.Base.Angle">
 				The spin angle about the path.

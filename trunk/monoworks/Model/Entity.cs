@@ -435,20 +435,7 @@ namespace MonoWorks.Model
 			}
 		}
 		
-		
-		/// <summary>
-		/// Renders the entity to the given viewport.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		/// <remarks>
-		/// This must be implemented by subclasses.
-		/// This method does not care about transparency and is generally called by either
-		/// RenderOpaque() or RenderTransparent().
-		///</remarks>
-//		protected override void Render(IViewport viewport)
-//		{
-//		}
-		
+				
 		/// <summary>
 		/// Renders the opaque portion of the entity.
 		/// </summary>
@@ -481,7 +468,7 @@ namespace MonoWorks.Model
 		{
 			base.RenderOverlay(viewport);
 			foreach (Entity child in children)
-				child.RenderTransparent(viewport);
+				child.RenderOverlay(viewport);
 		}
 
 		

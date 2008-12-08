@@ -84,7 +84,7 @@ namespace MonoWorks.Rendering
 			{
 				int Errors = 0;
 				string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-				FTFont font = new FTFont(dir + @"\FreeSans.ttf", out Errors);
+				FTFont font = new FTFont(dir + @"/FreeSans.ttf", out Errors);
 				font.ftRenderToTexture(size, 92);
 				fonts[size] = font;
 				return font;

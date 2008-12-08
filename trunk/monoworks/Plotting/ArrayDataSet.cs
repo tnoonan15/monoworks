@@ -1,4 +1,4 @@
-﻿// ArrayDataSet.cs - MonoWorks Project
+// ArrayDataSet.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -258,7 +258,7 @@ namespace MonoWorks.Plotting
 			int numCols = headers.Length;
 
             // read the rows
-            long pos = reader.BaseStream.Position;
+//            long pos = reader.BaseStream.Position;
             bool keepGoing = true;
             List<string[]> rows = new List<string[]>();
             while (keepGoing)

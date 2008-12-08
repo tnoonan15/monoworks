@@ -97,7 +97,7 @@ namespace MonoWorks.Model
 		{
 			base.ComputeGeometry();
 			
-			double t=4;
+			double t=6;
 			start = Center.ToVector() - Direction * t;
 			bounds.Resize(start);
 			stop = Center.ToVector() + Direction * t;
@@ -112,12 +112,21 @@ namespace MonoWorks.Model
 		public override void RenderOpaque(IViewport viewport)
 		{
 			base.RenderOpaque(viewport);
-						
+
 			// render the points
 			gl.glBegin(gl.GL_LINE);
+			gl.glColor3b(255,0,0);
+			gl.glLineWidth(3f);
 			gl.glVertex3d(start[0], start[1], start[2]);
 			gl.glVertex3d(stop[0], stop[1], stop[2]); 
 			gl.glEnd();
+
+		}
+
+		public override void RenderTransparent(IViewport viewport)
+		{
+			base.RenderTransparent(viewport);
+
 		}
 
 		

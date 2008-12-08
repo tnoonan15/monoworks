@@ -1,4 +1,4 @@
-<Project name="Plotting" fileversion="2.0" Description="MonoWorks plotting library." DefaultNamespace="MonoWorks.Plotting" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="Plotting" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Plotting" clr-version="Net_2_0" Description="MonoWorks plotting library." ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="MonoWorks.Plotting" />
@@ -24,6 +24,7 @@
     <File name="Grid.cs" subtype="Code" buildaction="Compile" />
     <File name="PlotIndex.cs" subtype="Code" buildaction="Compile" />
     <File name="TestAxes2D.cs" subtype="Code" buildaction="Compile" />
+    <File name="AbstractPlot.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Base" />

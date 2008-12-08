@@ -615,7 +615,6 @@ namespace MonoWorks.Rendering
 			
 			// determine the distance needed to view all renderables
 			double dist = bounds.MaxWidth / (fov * 0.5).Tan();
-			Console.WriteLine("camera max width: {0}", bounds.MaxWidth);
 			
 			centerOut = bounds.Center;
 			Vector travel;
