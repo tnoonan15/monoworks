@@ -1,4 +1,4 @@
-<Project name="Model" fileversion="2.0" DefaultNamespace="MonoWorks.Model" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="Model" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Model" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="MonoWorks.Model" />
@@ -48,4 +48,5 @@
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
   </References>
+  <GtkDesignInfo />
 </Project>

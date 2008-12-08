@@ -26,6 +26,7 @@ using glu=Tao.OpenGl.Glu;
 
 using GtkGL;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.GuiGtk
@@ -91,7 +92,7 @@ namespace MonoWorks.GuiGtk
 		/// <value>
 		/// The interaction state.
 		/// </value>
-		public InteractionStateBase InteractionState
+		public InteractionState InteractionState
 		{
 			get {return interactionState;}
 		}
@@ -123,8 +124,7 @@ namespace MonoWorks.GuiGtk
 		{
 			get {return lighting;}
 		}
-		
-		
+				
 		
 #region Renderable Registry
 		
@@ -167,13 +167,21 @@ namespace MonoWorks.GuiGtk
 				return bounds;
 			}
 		}
+
+		/// <summary>
+		/// Reset the bounds of all renderables.
+		/// </summary>
+		public void ResetBounds()
+		{
+			foreach (Renderable renderable in renderables)
+				renderable.ResetBounds();
+		}
 		
 		/// <summary>
 		/// Alerts the renderables that the viewport has been modified.
 		/// </summary>
 		public void OnResized()
 		{
-			Console.WriteLine("on viewport resized");
 			foreach (Renderable renderable in renderables)
 				renderable.OnViewportResized(this);
 		}
@@ -229,20 +237,33 @@ namespace MonoWorks.GuiGtk
 		
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
-			interactionState.RegisterButtonPress(args.Event);
+			// look for the double-click reset
+			if (args.Event.Type == Gdk.EventType.TwoButtonPress && args.Event.Button == 1)
+			{
+				if (interactionState.Mode == InteractionMode.Select2D)
+					camera.SetViewDirection(ViewDirection.Front);
+				else
+					camera.SetViewDirection(ViewDirection.Standard);
+				PaintGL();
+			}
+			
+			Coord coord = new Coord(args.Event.X, args.Event.Y);
+			interactionState.OnButtonPress(coord, (int)args.Event.Button);
 
 			// handle selection and zooming 
 			if (interactionState.MouseType == InteractionType.Select ||
 				interactionState.MouseType == InteractionType.Zoom)
 			{
-				rubberBand.StartX = args.Event.X;
-				rubberBand.StartY = HeightGL - args.Event.Y;
+				rubberBand.Start = new Coord(args.Event.X, HeightGL - args.Event.Y);;
 				rubberBand.Enabled = true;
 			}
 		}
 		
 		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
-		{
+		{			
+//			Coord coord = new Coord(args.Event.X, HeightGL - args.Event.Y);
+			Coord coord = new Coord(args.Event.X, args.Event.Y);
+			
 			switch (interactionState.MouseType)
 			{
 			case InteractionType.Select:
@@ -262,7 +283,7 @@ namespace MonoWorks.GuiGtk
 				break;
 			}
 
-			interactionState.RegisterButtonRelease(args.Event);
+			interactionState.OnButtonRelease(coord);
 			
 			rubberBand.Enabled = false;
 			PaintGL();
@@ -272,34 +293,35 @@ namespace MonoWorks.GuiGtk
 		{
 			bool blocked = false;
 			
+//			Coord coord = new Coord(args.Event.X, HeightGL - args.Event.Y);
+			Coord coord = new Coord(args.Event.X, args.Event.Y);
+			
 			switch (interactionState.MouseType)
 			{
 			case InteractionType.Select:
-				rubberBand.StopX = args.Event.X;
-				rubberBand.StopY = HeightGL -args.Event.Y;
+				rubberBand.Stop = new Coord(args.Event.X, HeightGL - args.Event.Y);;
 				break;
 				
 			case InteractionType.Rotate:
-				camera.Rotate(args.Event.X - interactionState.LastX, args.Event.Y - interactionState.LastY);
+				camera.Rotate(coord - interactionState.LastPos);
 				break;
 				
 			case InteractionType.Pan:
-				double dx = args.Event.X - interactionState.LastX;
-				double dy = args.Event.Y - interactionState.LastY;
+				Coord diff = coord - interactionState.LastPos;
 				
 				// allow the renderables to deal with the interaction
 				foreach (Renderable renderable in renderables)
 				{
-					if (renderable.HandlePan(this, dx, dy))
+					if (renderable.HandlePan(this, diff.X, diff.Y))
 						blocked = true;
 				}
 				
 				if (!blocked)
-					camera.Pan(dx, dy);
+					camera.Pan(diff.X, diff.Y);
 				break;
 				
 			case InteractionType.Dolly:
-				double factor = (args.Event.Y - interactionState.LastY) / (int)Allocation.Height;
+				double factor = (args.Event.Y - interactionState.LastPos.Y) / (int)Allocation.Height;
 				
 				// allow the renderables to deal with the interaction
 				foreach (Renderable renderable in renderables)
@@ -311,19 +333,24 @@ namespace MonoWorks.GuiGtk
 				if (!blocked)
 					camera.Dolly(factor);
 				break;
+
+			case InteractionType.Zoom:
+				rubberBand.Stop = new Coord(args.Event.X, HeightGL - args.Event.Y);;
+				break;
 			}
 			
-			interactionState.RegisterMotion(args.Event);
+			interactionState.OnMouseMotion(coord);
 			PaintGL();
 		}
 		
 		protected virtual void OnScroll(object sender, Gtk.ScrollEventArgs args)
 		{
 			bool blocked = false;
-			
-			switch(interactionState.GetWheelType(args.Event.State))
-			{
-			case InteractionType.Dolly:
+
+			// TODO: Make different scroll interactions in the InteractionState
+//			switch(interactionState.GetWheelType(args.Event.State))
+//			{
+//			case InteractionType.Dolly:
 				double factor = 0;
 				if (args.Event.Direction == Gdk.ScrollDirection.Up)
 					factor = -camera.DollyFactor;
@@ -339,8 +366,8 @@ namespace MonoWorks.GuiGtk
 				
 				if (!blocked)
 					camera.Dolly(factor);
-				break;
-			}
+//				break;
+//			}
 			PaintGL();
 		}
 
@@ -372,7 +399,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		void OnRealized(object o, EventArgs e)
 		{
-			if (MakeCurrent() == 0)
+			if (base.MakeCurrent() == 0)
 				return;
 			
 			// Run the state setup routine
@@ -384,7 +411,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		void OnConfigure (object o, EventArgs e)
 		{	
-			if( this.MakeCurrent() == 0)
+			if(base.MakeCurrent() == 0)
 				return;
 				
 			camera.Configure();
@@ -394,13 +421,22 @@ namespace MonoWorks.GuiGtk
 		/// Called when the viewport is resized.
 		/// </summary>
 		void OnSizeAllocated (object o, Gtk.SizeAllocatedArgs e)
-		{		
-			if( !IsRealized || MakeCurrent() == 0)
+		{
+			ResizeGL();
+		}
+		
+		public void ResizeGL()
+		{
+			if( !IsRealized || base.MakeCurrent() == 0)
 				return;	
 			camera.Configure();
-			Console.WriteLine("on viewport resized");
 			foreach (Renderable renderable in renderables)
 				renderable.OnViewportResized(this);
+		}
+		
+		public new void MakeCurrent()
+		{
+			base.MakeCurrent();
 		}
 		
 		/// <summary>
@@ -417,7 +453,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void PaintGL()
 		{
-			if (this.MakeCurrent() == 0)
+			if (base.MakeCurrent() == 0)
 				return;
 			
 			// Clear the scene
@@ -460,12 +496,15 @@ namespace MonoWorks.GuiGtk
 #endregion
 		
 
-		// Bound in glwidget.glade
+		
 		private void OnWindowDeleteEvent(object sender, Gtk.DeleteEventArgs a) 
 		{
 			Gtk.Application.Quit ();
 			a.RetVal = true;
 		}
+
+		
+		
 
 	}
 }

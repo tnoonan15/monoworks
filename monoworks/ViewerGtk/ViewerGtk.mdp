@@ -1,9 +1,10 @@
-<Project name="ViewerGtk" fileversion="2.0" DefaultNamespace="MonoWorks.ViewerGtk" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="ViewerGtk" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.ViewerGtk" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assemblyKeyFile="." assembly="MonoWorks.ViewerGtk" />
       <Build debugmode="True" target="Exe" />
       <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <EnvironmentVariables />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" definesymbols="DEBUG" generatexmldocumentation="False" win32Icon="." ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
@@ -24,7 +25,6 @@
     <ProjectReference type="Project" localcopy="True" refto="Base" />
     <ProjectReference type="Project" localcopy="True" refto="Model" />
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
-    <ProjectReference type="Gac" localcopy="True" refto="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/gtkglarea-sharp.dll" />
   </References>
 </Project>

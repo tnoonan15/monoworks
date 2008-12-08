@@ -1,4 +1,4 @@
-<Project name="GuiGtk" fileversion="2.0" Description="Gtk port of the MonoWorks GUI components." DefaultNamespace="MonoWorks.GuiGtk" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="GuiGtk" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.GuiGtk" clr-version="Net_2_0" Description="Gtk port of the MonoWorks GUI components." ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="GuiGtk" />
@@ -20,7 +20,6 @@
     <File name="DocFrame.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree" subtype="Directory" buildaction="Compile" />
     <File name="Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport/InteractionState.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport/TooledViewport.cs" subtype="Code" buildaction="Compile" />
     <File name="PlotControls/PlotPane.cs" subtype="Code" buildaction="Compile" />
     <File name="PlotControls/PointPlotPane.cs" subtype="Code" buildaction="Compile" />
@@ -59,4 +58,5 @@
     <ProjectReference type="Project" localcopy="True" refto="Plotting" />
     <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
+  <GtkDesignInfo />
 </Project>
