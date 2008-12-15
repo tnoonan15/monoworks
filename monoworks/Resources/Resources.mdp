@@ -159,5 +159,6 @@
     <File name="svg/sketch_icons.svg" subtype="Code" buildaction="Nothing" />
     <File name="svg/splashscreen.svg" subtype="Code" buildaction="Nothing" />
     <File name="svg/view_icons.svg" subtype="Code" buildaction="Nothing" />
+    <File name="Scope.ui" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>
