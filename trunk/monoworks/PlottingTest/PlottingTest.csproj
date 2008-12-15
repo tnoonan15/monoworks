@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{458B12ED-A4FB-4596-AF6D-A8F0CB051077}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -11,6 +11,7 @@
     <RootNamespace>MonoWorks.PlottingTest</RootNamespace>
     <AssemblyName>MonoWorks.PlottingTest</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,13 +52,16 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base\Base.mdp">
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plotting\Plotting.mdp">
+    <ProjectReference Include="..\Plotting\Plotting.csproj">
+      <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>
       <Name>Plotting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Rendering\Rendering.mdp">
+    <ProjectReference Include="..\Rendering\Rendering.csproj">
+      <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
   </ItemGroup>
@@ -79,5 +83,6 @@
         <GtkDesignInfo />
       </Properties>
     </MonoDevelop>
+    <VisualStudio />
   </ProjectExtensions>
 </Project>

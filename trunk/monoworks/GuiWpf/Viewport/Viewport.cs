@@ -122,7 +122,7 @@ namespace MonoWorks.GuiWpf
 		/// <param name="fileName"></param>
 		public void Export(string fileName)
 		{
-			Console.WriteLine("export to {0}", fileName);
+			//Console.WriteLine("export to {0}", fileName);
 			//sd.Bitmap bitmap = new sd.Bitmap(Width, Height);
 			//DrawToBitmap(bitmap, new sd.Rectangle(0, 0, Width, Height));
 			//bitmap.Save(fileName);
@@ -427,7 +427,7 @@ namespace MonoWorks.GuiWpf
 			MakeCurrent();
 			camera.Configure();
 
-			Console.WriteLine("viewport resized to {0}, {1}", WidthGL, HeightGL);
+			//Console.WriteLine("viewport resized to {0}, {1}", WidthGL, HeightGL);
 
 			foreach (Renderable renderable in renderables)
 				renderable.OnViewportResized(this);
