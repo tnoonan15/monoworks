@@ -70,7 +70,7 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnRenderSizeChanged(sizeInfo);
 
-			Console.WriteLine("tooled viewport resized to {0}, {1}", host.ActualWidth, host.ActualHeight);
+			//Console.WriteLine("tooled viewport resized to {0}, {1}", host.ActualWidth, host.ActualHeight);
 
 			//viewport.Size= new System.Drawing.Size((int)host.ActualWidth, (int)host.ActualHeight);
 			viewport.ResizeGL();
