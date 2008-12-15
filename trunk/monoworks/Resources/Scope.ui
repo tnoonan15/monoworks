@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UI>
+	<Actions>
+		<Action name="New Part" icon="part" shortcut="Ctrl+N" tooltip="Create a new part"/>
+		<Action name="New Assembly" icon="assembly" shortcut="Ctrl+M" tooltip="Create a new assembly"/>
+		<Action name="Open" icon="open" shortcut="Ctrl+O" tooltip="Open an existing file"/>
+		<Action name="Save" icon="save" shortcut="Ctrl+S" tooltip="Save the current file"/>
+		<Action name="Save As" icon="save-as" shortcut="Ctrl+A" tooltip="Save the current file with a different name"/>
+		<Action name="Close" icon="close" shortcut="Ctrl+W" tooltip="Close the current file"/>
+		<Action name="Quit" icon="exit" shortcut="Ctrl+Q" tooltip="Quit MonoWorks"/>
+		
+		<Action name="Undo" icon="edit-undo" shortcut="Ctrl+Z" tooltip="Undo the last action"/>
+		<Action name="Redo" icon="edit-redo" shortcut="Ctrl+Y" tooltip="Redo the last undone action"/>
+		<Action name="Cut" icon="edit-cut" shortcut="Ctrl+X" tooltip="Cut the current selection to the clipboard"/>
+		<Action name="Copy" icon="edit-copy" shortcut="Ctrl+C" tooltip="Copy the current selection to the clipboard"/>
+		<Action name="Paste" icon="edit-paste" shortcut="Ctrl+V" tooltip="Paste the clipboard"/>
+		
+		<Action name="Render Preferences" icon="render-preferences" tooltip="Rendering preferences"/>
+			
+		<Action name="New Sketch" icon="add-sketch" tooltip="Create a new sketch"/>
+		<Action name="Edit Sketch" icon="sketch" tooltip="Edit the selected sketch"/>		
+		<Action name="Line" icon="line" tooltip="Add a line to the sketch"/>		
+		<Action name="Arc" icon="arc" tooltip="Add an arc to the sketch"/>		
+		<Action name="Spline" icon="spline" tooltip="Add a spline to the sketch"/>
+		
+		<Action name="Extrusion" icon="extrusion" tooltip="Add an extrusion"/>
+		<Action name="Revolution" icon="revolution" tooltip="Add a revolution"/>
+		<Action name="Sweep" icon="sweep" tooltip="Add a sweep"/>
+		
+		<Action name="Ref Point" icon="refpoint" tooltip="Add a reference point"/>
+		<Action name="Ref Line" icon="refline" tooltip="Add a reference line"/>
+		<Action name="Ref Plane" icon="refplane" tooltip="Add a reference plane"/>
+		
+		
+	</Actions>
+
+	<Menus>
+		<Menu name="File">
+			<Item action="New Part"/>
+			<Item action="New Assembly"/>
+			<Item action="Open"/>
+			<Item action="Save"/>
+			<Item action="Save As"/>
+			<Item action="Close"/>
+			<Separator/>
+			<Item action="Quit"/>
+		</Menu>
+		<Menu name="Edit">
+			<Item action="Undo"/>
+			<Item action="Redo"/>
+			<Separator/>
+			<Item action="Cut"/>
+			<Item action="Copy"/>
+			<Item action="Paste"/>
+		</Menu>
+		<Menu name="View">
+			<Item action="Render Preferences"/>
+		</Menu>
+		<Menu name="Sketch">
+			<Item action="New Sketch"/>
+			<Item action="Edit Sketch"/>
+			<Item action="Line"/>
+			<Item action="Arc"/>
+			<Item action="Spline"/>
+		</Menu>
+		<Menu name="Features">
+			<Item action="Extrusion"/>
+			<Item action="Revolution"/>
+			<Item action="Sweep"/>
+		</Menu>
+		<Menu name="Reference">
+			<Item action="Ref Point"/>
+			<Item action="Ref Line"/>
+			<Item action="Ref Plane"/>
+		</Menu>
+	</Menus>
+
+	<Tools createMenu="True">
+		<Toolbar name="File" position="Top">
+			<Item action="New Part"/>
+			<Item action="New Assembly"/>
+			<Item action="Open"/>
+			<Item action="Save"/>
+			<Item action="Save As"/>
+			<Item action="Close"/>
+			<Separator/>
+			<Item action="Quit"/>
+		</Toolbar>
+		<Toolbar name="Edit" position="Top">
+			<Item action="Undo"/>
+			<Item action="Redo"/>
+			<Separator/>
+			<Item action="Cut"/>
+			<Item action="Copy"/>
+			<Item action="Paste"/>
+		</Toolbar>	
+		<ToolBox name="Entity" position="Right">
+			<ToolShelf name="Sketch">
+				<Item action="New Sketch"/>
+				<Item action="Edit Sketch"/>
+				<Item action="Line"/>
+				<Item action="Arc"/>
+				<Item action="Spline"/>
+			</ToolShelf>
+			<ToolShelf name="Features">
+				<Item action="Extrusion"/>
+				<Item action="Revolution"/>
+				<Item action="Sweep"/>
+			</ToolShelf>
+			<ToolShelf name="Reference">
+				<Item action="Ref Point"/>
+				<Item action="Ref Line"/>
+				<Item action="Ref Plane"/>
+			</ToolShelf>
+		</ToolBox>
+	</Tools>
+
+	
+	<DocumentTypes>
+		<DocumentType name="PartView" displayName="part" icon="part"/>
+		<DocumentType name="AssemblyView" displayName="assembly" icon="assembly"/>
+	</DocumentTypes>
+
+
+	<DockableArea>
+		<DocumentArea/>
+	</DockableArea>
+	
+</UI>
