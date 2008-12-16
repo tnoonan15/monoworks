@@ -1,4 +1,4 @@
-﻿// Axes.cs - MonoWorks Project
+// Axes.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -27,7 +27,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Definition of some text.
 	/// </summary>
-	public struct TextDef
+	public class TextDef
 	{
 
 		public TextDef(int size)
@@ -36,7 +36,7 @@ namespace MonoWorks.Rendering
 			Size = size;
 			Color = ColorManager.Global["Black"];
 			Position = new Coord();
-			Angle = new Angle();
+			Angle = new Angle(0);
 			HorizontalAlignment = HorizontalAlignment.Left;
 		}
 

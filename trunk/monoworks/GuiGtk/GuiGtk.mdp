@@ -48,7 +48,6 @@
     <ProjectReference type="Project" localcopy="True" refto="Model" />
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="gtksourceview-sharp, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/gtkglarea-sharp.dll" />
