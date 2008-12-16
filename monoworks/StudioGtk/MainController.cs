@@ -37,7 +37,7 @@ namespace MonoWorks.StudioGtk
 		/// <param name="window"> </param>
 		public MainController(MainWindow window) : base(window)
 		{
-			this.window = window;
+//			this.window = window;
 			
 			ResourceManager.Initialize("../../../Resources");
 			
@@ -48,7 +48,7 @@ namespace MonoWorks.StudioGtk
 		/// <summary>
 		/// The main window.
 		/// </summary>
-		private MainWindow window;
+//		private MainWindow window;
 		
 		/// <summary>
 		/// The UI manager.

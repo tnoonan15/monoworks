@@ -52,6 +52,10 @@ namespace MonoWorks.PlottingDemoGtk
 			Pane3D pane3D = new Pane3D();
 			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
 			
+			// create the controls page
+			PaneControls paneControls = new PaneControls();
+			book.AppendPage(paneControls, new Gtk.Label("Controls"));
+			
 			ShowAll();
 		}
 		
