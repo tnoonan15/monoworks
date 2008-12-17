@@ -22,6 +22,12 @@ using MonoWorks.Base;
 
 namespace MonoWorks.Rendering
 {
+
+	/// <summary>
+	/// Renderable states with respect to mouse interaction.
+	/// </summary>
+	public enum HitState {None, Hovering, Selected};
+
 	
 	/// <summary>
 	/// Base class for renderable objects.
@@ -40,23 +46,6 @@ namespace MonoWorks.Rendering
 		public virtual void MakeDirty()
 		{
 			dirty = true;
-		}
-
-		protected Bounds bounds = new Bounds();
-		/// <summary>
-		/// The bounding box of the renderable.
-		/// Should be updated by ComputeGeometry().
-		/// </summary>
-		public Bounds Bounds
-		{
-			get {return bounds;}
-		}
-
-		/// <summary>
-		/// Resets the bounds to their default value, if applicable.
-		/// </summary>
-		public virtual void ResetBounds()
-		{
 		}
 
 		/// <summary>
@@ -96,26 +85,6 @@ namespace MonoWorks.Rendering
 		public virtual void ComputeGeometry()
 		{
 			dirty = false;
-		}
-		
-		/// <summary>
-		/// Renders the opaque portion of the renderable.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public virtual void RenderOpaque(IViewport viewport)
-		{			
-			if (dirty)
-				ComputeGeometry();
-		}
-		
-		/// <summary>
-		/// Renders the transparent portion of the renderable, 
-		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public virtual void RenderTransparent(IViewport viewport)
-		{			
-			if (dirty)
-				ComputeGeometry();
 		}
 		
 		
@@ -169,25 +138,39 @@ namespace MonoWorks.Rendering
 
 #region Hit Test and selection
 
-		/// <summary>
-		/// Performs a hit test with two vectors lying on a 3D line.
-		/// </summary>
-		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
-		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
-		/// <returns> True if the renderable was hit. </returns>
-		public virtual bool HitTest(HitLine hitLine)
-		{
-			return bounds.HitTest(hitLine);
-		}
 
-		protected bool isSelected = false;
+		protected HitState hitState = HitState.None;
+		
 		/// <value>
 		/// Whether the renderable is selected.
 		/// </value>
 		public bool IsSelected
 		{
-			get { return isSelected; }
-			set { isSelected = value; }
+			get { return hitState == HitState.Selected; }
+			set
+			{
+				if (value)
+					hitState = HitState.Selected;
+				else
+					hitState = HitState.None;
+				MakeDirty();
+			}
+		}
+
+		/// <value>
+		/// Whether the cursor is hovering over the renderable.
+		/// </value>
+		public virtual bool IsHovering
+		{
+			get {return hitState == HitState.Hovering;}
+			set
+			{
+				if (value)
+					hitState = HitState.Hovering;
+				else
+					hitState = HitState.None;
+				MakeDirty();
+			}
 		}
 
 		/// <summary>
@@ -195,7 +178,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void Deselect()
 		{
-			isSelected = false;
+			IsSelected = false;
 		}
 
 		/// <summary>

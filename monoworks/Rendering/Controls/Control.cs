@@ -27,7 +27,7 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Base class for all renderable controls.
 	/// </summary>
-	public abstract class Control : Renderable
+	public abstract class Control : Overlay
 	{
 		
 		public Control() : base()
@@ -79,6 +79,23 @@ namespace MonoWorks.Rendering.Controls
 
 
 #endregion
+
+
+#region Default Style
+
+		private static ControlStyle defaultStyle = new ControlStyle();
+
+		/// <value>
+		/// Style that gets applied to all new controls.
+		/// </value>
+		public static ControlStyle DefaultStyle
+		{
+			get {return defaultStyle;}
+		}
+
+#endregion
+
+		
 		
 	}
 }

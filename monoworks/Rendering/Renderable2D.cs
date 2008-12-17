@@ -1,4 +1,4 @@
-// PaneControls.cs - MonoWorks Project
+// Renderable2D.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,31 +18,17 @@
 
 using System;
 
-using MonoWorks.Base;
-using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
-using MonoWorks.GuiGtk;
-
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
-	/// Contains the rendering controls demo.
+	/// Renderable that only renders itself as an overlay.
 	/// </summary>
-	public class PaneControls : Gtk.HBox
+	public class Overlay : Renderable
 	{
 		
-		public PaneControls() : base()
+		public Overlay() : base()
 		{
-			// add the viewport
-			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
-			PackEnd(tooledViewport);
-
-			Viewport viewport = tooledViewport.Viewport;
-
-			Button button = new Button("Hello Blah");
-			button.Position = new Coord(300, 300);
-			viewport.AddOverlay(button);
 		}
 	}
 }

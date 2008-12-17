@@ -1,4 +1,4 @@
-// PaneControls.cs - MonoWorks Project
+// ControlStyle.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,31 +18,17 @@
 
 using System;
 
-using MonoWorks.Base;
-using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
-using MonoWorks.GuiGtk;
-
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.Rendering.Controls
 {
 	
 	/// <summary>
-	/// Contains the rendering controls demo.
+	/// Contains rendering style information for controls.
 	/// </summary>
-	public class PaneControls : Gtk.HBox
+	public class ControlStyle
 	{
 		
-		public PaneControls() : base()
+		public ControlStyle()
 		{
-			// add the viewport
-			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
-			PackEnd(tooledViewport);
-
-			Viewport viewport = tooledViewport.Viewport;
-
-			Button button = new Button("Hello Blah");
-			button.Position = new Coord(300, 300);
-			viewport.AddOverlay(button);
 		}
 	}
 }

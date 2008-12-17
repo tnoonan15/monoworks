@@ -111,14 +111,26 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Adds a renderable to the rendering list.
 		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		void AddRenderable(Renderable renderable);
+		/// <param name="renderable"> A <see cref="Renderable3D"/>. </param>
+		void AddRenderable(Renderable3D renderable);
 
 		/// <summary>
 		/// Removes a renderable from the rendering list.
 		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		void RemoveRenderable(Renderable renderable);
+		/// <param name="renderable"> A <see cref="Renderable3D"/>. </param>
+		void RemoveRenderable(Renderable3D renderable);
+
+		/// <summary>
+		/// Adds an overlay to the rendering list.
+		/// </summary>
+		/// <param name="overlay"> A <see cref="Overlay"/>. </param>
+		void AddOverlay(Overlay overlay);
+
+		/// <summary>
+		/// Removes an overlay to the rendering list.
+		/// </summary>
+		/// <param name="overlay"> A <see cref="Overlay"/>. </param>
+		void RemoveOverlay(Overlay overlay);
 
 		/// <value>
 		/// The bounds of all renderables.
