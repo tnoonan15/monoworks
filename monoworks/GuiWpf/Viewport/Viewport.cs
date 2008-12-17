@@ -109,7 +109,7 @@ namespace MonoWorks.GuiWpf
 
 		public void OnDirectionChanged()
 		{
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderList.Renderables)
 				renderable.OnViewDirectionChanged(this);
 		}
 
@@ -139,60 +139,15 @@ namespace MonoWorks.GuiWpf
 		}
 
 
-#region Renderable Registry
-
-        protected List<Renderable> renderables = new List<Renderable>();
-        /// <summary>
-        /// Renderables to render.
-        /// </summary>
-        public IEnumerable<Renderable> Renderables
-        {
-            get { return renderables; }
-        }
-
+		private RenderList renderList = new RenderList();
 		/// <summary>
-		/// Adds a renderable to the rendering list.
+		/// The rendering list for this viewport.
 		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void AddRenderable(Renderable renderable)
+		public RenderList RenderList
 		{
-			if (!renderables.Contains(renderable))
-				renderables.Add(renderable);
+			get { return renderList; }
 		}
 
-		/// <summary>
-		/// Removes a renderable from the rendering list.
-		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void RemoveRenderable(Renderable renderable)
-		{
-			if (!renderables.Contains(renderable))
-				throw new Exception("The renderable is not a part of this viewport's rendering list.");
-			renderables.Remove(renderable);
-		}
-
-		/// <value>
-		/// The bounds of all renderables.
-		/// </value>
-		public new Bounds Bounds
-		{
-			get
-			{
-				Bounds bounds = new Bounds();
-				foreach (Renderable renderable in renderables)
-					bounds.Resize(renderable.Bounds);
-				return bounds;
-			}
-		}
-
-
-		public void ResetBounds()
-		{
-			foreach (Renderable renderable in renderables)
-				renderable.ResetBounds();
-		}
-
-#endregion
 
 
 #region Text Renderering
@@ -264,8 +219,8 @@ namespace MonoWorks.GuiWpf
 				HitLine hitLine = camera.ScreenToWorld(args.Location.Coord());
 
 				//List<Renderable> hitRends = new List<Renderable>();
-				Renderable hitRend = null;
-				foreach (Renderable renderable in renderables)
+				Renderable3D hitRend = null;
+				foreach (Renderable3D renderable in renderList.Renderables)
 				{
 					renderable.Deselect();
 					if (renderable.HitTest(hitLine))
@@ -292,7 +247,7 @@ namespace MonoWorks.GuiWpf
 
 			case InteractionType.Zoom:
 				bool blocked = false;
-				foreach (Renderable renderable in renderables)
+				foreach (Renderable3D renderable in renderList.Renderables)
 				{
 					if (renderable.HandleZoom(this, rubberBand))
 						blocked = true;
@@ -327,7 +282,7 @@ namespace MonoWorks.GuiWpf
 				Coord diff = args.Location.Coord() - interactionState.LastPos;
 
 				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderables)
+				foreach (Renderable3D renderable in renderList.Renderables)
 				{
 					if (renderable.HandlePan(this, diff.X, diff.Y))
 						blocked = true;
@@ -338,7 +293,7 @@ namespace MonoWorks.GuiWpf
 				double factor = (args.Location.Y - interactionState.LastPos.Y) / (double)Size.Height;
 
 				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderables)
+				foreach (Renderable renderable in renderList.Renderables)
 				{
 					if (renderable.HandleDolly(this, factor))
 						blocked = true;
@@ -368,7 +323,7 @@ namespace MonoWorks.GuiWpf
 				factor = camera.DollyFactor;
 
 			// allow the renderables to deal with the interaction
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderList.Renderables)
 			{
 				if (renderable.HandleDolly(this, factor))
 					blocked = true;
@@ -429,7 +384,7 @@ namespace MonoWorks.GuiWpf
 
 			//Console.WriteLine("viewport resized to {0}, {1}", WidthGL, HeightGL);
 
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable renderable in renderList.Renderables)
 				renderable.OnViewportResized(this);
 
 			PaintGL();
@@ -472,17 +427,7 @@ namespace MonoWorks.GuiWpf
 
 
 			// render the rendering list
-			camera.Place(); // place the camera for 3D rendering
-
-			foreach (Renderable renderable in renderables)
-				renderable.RenderOpaque(this);
-
-			foreach (Renderable renderable in renderables)
-				renderable.RenderTransparent(this);
-
-			camera.PlaceOverlay(); // place the camera for overlay rendering
-			foreach (Renderable renderable in renderables)
-				renderable.RenderOverlay(this);
+			renderList.Render(this);
 
 			// render the rubber band
 			rubberBand.Render(this);

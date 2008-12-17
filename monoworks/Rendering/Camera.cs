@@ -611,7 +611,7 @@ namespace MonoWorks.Rendering
 		/// <param name="upVecOut"> The up vector. </param>
 		public void GetDirectionVectors(ViewDirection direction, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
-			Bounds bounds = viewport.Bounds;
+			Bounds bounds = viewport.RenderList.Bounds;
 			
 			// determine the distance needed to view all renderables
 			double dist = bounds.MaxWidth / (fov * 0.5).Tan();
@@ -660,7 +660,7 @@ namespace MonoWorks.Rendering
 		public void SetViewDirection(ViewDirection direction)
 		{
 			lastDirection = direction;
-			viewport.ResetBounds();
+			viewport.RenderList.ResetBounds();
 			GetDirectionVectors(direction, out center, out pos, out upVec);
 			RecomputeUpVector();
 			viewport.ResizeGL();

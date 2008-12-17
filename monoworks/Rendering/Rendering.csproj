@@ -68,6 +68,9 @@
     <Compile Include="Lighting.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Renderable.cs" />
+    <Compile Include="Overlay.cs" />
+    <Compile Include="Renderable3D.cs" />
+    <Compile Include="RenderList.cs" />
     <Compile Include="RenderManager.cs" />
     <Compile Include="RubberBand.cs" />
     <Compile Include="TextDef.cs" />

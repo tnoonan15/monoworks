@@ -57,7 +57,7 @@ namespace MonoWorks.PlottingDemoWpf
 
 
 			// add the test axes
-			viewport.AddRenderable(axes);
+			viewport.RenderList.AddRenderable(axes);
 			viewport.Camera.SetViewDirection(ViewDirection.Standard);
 
 		}

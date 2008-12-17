@@ -42,7 +42,7 @@ namespace MonoWorks.PlottingDemoWpf
 			TestAxes2D axes = new TestAxes2D();
 
 			// add the test axes
-			viewport.AddRenderable(axes);
+			viewport.RenderList.AddRenderable(axes);
 			viewport.Camera.Projection = Projection.Parallel;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
 			viewport.InteractionState.Mode = InteractionMode.Select2D;
