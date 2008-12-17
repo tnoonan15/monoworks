@@ -43,26 +43,17 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Returns the viewport width.
 		/// </summary>
-		int WidthGL
-		{
-			get;
-		}
+		int WidthGL { get; }
 		
 		/// <summary>
 		/// Returns the viewport height.
 		/// </summary>
-		int HeightGL
-		{
-			get;
-		}
+		int HeightGL { get; }
 		
 		/// <value>
 		/// Access the viewport camera.
 		/// </value>
-		Camera Camera
-		{
-			get;
-		}
+		Camera Camera { get; }
 
 		/// <summary>
 		/// Makes the viewport's context the current one.
@@ -87,60 +78,22 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// Access the viewport's render manager.
 		/// </value>
-		RenderManager RenderManager
-		{
-			get;
-		}
+		RenderManager RenderManager { get; }
 		
 		/// <value>
 		/// The interaction state.
 		/// </value>
-		InteractionState InteractionState
-		{
-			get;
-		}
+		InteractionState InteractionState { get; }
 		
 		/// <value>
 		/// The lighting effects for the viewport.
 		/// </value>
-		Lighting Lighting
-		{
-			get;
-		}
+		Lighting Lighting {	get; }
 
 		/// <summary>
-		/// Adds a renderable to the rendering list.
+		/// The rendering list for the viewport.
 		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable3D"/>. </param>
-		void AddRenderable(Renderable3D renderable);
-
-		/// <summary>
-		/// Removes a renderable from the rendering list.
-		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable3D"/>. </param>
-		void RemoveRenderable(Renderable3D renderable);
-
-		/// <summary>
-		/// Adds an overlay to the rendering list.
-		/// </summary>
-		/// <param name="overlay"> A <see cref="Overlay"/>. </param>
-		void AddOverlay(Overlay overlay);
-
-		/// <summary>
-		/// Removes an overlay to the rendering list.
-		/// </summary>
-		/// <param name="overlay"> A <see cref="Overlay"/>. </param>
-		void RemoveOverlay(Overlay overlay);
-
-		/// <value>
-		/// The bounds of all renderables.
-		/// </value>
-		Bounds Bounds {get;}
-
-		/// <summary>
-		/// Resets the bounds of all child renderables.
-		/// </summary>
-		void ResetBounds();
+		RenderList RenderList { get; }
 		
 		/// <summary>
 		/// Lets the renderables know that the view direction has been changed.

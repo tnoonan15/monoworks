@@ -124,58 +124,17 @@ namespace MonoWorks.GuiGtk
 		{
 			get {return lighting;}
 		}
-				
 		
-#region Renderable Registry
 		
+		private RenderList renderList = new RenderList();
 		/// <summary>
-		/// Renderables to render.
+		/// The rendering list for this viewport.
 		/// </summary>
-		protected List<Renderable3D> renderables = new List<Renderable3D>();
-		
-		/// <summary>
-		/// Adds a renderable to the rendering list.
-		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void AddRenderable(Renderable3D renderable)
+		public RenderList RenderList
 		{
-			if (!renderables.Contains(renderable))
-				renderables.Add(renderable);
-		}
-		
-		/// <summary>
-		/// Removes a renderable from the rendering list.
-		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void RemoveRenderable(Renderable3D renderable)
-		{
-			if (!renderables.Contains(renderable))
-				throw new Exception("The renderable is not a part of this viewport's rendering list.");
-			renderables.Remove(renderable);
-		}
-		
-		/// <value>
-		/// The bounds of all renderables.
-		/// </value>
-		public Bounds Bounds
-		{
-			get
-			{
-				Bounds bounds = new Bounds();
-				foreach (Renderable3D renderable in renderables)
-					bounds.Resize(renderable.Bounds);
-				return bounds;
-			}
+			get {return renderList;}
 		}
 
-		/// <summary>
-		/// Reset the bounds of all renderables.
-		/// </summary>
-		public void ResetBounds()
-		{
-			foreach (Renderable3D renderable in renderables)
-				renderable.ResetBounds();
-		}
 		
 		/// <summary>
 		/// Alerts the renderables that the viewport has been modified.
@@ -194,31 +153,8 @@ namespace MonoWorks.GuiGtk
 			foreach (Renderable3D renderable in renderables)
 				renderable.OnViewDirectionChanged(this);
 		}
-		
-#endregion
 
 
-#region Overlays
-
-		protected List<Overlay> overlays = new List<Overlay>();
-
-		/// <summary>
-		/// Add an overlay to the viewport.
-		/// </summary>
-		public void AddOverlay(Overlay overlay)
-		{
-			overlays.Add(overlay);
-		}
-
-		/// <summary>
-		/// Remove an overlay from the viewport.
-		/// </summary>
-		public void RemoveOverlay(Overlay overlay)
-		{
-			overlays.Remove(overlay);
-		}
-
-#endregion
 
 
 #region Text Renderering

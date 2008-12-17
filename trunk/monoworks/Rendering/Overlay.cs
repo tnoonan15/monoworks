@@ -1,4 +1,4 @@
-// Renderable2D.cs - MonoWorks Project
+// Overlays.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,6 +18,8 @@
 
 using System;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Rendering
 {
 	
@@ -30,5 +32,18 @@ namespace MonoWorks.Rendering
 		public Overlay() : base()
 		{
 		}
+
+
+		protected virtual bool HitTest(Coord pos)
+		{
+
+		}
+
+
+		public virtual bool HoverTest(Coord pos)
+		{
+
+		}
+
 	}
 }
