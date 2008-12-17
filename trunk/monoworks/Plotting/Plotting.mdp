@@ -1,4 +1,4 @@
-<Project name="Plotting" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Plotting" clr-version="Net_2_0" Description="MonoWorks plotting library." ctype="DotNetProject">
+<Project name="Plotting" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Plotting" clr-version="Net_2_0" Description="MonoWorks plotting library." targetFramework="2.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="MonoWorks.Plotting" />

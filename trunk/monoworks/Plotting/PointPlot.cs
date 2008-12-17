@@ -1,4 +1,4 @@
-﻿// PointPlot.cs - MonoWorks Project
+// PointPlot.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -550,7 +550,7 @@ namespace MonoWorks.Plotting
 			if (shortestDistance < tol * tol)
 			{
 				selectedIndex[closestIndex] = true;
-				isSelected = true;
+				IsSelected = true;
 				return true;
 			}
 

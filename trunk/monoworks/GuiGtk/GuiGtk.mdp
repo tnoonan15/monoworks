@@ -1,4 +1,4 @@
-<Project name="GuiGtk" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.GuiGtk" clr-version="Net_2_0" Description="Gtk port of the MonoWorks GUI components." ctype="DotNetProject">
+<Project name="GuiGtk" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.GuiGtk" clr-version="Net_2_0" Description="Gtk port of the MonoWorks GUI components." targetFramework="2.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="GuiGtk" />

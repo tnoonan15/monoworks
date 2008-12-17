@@ -1,4 +1,4 @@
-<Project name="Model" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Model" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="Model" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Model" clr-version="Net_2_0" targetFramework="2.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="MonoWorks.Model" />

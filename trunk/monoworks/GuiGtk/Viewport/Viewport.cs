@@ -131,13 +131,13 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Renderables to render.
 		/// </summary>
-		protected List<Renderable> renderables = new List<Renderable>();
+		protected List<Renderable3D> renderables = new List<Renderable3D>();
 		
 		/// <summary>
 		/// Adds a renderable to the rendering list.
 		/// </summary>
 		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void AddRenderable(Renderable renderable)
+		public void AddRenderable(Renderable3D renderable)
 		{
 			if (!renderables.Contains(renderable))
 				renderables.Add(renderable);
@@ -147,7 +147,7 @@ namespace MonoWorks.GuiGtk
 		/// Removes a renderable from the rendering list.
 		/// </summary>
 		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void RemoveRenderable(Renderable renderable)
+		public void RemoveRenderable(Renderable3D renderable)
 		{
 			if (!renderables.Contains(renderable))
 				throw new Exception("The renderable is not a part of this viewport's rendering list.");
@@ -162,7 +162,7 @@ namespace MonoWorks.GuiGtk
 			get
 			{
 				Bounds bounds = new Bounds();
-				foreach (Renderable renderable in renderables)
+				foreach (Renderable3D renderable in renderables)
 					bounds.Resize(renderable.Bounds);
 				return bounds;
 			}
@@ -173,7 +173,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void ResetBounds()
 		{
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderables)
 				renderable.ResetBounds();
 		}
 		
@@ -182,7 +182,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void OnResized()
 		{
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderables)
 				renderable.OnViewportResized(this);
 		}
 		
@@ -191,10 +191,33 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void OnDirectionChanged()
 		{
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderables)
 				renderable.OnViewDirectionChanged(this);
 		}
 		
+#endregion
+
+
+#region Overlays
+
+		protected List<Overlay> overlays = new List<Overlay>();
+
+		/// <summary>
+		/// Add an overlay to the viewport.
+		/// </summary>
+		public void AddOverlay(Overlay overlay)
+		{
+			overlays.Add(overlay);
+		}
+
+		/// <summary>
+		/// Remove an overlay from the viewport.
+		/// </summary>
+		public void RemoveOverlay(Overlay overlay)
+		{
+			overlays.Remove(overlay);
+		}
+
 #endregion
 
 
@@ -462,13 +485,17 @@ namespace MonoWorks.GuiGtk
 			
 			// render the rendering list
 			camera.Place();
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderables)
 				renderable.RenderOpaque(this);
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderables)
 				renderable.RenderTransparent(this);
 			camera.PlaceOverlay();
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderables)
 				renderable.RenderOverlay(this);
+
+			// render the overlays
+			foreach (Overlay overlay in overlays)
+				overlay.RenderOverlay(this);
 
 			// render the rubber band
 			rubberBand.Render(this);

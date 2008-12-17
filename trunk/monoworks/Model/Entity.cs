@@ -31,7 +31,7 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// The Entity class is the base class for all MonoWorks model objects.
 	/// </summary>
-	public class Entity : Renderable
+	public class Entity : Renderable3D
 	{
 		
 #region Counting
@@ -74,7 +74,6 @@ namespace MonoWorks.Model
 			bounds = new Bounds();
 			children = new EntityList();
 			dependencies = new EntityList();
-			isSelected = false;
 			
 			// initialize momentos
 			momentos = new List<Momento>();
@@ -445,7 +444,7 @@ namespace MonoWorks.Model
 			base.RenderOpaque(viewport);
 			foreach (Entity child in children)
 				child.RenderOpaque(viewport);
-			if (isSelected)
+			if (IsSelected)
 				bounds.Render(viewport);
 		}
 		

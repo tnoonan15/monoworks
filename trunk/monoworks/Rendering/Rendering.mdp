@@ -1,4 +1,4 @@
-<Project name="Rendering" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Rendering" clr-version="Net_2_0" Description="Contains classes and interfaces specific to rendering to OpenGL." ctype="DotNetProject">
+<Project name="Rendering" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Rendering" clr-version="Net_2_0" Description="Contains classes and interfaces specific to rendering to OpenGL." targetFramework="2.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="MonoWorks.Rendering" />
@@ -40,6 +40,9 @@
     <File name="Controls/Label.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/Button.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/ToolBar.cs" subtype="Code" buildaction="Compile" />
+    <File name="Controls/ControlStyle.cs" subtype="Code" buildaction="Compile" />
+    <File name="Renderable2D.cs" subtype="Code" buildaction="Compile" />
+    <File name="Renderable3D.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

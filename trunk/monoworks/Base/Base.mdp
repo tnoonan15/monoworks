@@ -1,4 +1,4 @@
-<Project name="Base" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Base" clr-version="Net_2_0" Description="MonoWorks Base library. Contains classes for data handling and unit conversion." ctype="DotNetProject">
+<Project name="Base" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.Base" clr-version="Net_2_0" Description="MonoWorks Base library. Contains classes for data handling and unit conversion." targetFramework="2.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="MonoWorks.Base" />

@@ -1,4 +1,4 @@
-﻿// Plottable.cs - MonoWorks Project
+// Plottable.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -30,7 +30,7 @@ namespace MonoWorks.Plotting
 	/// <summary>
 	/// Base class for plottable objects.
 	/// </summary>
-	public abstract class Plottable : Renderable
+	public abstract class Plottable : Renderable3D
 	{
 
 		/// <summary>
