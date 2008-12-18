@@ -28,13 +28,19 @@ namespace MonoWorks.PlottingDemoWpf
 			item3d.Content = pane3d;
 			book.Items.Add(item3d);
 
-
 			// create the basic 2D tab
 			Pane2D pane2d = new Pane2D();
 			TabItem item2d = new TabItem();
 			item2d.Header = "Basic 2D";
 			item2d.Content = pane2d;
 			book.Items.Add(item2d);
+
+			// create the controls tab
+			PaneControls paneControls = new	PaneControls();
+			TabItem itemControls = new TabItem();
+			itemControls.Header = "Controls";
+			itemControls.Content = paneControls;
+			book.Items.Add(itemControls);
 
 			book.SelectionChanged += OnPageChanged;
 		}

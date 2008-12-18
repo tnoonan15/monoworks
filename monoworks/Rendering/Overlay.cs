@@ -26,7 +26,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Renderable that only renders itself as an overlay.
 	/// </summary>
-	public class Overlay : Renderable
+	public abstract class Overlay : Renderable
 	{
 		
 		public Overlay() : base()
@@ -34,16 +34,10 @@ namespace MonoWorks.Rendering
 		}
 
 
-		protected virtual bool HitTest(Coord pos)
-		{
-
-		}
+		protected abstract bool HitTest(Coord pos);
 
 
-		public virtual bool HoverTest(Coord pos)
-		{
-
-		}
+		public abstract bool HoverTest(Coord pos);
 
 	}
 }

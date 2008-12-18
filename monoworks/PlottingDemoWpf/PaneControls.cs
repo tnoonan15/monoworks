@@ -1,4 +1,4 @@
-﻿// Pane2D.cs - MonoWorks Project
+﻿// PaneControls.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -20,35 +20,28 @@ using System;
 using System.Collections.Generic;
 
 using System.Windows;
-using System.Windows.Controls;
+using swc = System.Windows.Controls;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.GuiWpf;
-using MonoWorks.GuiWpf.PlotControls;
+using MonoWorks.Rendering.Controls;
 
 namespace MonoWorks.PlottingDemoWpf
 {
 	/// <summary>
-	/// Contains the 2D portion of the plotting demo.
+	/// Demo pane containing some controls.
 	/// </summary>
-	public class Pane2D : PaneBase
+	public class PaneControls : PaneBase
 	{
-
-		public Pane2D()
+		public PaneControls()
 			: base()
 		{
-			// create the axes
-			TestAxes2D axes = new TestAxes2D();
+			Button button = new Button("Hello World");
+			button.Position = new Coord(300, 300);
 
-			// add the test axes
-			viewport.RenderList.AddRenderable(axes);
-			viewport.Camera.Projection = Projection.Parallel;
-			viewport.Camera.SetViewDirection(ViewDirection.Front);
-			viewport.RenderableInteractor.State = InteractionState.Select2D;
-
-			tooledViewport.UpdateToolbar();
-
+			viewport.RenderList.AddOverlay(button);
 			DockViewport();
 		}
 

@@ -81,7 +81,37 @@ namespace MonoWorks.Rendering.Controls
 #endregion
 
 
-#region Default Style
+#region Hit Testing
+
+		/// <summary>
+		/// Performs the hit test on the rectangle defined by position and size.
+		/// </summary>
+		protected override bool HitTest(Coord pos)
+		{
+			return pos >= position && pos <= (position + size);
+		}
+
+		public override bool HoverTest(Coord pos)
+		{
+			Console.WriteLine("hover test at {0} for control at {1}", pos, position);
+			if (HitTest(pos)) // hit
+			{
+				IsHovering = true;
+				Console.WriteLine("hovering");
+				return true;
+			}
+			else // not hit
+			{
+				IsHovering = false;
+				return false;
+			}
+		}
+
+
+#endregion
+
+
+		#region Default Style
 
 		private static ControlStyle defaultStyle = new ControlStyle();
 

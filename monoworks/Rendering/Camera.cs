@@ -412,7 +412,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void DollyIn()
 		{
-			Dolly(-dollyFactor);
+			Dolly(dollyFactor);
 		}
 
 		/// <summary>
@@ -420,7 +420,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void DollyOut()
 		{
-			Dolly(dollyFactor);
+			Dolly(-dollyFactor);
 		}
 		
 		/// <summary>
@@ -431,7 +431,7 @@ namespace MonoWorks.Rendering
 		/// <param name="factor"> The dolly factor. </param>
 		public void Dolly(double factor)
 		{
-			Vector travel = Direction * factor;
+			Vector travel = Direction * -factor;
 			pos = travel + pos;
 			if (projection == Projection.Parallel)
 				Configure(); // dollying in parallel requires reconfiguration
@@ -473,7 +473,7 @@ namespace MonoWorks.Rendering
 			double scaling = ViewportToWorldScaling;
 			
 			// compute the view up (y) component of the tranformation
-			Vector yPan = upVec * dy * scaling;
+			Vector yPan = upVec * -dy * scaling;
 			
 			// compute the lateral (x) compoment of the transformation
 			Vector xPan = upVec.Cross( (center-pos).Normalize() ) * dx * scaling;
@@ -543,7 +543,7 @@ namespace MonoWorks.Rendering
 			Vector xRotate = RightVec * dx * scaling;
 			
 			// compute the view up (y) component of the tranformation
-			Vector yRotate = upVec * dy * scaling;
+			Vector yRotate = upVec * -dy * scaling;
 			
 			// compute the current distance from the center
 			double currentDistance = (pos-center).Magnitude;

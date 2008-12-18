@@ -57,13 +57,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractInteractor.cs" />
     <Compile Include="Bounds.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ColorManager.cs" />
     <Compile Include="ColorMap.cs" />
+    <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\Container.cs" />
+    <Compile Include="Controls\Control.cs" />
+    <Compile Include="Controls\ControlStyle.cs" />
+    <Compile Include="Controls\Image.cs" />
+    <Compile Include="Controls\Label.cs" />
+    <Compile Include="Controls\Stack.cs" />
+    <Compile Include="Controls\ToolBar.cs" />
     <Compile Include="HitLine.cs" />
-    <Compile Include="InteractionState.cs" />
+    <Compile Include="OverlayInteractor.cs" />
+    <Compile Include="RenderableInteractor.cs" />
     <Compile Include="IViewport.cs" />
     <Compile Include="Lighting.cs" />
     <Compile Include="Material.cs" />
@@ -88,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="Widgets\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

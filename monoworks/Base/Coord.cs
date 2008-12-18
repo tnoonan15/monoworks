@@ -107,5 +107,52 @@ namespace MonoWorks.Base
 			}
 		}
 
+
+		#region Comparison Operators
+
+		/// <summary>
+		/// Return true if this coord is smaller than other in both dimensions.
+		/// </summary>
+		/// <remarks>Note that the Coord comparison operators are not reversible 
+		/// like they are for numbers (i.e. if c1.LessThanOrEqual(2), then c2.GreaterThanOrEqual(c1) is not necessarily true).
+		/// Also, the comparison operators do not form a trichotomy. So it is possible that 
+		/// c1.LessThanOrEqual(c2), c1.GreaterThanOrEqual(c2), and c1.Equals(c2) all return false.
+		/// That being said, they are extremely useful for UI code like hit testing.</remarks>
+		public bool LessThanOrEqual(Coord other)
+		{
+			return X <= other.X && Y <= other.Y;
+		}
+
+		/// <summary>
+		/// Return true if this coord is larger than other in both dimensions.
+		/// </summary>
+		/// <remarks>Note that the Coord comparison operators are not reversible 
+		/// like they are for numbers (i.e. if c1.LessThanOrEqual(2), then c2.GreaterThanOrEqual(c1) is not necessarily true).
+		/// Also, the comparison operators do not form a trichotomy. So it is possible that 
+		/// c1.LessThanOrEqual(c2), c1.GreaterThanOrEqual(c2), and c1.Equals(c2) all return false.
+		/// That being said, they are extremely useful for UI code like hit testing.</remarks>
+		public bool GreaterThanOrEqual(Coord other)
+		{
+			return X >= other.X && Y >= other.Y;
+		}
+
+		/// <summary>
+		/// Equivilant to c1.LessThanOrEqual(c2).	
+		/// </summary>
+		public static bool operator <=(Coord c1, Coord c2)
+		{
+			return c1.LessThanOrEqual(c2);
+		}
+
+		/// <summary>
+		/// Equivilant to c1.GreaterThanOrEqual(c2).	
+		/// </summary>
+		public static bool operator >=(Coord c1, Coord c2)
+		{
+			return c1.GreaterThanOrEqual(c2);
+		}
+
+		#endregion
+
 	}
 }
