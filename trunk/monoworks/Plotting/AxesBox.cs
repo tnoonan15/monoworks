@@ -136,7 +136,7 @@ namespace MonoWorks.Plotting
 		{
 			base.OnViewportResized(viewport);
 			
-			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
 			{
 				double edgeFactor = 0.35 * viewport.Camera.ViewportToWorldScaling;
 				Vector center = viewport.Camera.Center;
@@ -509,7 +509,7 @@ namespace MonoWorks.Plotting
 				gl.glEnable(gl.GL_CLIP_PLANE0 + i);
 			
 			// disable clipping for planes orthagonal to view direction
-			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
 			{
 				switch (viewport.Camera.LastDirection)
 				{
@@ -594,11 +594,11 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public override bool HandlePan(IViewport viewport, double dx, double dy)
 		{			
-			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
 			{
 				resizeMode = ResizeMode.Manual;
 				// determine the difference to apply to the axes ranges
-				Vector diff = (viewport.Camera.RightVec * dx + viewport.Camera.UpVector * dy) * viewport.Camera.ViewportToWorldScaling; 
+				Vector diff = (viewport.Camera.RightVec * dx - viewport.Camera.UpVector * dy) * viewport.Camera.ViewportToWorldScaling; 
 				plotBounds.Translate(diff / plotToWorldSpace.Scaling);
 				MakeDirty();
 				return true;
@@ -609,10 +609,10 @@ namespace MonoWorks.Plotting
 		
 		public override bool HandleDolly(IViewport viewport, double factor)
 		{
-			if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
 			{
 				resizeMode = ResizeMode.Manual;
-				plotBounds.Expand(1 + factor);
+				plotBounds.Expand(1 - factor);
 				MakeDirty();
 				return true;
 			}
@@ -623,7 +623,7 @@ namespace MonoWorks.Plotting
 
         public override bool HandleZoom(IViewport viewport, RubberBand rubberBand)
         {
-            if (viewport.InteractionState.Mode == InteractionMode.Select2D)
+            if (viewport.RenderableInteractor.State == InteractionState.Select2D)
 			{
 				ResizeMode = ResizeMode.Manual;
 				Vector min = viewport.Camera.ScreenToWorld(rubberBand.Min, false);

@@ -50,8 +50,9 @@ namespace MonoWorks.GuiWpf
 			toolTip = new swf.ToolTip();
 			toolTip.SetToolTip(this, "");
 
-			// initialize the interactionState
-			interactionState = new InteractionState();
+			// initialize the interactors
+			renderableInteractor = new RenderableInteractor(this);
+			overlayInteractor = new OverlayInteractor(this);
 
 			InitializeGL();
 
@@ -122,11 +123,6 @@ namespace MonoWorks.GuiWpf
 		/// <param name="fileName"></param>
 		public void Export(string fileName)
 		{
-			//Console.WriteLine("export to {0}", fileName);
-			//sd.Bitmap bitmap = new sd.Bitmap(Width, Height);
-			//DrawToBitmap(bitmap, new sd.Rectangle(0, 0, Width, Height));
-			//bitmap.Save(fileName);
-
 			sd.Bitmap bmp = new sd.Bitmap(this.ClientSize.Width, this.ClientSize.Height);
 			sd.Imaging.BitmapData data =
 			bmp.LockBits(this.ClientRectangle, sd.Imaging.ImageLockMode.WriteOnly,
@@ -182,86 +178,52 @@ namespace MonoWorks.GuiWpf
 
 #region Mouse Interaction
 
-		protected InteractionState interactionState;
+		protected RenderableInteractor renderableInteractor;
 		/// <summary>
-		/// The interaction state.
+		/// The renderable interactor.
 		/// </summary>
-		public InteractionState InteractionState
+		public RenderableInteractor RenderableInteractor
 		{
-			get { return interactionState; }
+			get { return renderableInteractor; }
+		}
+
+		protected OverlayInteractor overlayInteractor;
+		/// <summary>
+		/// The overlay interactor.
+		/// </summary>
+		public OverlayInteractor OverlayInteractor
+		{
+			get { return overlayInteractor; }
+		}
+
+		/// <summary>
+		/// Convenience method that converts a mouse event point into a proper viewport coord.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <returns></returns>
+		protected Coord MouseToViewport(System.Drawing.Point point)
+		{
+			return new Coord((double)point.X, (double)(HeightGL - point.Y));
 		}
 
 
 		protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs args)
 		{
 			base.OnMouseDown(args);
-			interactionState.OnButtonPress(args.Location.Coord(), SwfExtensions.ButtonNumber(args.Button));
 
-			// TODO: make this work for rubber band selection
-			// handle selection and zooming 
-			if (//interactionState.MouseType == InteractionType.Select || 
-				interactionState.MouseType == InteractionType.Zoom)
-			{
-				rubberBand.Start = new Coord(args.Location.X, HeightGL - args.Location.Y);
-				rubberBand.Enabled = true;
-			}
+			Coord pos = MouseToViewport(args.Location);
+			int button = SwfExtensions.ButtonNumber(args.Button);
+			if (!overlayInteractor.OnButtonPress(pos, button)) // let the overlay interactor try to handle it
+				renderableInteractor.OnButtonPress(pos, button);
 		}
 
 		protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs args)
 		{
 			base.OnMouseUp(args);
 
-			switch (interactionState.MouseType)
-			{
-			case InteractionType.Select:
-				// determine the 3D position of the hit
-				camera.Place();
-				HitLine hitLine = camera.ScreenToWorld(args.Location.Coord());
-
-				//List<Renderable> hitRends = new List<Renderable>();
-				Renderable3D hitRend = null;
-				foreach (Renderable3D renderable in renderList.Renderables)
-				{
-					renderable.Deselect();
-					if (renderable.HitTest(hitLine))
-					{
-						hitRend = renderable;
-						//hitRends.Add(renderable);
-						break;
-					}
-				}
-
-				// TODO: handle multiple hits with depth checking
-
-				// show the selection tooltip
-				if (hitRend != null)
-				{
-					string description = hitRend.SelectionDescription;
-					if (description.Length > 0)
-					{
-						toolTip.SetToolTip(this, description);
-					}
-				}
-
-				break;
-
-			case InteractionType.Zoom:
-				bool blocked = false;
-				foreach (Renderable3D renderable in renderList.Renderables)
-				{
-					if (renderable.HandleZoom(this, rubberBand))
-						blocked = true;
-				}
-				if (!blocked)
-				{
-					// TODO: unblocked zoom
-				}
-				break;
-			}
-
-			interactionState.OnButtonRelease(args.Location.Coord());
-
-			rubberBand.Enabled = false;
+			Coord pos = MouseToViewport(args.Location);
+			if (!overlayInteractor.OnButtonRelease(pos))
+				renderableInteractor.OnButtonRelease(pos);
 
 			PaintGL();
 		}
@@ -269,42 +231,10 @@ namespace MonoWorks.GuiWpf
 		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs args)
 		{
 			base.OnMouseMove(args);
-			bool blocked = false;
 
-			switch (interactionState.MouseType)
-			{
-			case InteractionType.Select:
-			case InteractionType.Zoom:
-				rubberBand.Stop = new Coord(args.Location.X, HeightGL - args.Location.Y);
-				break;
-
-			case InteractionType.Pan:
-				Coord diff = args.Location.Coord() - interactionState.LastPos;
-
-				// allow the renderables to deal with the interaction
-				foreach (Renderable3D renderable in renderList.Renderables)
-				{
-					if (renderable.HandlePan(this, diff.X, diff.Y))
-						blocked = true;
-				}
-				break;
-
-			case InteractionType.Dolly:
-				double factor = (args.Location.Y - interactionState.LastPos.Y) / (double)Size.Height;
-
-				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderList.Renderables)
-				{
-					if (renderable.HandleDolly(this, factor))
-						blocked = true;
-				}
-				break;
-			}
-
-			if (!blocked)
-				interactionState.OnMouseMotion(args.Location.Coord(), camera);
-			else
-				interactionState.OnMouseMotion(args.Location.Coord());
+			Coord pos = MouseToViewport(args.Location);
+			if (!overlayInteractor.OnMouseMotion(pos))
+				renderableInteractor.OnMouseMotion(pos);
 
 			PaintGL();
 		}
@@ -318,9 +248,9 @@ namespace MonoWorks.GuiWpf
 			// use the default dolly factor
 			double factor;
 			if (e.Delta > 0)
-				factor = -camera.DollyFactor;
-			else
 				factor = camera.DollyFactor;
+			else
+				factor = -camera.DollyFactor;
 
 			// allow the renderables to deal with the interaction
 			foreach (Renderable3D renderable in renderList.Renderables)
@@ -338,7 +268,7 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseDoubleClick(e);
 
-			if (interactionState.Mode == InteractionMode.Select2D)
+			if (renderableInteractor.State == InteractionState.Select2D)
 				camera.SetViewDirection(ViewDirection.Front);
 			else
 				camera.SetViewDirection(ViewDirection.Standard);
@@ -348,14 +278,6 @@ namespace MonoWorks.GuiWpf
 
 #endregion
 
-
-#region Selection
-
-
-		protected RubberBand rubberBand = new RubberBand();
-
-
-#endregion
 
 
 #region GL Stuff
@@ -403,7 +325,6 @@ namespace MonoWorks.GuiWpf
 				return;
 			}
 
-			//camera.Configure();
 			Render();
 
 			base.OnPaint(e);
@@ -412,8 +333,6 @@ namespace MonoWorks.GuiWpf
 		public void PaintGL()
 		{
 			Draw();
-			//Draw();
-			//Render();
 		}
 
 		/// <summary>
@@ -430,7 +349,7 @@ namespace MonoWorks.GuiWpf
 			renderList.Render(this);
 
 			// render the rubber band
-			rubberBand.Render(this);
+			renderableInteractor.RubberBand.Render(this);
 
 			//SwapBuffers();
 		}

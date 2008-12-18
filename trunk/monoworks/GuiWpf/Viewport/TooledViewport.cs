@@ -161,27 +161,27 @@ namespace MonoWorks.GuiWpf
 			// add the 2D and 3D buttons
 			RadioButton radio = new RadioButton();
 			radio.Content = RenderIcon("2d");
-			radio.ToolTip = "2D Interaction Mode";
+			radio.ToolTip = "2D Interaction State";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
-			{ OnSetInteractionMode(InteractionMode.Select2D); };
+			{ OnSetInteractionMode(InteractionState.Select2D); };
 			toolbar.Items.Add(radio);
-			interactionModeButtons[InteractionMode.Select2D] = radio;
+			interactionModeButtons[InteractionState.Select2D] = radio;
 
 			radio = new RadioButton();
 			radio.Content = RenderIcon("3dSelect");
-			radio.ToolTip = "3D Selection Mode";
+			radio.ToolTip = "3D Selection State";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
-			{ OnSetInteractionMode(InteractionMode.Select3D); };
+			{ OnSetInteractionMode(InteractionState.Select3D); };
 			toolbar.Items.Add(radio);
-			interactionModeButtons[InteractionMode.Select3D] = radio;
+			interactionModeButtons[InteractionState.Select3D] = radio;
 
 			radio = new RadioButton();
 			radio.Content = RenderIcon("3dInteract");
-			radio.ToolTip = "3D Interaction Mode";
+			radio.ToolTip = "3D Interaction State";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
-			{ OnSetInteractionMode(InteractionMode.View3D); };
+			{ OnSetInteractionMode(InteractionState.View3D); };
 			toolbar.Items.Add(radio);
-			interactionModeButtons[InteractionMode.View3D] = radio;
+			interactionModeButtons[InteractionState.View3D] = radio;
 			toolbar.Items.Add(new Separator());
 
 			// add the export button
@@ -210,7 +210,7 @@ namespace MonoWorks.GuiWpf
 
 		ToggleButton projectionButton;
 
-		Dictionary<InteractionMode, RadioButton> interactionModeButtons = new Dictionary<InteractionMode, RadioButton>();
+		Dictionary<InteractionState, RadioButton> interactionModeButtons = new Dictionary<InteractionState, RadioButton>();
 
 
 		/// <summary>
@@ -253,9 +253,9 @@ namespace MonoWorks.GuiWpf
 
 			projectionButton.IsChecked = viewport.Camera.Projection == Projection.Perspective;
 
-			foreach (InteractionMode mode in interactionModeButtons.Keys)
+			foreach (InteractionState mode in interactionModeButtons.Keys)
 			{
-				if (mode == viewport.InteractionState.Mode)
+				if (mode == viewport.RenderableInteractor.State)
 					interactionModeButtons[mode].IsChecked = true;
 			}
 
@@ -300,22 +300,22 @@ namespace MonoWorks.GuiWpf
 		/// Sets the viewport interaction mode.
 		/// </summary>
 		/// <param name="mode"></param>
-		protected void OnSetInteractionMode(InteractionMode mode)
+		protected void OnSetInteractionMode(InteractionState state)
 		{
 			if (!externalUpdate)
 			{
-				if (mode == InteractionMode.Select2D) // force to front parallel for 2D viewing
+				if (state == InteractionState.Select2D) // force to front parallel for 2D viewing
 				{
 					viewport.Camera.Projection = Projection.Parallel;
 					viewport.Camera.SetViewDirection(ViewDirection.Front);
 				}
-				else if (viewport.InteractionState.Mode == InteractionMode.Select2D) // transitioning out of 2D
+				else if (viewport.RenderableInteractor.State == InteractionState.Select2D) // transitioning out of 2D
 				{
 					viewport.Camera.Projection = Projection.Perspective;
 					viewport.Camera.SetViewDirection(ViewDirection.Standard);
 				}
 
-				viewport.InteractionState.Mode = mode;
+				viewport.RenderableInteractor.State = state;
 				viewport.ResizeGL();
 				viewport.PaintGL();
 				UpdateToolbar();

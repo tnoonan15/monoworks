@@ -85,6 +85,7 @@
     <Compile Include="Pane2D.cs" />
     <Compile Include="Pane3D.cs" />
     <Compile Include="PaneBase.cs" />
+    <Compile Include="PaneControls.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -84,8 +84,6 @@ namespace MonoWorks.Rendering.Controls
 		public override void RenderOverlay(IViewport viewport)
 		{
 			base.RenderOverlay(viewport);
-
-			Console.WriteLine("rendering label \"{0}\" at {1}", textDef.Text, textDef.Position);
 			
 			viewport.RenderText(textDef);
 		}
