@@ -84,17 +84,10 @@ namespace MonoWorks.GuiGtk
 //			SizeAllocated += OnResize;
 
 			// initialize the render manager
-			renderManager = new RenderManager();		
-		}
-		
-		
-		protected InteractionState interactionState = new InteractionState();
-		/// <value>
-		/// The interaction state.
-		/// </value>
-		public InteractionState InteractionState
-		{
-			get {return interactionState;}
+			renderManager = new RenderManager();
+
+			renderableInteractor = new RenderableInteractor(this);
+			overlayInteractor = new OverlayInteractor(this);
 		}
 		
 		
@@ -135,13 +128,31 @@ namespace MonoWorks.GuiGtk
 			get {return renderList;}
 		}
 
+		private RenderableInteractor renderableInteractor;
+		//// <value>
+		/// The renderable interactor.
+		/// </value>
+		public RenderableInteractor RenderableInteractor
+		{
+			get {return renderableInteractor;}
+		}
+
+		private OverlayInteractor overlayInteractor;
+		//// <value>
+		/// The overlay interactor.
+		/// </value>
+		public OverlayInteractor OverlayInteractor
+		{
+			get {return overlayInteractor;}
+		}
+		
 		
 		/// <summary>
 		/// Alerts the renderables that the viewport has been modified.
 		/// </summary>
 		public void OnResized()
 		{
-			foreach (Renderable3D renderable in renderables)
+			foreach (Renderable3D renderable in renderList.Renderables)
 				renderable.OnViewportResized(this);
 		}
 		
@@ -150,7 +161,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void OnDirectionChanged()
 		{
-			foreach (Renderable3D renderable in renderables)
+			foreach (Renderable3D renderable in renderList.Renderables)
 				renderable.OnViewDirectionChanged(this);
 		}
 
@@ -199,7 +210,7 @@ namespace MonoWorks.GuiGtk
 			// look for the double-click reset
 			if (args.Event.Type == Gdk.EventType.TwoButtonPress && args.Event.Button == 1)
 			{
-				if (interactionState.Mode == InteractionMode.Select2D)
+				if (renderableInteractor.State == InteractionState.Select2D)
 					camera.SetViewDirection(ViewDirection.Front);
 				else
 					camera.SetViewDirection(ViewDirection.Standard);
@@ -207,98 +218,28 @@ namespace MonoWorks.GuiGtk
 			}
 			
 			Coord coord = new Coord(args.Event.X, args.Event.Y);
-			interactionState.OnButtonPress(coord, (int)args.Event.Button);
+			int button = (int)args.Event.Button;
+			if (!overlayInteractor.OnButtonPress(coord, button))
+				renderableInteractor.OnButtonPress(coord, button);
 
-			// handle selection and zooming 
-			if (interactionState.MouseType == InteractionType.Select ||
-				interactionState.MouseType == InteractionType.Zoom)
-			{
-				rubberBand.Start = new Coord(args.Event.X, HeightGL - args.Event.Y);;
-				rubberBand.Enabled = true;
-			}
 		}
 		
 		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 		{			
 //			Coord coord = new Coord(args.Event.X, HeightGL - args.Event.Y);
 			Coord coord = new Coord(args.Event.X, args.Event.Y);
-			
-			switch (interactionState.MouseType)
-			{
-			case InteractionType.Select:
-				break;
-
-			case InteractionType.Zoom:
-				bool blocked = false;
-				foreach (Renderable renderable in renderables)
-				{
-					if (renderable.HandleZoom(this, rubberBand))
-						blocked = true;
-				}
-				if (!blocked)
-				{
-					// TODO: zoom
-				}
-				break;
-			}
-
-			interactionState.OnButtonRelease(coord);
-			
-			rubberBand.Enabled = false;
+			int button = (int)args.Event.Button;
+			if (!overlayInteractor.OnButtonRelease(coord))
+				renderableInteractor.OnButtonRelease(coord);
 			PaintGL();
 		}
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
-		{
-			bool blocked = false;
-			
+		{			
 //			Coord coord = new Coord(args.Event.X, HeightGL - args.Event.Y);
 			Coord coord = new Coord(args.Event.X, args.Event.Y);
-			
-			switch (interactionState.MouseType)
-			{
-			case InteractionType.Select:
-				rubberBand.Stop = new Coord(args.Event.X, HeightGL - args.Event.Y);;
-				break;
-				
-			case InteractionType.Rotate:
-				camera.Rotate(coord - interactionState.LastPos);
-				break;
-				
-			case InteractionType.Pan:
-				Coord diff = coord - interactionState.LastPos;
-				
-				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderables)
-				{
-					if (renderable.HandlePan(this, diff.X, diff.Y))
-						blocked = true;
-				}
-				
-				if (!blocked)
-					camera.Pan(diff.X, diff.Y);
-				break;
-				
-			case InteractionType.Dolly:
-				double factor = (args.Event.Y - interactionState.LastPos.Y) / (int)Allocation.Height;
-				
-				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderables)
-				{
-					if (renderable.HandleDolly(this, factor))
-						blocked = true;
-				}
-				
-				if (!blocked)
-					camera.Dolly(factor);
-				break;
-
-			case InteractionType.Zoom:
-				rubberBand.Stop = new Coord(args.Event.X, HeightGL - args.Event.Y);;
-				break;
-			}
-			
-			interactionState.OnMouseMotion(coord);
+			if (!overlayInteractor.OnMouseMotion(coord))
+				renderableInteractor.OnMouseMotion(coord);
 			PaintGL();
 		}
 		
@@ -317,7 +258,7 @@ namespace MonoWorks.GuiGtk
 					factor = camera.DollyFactor;
 				
 				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderables)
+				foreach (Renderable3D renderable in renderList.Renderables)
 				{
 					if (renderable.HandleDolly(this, factor))
 						blocked = true;
@@ -333,10 +274,6 @@ namespace MonoWorks.GuiGtk
 		
 #endregion
 
-		
-#region Selection
-		
-#endregion
 		
 		
 #region OpenGL Methods
@@ -389,7 +326,7 @@ namespace MonoWorks.GuiGtk
 			if( !IsRealized || base.MakeCurrent() == 0)
 				return;	
 			camera.Configure();
-			foreach (Renderable renderable in renderables)
+			foreach (Renderable3D renderable in renderList.Renderables)
 				renderable.OnViewportResized(this);
 		}
 		
@@ -418,23 +355,8 @@ namespace MonoWorks.GuiGtk
 			// Clear the scene
 			renderManager.ClearScene();
 
-			
-			// render the rendering list
-			camera.Place();
-			foreach (Renderable3D renderable in renderables)
-				renderable.RenderOpaque(this);
-			foreach (Renderable3D renderable in renderables)
-				renderable.RenderTransparent(this);
-			camera.PlaceOverlay();
-			foreach (Renderable3D renderable in renderables)
-				renderable.RenderOverlay(this);
-
-			// render the overlays
-			foreach (Overlay overlay in overlays)
-				overlay.RenderOverlay(this);
-
-			// render the rubber band
-			rubberBand.Render(this);
+			// render the render list
+			renderList.Render(this);
 													
 			// bring back buffer to front, put front buffer in back
 			SwapBuffers ();

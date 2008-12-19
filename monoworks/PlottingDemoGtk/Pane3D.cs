@@ -38,7 +38,7 @@ namespace MonoWorks.PlottingDemoGtk
 			PackEnd(tooledViewport);
 			viewport = tooledViewport.Viewport;
 			TestAxes3D axes = new TestAxes3D();
-			viewport.AddRenderable(axes);
+			viewport.RenderList.AddRenderable(axes);
 			
 			viewport.Camera.SetViewDirection(ViewDirection.Standard);
 			

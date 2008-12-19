@@ -50,9 +50,9 @@ namespace MonoWorks.GuiGtk
 			set
 			{
 				if (document != null)
-					viewport.RemoveRenderable(document);
+					viewport.RenderList.RemoveRenderable(document);
 				document = value;
-				viewport.AddRenderable(document);
+				viewport.RenderList.AddRenderable(document);
 //				treeModel.Document = document;
 			}
 		}
