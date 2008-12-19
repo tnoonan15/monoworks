@@ -227,13 +227,13 @@ namespace MonoWorks.GuiGtk
 				// interaction mode actions
 				Gtk.RadioAction radio = new Gtk.RadioAction("Select2D", "2D Mode", "2D Mode", "2d", 0);
 				radio.Activated += delegate(object sender, EventArgs args)
-				{ SetInteractionMode(InteractionMode.Select2D);};
+				{ SetInteractionState(InteractionState.Select2D);};
 				actionGroup.Add(radio);
 				GLib.SList modeGroup = radio.Group;
 				
 				radio = new Gtk.RadioAction("Select3D", "3D Selection Mode", "3D Selection Mode", "3dSelect", 1);
 				radio.Activated += delegate(object sender, EventArgs args)
-				{ SetInteractionMode(InteractionMode.Select3D);};
+				{ SetInteractionState(InteractionState.Select3D);};
 				radio.Group = modeGroup;
 				modeGroup = radio.Group;
 				actionGroup.Add(radio);
@@ -241,7 +241,7 @@ namespace MonoWorks.GuiGtk
 				radio = new Gtk.RadioAction("View3D", "3D View Mode", "3D View Mode", "3dInteract", 2);
 				radio.Activate();
 				radio.Activated += delegate(object sender, EventArgs args)
-				{ SetInteractionMode(InteractionMode.View3D);};
+				{ SetInteractionState(InteractionState.View3D);};
 				radio.Group = modeGroup;
 				actionGroup.Add(radio);
 			}		
@@ -268,22 +268,22 @@ namespace MonoWorks.GuiGtk
 		}
 		
 		/// <summary>
-		/// Sets the interaction mode of the viewport.
+		/// Sets the interaction state of the viewport.
 		/// </summary>
-		/// <param name="mode"> A <see cref="InteractionMode"/>. </param>
-		public void SetInteractionMode(InteractionMode mode)
+		/// <param name="state"> A <see cref="InteractionState"/>. </param>
+		public void SetInteractionState(InteractionState state)
 		{
-			if (mode == InteractionMode.Select2D) // force to front parallel for 2D viewing
+			if (state == InteractionState.Select2D) // force to front parallel for 2D viewing
 			{
 				viewport.Camera.Projection = Projection.Parallel;
 				viewport.Camera.SetViewDirection(ViewDirection.Front);
 			}
-			else if (viewport.InteractionState.Mode == InteractionMode.Select2D) // transitioning out of 2D
+			else if (viewport.RenderableInteractor.State == InteractionState.Select2D) // transitioning out of 2D
 			{
 				viewport.Camera.Projection = Projection.Perspective;
 				viewport.Camera.SetViewDirection(ViewDirection.Standard);				
 			}
-			viewport.InteractionState.Mode = mode;
+			viewport.RenderableInteractor.State = state;
 			viewport.OnResized();
 			viewport.PaintGL();
 		}

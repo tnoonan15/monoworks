@@ -38,10 +38,10 @@ namespace MonoWorks.PlottingDemoGtk
 			PackEnd(tooledViewport);
 			viewport = tooledViewport.Viewport;
 			TestAxes2D axes = new TestAxes2D();
-			viewport.AddRenderable(axes);
+			viewport.RenderList.AddRenderable(axes);
 			
 			viewport.Camera.Projection = Projection.Parallel;
-			viewport.InteractionState.Mode = InteractionMode.Select2D;
+			viewport.RenderableInteractor.State = InteractionState.Select2D;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
 			
 			

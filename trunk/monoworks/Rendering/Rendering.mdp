@@ -31,7 +31,6 @@
     <File name="ColorMap.cs" subtype="Code" buildaction="Compile" />
     <File name="HitLine.cs" subtype="Code" buildaction="Compile" />
     <File name="TextDef.cs" subtype="Code" buildaction="Compile" />
-    <File name="InteractionState.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls" subtype="Directory" buildaction="Compile" />
     <File name="Controls/Control.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/Container.cs" subtype="Code" buildaction="Compile" />
@@ -41,8 +40,12 @@
     <File name="Controls/Button.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/ToolBar.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/ControlStyle.cs" subtype="Code" buildaction="Compile" />
-    <File name="Renderable2D.cs" subtype="Code" buildaction="Compile" />
     <File name="Renderable3D.cs" subtype="Code" buildaction="Compile" />
+    <File name="Overlay.cs" subtype="Code" buildaction="Compile" />
+    <File name="OverlayInteractor.cs" subtype="Code" buildaction="Compile" />
+    <File name="RenderableInteractor.cs" subtype="Code" buildaction="Compile" />
+    <File name="RenderList.cs" subtype="Code" buildaction="Compile" />
+    <File name="AbstractInteractor.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

@@ -42,7 +42,7 @@ namespace MonoWorks.PlottingDemoGtk
 
 			Button button = new Button("Hello Blah");
 			button.Position = new Coord(300, 300);
-			viewport.AddOverlay(button);
+			viewport.RenderList.AddOverlay(button);
 		}
 	}
 }
