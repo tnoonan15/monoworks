@@ -21,6 +21,8 @@ using System;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
+using gl=Tao.OpenGl.Gl;
+
 namespace MonoWorks.Rendering.Controls
 {
 	
@@ -31,7 +33,7 @@ namespace MonoWorks.Rendering.Controls
 	public class Button : Control
 	{
 		/// <summary>
-		/// Default constructor (not very useful).
+		/// Default constructor.
 		/// </summary>
 		public Button() : this(null, null)
 		{
@@ -116,6 +118,13 @@ namespace MonoWorks.Rendering.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
+			
+			if (label != null)
+				label.ComputeGeometry();
+			if (image != null)
+				image.ComputeGeometry();
+
+			size = label.Size;
 		}
 
 		public override void RenderOverlay(IViewport viewport)
@@ -124,6 +133,17 @@ namespace MonoWorks.Rendering.Controls
 
 			if (label != null)
 			{
+			
+				if (IsHovering)
+				{
+					ColorManager.Global["Red"].Setup();
+					gl.glBegin(gl.GL_QUADS);
+					gl.glVertex2d(position.X, position.Y);
+					gl.glVertex2d(position.X + size.X, position.Y);
+					gl.glVertex2d(position.X + size.X, position.Y + size.Y);
+					gl.glVertex2d(position.X, position.Y + size.Y);
+					gl.glEnd();
+				}
 				label.RenderOverlay(viewport);
 			}
 		}

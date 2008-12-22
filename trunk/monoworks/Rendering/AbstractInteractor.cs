@@ -1,4 +1,4 @@
-﻿// AbstractInteractor.cs - MonoWorks Project
+// AbstractInteractor.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering.Events;
+
 
 namespace MonoWorks.Rendering
 {
@@ -33,7 +35,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Base class for classes that handle user interaction from the viewport.
 	/// </summary>
-	public abstract class AbstractInteractor
+	public abstract class AbstractInteractor : IMouseHandler
 	{
 		/// <summary>
 		/// Default constructor.
@@ -71,47 +73,33 @@ namespace MonoWorks.Rendering
 			set { lastPos = value; }
 		}
 
-
-		/// <summary>
-		/// Registers a button press event without modifier.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="button"></param>
-		public bool OnButtonPress(Coord pos, int button)
-		{
-			return OnButtonPress(pos, button, InteractionModifier.None);
-		}
-
 		/// <summary>
 		/// Registers a button press event.
 		/// </summary>
 		/// <param name="pos"></param>
 		/// <param name="button"></param>
 		/// <param name="modifier"></param>
-		public virtual bool OnButtonPress(Coord pos, int button, InteractionModifier modifier)
+		public virtual void OnButtonPress(MouseButtonEvent evt)
 		{
-			anchor = pos;
-			lastPos = pos;
-			return false;
+			anchor = evt.Pos;
+			lastPos = evt.Pos;
 		}
 
 		/// <summary>
 		/// Registers a button release event.
 		/// </summary>
 		/// <param name="pos"></param>
-		public virtual bool OnButtonRelease(Coord pos)
+		public virtual void OnButtonRelease(MouseEvent evt)
 		{
-			return false;
 		}
 
 		/// <summary>
 		/// Registers the motion event without performing any interaction.
 		/// </summary>
 		/// <param name="pos"></param>
-		public virtual bool OnMouseMotion(Coord pos)
+		public virtual void OnMouseMotion(MouseEvent evt)
 		{
-			lastPos = pos;
-			return false;
+			lastPos = evt.Pos;
 		}
 
 	}

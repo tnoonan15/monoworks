@@ -19,6 +19,7 @@
 using System;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering
 {
@@ -32,7 +33,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Base class for renderable objects.
 	/// </summary>
-	public abstract class Renderable
+	public abstract class Renderable : IMouseHandler
 	{	
 		
 		/// <summary>
@@ -149,11 +150,12 @@ namespace MonoWorks.Rendering
 			get { return hitState == HitState.Selected; }
 			set
 			{
+				if (value != IsSelected)
+					MakeDirty();
 				if (value)
 					hitState = HitState.Selected;
 				else
 					hitState = HitState.None;
-				MakeDirty();
 			}
 		}
 
@@ -165,11 +167,12 @@ namespace MonoWorks.Rendering
 			get {return hitState == HitState.Hovering;}
 			set
 			{
+				if (value != IsHovering)
+					MakeDirty();
 				if (value)
 					hitState = HitState.Hovering;
 				else
 					hitState = HitState.None;
-				MakeDirty();
 			}
 		}
 
@@ -192,6 +195,17 @@ namespace MonoWorks.Rendering
 			}
 		}
 
+#endregion
+		
+		
+#region Mouse Handling
+				
+		public virtual void OnButtonPress(MouseButtonEvent evt) {}
+		
+		public virtual void OnButtonRelease(MouseEvent evt) {}
+		
+		public virtual void OnMouseMotion(MouseEvent evt) {}
+				
 #endregion
 
 	}

@@ -28,6 +28,7 @@ using GtkGL;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.GuiGtk
 {
@@ -199,12 +200,7 @@ namespace MonoWorks.GuiGtk
 		
 		
 #region Mouse Interaction
-	
-		/// <summary>
-		/// The rubber band used for selection and viewing.
-		/// </summary>
-		private RubberBand rubberBand = new RubberBand();
-		
+			
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
 			// look for the double-click reset
@@ -217,29 +213,28 @@ namespace MonoWorks.GuiGtk
 				PaintGL();
 			}
 			
-			Coord coord = new Coord(args.Event.X, args.Event.Y);
-			int button = (int)args.Event.Button;
-			if (!overlayInteractor.OnButtonPress(coord, button))
-				renderableInteractor.OnButtonPress(coord, button);
+			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), (int)args.Event.Button);
+			overlayInteractor.OnButtonPress(evt);
+			if (!evt.Handled) // the overlays didn't handle the event
+				renderableInteractor.OnButtonPress(evt);
 
 		}
 		
 		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 		{			
-//			Coord coord = new Coord(args.Event.X, HeightGL - args.Event.Y);
-			Coord coord = new Coord(args.Event.X, args.Event.Y);
-			int button = (int)args.Event.Button;
-			if (!overlayInteractor.OnButtonRelease(coord))
-				renderableInteractor.OnButtonRelease(coord);
+			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
+			overlayInteractor.OnButtonRelease(evt);
+			if (!evt.Handled) // the overlays didn't handle the event
+				renderableInteractor.OnButtonRelease(evt);
 			PaintGL();
 		}
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
 		{			
-//			Coord coord = new Coord(args.Event.X, HeightGL - args.Event.Y);
-			Coord coord = new Coord(args.Event.X, args.Event.Y);
-			if (!overlayInteractor.OnMouseMotion(coord))
-				renderableInteractor.OnMouseMotion(coord);
+			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
+			overlayInteractor.OnMouseMotion(evt);
+			if (!evt.Handled) // the overlays didn't handle the event
+				renderableInteractor.OnMouseMotion(evt);
 			PaintGL();
 		}
 		
@@ -253,9 +248,9 @@ namespace MonoWorks.GuiGtk
 //			case InteractionType.Dolly:
 				double factor = 0;
 				if (args.Event.Direction == Gdk.ScrollDirection.Up)
-					factor = -camera.DollyFactor;
-				else if (args.Event.Direction == Gdk.ScrollDirection.Down)
 					factor = camera.DollyFactor;
+				else if (args.Event.Direction == Gdk.ScrollDirection.Down)
+					factor = -camera.DollyFactor;
 				
 				// allow the renderables to deal with the interaction
 				foreach (Renderable3D renderable in renderList.Renderables)
@@ -357,6 +352,8 @@ namespace MonoWorks.GuiGtk
 
 			// render the render list
 			renderList.Render(this);
+
+			renderableInteractor.RubberBand.Render(this);
 													
 			// bring back buffer to front, put front buffer in back
 			SwapBuffers ();

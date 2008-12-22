@@ -1,4 +1,4 @@
-// ControlStyle.cs - MonoWorks Project
+// MouseButtonEvent.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,21 +18,44 @@
 
 using System;
 
-namespace MonoWorks.Rendering.Controls
+using MonoWorks.Base;
+
+namespace MonoWorks.Rendering.Events
 {
 	
 	/// <summary>
-	/// Contains rendering style information for controls. 
+	/// Mouse button press event.
 	/// </summary>
-	/// <remarks>It's basically a collection of StyleClasses.
-	/// The caller asks for the class for their type. This object 
-	/// either gives them the corresponding class or the default one.
-	/// </remarks>
-	public class ControlStyle
+	public class MouseButtonEvent : MouseEvent
 	{
 		
-		public ControlStyle()
+		public MouseButtonEvent(Coord pos, int button) : this(pos, button, InteractionModifier.None)
 		{
 		}
+		
+		public MouseButtonEvent(Coord pos, int button, InteractionModifier modifier) : base(pos)
+		{
+			this.button = button;
+			this.modifier = modifier;
+		}
+		
+		private int button;
+		/// <value>
+		/// The mouse button that was pressed.
+		/// </value>
+		public int Button
+		{
+			get {return button;}
+		}
+		
+		private InteractionModifier modifier;
+		/// <value>
+		/// The modifier for the event.
+		/// </value>
+		public InteractionModifier Modifier
+		{
+			get {return modifier;}
+		}
+		
 	}
 }

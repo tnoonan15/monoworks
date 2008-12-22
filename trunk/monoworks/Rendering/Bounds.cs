@@ -177,10 +177,15 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-				double max = 0;
-				for (int i=0; i<3; i++)
-					max = Math.Max(max, maxima[i]-minima[i]);
-				return max;
+				if (isSet)
+				{
+					double max = 0;
+					for (int i=0; i<3; i++)
+						max = Math.Max(max, maxima[i]-minima[i]);
+					return max;
+				}
+				else
+					return 0;
 			}
 		}
 		

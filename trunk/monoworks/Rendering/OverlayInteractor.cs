@@ -1,4 +1,4 @@
-﻿// OverlayInteractor.cs - MonoWorks Project
+// OverlayInteractor.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering
 {
@@ -36,39 +37,32 @@ namespace MonoWorks.Rendering
 		}
 
 
-		public override bool OnButtonPress(Coord pos, int button, InteractionModifier modifier)
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			base.OnButtonPress(pos, button, modifier);
-
-			bool handled = false;
-			return handled;
+			base.OnButtonPress(evt);
+			
+			foreach (Overlay overlay in renderList.Overlays)
+				overlay.OnButtonPress(evt);
 		}
 
 
-		public override bool OnButtonRelease(Coord pos)
+		public override void OnButtonRelease(MouseEvent evt)
 		{
-			base.OnButtonRelease(pos);
-
-			bool handled = false;
-			return handled;
+			base.OnButtonRelease(evt);
+			
+			foreach (Overlay overlay in renderList.Overlays)
+				overlay.OnButtonRelease(evt);
 		}
 
 
-		public override bool OnMouseMotion(Coord pos)
+		public override void OnMouseMotion(MouseEvent evt)
 		{
-			base.OnMouseMotion(pos);
-
-			bool handled = false;
+			base.OnMouseMotion(evt);
 
 			foreach (Overlay overlay in renderList.Overlays)
-			{
-				if (!handled && overlay.HoverTest(pos))
-					handled = true;
-				else // either already been handled or failed the hit test
-					overlay.IsHovering = false;
+			{			
+				overlay.OnMouseMotion(evt);
 			}
-
-			return handled;
 		}
 
 	}

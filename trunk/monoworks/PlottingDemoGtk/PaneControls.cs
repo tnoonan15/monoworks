@@ -40,9 +40,13 @@ namespace MonoWorks.PlottingDemoGtk
 
 			Viewport viewport = tooledViewport.Viewport;
 
-			Button button = new Button("Hello Blah");
-			button.Position = new Coord(300, 300);
-			viewport.RenderList.AddOverlay(button);
+			Button button1 = new Button("Hello Blah");
+			button1.Position = new Coord(300, 300);
+			viewport.RenderList.AddOverlay(button1);
+
+			Button button2 = new Button("Button 2");
+			button2.Position = new Coord(350, 350);
+			viewport.RenderList.AddOverlay(button2);
 		}
 	}
 }

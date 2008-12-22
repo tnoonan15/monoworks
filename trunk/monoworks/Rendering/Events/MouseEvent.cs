@@ -1,4 +1,4 @@
-// ControlStyle.cs - MonoWorks Project
+// MouseEvent.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,21 +18,30 @@
 
 using System;
 
-namespace MonoWorks.Rendering.Controls
+using MonoWorks.Base;
+
+namespace MonoWorks.Rendering.Events
 {
 	
 	/// <summary>
-	/// Contains rendering style information for controls. 
+	/// Base class for all mouse events.
 	/// </summary>
-	/// <remarks>It's basically a collection of StyleClasses.
-	/// The caller asks for the class for their type. This object 
-	/// either gives them the corresponding class or the default one.
-	/// </remarks>
-	public class ControlStyle
+	public class MouseEvent : Event
 	{
 		
-		public ControlStyle()
+		public MouseEvent(Coord pos) : base()
 		{
+			this.pos = pos;
+		}
+		
+		private Coord pos;
+		/// <value>
+		/// The position of the event.
+		/// </value>
+		public Coord Pos
+		{
+			get {return pos;}
+			set {pos = value;}
 		}
 	}
 }
