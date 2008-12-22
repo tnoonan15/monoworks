@@ -1,4 +1,4 @@
-// ControlStyle.cs - MonoWorks Project
+// Event.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,21 +18,35 @@
 
 using System;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Rendering.Events
 {
 	
 	/// <summary>
-	/// Contains rendering style information for controls. 
+	/// Base class for all rendering events.
 	/// </summary>
-	/// <remarks>It's basically a collection of StyleClasses.
-	/// The caller asks for the class for their type. This object 
-	/// either gives them the corresponding class or the default one.
-	/// </remarks>
-	public class ControlStyle
+	public abstract class Event
 	{
 		
-		public ControlStyle()
+		public Event()
 		{
 		}
+		
+		private bool handled = false;
+		/// <value>
+		/// Whether the event has been handled.
+		/// </value>
+		public bool Handled
+		{
+			get {return handled;}
+		}
+		
+		/// <summary>
+		/// Marks the event as handled.
+		/// </summary>
+		public void Handle()
+		{
+			handled = true;	
+		}
+		
 	}
 }

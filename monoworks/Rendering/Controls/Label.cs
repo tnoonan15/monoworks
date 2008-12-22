@@ -77,14 +77,15 @@ namespace MonoWorks.Rendering.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-
+			
+			size = TextRenderer.GetExtents(textDef);
 		}
 
 
 		public override void RenderOverlay(IViewport viewport)
 		{
 			base.RenderOverlay(viewport);
-			
+
 			viewport.RenderText(textDef);
 		}
 

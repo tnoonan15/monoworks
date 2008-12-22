@@ -20,6 +20,7 @@ using System;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -91,27 +92,31 @@ namespace MonoWorks.Rendering.Controls
 			return pos >= position && pos <= (position + size);
 		}
 
-		public override bool HoverTest(Coord pos)
+#endregion
+
+		
+#region Mouse Handling
+		
+		public override void OnMouseMotion(MouseEvent evt)
 		{
-			Console.WriteLine("hover test at {0} for control at {1}", pos, position);
-			if (HitTest(pos)) // hit
+			base.OnMouseMotion(evt);
+			
+			if (!evt.Handled && HitTest(evt.Pos))
 			{
 				IsHovering = true;
-				Console.WriteLine("hovering");
-				return true;
+				evt.Handle();
 			}
-			else // not hit
-			{
+			else
 				IsHovering = false;
-				return false;
-			}
+				
 		}
 
 
+
 #endregion
+		
 
-
-		#region Default Style
+#region Default Style
 
 		private static ControlStyle defaultStyle = new ControlStyle();
 

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering
 {
@@ -140,13 +141,11 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Registers a button press event.
 		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="button"></param>
-		/// <param name="modifier"></param>
-		public override bool OnButtonPress(Coord pos, int button, InteractionModifier modifier)
+		/// <param name="evt"></param>
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			base.OnButtonPress(pos, button, modifier);
-			int key = GetKey(button, modifier);
+			base.OnButtonPress(evt);
+			int key = GetKey(evt.Button, evt.Modifier);
 			if (mouseTypes.ContainsKey(key))
 				mouseType = mouseTypes[key];
 			else
@@ -155,35 +154,34 @@ namespace MonoWorks.Rendering
 			// TODO: make this work for rubber band selection
 			if (MouseType == InteractionType.Zoom)
 			{
-				rubberBand.Start = pos;
+				rubberBand.Start = evt.Pos;
 				rubberBand.Enabled = true;
-				return true;
+				evt.Handle();
 			}
 
-			return false;
 		}
 
 		/// <summary>
 		/// Registers a button release event.
 		/// </summary>
-		/// <param name="pos"></param>
-		public override bool OnButtonRelease(Coord pos)
+		/// <param name="evt"></param>
+		public override void OnButtonRelease(MouseEvent evt)
 		{
 			switch (MouseType)
 			{
 			case InteractionType.Select:
 				// determine the 3D position of the hit
 				viewport.Camera.Place();
-				HitLine hitLine = viewport.Camera.ScreenToWorld(pos);
+				HitLine hitLine = viewport.Camera.ScreenToWorld(evt.Pos);
 
 				//List<Renderable> hitRends = new List<Renderable>();
-				Renderable3D hitRend = null;
+//				Renderable3D hitRend = null;
 				foreach (Renderable3D renderable in renderList.Renderables)
 				{
 					renderable.Deselect();
 					if (renderable.HitTest(hitLine))
 					{
-						hitRend = renderable;
+//						hitRend = renderable;
 						//hitRends.Add(renderable);
 						break;
 					}
@@ -219,16 +217,15 @@ namespace MonoWorks.Rendering
 
 
 			rubberBand.Enabled = false;
-			base.OnButtonRelease(pos);
+			base.OnButtonRelease(evt);
 			mouseType = InteractionType.None;
-			return false;
 		}
 
 		/// <summary>
 		/// Registers the motion event without performing any interaction.
 		/// </summary>
 		/// <param name="pos"></param>
-		public override bool OnMouseMotion(Coord pos)
+		public override void OnMouseMotion(MouseEvent evt)
 		{
 			bool blocked = false;
 
@@ -236,11 +233,11 @@ namespace MonoWorks.Rendering
 			{
 			case InteractionType.Select:
 			case InteractionType.Zoom:
-				rubberBand.Stop = pos;
+				rubberBand.Stop = evt.Pos;
 				break;
 
 			case InteractionType.Pan:
-				Coord diff = pos - lastPos;
+				Coord diff = evt.Pos - lastPos;
 
 				// allow the renderables to deal with the interaction
 				foreach (Renderable3D renderable in renderList.Renderables)
@@ -251,7 +248,7 @@ namespace MonoWorks.Rendering
 				break;
 
 			case InteractionType.Dolly:
-				double factor = (pos.Y - lastPos.Y) / (double)viewport.HeightGL;
+				double factor = (evt.Pos.Y - lastPos.Y) / (double)viewport.HeightGL;
 
 				// allow the renderables to deal with the interaction
 				foreach (Renderable renderable in renderList.Renderables)
@@ -263,20 +260,18 @@ namespace MonoWorks.Rendering
 			}
 
 			if (!blocked)
-				OnMouseMotion(pos, viewport.Camera);
+				OnMouseMotion(evt, viewport.Camera);
 
-			base.OnMouseMotion(pos);
-
-			return false;
+			base.OnMouseMotion(evt);
 		}
 
 		/// <summary>
 		/// Registers a mouse motion event and performs the appropriate interaction.
 		/// </summary>
-		/// <param name="pos"></param>
+		/// <param name="evt"></param>
 		/// <param name="camera"> The camera that will handle the interaction.</param>
 		/// <remarks> Viewport implementations should check for blocking by renderables before calling this.</remarks>
-		public void OnMouseMotion(Coord pos, Camera camera)
+		public void OnMouseMotion(MouseEvent evt, Camera camera)
 		{
 			switch (MouseType)
 			{
@@ -286,15 +281,15 @@ namespace MonoWorks.Rendering
 				break;
 
 			case InteractionType.Rotate:
-				viewport.Camera.Rotate(pos - lastPos);
+				viewport.Camera.Rotate(evt.Pos - lastPos);
 				break;
 
 			case InteractionType.Pan:
-				viewport.Camera.Pan(pos - lastPos);
+				viewport.Camera.Pan(evt.Pos - lastPos);
 				break;
 
 			case InteractionType.Dolly:
-				double factor = (pos.Y - lastPos.Y) / (double)camera.ViewportHeight;
+				double factor = (evt.Pos.Y - lastPos.Y) / (double)camera.ViewportHeight;
 				viewport.Camera.Dolly(factor);
 				break;
 			}

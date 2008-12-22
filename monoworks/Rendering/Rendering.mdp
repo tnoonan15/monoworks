@@ -46,6 +46,12 @@
     <File name="RenderableInteractor.cs" subtype="Code" buildaction="Compile" />
     <File name="RenderList.cs" subtype="Code" buildaction="Compile" />
     <File name="AbstractInteractor.cs" subtype="Code" buildaction="Compile" />
+    <File name="Controls/StyleClass.cs" subtype="Code" buildaction="Compile" />
+    <File name="Events" subtype="Directory" buildaction="Compile" />
+    <File name="Events/Event.cs" subtype="Code" buildaction="Compile" />
+    <File name="Events/MouseEvent.cs" subtype="Code" buildaction="Compile" />
+    <File name="Events/MouseButtonEvent.cs" subtype="Code" buildaction="Compile" />
+    <File name="IMouseHandler.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

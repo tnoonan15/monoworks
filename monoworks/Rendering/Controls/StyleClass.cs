@@ -1,4 +1,4 @@
-// ControlStyle.cs - MonoWorks Project
+// StyleClass.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -18,20 +18,16 @@
 
 using System;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
-	/// Contains rendering style information for controls. 
+	/// Represents the rendering style applied to a specific class of controls.
 	/// </summary>
-	/// <remarks>It's basically a collection of StyleClasses.
-	/// The caller asks for the class for their type. This object 
-	/// either gives them the corresponding class or the default one.
-	/// </remarks>
-	public class ControlStyle
+	public class StyleClass
 	{
 		
-		public ControlStyle()
+		public StyleClass()
 		{
 		}
 	}

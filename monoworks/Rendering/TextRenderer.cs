@@ -59,18 +59,30 @@ namespace MonoWorks.Rendering
 
 #region The Font
 		
-				
-		/// <value>
-		/// The font for this renderer.
-		/// </value>
-		protected FTFont font = null;
-
-
 		/// <summary>
-		/// Fonts used by the application.
+		/// Fonts used by the GL context this renderer belongs to.
 		/// </summary>
 		protected Dictionary<int, FTFont> fonts = new Dictionary<int, FTFont>();
+		
+		/// <summary>
+		/// Fonts used by the application for extent information.
+		/// </summary>
+		protected static Dictionary<int, FTFont> globalFonts = new Dictionary<int, FTFont>();
 
+		/// <summary>
+		/// Creates a new font of the given size.
+		/// </summary>
+		/// <remarks>In general, use GetFont() and GetGlobalFont() instead, 
+		/// as they invoke this method if necessary.</remarks>
+		protected static FTFont CreateFont(int size)
+		{
+			int Errors = 0;
+			string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			FTFont font = new FTFont(dir + @"/FreeSans.ttf", out Errors);
+			font.ftRenderToTexture(size, 92);
+			return font;
+		}
+		
 		/// <summary>
 		/// Gets the font for a given size.
 		/// </summary>
@@ -82,13 +94,35 @@ namespace MonoWorks.Rendering
 				return fonts[size];
 			else
 			{
-				int Errors = 0;
-				string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-				FTFont font = new FTFont(dir + @"/FreeSans.ttf", out Errors);
-				font.ftRenderToTexture(size, 92);
-				fonts[size] = font;
-				return font;
+				fonts[size] = CreateFont(size); // store the font for use later
+				globalFonts[size] = fonts[size]; // overwrite the last global font of this size, if there was one
+				return fonts[size];
 			}
+		}
+
+		/// <summary>
+		/// Gets a global font of the given size.
+		/// </summary>
+		/// <returns>Note that global fonts are for size computation 
+		/// only and should NOT be used for rendering.</returns>
+		protected static FTFont GetGlobalFont(int size)
+		{
+			if (globalFonts.ContainsKey(size))
+				return globalFonts[size];
+			else
+			{
+				globalFonts[size] = CreateFont(size);
+				return globalFonts[size];
+			}
+		}
+
+		/// <summary>
+		/// Gets the extents for the given text definition.
+		/// </summary>
+		public static Coord GetExtents(TextDef textDef)
+		{
+			FTFont font = GetGlobalFont(textDef.Size);
+			return new Coord((double)font.ftExtent(ref textDef.Text), (double)textDef.Size);
 		}
 		
 #endregion

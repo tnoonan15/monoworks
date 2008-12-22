@@ -614,9 +614,18 @@ namespace MonoWorks.Rendering
 			Bounds bounds = viewport.RenderList.Bounds;
 			
 			// determine the distance needed to view all renderables
-			double dist = bounds.MaxWidth / (fov * 0.5).Tan();
+			double dist = 0;
+			if (viewport.RenderList.RenderableCount > 0)
+			{
+				dist = bounds.MaxWidth / (fov * 0.5).Tan();				
+				centerOut = bounds.Center;
+			}
+			else
+			{
+				dist = 1;
+				centerOut = new Vector();
+			}
 			
-			centerOut = bounds.Center;
 			Vector travel;
 			switch (direction)
 			{

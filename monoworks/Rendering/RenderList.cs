@@ -1,4 +1,4 @@
-﻿// RenderList.cs - MonoWorks Project
+// RenderList.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -58,6 +58,14 @@ namespace MonoWorks.Rendering
 				throw new Exception("The renderable is not a part of this viewport's rendering list.");
 			renderables.Remove(renderable);
 		}
+		
+		/// <value>
+		/// The number of renderables.
+		/// </value>
+		public int RenderableCount
+		{
+			get {return renderables.Count;}
+		}
 
 		/// <value>
 		/// The bounds of all renderables.
@@ -111,6 +119,14 @@ namespace MonoWorks.Rendering
 		public void RemoveOverlay(Overlay overlay)
 		{
 			overlays.Remove(overlay);
+		}
+		
+		/// <value>
+		/// The number of overlays.
+		/// </value>
+		public int OverlayCount
+		{
+			get {return overlays.Count;}
 		}
 
 		#endregion
