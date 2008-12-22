@@ -8,6 +8,9 @@
 	<Color name="Yellow" value="ffff00"/>
 	<Color name="Cyan" value="00ffff"/>
 	<Color name="Magenta" value="ff00ff"/>
-	<Color name="Gray" value="f0f0f0"/>
+	<Color name="Gray" value="b0b0b0"/>
+  <Color name="Light Blue" value="808fff"/>
+  <Color name="Light Green" value="80ff8f"/>
 	<Color name="Dark Blue" value="0000f0"/>
+  <Color name="Light Gray" value="f8f8f8"/>
 </Colors>

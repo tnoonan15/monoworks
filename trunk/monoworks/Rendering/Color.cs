@@ -19,13 +19,15 @@ using System;
 
 using gl = Tao.OpenGl.Gl;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
 	/// The color class represents a single color.
 	/// </summary>
-	public class Color
+	public class Color : IFill
 	{
 			
 		protected string name;
@@ -278,6 +280,17 @@ namespace MonoWorks.Rendering
 			get { return new Color(Greenf, Bluef, Redf); }
 		}
 
+		/// <summary>
+		/// Interpolates the two colors linearly.
+		/// </summary>
+		/// <param name="c1"></param>
+		/// <param name="c2"></param>
+		/// <returns></returns>
+		public static Color Interp(Color c1, Color c2)
+		{
+			return new Color((c1.Redf + c2.Redf) / 2, (c1.Greenf + c2.Greenf) / 2, (c1.Bluef + c2.Bluef) / 2);
+		}
+
 
 #endregion
 
@@ -292,10 +305,23 @@ namespace MonoWorks.Rendering
 //			gl.glColor3bv(rgb); // this doesn't seem to work like it should
 			gl.glColor4fv(RGBAf);
 		}
+
+		/// <summary>
+		/// Draws a solid rectangle at the given position with the given size.
+		/// </summary>
+		public void DrawRectangle(MonoWorks.Base.Coord pos, MonoWorks.Base.Coord size)
+		{
+			Setup();
+			gl.glBegin(gl.GL_QUADS);
+			gl.glVertex2d(pos.X, pos.Y);
+			gl.glVertex2d(pos.X + size.X, pos.Y);
+			gl.glVertex2d(pos.X + size.X, pos.Y + size.Y);
+			gl.glVertex2d(pos.X, pos.Y + size.Y);
+			gl.glEnd();
+		}
 		
 #endregion
-		
-		
-		
+
+
 	}
 }

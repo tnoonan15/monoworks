@@ -33,6 +33,7 @@ namespace MonoWorks.Rendering.Controls
 		
 		public Control() : base()
 		{
+			styleGroup = DefaultStyleGroup;
 		}
 
 
@@ -68,6 +69,8 @@ namespace MonoWorks.Rendering.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
+
+			styleClass = styleGroup.GetClass(this);
 		}
 
 		public override void RenderOverlay(IViewport viewport)
@@ -101,7 +104,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			if (!evt.Handled && HitTest(evt.Pos))
+			if (!evt.Handled && HitTest(evt.Pos) && !IsSelected)
 			{
 				IsHovering = true;
 				evt.Handle();
@@ -116,17 +119,39 @@ namespace MonoWorks.Rendering.Controls
 #endregion
 		
 
-#region Default Style
+#region Style
 
-		private static ControlStyle defaultStyle = new ControlStyle();
+		private static StyleGroup defaultStyleGroup = new StyleGroup();
 
 		/// <value>
-		/// Style that gets applied to all new controls.
+		/// Style group that gets applied to all new controls.
 		/// </value>
-		public static ControlStyle DefaultStyle
+		public static StyleGroup DefaultStyleGroup
 		{
-			get {return defaultStyle;}
+			get { return defaultStyleGroup; }
 		}
+
+		protected StyleGroup styleGroup;
+		/// <summary>
+		/// The style group this control will use to look up its style class.
+		/// </summary>
+		public StyleGroup StyleGroup
+		{
+			get { return styleGroup; }
+			set
+			{
+				styleGroup = value;
+				MakeDirty();
+			}
+		}
+
+
+		/// <summary>
+		/// The current style class to use to render the control.
+		/// </summary>
+		/// <remarks>This should be cached by compute geometry so it 
+		/// doesn't need to be looked up every render cycle.</remarks>
+		protected StyleClass styleClass;
 
 #endregion
 

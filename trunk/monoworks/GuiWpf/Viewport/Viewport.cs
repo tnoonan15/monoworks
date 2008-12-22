@@ -26,6 +26,7 @@ using Tao.Platform.Windows;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.GuiWpf
 {
@@ -211,19 +212,23 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseDown(args);
 
-			Coord pos = MouseToViewport(args.Location);
-			int button = SwfExtensions.ButtonNumber(args.Button);
-			if (!overlayInteractor.OnButtonPress(pos, button)) // let the overlay interactor try to handle it
-				renderableInteractor.OnButtonPress(pos, button);
+			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
+									SwfExtensions.ButtonNumber(args.Button));
+			overlayInteractor.OnButtonPress(evt);
+			if (!evt.Handled)
+				renderableInteractor.OnButtonPress(evt);
+
+			PaintGL();
 		}
 
 		protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs args)
 		{
 			base.OnMouseUp(args);
 
-			Coord pos = MouseToViewport(args.Location);
-			if (!overlayInteractor.OnButtonRelease(pos))
-				renderableInteractor.OnButtonRelease(pos);
+			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location));
+			overlayInteractor.OnButtonRelease(evt);
+			if (!evt.Handled)
+				renderableInteractor.OnButtonRelease(evt);
 
 			PaintGL();
 		}
@@ -232,9 +237,10 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseMove(args);
 
-			Coord pos = MouseToViewport(args.Location);
-			if (!overlayInteractor.OnMouseMotion(pos))
-				renderableInteractor.OnMouseMotion(pos);
+			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location));
+			overlayInteractor.OnMouseMotion(evt);
+			if (!evt.Handled)
+				renderableInteractor.OnMouseMotion(evt);
 
 			PaintGL();
 		}
