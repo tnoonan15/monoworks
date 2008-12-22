@@ -20,6 +20,7 @@ using System;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 using gl=Tao.OpenGl.Gl;
 
@@ -103,13 +104,67 @@ namespace MonoWorks.Rendering.Controls
 			set
 			{
 				base.Position = value;
-				if ( label != null)
-					label.Position = value;
-				if ( image != null)
-					image.Position = value;
 				MakeDirty();
 			}
 		}
+
+		protected double padding = 4;
+		/// <summary>
+		/// The padding to place on the inside of the button.
+		/// </summary>
+		public double Padding
+		{
+			get { return padding; }
+			set { padding = value; }
+		}
+
+
+
+#region Mouse Interaction
+
+		protected bool isTogglable = false;
+		/// <summary>
+		/// Whether the button toggles or just clicks.
+		/// </summary>
+		public bool IsTogglable
+		{
+			get { return isTogglable; }
+			set { isTogglable = value; }
+		}
+
+
+
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+
+			if (HitTest(evt.Pos))
+			{
+				ToggleSelection();
+				if (Clicked != null)
+					Clicked(this, new EventArgs());
+			}
+		}
+
+
+		public override void OnButtonRelease(MouseEvent evt)
+		{
+			base.OnButtonRelease(evt);
+
+			if (IsSelected && !IsTogglable)
+				Deselect();
+
+		}
+
+
+		/// <summary>
+		/// Called when the button is clicked by the user.
+		/// </summary>
+		public event EventHandler Clicked;
+		
+
+#endregion
+
 
 
 #region Rendering
@@ -118,13 +173,21 @@ namespace MonoWorks.Rendering.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-			
-			if (label != null)
-				label.ComputeGeometry();
-			if (image != null)
-				image.ComputeGeometry();
 
-			size = label.Size;
+			Coord pad = new Coord(padding, padding);
+
+			if (label != null)
+			{
+				label.Position = position + pad;
+				label.ComputeGeometry();
+			}
+			if (image != null)
+			{
+				image.Position = position + pad;
+				image.ComputeGeometry();
+			}
+
+			size = label.Size + pad*2;
 		}
 
 		public override void RenderOverlay(IViewport viewport)
@@ -133,17 +196,10 @@ namespace MonoWorks.Rendering.Controls
 
 			if (label != null)
 			{
-			
-				if (IsHovering)
-				{
-					ColorManager.Global["Red"].Setup();
-					gl.glBegin(gl.GL_QUADS);
-					gl.glVertex2d(position.X, position.Y);
-					gl.glVertex2d(position.X + size.X, position.Y);
-					gl.glVertex2d(position.X + size.X, position.Y + size.Y);
-					gl.glVertex2d(position.X, position.Y + size.Y);
-					gl.glEnd();
-				}
+
+				IFill bg = styleClass.GetBackground(hitState);
+				if (bg != null)
+					bg.DrawRectangle(position, size);
 				label.RenderOverlay(viewport);
 			}
 		}

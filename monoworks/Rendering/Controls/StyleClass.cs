@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
 
 namespace MonoWorks.Rendering
 {
@@ -29,6 +30,59 @@ namespace MonoWorks.Rendering
 		
 		public StyleClass()
 		{
+			backgrounds[HitState.None] = new FillGradient(ColorManager.Global["Gray"], ColorManager.Global["Light Gray"]);
+			backgrounds[HitState.Hovering] = new FillGradient(ColorManager.Global["Light Blue"], ColorManager.Global["White"]);
+			backgrounds[HitState.Selected] = new FillGradient(ColorManager.Global["Light Green"], ColorManager.Global["White"]);
+			foregrounds[HitState.None] = ColorManager.Global["Black"];
 		}
+
+
+		protected Dictionary<HitState,IFill> backgrounds = new Dictionary<HitState,IFill>();
+
+		/// <summary>
+		/// Get the background fill for the given hitstate.
+		/// </summary>
+		public IFill GetBackground(HitState hitState)
+		{
+			if (backgrounds.ContainsKey(hitState))
+				return backgrounds[hitState];
+			else
+				return backgrounds[HitState.None];
+		}
+
+		/// <summary>
+		/// Modifies the fill used for the background with the given hit state.
+		/// </summary>
+		/// <param name="hitState"></param>
+		/// <param name="fill"></param>
+		public void ModifyBackground(HitState hitState, IFill fill)
+		{
+			backgrounds[hitState] = fill;
+		}
+
+
+		protected Dictionary<HitState, Color> foregrounds = new Dictionary<HitState, Color>();
+
+		/// <summary>
+		/// Get the foreground color for the given hitstate.
+		/// </summary>
+		public Color GetForeground(HitState hitState)
+		{
+			if (foregrounds.ContainsKey(hitState))
+				return foregrounds[hitState];
+			else
+				return foregrounds[HitState.None];
+		}
+
+		/// <summary>
+		/// Modifies the color used for the foreground with the given hit state.
+		/// </summary>
+		/// <param name="hitState"></param>
+		/// <param name="fill"></param>
+		public void ModifyForeground(HitState hitState, Color color)
+		{
+			foregrounds[hitState] = color;
+		}
+
 	}
 }

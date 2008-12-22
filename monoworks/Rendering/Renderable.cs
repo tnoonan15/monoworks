@@ -171,7 +171,7 @@ namespace MonoWorks.Rendering
 					MakeDirty();
 				if (value)
 					hitState = HitState.Hovering;
-				else
+				else if (hitState == HitState.Hovering)
 					hitState = HitState.None;
 			}
 		}
@@ -182,6 +182,14 @@ namespace MonoWorks.Rendering
 		public virtual void Deselect()
 		{
 			IsSelected = false;
+		}
+
+		/// <summary>
+		/// Makes the selected state opposite of what it was before.
+		/// </summary>
+		public void ToggleSelection()
+		{
+			IsSelected = !IsSelected;
 		}
 
 		/// <summary>
