@@ -6,9 +6,9 @@ using System.Windows.Controls;
 
 using AvalonDock;
 
-using Slate.Core;
+using MonoWorks.Framework;
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
 	/// <summary>
 	/// Base class for a Slate main window.

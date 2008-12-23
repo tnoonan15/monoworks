@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-using Slate.Core;
+using MonoWorks.Framework;
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
 	public class Controller : AbstractController
 	{

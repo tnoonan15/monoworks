@@ -7,11 +7,11 @@ using System.Xml;
 using System.IO;
 using System.Reflection;
 
-using Slate.Core;
+using MonoWorks.Framework;
 
 using AvalonDock;
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
 	/// <summary>
 	/// The UI manager for WPF applications.

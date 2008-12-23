@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 
-using Slate.Core;
+using MonoWorks.Framework;
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
 	/// <summary>
 	/// The tool shelf belongs to a tool box and stores a list of action icons.

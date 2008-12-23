@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using AvalonDock;
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
 	/// <summary>
 	/// Base class for dockables in WPF.

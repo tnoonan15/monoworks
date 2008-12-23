@@ -4,12 +4,12 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
 	/// <summary>
 	/// Resource manager for WPF applications.
 	/// </summary>
-	public class ResourceManager : Slate.Core.ResourceManagerBase
+	public class ResourceManager : MonoWorks.Framework.ResourceManagerBase
 	{
 
 		protected ResourceManager(string dirName)
