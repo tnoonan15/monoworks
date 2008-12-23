@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using AvalonDock;
 
-using Slate.Core;
+using MonoWorks.Framework;
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
     /// <summary>
     /// Base class for document types.

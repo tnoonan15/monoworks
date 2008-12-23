@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 
 
-namespace Slate.GuiWpf
+namespace MonoWorks.GuiWpf.Framework
 {
 	/// <summary>
 	/// The toolbox is a tool control that stores shelves of action icons.
