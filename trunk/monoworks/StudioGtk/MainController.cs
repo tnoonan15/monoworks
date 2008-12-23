@@ -20,8 +20,8 @@
 
 using System;
 
-using Slate.Core;
-using Slate.GuiGtk;
+using MonoWorks.Framework;
+using MonoWorks.GuiGtk.Framework;
 
 namespace MonoWorks.StudioGtk
 {
