@@ -39,7 +39,6 @@
     <File name="Controls/Label.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/Button.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/ToolBar.cs" subtype="Code" buildaction="Compile" />
-    <File name="Controls/ControlStyle.cs" subtype="Code" buildaction="Compile" />
     <File name="Renderable3D.cs" subtype="Code" buildaction="Compile" />
     <File name="Overlay.cs" subtype="Code" buildaction="Compile" />
     <File name="OverlayInteractor.cs" subtype="Code" buildaction="Compile" />
@@ -52,6 +51,9 @@
     <File name="Events/MouseEvent.cs" subtype="Code" buildaction="Compile" />
     <File name="Events/MouseButtonEvent.cs" subtype="Code" buildaction="Compile" />
     <File name="IMouseHandler.cs" subtype="Code" buildaction="Compile" />
+    <File name="FillGradient.cs" subtype="Code" buildaction="Compile" />
+    <File name="IFill.cs" subtype="Code" buildaction="Compile" />
+    <File name="Controls/StyleGroup.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

@@ -31,8 +31,7 @@
     <ProjectReference type="Project" localcopy="True" refto="GuiGtk" />
     <ProjectReference type="Project" localcopy="True" refto="Model" />
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../../../.clr/Slate.Core.dll" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../../../.clr/Slate.GuiGtk.dll" />
+    <ProjectReference type="Project" localcopy="True" refto="Framework" />
   </References>
   <GtkDesignInfo />
 </Project>

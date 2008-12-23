@@ -210,13 +210,15 @@ namespace MonoWorks.GuiGtk
 					camera.SetViewDirection(ViewDirection.Front);
 				else
 					camera.SetViewDirection(ViewDirection.Standard);
-				PaintGL();
 			}
-			
-			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), (int)args.Event.Button);
-			overlayInteractor.OnButtonPress(evt);
-			if (!evt.Handled) // the overlays didn't handle the event
-				renderableInteractor.OnButtonPress(evt);
+			else
+			{			
+				MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), (int)args.Event.Button);
+				overlayInteractor.OnButtonPress(evt);
+				if (!evt.Handled) // the overlays didn't handle the event
+					renderableInteractor.OnButtonPress(evt);
+			}
+			PaintGL();
 
 		}
 		

@@ -10,6 +10,7 @@
       <Entry build="True" name="Plotting" configuration="Debug" />
       <Entry build="True" name="PlottingDemoGtk" configuration="Debug" />
       <Entry build="True" name="StudioGtk" configuration="Debug" />
+      <Entry build="True" name="Framework" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="Base" configuration="Release" />
@@ -21,9 +22,10 @@
       <Entry build="True" name="Plotting" configuration="Release" />
       <Entry build="True" name="PlottingDemoGtk" configuration="Release" />
       <Entry build="True" name="StudioGtk" configuration="Release" />
+      <Entry build="True" name="Framework" configuration="Release" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="ViewerGtk" single="True">
+  <StartMode startupentry="PlottingDemoGtk" single="True">
     <Execute type="None" entry="Base" />
     <Execute type="None" entry="Model" />
     <Execute type="None" entry="Resources" />
@@ -33,6 +35,7 @@
     <Execute type="None" entry="Plotting" />
     <Execute type="None" entry="PlottingDemoGtk" />
     <Execute type="None" entry="StudioGtk" />
+    <Execute type="None" entry="Framework" />
   </StartMode>
   <Entries>
     <Entry filename="Base/Base.mdp" />
@@ -44,5 +47,6 @@
     <Entry filename="Plotting/Plotting.mdp" />
     <Entry filename="PlottingDemoGtk/PlottingDemoGtk.mdp" />
     <Entry filename="StudioGtk/StudioGtk.mdp" />
+    <Entry filename="Framework/Framework.mdp" />
   </Entries>
 </Combine>
