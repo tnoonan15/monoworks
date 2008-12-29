@@ -18,6 +18,10 @@
 
 using System;
 
+
+using MonoWorks.Rendering;
+using gl=Tao.OpenGl.Gl;
+
 namespace MonoWorks.Rendering.Controls
 {
 	
@@ -30,5 +34,22 @@ namespace MonoWorks.Rendering.Controls
 		public Image() : base()
 		{
 		}
+		
+		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+		}
+
+		
+		public override void RenderOverlay(IViewport viewport)
+		{
+			base.RenderOverlay(viewport);
+			
+//			gl.glDrawPixels
+		}
+
+		
+		
 	}
 }

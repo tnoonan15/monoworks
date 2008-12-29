@@ -125,6 +125,17 @@ namespace MonoWorks.GuiGtk.Framework
 		}
 
 		
+		public override void FillIconBuffer(string name, int size, ref float[] buffer)
+		{
+			if (!Instance.icons.ContainsKey(name))
+				throw new Exception(name + " is not a valid icon name.");
+			
+//			Gtk.IconSet iconSet = icons[name];
+//			Gdk.Pixbuf pixbuf = iconSet.RenderIcon(new Gtk.Style(), Gtk.TextDirection.Ltr, Gtk.StateType.Normal, Gtk.IconSize.Dnd, null, "");
+//			pixbuf.
+		}
+
+		
 #endregion
 		
 	}

@@ -32,6 +32,8 @@ namespace MonoWorks.Framework
 		/// <param name="dir"> Absolute or relative path to the resource directory.</param>
 		protected ResourceManagerBase(string dirName)
 		{
+			singletonInstance = this;
+			
 			resourceDir = new DirectoryInfo(dirName);
 			IsInitialized = true;
 
@@ -51,6 +53,13 @@ namespace MonoWorks.Framework
 			if (!IsInitialized)
 				throw new Exception("Resource Manager is not initialized.");
 		}
+		
+		/// <summary>
+		/// Singleton instance of the base resource manager. 
+		/// </summary>
+		/// <remarks>Objects in the rendering library can use this to 
+		/// access some resources that aren't GUI specific.</remarks>
+		private static ResourceManagerBase singletonInstance;
 
 		/// <summary>
 		/// The resource directory.
@@ -84,6 +93,20 @@ namespace MonoWorks.Framework
 		/// <param name="size"></param>
 		protected abstract void LoadIcon(FileInfo fileInfo, int size);
 
+		/// <summary>
+		/// Fills the buffer with the pixels of the icon with the given name.
+		/// </summary>
+		/// <remarks>The buffer will be automatically sized.</remarks>
+		public abstract void FillIconBuffer(string name, int size, ref float[] buffer);
+
+		/// <summary>
+		/// Fills the buffer with the pixels of the icon with the given name.
+		/// </summary>
+		/// <remarks>The buffer will be automatically sized.</remarks>
+		public static void GetIconPixels(string name, int size, ref float[] buffer)
+		{
+				singletonInstance.FillIconBuffer(name, size, ref buffer);
+		}
 
 	}
 }

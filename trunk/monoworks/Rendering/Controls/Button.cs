@@ -71,6 +71,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			this.label = label;
 			this.image = image;
+			IsHoverable = true;
 		}
 
 
