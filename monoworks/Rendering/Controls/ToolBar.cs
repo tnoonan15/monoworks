@@ -17,18 +17,25 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
+
+using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Rendering.Controls
 {
 	
 	/// <summary>
-	/// A stack of buttons containing labels and/or images.
+	/// A stack of buttons.
 	/// </summary>
 	public class ToolBar : Stack
 	{
 		
 		public ToolBar() : base()
 		{
+			
 		}
+		
+		
 	}
 }

@@ -59,6 +59,23 @@ namespace MonoWorks.Rendering.Controls
 			set {size = value;}
 		}
 
+		/// <summary>
+		/// The width of the control.
+		/// </summary>
+		public virtual double Width
+		{
+			get {return size.X;}
+			set {size.X = value;}
+		}
+
+		/// <summary>
+		/// The width of the control.
+		/// </summary>
+		public virtual double Height
+		{
+			get {return size.Y;}
+			set {size.Y = value;}
+		}
 
 #endregion
 
@@ -100,11 +117,21 @@ namespace MonoWorks.Rendering.Controls
 		
 #region Mouse Handling
 		
+		private bool isHoverable = false;
+		/// <value>
+		/// Whether the control responds to mouse motion over it by going into the hovering state.
+		/// </value>
+		public bool IsHoverable
+		{
+			get {return isHoverable;}
+			set {isHoverable = value;}
+		}
+		
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
 			
-			if (!evt.Handled && HitTest(evt.Pos) && !IsSelected)
+			if (isHoverable && !evt.Handled && HitTest(evt.Pos) && !IsSelected)
 			{
 				IsHovering = true;
 				evt.Handle();

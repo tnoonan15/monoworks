@@ -68,22 +68,41 @@ namespace MonoWorks.Rendering.Controls
 			
 			// compute the size
 			size = new Coord();
+			double span = 0;
 			foreach (Control child in Children)
 			{
 				child.ComputeGeometry();
 				Coord size_ = child.Size;
 				if (orientation == Orientation.Horizontal)
 				{
-					size.X += size_.X;
+					child.Position = position + new Coord(span, 0);
+					span += size_.X;
 					size.Y = Math.Max(size.Y, size_.Y);
 				}
 				else // vertical
 				{
-					size.Y += size_.Y;
+					child.Position = position + new Coord(0, span);
+					span -= size_.Y;
 					size.X = Math.Max(size.X, size_.X);
 				}
 			}
+			
+			// assign the size
+			if (orientation == Orientation.Horizontal)
+				size.X = span;
+			else 
+				size.Y = span;
+			
+			// assign the children size
+			foreach (Control child in Children)
+			{
+				if (orientation == Orientation.Horizontal)
+					child.Height = size.Y;
+				else
+					child.Width = size.X;
+			}
 		}
+
 
 		
 

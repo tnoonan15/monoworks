@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Rendering.Events;
+
 namespace MonoWorks.Rendering.Controls
 {
 	
@@ -53,6 +55,18 @@ namespace MonoWorks.Rendering.Controls
 			get {return GetChild(index);}
 			set {SetChild(index, value);}
 		}
+		
+		/// <summary>
+		/// Appends a child control on to the end of the stack.
+		/// </summary>
+		/// <param name="child">
+		/// A <see cref="Control"/>
+		/// </param>
+		public void AppendChild(Control child)
+		{
+			children.Add(child);
+			MakeDirty();
+		}
 
 		/// <summary>
 		/// Get a child by index.
@@ -76,9 +90,45 @@ namespace MonoWorks.Rendering.Controls
 				children.Add(child);
 			else
 				children[index] = child;
+			MakeDirty();
 		}
 
 #endregion
+		
+		
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			foreach (Control child in children)
+				child.OnButtonPress(evt);
+		}
+
+		public override void OnButtonRelease(MouseEvent evt)
+		{
+			base.OnButtonRelease(evt);
+			
+			foreach (Control child in children)
+				child.OnButtonRelease(evt);
+		}
+
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+			
+			foreach (Control child in children)
+				child.OnMouseMotion(evt);
+		}
+
+		
+		
+		public override void RenderOverlay(IViewport viewport)
+		{
+			base.RenderOverlay(viewport);
+			
+			foreach (Control child in children)
+				child.RenderOverlay(viewport);
+		}
 
 		
 	}
