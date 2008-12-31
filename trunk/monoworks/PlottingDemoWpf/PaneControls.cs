@@ -38,13 +38,16 @@ namespace MonoWorks.PlottingDemoWpf
 		public PaneControls()
 			: base()
 		{
-			Button button1 = new Button("Hello World");
-			button1.Position = new Coord(300, 300);
-			viewport.RenderList.AddOverlay(button1);
+            ToolBar toolbar = new ToolBar();
+            toolbar.Position = new Coord(400, 400);
+            toolbar.Orientation = Orientation.Vertical;
+            viewport.RenderList.AddOverlay(toolbar);
 
-			Button button2 = new Button("Button 2");
-			button2.Position = new Coord(400, 400);
-			viewport.RenderList.AddOverlay(button2);
+			Button button1 = new Button("Hello World");
+            toolbar.AppendChild(button1);
+
+            Button button2 = new Button("Button 2");
+            toolbar.AppendChild(button2);
 
 
 			DockViewport();
