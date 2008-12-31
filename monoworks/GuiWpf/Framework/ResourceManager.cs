@@ -98,5 +98,10 @@ namespace MonoWorks.GuiWpf.Framework
 		#endregion
 
 
-	}
+
+        public override void FillIconBuffer(string name, int size, ref float[] buffer)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
