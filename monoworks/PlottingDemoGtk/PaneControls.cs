@@ -18,10 +18,13 @@
 
 using System;
 
+using System.IO;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.GuiGtk;
+using MonoWorks.GuiGtk.Framework;
 
 namespace MonoWorks.PlottingDemoGtk
 {
@@ -50,6 +53,13 @@ namespace MonoWorks.PlottingDemoGtk
 
 			Button button2 = new Button("Button 2");
 			toolbar.AppendChild(button2);
+
+
+			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
+			Console.WriteLine("loading {0}", iconPath);
+			Image image = new Image(iconPath);
+			image.Position = new Coord(500, 400);
+			viewport.RenderList.AddOverlay(image);
 		}
 	}
 }

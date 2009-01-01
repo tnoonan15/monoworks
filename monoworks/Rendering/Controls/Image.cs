@@ -21,6 +21,8 @@ using System;
 
 using MonoWorks.Rendering;
 using gl=Tao.OpenGl.Gl;
+using il=Tao.DevIl.Il;
+using ilu=Tao.DevIl.Ilu;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -30,10 +32,30 @@ namespace MonoWorks.Rendering.Controls
 	/// </summary>
 	public class Image : Control
 	{
-		
-		public Image() : base()
+
+		/// <summary>
+		/// Loads an image from a file.
+		/// </summary>
+		/// <param name="fileName"> The name of the image file. </param>
+		public Image(string fileName) : base()
 		{
+			LoadFile(fileName);
 		}
+
+		int ilId;
+
+		/// <summary>
+		/// Loads a file image.
+		/// </summary>
+		public void LoadFile(string fileName)
+		{
+			il.ilInit();
+//			ilId = il.ilGenImage();
+			il.ilGenImages(1, out ilId);
+            il.ilBindImage(ilId);
+            il.ilLoadImage(fileName);
+		}
+
 		
 		
 		public override void ComputeGeometry()
@@ -45,8 +67,18 @@ namespace MonoWorks.Rendering.Controls
 		public override void RenderOverlay(IViewport viewport)
 		{
 			base.RenderOverlay(viewport);
+
+//			gl.glMatrixMode(gl.GL_MODELVIEW);
+//			gl.glPushMatrix();
+
+//			gl.glTranslated(position.X, position.Y, 0);
+
+			gl.glRasterPos2d(position.X, position.Y);
 			
-//			gl.glDrawPixels
+            il.ilBindImage(ilId);
+			gl.glDrawPixels(48, 48, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, il.ilGetData());
+
+//			gl.glPopMatrix();
 		}
 
 		

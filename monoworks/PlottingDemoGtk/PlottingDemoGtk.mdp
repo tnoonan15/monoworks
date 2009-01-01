@@ -36,6 +36,7 @@
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.Externals.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.FreeType.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />
+    <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="../extbin/Linux/Tao.DevIl.dll" />
   </References>
   <GtkDesignInfo />
 </Project>

@@ -18,6 +18,7 @@
 using System;
 
 using gl = Tao.OpenGl.Gl;
+using il=Tao.DevIl.Il;
 
 namespace MonoWorks.Rendering
 {
@@ -61,10 +62,20 @@ namespace MonoWorks.Rendering
 
 
 		/// <summary>
+		/// Initialized rendering.
+		/// </summary>
+		public void Initialize()
+		{
+			InitializeGL();
+			InitializeIL();
+		}
+		
+
+		/// <summary>
 		/// Initialize the OpenGL rendering.
 		/// </summary>
 		/// <remarks> This should only really be called once at the beginning.</remarks>
-		public void InitializeGL()
+		protected void InitializeGL()
 		{
 
 			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
@@ -87,6 +98,17 @@ namespace MonoWorks.Rendering
 
 			// Really Nice Perspective Calculations
 			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
+		}
+
+
+		/// <summary>
+		/// Initializes DevIL.
+		/// </summary>
+		/// <remarks> This should only really be called once at the beginning.</remarks>
+		protected void InitializeIL()
+		{
+			il.ilInit();
+//			il.ili
 		}
 
 		/// <summary>
