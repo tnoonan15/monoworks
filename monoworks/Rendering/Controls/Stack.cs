@@ -72,7 +72,7 @@ namespace MonoWorks.Rendering.Controls
 			foreach (Control child in Children)
 			{
 				child.ComputeGeometry();
-				Coord size_ = child.Size;
+				Coord size_ = child.MinSize;
 				if (orientation == Orientation.Horizontal)
 				{
 					child.Position = position + new Coord(span, 0);
@@ -81,8 +81,8 @@ namespace MonoWorks.Rendering.Controls
 				}
 				else // vertical
 				{
-					child.Position = position + new Coord(0, span);
 					span -= size_.Y;
+					child.Position = position + new Coord(0, span);
 					size.X = Math.Max(size.X, size_.X);
 				}
 			}
@@ -96,6 +96,7 @@ namespace MonoWorks.Rendering.Controls
 			// assign the children size
 			foreach (Control child in Children)
 			{
+				child.UserSize = true;
 				if (orientation == Orientation.Horizontal)
 					child.Height = size.Y;
 				else

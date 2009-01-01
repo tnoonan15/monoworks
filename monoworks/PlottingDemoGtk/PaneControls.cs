@@ -48,18 +48,17 @@ namespace MonoWorks.PlottingDemoGtk
 			toolbar.Orientation = Orientation.Vertical;
 			viewport.RenderList.AddOverlay(toolbar);
 
-			Button button1 = new Button("Hello Blah");
+			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
+			Image image1 = new Image(iconPath);
+			Button button1 = new Button("3d Button", image1);
 			toolbar.AppendChild(button1);
 
-			Button button2 = new Button("Button 2");
+			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
+			Image image2 = new Image(iconPath);
+			Button button2 = new Button("Arc", image2);
 			toolbar.AppendChild(button2);
 
 
-			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
-			Console.WriteLine("loading {0}", iconPath);
-			Image image = new Image(iconPath);
-			image.Position = new Coord(500, 400);
-			viewport.RenderList.AddOverlay(image);
 		}
 	}
 }

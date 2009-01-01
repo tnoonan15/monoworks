@@ -67,7 +67,6 @@ namespace MonoWorks.Rendering
 		public void Initialize()
 		{
 			InitializeGL();
-			InitializeIL();
 		}
 		
 
@@ -100,16 +99,6 @@ namespace MonoWorks.Rendering
 			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
 		}
 
-
-		/// <summary>
-		/// Initializes DevIL.
-		/// </summary>
-		/// <remarks> This should only really be called once at the beginning.</remarks>
-		protected void InitializeIL()
-		{
-			il.ilInit();
-//			il.ili
-		}
 
 		/// <summary>
 		/// Clears the scene for the next rendering frame.

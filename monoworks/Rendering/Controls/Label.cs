@@ -73,12 +73,17 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		private TextDef textDef = new TextDef(12);
 
+		
+		public override Coord MinSize
+		{
+			get {return TextRenderer.GetExtents(textDef);}
+		}
+
+		
 
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-			
-			size = TextRenderer.GetExtents(textDef);
 		}
 
 

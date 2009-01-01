@@ -44,13 +44,13 @@ namespace MonoWorks.PlottingDemoGtk
 			Add(book);
 			book.ChangeCurrentPage += OnPageChanged;
 			
-			// create the 2D page
-			Pane2D pane2D = new Pane2D();
-			book.AppendPage(pane2D, new Gtk.Label("Basic 2D"));
-			
-			// create the 3D page
-			Pane3D pane3D = new Pane3D();
-			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
+//			// create the 2D page
+//			Pane2D pane2D = new Pane2D();
+//			book.AppendPage(pane2D, new Gtk.Label("Basic 2D"));
+//			
+//			// create the 3D page
+//			Pane3D pane3D = new Pane3D();
+//			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
 			
 			// create the controls page
 			PaneControls paneControls = new PaneControls();
