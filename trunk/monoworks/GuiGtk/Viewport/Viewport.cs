@@ -280,7 +280,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void InitializeGL()
 		{			
-			renderManager.InitializeGL();
+			renderManager.Initialize();
 			
 			camera.Configure();
 						

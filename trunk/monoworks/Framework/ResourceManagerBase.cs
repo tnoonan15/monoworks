@@ -61,10 +61,23 @@ namespace MonoWorks.Framework
 		/// access some resources that aren't GUI specific.</remarks>
 		private static ResourceManagerBase singletonInstance;
 
+		protected DirectoryInfo resourceDir;
+
 		/// <summary>
 		/// The resource directory.
 		/// </summary>
-		protected DirectoryInfo resourceDir;
+		public static DirectoryInfo ResourceDir
+		{
+			get {return singletonInstance.resourceDir;}
+		}
+
+		/// <summary>
+		/// Gets the directory for icons of the given size.
+		/// </summary>
+		public static string IconDir(int size)
+		{
+			return ResourceDir.FullName + "icons" + size.ToString() + "/";
+		}
 
 		/// <summary>
 		/// Loads the icons.

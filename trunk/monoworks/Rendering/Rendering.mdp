@@ -63,6 +63,7 @@
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.FreeType.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/ISE.FreeType.dll" />
     <ProjectReference type="Project" localcopy="True" refto="Framework" />
+    <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="../extbin/Linux/Tao.DevIl.dll" />
   </References>
   <GtkDesignInfo />
 </Project>
