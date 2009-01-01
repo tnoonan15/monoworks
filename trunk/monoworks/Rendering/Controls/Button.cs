@@ -28,17 +28,16 @@ namespace MonoWorks.Rendering.Controls
 {
 	
 	/// <summary>
+	/// Defines how the button image and label are laid out.
+	/// </summary>
+	public enum ButtonStyle {Image, Label, ImageOverLabel, ImageNextToLabel};
+	
+	/// <summary>
 	/// Control that can be clicked by the user.
 	/// </summary>
 	/// <remarks> Buttons can contain an image and/or label.</remarks>
 	public class Button : Control
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public Button() : this(null, null)
-		{
-		}
 
 		/// <summary>
 		/// Create a button with the given text.
@@ -53,15 +52,15 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		public Button(Label label) : this(label, null)
 		{
-
+			ButtonStyle = ButtonStyle.Label;
 		}
 
 		/// <summary>
 		/// Create a button with the given image.
 		/// </summary>
-		public Button(Image image) : this(null, image)
+		public Button(Image image) : this("", image)
 		{
-
+			ButtonStyle = ButtonStyle.Image;
 		}
 
 		/// <summary>
@@ -71,9 +70,16 @@ namespace MonoWorks.Rendering.Controls
 		{
 			this.label = label;
 			this.image = image;
+			ButtonStyle = ButtonStyle.ImageOverLabel;
 			IsHoverable = true;
 		}
 
+		/// <summary>
+		/// Creates a button with the given label text and image.
+		/// </summary>
+		public Button(string text, Image image) : this(new Label(text), image)
+		{
+		}
 
 		private Label label;
 		/// <value>
@@ -99,6 +105,10 @@ namespace MonoWorks.Rendering.Controls
 			set {image = value;}
 		}
 
+		
+		
+#region Layout
+		
 		public override Coord Position
 		{
 			get {return base.Position;}
@@ -119,6 +129,176 @@ namespace MonoWorks.Rendering.Controls
 			set { padding = value; }
 		}
 
+		/// <value>
+		/// The style used to layout the image and label.
+		/// </value>
+		public ButtonStyle ButtonStyle {get; set;}
+		
+		/// <summary>
+		/// Safely gets the sizes of the image and label.
+		/// </summary>
+		/// <param name="labelSize"> </param>
+		/// <param name="imageSize"> </param>
+//		protected void GetSizes(out Coord labelSize, out Coord imageSize)
+//		{			
+//			Coord pad2 = new Coord(padding, padding)*2;
+//			
+//			if (label == null)
+//				labelSize = pad2;
+//			else 
+//			{
+//				label.ComputeGeometry();
+//				labelSize = label.Size;
+//			}
+//			if (image == null)
+//				imageSize = pad2;
+//			else
+//			{
+//				image.ComputeGeometry();
+//				imageSize = image.Size;
+//			}
+//		}
+		
+		//// <value>
+		/// Ensures that the label and image geometries have been computed.
+		/// </value>
+		protected void ComputeChildGeometry()
+		{
+			if (image != null)
+				image.ComputeGeometry();
+			if (label != null)
+				label.ComputeGeometry();
+		}
+		
+		/// <value>
+		/// The button style to use to render.
+		/// </value>
+		/// <remarks>This may be different than the current style
+		/// if some of the controls are missing.</remarks>
+		protected ButtonStyle StyleToUse
+		{
+			get
+			{				
+				// if one of the correct controls isn't present
+				if (ButtonStyle == ButtonStyle.ImageOverLabel || 
+				          ButtonStyle == ButtonStyle.ImageNextToLabel)
+				{
+					if (label == null)
+						return ButtonStyle.Image;
+					else if (image == null)
+						return ButtonStyle.Label;
+				}
+				return ButtonStyle;
+			}
+		}
+		
+		/// <summary>
+		/// The minimum size needed to fit the image 
+		/// and/or label with the current ButtonStyle.
+		/// </summary>
+		public override Coord MinSize
+		{
+			get
+			{				
+				Coord pad2 = new Coord(padding, padding)*2;
+				
+				// the correct control is not present
+				if ((ButtonStyle == ButtonStyle.Label && label == null) || 
+				    (ButtonStyle == ButtonStyle.Image && image == null) ||
+				    (label == null && image == null))
+					return pad2;
+				
+				// get the image and label sizes
+//				Coord imageSize, labelSize;
+//				GetSizes(out labelSize, out imageSize);
+				
+				ComputeChildGeometry();
+				
+				// once we've gotten here, we're sure that the correct controls are present
+				Coord size_ = pad2;
+				switch (StyleToUse)
+				{
+				case ButtonStyle.Label: // only show the label
+					size_ = label.Size + pad2;
+					break;
+					
+				case ButtonStyle.Image: // only show the image
+					size_ = image.Size + pad2;
+					break;
+					
+				case ButtonStyle.ImageOverLabel: // place the image over the label
+					size_ = new Coord(Math.Max(image.Width, label.Width), 
+					                 image.Height + label.Height + padding) + pad2;
+					break;
+					
+				case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
+					size_ = new Coord(image.Width + label.Width + padding, 
+					                 Math.Max(image.Height, label.Height)) + pad2;
+					break;
+				}
+				return size_;
+			}
+		}
+		
+		
+#endregion
+
+
+#region Rendering
+
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+
+			Coord pad = new Coord(padding, padding);
+				
+			// get the image and label sizes
+//			Coord imageSize, labelSize;
+//			GetSizes(out labelSize, out imageSize);
+				
+			ComputeChildGeometry();
+
+			switch (StyleToUse)
+			{
+			case ButtonStyle.Label: // only show the label
+				label.Position = position + pad;
+				break;
+				
+			case ButtonStyle.Image: // only show the image
+				image.Position = position + pad;
+				break;
+				
+			case ButtonStyle.ImageOverLabel: // place the image over the label
+				label.Position = position + pad;
+				image.Position = position + pad + new Coord(0, label.Height + padding);
+				break;
+				
+			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
+				image.Position = position + pad;
+				label.Position = position + pad + new Coord(image.Width + padding, 0);
+				break;
+			}
+		}
+
+		public override void RenderOverlay(IViewport viewport)
+		{
+			base.RenderOverlay(viewport);
+
+			IFill bg = styleClass.GetBackground(hitState);
+			if (bg != null)
+				bg.DrawRectangle(position, size);
+
+			if (label != null && label.Visible)
+				label.RenderOverlay(viewport);
+			
+			if (image != null && image.Visible)
+				image.RenderOverlay(viewport);
+		}
+
+
+
+#endregion
+		
 
 
 #region Mouse Interaction
@@ -167,47 +347,6 @@ namespace MonoWorks.Rendering.Controls
 #endregion
 
 
-
-#region Rendering
-
-
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-
-			Coord pad = new Coord(padding, padding);
-
-			if (label != null)
-			{
-				label.Position = position + pad;
-				label.ComputeGeometry();
-			}
-			if (image != null)
-			{
-				image.Position = position + pad;
-				image.ComputeGeometry();
-			}
-
-			size = label.Size + pad*2;
-		}
-
-		public override void RenderOverlay(IViewport viewport)
-		{
-			base.RenderOverlay(viewport);
-
-			if (label != null)
-			{
-
-				IFill bg = styleClass.GetBackground(hitState);
-				if (bg != null)
-					bg.DrawRectangle(position, size);
-				label.RenderOverlay(viewport);
-			}
-		}
-
-
-
-#endregion
 		
 	}
 }

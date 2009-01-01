@@ -18,7 +18,7 @@
 
 using System;
 
-
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using gl=Tao.OpenGl.Gl;
 using il=Tao.DevIl.Il;
@@ -39,21 +39,46 @@ namespace MonoWorks.Rendering.Controls
 		/// <param name="fileName"> The name of the image file. </param>
 		public Image(string fileName) : base()
 		{
+			if (!ilInitialized)
+			{
+				il.ilInit();
+				ilInitialized = true;
+			}
+			
 			LoadFile(fileName);
 		}
 
-		int ilId;
+		/// <summary>
+		/// Whether or not DevIL has been initialized.
+		/// </summary>
+		protected static bool ilInitialized = false;
+		
+		/// <summary>
+		/// The DevIL identifier of the image.
+		/// </summary>
+		protected int ilId;
 
 		/// <summary>
 		/// Loads a file image.
 		/// </summary>
 		public void LoadFile(string fileName)
 		{
-			il.ilInit();
-//			ilId = il.ilGenImage();
+//			il.ilInit();
 			il.ilGenImages(1, out ilId);
             il.ilBindImage(ilId);
             il.ilLoadImage(fileName);
+			
+			imageSize.X = (double)il.ilGetInteger(il.IL_IMAGE_WIDTH);
+			imageSize.Y = (double)il.ilGetInteger(il.IL_IMAGE_HEIGHT);
+		}
+
+		protected Coord imageSize;
+		/// <value>
+		/// The size of the image.
+		/// </value>
+		public override Coord MinSize
+		{
+			get {return imageSize;}
 		}
 
 		
@@ -73,7 +98,8 @@ namespace MonoWorks.Rendering.Controls
 
 //			gl.glTranslated(position.X, position.Y, 0);
 
-			gl.glRasterPos2d(position.X, position.Y);
+			gl.glRasterPos2d(position.X, position.Y + imageSize.Y);
+			gl.glPixelZoom(1f, -1f);
 			
             il.ilBindImage(ilId);
 			gl.glDrawPixels(48, 48, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, il.ilGetData());

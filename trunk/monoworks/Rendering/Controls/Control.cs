@@ -34,6 +34,8 @@ namespace MonoWorks.Rendering.Controls
 		public Control() : base()
 		{
 			styleGroup = DefaultStyleGroup;
+			
+			UserSize = false;
 		}
 
 
@@ -53,7 +55,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <value>
 		/// The rendering size of the control.
 		/// </value>
-		public virtual Coord Size
+		public Coord Size
 		{
 			get {return size;}
 			set {size = value;}
@@ -62,20 +64,51 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// The width of the control.
 		/// </summary>
-		public virtual double Width
+		public double Width
 		{
 			get {return size.X;}
 			set {size.X = value;}
 		}
 
 		/// <summary>
-		/// The width of the control.
+		/// The height of the control.
 		/// </summary>
-		public virtual double Height
+		public double Height
 		{
 			get {return size.Y;}
 			set {size.Y = value;}
 		}
+
+		/// <value>
+		/// The minimum size that the control needs to render correctly.
+		/// </value>
+		public virtual Coord MinSize
+		{
+			get {return new Coord();}
+		}
+
+		/// <summary>
+		/// The minimum width of the control.
+		/// </summary>
+		public virtual double MinWidth
+		{
+			get {return MinSize.X;}
+		}
+
+		/// <summary>
+		/// The minimum height of the control.
+		/// </summary>
+		public virtual double MinHeight
+		{
+			get {return MinSize.Y;}
+		}
+		
+		/// <value>
+		/// Whether to use the currently set size or overwrite it
+		/// with MinSize when the geometry is computed.
+		/// </value>
+		public bool UserSize {get; set;}
+		
 
 #endregion
 
@@ -83,11 +116,18 @@ namespace MonoWorks.Rendering.Controls
 #region Rendering
 
 
+		/// <summary>
+		/// Sets the size to MinSize if UserSize is false.
+		/// </summary>
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
 
 			styleClass = styleGroup.GetClass(this);
+			
+			if (!UserSize)
+				size = MinSize;
+//			Console.WriteLine("computing geometry for {0}, size: {1}, user size? {2}", this.GetType(), size, UserSize);
 		}
 
 		public override void RenderOverlay(IViewport viewport)
