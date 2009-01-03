@@ -18,6 +18,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
+
+using MonoWorks.Base;
 
 namespace MonoWorks.Rendering
 {
@@ -30,10 +33,8 @@ namespace MonoWorks.Rendering
 		
 		public StyleClass()
 		{
-			backgrounds[HitState.None] = new FillGradient(ColorManager.Global["Gray"], ColorManager.Global["Light Gray"]);
-			backgrounds[HitState.Hovering] = new FillGradient(ColorManager.Global["Light Blue"], ColorManager.Global["White"]);
-			backgrounds[HitState.Selected] = new FillGradient(ColorManager.Global["Light Green"], ColorManager.Global["White"]);
-			foregrounds[HitState.None] = ColorManager.Global["Black"];
+			backgrounds[HitState.None] = null;
+			foregrounds[HitState.None] = null;
 		}
 
 
@@ -83,6 +84,71 @@ namespace MonoWorks.Rendering
 		{
 			foregrounds[hitState] = color;
 		}
+		
+		
+#region XML I/O
+		
+		public static StyleClass FromXml(XmlReader reader)
+		{
+			StyleClass sc = new StyleClass();
+			sc.LoadXml(reader);
+			return sc;
+		}
+		
+		public void LoadXml(XmlReader reader)
+		{
+			reader.ValidateElementName("StyleClass");
+						
+			while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name=="StyleClass"))
+			{
+				reader.Read();
+				if (reader.NodeType == XmlNodeType.Element)
+				{
+					// get the hit state
+					string hitStateString = reader.GetRequiredString("hitState");
+					HitState hitState = (HitState)Enum.Parse(typeof(HitState), hitStateString, true);
+					
+					switch (reader.Name)
+					{
+					case "Background":
+						reader.Read();
+						ModifyBackground(hitState, FillFromXml(reader));
+						break;
+						
+					case "Foreground":
+						reader.Read();
+						reader.Read();
+						ModifyForeground(hitState, Color.FromXml(reader));
+						break;
+						
+					default:
+						throw new Exception("Expecting a Foreground or Background element in StyleClass element, found " + reader.Name);
+					}
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Reads a fill from an XML reader.
+		/// </summary>
+		/// <param name="reader"> </param>
+		/// <returns> </returns>
+		protected IFill FillFromXml(XmlReader reader)
+		{
+			reader.Read();
+			switch (reader.Name)
+			{
+			case "FillGradient":
+				return FillGradient.FromXml(reader);
+			case "Color":
+				return Color.FromXml(reader);
+			default:
+				throw new Exception("Invalid fill element: " + reader.Name);
+			}
+		}
+				
+		
+#endregion
 
 	}
 }

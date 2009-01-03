@@ -4,13 +4,13 @@
       <Output directory="bin/Debug" assembly="MonoWorks.Rendering" />
       <Build debugmode="True" target="Library" />
       <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="Rendering" />
       <Build debugmode="False" target="Library" />
       <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
@@ -54,6 +54,9 @@
     <File name="FillGradient.cs" subtype="Code" buildaction="Compile" />
     <File name="IFill.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/StyleGroup.cs" subtype="Code" buildaction="Compile" />
+    <File name="Controls/DefaultStyles.xml" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="TaoExtensions.cs" subtype="Code" buildaction="Compile" />
+    <File name="Controls/Anchor.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -64,6 +67,7 @@
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/ISE.FreeType.dll" />
     <ProjectReference type="Project" localcopy="True" refto="Framework" />
     <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="../extbin/Linux/Tao.DevIl.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   </References>
   <GtkDesignInfo />
 </Project>

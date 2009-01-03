@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace MonoWorks.Rendering
 {
 	/// <summary>
@@ -149,6 +148,7 @@ namespace MonoWorks.Rendering
 				renderable.RenderOverlay(viewport);
 
 			// render the overlays
+			viewport.RenderManager.BeginOverlays();
 			foreach (Overlay overlay in overlays)
 				overlay.RenderOverlay(viewport);
 		}

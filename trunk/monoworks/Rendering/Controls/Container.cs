@@ -62,9 +62,10 @@ namespace MonoWorks.Rendering.Controls
 		/// <param name="child">
 		/// A <see cref="Control"/>
 		/// </param>
-		public void AppendChild(Control child)
+		public virtual void AppendChild(Control child)
 		{
 			children.Add(child);
+			child.StyleClassName = StyleClassName;
 			MakeDirty();
 		}
 

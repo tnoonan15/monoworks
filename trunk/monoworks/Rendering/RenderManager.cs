@@ -109,6 +109,15 @@ namespace MonoWorks.Rendering
 			gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
 		}
 
+
+		/// <summary>
+		/// Sets up OpenGL to render overlays instead of 3D content.
+		/// </summary>
+		public void BeginOverlays()
+		{
+			gl.glDisable(gl.GL_DEPTH_TEST);
+		}
+		
 		
 #region Wireframe Display
 		

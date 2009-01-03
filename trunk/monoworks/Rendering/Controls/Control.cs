@@ -22,6 +22,8 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
+using gl=Tao.OpenGl.Gl;
+
 namespace MonoWorks.Rendering.Controls
 {
 	
@@ -33,7 +35,7 @@ namespace MonoWorks.Rendering.Controls
 		
 		public Control() : base()
 		{
-			styleGroup = DefaultStyleGroup;
+			styleGroup = StyleGroup.Default;
 			
 			UserSize = false;
 		}
@@ -110,6 +112,16 @@ namespace MonoWorks.Rendering.Controls
 		public bool UserSize {get; set;}
 		
 
+		protected double padding = 4;
+		/// <summary>
+		/// The padding to use on the interior of controls.
+		/// </summary>
+		public double Padding
+		{
+			get { return padding; }
+			set { padding = value; }
+		}
+
 #endregion
 
 
@@ -123,7 +135,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.ComputeGeometry();
 
-			styleClass = styleGroup.GetClass(this);
+			styleClass = styleGroup.GetClass(styleClassName);
 			
 			if (!UserSize)
 				size = MinSize;
@@ -188,16 +200,6 @@ namespace MonoWorks.Rendering.Controls
 
 #region Style
 
-		private static StyleGroup defaultStyleGroup = new StyleGroup();
-
-		/// <value>
-		/// Style group that gets applied to all new controls.
-		/// </value>
-		public static StyleGroup DefaultStyleGroup
-		{
-			get { return defaultStyleGroup; }
-		}
-
 		protected StyleGroup styleGroup;
 		/// <summary>
 		/// The style group this control will use to look up its style class.
@@ -212,13 +214,54 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
+		private string styleClassName = "default";
+		/// <summary>
+		/// Name of the style class to use.
+		/// </summary>
+		public string StyleClassName
+		{
+			get {return styleClassName;}
+			set
+			{
+				styleClassName = value;
+				MakeDirty();
+			}
+		}
 
 		/// <summary>
 		/// The current style class to use to render the control.
 		/// </summary>
-		/// <remarks>This should be cached by compute geometry so it 
+		/// <remarks>This should be cached by ComputeGeometry() so it 
 		/// doesn't need to be looked up every render cycle.</remarks>
 		protected StyleClass styleClass;
+		
+		/// <summary>
+		/// Renders the background with the current style.
+		/// </summary>
+		protected virtual void RenderBackground()
+		{
+			IFill bg = styleClass.GetBackground(hitState);
+			if (bg != null)
+				bg.DrawRectangle(position, size);
+		}
+		
+		/// <summary>
+		/// Renders the outline with the current style.
+		/// </summary>
+		protected virtual void RenderOutline()
+		{
+			Color fg = styleClass.GetForeground(hitState);
+			if (fg != null)
+			{
+				fg.Setup();
+				gl.glBegin(gl.GL_LINE_LOOP);
+				position.glVertex();
+				(position + new Coord(Width,0)).glVertex();
+				(position + size).glVertex();
+				(position + new Coord(0,Height)).glVertex();
+				gl.glEnd();
+			}
+		}
 
 #endregion
 
