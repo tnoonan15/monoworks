@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
 
 using MonoWorks.Base;
 
@@ -69,22 +70,28 @@ namespace MonoWorks.Rendering.Controls
 			// compute the size
 			size = new Coord();
 			double span = 0;
-			foreach (Control child in Children)
+			Control[] children_ = new Control[children.Count];
+			children.CopyTo(children_);
+			if (orientation == Orientation.Vertical)
+				Array.Reverse(children_);
+			foreach (Control child in children_)
 			{
 				child.ComputeGeometry();
 				Coord size_ = child.MinSize;
+				span += padding;
 				if (orientation == Orientation.Horizontal)
 				{
-					child.Position = position + new Coord(span, 0);
+					child.Position = position + new Coord(span, padding);
 					span += size_.X;
 					size.Y = Math.Max(size.Y, size_.Y);
 				}
 				else // vertical
 				{
-					span -= size_.Y;
-					child.Position = position + new Coord(0, span);
+					child.Position = position + new Coord(padding, span);
+					span += size_.Y;
 					size.X = Math.Max(size.X, size_.X);
 				}
+				span += padding;
 			}
 			
 			// assign the size
@@ -102,6 +109,13 @@ namespace MonoWorks.Rendering.Controls
 				else
 					child.Width = size.X;
 			}
+			
+			// add padding to the size
+			if (orientation == Orientation.Horizontal)
+				size.Y += 2*padding;
+			else
+				size.X += 2*padding;
+			
 		}
 
 

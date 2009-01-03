@@ -16,6 +16,7 @@
 //    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Xml;
 
 using gl = Tao.OpenGl.Gl;
 
@@ -318,6 +319,29 @@ namespace MonoWorks.Rendering
 			gl.glVertex2d(pos.X + size.X, pos.Y + size.Y);
 			gl.glVertex2d(pos.X, pos.Y + size.Y);
 			gl.glEnd();
+		}
+		
+#endregion
+		
+		
+#region XML Loading
+		
+		/// <summary>
+		/// Loads a color from an XML Color element.
+		/// </summary>
+		/// <param name="reader"> </param>
+		/// <returns> </returns>
+		/// <remarks>The element can contain a name attribute specifying the name
+		/// of the default color to use, or a valid rgb attribute with the components.</remarks>
+		public static Color FromXml(XmlReader reader)
+		{
+			// try to find global color
+			string name = reader.GetAttribute("name");
+			if (name != null && ColorManager.Global.HasColor(name))
+				return ColorManager.Global[name];				
+			
+			// TODO: read in color components from XML
+			throw new Exception("Unable to parse color element.");
 		}
 		
 #endregion

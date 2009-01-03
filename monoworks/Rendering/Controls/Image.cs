@@ -93,18 +93,15 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.RenderOverlay(viewport);
 
-//			gl.glMatrixMode(gl.GL_MODELVIEW);
-//			gl.glPushMatrix();
+//			gl.glDisable(gl.GL_DEPTH_TEST);
 
-//			gl.glTranslated(position.X, position.Y, 0);
-
-			gl.glRasterPos2d(position.X, position.Y + imageSize.Y);
+			gl.glRasterPos3d(position.X, position.Y + imageSize.Y, 0);
 			gl.glPixelZoom(1f, -1f);
 			
             il.ilBindImage(ilId);
-			gl.glDrawPixels(48, 48, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, il.ilGetData());
+			gl.glDrawPixels((int)imageSize.X, (int)imageSize.Y, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, il.ilGetData());
 
-//			gl.glPopMatrix();
+//			gl.glEnable(gl.GL_DEPTH_TEST);
 		}
 
 		

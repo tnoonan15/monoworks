@@ -101,13 +101,17 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-				List<string> keys = new List<string>();
-				foreach (string key in colors.Keys)
-				{
-					keys.Add(key);
-				}
-				return keys;
+				return new List<string>(colors.Keys);
 			}
+		}
+		
+		/// <summary>
+		/// Returns true if the manager has the color of the given name.
+		/// </summary>
+		/// <param name="name"> </param>
+		public bool HasColor(string name)
+		{
+			return colors.ContainsKey(name);
 		}
 
 #endregion

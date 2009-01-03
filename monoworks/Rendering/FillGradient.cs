@@ -1,4 +1,4 @@
-﻿//   FillGradient.cs - MonoWorks Project
+//   FillGradient.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //
@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 using gl = Tao.OpenGl.Gl;
 
@@ -146,6 +147,36 @@ namespace MonoWorks.Rendering
 
 
 		}
+		
+		
+#region XML Loading
+		
+		/// <summary>
+		/// Creates a FillGradient from an XML element.
+		/// </summary>
+		/// <param name="reader"> </param>
+		/// <returns> </returns>
+		/// <remarks>The element should have a start and stop attributes 
+		/// that resolve to global colors, and an optional direction.</remarks>
+		public static FillGradient FromXml(XmlReader reader)
+		{
+			// get the colors
+			string startName = reader.GetRequiredString("start");
+			string stopName = reader.GetRequiredString("stop");
+			FillGradient grad = new FillGradient(ColorManager.Global[startName], ColorManager.Global[stopName]);
+			
+			// get the direction (optional)
+			string dirString = reader.GetAttribute("direction");
+			if (dirString != null)
+			{
+				grad.Direction =(GradientDirection)Enum.Parse(typeof(GradientDirection), dirString);	
+			}
+			
+			return grad;
+		}
+		
+		
+#endregion
 
 	}
 }

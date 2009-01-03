@@ -1,0 +1,29 @@
+<StyleGroup name="Default">
+
+	<StyleClass name="grad-hori">
+		<Background hitState="None">
+			<FillGradient start="Gray" stop="Light Gray" direction="E2W"/>
+		</Background>
+		<Background hitState="Hovering">
+			<FillGradient start="Light Blue" stop="White" direction="E2W"/>
+		</Background>
+		<Background hitState="Selected">
+			<FillGradient start="Green" stop="White" direction="E2W"/>
+		</Background>
+		<Foreground hitState="None">
+			<Color name="Dark Gray"/>
+		</Foreground>
+	</StyleClass>
+	
+	<StyleClass name="tool">
+		<Background hitState="Hovering">
+			<FillGradient start="Light Gray" stop="White" direction="E2W"/>
+		</Background>
+		<Background hitState="Selected">
+			<FillGradient start="Light Blue" stop="Light Gray" direction="E2W"/>
+		</Background>
+		<Foreground hitState="Selected">
+			<Color name="Dark Gray"/>
+		</Foreground>
+	</StyleClass>
+</StyleGroup>

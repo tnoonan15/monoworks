@@ -119,45 +119,11 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-		protected double padding = 4;
-		/// <summary>
-		/// The padding to place on the inside of the button.
-		/// </summary>
-		public double Padding
-		{
-			get { return padding; }
-			set { padding = value; }
-		}
-
 		/// <value>
 		/// The style used to layout the image and label.
 		/// </value>
 		public ButtonStyle ButtonStyle {get; set;}
 		
-		/// <summary>
-		/// Safely gets the sizes of the image and label.
-		/// </summary>
-		/// <param name="labelSize"> </param>
-		/// <param name="imageSize"> </param>
-//		protected void GetSizes(out Coord labelSize, out Coord imageSize)
-//		{			
-//			Coord pad2 = new Coord(padding, padding)*2;
-//			
-//			if (label == null)
-//				labelSize = pad2;
-//			else 
-//			{
-//				label.ComputeGeometry();
-//				labelSize = label.Size;
-//			}
-//			if (image == null)
-//				imageSize = pad2;
-//			else
-//			{
-//				image.ComputeGeometry();
-//				imageSize = image.Size;
-//			}
-//		}
 		
 		//// <value>
 		/// Ensures that the label and image geometries have been computed.
@@ -207,11 +173,7 @@ namespace MonoWorks.Rendering.Controls
 				    (ButtonStyle == ButtonStyle.Image && image == null) ||
 				    (label == null && image == null))
 					return pad2;
-				
-				// get the image and label sizes
-//				Coord imageSize, labelSize;
-//				GetSizes(out labelSize, out imageSize);
-				
+								
 				ComputeChildGeometry();
 				
 				// once we've gotten here, we're sure that the correct controls are present
@@ -252,10 +214,6 @@ namespace MonoWorks.Rendering.Controls
 
 			Coord pad = new Coord(padding, padding);
 				
-			// get the image and label sizes
-//			Coord imageSize, labelSize;
-//			GetSizes(out labelSize, out imageSize);
-				
 			ComputeChildGeometry();
 
 			switch (StyleToUse)
@@ -283,10 +241,10 @@ namespace MonoWorks.Rendering.Controls
 		public override void RenderOverlay(IViewport viewport)
 		{
 			base.RenderOverlay(viewport);
-
-			IFill bg = styleClass.GetBackground(hitState);
-			if (bg != null)
-				bg.DrawRectangle(position, size);
+			
+			RenderBackground();
+			
+			RenderOutline();
 
 			if (label != null && label.Visible)
 				label.RenderOverlay(viewport);

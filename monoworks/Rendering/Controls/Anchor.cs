@@ -1,6 +1,6 @@
-// ToolBar.cs - MonoWorks Project
+// Anchor.cs - MonoWorks Project
 //
-//  Copyright (C) 2008 Andy Selvig
+//  Copyright (C) 2009 Andy Selvig
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,61 +17,53 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-using System.Collections.Generic;
-
-using MonoWorks.Base;
-using MonoWorks.Rendering;
 
 namespace MonoWorks.Rendering.Controls
 {
+	/// <summary>
+	/// Locations for an anchor.
+	/// </summary>
+	public enum AnchorLocation {N, NE, E, SE, S, SW, W, NW};
 	
 	/// <summary>
-	/// A stack of buttons.
+	/// Single control container that anchors its child to a particular side of the viewport.
 	/// </summary>
-	public class ToolBar : Stack
+	public class Anchor : Control
 	{
-		
-		public ToolBar() : base()
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		/// <param name="child"> The <see cref="Control"/> to anchor. </param>
+		public Anchor(Control child)
 		{
-			
+			this.child = child;
 		}
 		
+		protected Control child;
 		
-		public override void AppendChild(Control child)
-		{
-			base.AppendChild(child);
-			
-			child.StyleClassName = toolStyle;
-		}
-
 		
-		private string toolStyle = "tool";
+		private AnchorLocation location = AnchorLocation.N;
 		/// <value>
-		/// The style class to use for the child controls.
+		/// The location on the edge of the viewport.
 		/// </value>
-		public string ToolStyle
+		public AnchorLocation Location
 		{
-			get {return toolStyle;}
+			get {return location;}
 			set
 			{
-				toolStyle = value;
-				foreach (Control child in Children)
-					child.StyleClassName = value;
+				location = value;
+				MakeDirty();
 			}
 		}
 		
 		
 		public override void RenderOverlay(IViewport viewport)
-		{	
-			if (dirty)
-				ComputeGeometry();
-			
-			RenderBackground();
-			
+		{
 			base.RenderOverlay(viewport);
 			
-			RenderOutline();
+			
 		}
+
 
 		
 	}

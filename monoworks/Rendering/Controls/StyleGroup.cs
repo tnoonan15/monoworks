@@ -18,6 +18,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Xml;
+
+using MonoWorks.Base;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -26,7 +31,7 @@ namespace MonoWorks.Rendering.Controls
 	/// Contains rendering style information for controls. 
 	/// </summary>
 	/// <remarks>It's basically a collection of StyleClasses.
-	/// The caller asks for the class for their type. This object 
+	/// The caller asks for the class by name. This object 
 	/// either gives them the corresponding class or the default one.
 	/// </remarks>
 	public class StyleGroup
@@ -40,49 +45,109 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// Maps control type to style class.
 		/// </summary>
-		protected Dictionary<Type, StyleClass> classes = new Dictionary<Type, StyleClass>();
+		protected Dictionary<string, StyleClass> classes = new Dictionary<string, StyleClass>();
 
 		/// <summary>
 		/// The default class for this style group.
 		/// </summary>
 		public StyleClass DefaultClass
 		{
-			get { return classes[typeof(Control)]; }
-			set { classes[typeof(Control)] = value; }
+			get { return classes["default"]; }
+			set { classes["default"] = value; }
 		}
 
 		/// <summary>
-		/// Adds a style class for the given type.
+		/// Adds a style class for the given class name.
 		/// </summary>
-		/// <param name="type"></param>
+		/// <param name="className"></param>
 		/// <param name="styleClass"></param>
-		public void AddClass(Type type, StyleClass styleClass)
+		public void AddClass(string className, StyleClass styleClass)
 		{
-			if (!type.IsSubclassOf(typeof(Control)))
-				throw new InvalidCastException("Type must be a subclass of Control");
-			classes[type] = styleClass;
+			classes[className] = styleClass;
 		}
 
 
 		/// <summary>
-		/// Gets the style class associated with the given control type.
+		/// Gets the style class associated with the given class name.
 		/// </summary>
-		/// <remarks>Returns the default class if there isn't one associated with this type.</remarks>
-		public StyleClass GetClass(Type type)
+		/// <remarks>Returns the default class if there isn't one associated with this name.</remarks>
+		public StyleClass GetClass(string className)
 		{
-			if (classes.ContainsKey(type))
-				return classes[type];
+			if (classes.ContainsKey(className))
+				return classes[className];
 			else
 				return DefaultClass;
 		}
 
+		
+#region Default Style Group
+		
 		/// <summary>
-		/// Gets the style class associated with the given control.
+		/// Loads the default style group from the assembly.
 		/// </summary>
-		public StyleClass GetClass(Control control)
+		/// <returns> </returns>
+		protected static StyleGroup LoadDefault()
 		{
-			return GetClass(control.GetType());
+			Assembly asm = Assembly.GetExecutingAssembly();
+			Stream stream = asm.GetManifestResourceStream("DefaultStyles.xml");
+			XmlReader reader = new XmlTextReader(stream);
+			return FromXml(reader);
 		}
+		
+		
+		protected static StyleGroup defaultGroup = LoadDefault();
+		/// <value>
+		/// The default style group.
+		/// </value>
+		public static StyleGroup Default
+		{
+			get {return defaultGroup;}
+		}
+		
+#endregion
+		
+
+#region Style Group
+
+		/// <summary>
+		/// Creates a style group from an XML reader at a StyleGroup element.
+		/// </summary>
+		/// <param name="reader"> </param>
+		/// <returns> </returns>
+		public static StyleGroup FromXml(XmlReader reader)
+		{
+			StyleGroup group = new StyleGroup();
+			group.LoadXml(reader);
+			return group;
+		}
+
+		/// <summary>
+		/// Reads a style group in from an XML stream.
+		/// </summary>
+		/// <param name="reader"></param>
+		public void LoadXml(XmlReader reader)
+		{
+			reader.Read();
+			reader.ValidateElementName("StyleGroup");
+
+			while (!reader.EOF)
+			{
+				reader.Read();
+				if (reader.NodeType == XmlNodeType.Element)
+				{
+					if (reader.Name == "StyleClass") // add a new style class
+					{
+						AddClass(reader.GetRequiredString("name"), StyleClass.FromXml(reader));
+					}
+					else // invalid element
+						throw new Exception("StyleGroup elements should only contain StyleClass elements.");
+				}
+			}
+		}
+
+
+#endregion
+		
 
 	}
 }
