@@ -75,7 +75,7 @@ namespace MonoWorks.Model
 		{
 			base.ComputeGeometry();
 			
-			double radius = GetDocument().Bounds.Radius; // radius of the bounds
+			double radius = GetDrawing().Bounds.Radius; // radius of the bounds
 //			Console.WriteLine("bounds radius {0}", radius);
 
 			Vector direction = Plane.Normal;

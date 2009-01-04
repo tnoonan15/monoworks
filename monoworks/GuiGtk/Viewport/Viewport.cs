@@ -147,16 +147,6 @@ namespace MonoWorks.GuiGtk
 			get {return overlayInteractor;}
 		}
 		
-		
-		/// <summary>
-		/// Alerts the renderables that the viewport has been modified.
-		/// </summary>
-		public void OnResized()
-		{
-			foreach (Renderable3D renderable in renderList.Renderables)
-				renderable.OnViewportResized(this);
-		}
-		
 		/// <summary>
 		/// Alerts the renderables that the viewport has been modified.
 		/// </summary>
@@ -200,7 +190,12 @@ namespace MonoWorks.GuiGtk
 		
 		
 #region Mouse Interaction
-			
+	
+		/// <summary>
+		/// Interactor that gets to handle all mouse events before they are passed to the renderables.
+		/// </summary>
+		public AbstractInteractor PrimaryInteractor {get; set;}
+		
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
 			// look for the double-click reset
@@ -215,6 +210,8 @@ namespace MonoWorks.GuiGtk
 			{			
 				MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), (int)args.Event.Button);
 				overlayInteractor.OnButtonPress(evt);
+				if (PrimaryInteractor != null && !evt.Handled)
+					PrimaryInteractor.OnButtonPress(evt);
 				if (!evt.Handled) // the overlays didn't handle the event
 					renderableInteractor.OnButtonPress(evt);
 			}
@@ -226,6 +223,8 @@ namespace MonoWorks.GuiGtk
 		{			
 			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
 			overlayInteractor.OnButtonRelease(evt);
+			if (PrimaryInteractor != null && !evt.Handled)
+				PrimaryInteractor.OnButtonRelease(evt);
 			if (!evt.Handled) // the overlays didn't handle the event
 				renderableInteractor.OnButtonRelease(evt);
 			PaintGL();
@@ -235,6 +234,8 @@ namespace MonoWorks.GuiGtk
 		{			
 			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
 			overlayInteractor.OnMouseMotion(evt);
+			if (PrimaryInteractor != null && !evt.Handled)
+				PrimaryInteractor.OnMouseMotion(evt);
 			if (!evt.Handled) // the overlays didn't handle the event
 				renderableInteractor.OnMouseMotion(evt);
 			PaintGL();
@@ -323,8 +324,8 @@ namespace MonoWorks.GuiGtk
 			if( !IsRealized || base.MakeCurrent() == 0)
 				return;	
 			camera.Configure();
-			foreach (Renderable3D renderable in renderList.Renderables)
-				renderable.OnViewportResized(this);
+			
+			renderList.OnViewportResized(this);
 		}
 		
 		public new void MakeCurrent()

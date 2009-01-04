@@ -219,21 +219,30 @@ namespace MonoWorks.Rendering.Controls
 			switch (StyleToUse)
 			{
 			case ButtonStyle.Label: // only show the label
+				if (image != null)
+					image.Visible = false;
 				label.Position = position + pad;
 				break;
 				
 			case ButtonStyle.Image: // only show the image
+				if (label != null)
+					label.Visible = false;
+				image.Visible = true;
 				image.Position = position + pad;
 				break;
 				
 			case ButtonStyle.ImageOverLabel: // place the image over the label
-				label.Position = position + pad;
+				image.Visible = true;
+				label.Visible = true;
+				label.Position = position + pad + new Coord((Width-label.Width)/2.0 - padding, 0);
 				image.Position = position + pad + new Coord(0, label.Height + padding);
 				break;
 				
 			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
+				image.Visible = true;
+				label.Visible = true;
 				image.Position = position + pad;
-				label.Position = position + pad + new Coord(image.Width + padding, 0);
+				label.Position = position + pad + new Coord(image.Width + padding, (Height-label.Height)/2.0 - padding);
 				break;
 			}
 		}

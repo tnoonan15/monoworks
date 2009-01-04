@@ -101,7 +101,7 @@ namespace MonoWorks.Model
 					theType = Type.GetType(type_, true);
 				else
 				{
-					Assembly asm = Assembly.Load(asmName.Substring(0, asmName.Length - 1));
+					System.Reflection.Assembly asm = System.Reflection.Assembly.Load(asmName.Substring(0, asmName.Length - 1));
 					theType = asm.GetType(type_, true);
 				}
 				

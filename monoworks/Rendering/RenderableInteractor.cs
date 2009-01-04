@@ -172,20 +172,7 @@ namespace MonoWorks.Rendering
 			case InteractionType.Select:
 				// determine the 3D position of the hit
 				viewport.Camera.Place();
-				HitLine hitLine = viewport.Camera.ScreenToWorld(evt.Pos);
 
-				//List<Renderable> hitRends = new List<Renderable>();
-//				Renderable3D hitRend = null;
-				foreach (Renderable3D renderable in renderList.Renderables)
-				{
-					renderable.Deselect();
-					if (renderable.HitTest(hitLine))
-					{
-//						hitRend = renderable;
-						//hitRends.Add(renderable);
-						break;
-					}
-				}
 
 				// TODO: handle multiple hits with depth checking
 

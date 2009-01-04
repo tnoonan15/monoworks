@@ -102,21 +102,21 @@ namespace MonoWorks.Model
 			get {return EntityMetaData.TopLevel.GetEntity(ClassName);}
 		}
 		
-#region The Document
+#region The Drawing
 		
-		protected Document document;
+		protected Drawing drawing;
 		
 		/// <value>
-		/// Returns the document this entity belongs to.
+		/// Returns the drawing this entity belongs to.
 		/// </value>
-		public virtual Document GetDocument()
+		public virtual Drawing GetDrawing()
 		{
-			return document;
+			return drawing;
 		}
 		
-		protected void SetDocument(Document document)
+		protected void SetDrawing(Drawing drawing)
 		{
-			this.document = document;
+			this.drawing = drawing;
 		}
 		
 #endregion
@@ -283,13 +283,13 @@ namespace MonoWorks.Model
 		}
 		
 		/// <summary>
-		/// Registers an entity with the document.
-		/// The document keeps a flat list of entities it contains that can be looked up by id.
+		/// Registers an entity with the drawing.
+		/// The drawing keeps a flat list of entities it contains that can be looked up by id.
 		/// </summary>
-		/// <param name="entity"> A <see cref="Entity"/> to add to the document. </param>
+		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
 		protected virtual void RegisterEntity(Entity entity)
 		{
-			document.RegisterEntity(entity);
+			drawing.RegisterEntity(entity);
 		}	
 		
 		protected Entity parent;
@@ -308,7 +308,7 @@ namespace MonoWorks.Model
 		protected virtual void AddChild(Entity child)
 		{
 			children.Add(child);
-			child.SetDocument(GetDocument());
+			child.SetDrawing(GetDrawing());
 			RegisterEntity(child);
 			child.parent = this;
 			MakeDirty();

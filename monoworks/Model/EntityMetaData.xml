@@ -3,9 +3,12 @@
 		The entity's name.
 	</Attribute>
 	
-	<!-- Documents -->
-	<Entity name="Document">
-		<Entity name="TestDocument"></Entity>
+	<!-- Drawings -->
+	<Entity name="Drawing">
+		<Entity name="Part">
+			<Entity name="TestPart"/>
+		</Entity>
+		<Entity name="Assembly"/>
 	</Entity>
 	
 	<!-- Sketch -->

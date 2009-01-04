@@ -44,26 +44,24 @@ namespace MonoWorks.PlottingDemoGtk
 			Viewport viewport = tooledViewport.Viewport;
 			
 			ToolBar toolbar = new ToolBar();
-			toolbar.Position = new Coord(300, 300);
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.StyleClassName = "grad-hori";
-			viewport.RenderList.AddOverlay(toolbar);
+			toolbar.ToolStyle = "tool";
+			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 
-			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
+			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
 			Image image1 = new Image(iconPath);
 			Button button1 = new Button("3d Button", image1);
 			toolbar.AppendChild(button1);
 
-			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/arc.png";
+			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
 			Image image2 = new Image(iconPath);
 			Button button2 = new Button("Arc", image2);
 			toolbar.AppendChild(button2);
 
-			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/refplane.png";
-			Image image3 = new Image(iconPath);
-			Button button3 = new Button("Ref Plane", image3);
-			toolbar.AppendChild(button3);
-
+			Anchor anchor = new Anchor(toolbar);
+			anchor.Location = AnchorLocation.E;
+			viewport.RenderList.AddOverlay(anchor);
 
 		}
 	}

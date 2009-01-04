@@ -42,6 +42,9 @@ namespace MonoWorks.Rendering.Controls
 			base.AppendChild(child);
 			
 			child.StyleClassName = toolStyle;
+			
+			if (child is Button)
+				(child as Button).ButtonStyle = buttonStyle;
 		}
 
 		
@@ -67,10 +70,28 @@ namespace MonoWorks.Rendering.Controls
 				ComputeGeometry();
 			
 			RenderBackground();
+			RenderOutline();
 			
 			base.RenderOverlay(viewport);
 			
-			RenderOutline();
+		}
+		
+		protected ButtonStyle buttonStyle = ButtonStyle.ImageOverLabel;
+		/// <value>
+		/// Set the button style of all buttons in the toolbar.
+		/// </value>
+		public ButtonStyle ButtonStyle
+		{
+			set
+			{
+				buttonStyle = value;
+				foreach (Control child in Children)
+				{
+					if (child is Button)
+						(child as Button).ButtonStyle = buttonStyle;
+				}
+			}
+			get {return buttonStyle;}
 		}
 
 		

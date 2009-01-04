@@ -59,6 +59,17 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 		
+		public override Coord Position
+		{
+			get {return base.Position;}
+			set
+			{
+				base.Position = value;
+				MakeDirty();
+			}
+		}
+
+		
 
 #region Rendering
 

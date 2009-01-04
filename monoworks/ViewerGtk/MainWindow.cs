@@ -39,17 +39,17 @@ namespace MonoWorks.ViewerGtk
 			Gtk.VBox vbox = new Gtk.VBox();
 			Add(vbox);
 			
-			TestDocument doc = new TestDocument();
+			TestPart part = new TestPart();
 			
-			docFrame = new DocFrame();
-			vbox.Add(docFrame);
-			docFrame.Document = doc;
+			drawingFrame = new DrawingFrame();
+			vbox.Add(drawingFrame);
+			drawingFrame.Drawing = part;
 			
 			DeleteEvent += OnDeleteEvent;
 		}
 
 		
-		protected DocFrame docFrame;
+		protected DrawingFrame drawingFrame;
 		
 		
 		protected void OnDeleteEvent(object sender, Gtk.DeleteEventArgs args)

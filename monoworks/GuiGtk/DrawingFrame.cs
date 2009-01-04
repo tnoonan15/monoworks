@@ -23,47 +23,51 @@ namespace MonoWorks.GuiGtk
 {
 	
 	/// <summary>
-	/// The frame containing a document and it's tree.
+	/// The frame containing a drawing and it's tree.
 	/// </summary>
-	public class DocFrame : Gtk.HPaned
+	public class DrawingFrame : Gtk.HPaned
 	{
 		
-		public DocFrame() : base()
+		public DrawingFrame() : base()
 		{
 			// create the tree
 			treeView = new TreeView();
 			Add1(treeView);
 			
 			// create the viewport			
-			viewport = new Viewport();
+			viewport = new TooledViewport();
 			Add2(viewport);
+			
+			// add the model interactor
+			Model.Interaction.DrawingInteractor interactor = new Model.Interaction.DrawingInteractor(Viewport);
+			Viewport.PrimaryInteractor = interactor;
 		}
 		
 		
-		protected Document document = null;
+		protected Drawing drawing = null;
 		/// <value>
-		/// The document associated with this frame.
+		/// The drawing associated with this frame.
 		/// </value>
-		public Document Document
+		public Drawing Drawing
 		{
-			get {return document;}
+			get {return drawing;}
 			set
 			{
-				if (document != null)
-					viewport.RenderList.RemoveRenderable(document);
-				document = value;
-				viewport.RenderList.AddRenderable(document);
-//				treeModel.Document = document;
+				if (drawing != null)
+					Viewport.RenderList.RemoveRenderable(drawing);
+				drawing = value;
+				Viewport.RenderList.AddRenderable(drawing);
+//				treeModel.Drawing = drawing;
 			}
 		}
 
-		protected Viewport viewport;
+		protected TooledViewport viewport;
 		/// <value>
 		/// The viewport.
 		/// </value>
 		public Viewport Viewport
 		{
-			get {return viewport;}
+			get {return viewport.Viewport;}
 		}
 		
 		

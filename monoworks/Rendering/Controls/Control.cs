@@ -39,6 +39,27 @@ namespace MonoWorks.Rendering.Controls
 			
 			UserSize = false;
 		}
+		
+		private Control parent = null;
+		//// <value>
+		/// The control's parent.
+		/// </value>
+		public Control Parent
+		{
+			get {return parent;}
+			set
+			{
+				parent = value;
+			}
+		}
+
+		public override void MakeDirty()
+		{
+			base.MakeDirty();
+			
+			if (parent != null)
+				parent.MakeDirty();
+		}
 
 
 #region Size and Position

@@ -25,6 +25,16 @@ using MonoWorks.Base;
 namespace MonoWorks.Rendering
 {
 	
+	
+	public class InvalidColorStringException : Exception
+	{
+		public InvalidColorStringException(string cString) : base("Color string " + cString + " is invalid." + 
+@"Valid color strings must have 3, 4, 6, or 8 characters. All characters must be valid hex (0-9, a-f).")
+		{
+		}
+	}
+	
+	
 	/// <summary>
 	/// The color class represents a single color.
 	/// </summary>
@@ -58,9 +68,8 @@ namespace MonoWorks.Rendering
 		/// <param name="red"> The red component. </param>
 		/// <param name="green"> The green component. </param>
 		/// <param name="blue"> The blue component. </param>
-		public Color(byte red, byte green, byte blue)
+		public Color(byte red, byte green, byte blue) : this(red, green, blue, 255)
 		{
-			rgba = new byte[]{red, green, blue, 255};
 		}
 		
 		/// <summary>
@@ -292,6 +301,12 @@ namespace MonoWorks.Rendering
 			return new Color((c1.Redf + c2.Redf) / 2, (c1.Greenf + c2.Greenf) / 2, (c1.Bluef + c2.Bluef) / 2);
 		}
 
+		
+		public override string ToString()
+		{
+			return string.Format("Color: Name={0}, RGBA=({1}, {2}, {3}, {4})", Name, rgba[0], rgba[1], rgba[2], rgba[3]);
+		}
+
 
 #endregion
 
@@ -310,7 +325,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Draws a solid rectangle at the given position with the given size.
 		/// </summary>
-		public void DrawRectangle(MonoWorks.Base.Coord pos, MonoWorks.Base.Coord size)
+		public void DrawRectangle(Coord pos, Coord size)
 		{
 			Setup();
 			gl.glBegin(gl.GL_QUADS);
@@ -327,6 +342,48 @@ namespace MonoWorks.Rendering
 #region XML Loading
 		
 		/// <summary>
+		/// Creates a color from cString.
+		/// </summary>
+		/// <param name="cString"> A string with rgb or rgba components 
+		/// defined in one or two character hex (i.e. 08f, a452f0, or f008). </param>
+		/// <returns> </returns>
+		public static Color FromString(string cString)
+		{
+			byte red = 0;
+			byte green = 0;
+			byte blue = 0;
+			byte alpha = 255;
+			
+			// check for valid string length
+			switch (cString.Length)
+			{
+			case 3:
+			case 4:
+				red = Convert.ToByte(cString.Substring(0, 1) + "F", 16);
+				green = Convert.ToByte(cString.Substring(1, 1) + "F", 16);
+				blue = Convert.ToByte(cString.Substring(2, 1) + "F", 16);
+				if (cString.Length == 4) // there's an alpha component					
+					alpha = Convert.ToByte(cString.Substring(3, 1) + "F", 16);
+				break;
+				
+			case 6:
+			case 8:
+				red = Convert.ToByte(cString.Substring(0, 2), 16);
+				green = Convert.ToByte(cString.Substring(2, 2), 16);
+				blue = Convert.ToByte(cString.Substring(4, 2), 16);
+				if (cString.Length == 8) // there's an alpha component					
+					alpha = Convert.ToByte(cString.Substring(6, 2), 16);
+				break;
+				
+			default:
+				throw new InvalidColorStringException(cString);
+			}
+			
+			return new Color(red, green, blue, alpha);
+		}
+		
+		
+		/// <summary>
 		/// Loads a color from an XML Color element.
 		/// </summary>
 		/// <param name="reader"> </param>
@@ -340,8 +397,8 @@ namespace MonoWorks.Rendering
 			if (name != null && ColorManager.Global.HasColor(name))
 				return ColorManager.Global[name];				
 			
-			// TODO: read in color components from XML
-			throw new Exception("Unable to parse color element.");
+			// try to read as hex values
+			return FromString(reader.GetRequiredString("value"));
 		}
 		
 #endregion

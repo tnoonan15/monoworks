@@ -81,6 +81,11 @@ namespace MonoWorks.Rendering
 		RenderManager RenderManager { get; }
 		
 		/// <value>
+		/// Interactor that gets to handle events before the renderables.
+		/// </value>
+		AbstractInteractor PrimaryInteractor {get; set;}
+		
+		/// <value>
 		/// The renderable interactor.
 		/// </value>
 		RenderableInteractor RenderableInteractor { get; }

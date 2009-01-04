@@ -18,6 +18,10 @@
 
 using System;
 
+using MonoWorks.Base;
+
+using MonoWorks.Rendering.Events;
+
 namespace MonoWorks.Rendering.Controls
 {
 	/// <summary>
@@ -28,18 +32,15 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Single control container that anchors its child to a particular side of the viewport.
 	/// </summary>
-	public class Anchor : Control
+	public class Anchor : Bin
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="child"> The <see cref="Control"/> to anchor. </param>
-		public Anchor(Control child)
+		public Anchor(Control child) : base(child)
 		{
-			this.child = child;
 		}
-		
-		protected Control child;
 		
 		
 		private AnchorLocation location = AnchorLocation.N;
@@ -56,12 +57,54 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 		
+		public override void OnViewportResized(IViewport viewport)
+		{
+			base.OnViewportResized(viewport);
+			
+			MakeDirty();
+		}
+
+		
 		
 		public override void RenderOverlay(IViewport viewport)
 		{
-			base.RenderOverlay(viewport);
+			// adjust position according to location
+			if (dirty) // need to check this before calling parent since they will make us clean
+			{
+				size = child.Size;
+				switch (location)
+				{
+				case AnchorLocation.N:
+					position = new Coord((viewport.WidthGL-Width)/2.0, viewport.HeightGL - Height); 
+					break;
+				case AnchorLocation.NE:
+					position = new Coord(viewport.WidthGL-Width, viewport.HeightGL - Height); 
+					break;
+				case AnchorLocation.E:
+					position = new Coord(viewport.WidthGL-Width, (viewport.HeightGL - Height)/2.0); 
+					break;
+				case AnchorLocation.SE:
+					position = new Coord(viewport.WidthGL-Width, 0); 
+					break;
+				case AnchorLocation.S:
+					position = new Coord((viewport.WidthGL-Width)/2.0, 0); 
+					break;
+				case AnchorLocation.SW:
+					position = new Coord(0, 0); 
+					break;
+				case AnchorLocation.W:
+					position = new Coord(0, (viewport.HeightGL - Height)/2.0); 
+					break;
+				case AnchorLocation.NW:
+					position = new Coord(0, viewport.HeightGL - Height); 
+					break;
+				}
+				child.Position = position;
+			}
 			
+			base.RenderOverlay(viewport);		
 			
+			child.RenderOverlay(viewport);
 		}
 
 

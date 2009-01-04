@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Colors>
-	<Color name="Black" value="000000"/>
-	<Color name="White" value="ffffff"/>
-	<Color name="Red" value="ff0000"/>
-	<Color name="Green" value="00ff00"/>
-	<Color name="Yellow" value="ffff00"/>
-	<Color name="Cyan" value="00ffff"/>
-	<Color name="Magenta" value="ff00ff"/>
-	<Color name="Light Green" value="80ff8f"/>
-	<Color name="Light Blue" value="8fb0ff"/>
-	<Color name="Blue" value="0000ff"/>
-	<Color name="Dark Blue" value="0000f0"/>
+	<Color name="Black" value="000"/>
+	<Color name="White" value="fff"/>
+	<Color name="Red" value="f00"/>
+	<Color name="Green" value="0f0"/>
+	<Color name="Yellow" value="ff0"/>
+	<Color name="Cyan" value="0ff"/>
+	<Color name="Magenta" value="f0f"/>
+	<Color name="Light Green" value="8f8"/>
+	<Color name="Light Blue" value="8bf"/>
+	<Color name="Blue" value="00f"/>
+	<Color name="Dark Blue" value="00d"/>
 	<Color name="Light Gray" value="fafafa"/>
 	<Color name="Gray" value="f2f2f2"/>
-	<Color name="Dark Gray" value="e0e0e0"/>
+	<Color name="Dark Gray" value="888888"/>
+	
+	<!-- Control colors -->
+	<Color name="Control Grad Dark" value="8888"/>
+	<Color name="Control Grad Light" value="ddd8"/>
+	<Color name="Control Hovering" value="fafafa"/>
+	
 </Colors>

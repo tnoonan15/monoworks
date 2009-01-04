@@ -1,4 +1,4 @@
-//   Document.cs - MonoWorks Project
+//   Drawing.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //
@@ -28,10 +28,10 @@ namespace MonoWorks.Model
 {
 	
 	/// <summary>
-	/// The Document entity represents the root entity for a document.
-	/// It stores document metadata as well as the document's top level entities. 
+	/// The Drawing entity represents the root entity for a drawing.
+	/// It stores drawing metadata as well as the drawing's top level entities. 
 	/// </summary>
-	public class Document : Entity
+	public abstract class Drawing : Entity
 	{
 		
 		static uint DocCounter = 0;
@@ -39,7 +39,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Document() : base()
+		public Drawing() : base()
 		{
 			entityRegistry = new Dictionary<long,Entity>();
 			RegisterEntity(this);
@@ -47,7 +47,7 @@ namespace MonoWorks.Model
 			ColorManager = new ColorManager();
 			
 			DocCounter++;
-			Name = String.Format("document{0}", DocCounter);
+			Name = String.Format("drawing{0}", DocCounter);
 			
 			selected = new List<Entity>();
 			
@@ -60,7 +60,7 @@ namespace MonoWorks.Model
 		/// <value>
 		/// Returns itself.
 		/// </value>
-		public override Document GetDocument()
+		public override Drawing GetDrawing()
 		{
 			return this;
 		}
@@ -68,7 +68,7 @@ namespace MonoWorks.Model
 
 		protected ColorManager colorManager;
 		/// <value>
-		/// The color manager for this document.
+		/// The color manager for this drawing.
 		/// </value>
 		public ColorManager ColorManager
 		{
@@ -82,11 +82,11 @@ namespace MonoWorks.Model
 		protected Dictionary<long, Entity> entityRegistry;
 		
 		/// <summary>
-		/// Registers an entity with the document.
-		/// The document keeps a flat list of entities it contains that can 
+		/// Registers an entity with the drawing.
+		/// The drawing keeps a flat list of entities it contains that can 
 		/// be looked by id.
 		/// </summary>
-		/// <param name="entity"> A <see cref="Entity"/> to add to the document. </param>
+		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
 		protected override void RegisterEntity(Entity entity)
 		{
 			if (!entityRegistry.ContainsKey(entity.Id))
@@ -103,7 +103,7 @@ namespace MonoWorks.Model
 			if (entityRegistry.ContainsKey(id))
 				return entityRegistry[id];
 			else
-				throw new Exception(String.Format("Document does not contain an entity with id {0}", id));
+				throw new Exception(String.Format("Drawing does not contain an entity with id {0}", id));
 		}
 		
 #endregion
@@ -167,7 +167,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Adds a sketch as a top-level entity.
 		/// </summary>
-		/// <param name="sketch"> A <see cref="Sketch"/> to add to the document. </param>
+		/// <param name="sketch"> A <see cref="Sketch"/> to add to the drawing. </param>
 		public void AddSketch(Sketch sketch)
 		{
 			AddChild(sketch);
@@ -177,7 +177,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Adds reference geometry as a top-level entity.
 		/// </summary>
-		/// <param name="reference"> A <see cref="Reference"/> to add to the document. </param>
+		/// <param name="reference"> A <see cref="Reference"/> to add to the drawing. </param>
 		public void AddReference(Reference reference)
 		{
 			AddChild(reference);
@@ -187,7 +187,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Adds a feature as a top-level entity.
 		/// </summary>
-		/// <param name="feature"> A <see cref="Feature"/> to add to the document. </param>
+		/// <param name="feature"> A <see cref="Feature"/> to add to the drawing. </param>
 		public void AddFeature(Feature feature)
 		{
 			AddChild(feature);
@@ -195,7 +195,7 @@ namespace MonoWorks.Model
 		
 		
 		/// <summary>
-		/// Makes the document dirty.
+		/// Makes the drawing dirty.
 		/// </summary>
 		/// <remarks>Makes all reference items dirty as well.</remarks>
 		public override void MakeDirty()
@@ -210,7 +210,7 @@ namespace MonoWorks.Model
 #region Rendering
 		
 		/// <summary>
-		/// Computes the geometry of the document.
+		/// Computes the geometry of the drawing.
 		/// </summary>
 		public override void ComputeGeometry()
 		{
@@ -218,7 +218,7 @@ namespace MonoWorks.Model
 		}
 		
 		/// <summary>
-		/// Renders the document to the given viewport.
+		/// Renders the drawing to the given viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 //		public new void Render(IViewport viewport)
@@ -253,32 +253,35 @@ namespace MonoWorks.Model
 
 		public override bool HitTest(HitLine hitLine)
 		{
-			lastSelected = null;
-			selected.Clear();
-			bool somethingChanged = false;
-			if (base.HitTest(hitLine)) // only perform hit test on children if it hits the document bounding box
-			{
-				foreach (Entity entity in entityRegistry.Values)
-				{
-					if (entity != this)
-					{
-						bool hit = entity.HitTest(hitLine);
-						if (hit != entity.IsSelected)
-						{
-							entity.IsSelected = hit;
-							somethingChanged = true;
-							if (entity.IsSelected)
-								selected.Add(entity);
-						}
-						if (entity.IsSelected)
-							lastSelected = entity;
-					}
-				}
-			}
+			// LET THE MODEL INTERACTOR HANDLE THIS
+//			lastSelected = null;
+//			selected.Clear();
+//			bool somethingChanged = false;
+//			if (base.HitTest(hitLine)) // only perform hit test on children if it hits the drawing bounding box
+//			{
+//				foreach (Entity entity in entityRegistry.Values)
+//				{
+//					if (entity != this)
+//					{
+//						bool hit = entity.HitTest(hitLine);
+//						if (hit != entity.IsSelected)
+//						{
+//							entity.IsSelected = hit;
+//							somethingChanged = true;
+//							if (entity.IsSelected)
+//								selected.Add(entity);
+//						}
+//						if (entity.IsSelected)
+//							lastSelected = entity;
+//					}
+//				}
+//			}
+//			
+////			hitLine = new Vector[]{v1, v2};
+//			
+//			return false;
 			
-//			hitLine = new Vector[]{v1, v2};
-			
-			return somethingChanged;
+			return base.HitTest(hitLine);
 		}
 		
 #endregion
