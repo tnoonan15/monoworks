@@ -25,14 +25,14 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// The test document shows off all of the features of the MonoWorks model framework.
 	/// </summary>
-	public class TestDocument : Document
+	public class TestPart : Part
 	{
 		RefLine refLine;
 		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public TestDocument() : base()
+		public TestPart() : base()
 		{			
 			// add the reference line
 			refLine = new RefLine(new Point(0.0, 0.0, 0.0), new Vector(0.0, 1.0, 0.0));

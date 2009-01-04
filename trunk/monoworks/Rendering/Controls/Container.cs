@@ -65,6 +65,7 @@ namespace MonoWorks.Rendering.Controls
 		public virtual void AppendChild(Control child)
 		{
 			children.Add(child);
+			child.Parent = this;
 			child.StyleClassName = StyleClassName;
 			MakeDirty();
 		}

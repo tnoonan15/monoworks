@@ -22,7 +22,7 @@ using System.Xml;
 using System.Reflection;
 using System.IO;
 
-
+using MonoWorks.Base;
 
 namespace MonoWorks.Rendering
 {
@@ -152,22 +152,14 @@ namespace MonoWorks.Rendering
 		/// <param name="reader"> A <see cref="XmlReader"/> at a color tag. </param>
 		protected virtual void ReadColor(XmlReader reader)
 		{
-			string name = (string)reader.GetAttribute("name");
-			if (name==null)
-				throw new Exception("All colors must have name attributes.");
+			string name = reader.GetRequiredString("name");
 			
 			// parse the value
-			string valueString = (string)reader.GetAttribute("value");
-			if (valueString==null)
-				throw new Exception("All colors must have value attributes.");
-			if (valueString.Length != 6)
-				throw new Exception(valueString + " is an invalid color value");
-			byte red = Convert.ToByte(valueString.Substring(0, 2), 16);
-			byte green = Convert.ToByte(valueString.Substring(2, 2), 16);
-			byte blue = Convert.ToByte(valueString.Substring(4, 2), 16);
-			
-			colors[name] = new Color(red, green, blue);
+			string valueString = reader.GetRequiredString("value");
+			colors[name] = Color.FromString(valueString);
 			colors[name].Name = name;
+			
+//			Console.WriteLine("read color string {0} as {1}", valueString, colors[name]);
 		}
 		
 		

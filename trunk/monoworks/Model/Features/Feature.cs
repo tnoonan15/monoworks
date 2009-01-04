@@ -41,7 +41,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public Feature(Sketch sketch) : base()
 		{
-			this.document = sketch.GetDocument();
+			this.drawing = sketch.GetDrawing();
 			this.Sketch = sketch;
 			
 			// Copy the working momento back to the first momento to take into account 

@@ -1,4 +1,4 @@
-// AbstractPlot.cs - MonoWorks Project
+// Part.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -17,20 +17,16 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-using System.Collections.Generic;
 
-namespace MonoWorks.Plotting
+namespace MonoWorks.Model
 {
-	/// <summary>
-	/// Represents plottables that take up plot space inside an axes.
-	/// </summary>
-	public abstract class AbstractPlot : Plottable
+	
+	
+	public class Part : Drawing
 	{
-
-		public AbstractPlot(AxesBox parent)
-			: base(parent)
+		
+		public Part() : base()
 		{
-
 		}
 	}
 }

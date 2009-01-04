@@ -92,7 +92,6 @@ namespace MonoWorks.Rendering
 		#endregion
 
 
-
 		#region Overlays
 
 		protected List<Overlay> overlays = new List<Overlay>();
@@ -156,6 +155,18 @@ namespace MonoWorks.Rendering
 		#endregion
 
 
+		/// <summary>
+		/// The viewport should call this when it's resized.
+		/// </summary>
+		/// <param name="viewport"> </param>
+		public void OnViewportResized(IViewport viewport)
+		{
+			foreach (Renderable3D renderable in Renderables)
+				renderable.OnViewportResized(viewport);
+			
+			foreach (Overlay overlay in Overlays)
+				overlay.OnViewportResized(viewport);
+		}
 
 	}
 }

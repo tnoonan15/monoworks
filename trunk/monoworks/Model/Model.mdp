@@ -16,7 +16,7 @@
   <Contents>
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="Entity.cs" subtype="Code" buildaction="Compile" />
-    <File name="Document.cs" subtype="Code" buildaction="Compile" />
+    <File name="Drawing.cs" subtype="Code" buildaction="Compile" />
     <File name="ViewportToolbar.xml" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Sketchs" subtype="Directory" buildaction="Compile" />
     <File name="Sketchs/Arc.cs" subtype="Code" buildaction="Compile" />
@@ -32,13 +32,17 @@
     <File name="Features/Extrusion.cs" subtype="Code" buildaction="Compile" />
     <File name="Features/Revolution.cs" subtype="Code" buildaction="Compile" />
     <File name="Momento.cs" subtype="Code" buildaction="Compile" />
-    <File name="TestDocument.cs" subtype="Code" buildaction="Compile" />
+    <File name="TestPart.cs" subtype="Code" buildaction="Compile" />
     <File name="Actions" subtype="Directory" buildaction="Compile" />
     <File name="Actions/Action.cs" subtype="Code" buildaction="Compile" />
     <File name="Actions/EntityAction.cs" subtype="Code" buildaction="Compile" />
     <File name="EntityMetaData.cs" subtype="Code" buildaction="Compile" />
     <File name="AttributeMetaData.cs" subtype="Code" buildaction="Compile" />
     <File name="EntityMetaData.xml" subtype="Code" buildaction="Nothing" />
+    <File name="Interaction" subtype="Directory" buildaction="Compile" />
+    <File name="Interaction/DrawingInteractor.cs" subtype="Code" buildaction="Compile" />
+    <File name="Part.cs" subtype="Code" buildaction="Compile" />
+    <File name="Assembly.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />
