@@ -74,6 +74,7 @@ namespace MonoWorks.Model
 			Extrusion ext1 = new Extrusion(extSketch);
 			ext1.Path = refLine;
 			ext1.Travel = new Length(1.0);
+			ext1.CartoonColor = colorManager["Blue"];
 			ext1.Snapshot();
 			
 			AddFeature(ext1);
@@ -108,7 +109,7 @@ namespace MonoWorks.Model
 			Revolution revolution1 = new Revolution(revolutionSketch);
 			revolution1.Axis = refLine;
 			revolution1.Travel = Angle.Pi()*-1;
-			revolution1.CartoonColor = colorManager.GetColor("Red");
+			revolution1.CartoonColor = colorManager["Red"];
 			revolution1.Snapshot();
 			AddFeature( revolution1);
 		}

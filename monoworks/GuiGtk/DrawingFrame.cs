@@ -1,4 +1,4 @@
-// DocFrame.cs - MonoWorks Project
+// DrawingFrame.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //
@@ -17,6 +17,7 @@
 
 using System;
 
+using MonoWorks.Rendering;
 using MonoWorks.Model;
 
 namespace MonoWorks.GuiGtk
@@ -58,6 +59,8 @@ namespace MonoWorks.GuiGtk
 				// add the drawing interactor
 				Model.Interaction.DrawingInteractor interactor = new Model.Interaction.DrawingInteractor(Viewport, drawing);
 				Viewport.PrimaryInteractor = interactor;
+				
+//				Viewport.Camera.SetViewDirection(ViewDirection.Standard);
 			}
 		}
 

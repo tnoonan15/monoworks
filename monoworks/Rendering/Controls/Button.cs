@@ -295,7 +295,7 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 
-		public override void OnButtonRelease(MouseEvent evt)
+		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
 

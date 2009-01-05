@@ -403,8 +403,6 @@ namespace MonoWorks.Rendering
 		{
 			if (isSet && minima != null)
 			{
-				gl.glLineWidth( 1.5f);
-				gl.glColor3f(0.0f, 0.0f, 1.0f);
 				gl.glBegin(gl.GL_LINES);
 				
 				// minimum z box

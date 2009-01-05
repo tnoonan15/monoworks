@@ -30,7 +30,7 @@ namespace MonoWorks.Rendering
 	{
 		void OnButtonPress(MouseButtonEvent evt);
 		
-		void OnButtonRelease(MouseEvent evt);
+		void OnButtonRelease(MouseButtonEvent evt);
 		
 		void OnMouseMotion(MouseEvent evt);
 		

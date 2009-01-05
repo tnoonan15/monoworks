@@ -89,7 +89,7 @@ namespace MonoWorks.Rendering
 		/// Registers a button release event.
 		/// </summary>
 		/// <param name="pos"></param>
-		public virtual void OnButtonRelease(MouseEvent evt)
+		public virtual void OnButtonRelease(MouseButtonEvent evt)
 		{
 		}
 

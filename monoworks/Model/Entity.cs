@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 
+using gl=Tao.OpenGl.Gl;
+
 using MonoWorks.Base;
 
 using MonoWorks.Rendering;
@@ -287,9 +289,9 @@ namespace MonoWorks.Model
 		/// The drawing keeps a flat list of entities it contains that can be looked up by id.
 		/// </summary>
 		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
-		protected virtual void RegisterEntity(Entity entity)
+		protected void RegisterEntity(Entity entity)
 		{
-			drawing.RegisterEntity(entity);
+			GetDrawing().EntityManager.RegisterEntity(entity);
 		}	
 		
 		protected Entity parent;
@@ -445,7 +447,17 @@ namespace MonoWorks.Model
 			foreach (Entity child in children)
 				child.RenderOpaque(viewport);
 			if (IsHovering)
+			{
+				gl.glLineWidth( 1.0f);
+				ColorManager.Global["Blue"].Setup();
 				bounds.Render(viewport);
+			}
+			else if (IsSelected)
+			{
+				gl.glLineWidth( 2.0f);
+				ColorManager.Global["Red"].Setup();
+				bounds.Render(viewport);
+			}
 		}
 		
 		/// <summary>

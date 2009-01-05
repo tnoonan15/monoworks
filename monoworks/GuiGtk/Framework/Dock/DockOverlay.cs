@@ -19,7 +19,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Cairo;
 
 namespace MonoWorks.GuiGtk.Framework.Dock
 {

@@ -165,7 +165,7 @@ namespace MonoWorks.Rendering
 		/// Registers a button release event.
 		/// </summary>
 		/// <param name="evt"></param>
-		public override void OnButtonRelease(MouseEvent evt)
+		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			switch (MouseType)
 			{

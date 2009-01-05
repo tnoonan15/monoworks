@@ -38,11 +38,13 @@
     <File name="Actions/EntityAction.cs" subtype="Code" buildaction="Compile" />
     <File name="EntityMetaData.cs" subtype="Code" buildaction="Compile" />
     <File name="AttributeMetaData.cs" subtype="Code" buildaction="Compile" />
-    <File name="EntityMetaData.xml" subtype="Code" buildaction="Nothing" />
+    <File name="EntityMetaData.xml" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Interaction" subtype="Directory" buildaction="Compile" />
     <File name="Interaction/DrawingInteractor.cs" subtype="Code" buildaction="Compile" />
     <File name="Part.cs" subtype="Code" buildaction="Compile" />
     <File name="Assembly.cs" subtype="Code" buildaction="Compile" />
+    <File name="EntityManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="ISelectionListener.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />

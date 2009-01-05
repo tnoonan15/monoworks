@@ -19,8 +19,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Cairo;
-
 using gl=Tao.OpenGl.Gl;
 using glu=Tao.OpenGl.Glu;
 
@@ -195,6 +193,20 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public AbstractInteractor PrimaryInteractor {get; set;}
 		
+		/// <summary>
+		/// Converts a Gdk modifier into an InteractionModifier.
+		/// </summary>
+		private static InteractionModifier GetModifier(Gdk.ModifierType modifier)
+		{
+			if ((modifier & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask)
+				return InteractionModifier.Control;
+			if ((modifier & Gdk.ModifierType.ShiftMask) == Gdk.ModifierType.ShiftMask)
+				return InteractionModifier.Shift;
+			if ((modifier & Gdk.ModifierType.HyperMask) == Gdk.ModifierType.HyperMask)
+				return InteractionModifier.Alt;
+			return InteractionModifier.None;
+		}
+		
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
 			// look for the double-click reset
@@ -207,7 +219,8 @@ namespace MonoWorks.GuiGtk
 			}
 			else
 			{			
-				MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), (int)args.Event.Button);
+				MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
+				                                            (int)args.Event.Button, GetModifier(args.Event.State));
 				overlayInteractor.OnButtonPress(evt);
 				if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
 					PrimaryInteractor.OnButtonPress(evt);
@@ -220,7 +233,8 @@ namespace MonoWorks.GuiGtk
 		
 		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 		{			
-			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
+			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
+			                                      (int)args.Event.Button, GetModifier(args.Event.State));
 			overlayInteractor.OnButtonRelease(evt);
 			if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
 				PrimaryInteractor.OnButtonRelease(evt);
