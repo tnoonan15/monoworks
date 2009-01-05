@@ -150,6 +150,7 @@ namespace MonoWorks.Rendering
 			viewport.RenderManager.BeginOverlays();
 			foreach (Overlay overlay in overlays)
 				overlay.RenderOverlay(viewport);
+			viewport.RenderManager.EndOverlays();
 		}
 
 		#endregion

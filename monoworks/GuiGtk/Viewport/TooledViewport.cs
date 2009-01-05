@@ -225,15 +225,15 @@ namespace MonoWorks.GuiGtk
 				actionGroup.Add(action);
 
 				// interaction mode actions
-				Gtk.RadioAction radio = new Gtk.RadioAction("Select2D", "2D Mode", "2D Mode", "2d", 0);
+				Gtk.RadioAction radio = new Gtk.RadioAction("Interact2D", "2D Mode", "2D Mode", "2d", 0);
 				radio.Activated += delegate(object sender, EventArgs args)
-				{ SetInteractionState(InteractionState.Select2D);};
+				{ SetInteractionState(InteractionState.Interact2D);};
 				actionGroup.Add(radio);
 				GLib.SList modeGroup = radio.Group;
 				
-				radio = new Gtk.RadioAction("Select3D", "3D Selection Mode", "3D Selection Mode", "3dSelect", 1);
+				radio = new Gtk.RadioAction("Interact3D", "3D Selection Mode", "3D Selection Mode", "3dSelect", 1);
 				radio.Activated += delegate(object sender, EventArgs args)
-				{ SetInteractionState(InteractionState.Select3D);};
+				{ SetInteractionState(InteractionState.Interact3D);};
 				radio.Group = modeGroup;
 				modeGroup = radio.Group;
 				actionGroup.Add(radio);
@@ -273,12 +273,12 @@ namespace MonoWorks.GuiGtk
 		/// <param name="state"> A <see cref="InteractionState"/>. </param>
 		public void SetInteractionState(InteractionState state)
 		{
-			if (state == InteractionState.Select2D) // force to front parallel for 2D viewing
+			if (state == InteractionState.Interact2D) // force to front parallel for 2D viewing
 			{
 				viewport.Camera.Projection = Projection.Parallel;
 				viewport.Camera.SetViewDirection(ViewDirection.Front);
 			}
-			else if (viewport.RenderableInteractor.State == InteractionState.Select2D) // transitioning out of 2D
+			else if (viewport.RenderableInteractor.State == InteractionState.Interact2D) // transitioning out of 2D
 			{
 				viewport.Camera.Projection = Projection.Perspective;
 				viewport.Camera.SetViewDirection(ViewDirection.Standard);				

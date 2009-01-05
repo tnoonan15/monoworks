@@ -1,4 +1,4 @@
-// ModelInteractor.cs - MonoWorks Project
+// DrawingInteractor.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -26,14 +26,17 @@ namespace MonoWorks.Model.Interaction
 {
 	
 	/// <summary>
-	/// Interactor for top level model entities (features, reference entities, sketches).
+	/// Interactor for top level drawing entities (features, reference entities, sketches).
 	/// </summary>
 	public class DrawingInteractor : AbstractInteractor
 	{
 		
-		public DrawingInteractor(IViewport viewport) : base(viewport)
+		public DrawingInteractor(IViewport viewport, Drawing drawing) : base(viewport)
 		{
+			this.drawing = drawing;
 		}
+		
+		protected Drawing drawing;
 		
 		public override void OnButtonPress (MouseButtonEvent evt)
 		{
@@ -45,22 +48,7 @@ namespace MonoWorks.Model.Interaction
 		{
 			base.OnButtonRelease(evt);
 			
-			HitLine hitLine = viewport.Camera.ScreenToWorld(evt.Pos);
-
-			// gather a list of entities that were hit
-			List<Entity> hits = new List<Entity>();
-			foreach (Renderable3D renderable in renderList.Renderables)
-			{
-				if (renderable is Entity) // only look at top-level entities
-				{
-					if (renderable.HitTest(hitLine))
-					{
-						hits.Add(renderable as Entity);
-						Console.WriteLine("entity {0} was hit", (renderable as Entity).Name);
-					}
-				}
-			}
-			
+			Entity hitEntity = HitEntity(evt);
 			
 		}
 		
@@ -68,6 +56,47 @@ namespace MonoWorks.Model.Interaction
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
+			
+			foreach (Entity entity in drawing.Children)
+				entity.IsHovering = false;
+			
+			
+			Entity hitEntity = HitEntity(evt);
+			if (hitEntity != null)
+				hitEntity.IsHovering = true;
+		}
+		
+		/// <summary>
+		/// Determines which, if any, entity was hit.
+		/// </summary>
+		protected Entity HitEntity(MouseEvent evt)
+		{
+			
+			HitLine hitLine = viewport.Camera.ScreenToWorld(evt.Pos);
+
+			// gather a list of entities that were hit
+			List<Entity> hits = new List<Entity>();
+			foreach (Entity entity in drawing.Children)
+			{
+				if (entity.HitTest(hitLine))
+				{
+					hits.Add(entity);
+				}
+			}
+			
+			// perform depth test
+			Entity front = null;
+			double frontDist = 0;
+			foreach (Entity entity in hits)
+			{
+				double dist_ = viewport.Camera.GetDistance(entity.Bounds.Center);
+				if (front == null || dist_ < frontDist)
+				{
+					front = entity;
+					frontDist = dist_;
+				}
+			}
+			return front;
 		}
 
 
