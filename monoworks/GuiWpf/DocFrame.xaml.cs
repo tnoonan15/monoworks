@@ -42,19 +42,19 @@ namespace MonoWorks.GuiWpf
 		}
 
 
-		protected Document document = null;
+		protected Drawing drawing = null;
 		/// <summary>
-		/// The document being displayed by the frame.
+		/// The drawing being displayed by the frame.
 		/// </summary>
-		public Document Document
+		public Drawing Drawing
 		{
-			get { return document; }
+			get { return drawing; }
 			set
 			{
-				if (document != null)
-					viewport.RenderList.RemoveRenderable(document);
-				document = value;
-				viewport.RenderList.AddRenderable(document);
+				if (drawing != null)
+					viewport.RenderList.RemoveRenderable(drawing);
+				drawing = value;
+				viewport.RenderList.AddRenderable(drawing);
 			}
 		}
 

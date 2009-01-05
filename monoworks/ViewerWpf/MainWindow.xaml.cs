@@ -20,8 +20,8 @@ namespace MonoWorks.ViewerWpf
 		{
 			InitializeComponent();
 
-			TestDocument doc = new TestDocument();
-			docFrame.Document = doc;
+            TestPart drawing = new TestPart();
+            docFrame.Drawing = drawing;
 			
 		}
 

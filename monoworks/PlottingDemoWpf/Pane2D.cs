@@ -45,7 +45,7 @@ namespace MonoWorks.PlottingDemoWpf
 			viewport.RenderList.AddRenderable(axes);
 			viewport.Camera.Projection = Projection.Parallel;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
-			viewport.RenderableInteractor.State = InteractionState.Select2D;
+			viewport.RenderableInteractor.State = InteractionState.Interact2D;
 
 			tooledViewport.UpdateToolbar();
 

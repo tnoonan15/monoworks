@@ -179,6 +179,8 @@ namespace MonoWorks.GuiWpf
 
 #region Mouse Interaction
 
+        public AbstractInteractor PrimaryInteractor { get; set; }
+
 		protected RenderableInteractor renderableInteractor;
 		/// <summary>
 		/// The renderable interactor.
@@ -214,7 +216,9 @@ namespace MonoWorks.GuiWpf
 
 			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
 									SwfExtensions.ButtonNumber(args.Button));
-			overlayInteractor.OnButtonPress(evt);
+            overlayInteractor.OnButtonPress(evt);
+            if (PrimaryInteractor!=null && !evt.Handled)
+                PrimaryInteractor.OnButtonPress(evt);
 			if (!evt.Handled)
 				renderableInteractor.OnButtonPress(evt);
 
@@ -225,8 +229,11 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseUp(args);
 
-			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location));
-			overlayInteractor.OnButtonRelease(evt);
+            MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
+                                    SwfExtensions.ButtonNumber(args.Button));
+            overlayInteractor.OnButtonRelease(evt);
+            if (PrimaryInteractor != null && !evt.Handled)
+                PrimaryInteractor.OnButtonRelease(evt);
 			if (!evt.Handled)
 				renderableInteractor.OnButtonRelease(evt);
 
@@ -238,7 +245,9 @@ namespace MonoWorks.GuiWpf
 			base.OnMouseMove(args);
 
 			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location));
-			overlayInteractor.OnMouseMotion(evt);
+            overlayInteractor.OnMouseMotion(evt);
+            if (PrimaryInteractor != null && !evt.Handled)
+                PrimaryInteractor.OnMouseMotion(evt);
 			if (!evt.Handled)
 				renderableInteractor.OnMouseMotion(evt);
 
@@ -274,7 +283,7 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseDoubleClick(e);
 
-			if (renderableInteractor.State == InteractionState.Select2D)
+			if (renderableInteractor.State == InteractionState.Interact2D)
 				camera.SetViewDirection(ViewDirection.Front);
 			else
 				camera.SetViewDirection(ViewDirection.Standard);
@@ -295,7 +304,7 @@ namespace MonoWorks.GuiWpf
 		{
 			MakeCurrent();
 
-			renderManager.InitializeGL();
+			renderManager.Initialize();
 
 			camera.Configure();
 

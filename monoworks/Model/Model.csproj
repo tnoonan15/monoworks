@@ -56,15 +56,20 @@
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\EntityAction.cs" />
+    <Compile Include="Assembly.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AttributeMetaData.cs" />
-    <Compile Include="Document.cs" />
+    <Compile Include="Drawing.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="EntityManager.cs" />
     <Compile Include="EntityMetaData.cs" />
     <Compile Include="Features\Extrusion.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\Revolution.cs" />
+    <Compile Include="Interaction\DrawingInteractor.cs" />
+    <Compile Include="ISelectionListener.cs" />
     <Compile Include="Momento.cs" />
+    <Compile Include="Part.cs" />
     <Compile Include="Reference\Reference.cs" />
     <Compile Include="Reference\RefLine.cs" />
     <Compile Include="Reference\RefPlane.cs" />
@@ -72,7 +77,7 @@
     <Compile Include="Sketchs\Line.cs" />
     <Compile Include="Sketchs\Sketch.cs" />
     <Compile Include="Sketchs\Sketchable.cs" />
-    <Compile Include="TestDocument.cs" />
+    <Compile Include="TestPart.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EntityMetaData.xml" />

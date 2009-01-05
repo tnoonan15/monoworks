@@ -163,17 +163,17 @@ namespace MonoWorks.GuiWpf
 			radio.Content = RenderIcon("2d");
 			radio.ToolTip = "2D Interaction State";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
-			{ OnSetInteractionMode(InteractionState.Select2D); };
+			{ OnSetInteractionMode(InteractionState.Interact2D); };
 			toolbar.Items.Add(radio);
-			interactionModeButtons[InteractionState.Select2D] = radio;
+			interactionModeButtons[InteractionState.Interact2D] = radio;
 
 			radio = new RadioButton();
 			radio.Content = RenderIcon("3dSelect");
 			radio.ToolTip = "3D Selection State";
 			radio.Click += delegate(object sender, RoutedEventArgs args)
-			{ OnSetInteractionMode(InteractionState.Select3D); };
+			{ OnSetInteractionMode(InteractionState.Interact3D); };
 			toolbar.Items.Add(radio);
-			interactionModeButtons[InteractionState.Select3D] = radio;
+			interactionModeButtons[InteractionState.Interact3D] = radio;
 
 			radio = new RadioButton();
 			radio.Content = RenderIcon("3dInteract");
@@ -304,12 +304,12 @@ namespace MonoWorks.GuiWpf
 		{
 			if (!externalUpdate)
 			{
-				if (state == InteractionState.Select2D) // force to front parallel for 2D viewing
+				if (state == InteractionState.Interact2D) // force to front parallel for 2D viewing
 				{
 					viewport.Camera.Projection = Projection.Parallel;
 					viewport.Camera.SetViewDirection(ViewDirection.Front);
 				}
-				else if (viewport.RenderableInteractor.State == InteractionState.Select2D) // transitioning out of 2D
+				else if (viewport.RenderableInteractor.State == InteractionState.Interact2D) // transitioning out of 2D
 				{
 					viewport.Camera.Projection = Projection.Perspective;
 					viewport.Camera.SetViewDirection(ViewDirection.Standard);
