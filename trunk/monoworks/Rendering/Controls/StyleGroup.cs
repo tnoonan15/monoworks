@@ -89,7 +89,7 @@ namespace MonoWorks.Rendering.Controls
 		protected static StyleGroup LoadDefault()
 		{
 			Assembly asm = Assembly.GetExecutingAssembly();
-			Stream stream = asm.GetManifestResourceStream("DefaultStyles.xml");
+			Stream stream = asm.GetManifestResourceStream("MonoWorks.Rendering.Controls.DefaultStyles.xml");
 			XmlReader reader = new XmlTextReader(stream);
 			return FromXml(reader);
 		}

@@ -37,14 +37,6 @@ namespace MonoWorks.GuiWpf.Framework
 			}
 		}
 
-		/// <summary>
-		/// The resource directory.
-		/// </summary>
-		public static DirectoryInfo ResourceDir
-		{
-			get { return Instance.resourceDir; }
-		}
-
 		#endregion
 
 
