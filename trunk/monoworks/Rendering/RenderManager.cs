@@ -54,7 +54,7 @@ namespace MonoWorks.Rendering
 			wireframeColor = ColorManager.Global["Black"];
 			wireframeWidth = 1.5f;
 			
-			referenceColor = new Color(0, 128, 0, 128);
+			referenceColor = new Color(0, 128, 0, 64);
 		}
 		
 		
@@ -116,6 +116,14 @@ namespace MonoWorks.Rendering
 		public void BeginOverlays()
 		{
 			gl.glDisable(gl.GL_DEPTH_TEST);
+		}
+
+		/// <summary>
+		/// Sets up OpenGL for rendering 3D content.
+		/// </summary>
+		public void EndOverlays()
+		{
+			gl.glEnable(gl.GL_DEPTH_TEST);
 		}
 		
 		

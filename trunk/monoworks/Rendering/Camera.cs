@@ -160,6 +160,14 @@ namespace MonoWorks.Rendering
 			get {return (Direction).Magnitude;}
 		}
 		
+		/// <summary>
+		/// Gets the distance between vec and the camera.
+		/// </summary>
+		public double GetDistance(Vector vec)
+		{
+			return Math.Abs((pos - vec).Magnitude);
+		}
+		
 		
 #endregion
 		

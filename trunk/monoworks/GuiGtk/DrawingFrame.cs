@@ -37,10 +37,6 @@ namespace MonoWorks.GuiGtk
 			// create the viewport			
 			viewport = new TooledViewport();
 			Add2(viewport);
-			
-			// add the model interactor
-			Model.Interaction.DrawingInteractor interactor = new Model.Interaction.DrawingInteractor(Viewport);
-			Viewport.PrimaryInteractor = interactor;
 		}
 		
 		
@@ -58,6 +54,10 @@ namespace MonoWorks.GuiGtk
 				drawing = value;
 				Viewport.RenderList.AddRenderable(drawing);
 //				treeModel.Drawing = drawing;
+			
+				// add the drawing interactor
+				Model.Interaction.DrawingInteractor interactor = new Model.Interaction.DrawingInteractor(Viewport, drawing);
+				Viewport.PrimaryInteractor = interactor;
 			}
 		}
 

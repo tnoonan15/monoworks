@@ -1,4 +1,4 @@
-﻿// AxesBox.cs - MonoWorks Project
+// AxesBox.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -136,7 +136,7 @@ namespace MonoWorks.Plotting
 		{
 			base.OnViewportResized(viewport);
 			
-			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Interact2D)
 			{
 				double edgeFactor = 0.35 * viewport.Camera.ViewportToWorldScaling;
 				Vector center = viewport.Camera.Center;
@@ -509,7 +509,7 @@ namespace MonoWorks.Plotting
 				gl.glEnable(gl.GL_CLIP_PLANE0 + i);
 			
 			// disable clipping for planes orthagonal to view direction
-			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Interact2D)
 			{
 				switch (viewport.Camera.LastDirection)
 				{
@@ -594,7 +594,7 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public override bool HandlePan(IViewport viewport, double dx, double dy)
 		{			
-			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Interact2D)
 			{
 				resizeMode = ResizeMode.Manual;
 				// determine the difference to apply to the axes ranges
@@ -609,7 +609,7 @@ namespace MonoWorks.Plotting
 		
 		public override bool HandleDolly(IViewport viewport, double factor)
 		{
-			if (viewport.RenderableInteractor.State == InteractionState.Select2D)
+			if (viewport.RenderableInteractor.State == InteractionState.Interact2D)
 			{
 				resizeMode = ResizeMode.Manual;
 				plotBounds.Expand(1 - factor);
@@ -623,7 +623,7 @@ namespace MonoWorks.Plotting
 
         public override bool HandleZoom(IViewport viewport, RubberBand rubberBand)
         {
-            if (viewport.RenderableInteractor.State == InteractionState.Select2D)
+            if (viewport.RenderableInteractor.State == InteractionState.Interact2D)
 			{
 				ResizeMode = ResizeMode.Manual;
 				Vector min = viewport.Camera.ScreenToWorld(rubberBand.Min, false);

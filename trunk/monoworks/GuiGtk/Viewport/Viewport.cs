@@ -81,8 +81,7 @@ namespace MonoWorks.GuiGtk
 			ExposeEvent += OnExposed;
 			Realized += OnRealized;
 			SizeAllocated += OnSizeAllocated;
-			ConfigureEvent += OnConfigure;			
-//			SizeAllocated += OnResize;
+			ConfigureEvent += OnConfigure;	
 
 			// initialize the render manager
 			renderManager = new RenderManager();
@@ -201,7 +200,7 @@ namespace MonoWorks.GuiGtk
 			// look for the double-click reset
 			if (args.Event.Type == Gdk.EventType.TwoButtonPress && args.Event.Button == 1)
 			{
-				if (renderableInteractor.State == InteractionState.Select2D)
+				if (renderableInteractor.State == InteractionState.Interact2D)
 					camera.SetViewDirection(ViewDirection.Front);
 				else
 					camera.SetViewDirection(ViewDirection.Standard);
@@ -210,7 +209,7 @@ namespace MonoWorks.GuiGtk
 			{			
 				MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), (int)args.Event.Button);
 				overlayInteractor.OnButtonPress(evt);
-				if (PrimaryInteractor != null && !evt.Handled)
+				if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
 					PrimaryInteractor.OnButtonPress(evt);
 				if (!evt.Handled) // the overlays didn't handle the event
 					renderableInteractor.OnButtonPress(evt);
@@ -223,7 +222,7 @@ namespace MonoWorks.GuiGtk
 		{			
 			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
 			overlayInteractor.OnButtonRelease(evt);
-			if (PrimaryInteractor != null && !evt.Handled)
+			if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
 				PrimaryInteractor.OnButtonRelease(evt);
 			if (!evt.Handled) // the overlays didn't handle the event
 				renderableInteractor.OnButtonRelease(evt);
@@ -234,7 +233,7 @@ namespace MonoWorks.GuiGtk
 		{			
 			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
 			overlayInteractor.OnMouseMotion(evt);
-			if (PrimaryInteractor != null && !evt.Handled)
+			if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
 				PrimaryInteractor.OnMouseMotion(evt);
 			if (!evt.Handled) // the overlays didn't handle the event
 				renderableInteractor.OnMouseMotion(evt);

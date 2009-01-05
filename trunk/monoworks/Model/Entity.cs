@@ -444,7 +444,7 @@ namespace MonoWorks.Model
 			base.RenderOpaque(viewport);
 			foreach (Entity child in children)
 				child.RenderOpaque(viewport);
-			if (IsSelected)
+			if (IsHovering)
 				bounds.Render(viewport);
 		}
 		

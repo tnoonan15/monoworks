@@ -41,7 +41,7 @@ namespace MonoWorks.PlottingDemoGtk
 			viewport.RenderList.AddRenderable(axes);
 			
 			viewport.Camera.Projection = Projection.Parallel;
-			viewport.RenderableInteractor.State = InteractionState.Select2D;
+			viewport.RenderableInteractor.State = InteractionState.Interact2D;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
 			
 			

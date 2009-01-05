@@ -27,7 +27,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// The interaction modes.
 	/// </summary>
-	public enum InteractionState {View3D, Select3D, Select2D};
+	public enum InteractionState {View3D, Interact3D, Interact2D};
 	
 	/// <summary>
 	/// Possible user interaction types.
@@ -124,14 +124,14 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The current interaction mode.
 		/// </value>
-		/// <remarks> This will be overriden with Select if it should be rotate but the mode is Select2D or Select3D.</remarks>
+		/// <remarks> This will be overriden with Select if it should be rotate but the mode is Interact2D or Interact3D.</remarks>
 		public InteractionType MouseType
 		{
 			get
 			{
                 if (state != InteractionState.View3D && mouseType == InteractionType.Rotate)
                     return InteractionType.Select;
-                else if (state == InteractionState.Select2D && mouseType == InteractionType.Dolly)
+                else if (state == InteractionState.Interact2D && mouseType == InteractionType.Dolly)
                     return InteractionType.Zoom;
                 else
 					return mouseType;

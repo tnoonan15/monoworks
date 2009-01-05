@@ -167,8 +167,8 @@ namespace MonoWorks.Rendering
 			get {return hitState == HitState.Hovering;}
 			set
 			{
-				if (value != IsHovering)
-					MakeDirty();
+//				if (value != IsHovering)
+//					MakeDirty();
 				if (value)
 					hitState = HitState.Hovering;
 				else if (hitState == HitState.Hovering)
