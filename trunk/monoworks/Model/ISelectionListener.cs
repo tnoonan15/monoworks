@@ -1,4 +1,4 @@
-// Plane.cs - MonoWorks Project
+// ISelectionListener.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -16,50 +16,37 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
-
-
 using System;
 
-namespace MonoWorks.Base
+namespace MonoWorks.Model
 {
 	
 	/// <summary>
-	/// The Plane class represents an infinite 2D plane in 3D space.
+	/// Interface for objects which would like to listen to the selection state of the drawing.
 	/// </summary>
-	public class Plane
-	{
+	public interface ISelectionListener
+	{            
 		/// <summary>
-		/// Default constructor.
+		/// Handles selection events.
 		/// </summary>
-		public Plane()
-		{
-		}
+		/// <param name="entity"> The selected <see cref="Entity"/>. </param>
+		void OnSelect(Entity entity);
+		
+		/// <summary>
+		/// Handles deselection events.
+		/// </summary>
+		/// <param name="entity"> The deselected <see cref="Entity"/>. </param>
+		void OnDeselect(Entity entity);
+		
+		/// <summary>
+		/// Handles select all events.
+		/// </summary>
+		void OnSelectAll();
+		
+		/// <summary>
+		/// Handles deselect all events.
+		/// </summary>
+		void OnDeselectAll();
 
-		
-#region Geometry
-			
-		protected Point center;
-		/// <value>
-		/// A point that is intersected by the plane.
-		/// </value>
-		public Point Center
-		{
-			get {return center;}
-			set { center = value;}
-		}
-		
-		protected Vector normal;
-		/// <value>
-		/// The normal vector of the plane.
-		/// </value>
-		public Vector Normal
-		{
-			get {return normal;}
-			set { normal = value;}
-		}		
-		
-#endregion
-		
-		
 	}
 }

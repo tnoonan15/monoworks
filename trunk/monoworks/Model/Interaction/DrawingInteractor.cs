@@ -44,12 +44,22 @@ namespace MonoWorks.Model.Interaction
 		}
 
 		
-		public override void OnButtonRelease(MouseEvent evt)
+		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
 			
+			// deselect everything, if necessary
+			if (evt.Modifier != InteractionModifier.Shift)
+			{
+				drawing.EntityManager.DeselectAll(null);
+			}
+			
 			Entity hitEntity = HitEntity(evt);
 			
+			if (hitEntity != null)
+			{
+				drawing.EntityManager.Select(null, hitEntity);	
+			}
 		}
 		
 		

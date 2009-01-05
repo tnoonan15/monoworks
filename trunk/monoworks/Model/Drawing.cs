@@ -40,16 +40,15 @@ namespace MonoWorks.Model
 		/// Default constructor.
 		/// </summary>
 		public Drawing() : base()
-		{
-			entityRegistry = new Dictionary<long,Entity>();
+		{			
+			EntityManager = new EntityManager(this);
+			
 			RegisterEntity(this);
 			
 			ColorManager = new ColorManager();
 			
 			DocCounter++;
 			Name = String.Format("drawing{0}", DocCounter);
-			
-			selected = new List<Entity>();
 			
 			// initialize actions
 			currentAction = -1;
@@ -77,36 +76,12 @@ namespace MonoWorks.Model
 		}
 		
 		
-#region Entity Registry
-		
-		protected Dictionary<long, Entity> entityRegistry;
 		
 		/// <summary>
-		/// Registers an entity with the drawing.
-		/// The drawing keeps a flat list of entities it contains that can 
-		/// be looked by id.
+		/// Handles entity selection.
 		/// </summary>
-		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
-		protected override void RegisterEntity(Entity entity)
-		{
-			if (!entityRegistry.ContainsKey(entity.Id))
-				entityRegistry[entity.Id] = entity;
-		}
+		public EntityManager EntityManager {get; private set;}
 		
-		/// <summary>
-		/// Returns the entity with the given id.
-		/// </summary>
-		/// <param name="id"> A valid entity id. </param>
-		/// <returns> The <see cref="Entity"/> with the id. </returns>
-		public Entity GetEntity(long id)
-		{
-			if (entityRegistry.ContainsKey(id))
-				return entityRegistry[id];
-			else
-				throw new Exception(String.Format("Drawing does not contain an entity with id {0}", id));
-		}
-		
-#endregion
 
 		
 #region Undo and Redo

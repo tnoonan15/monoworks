@@ -150,13 +150,29 @@ namespace MonoWorks.Rendering
 			get { return hitState == HitState.Selected; }
 			set
 			{
-				if (value != IsSelected)
-					MakeDirty();
+//				if (value != IsSelected)
+//					MakeDirty();
 				if (value)
 					hitState = HitState.Selected;
 				else
 					hitState = HitState.None;
 			}
+		}
+		
+		/// <summary>
+		/// Sets IsSelected to true.
+		/// </summary>
+		public virtual void Select()
+		{
+			IsSelected = true;
+		}
+		
+		/// <summary>
+		/// Sets IsSelected to false.
+		/// </summary>
+		public virtual void Deselect()
+		{
+			IsSelected = false;
 		}
 
 		/// <value>
@@ -169,19 +185,11 @@ namespace MonoWorks.Rendering
 			{
 //				if (value != IsHovering)
 //					MakeDirty();
-				if (value)
+				if (value && hitState != HitState.Selected)
 					hitState = HitState.Hovering;
 				else if (hitState == HitState.Hovering)
 					hitState = HitState.None;
 			}
-		}
-
-		/// <summary>
-		/// Deselects this renderable and all of its children.
-		/// </summary>
-		public virtual void Deselect()
-		{
-			IsSelected = false;
 		}
 
 		/// <summary>
@@ -210,7 +218,7 @@ namespace MonoWorks.Rendering
 				
 		public virtual void OnButtonPress(MouseButtonEvent evt) {}
 		
-		public virtual void OnButtonRelease(MouseEvent evt) {}
+		public virtual void OnButtonRelease(MouseButtonEvent evt) {}
 		
 		public virtual void OnMouseMotion(MouseEvent evt) {}
 				

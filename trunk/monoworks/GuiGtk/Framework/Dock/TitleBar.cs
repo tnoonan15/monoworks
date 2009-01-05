@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-using Cairo;
 
 namespace MonoWorks.GuiGtk.Framework.Dock
 {
