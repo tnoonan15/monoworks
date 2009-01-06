@@ -29,19 +29,19 @@ namespace MonoWorks.GuiWpf.Framework
 		protected Controller controller;
 
 
-		public override void Load(string fileName)
+		public override void Load(XmlReader reader)
 		{
 			// wrap the base method and put any exceptions in a nice dialog
 			try
 			{
-				base.Load(fileName);
+				base.Load(reader);
 			}
 			catch (Exception ex)
 			{
 				string messageText = "Slate encountered an error when parsing the UI file. " + 
 					"The contents of the error is listed below. Please revise the UI file to fix this error.\n\n" + 
 					ex.Message;
-				MessageBox.Show(messageText, "Slate UI Error", MessageBoxButton.OK);
+				MessageBox.Show(messageText, "MonoWorks Framework Error", MessageBoxButton.OK);
 				Application.Current.Shutdown();
 			}
 		}

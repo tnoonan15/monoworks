@@ -24,7 +24,7 @@ using System.Reflection;
 namespace MonoWorks.Framework
 {
 	/// <summary>
-	/// Base class for Slate controllers.
+	/// Base class for Framework controllers.
 	/// </summary>
     public abstract class AbstractController
     {
@@ -41,6 +41,7 @@ namespace MonoWorks.Framework
 
 				if (attributes.Length > 0)
 				{
+                    // TODO: Make this work if Action() is not the first attribute
 					ActionAttribute action = attributes[0] as ActionAttribute;
 
 					// assign the method name as the name if one wasn't assigned in the attribute
