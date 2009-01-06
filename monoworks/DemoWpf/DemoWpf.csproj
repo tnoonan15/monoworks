@@ -8,8 +8,8 @@
     <ProjectGuid>{9B52CB99-58BF-4F59-8754-19F5F187D23E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonoWorks.PlottingDemoWpf</RootNamespace>
-    <AssemblyName>MonoWorks.PlottingDemoWpf</AssemblyName>
+    <RootNamespace>MonoWorks.DemoWpf</RootNamespace>
+    <AssemblyName>MonoWorks.DemoWpf</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -118,6 +118,10 @@
     <ProjectReference Include="..\GuiWpf\GuiWpf.csproj">
       <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
       <Name>GuiWpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
+      <Name>Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plotting\Plotting.csproj">
       <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>

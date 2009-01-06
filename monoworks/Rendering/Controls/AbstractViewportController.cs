@@ -1,6 +1,6 @@
-﻿// Pane2D.cs - MonoWorks Project
+﻿// Controller.cs - MonoWorks Project
 //
-//  Copyright (C) 2008 Andy Selvig
+//  Copyright (C) 2009 Andy Selvig
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -19,38 +19,32 @@
 using System;
 using System.Collections.Generic;
 
-using System.Windows;
-using System.Windows.Controls;
-
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
-using MonoWorks.Plotting;
-using MonoWorks.GuiWpf;
-using MonoWorks.GuiWpf.PlotControls;
 
-namespace MonoWorks.PlottingDemoWpf
+namespace MonoWorks.Rendering.Controls
 {
-	/// <summary>
-	/// Contains the 2D portion of the plotting demo.
-	/// </summary>
-	public class Pane2D : PaneBase
-	{
+    /// <summary>
+    /// Implements a Framework controller for a viewport.
+    /// </summary>
+    public class AbstractViewportController : AbstractController
+    {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="viewport">The viewport that this controller controls.</param>
+        public AbstractViewportController(IViewport viewport)
+            : base()
+        {
+			this.viewport = viewport;
+			UiManager = new UiManager(this);
+        }
 
-		public Pane2D()
-			: base()
-		{
-			// create the axes
-			TestAxes2D axes = new TestAxes2D();
+        protected IViewport viewport;
 
-			// add the test axes
-			viewport.RenderList.AddRenderable(axes);
-			viewport.Camera.Projection = Projection.Parallel;
-			viewport.Camera.SetViewDirection(ViewDirection.Front);
-			viewport.RenderableInteractor.State = InteractionState.Interact2D;
-
-			tooledViewport.UpdateToolbar();
-
-			DockViewport();
-		}
-
-	}
+		/// <summary>
+		/// The UiManager used by this controller.
+		/// </summary>
+		public UiManager UiManager { get; set; }
+    }
 }

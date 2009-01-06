@@ -47,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Tao.Externals, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -78,6 +79,7 @@
     <Compile Include="Sketchs\Sketch.cs" />
     <Compile Include="Sketchs\Sketchable.cs" />
     <Compile Include="TestPart.cs" />
+    <Compile Include="Viewport\Controller.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EntityMetaData.xml" />
@@ -88,10 +90,17 @@
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Viewport\Viewport.ui" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

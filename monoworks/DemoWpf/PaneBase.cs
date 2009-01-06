@@ -27,7 +27,7 @@ using MonoWorks.Plotting;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.PlotControls;
 
-namespace MonoWorks.PlottingDemoWpf
+namespace MonoWorks.DemoWpf
 {
 	public class PaneBase : swc.Grid
 	{

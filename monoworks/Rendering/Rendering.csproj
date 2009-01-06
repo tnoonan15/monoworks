@@ -69,6 +69,7 @@
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\ContextBar.cs" />
     <Compile Include="Controls\Control.cs" />
+    <Compile Include="Controls\AbstractViewportController.cs" />
     <Compile Include="Controls\StyleClass.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -77,6 +78,7 @@
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\Stack.cs" />
     <Compile Include="Controls\ToolBar.cs" />
+    <Compile Include="Controls\UiManager.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\MouseButtonEvent.cs" />
     <Compile Include="Events\MouseEvent.cs" />
@@ -107,6 +109,10 @@
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
+      <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

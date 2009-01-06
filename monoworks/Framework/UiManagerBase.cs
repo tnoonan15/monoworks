@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Reflection;
+using System.IO;
 
 namespace MonoWorks.Framework
 {
@@ -52,13 +53,33 @@ namespace MonoWorks.Framework
 
 		protected AbstractController abstractController;
 
+		/// <summary>
+		/// Loads a ui file from a stream.
+		/// </summary>
+		/// <param name="stream"></param>
+		public void LoadStream(Stream stream)
+		{
+			XmlReader reader = new XmlTextReader(stream);
+			Load(reader);
+		}
 
 		/// <summary>
-		/// Loads the specified UI file.
+		/// Loads a ui file from a file.
 		/// </summary>
-		public virtual void Load(string fileName)
+		/// <param name="fileName"></param>
+		public void LoadFile(string fileName)
 		{
 			XmlReader reader = new XmlTextReader(fileName);
+			Load(reader);
+		}
+
+		/// <summary>
+		/// Loads the ui from a ui file stream.
+		/// </summary>
+		/// <remarks>Use convenience methods LoadFile() and LoadResource() 
+		/// to load the ui directly from a file or embedded resource.</remarks>
+		public virtual void Load(XmlReader reader)
+		{
 
 			while (!reader.EOF) // while there's still something left to read
 			{

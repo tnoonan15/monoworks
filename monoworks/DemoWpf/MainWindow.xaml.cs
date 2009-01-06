@@ -6,8 +6,9 @@ using System.Windows.Controls;
 using MonoWorks.GuiWpf;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
+using MonoWorks.Model;
 
-namespace MonoWorks.PlottingDemoWpf
+namespace MonoWorks.DemoWpf
 {
 	/// <summary>
 	/// Interaction logic for Window1.xaml
@@ -20,6 +21,16 @@ namespace MonoWorks.PlottingDemoWpf
 
 			book = new TabControl();
 			dockPanel.Children.Add(book);
+
+			// create the model tab
+			DocFrame docFrame = new DocFrame();
+			docFrame.Height = Double.NaN;
+			docFrame.Width = Double.NaN;
+			docFrame.Drawing = new TestPart();
+			TabItem itemModel = new TabItem();
+			itemModel.Header = "Model";
+			itemModel.Content = docFrame;
+			book.Items.Add(itemModel);
 
 			// create the basic 3D tab
 			Pane3D pane3d = new Pane3D();

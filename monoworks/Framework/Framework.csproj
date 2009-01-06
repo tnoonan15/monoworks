@@ -49,6 +49,7 @@
     <Compile Include="ActionAttribute.cs" />
     <Compile Include="DocumentType.cs" />
     <Compile Include="IDocument.cs" />
+    <Compile Include="ResourceHelper.cs" />
     <Compile Include="ResourceManagerBase.cs" />
     <Compile Include="UiManagerBase.cs" />
   </ItemGroup>

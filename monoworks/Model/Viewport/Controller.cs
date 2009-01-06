@@ -1,6 +1,6 @@
-﻿// PaneControls.cs - MonoWorks Project
+﻿// Controller.cs - MonoWorks Project
 //
-//  Copyright (C) 2008 Andy Selvig
+//  Copyright (C) 2009 Andy Selvig
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -19,38 +19,21 @@
 using System;
 using System.Collections.Generic;
 
-using System.Windows;
-using swc = System.Windows.Controls;
-
-using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
-using MonoWorks.Plotting;
-using MonoWorks.GuiWpf;
 using MonoWorks.Rendering.Controls;
 
-namespace MonoWorks.PlottingDemoWpf
+namespace MonoWorks.Model.Viewport
 {
 	/// <summary>
-	/// Demo pane containing some controls.
+	/// Controller for a Model viewport.
 	/// </summary>
-	public class PaneControls : PaneBase
+	public class Controller : AbstractViewportController
 	{
-		public PaneControls()
-			: base()
+		public Controller(IViewport viewport)
+			: base(viewport)
 		{
-            ToolBar toolbar = new ToolBar();
-            toolbar.Position = new Coord(400, 400);
-            toolbar.Orientation = Orientation.Vertical;
-            viewport.RenderList.AddOverlay(toolbar);
-
-			Button button1 = new Button("Hello World");
-            toolbar.AppendChild(button1);
-
-            Button button2 = new Button("Button 2");
-            toolbar.AppendChild(button2);
-
-
-			DockViewport();
+			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
 		}
 
 	}

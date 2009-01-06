@@ -27,7 +27,7 @@ using MonoWorks.Plotting;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.PlotControls;
 
-namespace MonoWorks.PlottingDemoWpf
+namespace MonoWorks.DemoWpf
 {
 	/// <summary>
 	/// Contains the 3D portion of the plotting demo.
