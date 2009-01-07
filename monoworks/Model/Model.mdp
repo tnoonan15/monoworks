@@ -4,13 +4,13 @@
       <Output directory="bin/Debug" assembly="MonoWorks.Model" />
       <Build debugmode="True" target="Library" />
       <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="MonoWorks.Model" />
       <Build debugmode="False" target="Library" />
       <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
@@ -45,6 +45,8 @@
     <File name="Assembly.cs" subtype="Code" buildaction="Compile" />
     <File name="EntityManager.cs" subtype="Code" buildaction="Compile" />
     <File name="ISelectionListener.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport/Controller.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport/Viewport.ui" subtype="Code" buildaction="Nothing" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />
@@ -53,6 +55,7 @@
     <ProjectReference type="Project" localcopy="True" refto="Base" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
+    <ProjectReference type="Project" localcopy="True" refto="Framework" />
   </References>
   <GtkDesignInfo />
 </Project>
