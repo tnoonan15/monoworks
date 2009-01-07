@@ -19,10 +19,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Xml;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -88,9 +88,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <returns> </returns>
 		protected static StyleGroup LoadDefault()
 		{
-			Assembly asm = Assembly.GetExecutingAssembly();
-			Stream stream = asm.GetManifestResourceStream("DefaultStyles.xml");
-			XmlReader reader = new XmlTextReader(stream);
+			XmlReader reader = new XmlTextReader(ResourceHelper.GetStream("DefaultStyles.xml"));
 			return FromXml(reader);
 		}
 		

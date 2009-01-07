@@ -51,13 +51,20 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.Externals, Version=1.0.0.0, Culture=neutral">
+    <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Win32\Tao.Externals.dll</HintPath>
+      <HintPath>..\extbin\Win32\Tao.DevIl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.FreeType, Version=2.3.5.0, Culture=neutral, PublicKeyToken=e499629dc69cd531, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Win32\Tao.FreeType.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Win32\Tao.OpenGl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractInteractor.cs" />
     <Compile Include="Bounds.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Color.cs" />
@@ -69,7 +76,6 @@
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\ContextBar.cs" />
     <Compile Include="Controls\Control.cs" />
-    <Compile Include="Controls\AbstractViewportController.cs" />
     <Compile Include="Controls\StyleClass.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -78,7 +84,6 @@
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\Stack.cs" />
     <Compile Include="Controls\ToolBar.cs" />
-    <Compile Include="Controls\UiManager.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\MouseButtonEvent.cs" />
     <Compile Include="Events\MouseEvent.cs" />
@@ -86,8 +91,9 @@
     <Compile Include="HitLine.cs" />
     <Compile Include="IFill.cs" />
     <Compile Include="IMouseHandler.cs" />
-    <Compile Include="OverlayInteractor.cs" />
-    <Compile Include="RenderableInteractor.cs" />
+    <Compile Include="Interaction\AbstractInteractor.cs" />
+    <Compile Include="Interaction\OverlayInteractor.cs" />
+    <Compile Include="Interaction\RenderableInteractor.cs" />
     <Compile Include="IViewport.cs" />
     <Compile Include="Lighting.cs" />
     <Compile Include="Material.cs" />
@@ -101,6 +107,8 @@
     <Compile Include="TextDef.cs" />
     <Compile Include="TextRenderer.cs" />
     <Compile Include="Transform.cs" />
+    <Compile Include="Viewport\UiManager.cs" />
+    <Compile Include="Viewport\ViewportController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />
@@ -117,6 +125,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\DefaultStyles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\Viewport.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\icons\2d.png" />
+    <EmbeddedResource Include="Viewport\icons\3d.png" />
+    <EmbeddedResource Include="Viewport\icons\3dInteract.png" />
+    <EmbeddedResource Include="Viewport\icons\3dSelect.png" />
+    <EmbeddedResource Include="Viewport\icons\back-view.png" />
+    <EmbeddedResource Include="Viewport\icons\bottom-view.png" />
+    <EmbeddedResource Include="Viewport\icons\export.png" />
+    <EmbeddedResource Include="Viewport\icons\front-view.png" />
+    <EmbeddedResource Include="Viewport\icons\left-view.png" />
+    <EmbeddedResource Include="Viewport\icons\perspective.png" />
+    <EmbeddedResource Include="Viewport\icons\right-view.png" />
+    <EmbeddedResource Include="Viewport\icons\standard-view.png" />
+    <EmbeddedResource Include="Viewport\icons\top-view.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

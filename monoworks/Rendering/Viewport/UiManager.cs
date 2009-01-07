@@ -94,7 +94,17 @@ namespace MonoWorks.Rendering.Viewport
 
         protected override void CreateToolbarItem(ActionAttribute action)
         {
-			Button button = new Button(action.Name);
+			// try to get the icon
+			Image icon = null;
+			Button button;
+			if (action.IconName != null)
+			{
+				icon = new Image(ResourceHelper.GetStream(action.IconName + ".png"));
+				button = new Button(action.Name, icon);
+			}
+			else
+				button = new Button(action.Name);
+
 			currentToolbar.AppendChild(button);
 			button.Clicked += delegate(object sender, EventArgs args)
 			{
@@ -104,7 +114,11 @@ namespace MonoWorks.Rendering.Viewport
 		
 #endregion
 
-        protected override void CreateMenu(XmlReader reader)
+
+
+#region Not Used
+
+		protected override void CreateMenu(XmlReader reader)
         {
             throw new NotImplementedException();
         }
@@ -152,6 +166,9 @@ namespace MonoWorks.Rendering.Viewport
         protected override void CreateDocumentArea(XmlReader reader)
         {
             throw new NotImplementedException();
-        }
-    }
+		}
+
+#endregion
+
+	}
 }

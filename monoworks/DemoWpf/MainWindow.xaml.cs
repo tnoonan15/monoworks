@@ -23,7 +23,7 @@ namespace MonoWorks.DemoWpf
 			dockPanel.Children.Add(book);
 
 			// create the model tab
-			DocFrame docFrame = new DocFrame();
+			DrawingFrame docFrame = new DrawingFrame();
 			docFrame.Height = Double.NaN;
 			docFrame.Width = Double.NaN;
 			docFrame.Drawing = new TestPart();

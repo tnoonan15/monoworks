@@ -50,14 +50,19 @@ namespace MonoWorks.Framework
 		public static Stream GetStream(string name)
 		{
 			Assembly asm = Assembly.GetCallingAssembly();
-			try
-			{
+			string[] resNames = asm.GetManifestResourceNames();
+			if (Array.IndexOf(resNames, name) > -1) // exact match
 				return asm.GetManifestResourceStream(name);
-			}
-			catch (Exception)
+			else
 			{
-				throw new InvalidResourceException(name, asm);
+				// search for incomplete matches
+				foreach (string resName in resNames)
+				{
+					if (resName.EndsWith(name)) // incomplete match
+						return asm.GetManifestResourceStream(resName);
+				}
 			}
+			throw new InvalidResourceException(name, asm);
 		}
 
 	}

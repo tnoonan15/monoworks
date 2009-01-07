@@ -99,9 +99,17 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.Externals, Version=1.0.0.0, Culture=neutral">
+    <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Win32\Tao.Externals.dll</HintPath>
+      <HintPath>..\extbin\Win32\Tao.DevIl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.FreeType, Version=2.3.5.0, Culture=neutral, PublicKeyToken=e499629dc69cd531, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Win32\Tao.FreeType.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Win32\Tao.OpenGl.dll</HintPath>
     </Reference>
     <Reference Include="Tao.Platform.Windows, Version=1.0.0.4, Culture=neutral, PublicKeyToken=701104b2da67a104">
       <SpecificVersion>False</SpecificVersion>
@@ -119,8 +127,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlExtensions.cs" />
-    <Compile Include="DocFrame.xaml.cs">
-      <DependentUpon>DocFrame.xaml</DependentUpon>
+    <Compile Include="DrawingFrame.xaml.cs">
+      <DependentUpon>DrawingFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Framework\Controller.cs" />
     <Compile Include="Framework\DockableBase.cs" />
@@ -135,50 +143,24 @@
     <Compile Include="PlotControls\AxisControl.cs" />
     <Compile Include="PlotControls\PointPlotControl.cs" />
     <Compile Include="Tree\TreeView.cs" />
-    <Compile Include="Viewport\TooledViewport.cs" />
-    <Compile Include="Viewport\Viewport.cs">
+    <Compile Include="SwfViewport.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="ViewportWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DocFrame.xaml">
+    <Page Include="DrawingFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Viewport\Viewport.resx">
-      <DependentUpon>Viewport.cs</DependentUpon>
+    <EmbeddedResource Include="SwfViewport.resx">
+      <DependentUpon>SwfViewport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Viewport\icons\back-view.png" />
-    <EmbeddedResource Include="Viewport\icons\bottom-view.png" />
-    <EmbeddedResource Include="Viewport\icons\flat.png" />
-    <EmbeddedResource Include="Viewport\icons\front-view.png" />
-    <EmbeddedResource Include="Viewport\icons\left-view.png" />
-    <EmbeddedResource Include="Viewport\icons\right-view.png" />
-    <EmbeddedResource Include="Viewport\icons\smooth.png" />
-    <EmbeddedResource Include="Viewport\icons\standard-view.png" />
-    <EmbeddedResource Include="Viewport\icons\top-view.png" />
-    <EmbeddedResource Include="Viewport\icons\wireframe.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Viewport\icons\perspective.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Viewport\icons\2d.png" />
-    <EmbeddedResource Include="Viewport\icons\3d.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Viewport\icons\3dInteract.png" />
-    <EmbeddedResource Include="Viewport\icons\3dSelect.png" />
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y "$(TargetPath)" "%25HOMEDRIVE%25%25HOMEPATH%25\clr\"</PostBuildEvent>
   </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Viewport\icons\export.png" />
-  </ItemGroup>
 </Project>

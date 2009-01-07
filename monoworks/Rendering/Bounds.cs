@@ -491,6 +491,9 @@ namespace MonoWorks.Rendering
 		/// <returns> True if the entity was hit. </returns>
 		public virtual bool HitTest(HitLine hitLine)
 		{
+			if (!isSet)
+				return false;
+
 			Vector Hit;
 			
 			// check if the line lies entirely outside the box

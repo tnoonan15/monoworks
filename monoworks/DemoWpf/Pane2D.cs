@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Interaction;
 using MonoWorks.Plotting;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.PlotControls;
@@ -45,9 +46,7 @@ namespace MonoWorks.DemoWpf
 			viewport.RenderList.AddRenderable(axes);
 			viewport.Camera.Projection = Projection.Parallel;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
-			viewport.RenderableInteractor.State = InteractionState.Interact2D;
-
-			tooledViewport.UpdateToolbar();
+			viewport.InteractionState = InteractionState.Interact2D;
 
 			DockViewport();
 		}

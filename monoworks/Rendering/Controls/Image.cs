@@ -17,9 +17,11 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.IO;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+
 using gl=Tao.OpenGl.Gl;
 using il=Tao.DevIl.Il;
 using ilu=Tao.DevIl.Ilu;
@@ -32,6 +34,21 @@ namespace MonoWorks.Rendering.Controls
 	/// </summary>
 	public class Image : Control
 	{
+		/// <summary>
+		/// Loads an image from a stream.
+		/// </summary>
+		/// <param name="stream"></param>
+		public Image(Stream stream)
+			: base()
+		{
+			if (!ilInitialized)
+			{
+				il.ilInit();
+				ilInitialized = true;
+			}
+
+			LoadStream(stream);
+		}
 
 		/// <summary>
 		/// Loads an image from a file.
@@ -59,11 +76,35 @@ namespace MonoWorks.Rendering.Controls
 		protected int ilId;
 
 		/// <summary>
+		/// Loads an image from the stream.
+		/// </summary>
+		/// <param name="stream"></param>
+		/// <remarks>Writes it to a temporary file first, 
+		/// then reads it with LoadFile(). Kinda hackish 
+		/// but I can't figure out how to convince DevIL
+		/// to load it directly from the stream.</remarks>
+		public void LoadStream(Stream stream)
+		{
+			// read the data
+			int N = (int)stream.Length;
+			byte[] data = new byte[N];
+			stream.Read(data, 0, N);
+
+			// write to a file
+			string fileName = Path.GetTempPath() + "temp.png";
+			FileStream fileStream = new FileStream(fileName, FileMode.Create);
+			fileStream.Write(data, 0, N);
+			fileStream.Close();
+
+			// load the file
+			LoadFile(fileName);
+		}
+
+		/// <summary>
 		/// Loads a file image.
 		/// </summary>
 		public void LoadFile(string fileName)
 		{
-//			il.ilInit();
 			il.ilGenImages(1, out ilId);
             il.ilBindImage(ilId);
             il.ilLoadImage(fileName);
@@ -93,15 +134,12 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.RenderOverlay(viewport);
 
-//			gl.glDisable(gl.GL_DEPTH_TEST);
-
 			gl.glRasterPos3d(position.X, position.Y + imageSize.Y, 0);
-			gl.glPixelZoom(1f, -1f);
+			gl.glPixelZoom(1f, -1f); // need to flip the image rightside up
 			
             il.ilBindImage(ilId);
 			gl.glDrawPixels((int)imageSize.X, (int)imageSize.Y, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, il.ilGetData());
 
-//			gl.glEnable(gl.GL_DEPTH_TEST);
 		}
 
 		
