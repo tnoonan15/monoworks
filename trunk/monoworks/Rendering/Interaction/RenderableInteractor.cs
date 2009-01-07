@@ -22,21 +22,12 @@ using System.Collections.Generic;
 using MonoWorks.Base;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Rendering
+namespace MonoWorks.Rendering.Interaction
 {
-	/// <summary>
-	/// The interaction modes.
-	/// </summary>
-	public enum InteractionState {View3D, Interact3D, Interact2D};
-	
-	/// <summary>
-	/// Possible user interaction types.
-	/// </summary>
-	public enum InteractionType {None, Select, Rotate, Pan, Dolly, Zoom};
 
 	
 	/// <summary>
-	/// Base class for mouse interaction state.
+	/// Base class for mouse interaction viewport.InteractionState.
 	/// </summary>
 	public class RenderableInteractor : AbstractInteractor
 	{
@@ -52,16 +43,7 @@ namespace MonoWorks.Rendering
 			ConnectMouseType(InteractionType.Pan, 3);
 			ConnectMouseType(InteractionType.Dolly, 3, InteractionModifier.Shift);
 		}
-		
-		protected InteractionState state = InteractionState.View3D;
-		/// <value>
-		/// The current interaction state.
-		/// </value>
-		public InteractionState State
-		{
-			get {return state;}
-			set {state = value;}
-		}
+
 
 
 
@@ -129,9 +111,9 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-                if (state != InteractionState.View3D && mouseType == InteractionType.Rotate)
+                if (viewport.InteractionState != InteractionState.View3D && mouseType == InteractionType.Rotate)
                     return InteractionType.Select;
-                else if (state == InteractionState.Interact2D && mouseType == InteractionType.Dolly)
+                else if (viewport.InteractionState == InteractionState.Interact2D && mouseType == InteractionType.Dolly)
                     return InteractionType.Zoom;
                 else
 					return mouseType;

@@ -15,12 +15,9 @@
   </Configurations>
   <Contents>
     <File name="." subtype="Directory" buildaction="Compile" />
-    <File name="Viewport" subtype="Directory" buildaction="Compile" />
-    <File name="Viewport/Viewport.cs" subtype="Code" buildaction="Compile" />
     <File name="DrawingFrame.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree" subtype="Directory" buildaction="Compile" />
     <File name="Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport/TooledViewport.cs" subtype="Code" buildaction="Compile" />
     <File name="PlotControls/PlotPane.cs" subtype="Code" buildaction="Compile" />
     <File name="PlotControls/PointPlotPane.cs" subtype="Code" buildaction="Compile" />
     <File name="../Resources/icons22/back-view.png" subtype="Code" buildaction="EmbedAsResource" />
@@ -36,9 +33,7 @@
     <File name="../Resources/icons22/standard-view.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="../Resources/icons22/top-view.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="../Resources/icons22/wireframe.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/Cad.ui" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/Plotting.ui" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="../Resources/icons22/2d.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../Resources/icons22/2d.png" subtype="Code" buildaction="EmbedAsResource" resource_id="2d.png" />
     <File name="../Resources/icons22/3dInteract.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="../Resources/icons22/3dSelect.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Framework/Controller.cs" subtype="Code" buildaction="Compile" />
@@ -83,6 +78,7 @@
     <File name="Framework/ToolArea/icons/HHandle.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Framework/ToolArea/icons/SlateHandles.svg" subtype="Code" buildaction="Nothing" />
     <File name="Framework/ToolArea/icons/VHandle.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Viewport.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

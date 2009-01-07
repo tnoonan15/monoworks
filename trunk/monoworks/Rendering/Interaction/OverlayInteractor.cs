@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Base;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Rendering
+namespace MonoWorks.Rendering.Interaction
 {
 	/// <summary>
 	/// Handles overlay interaction from the viewport.

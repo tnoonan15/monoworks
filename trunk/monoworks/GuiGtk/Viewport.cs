@@ -27,6 +27,7 @@ using GtkGL;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.GuiGtk
 {
@@ -114,6 +115,16 @@ namespace MonoWorks.GuiGtk
 		public Lighting Lighting
 		{
 			get {return lighting;}
+		}
+		
+		private InteractionState interactionState = InteractionState.View3D;
+		//// <value>
+		/// The current interaction state.
+		/// </value>
+		public InteractionState InteractionState
+		{
+			get {return interactionState;}
+			set {interactionState = value;}
 		}
 		
 		
@@ -212,7 +223,7 @@ namespace MonoWorks.GuiGtk
 			// look for the double-click reset
 			if (args.Event.Type == Gdk.EventType.TwoButtonPress && args.Event.Button == 1)
 			{
-				if (renderableInteractor.State == InteractionState.Interact2D)
+				if (interactionState == InteractionState.Interact2D)
 					camera.SetViewDirection(ViewDirection.Front);
 				else
 					camera.SetViewDirection(ViewDirection.Standard);
@@ -222,7 +233,7 @@ namespace MonoWorks.GuiGtk
 				MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
 				                                            (int)args.Event.Button, GetModifier(args.Event.State));
 				overlayInteractor.OnButtonPress(evt);
-				if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
+				if (PrimaryInteractor != null && !evt.Handled && interactionState != InteractionState.View3D)
 					PrimaryInteractor.OnButtonPress(evt);
 				if (!evt.Handled) // the overlays didn't handle the event
 					renderableInteractor.OnButtonPress(evt);
@@ -236,7 +247,7 @@ namespace MonoWorks.GuiGtk
 			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
 			                                      (int)args.Event.Button, GetModifier(args.Event.State));
 			overlayInteractor.OnButtonRelease(evt);
-			if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
+			if (PrimaryInteractor != null && !evt.Handled && interactionState != InteractionState.View3D)
 				PrimaryInteractor.OnButtonRelease(evt);
 			if (!evt.Handled) // the overlays didn't handle the event
 				renderableInteractor.OnButtonRelease(evt);
@@ -247,7 +258,7 @@ namespace MonoWorks.GuiGtk
 		{			
 			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
 			overlayInteractor.OnMouseMotion(evt);
-			if (PrimaryInteractor != null && !evt.Handled && renderableInteractor.State != InteractionState.View3D)
+			if (PrimaryInteractor != null && !evt.Handled && interactionState != InteractionState.View3D)
 				PrimaryInteractor.OnMouseMotion(evt);
 			if (!evt.Handled) // the overlays didn't handle the event
 				renderableInteractor.OnMouseMotion(evt);

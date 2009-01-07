@@ -18,11 +18,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 using MonoWorks.Base;
 using MonoWorks.Framework;
+using MonoWorks.Rendering.Controls;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Rendering.Viewport
 {
     /// <summary>
     /// Provides a UI manager implementation for a viewport using Rendering.Controls.
@@ -32,17 +34,23 @@ namespace MonoWorks.Rendering.Controls
 
         public UiManager(ViewportController controller)
             : base(controller)
-        {
-
+        {	
+			this.controller = controller;
         }
 
+		protected ViewportController controller;
 
         protected override UiMode Mode
         {
-            get { throw new NotImplementedException(); }
+			get
+			{
+				if (currentToolbar != null)
+					return UiMode.Toolbar;
+				return UiMode.None;
+			}
         }
 
-        protected override void EndElement(System.Xml.XmlReader reader)
+        protected override void EndElement(XmlReader reader)
         {
 			
 			
@@ -60,17 +68,43 @@ namespace MonoWorks.Rendering.Controls
             }
         }
 
-        protected override void CreateToolbar(System.Xml.XmlReader reader)
+		
+#region Toolbars
+		
+		protected Dictionary<string, ToolBar> toolbars = new Dictionary<string, ToolBar>();
+		
+		protected ToolBar currentToolbar = null;
+		
+		/// <summary>
+		/// Gets the toolbar of the given name.
+		/// </summary>
+		public ToolBar GetToolbar(string name)
+		{
+			if (!toolbars.ContainsKey(name))
+				throw new Exception("There is no toolbar named " + name);
+			return toolbars[name];
+		}
+		
+        protected override void CreateToolbar(XmlReader reader)
         {
-            throw new NotImplementedException();
+			string name = GetName(reader);
+			currentToolbar = new ToolBar();
+			toolbars[name] = currentToolbar;
         }
 
         protected override void CreateToolbarItem(ActionAttribute action)
         {
-            throw new NotImplementedException();
+			Button button = new Button(action.Name);
+			currentToolbar.AppendChild(button);
+			button.Clicked += delegate(object sender, EventArgs args)
+			{
+				action.MethodInfo.Invoke(controller, null);
+			};
         }
+		
+#endregion
 
-        protected override void CreateMenu(System.Xml.XmlReader reader)
+        protected override void CreateMenu(XmlReader reader)
         {
             throw new NotImplementedException();
         }
@@ -80,12 +114,12 @@ namespace MonoWorks.Rendering.Controls
             throw new NotImplementedException();
         }
 
-        protected override void CreateToolBox(System.Xml.XmlReader reader)
+        protected override void CreateToolBox(XmlReader reader)
         {
             throw new NotImplementedException();
         }
 
-        protected override void CreateToolShelf(System.Xml.XmlReader reader)
+        protected override void CreateToolShelf(XmlReader reader)
         {
             throw new NotImplementedException();
         }
@@ -100,22 +134,22 @@ namespace MonoWorks.Rendering.Controls
             throw new NotImplementedException();
         }
 
-        protected override void CreateDockableSizer(System.Xml.XmlReader reader)
+        protected override void CreateDockableSizer(XmlReader reader)
         {
             throw new NotImplementedException();
         }
 
-        protected override void CreateDockableBook(System.Xml.XmlReader reader)
+        protected override void CreateDockableBook(XmlReader reader)
         {
             throw new NotImplementedException();
         }
 
-        protected override void CreateDockable(System.Xml.XmlReader reader)
+        protected override void CreateDockable(XmlReader reader)
         {
             throw new NotImplementedException();
         }
 
-        protected override void CreateDocumentArea(System.Xml.XmlReader reader)
+        protected override void CreateDocumentArea(XmlReader reader)
         {
             throw new NotImplementedException();
         }

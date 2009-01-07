@@ -289,6 +289,7 @@ namespace MonoWorks.Rendering.Controls
 			if (HitTest(evt.Pos))
 			{
 				ToggleSelection();
+				evt.Handle();
 				if (Clicked != null)
 					Clicked(this, new EventArgs());
 			}

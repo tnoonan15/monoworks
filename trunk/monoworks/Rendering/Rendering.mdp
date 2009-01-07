@@ -41,10 +41,7 @@
     <File name="Controls/ToolBar.cs" subtype="Code" buildaction="Compile" />
     <File name="Renderable3D.cs" subtype="Code" buildaction="Compile" />
     <File name="Overlay.cs" subtype="Code" buildaction="Compile" />
-    <File name="OverlayInteractor.cs" subtype="Code" buildaction="Compile" />
-    <File name="RenderableInteractor.cs" subtype="Code" buildaction="Compile" />
     <File name="RenderList.cs" subtype="Code" buildaction="Compile" />
-    <File name="AbstractInteractor.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/StyleClass.cs" subtype="Code" buildaction="Compile" />
     <File name="Events" subtype="Directory" buildaction="Compile" />
     <File name="Events/Event.cs" subtype="Code" buildaction="Compile" />
@@ -59,9 +56,14 @@
     <File name="Controls/Anchor.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/ContextBar.cs" subtype="Code" buildaction="Compile" />
     <File name="Controls/Bin.cs" subtype="Code" buildaction="Compile" />
-    <File name="Controls/AbstractViewportController.cs" subtype="Code" buildaction="Compile" />
-    <File name="Controls/UiManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="Controls/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Interaction" subtype="Directory" buildaction="Compile" />
+    <File name="Interaction/AbstractInteractor.cs" subtype="Code" buildaction="Compile" />
+    <File name="Interaction/OverlayInteractor.cs" subtype="Code" buildaction="Compile" />
+    <File name="Interaction/RenderableInteractor.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport" subtype="Directory" buildaction="Compile" />
+    <File name="Viewport/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Viewport/ViewportController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport/UiManager.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
