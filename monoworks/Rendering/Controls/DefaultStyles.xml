@@ -1,6 +1,6 @@
 <StyleGroup name="Default">
 
-	<StyleClass name="grad-hori">
+	<StyleClass name="toolbar">
 		<Background hitState="None">
 			<FillGradient start="Control Grad Dark" stop="Control Grad Light" direction="E2W"/>
 		</Background>
@@ -17,10 +17,10 @@
 	
 	<StyleClass name="tool">
 		<Background hitState="Hovering">
-			<FillGradient start="Control Grad Light" stop="White" direction="E2W"/>
+			<FillGradient start="Control Grad Light" stop="Control White" direction="E2W"/>
 		</Background>
 		<Background hitState="Selected">
-			<FillGradient start="Control Hovering" stop="Light Gray" direction="E2W"/>
+			<FillGradient start="Control Hovering" stop="Control Grad Light" direction="E2W"/>
 		</Background>
 		<Foreground hitState="Hovering">
 			<Color name="Dark Gray"/>

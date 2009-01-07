@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UI>
+  
+	<Actions>
+		<Action name="Standard View" icon="standard-view" tooltip="Standard 3D view"/>
+		<Action name="Front View" icon="front-view" tooltip="Front view"/>
+		<Action name="Back View" icon="back-view" tooltip="Back view"/>
+		<Action name="Left View" icon="left-view" tooltip="Left view"/>
+		<Action name="Right View" icon="right-view" tooltip="Right view"/>
+		<Action name="Top View" icon="top-view" tooltip="Top view"/>
+		<Action name="Bottom View" icon="bottom-view" tooltip="Bottom view"/>
+		
+	</Actions>
+  
+	<Tools>
+	
+		<Toolbar name="PlotView" >
+			<Item action="Standard View"/>
+			<Item action="Front View"/>
+			<Item action="Left View"/>
+			<Item action="Top View"/>
+		</Toolbar>
+		<Toolbar name="CadView" >
+			<Item action="Standard View"/>
+			<Item action="Front View"/>
+			<Item action="Back View"/>
+			<Item action="Left View"/>
+			<Item action="Right View"/>
+			<Item action="Top View"/>
+			<Item action="Bottom View"/>
+		</Toolbar>
+		
+	</Tools>
+</UI>

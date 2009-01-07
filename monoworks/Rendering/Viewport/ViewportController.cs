@@ -21,8 +21,10 @@ using System.Collections.Generic;
 
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Controls;
 
-namespace MonoWorks.Rendering.Controls
+
+namespace MonoWorks.Rendering.Viewport
 {
     /// <summary>
     /// Implements a Framework controller for a viewport.
@@ -39,6 +41,13 @@ namespace MonoWorks.Rendering.Controls
 			this.viewport = viewport;
 			UiManager = new UiManager(this);
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
+			
+			// add the view toolbar
+			ToolBar viewBar = UiManager.GetToolbar("CadView");
+			Anchor anchor = new Anchor(viewBar);
+			anchor.Location = AnchorLocation.N;
+			viewport.RenderList.AddOverlay(anchor);
+			
         }
 
         protected IViewport viewport;
@@ -47,5 +56,60 @@ namespace MonoWorks.Rendering.Controls
 		/// The UiManager used by this controller.
 		/// </summary>
 		public UiManager UiManager { get; set; }
+		
+		
+#region View Actions
+		
+		[Action("Standard View")]
+		public void OnStandardView()
+		{
+			Console.WriteLine("standard");
+			viewport.Camera.SetViewDirection(ViewDirection.Standard);
+		}
+		
+		[Action("Front View")]
+		public void OnFrontView()
+		{
+			Console.WriteLine("front");
+			viewport.Camera.SetViewDirection(ViewDirection.Front);
+		}
+		
+		[Action("Back View")]
+		public void OnBackView()
+		{
+			Console.WriteLine("back");
+			viewport.Camera.SetViewDirection(ViewDirection.Back);
+		}
+		
+		[Action("Left View")]
+		public void OnLeftView()
+		{
+			Console.WriteLine("left");
+			viewport.Camera.SetViewDirection(ViewDirection.Left);
+		}
+		
+		[Action("Right View")]
+		public void OnRightView()
+		{
+			Console.WriteLine("right");
+			viewport.Camera.SetViewDirection(ViewDirection.Right);
+		}
+		
+		[Action("Top View")]
+		public void OnTopView()
+		{
+			Console.WriteLine("top");
+			viewport.Camera.SetViewDirection(ViewDirection.Top);
+		}
+		
+		[Action("Bottom View")]
+		public void OnBottomView()
+		{
+			Console.WriteLine("bottom");
+			viewport.Camera.SetViewDirection(ViewDirection.Bottom);
+		}
+		
+#endregion
+		
     }
 }

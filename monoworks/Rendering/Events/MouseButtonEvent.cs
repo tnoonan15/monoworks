@@ -19,6 +19,7 @@
 using System;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.Rendering.Events
 {

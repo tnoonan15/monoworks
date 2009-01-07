@@ -23,7 +23,7 @@ using MonoWorks.Plotting;
 using MonoWorks.GuiGtk;
 using MonoWorks.Model;
 
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.DemoGtk
 {
 	
 	/// <summary>
@@ -36,7 +36,7 @@ namespace MonoWorks.PlottingDemoGtk
 		/// </summary>
 		public MainWindow() : base(Gtk.WindowType.Toplevel)
 		{
-			Title = "MonoWorks Plotting Demo";
+			Title = "MonoWorks Demo";
 			
 			DeleteEvent += OnDeleteEvent;
 			

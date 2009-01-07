@@ -21,6 +21,7 @@ using System.Collections.Generic;
 
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.Model.Interaction
 {

@@ -33,7 +33,8 @@ namespace MonoWorks.Rendering.Controls
 		
 		public ToolBar() : base()
 		{
-			
+			StyleClassName = "toolbar";
+			ToolStyle = "tool";
 		}
 		
 		

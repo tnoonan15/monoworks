@@ -18,9 +18,9 @@
 
 using System;
 
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.DemoGtk
 {	
-	public class PlottingMain
+	public class DemoMain
 	{
 		
 		public static void Main()

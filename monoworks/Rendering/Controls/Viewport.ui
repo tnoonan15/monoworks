@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<UI>
-  
-	<Actions>
-		<Action name="Standard View" icon="standard-view" tooltip="Standard 3D view"/>
-		
-	</Actions>
-  
-</UI>

@@ -23,10 +23,11 @@ using System.IO;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
+using MonoWorks.Rendering.Interaction;
 using MonoWorks.GuiGtk;
 using MonoWorks.GuiGtk.Framework;
 
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.DemoGtk
 {
 	
 	/// <summary>
@@ -38,15 +39,12 @@ namespace MonoWorks.PlottingDemoGtk
 		public PaneControls() : base()
 		{
 			// add the viewport
-			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
-			PackEnd(tooledViewport);
-
-			Viewport viewport = tooledViewport.Viewport;
+//			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
+			Viewport viewport = new Viewport();
+			PackEnd(viewport);
 			
 			ToolBar toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
-			toolbar.StyleClassName = "grad-hori";
-			toolbar.ToolStyle = "tool";
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 
 			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";

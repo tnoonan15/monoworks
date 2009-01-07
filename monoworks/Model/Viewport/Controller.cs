@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Rendering.Viewport;
 
 namespace MonoWorks.Model.Viewport
 {

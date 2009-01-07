@@ -81,19 +81,24 @@ namespace MonoWorks.Rendering
 		RenderManager RenderManager { get; }
 		
 		/// <value>
+		/// The current interaction state of the viewport.
+		/// </value>
+		Interaction.InteractionState InteractionState {get; set;}
+		
+		/// <value>
 		/// Interactor that gets to handle events before the renderables.
 		/// </value>
-		AbstractInteractor PrimaryInteractor {get; set;}
+		Interaction.AbstractInteractor PrimaryInteractor {get; set;}
 		
 		/// <value>
 		/// The renderable interactor.
 		/// </value>
-		RenderableInteractor RenderableInteractor { get; }
+		Interaction.RenderableInteractor RenderableInteractor { get; }
 
 		/// <value>
 		/// The overlay interactor.
 		/// </value>
-		OverlayInteractor OverlayInteractor { get; }
+		Interaction.OverlayInteractor OverlayInteractor { get; }
 		
 		/// <value>
 		/// The lighting effects for the viewport.

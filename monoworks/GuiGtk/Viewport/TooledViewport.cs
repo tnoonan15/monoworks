@@ -22,6 +22,7 @@ using MonoWorks.Rendering;
 using System.Reflection;
 using System.Resources;
 
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.GuiGtk
 {

@@ -19,10 +19,11 @@
 using System;
 
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Interaction;
 using MonoWorks.Plotting;
 using MonoWorks.GuiGtk;
 
-namespace MonoWorks.PlottingDemoGtk
+namespace MonoWorks.DemoGtk
 {
 	
 	/// <summary>
@@ -34,15 +35,15 @@ namespace MonoWorks.PlottingDemoGtk
 		public Pane2D()
 		{			
 			// add the viewport
-			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
-			PackEnd(tooledViewport);
-			viewport = tooledViewport.Viewport;
+//			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
+			Viewport = new Viewport();
+			PackEnd(Viewport);
 			TestAxes2D axes = new TestAxes2D();
-			viewport.RenderList.AddRenderable(axes);
+			Viewport.RenderList.AddRenderable(axes);
 			
-			viewport.Camera.Projection = Projection.Parallel;
-			viewport.RenderableInteractor.State = InteractionState.Interact2D;
-			viewport.Camera.SetViewDirection(ViewDirection.Front);
+			Viewport.Camera.Projection = Projection.Parallel;
+			Viewport.InteractionState = InteractionState.Interact2D;
+			Viewport.Camera.SetViewDirection(ViewDirection.Front);
 			
 			
 			// add the control pane
@@ -54,14 +55,14 @@ namespace MonoWorks.PlottingDemoGtk
 		/// <summary>
 		/// The viewport.
 		/// </summary>
-		protected Viewport viewport;
+		protected Viewport Viewport {get; private set;}
 		
 		/// <summary>
 		/// Handler for state changed events from the control pane.
 		/// </summary>
 		protected void OnControlChanged()
 		{
-			viewport.PaintGL();
+			Viewport.PaintGL();
 		}
 	}
 }

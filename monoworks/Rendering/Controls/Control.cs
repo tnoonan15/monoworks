@@ -275,6 +275,7 @@ namespace MonoWorks.Rendering.Controls
 			if (fg != null)
 			{
 				fg.Setup();
+				gl.glLineWidth(1f);
 				gl.glBegin(gl.GL_LINE_LOOP);
 				position.glVertex();
 				(position + new Coord(Width,0)).glVertex();
