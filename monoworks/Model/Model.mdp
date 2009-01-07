@@ -46,7 +46,7 @@
     <File name="EntityManager.cs" subtype="Code" buildaction="Compile" />
     <File name="ISelectionListener.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport/Controller.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport/Viewport.ui" subtype="Code" buildaction="Nothing" />
+    <File name="Viewport/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />

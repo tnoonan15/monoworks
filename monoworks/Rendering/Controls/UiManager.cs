@@ -1,4 +1,4 @@
-﻿// UiManager.cs - MonoWorks Project
+// UiManager.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -30,7 +30,7 @@ namespace MonoWorks.Rendering.Controls
     public class UiManager : UiManagerBase
     {
 
-        public UiManager(AbstractViewportController controller)
+        public UiManager(ViewportController controller)
             : base(controller)
         {
 
@@ -44,7 +44,8 @@ namespace MonoWorks.Rendering.Controls
 
         protected override void EndElement(System.Xml.XmlReader reader)
         {
-            throw new NotImplementedException();
+			
+			
         }
 
         protected override bool CreateToolsMenu
