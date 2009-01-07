@@ -1,4 +1,4 @@
-﻿// Controller.cs - MonoWorks Project
+// ViewportController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -27,17 +27,18 @@ namespace MonoWorks.Rendering.Controls
     /// <summary>
     /// Implements a Framework controller for a viewport.
     /// </summary>
-    public class AbstractViewportController : AbstractController
+    public class ViewportController : AbstractController
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="viewport">The viewport that this controller controls.</param>
-        public AbstractViewportController(IViewport viewport)
+        public ViewportController(IViewport viewport)
             : base()
         {
 			this.viewport = viewport;
 			UiManager = new UiManager(this);
+			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
         }
 
         protected IViewport viewport;

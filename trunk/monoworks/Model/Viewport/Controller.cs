@@ -1,4 +1,4 @@
-﻿// Controller.cs - MonoWorks Project
+// Controller.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -28,12 +28,12 @@ namespace MonoWorks.Model.Viewport
 	/// <summary>
 	/// Controller for a Model viewport.
 	/// </summary>
-	public class Controller : AbstractViewportController
+	public class Controller : ViewportController
 	{
 		public Controller(IViewport viewport)
 			: base(viewport)
 		{
-			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
+//			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
 		}
 
 	}

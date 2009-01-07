@@ -18,7 +18,10 @@
 using System;
 
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Controls;
 using MonoWorks.Model;
+using MonoWorks.Model.Viewport;
+
 
 namespace MonoWorks.GuiGtk
 {
@@ -36,8 +39,10 @@ namespace MonoWorks.GuiGtk
 			Add1(treeView);
 			
 			// create the viewport			
-			viewport = new TooledViewport();
-			Add2(viewport);
+			Viewport = new Viewport();
+			Add2(Viewport);
+			
+			Controller = new Controller(Viewport);
 		}
 		
 		
@@ -64,15 +69,13 @@ namespace MonoWorks.GuiGtk
 			}
 		}
 
-		protected TooledViewport viewport;
 		/// <value>
 		/// The viewport.
 		/// </value>
-		public Viewport Viewport
-		{
-			get {return viewport.Viewport;}
-		}
+		public Viewport Viewport {get; private set;}
 		
+		
+		public Controller Controller {get; private set;}
 		
 		protected TreeView treeView;
 		/// <value>
