@@ -1,7 +1,8 @@
-﻿<UserControl x:Class="MonoWorks.GuiWpf.DocFrame"
+﻿<UserControl x:Class="MonoWorks.GuiWpf.DrawingFrame"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:t="clr-namespace:MonoWorks.GuiWpf.Tree"
+    xmlns:mwg="clr-namespace:MonoWorks.GuiWpf"
     Height="300" Width="300">
     <Grid x:Name="theGrid">
         <Grid.ColumnDefinitions>
@@ -11,6 +12,6 @@
         </Grid.ColumnDefinitions>
         <t:TreeView Grid.Column="0"></t:TreeView>
         <GridSplitter x:Name="splitter" Grid.Column="1" HorizontalAlignment="Stretch" />
-        <Frame x:Name="viewportFrame" Grid.Column="2"></Frame>
+        <mwg:ViewportWrapper x:Name="viewportWrapper" Grid.Column="2"/>
     </Grid>
 </UserControl>

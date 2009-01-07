@@ -1,4 +1,4 @@
-﻿// Viewport.cs - MonoWorks Project
+﻿// SwfViewport.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -27,6 +27,7 @@ using Tao.Platform.Windows;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.GuiWpf
 {
@@ -34,9 +35,9 @@ namespace MonoWorks.GuiWpf
 	/// <summary>
 	/// Viewport for WPF.
 	/// </summary>
-	public class Viewport : SimpleOpenGlControl, IViewport
+	public class SwfViewport : SimpleOpenGlControl, IViewport
 	{
-		public Viewport()
+		public SwfViewport()
 			: base()
 		{
 			InitializeContexts();
@@ -179,6 +180,8 @@ namespace MonoWorks.GuiWpf
 
 #region Mouse Interaction
 
+		public InteractionState InteractionState { get; set; }
+
         public AbstractInteractor PrimaryInteractor { get; set; }
 
 		protected RenderableInteractor renderableInteractor;
@@ -283,7 +286,7 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseDoubleClick(e);
 
-			if (renderableInteractor.State == InteractionState.Interact2D)
+			if (InteractionState == InteractionState.Interact2D)
 				camera.SetViewDirection(ViewDirection.Front);
 			else
 				camera.SetViewDirection(ViewDirection.Standard);

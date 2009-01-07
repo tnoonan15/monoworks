@@ -50,14 +50,17 @@ namespace MonoWorks.DemoWpf
 
 
 			// create the viewport
-			tooledViewport = new TooledViewport(ViewportUsage.Plotting);
-			viewport = tooledViewport.Viewport;
+			viewportWrapper = new ViewportWrapper();
+			viewportWrapper.Width = Double.NaN;
+			viewportWrapper.Height = Double.NaN;
+			viewport = viewportWrapper.Viewport;
 		}
 
 		protected void DockViewport()
 		{
-			this.AddAt(tooledViewport, 0, 1);
-			swc.Grid.SetRowSpan(tooledViewport, 2);
+			this.AddAt(viewportWrapper, 0, 1);
+			swc.Grid.SetRowSpan(viewportWrapper, 2);
+			viewport.ResizeGL();
 		}
 
 		/// <summary>
@@ -68,8 +71,9 @@ namespace MonoWorks.DemoWpf
 			viewport.PaintGL();
 		}
 
-		protected Viewport viewport;
+		private ViewportWrapper viewportWrapper;
 
-		protected TooledViewport tooledViewport;
+		protected IViewport viewport;
+
 	}
 }

@@ -143,6 +143,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(SolutionDir)extbin\FreeSans.ttf" "$(TargetDir)"
 copy "$(SolutionDir)extbin\Win32\freetype6.dll" "$(TargetDir)"
-copy "$(SolutionDir)extbin\Win32\zlib1.dll" "$(TargetDir)"</PostBuildEvent>
+copy "$(SolutionDir)extbin\Win32\zlib1.dll" "$(TargetDir)"
+copy "$(SolutionDir)extbin\Win32\DevIL.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
