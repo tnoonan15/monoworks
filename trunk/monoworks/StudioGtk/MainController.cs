@@ -42,7 +42,7 @@ namespace MonoWorks.StudioGtk
 			ResourceManager.Initialize("../../../Resources");
 			
 			uiManager = new UiManager(this);
-			uiManager.Load("../../../Resources/Scope.ui");
+			uiManager.LoadFile("../../../Resources/Scope.ui");
 		}
 
 		/// <summary>

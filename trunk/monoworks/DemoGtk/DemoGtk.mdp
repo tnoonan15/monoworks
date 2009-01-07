@@ -1,20 +1,20 @@
-<Project name="PlottingDemoGtk" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.PlottingDemoGtk" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
+<Project name="DemoGtk" fileversion="2.0" language="C#" DefaultNamespace="MonoWorks.DemoGtk" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <CustomCommands>
         <Command type="AfterBuild" command="cp extbin/FreeSans.ttf ${TargetDir}" workingdir="${SolutionDir}" />
       </CustomCommands>
-      <Output directory="bin/Debug" assemblyKeyFile="." assembly="MonoWorks.PlottingDemoGtk" />
+      <Output directory="bin/Debug" assemblyKeyFile="." assembly="MonoWorks.DemoGtk" />
       <Build debugmode="True" target="Exe" />
       <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <EnvironmentVariables />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" definesymbols="DEBUG" generatexmldocumentation="False" win32Icon="/home/andy/Mono/MonoWorks/PlottingDemoGtk/." ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" win32Icon="/home/andy/Mono/MonoWorks/PlottingDemoGtk/." ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="PlottingDemoGtk" />
       <Build debugmode="False" target="Exe" />
       <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" win32Icon="/home/andy/Mono/MonoWorks/PlottingDemoGtk/." ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" win32Icon="/home/andy/Mono/MonoWorks/PlottingDemoGtk/." ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
@@ -37,6 +37,8 @@
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.FreeType.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />
     <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="../extbin/Linux/Tao.DevIl.dll" />
+    <ProjectReference type="Project" localcopy="True" refto="Framework" />
+    <ProjectReference type="Project" localcopy="True" refto="Model" />
   </References>
   <GtkDesignInfo />
 </Project>

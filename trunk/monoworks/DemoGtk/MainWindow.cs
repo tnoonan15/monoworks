@@ -18,14 +18,16 @@
 
 using System;
 
-using MonoWorks.Model;
+using MonoWorks.Rendering;
+using MonoWorks.Plotting;
 using MonoWorks.GuiGtk;
+using MonoWorks.Model;
 
-namespace MonoWorks.ViewerGtk
+namespace MonoWorks.PlottingDemoGtk
 {
 	
 	/// <summary>
-	/// The main window the Gtk viewer.
+	/// Main window for the Gtk port of the plotting demo.
 	/// </summary>
 	public class MainWindow : Gtk.Window
 	{
@@ -34,28 +36,46 @@ namespace MonoWorks.ViewerGtk
 		/// </summary>
 		public MainWindow() : base(Gtk.WindowType.Toplevel)
 		{
-			Title = "MonoWorks Viewer";
-			
-			Gtk.VBox vbox = new Gtk.VBox();
-			Add(vbox);
-			
-			TestPart part = new TestPart();
-			
-			drawingFrame = new DrawingFrame();
-			vbox.Add(drawingFrame);
-			drawingFrame.Drawing = part;
+			Title = "MonoWorks Plotting Demo";
 			
 			DeleteEvent += OnDeleteEvent;
+			
+			// create the notebook
+			book = new Gtk.Notebook();
+			Add(book);
+			book.ChangeCurrentPage += OnPageChanged;
+			
+			// create model page		
+			DrawingFrame drawingFrame = new DrawingFrame();
+			book.AppendPage(drawingFrame, new Gtk.Label("Model"));
+			drawingFrame.Drawing = new TestPart();	
+			
+//			// create the 2D page
+//			Pane2D pane2D = new Pane2D();
+//			book.AppendPage(pane2D, new Gtk.Label("Basic 2D"));
+//			
+//			// create the 3D page
+//			Pane3D pane3D = new Pane3D();
+//			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
+			
+			// create the controls page
+			PaneControls paneControls = new PaneControls();
+			book.AppendPage(paneControls, new Gtk.Label("Controls"));
+			
+			ShowAll();
 		}
-
 		
-		protected DrawingFrame drawingFrame;
-		
+		Gtk.Notebook book;
 		
 		protected void OnDeleteEvent(object sender, Gtk.DeleteEventArgs args)
 		{
 			args.RetVal = true;
 			Gtk.Application.Quit();
+		}
+		
+		protected void OnPageChanged(object sender, Gtk.ChangeCurrentPageArgs args)
+		{
+			book.CurrentPageWidget.QueueDraw();
 		}
 		
 	}
