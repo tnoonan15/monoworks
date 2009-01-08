@@ -27,7 +27,7 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Locations for an anchor.
 	/// </summary>
-	public enum AnchorLocation {N, NE, E, SE, S, SW, W, NW};
+	public enum AnchorLocation { N, E, S, W, NE, SE, SW, NW };
 	
 	/// <summary>
 	/// Single control container that anchors its child to a particular side of the viewport.
@@ -71,7 +71,9 @@ namespace MonoWorks.Rendering.Controls
 			// adjust position according to location
 			if (dirty) // need to check this before calling parent since they will make us clean
 			{
+				child.ComputeGeometry();
 				size = child.Size;
+				Console.WriteLine("anchor size: {0}", size);
 				switch (location)
 				{
 				case AnchorLocation.N:
@@ -100,11 +102,13 @@ namespace MonoWorks.Rendering.Controls
 					break;
 				}
 				child.Position = position;
+				child.MakeDirty();
 			}
-			
-			base.RenderOverlay(viewport);		
-			
+
+			base.RenderOverlay(viewport);
+
 			child.RenderOverlay(viewport);
+			//Console.WriteLine("anchor still still dirty? {0}", dirty);
 		}
 
 

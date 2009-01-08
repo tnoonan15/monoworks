@@ -42,12 +42,9 @@ namespace MonoWorks.Rendering.Viewport
 			UiManager = new UiManager(this);
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
 			
-			// add the view toolbar
-			ToolBar viewBar = UiManager.GetToolbar("CadView");
-			Anchor anchor = new Anchor(viewBar);
-			anchor.Location = AnchorLocation.N;
-			viewport.RenderList.AddOverlay(anchor);
-			
+			// add the context layer
+			ContextLayer = UiManager.CreateContextLayer();
+			viewport.RenderList.AddOverlay(ContextLayer);
         }
 
         protected IViewport viewport;
@@ -56,7 +53,30 @@ namespace MonoWorks.Rendering.Viewport
 		/// The UiManager used by this controller.
 		/// </summary>
 		public UiManager UiManager { get; set; }
-		
+
+		/// <summary>
+		/// The context layer containing all of the toolbars.
+		/// </summary>
+		public ContextLayer ContextLayer { get; private set; }
+
+		/// <summary>
+		/// Sets the usage and resets the context layer appropriately.
+		/// </summary>
+		/// <param name="usage"></param>
+		public void SetUsage(ViewportUsage usage)
+		{
+			ContextLayer.ClearAllContexts();
+			switch (usage)
+			{
+				case ViewportUsage.CAD:
+					ContextLayer.AddContext(ContextLocation.N, "CadView");
+					break;
+				case ViewportUsage.Plotting:
+					ContextLayer.AddContext(ContextLocation.N, "PlotView");
+					break;
+			}
+		}
+
 		
 #region View Actions
 		

@@ -74,7 +74,7 @@
     <Compile Include="Controls\Bin.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Container.cs" />
-    <Compile Include="Controls\ContextBar.cs" />
+    <Compile Include="Controls\ContextLayer.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\StyleClass.cs">
       <SubType>Code</SubType>

@@ -63,7 +63,7 @@ namespace MonoWorks.Rendering.Controls
 			{
 				base.Position = value;
 				textDef.Position = value;
-				MakeDirty();
+				//MakeDirty();
 			}
 		}
 

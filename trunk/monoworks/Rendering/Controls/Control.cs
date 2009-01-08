@@ -57,8 +57,8 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.MakeDirty();
 			
-			if (parent != null)
-				parent.MakeDirty();
+			//if (parent != null)
+				//parent.MakeDirty();
 		}
 
 
