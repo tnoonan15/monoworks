@@ -65,7 +65,7 @@ namespace MonoWorks.Rendering.Controls
 			set
 			{
 				base.Position = value;
-				MakeDirty();
+				//MakeDirty();
 			}
 		}
 
@@ -87,8 +87,10 @@ namespace MonoWorks.Rendering.Controls
 				Array.Reverse(children_);
 			foreach (Control child in children_)
 			{
-				child.ComputeGeometry();
-				Coord size_ = child.MinSize;
+				child.UserSize = false;
+				//if (child.IsDirty)
+					child.ComputeGeometry();
+				Coord size_ = child.Size;
 				span += padding;
 				if (orientation == Orientation.Horizontal)
 				{
@@ -119,6 +121,8 @@ namespace MonoWorks.Rendering.Controls
 					child.Height = size.Y;
 				else
 					child.Width = size.X;
+
+				child.MakeDirty();
 			}
 			
 			// add padding to the size

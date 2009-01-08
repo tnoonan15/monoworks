@@ -44,10 +44,10 @@ namespace MonoWorks.DemoWpf
             viewport.RenderList.AddOverlay(toolbar);
 
 			Button button1 = new Button("Hello World");
-            toolbar.AppendChild(button1);
+            toolbar.Add(button1);
 
             Button button2 = new Button("Button 2");
-            toolbar.AppendChild(button2);
+            toolbar.Add(button2);
 
 
 			DockViewport();

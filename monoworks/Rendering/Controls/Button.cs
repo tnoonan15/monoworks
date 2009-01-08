@@ -115,7 +115,7 @@ namespace MonoWorks.Rendering.Controls
 			set
 			{
 				base.Position = value;
-				MakeDirty();
+				//MakeDirty();
 			}
 		}
 
@@ -130,9 +130,9 @@ namespace MonoWorks.Rendering.Controls
 		/// </value>
 		protected void ComputeChildGeometry()
 		{
-			if (image != null)
+			if (image != null && image.IsDirty)
 				image.ComputeGeometry();
-			if (label != null)
+			if (label != null && label.IsDirty)
 				label.ComputeGeometry();
 		}
 		

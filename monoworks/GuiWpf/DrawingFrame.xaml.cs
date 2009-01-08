@@ -23,7 +23,7 @@ namespace MonoWorks.GuiWpf
 			InitializeComponent();
 
 			Controller = new Controller(Viewport);
-
+			Controller.SetUsage(ViewportUsage.CAD);
 		}
 
 		/// <summary>

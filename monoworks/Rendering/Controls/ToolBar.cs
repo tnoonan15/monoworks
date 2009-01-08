@@ -38,9 +38,9 @@ namespace MonoWorks.Rendering.Controls
 		}
 		
 		
-		public override void AppendChild(Control child)
+		public override void Add(Control child)
 		{
-			base.AppendChild(child);
+			base.Add(child);
 			
 			child.StyleClassName = toolStyle;
 			

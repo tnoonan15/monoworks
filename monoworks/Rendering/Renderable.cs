@@ -34,13 +34,17 @@ namespace MonoWorks.Rendering
 	/// Base class for renderable objects.
 	/// </summary>
 	public abstract class Renderable : IMouseHandler
-	{	
-		
+	{
+
+		protected bool dirty = true;
 		/// <summary>
 		/// True if the renderable is dirty and needs its geometry recomputed.
 		/// </summary>
-		protected bool dirty = true;
-		
+		public bool IsDirty
+		{
+			get { return dirty; }
+		}
+
 		/// <summary>
 		/// Makes the renderable dirty.
 		/// </summary>

@@ -62,11 +62,11 @@ namespace MonoWorks.Rendering.Controls
 		/// <param name="child">
 		/// A <see cref="Control"/>
 		/// </param>
-		public virtual void AppendChild(Control child)
+		public virtual void Add(Control child)
 		{
 			children.Add(child);
 			child.Parent = this;
-			child.StyleClassName = StyleClassName;
+			//child.StyleClassName = StyleClassName;
 			MakeDirty();
 		}
 
@@ -95,9 +95,20 @@ namespace MonoWorks.Rendering.Controls
 			MakeDirty();
 		}
 
+		/// <summary>
+		/// Clears all children.
+		/// </summary>
+		public void Clear()
+		{
+			children.Clear();
+			MakeDirty();
+		}
+
 #endregion
-		
-		
+
+
+#region Mouse Interaction
+
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
@@ -122,8 +133,11 @@ namespace MonoWorks.Rendering.Controls
 				child.OnMouseMotion(evt);
 		}
 
-		
-		
+#endregion
+
+
+#region Rendering
+
 		public override void RenderOverlay(IViewport viewport)
 		{
 			base.RenderOverlay(viewport);
@@ -132,6 +146,8 @@ namespace MonoWorks.Rendering.Controls
 				child.RenderOverlay(viewport);
 		}
 
-		
+#endregion
+
+
 	}
 }

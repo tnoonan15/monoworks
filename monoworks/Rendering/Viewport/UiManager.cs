@@ -90,6 +90,12 @@ namespace MonoWorks.Rendering.Viewport
 			string name = GetName(reader);
 			currentToolbar = new ToolBar();
 			toolbars[name] = currentToolbar;
+
+			// try to get button style
+			string styleString = reader.GetAttribute("buttonStyle");
+			if (styleString != null)
+				currentToolbar.ButtonStyle = (ButtonStyle)Enum.Parse(typeof(ButtonStyle), styleString);
+
         }
 
         protected override void CreateToolbarItem(ActionAttribute action)
@@ -105,7 +111,7 @@ namespace MonoWorks.Rendering.Viewport
 			else
 				button = new Button(action.Name);
 
-			currentToolbar.AppendChild(button);
+			currentToolbar.Add(button);
 			button.Clicked += delegate(object sender, EventArgs args)
 			{
 				action.MethodInfo.Invoke(controller, null);
@@ -115,8 +121,26 @@ namespace MonoWorks.Rendering.Viewport
 #endregion
 
 
+#region ContextLayer Creation
 
-#region Not Used
+		/// <summary>
+		/// Creates a context layer and puts all toolbars into it.
+		/// </summary>
+		/// <returns></returns>
+		public ContextLayer CreateContextLayer()
+		{
+			ContextLayer layer = new ContextLayer();
+			foreach (string name in toolbars.Keys)
+				layer.AddToolbar(name, toolbars[name]);
+			return layer;
+		}
+
+
+#endregion
+
+
+
+		#region Not Used
 
 		protected override void CreateMenu(XmlReader reader)
         {
