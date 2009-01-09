@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
@@ -28,7 +29,7 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// A stack of buttons.
 	/// </summary>
-	public class ToolBar : Stack
+	public class ToolBar : Stack, IEnumerable<Button>
 	{
 		
 		public ToolBar() : base()
@@ -95,6 +96,28 @@ namespace MonoWorks.Rendering.Controls
 			get {return buttonStyle;}
 		}
 
+		
+#region Button Enumeration
+		
+		
+		public IEnumerator<Button> GetEnumerator()
+		{
+			foreach(Control child in children)
+			{
+				if (child is Button)
+					yield return (child as Button);
+        	}
+		}
+
+		
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+				
+		
+#endregion
+		
 		
 	}
 }

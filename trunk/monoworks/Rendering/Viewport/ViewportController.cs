@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
+using MonoWorks.Rendering.Interaction;
 
 
 namespace MonoWorks.Rendering.Viewport
@@ -59,6 +60,9 @@ namespace MonoWorks.Rendering.Viewport
 		/// </summary>
 		public ContextLayer ContextLayer { get; private set; }
 
+		
+		protected ViewportUsage viewportUsage = ViewportUsage.Custom;
+		
 		/// <summary>
 		/// Sets the usage and resets the context layer appropriately.
 		/// </summary>
@@ -70,12 +74,16 @@ namespace MonoWorks.Rendering.Viewport
 			{
 				case ViewportUsage.CAD:
 					ContextLayer.AddContext(ContextLocation.N, "CadView");
-					ContextLayer.AddContext(ContextLocation.N, "Interaction");
+					ContextLayer.AddContext(ContextLocation.N, "CadInteraction");
 					break;
 				case ViewportUsage.Plotting:
 					ContextLayer.AddContext(ContextLocation.N, "PlotView");
+					ContextLayer.AddContext(ContextLocation.N, "PlotInteraction");
 					break;
 			}
+			viewportUsage = usage;
+			
+		 	OnInteractionStateChanged();
 		}
 
 		
@@ -135,14 +143,56 @@ namespace MonoWorks.Rendering.Viewport
 		
 #region Interaction Actions
 		
+		protected readonly Dictionary<InteractionState, string> interactionNames = new Dictionary<InteractionState, string>
+		{{InteractionState.Interact2D,"2D Interaction"}, {InteractionState.Interact3D,"3D Interaction"}, {InteractionState.View3D,"3D View"}};
+		
+		
 		[Action("2D Interaction")]
 		public void On2dInteract()
 		{
-			
+			viewport.InteractionState = InteractionState.Interact2D;
+		 	OnInteractionStateChanged();
 		}
 		
+		[Action("3D Interaction")]
+		public void On3dInteract()
+		{
+			viewport.InteractionState = InteractionState.Interact3D;
+		 	OnInteractionStateChanged();
+		}
 		
+		[Action("3D View")]
+		public void On3dView()
+		{
+			viewport.InteractionState = InteractionState.View3D;
+		 	OnInteractionStateChanged();
+		}	
 		
+		/// <summary>
+		/// Updates the controls after the interaction state has changed.
+		/// </summary>
+		public void OnInteractionStateChanged()
+		{
+			string toolbarName = null;
+			if (viewportUsage == ViewportUsage.CAD)
+				toolbarName = "CadInteraction";
+			else if (viewportUsage == ViewportUsage.Plotting)
+				toolbarName = "PlotInteraction";
+			
+			if (toolbarName != null)
+			{
+				ToolBar toolbar = UiManager.GetToolbar(toolbarName);
+				string interactionName = interactionNames[viewport.InteractionState];
+				foreach (Button button in toolbar)
+				{
+					if (button.LabelString == interactionName)
+						button.IsSelected = true;
+					else
+						button.IsSelected = false;
+					button.MakeDirty();
+				}
+			}
+		}
 		
 #endregion
 		

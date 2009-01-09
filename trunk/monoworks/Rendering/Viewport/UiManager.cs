@@ -116,6 +116,8 @@ namespace MonoWorks.Rendering.Viewport
 			{
 				action.MethodInfo.Invoke(controller, null);
 			};
+			
+			button.IsTogglable = action.IsTogglable;
         }
 		
 #endregion

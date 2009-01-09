@@ -202,7 +202,6 @@ namespace MonoWorks.Framework
 			else
 			{
 				Console.WriteLine("The controller does not have an action called {0}", name);
-//				throw new Exception(String.Format("The controller does not have an action called {0}", name));
 				actions[name] = new ActionAttribute();
 			}
 
@@ -216,6 +215,11 @@ namespace MonoWorks.Framework
 			string tooltip = reader.GetAttribute("tooltip");
 			if (tooltip != null)
 				actions[name].Tooltip = tooltip;
+
+			// assign the tooltip
+			string togglableString = reader.GetAttribute("togglable");
+			if (togglableString != null)
+				actions[name].IsTogglable = Boolean.Parse(togglableString);
 
 			// assign the shortcut
 			actions[name].Shortcut = reader.GetAttribute("shortcut");
