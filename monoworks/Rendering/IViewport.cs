@@ -22,7 +22,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// How the viewport is being used.
 	/// </summary>
-	public enum ViewportUsage {CAD, Plotting};
+	public enum ViewportUsage {CAD, Plotting, Custom};
 	
 	/// <summary>
 	/// The viewing mode of the viewport.

@@ -38,6 +38,7 @@ namespace MonoWorks.Framework
 			: base()
 		{
 			this.name = name;
+			IsTogglable = false;
 		}
 
 		protected string name = "";
@@ -89,6 +90,11 @@ namespace MonoWorks.Framework
 			get {return shortcut;}
 			set {shortcut = value;}
 		}
+		
+		//// <value>
+		/// Whether the action is a togglable (will result in toggle buttons).
+		/// </value>
+		public bool IsTogglable {get; set;}
 		
 		/// <value>
 		/// The shortcut in Gtk accelerator format.

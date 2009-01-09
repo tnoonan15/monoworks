@@ -65,8 +65,8 @@
     <File name="Viewport/UiManager.cs" subtype="Code" buildaction="Compile" />
     <File name="Viewport/icons/2d.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Viewport/icons/3d.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/3dInteract.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/3dSelect.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Viewport/icons/3d-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Viewport/icons/3d-interact.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Viewport/icons/back-view.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Viewport/icons/bottom-view.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Viewport/icons/export.png" subtype="Code" buildaction="EmbedAsResource" />

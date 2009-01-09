@@ -95,6 +95,19 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
+		/// <value>
+		/// The string of the label.
+		/// </value>
+		public string LabelString
+		{
+			get
+			{
+				if (label == null)
+					return "";
+				return label.Text;
+			}
+		}
+		
 		private Image image;
 		/// <value>
 		/// The image on the button.
@@ -290,8 +303,7 @@ namespace MonoWorks.Rendering.Controls
 			{
 				ToggleSelection();
 				evt.Handle();
-				if (Clicked != null)
-					Clicked(this, new EventArgs());
+				Click();
 			}
 		}
 
@@ -311,6 +323,14 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		public event EventHandler Clicked;
 		
+		/// <summary>
+		/// Activates the button clicked event.
+		/// </summary>
+		public void Click()
+		{
+			if (Clicked != null)
+				Clicked(this, new EventArgs());
+		}
 
 #endregion
 
