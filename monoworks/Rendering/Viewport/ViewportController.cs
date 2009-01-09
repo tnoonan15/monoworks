@@ -70,6 +70,7 @@ namespace MonoWorks.Rendering.Viewport
 			{
 				case ViewportUsage.CAD:
 					ContextLayer.AddContext(ContextLocation.N, "CadView");
+					ContextLayer.AddContext(ContextLocation.N, "Interaction");
 					break;
 				case ViewportUsage.Plotting:
 					ContextLayer.AddContext(ContextLocation.N, "PlotView");
@@ -78,7 +79,7 @@ namespace MonoWorks.Rendering.Viewport
 		}
 
 		
-#region View Actions
+#region View Direction Actions
 		
 		[Action("Standard View")]
 		public void OnStandardView()
@@ -130,6 +131,22 @@ namespace MonoWorks.Rendering.Viewport
 		}
 		
 #endregion
+		
+		
+#region Interaction Actions
+		
+		[Action("2D Interaction")]
+		public void On2dInteract()
+		{
+			
+		}
+		
+		
+		
+		
+#endregion
+		
+		
 		
     }
 }

@@ -73,7 +73,7 @@ namespace MonoWorks.Rendering.Controls
 			{
 				child.ComputeGeometry();
 				size = child.Size;
-				Console.WriteLine("anchor size: {0}", size);
+//				Console.WriteLine("anchor size: {0}, viewport size: {1} x {2}", size, viewport.WidthGL, viewport.HeightGL);
 				switch (location)
 				{
 				case AnchorLocation.N:
@@ -103,6 +103,7 @@ namespace MonoWorks.Rendering.Controls
 				}
 				child.Position = position;
 				child.MakeDirty();
+//				Console.WriteLine("anchor position: {0}", position);
 			}
 
 			base.RenderOverlay(viewport);

@@ -350,6 +350,7 @@ namespace MonoWorks.GuiGtk
 			camera.Configure();
 			
 			renderList.OnViewportResized(this);
+			PaintGL();
 		}
 		
 		public new void MakeCurrent()

@@ -61,6 +61,7 @@ namespace MonoWorks.Rendering.Controls
 			{
 				Stack stack = new Stack();
 				stack.Orientation = ContextOrientation(loc);
+				stack.Padding = 0;
 				stacks[loc] = stack;
 				anchors[loc] = new Anchor(stack);
 				anchors[loc].Location = (AnchorLocation)loc;
@@ -71,6 +72,7 @@ namespace MonoWorks.Rendering.Controls
 		
 #region The Toolbars
 		
+				
 		protected Dictionary<string, ToolBar> toolBars = new Dictionary<string, ToolBar>();
 		
 		/// <summary>
@@ -160,6 +162,9 @@ namespace MonoWorks.Rendering.Controls
 		{
 			ToolBar toolbar = GetToolbar(context);
 			toolbar.Orientation = ContextOrientation(loc);
+			toolbar.StyleClassName = "toolbar-" + loc.ToString().ToLower();
+			toolbar.ToolStyle = "tool-" + loc.ToString().ToLower();
+			Console.WriteLine("toolbar style {0}", toolbar.StyleClassName);
 			stacks[loc].Add(toolbar);
 		}
 
@@ -188,7 +193,7 @@ namespace MonoWorks.Rendering.Controls
 
 
 
-		#region Rendering
+#region Rendering
 
 
 		public override void ComputeGeometry()
@@ -202,6 +207,15 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.RenderOverlay(viewport);
 
+		}
+
+		
+		public override void OnViewportResized(IViewport viewport)
+		{
+			base.OnViewportResized(viewport);
+			
+			foreach (Anchor anchor in anchors.Values)
+				anchor.OnViewportResized(viewport);
 		}
 
 		

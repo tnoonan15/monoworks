@@ -44,6 +44,16 @@ namespace MonoWorks.Rendering
 			this.stopColor = stopColor;
 		}
 
+		
+		public object Clone()
+		{
+			FillGradient fg = new FillGradient(startColor, stopColor);
+			fg.Direction = direction;
+			fg.IsInverted = isInverted;
+			return fg;
+		}
+
+		
 		protected Color startColor;
 		/// <summary>
 		/// The color at the beginning of the gradient.
@@ -168,9 +178,12 @@ namespace MonoWorks.Rendering
 			// get the direction (optional)
 			string dirString = reader.GetAttribute("direction");
 			if (dirString != null)
-			{
 				grad.Direction =(GradientDirection)Enum.Parse(typeof(GradientDirection), dirString);	
-			}
+			
+			// get isInverted (optional)
+			string invString = reader.GetAttribute("inverted");
+			if (invString != null)
+				grad.IsInverted = Boolean.Parse(invString);	
 			
 			return grad;
 		}

@@ -4,12 +4,6 @@
 		<Background hitState="None">
 			<FillGradient start="Control Grad Dark" stop="Control Grad Light" direction="E2W"/>
 		</Background>
-		<Background hitState="Hovering">
-			<FillGradient start="Control Hovering" stop="White" direction="E2W"/>
-		</Background>
-		<Background hitState="Selected">
-			<FillGradient start="Green" stop="White" direction="E2W"/>
-		</Background>
 		<Foreground hitState="None">
 			<Color name="Dark Gray"/>
 		</Foreground>
@@ -29,4 +23,5 @@
 			<Color name="Dark Gray"/>
 		</Foreground>
 	</StyleClass>
+	
 </StyleGroup>
