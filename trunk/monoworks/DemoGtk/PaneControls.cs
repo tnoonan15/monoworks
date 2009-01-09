@@ -50,12 +50,12 @@ namespace MonoWorks.DemoGtk
 			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
 			Image image1 = new Image(iconPath);
 			Button button1 = new Button("3d Button", image1);
-			toolbar.AppendChild(button1);
+			toolbar.Add(button1);
 
 			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
 			Image image2 = new Image(iconPath);
 			Button button2 = new Button("Arc", image2);
-			toolbar.AppendChild(button2);
+			toolbar.Add(button2);
 
 			Anchor anchor = new Anchor(toolbar);
 			anchor.Location = AnchorLocation.E;

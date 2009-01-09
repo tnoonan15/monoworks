@@ -52,6 +52,16 @@ namespace MonoWorks.Rendering
 		}
 		
 		
+		public object Clone ()
+		{
+			Color color = new Color();
+			color.rgba = rgba;
+			color.Name = name;
+			return color;
+		}
+
+		
+		
 #region Constructors		
 		
 		/// <summary>

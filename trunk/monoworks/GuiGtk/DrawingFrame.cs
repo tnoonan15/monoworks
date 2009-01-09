@@ -21,6 +21,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Model;
 using MonoWorks.Model.Viewport;
+using MonoWorks.Model.Interaction;
 
 
 namespace MonoWorks.GuiGtk
@@ -43,6 +44,8 @@ namespace MonoWorks.GuiGtk
 			Add2(Viewport);
 			
 			Controller = new Controller(Viewport);
+			Controller.SetUsage(ViewportUsage.CAD);
+//			Viewport.RenderList.AddOverlay(Controller.ContextLayer);
 		}
 		
 		
@@ -62,7 +65,7 @@ namespace MonoWorks.GuiGtk
 //				treeModel.Drawing = drawing;
 			
 				// add the drawing interactor
-				Model.Interaction.DrawingInteractor interactor = new Model.Interaction.DrawingInteractor(Viewport, drawing);
+				DrawingInteractor interactor = new DrawingInteractor(Viewport, drawing);
 				Viewport.PrimaryInteractor = interactor;
 				
 //				Viewport.Camera.SetViewDirection(ViewDirection.Standard);

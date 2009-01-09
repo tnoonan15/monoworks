@@ -28,7 +28,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Represents the rendering style applied to a specific class of controls.
 	/// </summary>
-	public class StyleClass
+	public class StyleClass : ICloneable
 	{
 		
 		public StyleClass()
@@ -37,6 +37,41 @@ namespace MonoWorks.Rendering
 			foregrounds[HitState.None] = null;
 		}
 
+		
+		/// <summary>
+		/// Clones the style class.
+		/// </summary>
+		public object Clone()
+		{
+			StyleClass sc = new StyleClass();
+			foreach (HitState hitState in backgrounds.Keys)
+				sc.ModifyBackground(hitState, backgrounds[hitState]);
+			foreach (HitState hitState in foregrounds.Keys)
+				sc.ModifyForeground(hitState, foregrounds[hitState]);
+			
+			return sc;
+		}
+
+		
+		/// <summary>
+		/// Forces all gradients in the class to have the given direction.
+		/// </summary>
+		public void ForceDirection(GradientDirection direction, bool inverted)
+		{
+			HitState[] hitStates = new HitState[backgrounds.Count];
+			backgrounds.Keys.CopyTo(hitStates, 0);
+			foreach (HitState hitState in hitStates)
+			{
+				if (backgrounds[hitState] is FillGradient)
+				{
+					FillGradient fg = backgrounds[hitState].Clone() as FillGradient;
+					fg.Direction = direction;
+					fg.IsInverted = inverted;
+					backgrounds[hitState] = fg;
+				}
+			}
+		}
+		
 
 		protected Dictionary<HitState,IFill> backgrounds = new Dictionary<HitState,IFill>();
 

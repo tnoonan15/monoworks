@@ -1,4 +1,4 @@
-﻿//   IFill.cs - MonoWorks Project
+//   IFill.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //
@@ -25,7 +25,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Interface for objects that can be used to fill overlays.
 	/// </summary>
-	public interface IFill
+	public interface IFill : ICloneable
 	{
 		/// <summary>
 		/// Draw a rectangle at the given position with the given size.

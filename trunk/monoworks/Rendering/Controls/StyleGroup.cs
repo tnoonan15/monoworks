@@ -78,6 +78,37 @@ namespace MonoWorks.Rendering.Controls
 			else
 				return DefaultClass;
 		}
+		
+		
+		/// <summary>
+		/// If toolbar and tools style classes are present, they will be replicated into 
+		/// toolbar-<loc> and tool-<loc> classes, where loc is all value of ContextLocation.
+		/// </summary>
+		public void MakeToolbarClasses()
+		{
+			if (classes.ContainsKey("toolbar"))
+			{
+				AddClass("toolbar-n", (StyleClass)GetClass("toolbar").Clone());
+				classes["toolbar-n"].ForceDirection(GradientDirection.N2S, false);
+				AddClass("toolbar-e", (StyleClass)GetClass("toolbar").Clone());
+				classes["toolbar-e"].ForceDirection(GradientDirection.E2W, false);
+				AddClass("toolbar-s", (StyleClass)GetClass("toolbar").Clone());
+				classes["toolbar-s"].ForceDirection(GradientDirection.N2S, true);
+				AddClass("toolbar-w", (StyleClass)GetClass("toolbar").Clone());
+				classes["toolbar-w"].ForceDirection(GradientDirection.E2W, true);
+			}
+			if (classes.ContainsKey("tool"))
+			{
+				AddClass("tool-n", (StyleClass)GetClass("tool").Clone());
+				classes["tool-n"].ForceDirection(GradientDirection.N2S, false);
+				AddClass("tool-e", (StyleClass)GetClass("tool").Clone());
+				classes["tool-e"].ForceDirection(GradientDirection.E2W, false);
+				AddClass("tool-s", (StyleClass)GetClass("tool").Clone());
+				classes["tool-s"].ForceDirection(GradientDirection.N2S, true);
+				AddClass("tool-w", (StyleClass)GetClass("tool").Clone());
+				classes["tool-w"].ForceDirection(GradientDirection.E2W, true);
+			}
+		}
 
 		
 #region Default Style Group
@@ -105,7 +136,7 @@ namespace MonoWorks.Rendering.Controls
 #endregion
 		
 
-#region Style Group
+#region XML I/O
 
 		/// <summary>
 		/// Creates a style group from an XML reader at a StyleGroup element.
@@ -141,6 +172,8 @@ namespace MonoWorks.Rendering.Controls
 						throw new Exception("StyleGroup elements should only contain StyleClass elements.");
 				}
 			}
+			
+			MakeToolbarClasses();
 		}
 
 

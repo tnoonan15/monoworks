@@ -10,6 +10,8 @@
 		<Action name="Top View" icon="top-view" tooltip="Top view"/>
 		<Action name="Bottom View" icon="bottom-view" tooltip="Bottom view"/>
 		
+		<Action name="2D Interaction" icon="2d" tooltip="2D Interaction Mode"/>
+		
 	</Actions>
   
 	<Tools>
@@ -28,6 +30,9 @@
 			<Item action="Right View"/>
 			<Item action="Top View"/>
 			<Item action="Bottom View"/>
+		</Toolbar>
+		<Toolbar name="Interaction" buttonStyle="Image">
+			<Item action="2D Interaction"/>
 		</Toolbar>
 		
 	</Tools>
