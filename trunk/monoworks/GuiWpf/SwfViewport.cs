@@ -220,7 +220,7 @@ namespace MonoWorks.GuiWpf
 			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
 									SwfExtensions.ButtonNumber(args.Button));
             overlayInteractor.OnButtonPress(evt);
-            if (PrimaryInteractor!=null && !evt.Handled)
+			if (PrimaryInteractor != null && !evt.Handled && InteractionState != InteractionState.View3D)
                 PrimaryInteractor.OnButtonPress(evt);
 			if (!evt.Handled)
 				renderableInteractor.OnButtonPress(evt);
@@ -235,7 +235,7 @@ namespace MonoWorks.GuiWpf
             MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
                                     SwfExtensions.ButtonNumber(args.Button));
             overlayInteractor.OnButtonRelease(evt);
-            if (PrimaryInteractor != null && !evt.Handled)
+			if (PrimaryInteractor != null && !evt.Handled && InteractionState != InteractionState.View3D)
                 PrimaryInteractor.OnButtonRelease(evt);
 			if (!evt.Handled)
 				renderableInteractor.OnButtonRelease(evt);
@@ -249,7 +249,7 @@ namespace MonoWorks.GuiWpf
 
 			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location));
             overlayInteractor.OnMouseMotion(evt);
-            if (PrimaryInteractor != null && !evt.Handled)
+			if (PrimaryInteractor != null && !evt.Handled && InteractionState != InteractionState.View3D)
                 PrimaryInteractor.OnMouseMotion(evt);
 			if (!evt.Handled)
 				renderableInteractor.OnMouseMotion(evt);

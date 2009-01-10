@@ -42,10 +42,6 @@ namespace MonoWorks.Rendering.Viewport
 			this.viewport = viewport;
 			UiManager = new UiManager(this);
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
-			
-			// add the context layer
-			ContextLayer = UiManager.CreateContextLayer();
-			viewport.RenderList.AddOverlay(ContextLayer);
         }
 
         protected IViewport viewport;
@@ -69,12 +65,19 @@ namespace MonoWorks.Rendering.Viewport
 		/// <param name="usage"></param>
 		public void SetUsage(ViewportUsage usage)
 		{
-			ContextLayer.ClearAllContexts();
+			if (ContextLayer == null) // add the context layer
+			{				
+				ContextLayer = UiManager.CreateContextLayer();
+				viewport.RenderList.AddOverlay(ContextLayer);
+			}
+			else // the context layer already exists
+				ContextLayer.ClearAllContexts();
 			switch (usage)
 			{
 				case ViewportUsage.CAD:
 					ContextLayer.AddContext(ContextLocation.N, "CadView");
 					ContextLayer.AddContext(ContextLocation.N, "CadInteraction");
+					ContextLayer.AddContext(ContextLocation.N, "Shading");
 					break;
 				case ViewportUsage.Plotting:
 					ContextLayer.AddContext(ContextLocation.N, "PlotView");

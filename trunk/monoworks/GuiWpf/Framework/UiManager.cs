@@ -29,7 +29,7 @@ namespace MonoWorks.GuiWpf.Framework
 		protected Controller controller;
 
 
-		public override void Load(XmlReader reader)
+		protected override void Load(XmlReader reader)
 		{
 			// wrap the base method and put any exceptions in a nice dialog
 			try

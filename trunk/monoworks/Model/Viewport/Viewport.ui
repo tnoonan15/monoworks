@@ -1,5 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <UI>
-  
-  
+
+	<Actions>
+		<Action name="Wireframe" icon="wireframe" tooltip="Render only the wireframe" togglable="true"/>
+		<Action name="No Solid" icon="nosolid" tooltip="No solid rendering" togglable="true"/>
+		<Action name="Flat Shaded" icon="flat" tooltip="Flat shaded rendering" togglable="true"/>
+		<Action name="Smooth Shaded" icon="smooth" tooltip="Smooth shaded rendering" togglable="true"/>
+	</Actions>
+
+	<Tools>
+
+		<Toolbar name="Shading" buttonStyle="Image">
+			<Item action="Wireframe"/>
+			<Item action="No Solid"/>
+			<Item action="Flat Shaded"/>
+			<Item action="Smooth Shaded"/>
+		</Toolbar>
+
+	</Tools>
+	
 </UI>

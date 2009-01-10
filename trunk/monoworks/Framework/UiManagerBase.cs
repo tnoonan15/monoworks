@@ -54,11 +54,20 @@ namespace MonoWorks.Framework
 		protected AbstractController abstractController;
 
 		/// <summary>
+		/// The assembly that's currently using the UiManager.
+		/// </summary>
+		protected Assembly CallingAssembly = null;
+
+
+		/// <summary>
 		/// Loads a ui file from a stream.
 		/// </summary>
 		/// <param name="stream"></param>
 		public void LoadStream(Stream stream)
 		{
+			CallingAssembly = Assembly.GetCallingAssembly();
+			Console.WriteLine("calling assembly: {0}", CallingAssembly.FullName);
+
 			XmlReader reader = new XmlTextReader(stream);
 			Load(reader);
 		}
@@ -69,6 +78,8 @@ namespace MonoWorks.Framework
 		/// <param name="fileName"></param>
 		public void LoadFile(string fileName)
 		{
+			CallingAssembly = Assembly.GetCallingAssembly();
+
 			XmlReader reader = new XmlTextReader(fileName);
 			Load(reader);
 		}
@@ -78,7 +89,7 @@ namespace MonoWorks.Framework
 		/// </summary>
 		/// <remarks>Use convenience methods LoadFile() and LoadResource() 
 		/// to load the ui directly from a file or embedded resource.</remarks>
-		public virtual void Load(XmlReader reader)
+		protected virtual void Load(XmlReader reader)
 		{
 
 			while (!reader.EOF) // while there's still something left to read

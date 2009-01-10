@@ -42,14 +42,24 @@ namespace MonoWorks.Framework
 		/// <summary>
 		/// Gets a resource stream based on the provided name.
 		/// </summary>
-		/// <param name="name">Either fully qualified or unqualified resource
-		/// name from the calling assembly.</param>
 		/// <returns></returns>
 		/// <remarks>Tries to handle naming differences between VS and 
 		/// MonoDevelop embedded resources.</remarks>
 		public static Stream GetStream(string name)
 		{
 			Assembly asm = Assembly.GetCallingAssembly();
+			return GetStream(name, asm);
+		}
+
+
+		/// <summary>
+		/// Gets a resource stream based on the provided name and assembly.
+		/// </summary>
+		/// <returns></returns>
+		/// <remarks>Tries to handle naming differences between VS and 
+		/// MonoDevelop embedded resources.</remarks>
+		public static Stream GetStream(string name, Assembly asm)
+		{
 			string[] resNames = asm.GetManifestResourceNames();
 			if (Array.IndexOf(resNames, name) > -1) // exact match
 				return asm.GetManifestResourceStream(name);
