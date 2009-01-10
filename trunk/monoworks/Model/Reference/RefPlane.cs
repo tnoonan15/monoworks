@@ -78,15 +78,31 @@ namespace MonoWorks.Model
 			double radius = GetDrawing().Bounds.Radius; // radius of the bounds
 //			Console.WriteLine("bounds radius {0}", radius);
 
+			// find one corner of the plane to draw
 			Vector direction = Plane.Normal;
 			Vector corner;
 			if (direction[1]==0 && direction[2]==0) // the plane is in the Y-Z axis
 				corner = new Vector(0.0, 1.0, 0.0);
 			else // the plane is not in the Y-Z axis
-				corner = new Vector(1.0, 0.0, 0.0);
-			
+				corner = new Vector(1.0, 0.0, 0.0);			
 			corner = direction.Cross(corner).Normalize();
-			corner = corner.Rotate(direction, new Angle(Angle.PI/4.0)) * (1.5 * radius);
+			corner = corner.Rotate(direction, new Angle(Angle.PI/4.0)) * (1.0 * radius);
+			
+			// find the center of the plane to draw
+			Vector boundsCenter = GetDrawing().Bounds.Center;
+			if (boundsCenter == null)
+			{
+				Console.WriteLine("bounds center null");
+				boundsCenter = new Vector();
+			}
+			else
+				Console.WriteLine("bounds center not null");
+			Vector planeCenter = Plane.Center.ToVector();
+			Vector planeToBounds = planeCenter - boundsCenter;
+			double dist = planeToBounds.Magnitude * planeToBounds.Dot(Plane.Normal) 
+				/ planeToBounds.Magnitude / Plane.Normal.Magnitude;
+			Vector center = boundsCenter + Plane.Normal * dist;
+			Console.WriteLine("plane center {0}, distance {1}", center, dist);
 			
 			// generate the corner points
 			quadCorners = new Vector[4];
@@ -94,7 +110,7 @@ namespace MonoWorks.Model
 			for (int i=0; i<4; i++)
 			{
 //				Console.WriteLine("quad corner at {0}", Plane.Center.ToVector() + corner);
-				quadCorners[i] = Plane.Center.ToVector() + corner;
+				quadCorners[i] = center + corner;
 				bounds.Resize(quadCorners[i]);
 				corner = corner.Rotate(direction, new Angle(Angle.PI/2.0));
 			}

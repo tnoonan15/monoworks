@@ -115,6 +115,19 @@ namespace MonoWorks.Rendering.Controls
 			return GetEnumerator();
 		}
 				
+		/// <summary>
+		/// Get a child button by it label.
+		/// </summary>
+		/// <returns> The button, or null if there isn't one present. </returns>
+		public Button GetButton(string label)
+		{
+			foreach(Control child in children)
+			{
+				if (child is Button && (child as Button).LabelString == label)
+					return (child as Button);
+        	}
+			return null;
+		}
 		
 #endregion
 		
