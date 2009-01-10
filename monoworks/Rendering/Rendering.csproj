@@ -132,8 +132,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Viewport\icons\2d.png" />
     <EmbeddedResource Include="Viewport\icons\3d.png" />
-    <EmbeddedResource Include="Viewport\icons\3dInteract.png" />
-    <EmbeddedResource Include="Viewport\icons\3dSelect.png" />
     <EmbeddedResource Include="Viewport\icons\back-view.png" />
     <EmbeddedResource Include="Viewport\icons\bottom-view.png" />
     <EmbeddedResource Include="Viewport\icons\export.png" />
@@ -143,6 +141,10 @@
     <EmbeddedResource Include="Viewport\icons\right-view.png" />
     <EmbeddedResource Include="Viewport\icons\standard-view.png" />
     <EmbeddedResource Include="Viewport\icons\top-view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Viewport\icons\3d-interact.png" />
+    <EmbeddedResource Include="Viewport\icons\3d-view.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

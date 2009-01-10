@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Viewport;
+using MonoWorks.Rendering.Controls;
 
 namespace MonoWorks.Model.Viewport
 {
@@ -33,8 +34,45 @@ namespace MonoWorks.Model.Viewport
 		public Controller(IViewport viewport)
 			: base(viewport)
 		{
-//			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
+			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
 		}
+
+
+#region Shading Actions
+
+		[Action("Wireframe")]
+		public void OnWireframe()
+		{
+			if (UiManager.HasToolbar("Shading"))
+			{
+				ToolBar toolbar = UiManager.GetToolbar("Shading");
+				viewport.RenderManager.ShowWireframe = toolbar.GetButton("Wireframe").IsSelected;
+			}
+		}
+
+		[Action("No Solid")]
+		public void OnNoSolid()
+		{
+			viewport.RenderManager.SolidMode = SolidMode.None;
+		}
+
+		[Action("Flat Shaded")]
+		public void OnFlatShaded()
+		{
+			viewport.RenderManager.SolidMode = SolidMode.Flat;
+		}
+
+		[Action("Smooth Shaded")]
+		public void OnSmoothShaded()
+		{
+			viewport.RenderManager.SolidMode = SolidMode.Smooth;
+		}
+
+
+
+#endregion
+
+
 
 	}
 }

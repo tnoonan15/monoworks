@@ -74,7 +74,18 @@ namespace MonoWorks.Rendering.Viewport
 		protected Dictionary<string, ToolBar> toolbars = new Dictionary<string, ToolBar>();
 		
 		protected ToolBar currentToolbar = null;
-		
+
+
+		/// <summary>
+		/// Returns true if the manager has a toolbar of the given name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool HasToolbar(string name)
+		{
+			return toolbars.ContainsKey(name);
+		}
+
 		/// <summary>
 		/// Gets the toolbar of the given name.
 		/// </summary>
@@ -105,7 +116,7 @@ namespace MonoWorks.Rendering.Viewport
 			Button button;
 			if (action.IconName != null)
 			{
-				icon = new Image(ResourceHelper.GetStream(action.IconName + ".png"));
+				icon = new Image(ResourceHelper.GetStream(action.IconName + ".png", CallingAssembly));
 				button = new Button(action.Name, icon);
 			}
 			else

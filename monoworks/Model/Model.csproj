@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="EntityMetaData.xml" />
+    <EmbeddedResource Include="Viewport\icons\nosolid.png" />
     <EmbeddedResource Include="Viewport\icons\flat.png" />
     <EmbeddedResource Include="Viewport\icons\smooth.png" />
     <EmbeddedResource Include="Viewport\icons\wireframe.png" />
