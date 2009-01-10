@@ -84,10 +84,27 @@ namespace MonoWorks.Rendering.Viewport
 			viewportUsage = usage;
 			
 		 	OnInteractionStateChanged();
+			OnProjectionChanged();
 		}
 
 		
 #region View Direction Actions
+		
+		/// <summary>
+		/// The name of the view toolbar on the viewport, or null if there isn't one.
+		/// </summary>
+		protected string ViewToolbarName
+		{
+			get				
+			{			
+				if (viewportUsage == ViewportUsage.CAD)
+					return "CadView";
+				else if (viewportUsage == ViewportUsage.Plotting)
+					return "PlotView";	
+				else
+					return null;
+			}
+		}
 		
 		[Action("Standard View")]
 		public void OnStandardView()
@@ -138,10 +155,47 @@ namespace MonoWorks.Rendering.Viewport
 			viewport.Camera.SetViewDirection(ViewDirection.Bottom);
 		}
 		
+		[Action("Projection")]
+		public void OnChangeProjection()
+		{
+			Console.WriteLine("projection");
+			viewport.Camera.ToggleProjection();
+				
+		}
+		
+		/// <summary>
+		/// Updates the projection button based on the current projection.
+		/// </summary>
+		public void OnProjectionChanged()
+		{
+			if (ViewToolbarName != null)
+			{
+				ToolBar toolbar = UiManager.GetToolbar(ViewToolbarName);
+				Button projButton = toolbar.GetButton("Projection");
+				projButton.IsSelected = viewport.Camera.Projection == Projection.Perspective;
+			}
+		}
+		
 #endregion
 		
 		
 #region Interaction Actions
+		
+		/// <summary>
+		/// The name of the interaction toolbar on the viewport, or null if there isn't one.
+		/// </summary>
+		protected string InteractionToolbarName
+		{
+			get				
+			{			
+				if (viewportUsage == ViewportUsage.CAD)
+					return "CadInteraction";
+				else if (viewportUsage == ViewportUsage.Plotting)
+					return "PlotInteraction";	
+				else
+					return null;
+			}
+		}
 		
 		protected readonly Dictionary<InteractionState, string> interactionNames = new Dictionary<InteractionState, string>
 		{{InteractionState.Interact2D,"2D Interaction"}, {InteractionState.Interact3D,"3D Interaction"}, {InteractionState.View3D,"3D View"}};
@@ -172,16 +226,10 @@ namespace MonoWorks.Rendering.Viewport
 		/// Updates the controls after the interaction state has changed.
 		/// </summary>
 		public void OnInteractionStateChanged()
-		{
-			string toolbarName = null;
-			if (viewportUsage == ViewportUsage.CAD)
-				toolbarName = "CadInteraction";
-			else if (viewportUsage == ViewportUsage.Plotting)
-				toolbarName = "PlotInteraction";
-			
-			if (toolbarName != null)
+		{			
+			if (InteractionToolbarName != null)
 			{
-				ToolBar toolbar = UiManager.GetToolbar(toolbarName);
+				ToolBar toolbar = UiManager.GetToolbar(InteractionToolbarName);
 				string interactionName = interactionNames[viewport.InteractionState];
 				foreach (Button button in toolbar)
 				{

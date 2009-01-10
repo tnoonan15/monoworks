@@ -143,7 +143,13 @@ namespace MonoWorks.Rendering
 		/// <remarks> This is generated on demand so you can do whatever you want with the instance.</remarks>
 		public Vector Center
 		{
-			get {return (minima + maxima) / 2;}
+			get
+			{
+				if (isSet)
+					return (minima + maxima) / 2;
+				else
+					return null;
+			}
 		}
 
 		/// <summary>

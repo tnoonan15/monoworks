@@ -9,6 +9,7 @@
 		<Action name="Right View" icon="right-view" tooltip="Right view"/>
 		<Action name="Top View" icon="top-view" tooltip="Top view"/>
 		<Action name="Bottom View" icon="bottom-view" tooltip="Bottom view"/>
+		<Action name="Projection" icon="perspective" tooltip="Toggle between parallel and perspective projection" togglable="true"/>
 		
 		<Action name="2D Interaction" icon="2d" tooltip="2D Interaction Mode" togglable="true"/>
 		<Action name="3D Interaction" icon="3d-interact" tooltip="3D Interaction Mode" togglable="true"/>
@@ -23,6 +24,7 @@
 			<Item action="Front View"/>
 			<Item action="Left View"/>
 			<Item action="Top View"/>
+			<Item action="Projection"/>
 		</Toolbar>
 		<Toolbar name="PlotInteraction" buttonStyle="Image">
 			<Item action="2D Interaction"/>
@@ -37,6 +39,7 @@
 			<Item action="Right View"/>
 			<Item action="Top View"/>
 			<Item action="Bottom View"/>
+			<Item action="Projection"/>
 		</Toolbar>
 		<Toolbar name="CadInteraction" buttonStyle="Image">
 			<Item action="3D Interaction"/>
