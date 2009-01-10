@@ -67,8 +67,6 @@ namespace MonoWorks.GuiGtk
 				// add the drawing interactor
 				DrawingInteractor interactor = new DrawingInteractor(Viewport, drawing);
 				Viewport.PrimaryInteractor = interactor;
-				
-//				Viewport.Camera.SetViewDirection(ViewDirection.Standard);
 			}
 		}
 

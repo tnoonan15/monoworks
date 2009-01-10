@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Model
 {
@@ -178,6 +179,9 @@ namespace MonoWorks.Model
 			// cycle through sketch children
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
+				List<Vector> poses = new List<Vector>();
+				List<Vector> normals = new List<Vector>();
+				
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.SolidPoints;
 				Vector[] directions = sketchable.Directions;
@@ -188,23 +192,37 @@ namespace MonoWorks.Model
 					{
 						Vector vert = verts[i];
 						
-						// add the normal
+						// compute the normal
 						Vector normal = directions[i].Cross(direction).Normalize();
-						gl.glNormal3d(normal[0], normal[1], normal[2]);
 						
-						// add the vertex
-						gl.glVertex3d(vert[0], vert[1], vert[2]);	
-						gl.glVertex3d(vert[0]+direction[0]*dTravel, vert[1]+direction[1]*dTravel, vert[2]+direction[2]*dTravel); 
+						// add the first vertex
+						vert.glVertex();
 						bounds.Resize(vert);
-						bounds.Resize(vert + direction*dTravel);
-//						gl.glTranslated(direction[0]*dTravel, direction[1]*dTravel, direction[2]*dTravel);
-//						gl.glVertex3d(vert[0], vert[1], vert[2]);		
-//						gl.glTranslated(-direction[0]*dTravel, -direction[1]*dTravel, -direction[2]*dTravel); 
+						poses.Add(vert);
+						normal.glNormal();
+						normals.Add(normal);
+						
+						Vector otherVert = vert + direction * dTravel;
+						otherVert.glVertex();
+						bounds.Resize(otherVert);
+						poses.Add(otherVert);
+						normal.glNormal();
+						normals.Add(normal);
+						
 					}
 					gl.glEnd();
-//					gl.glTranslated(direction[0]*dTravel, direction[1]*dTravel, direction[2]*dTravel);
 				}
-//				gl.glTranslated(-direction[0]*Travel.Value, -direction[1]*Travel.Value, -direction[2]*Travel.Value);
+									
+				gl.glLineWidth(1f);
+				gl.glBegin(gl.GL_LINES);
+				ColorManager.Global["Black"].Setup();
+				for (int n=0; n<poses.Count; n++)
+				{
+					poses[n].glVertex();
+					(poses[n] + normals[n]*0.2).glVertex();
+				}
+				gl.glEnd();
+				this.CartoonColor.Setup();
 			}
 			
 			gl.glEndList();

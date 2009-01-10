@@ -35,7 +35,7 @@ namespace MonoWorks.Model
 		public TestPart() : base()
 		{			
 			// add the reference line
-			refLine = new RefLine(new Point(0.0, 0.0, 0.0), new Vector(0.0, 1.0, 0.0));
+			refLine = new RefLine(new Point(0.0, 0.0, 0.5), new Vector(0.0, 0.0, 1.0));
 			AddReference(refLine);
 			
 			CreateExtrusion();
@@ -53,21 +53,21 @@ namespace MonoWorks.Model
 			// create the sketch
 			RefPlane plane = new RefPlane();
 			plane.Plane.Center = new Point(0.0,0.0,0.0);
-			plane.Plane.Normal = new Vector(0.0, 1.0, 0.0);
+			plane.Plane.Normal = new Vector(0.0, 0.0, 1.0);
 			AddReference(plane);
 			Sketch extSketch = new Sketch(plane);			
 			AddSketch(extSketch);
 			
 			// add the line
-			Point p1 = new Point(-1.0, 0.0, -1.0);
-			Point p2 = new Point(1.0, 0.0, -1.0);
-			Point p3 = new Point(1.0, 0.0, 1.0);
+			Point p1 = new Point(1.0, -1.0, 0.0);
+			Point p2 = new Point(-1.0, -1.0, 0.0);
+			Point p3 = new Point(-1.0, 1.0, 0.0);
 			Line line1 = new Line(p1, p2);
 			line1.Points.Add(p3);
 			extSketch.AddChild(line1);
 			
 			// add the arc
-			Arc arc1 = new Arc(p2, p3, new Vector(0.0, 1.0, 0.0), Angle.Pi()/-2.0);
+			Arc arc1 = new Arc(p2, p3, new Vector(0.0, 0.0, 1.0), Angle.Pi()/-2.0);
 			extSketch.AddChild(arc1);
 			
 			// add the extrusion
@@ -89,20 +89,23 @@ namespace MonoWorks.Model
 			// create the sketch
 			RefPlane plane = new RefPlane();
 			plane.Plane.Center = new Point(0.0,0.0,0.0);
-			plane.Plane.Normal = new Vector(0.0, 0.0, 1.0);
+			plane.Plane.Normal = new Vector(1.0, 0.0, 0.0);
 			AddReference(plane);
 			Sketch revolutionSketch = new Sketch(plane);
 			AddSketch(revolutionSketch);
 			
 			// add the line
-			Point p4 = new Point(1.0, 1.5, 0.0);
-			Point p5 = new Point(1.0, 2.5, 0.0);
-			Point p6 = new Point(1.0, 2.0, 0.0);
-			Line line2 = new Line(p4, p5);
+			Point bottom = new Point(0.0, 1.0, 1.5);
+			Point top = new Point(0.0, 1.0, 2.5);
+			Point middle = new Point(0.0, 1.0, 2.0);
+			Line line2 = new Line(bottom, top);
+			line2.Points.Add(new Point(0.0, 1.25, 2.5));
+			line2.Points.Add(new Point(0.0, 1.25, 2.0));
+			line2.Points.Add(new Point(0.0, 1.5, 2.0));
 			revolutionSketch.AddChild(line2);
 			
 			// add the arc			
-			Arc arc2 = new Arc(p6, p4, new Vector(0.0, 0.0, 1.0), Angle.Pi());
+			Arc arc2 = new Arc(middle, bottom, new Vector( 1.0, 0.0, 0.0), Angle.Pi()/2);
 			revolutionSketch.AddChild(arc2);
 			
 			// create the revolution

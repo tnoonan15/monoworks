@@ -49,6 +49,7 @@ namespace MonoWorks.DemoGtk
 			DrawingFrame drawingFrame = new DrawingFrame();
 			book.AppendPage(drawingFrame, new Gtk.Label("Model"));
 			drawingFrame.Drawing = new TestPart();	
+			drawingFrame.Viewport.Camera.SetViewDirection(ViewDirection.Standard);
 			
 //			// create the 2D page
 //			Pane2D pane2D = new Pane2D();

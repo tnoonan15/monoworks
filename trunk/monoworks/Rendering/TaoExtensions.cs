@@ -39,5 +39,24 @@ namespace MonoWorks.Rendering
 		{
 			gl.glVertex2d(coord.X, coord.Y);	
 		}
+		
+		/// <summary>
+		/// Makes an OpenGL vertex at the vector.
+		/// </summary>
+		/// <param name="vec"> </param>
+		public static void glVertex(this Vector vec)
+		{
+			gl.glVertex3d(vec.X, vec.Y, vec.Z);
+		}
+		
+		/// <summary>
+		/// Makes an OpenGL normal with the vector.
+		/// </summary>
+		/// <param name="vec"> </param>
+		public static void glNormal(this Vector vec)
+		{
+			gl.glNormal3d(vec.X, vec.Y, vec.Z);
+		}
+		
 	}
 }

@@ -55,6 +55,8 @@ namespace MonoWorks.Rendering
 			wireframeWidth = 1.5f;
 			
 			referenceColor = new Color(0, 128, 0, 64);
+			
+			Lighting = new Lighting();
 		}
 		
 		
@@ -80,13 +82,17 @@ namespace MonoWorks.Rendering
 			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 			gl.glClearDepth(1.0f);
 
-			gl.glEnable(gl.GL_AUTO_NORMAL);
-			gl.glEnable(gl.GL_NORMALIZE);
+//			gl.glEnable(gl.GL_AUTO_NORMAL);
+//			gl.glEnable(gl.GL_NORMALIZE);
 			gl.glEnable(gl.GL_COLOR_MATERIAL);
 
 			// depth testing
 			gl.glEnable(gl.GL_DEPTH_TEST);
 			gl.glDepthFunc(gl.GL_LEQUAL); // The Type Of Depth Test To Do
+
+            // enable polygon offset so wireframes are displayed correctly
+            gl.glPolygonOffset(1f, 1f);
+
 
 			// blending
 			gl.glShadeModel(gl.GL_SMOOTH);						// Enables Smooth Shading
@@ -99,6 +105,8 @@ namespace MonoWorks.Rendering
 
 			// Really Nice Perspective Calculations
 			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
+			
+			Lighting.Initialize();
 		}
 
 
@@ -118,6 +126,7 @@ namespace MonoWorks.Rendering
 		public void BeginOverlays()
 		{
 			gl.glDisable(gl.GL_DEPTH_TEST);
+			gl.glShadeModel(gl.GL_SMOOTH);
 		}
 
 		/// <summary>
@@ -226,6 +235,19 @@ namespace MonoWorks.Rendering
 		}		
 		
 #endregion
+		
+		
+#region Lighting
+		
+		/// <summary>
+		/// The lighting settings.
+		/// </summary>
+		public Lighting Lighting {get; private set;}
+		
+#endregion
+		
+		
+		
 		
 	}
 }
