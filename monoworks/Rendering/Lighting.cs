@@ -18,6 +18,8 @@
 
 using System;
 
+using gl = Tao.OpenGl.Gl;
+
 namespace MonoWorks.Rendering
 {
 	
@@ -32,5 +34,28 @@ namespace MonoWorks.Rendering
 		public Lighting()
 		{
 		}
+		
+		/// <summary>
+		/// Initialize lighting in the OpenGL context.
+		/// </summary>
+		public void Initialize()
+		{
+			gl.glEnable(gl.GL_LIGHTING);
+			gl.glEnable(gl.GL_LIGHT0);
+			gl.glEnable(gl.GL_LIGHT1);
+			
+			float lightDist = 3.0f;
+            float[] lightAmbient = new float[]{0.2f, 0.2f, 0.2f};
+            float[] lightDiffuse = new float[]{0.5f, 0.5f, 0.5f};
+            float[] lightSpecular = new float[]{0.5f, 0.5f, 0.5f};
+            float[] lightPos0 = new float[]{lightDist, lightDist, -lightDist,2f};
+            gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightPos0);
+            gl.glLightfv(gl.GL_LIGHT0, gl.GL_AMBIENT, lightAmbient);
+            gl.glLightfv(gl.GL_LIGHT0, gl.GL_DIFFUSE, lightDiffuse);
+            gl.glLightfv(gl.GL_LIGHT0, gl.GL_SPECULAR, lightSpecular);
+
+		}
+		
+		
 	}
 }

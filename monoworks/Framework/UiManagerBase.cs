@@ -66,7 +66,6 @@ namespace MonoWorks.Framework
 		public void LoadStream(Stream stream)
 		{
 			CallingAssembly = Assembly.GetCallingAssembly();
-			Console.WriteLine("calling assembly: {0}", CallingAssembly.FullName);
 
 			XmlReader reader = new XmlTextReader(stream);
 			Load(reader);

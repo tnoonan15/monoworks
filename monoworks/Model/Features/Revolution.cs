@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Model
 {
@@ -87,7 +88,6 @@ namespace MonoWorks.Model
 				// add the wireframe points
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.WireframePoints;
-				Vector[] directions = sketchable.Directions;
 				for (int i=0; i<verts.Length; i++)
 				{
 					Vector vert = verts[i];
@@ -98,13 +98,8 @@ namespace MonoWorks.Model
 						Vector relPos = vert - Axis.Center.ToVector();
 						Vector pos1 = relPos.Rotate(Axis.Direction, dTravel * n);
 						
-						// add the normal
-						Vector travel = (pos1-Axis.Center.ToVector()).Cross(Axis.Direction);
-						Vector normal = directions[i].Cross(travel).Normalize();
-						gl.glNormal3d(normal[0], normal[1], normal[2]);
-						
 						// add the vertex
-						gl.glVertex3d(pos1[0], pos1[1], pos1[2]);	 
+						pos1.glVertex();
 					}
 					gl.glEnd();
 				}
@@ -130,6 +125,7 @@ namespace MonoWorks.Model
 			gl.glEndList();
 		}
 
+		
 		/// <summary>
 		/// Computes the solid geometry. 
 		/// </summary>
@@ -138,9 +134,10 @@ namespace MonoWorks.Model
 			base.ComputeSolidGeometry();
 			
 			// determine sweep and scaling factors
-			int N = 64;
+			int N = 32;
 			Angle dTravel = Travel / (double)N;
-
+			Vector axisCenter = Axis.Center.ToVector();
+			
 			gl.glNewList(displayLists+SolidListOffset, gl.GL_COMPILE);
 			
 			// cycle through sketch children
@@ -148,20 +145,52 @@ namespace MonoWorks.Model
 			{
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.SolidPoints;
-				for (int n=0; n<N; n++)
+				Vector[] directions = sketchable.Directions;
+				for (int i=0; i<verts.Length-1; i++) // vertices in this sketch
 				{
+					List<Vector> poses = new List<Vector>();
+					List<Vector> normals = new List<Vector>();
 					gl.glBegin(gl.GL_QUAD_STRIP);
-					foreach (Vector vert in verts)
+					for (int n=0; n<N; n++) // divisions of the revolution
 					{
-						Vector relPos = vert - Axis.Center.ToVector();
-						Vector pos1 = relPos.Rotate(Axis.Direction, dTravel * n);
-						Vector pos2 = relPos.Rotate(Axis.Direction, dTravel * (n+1));
-						gl.glVertex3d(pos1[0], pos1[1], pos1[2]);	 
-						gl.glVertex3d(pos2[0], pos2[1], pos2[2]);	 
-						bounds.Resize(pos1);
-						bounds.Resize(pos2);
+						Vector relPos = verts[i] - axisCenter;
+						Vector pos = relPos.Rotate(Axis.Direction, dTravel * n) + axisCenter;
+						pos.glVertex();
+						bounds.Resize(pos);
+						poses.Add(pos);
+						
+						// add the first normal
+						Vector direction_ = directions[i].Rotate(Axis.Direction, dTravel * n);
+						Vector travel = (pos-axisCenter).Cross(Axis.Direction);
+						Vector normal = direction_.Cross(travel).Normalize();
+						normal.glNormal();
+						normals.Add(normal);
+						
+						relPos = verts[i+1] - axisCenter;
+						pos = relPos.Rotate(Axis.Direction, dTravel * n) + axisCenter;						
+						pos.glVertex();
+						bounds.Resize(pos);
+						poses.Add(pos);
+						
+						// add the second normal
+//						direction_ = directions[i].Rotate(Axis.Direction, dTravel * n);
+//						travel = (pos-axisCenter).Cross(Axis.Direction);
+//						normal = direction_.Cross(travel).Normalize();
+						normal.glNormal();
+						normals.Add(normal);
 					}
 					gl.glEnd();
+					
+					gl.glLineWidth(1f);
+					gl.glBegin(gl.GL_LINES);
+					ColorManager.Global["Black"].Setup();
+					for (int n=0; n<poses.Count; n++)
+					{
+						poses[n].glVertex();
+						(poses[n] + normals[n]*0.2).glVertex();
+					}
+					gl.glEnd();
+					this.CartoonColor.Setup();
 				}
 			}
 			
@@ -172,4 +201,9 @@ namespace MonoWorks.Model
 		
 #endregion
 	}
+	
+	
+	
+	
+	
 }

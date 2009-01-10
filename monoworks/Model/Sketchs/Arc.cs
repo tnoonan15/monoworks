@@ -131,7 +131,7 @@ namespace MonoWorks.Model
 				bounds.Resize(solidPoints[i]);
 				
 				// compute the direction
-				directions[i] = (thisPos-centerVec).Cross(Normal).Normalize();
+				directions[i] = (centerVec-thisPos).Cross(Normal).Normalize();
 			}
 			
 			// make the wireframe points the first, middle, and last solid points

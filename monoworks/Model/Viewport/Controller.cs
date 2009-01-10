@@ -35,11 +35,17 @@ namespace MonoWorks.Model.Viewport
 			: base(viewport)
 		{
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
+			OnSolidModeChanged();
 		}
 
 
 #region Shading Actions
 
+		
+		protected readonly Dictionary<SolidMode, string> solidModeNames = new Dictionary<SolidMode, string>
+		{{SolidMode.None,"No Solid"}, {SolidMode.Flat,"Flat Shaded"}, {SolidMode.Smooth,"Smooth Shaded"}};
+		
+		
 		[Action("Wireframe")]
 		public void OnWireframe()
 		{
@@ -54,21 +60,41 @@ namespace MonoWorks.Model.Viewport
 		public void OnNoSolid()
 		{
 			viewport.RenderManager.SolidMode = SolidMode.None;
+			OnSolidModeChanged();
 		}
 
 		[Action("Flat Shaded")]
 		public void OnFlatShaded()
 		{
 			viewport.RenderManager.SolidMode = SolidMode.Flat;
+			OnSolidModeChanged();
 		}
 
 		[Action("Smooth Shaded")]
 		public void OnSmoothShaded()
 		{
 			viewport.RenderManager.SolidMode = SolidMode.Smooth;
+			OnSolidModeChanged();
 		}
 
-
+		/// <summary>
+		/// Updates the controls based on a new solid rendering mode.
+		/// </summary>
+		public void OnSolidModeChanged()
+		{
+			if (UiManager.HasToolbar("Shading"))
+			{
+				ToolBar toolbar = UiManager.GetToolbar("Shading");
+				string solidString = solidModeNames[viewport.RenderManager.SolidMode];
+				foreach (Button button in toolbar)
+				{
+					if (button.LabelString == solidString)
+						button.IsSelected = true;
+					else if (button.LabelString != "Wireframe") // don't touch the wireframe button
+						button.IsSelected = false;
+				}
+			}
+		}
 
 #endregion
 

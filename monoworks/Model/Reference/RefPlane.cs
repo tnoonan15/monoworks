@@ -91,18 +91,12 @@ namespace MonoWorks.Model
 			// find the center of the plane to draw
 			Vector boundsCenter = GetDrawing().Bounds.Center;
 			if (boundsCenter == null)
-			{
-				Console.WriteLine("bounds center null");
 				boundsCenter = new Vector();
-			}
-			else
-				Console.WriteLine("bounds center not null");
 			Vector planeCenter = Plane.Center.ToVector();
 			Vector planeToBounds = planeCenter - boundsCenter;
 			double dist = planeToBounds.Magnitude * planeToBounds.Dot(Plane.Normal) 
 				/ planeToBounds.Magnitude / Plane.Normal.Magnitude;
 			Vector center = boundsCenter + Plane.Normal * dist;
-			Console.WriteLine("plane center {0}, distance {1}", center, dist);
 			
 			// generate the corner points
 			quadCorners = new Vector[4];

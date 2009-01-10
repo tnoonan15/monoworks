@@ -136,6 +136,8 @@ namespace MonoWorks.Rendering
 		{
 			viewport.Camera.Place(); // place the camera for 3D rendering
 
+			viewport.RenderManager.SetupSolidMode();
+			
 			foreach (Renderable3D renderable in renderables)
 				renderable.RenderOpaque(viewport);
 

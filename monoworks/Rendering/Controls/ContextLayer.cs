@@ -164,7 +164,6 @@ namespace MonoWorks.Rendering.Controls
 			toolbar.Orientation = ContextOrientation(loc);
 			toolbar.StyleClassName = "toolbar-" + loc.ToString().ToLower();
 			toolbar.ToolStyle = "tool-" + loc.ToString().ToLower();
-			Console.WriteLine("toolbar style {0}", toolbar.StyleClassName);
 			stacks[loc].Add(toolbar);
 		}
 
