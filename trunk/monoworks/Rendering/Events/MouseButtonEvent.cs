@@ -23,6 +23,11 @@ using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.Rendering.Events
 {
+
+	/// <summary>
+	/// The number or times the button was clicked.
+	/// </summary>
+	public enum ClickMultiplicity { Single, Double, Triple };
 	
 	/// <summary>
 	/// Mouse button press event.
@@ -34,29 +39,34 @@ namespace MonoWorks.Rendering.Events
 		{
 		}
 		
-		public MouseButtonEvent(Coord pos, int button, InteractionModifier modifier) : base(pos)
+		public MouseButtonEvent(Coord pos, int button, InteractionModifier modifier) 
+			: this(pos, button, modifier, ClickMultiplicity.Single)
 		{
-			this.button = button;
-			this.modifier = modifier;
 		}
-		
-		private int button;
+
+		public MouseButtonEvent(Coord pos, int button, InteractionModifier modifier, ClickMultiplicity multiplicity)
+			: base(pos)
+		{
+			Button = button;
+			Modifier = modifier;
+			Multiplicity = multiplicity;
+		}
+
+
 		/// <value>
 		/// The mouse button that was pressed.
 		/// </value>
-		public int Button
-		{
-			get {return button;}
-		}
-		
-		private InteractionModifier modifier;
+		public int Button { get; private set; }
+	
 		/// <value>
 		/// The modifier for the event.
 		/// </value>
-		public InteractionModifier Modifier
-		{
-			get {return modifier;}
-		}
+		public InteractionModifier Modifier { get; private set; }
+
+		/// <value>
+		/// The multiplicity for the click.
+		/// </value>
+		public ClickMultiplicity Multiplicity { get; private set; }
 		
 	}
 }

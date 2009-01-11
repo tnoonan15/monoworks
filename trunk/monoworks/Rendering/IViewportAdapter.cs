@@ -35,11 +35,16 @@ namespace MonoWorks.Rendering
 	public delegate void UpdateHandler();
 	
 	/// <summary>
-	/// The IViewport interface defines an interface for MonoWorks viewports. 
-	/// This lets the model interact with viewports in a GUI-independant manner.
+	/// The IViewportAdapter interface defines an interface for MonoWorks viewports adapters. 
+	/// This lets the rendering system interact with viewports in a GUI-independant manner.
 	/// </summary>
-	public interface IViewport
+	public interface IViewportAdapter
 	{
+		/// <summary>
+		/// The viewport.
+		/// </summary>
+		Viewport Viewport { get; }
+
 		/// <summary>
 		/// Returns the viewport width.
 		/// </summary>
@@ -50,11 +55,6 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		int HeightGL { get; }
 		
-		/// <value>
-		/// Access the viewport camera.
-		/// </value>
-		Camera Camera { get; }
-
 		/// <summary>
 		/// Makes the viewport's context the current one.
 		/// </summary>
@@ -74,59 +74,5 @@ namespace MonoWorks.Rendering
 		/// Performs the rendering for one frame.
 		/// </summary>
 		void PaintGL();
-
-		/// <value>
-		/// Access the viewport's render manager.
-		/// </value>
-		RenderManager RenderManager { get; }
-		
-		/// <value>
-		/// The current interaction state of the viewport.
-		/// </value>
-		Interaction.InteractionState InteractionState {get; set;}
-		
-		/// <value>
-		/// Interactor that gets to handle events before the renderables.
-		/// </value>
-		Interaction.AbstractInteractor PrimaryInteractor {get; set;}
-		
-		/// <value>
-		/// The renderable interactor.
-		/// </value>
-		Interaction.RenderableInteractor RenderableInteractor { get; }
-
-		/// <value>
-		/// The overlay interactor.
-		/// </value>
-		Interaction.OverlayInteractor OverlayInteractor { get; }
-		
-		/// <value>
-		/// The lighting effects for the viewport.
-		/// </value>
-		Lighting Lighting {	get; }
-
-		/// <summary>
-		/// The rendering list for the viewport.
-		/// </summary>
-		RenderList RenderList { get; }
-		
-		/// <summary>
-		/// Lets the renderables know that the view direction has been changed.
-		/// </summary>
-		void OnDirectionChanged();
-
-		/// <summary>
-		/// Renders text to the viewport.
-		/// </summary>
-		/// <param name="size"></param>
-		/// <returns></returns>
-		void RenderText(TextDef text);
-
-		/// <summary>
-		/// Renders lots of text to the viewport.
-		/// </summary>
-		/// <param name="size"></param>
-		/// <returns></returns>
-		void RenderText(TextDef[] text);
 	}
 }

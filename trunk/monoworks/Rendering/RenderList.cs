@@ -132,7 +132,7 @@ namespace MonoWorks.Rendering
 
 		#region Rendering
 
-		public void Render(IViewport viewport)
+		public void Render(Viewport viewport)
 		{
 			viewport.Camera.Place(); // place the camera for 3D rendering
 
@@ -162,7 +162,7 @@ namespace MonoWorks.Rendering
 		/// The viewport should call this when it's resized.
 		/// </summary>
 		/// <param name="viewport"> </param>
-		public void OnViewportResized(IViewport viewport)
+		public void OnViewportResized(Viewport viewport)
 		{
 			foreach (Renderable3D renderable in Renderables)
 				renderable.OnViewportResized(viewport);

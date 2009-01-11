@@ -260,7 +260,7 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
 			

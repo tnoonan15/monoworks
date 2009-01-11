@@ -10,7 +10,7 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="50*" />
         </Grid.ColumnDefinitions>
-        <t:TreeView Grid.Column="0"></t:TreeView>
+        <t:EntityTreeView x:Name="treeView" Grid.Column="0"></t:EntityTreeView>
         <GridSplitter x:Name="splitter" Grid.Column="1" HorizontalAlignment="Stretch" />
         <mwg:ViewportWrapper x:Name="viewportWrapper" Grid.Column="2"/>
     </Grid>

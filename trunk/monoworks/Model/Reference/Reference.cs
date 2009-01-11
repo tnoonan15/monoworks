@@ -20,6 +20,7 @@ using System;
 
 using MonoWorks.Rendering;
 
+
 namespace MonoWorks.Model
 {
 	
@@ -40,7 +41,7 @@ namespace MonoWorks.Model
 		/// If the reference color is transparent, renders it.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void RenderTransparent(IViewport viewport)
+		public override void RenderTransparent(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);
 			
@@ -52,7 +53,7 @@ namespace MonoWorks.Model
 		/// Render the reference item.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void RenderOpaque(IViewport viewport)
+		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
 			

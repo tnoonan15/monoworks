@@ -133,7 +133,7 @@ namespace MonoWorks.Plotting
 		}
 
 		
-		public override void OnViewportResized(IViewport viewport)
+		public override void OnViewportResized(Viewport viewport)
 		{
 			base.OnViewportResized(viewport);
 			
@@ -174,7 +174,7 @@ namespace MonoWorks.Plotting
 		}
 
 		
-		public override void OnViewDirectionChanged(IViewport viewport)
+		public override void OnViewDirectionChanged(Viewport viewport)
 		{
 			base.OnViewDirectionChanged(viewport);
 			
@@ -274,7 +274,7 @@ namespace MonoWorks.Plotting
 		/// Updates the axes based on the camera position and arrangement, then renders them.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
-		protected void RenderAxes(IViewport viewport)
+		protected void RenderAxes(Viewport viewport)
 		{
 
 			// perform the rendering
@@ -314,7 +314,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Update the positions of the grids.
 		/// </summary>
-		protected void UpdateGrids(IViewport viewport)
+		protected void UpdateGrids(Viewport viewport)
 		{
 			// check if the furthest point from the camera is the same
 			Vector furthestCorner_ = bounds.FurthestCorner(viewport.Camera.Position);
@@ -329,7 +329,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Render the grids.
 		/// </summary>
-		protected void RenderGrids(IViewport viewport)
+		protected void RenderGrids(Viewport viewport)
 		{
 			// update axes the positions
 			switch (arrangement)
@@ -454,7 +454,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Renders the title.
 		/// </summary>
-		protected void RenderTitle(IViewport viewport)
+		protected void RenderTitle(Viewport viewport)
 		{
 			// determine the top and center of the bounds
 			double top = 0;
@@ -490,7 +490,7 @@ namespace MonoWorks.Plotting
 		/// Enables clipping for the content rendering.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
-		protected void EnableClipping(IViewport viewport)
+		protected void EnableClipping(Viewport viewport)
 		{			
 			// define the clip planes
 			double[] eq = new double[]{1, 0, 0, bounds.Maxima[0]};
@@ -537,13 +537,13 @@ namespace MonoWorks.Plotting
 		/// Disables clipping for the content rendering.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
-		protected void DisableClipping(IViewport viewport)
+		protected void DisableClipping(Viewport viewport)
 		{
 			for (int i=0; i<6; i++)
 				gl.glDisable(gl.GL_CLIP_PLANE0 + i);
 		}
 
-		public override void RenderOpaque(IViewport viewport)
+		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
 
@@ -567,7 +567,7 @@ namespace MonoWorks.Plotting
 			DisableClipping(viewport);
 		}
 
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
 
@@ -593,7 +593,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// If in 2D mode, translate the axes limits and prevent the viewport from handling the interaction.
 		/// </summary>
-		public override bool HandlePan(IViewport viewport, double dx, double dy)
+		public override bool HandlePan(Viewport viewport, double dx, double dy)
 		{			
 			if (viewport.InteractionState == InteractionState.Interact2D)
 			{
@@ -608,7 +608,7 @@ namespace MonoWorks.Plotting
 				return false;
 		}
 		
-		public override bool HandleDolly(IViewport viewport, double factor)
+		public override bool HandleDolly(Viewport viewport, double factor)
 		{
 			if (viewport.InteractionState == InteractionState.Interact2D)
 			{
@@ -622,7 +622,7 @@ namespace MonoWorks.Plotting
 		}
 
 
-        public override bool HandleZoom(IViewport viewport, RubberBand rubberBand)
+        public override bool HandleZoom(Viewport viewport, RubberBand rubberBand)
         {
             if (viewport.InteractionState == InteractionState.Interact2D)
 			{

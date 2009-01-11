@@ -138,7 +138,7 @@ namespace MonoWorks.Rendering.Controls
 
 #region Rendering
 
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
 			

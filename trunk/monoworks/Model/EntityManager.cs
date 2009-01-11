@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Model
 {
 	
@@ -36,6 +38,8 @@ namespace MonoWorks.Model
 		}
 		
 		protected Drawing drawing;
+
+		protected Viewport viewport;
 		
 #region Entity Registry
 		
@@ -52,6 +56,8 @@ namespace MonoWorks.Model
 		{
 			if (!entityRegistry.ContainsKey(entity.Id))
 				entityRegistry[entity.Id] = entity;
+			foreach (IEntityListener listener in entityListeners)
+				listener.OnEntityAdded(entity);
 		}
 		
 		/// <summary>
@@ -68,6 +74,32 @@ namespace MonoWorks.Model
 		}
 		
 #endregion
+
+
+#region Selection Listeners
+
+		/// <summary>
+		/// All the selection listeners to tell about selection events.
+		/// </summary>
+		protected List<IEntityListener> entityListeners = new List<IEntityListener>();
+
+		/// <summary>
+		/// Registers listener to be told about entity events.
+		/// </summary>
+		public void RegisterEntityListener(IEntityListener listener)
+		{
+			entityListeners.Add(listener);
+		}
+
+		/// <summary>
+		/// Unregisters listener to be told about entity events.
+		/// </summary>
+		public void UnregisterEntityListener(IEntityListener listener)
+		{
+			entityListeners.Remove(listener);
+		}
+
+#endregion
 		
 		
 #region Selection Listeners	
@@ -75,22 +107,22 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// All the selection listeners to tell about selection events.
 		/// </summary>
-		protected List<ISelectionListener> listeners = new List<ISelectionListener>();
+		protected List<ISelectionListener> selectionListeners = new List<ISelectionListener>();
 		
 		/// <summary>
 		/// Registers listener to be told about selection events.
 		/// </summary>
-		public void RegisterListener(ISelectionListener listener)
+		public void RegisterSelectionListener(ISelectionListener listener)
 		{
-			listeners.Add(listener);	
+			selectionListeners.Add(listener);	
 		}
 		
 		/// <summary>
 		/// Unregisters listener to be told about selection events.
 		/// </summary>
-		public void UnregisterListener(ISelectionListener listener)
+		public void UnregisterSelectionListener(ISelectionListener listener)
 		{
-			listeners.Remove(listener);	
+			selectionListeners.Remove(listener);	
 		}
 		
 #endregion
@@ -112,7 +144,7 @@ namespace MonoWorks.Model
 		{
 			Selected.Add(entity);
 			entity.Select();
-			foreach (ISelectionListener listener in listeners)
+			foreach (ISelectionListener listener in selectionListeners)
 			{
 				if (listener != sender)
 					listener.OnSelect(entity);
@@ -128,7 +160,7 @@ namespace MonoWorks.Model
 		{
 			Selected.Remove(entity);
 			entity.Deselect();
-			foreach (ISelectionListener listener in listeners)
+			foreach (ISelectionListener listener in selectionListeners)
 			{
 				if (listener != sender)
 					listener.OnDeselect(entity);
@@ -148,7 +180,7 @@ namespace MonoWorks.Model
 			        entity.Select();
 			        Selected.Add(entity);
 			}
-			foreach (ISelectionListener listener in listeners)
+			foreach (ISelectionListener listener in selectionListeners)
 			{
 			        if (listener != sender)
 			                listener.OnSelectAll();
@@ -166,7 +198,7 @@ namespace MonoWorks.Model
 				entity.Deselect();
 			}
 			Selected.Clear();
-			foreach (ISelectionListener listener in listeners)
+			foreach (ISelectionListener listener in selectionListeners)
 			{
 		        if (listener != sender)
 		        	listener.OnDeselectAll();

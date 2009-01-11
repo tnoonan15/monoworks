@@ -19,6 +19,7 @@
 using System;
 
 using MonoWorks.Base;
+
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering
@@ -57,7 +58,7 @@ namespace MonoWorks.Rendering
 		/// Called when the viewport changes size.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
-		public virtual void OnViewportResized(IViewport viewport)
+		public virtual void OnViewportResized(Viewport viewport)
 		{			
 		}
 
@@ -65,7 +66,7 @@ namespace MonoWorks.Rendering
 		/// Called when the viewport changes view direction.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
-		public virtual void OnViewDirectionChanged(IViewport viewport)
+		public virtual void OnViewDirectionChanged(Viewport viewport)
 		{
 		}
 
@@ -97,7 +98,7 @@ namespace MonoWorks.Rendering
 		/// Renders the overlay portion of the renderable, 
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public virtual void RenderOverlay(IViewport viewport)
+		public virtual void RenderOverlay(Viewport viewport)
 		{			
 			if (dirty)
 				ComputeGeometry();
@@ -111,7 +112,7 @@ namespace MonoWorks.Rendering
 		/// <param name="dx"> The travel in the x screen dimension.</param>
 		/// <param name="dy"> The travel in the y screen dimension.</param>
 		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
-		public virtual bool HandlePan(IViewport viewport, double dx, double dy)
+		public virtual bool HandlePan(Viewport viewport, double dx, double dy)
 		{
 			return false;
 		}		
@@ -122,7 +123,7 @@ namespace MonoWorks.Rendering
 		/// <param name="viewport"> The <see cref="IViewport"/> on which the interaction was performed. </param>
 		/// <param name="factor"> The dolly factor.</param>
 		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
-		public virtual bool HandleDolly(IViewport viewport, double factor)
+		public virtual bool HandleDolly(Viewport viewport, double factor)
 		{
 			return false;
 		}
@@ -133,7 +134,7 @@ namespace MonoWorks.Rendering
         /// <param name="viewport"> The <see cref="IViewport"/> on which the interaction was performed. </param>
         /// <param name="rubberBand"> The rubber band encompassing the zoom.</param>
         /// <returns> True to block the viewport from dealing with the interaction itself. </returns>
-        public virtual bool HandleZoom(IViewport viewport, RubberBand rubberBand)
+        public virtual bool HandleZoom(Viewport viewport, RubberBand rubberBand)
         {
             return false;
 		}
@@ -223,8 +224,10 @@ namespace MonoWorks.Rendering
 		public virtual void OnButtonPress(MouseButtonEvent evt) {}
 		
 		public virtual void OnButtonRelease(MouseButtonEvent evt) {}
-		
-		public virtual void OnMouseMotion(MouseEvent evt) {}
+
+		public virtual void OnMouseMotion(MouseEvent evt) { }
+
+		public virtual void OnMouseWheel(MouseWheelEvent evt) { }
 				
 #endregion
 

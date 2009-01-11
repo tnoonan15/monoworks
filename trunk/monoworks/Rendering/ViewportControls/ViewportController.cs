@@ -25,7 +25,7 @@ using MonoWorks.Rendering.Controls;
 using MonoWorks.Rendering.Interaction;
 
 
-namespace MonoWorks.Rendering.Viewport
+namespace MonoWorks.Rendering.ViewportControls
 {
     /// <summary>
     /// Implements a Framework controller for a viewport.
@@ -36,7 +36,7 @@ namespace MonoWorks.Rendering.Viewport
         /// Default constructor.
         /// </summary>
         /// <param name="viewport">The viewport that this controller controls.</param>
-        public ViewportController(IViewport viewport)
+        public ViewportController(Viewport viewport)
             : base()
         {
 			this.viewport = viewport;
@@ -44,7 +44,7 @@ namespace MonoWorks.Rendering.Viewport
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
         }
 
-        protected IViewport viewport;
+        protected Viewport viewport;
 
 		/// <summary>
 		/// The UiManager used by this controller.

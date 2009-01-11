@@ -50,7 +50,7 @@ namespace MonoWorks.Rendering.Interaction
 		/// Default constructor.
 		/// </summary>
 		/// <param name="viewport">The viewport to interact with.</param>
-		public AbstractInteractor(IViewport viewport)
+		public AbstractInteractor(Viewport viewport)
 		{
 			this.renderList = viewport.RenderList;
 			this.viewport = viewport;
@@ -59,7 +59,7 @@ namespace MonoWorks.Rendering.Interaction
 
 		protected RenderList renderList;
 
-		protected IViewport viewport;
+		protected Viewport viewport;
 
 
 		protected Coord anchor;
@@ -109,6 +109,12 @@ namespace MonoWorks.Rendering.Interaction
 		public virtual void OnMouseMotion(MouseEvent evt)
 		{
 			lastPos = evt.Pos;
+		}
+
+
+		public virtual void OnMouseWheel(MouseWheelEvent evt)
+		{
+
 		}
 
 	}

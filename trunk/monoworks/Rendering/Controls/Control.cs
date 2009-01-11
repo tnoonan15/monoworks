@@ -22,6 +22,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
+
 using gl=Tao.OpenGl.Gl;
 
 namespace MonoWorks.Rendering.Controls
@@ -163,7 +164,7 @@ namespace MonoWorks.Rendering.Controls
 //			Console.WriteLine("computing geometry for {0}, size: {1}, user size? {2}", this.GetType(), size, UserSize);
 		}
 
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
 

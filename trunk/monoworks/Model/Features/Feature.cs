@@ -176,7 +176,7 @@ namespace MonoWorks.Model
 		/// If the feature is transparent, renders it.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public override void RenderTransparent(IViewport viewport)
+		public override void RenderTransparent(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);
 //			Render(viewport);
@@ -186,7 +186,7 @@ namespace MonoWorks.Model
 		/// Renders the feature, recomputing geometry if necessary.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		 public override void RenderOpaque(IViewport viewport)
+		 public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
 			
