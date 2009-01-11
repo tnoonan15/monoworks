@@ -462,7 +462,7 @@ namespace MonoWorks.Plotting
 		}
 
 
-		public override void RenderOpaque(MonoWorks.Rendering.IViewport viewport)
+		public override void RenderOpaque(MonoWorks.Rendering.Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
 
@@ -489,7 +489,7 @@ namespace MonoWorks.Plotting
 		}
 
 
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
 		}

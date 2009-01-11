@@ -60,7 +60,7 @@ namespace MonoWorks.DemoWpf
 		{
 			this.AddAt(viewportWrapper, 0, 1);
 			swc.Grid.SetRowSpan(viewportWrapper, 2);
-			viewport.ResizeGL();
+			viewport.Resize();
 		}
 
 		/// <summary>
@@ -68,12 +68,12 @@ namespace MonoWorks.DemoWpf
 		/// </summary>
 		public void OnUpdated()
 		{
-			viewport.PaintGL();
+			viewport.Render();
 		}
 
 		private ViewportWrapper viewportWrapper;
 
-		protected IViewport viewport;
+		protected Viewport viewport;
 
 	}
 }

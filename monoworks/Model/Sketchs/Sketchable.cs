@@ -75,7 +75,7 @@ namespace MonoWorks.Model
 		
 #region Rendering
 
-		public override void RenderOpaque(IViewport viewport)
+		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
 			gl.glColor3f(1.0f, 1.0f, 1.0f);

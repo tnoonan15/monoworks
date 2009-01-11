@@ -17,25 +17,25 @@ namespace MonoWorks.GuiWpf
 		public ViewportWrapper()
 			: base()
 		{
-			viewport = new SwfViewport();
-			Child = viewport;
+			adapter = new SwfViewportAdapter();
+			Child = adapter;
 		}
 
 
-		private SwfViewport viewport;
+		private SwfViewportAdapter adapter;
 		/// <summary>
 		/// The underlying viewport.
 		/// </summary>
-		public IViewport Viewport
+		public Viewport Viewport
 		{
-			get { return viewport; }
+			get { return adapter.Viewport; }
 		}
 
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
 		{
 			base.OnRenderSizeChanged(sizeInfo);
 
-			viewport.ResizeGL();
+			adapter.ResizeGL();
 		}
 
 	}

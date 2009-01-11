@@ -213,7 +213,7 @@ namespace MonoWorks.Plotting
 
 
 
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
 

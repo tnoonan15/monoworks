@@ -21,17 +21,18 @@ using System.Collections.Generic;
 
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Viewport;
-using MonoWorks.Rendering.Controls;
 
-namespace MonoWorks.Model.Viewport
+using MonoWorks.Rendering.Controls;
+using MonoWorks.Rendering.ViewportControls;
+
+namespace MonoWorks.Model.ViewportControls
 {
 	/// <summary>
 	/// Controller for a Model viewport.
 	/// </summary>
 	public class Controller : ViewportController
 	{
-		public Controller(IViewport viewport)
+		public Controller(Viewport viewport)
 			: base(viewport)
 		{
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));

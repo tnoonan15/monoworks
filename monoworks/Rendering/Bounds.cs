@@ -21,6 +21,7 @@ using gl=Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 
+
 namespace MonoWorks.Rendering
 {
 	
@@ -299,7 +300,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		/// <param name="viewport"> The viewport containing the camera.</param>
 		/// <returns> The low and high end of each edge (6 elements).</returns>
-		public Vector[] GetOutsideEdges(IViewport viewport)
+		public Vector[] GetOutsideEdges(Viewport viewport)
 		{
 			Vector[] edges = new Vector[6];
 			Vector camPos = viewport.Camera.Position;
@@ -405,7 +406,7 @@ namespace MonoWorks.Rendering
 		/// Renders the bounding box to the given viewport.
 		/// </summary>
 		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
-		public virtual void Render(IViewport viewport)
+		public virtual void Render(Viewport viewport)
 		{
 			if (isSet && minima != null)
 			{

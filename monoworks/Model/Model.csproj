@@ -75,6 +75,7 @@
     <Compile Include="Features\Extrusion.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\Revolution.cs" />
+    <Compile Include="IEntityListener.cs" />
     <Compile Include="Interaction\DrawingInteractor.cs" />
     <Compile Include="ISelectionListener.cs" />
     <Compile Include="Momento.cs" />
@@ -87,14 +88,14 @@
     <Compile Include="Sketchs\Sketch.cs" />
     <Compile Include="Sketchs\Sketchable.cs" />
     <Compile Include="TestPart.cs" />
-    <Compile Include="Viewport\Controller.cs" />
+    <Compile Include="ViewportControls\Controller.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EntityMetaData.xml" />
-    <EmbeddedResource Include="Viewport\icons\nosolid.png" />
-    <EmbeddedResource Include="Viewport\icons\flat.png" />
-    <EmbeddedResource Include="Viewport\icons\smooth.png" />
-    <EmbeddedResource Include="Viewport\icons\wireframe.png" />
+    <EmbeddedResource Include="ViewportControls\icons\nosolid.png" />
+    <EmbeddedResource Include="ViewportControls\icons\flat.png" />
+    <EmbeddedResource Include="ViewportControls\icons\smooth.png" />
+    <EmbeddedResource Include="ViewportControls\icons\wireframe.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -111,7 +112,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Viewport\Viewport.ui" />
+    <EmbeddedResource Include="ViewportControls\Viewport.ui" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

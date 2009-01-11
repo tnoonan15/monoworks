@@ -30,7 +30,7 @@ namespace MonoWorks.Rendering.Interaction
 	public class OverlayInteractor : AbstractInteractor
 	{
 
-		public OverlayInteractor(IViewport viewport)
+		public OverlayInteractor(Viewport viewport)
 			: base(viewport)
 		{
 

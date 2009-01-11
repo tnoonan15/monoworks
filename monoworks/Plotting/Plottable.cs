@@ -162,7 +162,7 @@ namespace MonoWorks.Plotting
 #region Rendering
 
 
-		public override void RenderOpaque(IViewport viewport)
+		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
 
@@ -170,7 +170,7 @@ namespace MonoWorks.Plotting
 		}
 
 
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
 

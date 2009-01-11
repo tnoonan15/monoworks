@@ -66,7 +66,7 @@ namespace MonoWorks.Rendering.Controls
 		}
 		
 		
-		public override void RenderOverlay(IViewport viewport)
+		public override void RenderOverlay(Viewport viewport)
 		{	
 			if (dirty)
 				ComputeGeometry();

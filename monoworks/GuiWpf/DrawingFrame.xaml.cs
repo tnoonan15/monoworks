@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 
 using MonoWorks.Model;
-using MonoWorks.Model.Viewport;
+using MonoWorks.Model.ViewportControls;
 using MonoWorks.Model.Interaction;
 using MonoWorks.Rendering;
 
@@ -24,12 +24,13 @@ namespace MonoWorks.GuiWpf
 
 			Controller = new Controller(Viewport);
 			Controller.SetUsage(ViewportUsage.CAD);
+
 		}
 
 		/// <summary>
 		/// The viewport.
 		/// </summary>
-		public IViewport Viewport
+		public Viewport Viewport
 		{
 			get { return viewportWrapper.Viewport; }
 		}
@@ -56,6 +57,15 @@ namespace MonoWorks.GuiWpf
 				// add the drawing interactor
 				DrawingInteractor interactor = new DrawingInteractor(Viewport, drawing);
 				Viewport.PrimaryInteractor = interactor;
+
+				// connect the entity manager with the tree view
+				treeView.Drawing = drawing;
+
+				drawing.EntityManager.SelectionChanged += delegate(Drawing drw)
+				{
+					Viewport.PaintGL();
+				};
+
 			}
 		}
 

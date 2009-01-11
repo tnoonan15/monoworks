@@ -33,6 +33,7 @@ namespace MonoWorks.Rendering
 		void OnButtonRelease(MouseButtonEvent evt);
 		
 		void OnMouseMotion(MouseEvent evt);
-		
+
+		void OnMouseWheel(MouseWheelEvent evt);
 	}
 }

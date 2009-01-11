@@ -135,7 +135,7 @@ namespace MonoWorks.Plotting
 		}
 
 		
-		public override void RenderOpaque(IViewport viewport)
+		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
 

@@ -87,6 +87,7 @@
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\MouseButtonEvent.cs" />
     <Compile Include="Events\MouseEvent.cs" />
+    <Compile Include="Events\MouseWheelEvent.cs" />
     <Compile Include="FillGradient.cs" />
     <Compile Include="HitLine.cs" />
     <Compile Include="IFill.cs" />
@@ -94,7 +95,7 @@
     <Compile Include="Interaction\AbstractInteractor.cs" />
     <Compile Include="Interaction\OverlayInteractor.cs" />
     <Compile Include="Interaction\RenderableInteractor.cs" />
-    <Compile Include="IViewport.cs" />
+    <Compile Include="IViewportAdapter.cs" />
     <Compile Include="Lighting.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Renderable.cs" />
@@ -107,8 +108,9 @@
     <Compile Include="TextDef.cs" />
     <Compile Include="TextRenderer.cs" />
     <Compile Include="Transform.cs" />
-    <Compile Include="Viewport\UiManager.cs" />
-    <Compile Include="Viewport\ViewportController.cs" />
+    <Compile Include="ViewportControls\UiManager.cs" />
+    <Compile Include="Viewport.cs" />
+    <Compile Include="ViewportControls\ViewportController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />
@@ -127,24 +129,24 @@
     <EmbeddedResource Include="Controls\DefaultStyles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Viewport\Viewport.ui" />
+    <EmbeddedResource Include="ViewportControls\Viewport.ui" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Viewport\icons\2d.png" />
-    <EmbeddedResource Include="Viewport\icons\3d.png" />
-    <EmbeddedResource Include="Viewport\icons\back-view.png" />
-    <EmbeddedResource Include="Viewport\icons\bottom-view.png" />
-    <EmbeddedResource Include="Viewport\icons\export.png" />
-    <EmbeddedResource Include="Viewport\icons\front-view.png" />
-    <EmbeddedResource Include="Viewport\icons\left-view.png" />
-    <EmbeddedResource Include="Viewport\icons\perspective.png" />
-    <EmbeddedResource Include="Viewport\icons\right-view.png" />
-    <EmbeddedResource Include="Viewport\icons\standard-view.png" />
-    <EmbeddedResource Include="Viewport\icons\top-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\2d.png" />
+    <EmbeddedResource Include="ViewportControls\icons\3d.png" />
+    <EmbeddedResource Include="ViewportControls\icons\back-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\bottom-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\export.png" />
+    <EmbeddedResource Include="ViewportControls\icons\front-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\left-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\perspective.png" />
+    <EmbeddedResource Include="ViewportControls\icons\right-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\standard-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\top-view.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Viewport\icons\3d-interact.png" />
-    <EmbeddedResource Include="Viewport\icons\3d-view.png" />
+    <EmbeddedResource Include="ViewportControls\icons\3d-interact.png" />
+    <EmbeddedResource Include="ViewportControls\icons\3d-view.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

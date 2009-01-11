@@ -21,6 +21,8 @@ using System.Collections.Generic;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering.Events;
+using MonoWorks.Rendering;
+
 
 namespace MonoWorks.Rendering.Interaction
 {
@@ -34,7 +36,7 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public RenderableInteractor(IViewport viewport) : base(viewport)
+		public RenderableInteractor(Viewport viewport) : base(viewport)
 		{
 			mouseType = InteractionType.None;
 

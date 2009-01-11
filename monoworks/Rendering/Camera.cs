@@ -43,7 +43,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Camera(IViewport theViewport)
+		public Camera(Viewport theViewport)
 		{
 			viewport = theViewport;
 			
@@ -66,7 +66,7 @@ namespace MonoWorks.Rendering
 
 #region Attributes
 		
-		protected IViewport viewport;	
+		protected Viewport viewport;	
 		
 		/// <value>
 		/// The height of the viewport.
@@ -680,7 +680,7 @@ namespace MonoWorks.Rendering
 			viewport.RenderList.ResetBounds();
 			GetDirectionVectors(direction, out center, out pos, out upVec);
 			RecomputeUpVector();
-			viewport.ResizeGL();
+			viewport.Resize();
 			viewport.OnDirectionChanged();
 		}
 		

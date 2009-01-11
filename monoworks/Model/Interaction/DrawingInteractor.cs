@@ -32,7 +32,7 @@ namespace MonoWorks.Model.Interaction
 	public class DrawingInteractor : AbstractInteractor
 	{
 		
-		public DrawingInteractor(IViewport viewport, Drawing drawing) : base(viewport)
+		public DrawingInteractor(Viewport viewport, Drawing drawing) : base(viewport)
 		{
 			this.drawing = drawing;
 		}
@@ -48,7 +48,10 @@ namespace MonoWorks.Model.Interaction
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
-			
+
+			if (evt.Handled)
+				return;
+
 			// deselect everything, if necessary
 			if (evt.Modifier != InteractionModifier.Shift)
 			{
@@ -67,6 +70,9 @@ namespace MonoWorks.Model.Interaction
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
+
+			if (evt.Handled)
+				return;
 			
 			foreach (Entity entity in drawing.Children)
 				entity.IsHovering = false;
