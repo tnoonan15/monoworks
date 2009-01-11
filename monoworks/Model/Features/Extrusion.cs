@@ -179,8 +179,8 @@ namespace MonoWorks.Model
 			// cycle through sketch children
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
 			{
-				List<Vector> poses = new List<Vector>();
-				List<Vector> normals = new List<Vector>();
+//				List<Vector> poses = new List<Vector>();
+//				List<Vector> normals = new List<Vector>();
 				
 				sketchable.ComputeGeometry();
 				Vector[] verts = sketchable.SolidPoints;
@@ -196,33 +196,33 @@ namespace MonoWorks.Model
 						Vector normal = directions[i].Cross(direction).Normalize();
 						
 						// add the first vertex
-						vert.glVertex();
 						bounds.Resize(vert);
-						poses.Add(vert);
+//						poses.Add(vert);
 						normal.glNormal();
-						normals.Add(normal);
+//						normals.Add(normal);
+						vert.glVertex();
 						
 						Vector otherVert = vert + direction * dTravel;
-						otherVert.glVertex();
 						bounds.Resize(otherVert);
-						poses.Add(otherVert);
+//						poses.Add(otherVert);
 						normal.glNormal();
-						normals.Add(normal);
+//						normals.Add(normal);
+						otherVert.glVertex();
 						
 					}
 					gl.glEnd();
 				}
 									
-				gl.glLineWidth(1f);
-				gl.glBegin(gl.GL_LINES);
-				ColorManager.Global["Black"].Setup();
-				for (int n=0; n<poses.Count; n++)
-				{
-					poses[n].glVertex();
-					(poses[n] + normals[n]*0.2).glVertex();
-				}
-				gl.glEnd();
-				this.CartoonColor.Setup();
+//				gl.glLineWidth(1f);
+//				gl.glBegin(gl.GL_LINES);
+//				ColorManager.Global["Black"].Setup();
+//				for (int n=0; n<poses.Count; n++)
+//				{
+//					poses[n].glVertex();
+//					(poses[n] + normals[n]*0.2).glVertex();
+//				}
+//				gl.glEnd();
+//				this.CartoonColor.Setup();
 			}
 			
 			gl.glEndList();
