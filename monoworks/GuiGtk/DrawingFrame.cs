@@ -20,9 +20,9 @@ using System;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Model;
-using MonoWorks.Model.Viewport;
+using MonoWorks.Model.ViewportControls;
 using MonoWorks.Model.Interaction;
-
+using MonoWorks.GuiGtk.Tree;
 
 namespace MonoWorks.GuiGtk
 {
@@ -40,12 +40,11 @@ namespace MonoWorks.GuiGtk
 			Add1(treeView);
 			
 			// create the viewport			
-			Viewport = new Viewport();
-			Add2(Viewport);
+			adapter = new ViewportAdapter();
+			Add2(adapter);
 			
 			Controller = new Controller(Viewport);
 			Controller.SetUsage(ViewportUsage.CAD);
-//			Viewport.RenderList.AddOverlay(Controller.ContextLayer);
 		}
 		
 		
@@ -62,7 +61,7 @@ namespace MonoWorks.GuiGtk
 					Viewport.RenderList.RemoveRenderable(drawing);
 				drawing = value;
 				Viewport.RenderList.AddRenderable(drawing);
-//				treeModel.Drawing = drawing;
+				treeView.Drawing = drawing;
 			
 				// add the drawing interactor
 				DrawingInteractor interactor = new DrawingInteractor(Viewport, drawing);
@@ -70,11 +69,15 @@ namespace MonoWorks.GuiGtk
 			}
 		}
 
+		protected ViewportAdapter adapter;
+		
 		/// <value>
 		/// The viewport.
 		/// </value>
-		public Viewport Viewport {get; private set;}
-		
+		public Viewport Viewport
+		{
+			get {return adapter.Viewport;}
+		}
 		
 		public Controller Controller {get; private set;}
 		

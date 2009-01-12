@@ -35,7 +35,7 @@ namespace MonoWorks.GuiGtk
 	/// <summary>
 	/// Gtk viewport.
 	/// </summary>
-	public class Viewport : GLArea, IViewport
+	public class ViewportAdapter : GLArea, IViewportAdapter
 	{
 		/// <summary>
 		/// The attributes list.
@@ -53,7 +53,7 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Viewport() : this(attrlist)
+		public ViewportAdapter() : this(attrlist)
 		{
 		}
 		
@@ -61,13 +61,13 @@ namespace MonoWorks.GuiGtk
 		/// Constructor that takes an attribute list.
 		/// </summary>
 		/// <param name="attrList"> A <see cref="System.Int32"/>. </param>
-		public Viewport(System.Int32[] attrList) : base(attrList)
+		public ViewportAdapter(System.Int32[] attrList) : base(attrList)
 		{
+			Viewport = new Viewport(this);
+			
 			// make sure the viewport catches all events
 			AddEvents((int)Gdk.EventMask.AllEventsMask);
-			
-			camera = new Camera(this);
-			
+					
 			DeleteEvent += OnWindowDeleteEvent;
 			
 			// mouse interaction signals
@@ -81,129 +81,17 @@ namespace MonoWorks.GuiGtk
 			Realized += OnRealized;
 			SizeAllocated += OnSizeAllocated;
 			ConfigureEvent += OnConfigure;	
-
-			// initialize the render manager
-			renderManager = new RenderManager();
-
-			renderableInteractor = new RenderableInteractor(this);
-			overlayInteractor = new OverlayInteractor(this);
 		}
 		
-		
-		protected RenderManager renderManager;
 		/// <value>
-		/// The viewport render manager.
+		/// The viewport used by this adapter.
 		/// </value>
-		public RenderManager RenderManager
-		{
-			get {return renderManager;}
-		}
+		public Viewport Viewport {get; private set;}
 		
-		protected Camera camera;
-		/// <value>
-		/// Accesses the viewport camera.
-		/// </value>
-		public Camera Camera
-		{
-			get {return camera;}
-		}
-		
-		protected Lighting lighting;
-		/// <value>
-		/// The viewport lighting.
-		/// </value>
-		public Lighting Lighting
-		{
-			get {return lighting;}
-		}
-		
-		private InteractionState interactionState = InteractionState.View3D;
-		//// <value>
-		/// The current interaction state.
-		/// </value>
-		public InteractionState InteractionState
-		{
-			get {return interactionState;}
-			set {interactionState = value;}
-		}
-		
-		
-		private RenderList renderList = new RenderList();
-		/// <summary>
-		/// The rendering list for this viewport.
-		/// </summary>
-		public RenderList RenderList
-		{
-			get {return renderList;}
-		}
-
-		private RenderableInteractor renderableInteractor;
-		//// <value>
-		/// The renderable interactor.
-		/// </value>
-		public RenderableInteractor RenderableInteractor
-		{
-			get {return renderableInteractor;}
-		}
-
-		private OverlayInteractor overlayInteractor;
-		//// <value>
-		/// The overlay interactor.
-		/// </value>
-		public OverlayInteractor OverlayInteractor
-		{
-			get {return overlayInteractor;}
-		}
-		
-		/// <summary>
-		/// Alerts the renderables that the viewport has been modified.
-		/// </summary>
-		public void OnDirectionChanged()
-		{
-			foreach (Renderable3D renderable in renderList.Renderables)
-				renderable.OnViewDirectionChanged(this);
-		}
-
-
-
-
-#region Text Renderering
-
-		/// <summary>
-		/// Renders text to the viewport.
-		/// </summary>
-		protected TextRenderer textRenderer = new TextRenderer();
-
-		/// <summary>
-		/// Renders text to the viewport.
-		/// </summary>
-		/// <param name="size"></param>
-		/// <returns></returns>
-		public void RenderText(TextDef text)
-		{
-			textRenderer.Render(text);
-		}
-
-		/// <summary>
-		/// Renders lots of text to the viewport.
-		/// </summary>
-		/// <param name="size"></param>
-		/// <returns></returns>
-		public void RenderText(TextDef[] text)
-		{
-			textRenderer.Render(text);
-		}
-
-#endregion
 		
 		
 #region Mouse Interaction
 	
-		/// <summary>
-		/// Interactor that gets to handle all mouse events before they are passed to the renderables.
-		/// </summary>
-		public AbstractInteractor PrimaryInteractor {get; set;}
-		
 		/// <summary>
 		/// Converts a Gdk modifier into an InteractionModifier.
 		/// </summary>
@@ -220,24 +108,15 @@ namespace MonoWorks.GuiGtk
 		
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
-			// look for the double-click reset
-			if (args.Event.Type == Gdk.EventType.TwoButtonPress && args.Event.Button == 1)
-			{
-				if (interactionState == InteractionState.Interact2D)
-					camera.SetViewDirection(ViewDirection.Front);
-				else
-					camera.SetViewDirection(ViewDirection.Standard);
-			}
-			else
-			{			
-				MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
-				                                            (int)args.Event.Button, GetModifier(args.Event.State));
-				overlayInteractor.OnButtonPress(evt);
-				if (PrimaryInteractor != null && !evt.Handled && interactionState != InteractionState.View3D)
-					PrimaryInteractor.OnButtonPress(evt);
-				if (!evt.Handled) // the overlays didn't handle the event
-					renderableInteractor.OnButtonPress(evt);
-			}
+			// get the number of clicks
+			ClickMultiplicity multiplicity = ClickMultiplicity.Single;
+			if (args.Event.Type == Gdk.EventType.TwoButtonPress)
+				multiplicity = ClickMultiplicity.Double;
+			
+			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
+			                                            (int)args.Event.Button, GetModifier(args.Event.State), multiplicity);
+			Viewport.OnButtonPress(evt);
+			
 			PaintGL();
 
 		}
@@ -246,50 +125,28 @@ namespace MonoWorks.GuiGtk
 		{			
 			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
 			                                      (int)args.Event.Button, GetModifier(args.Event.State));
-			overlayInteractor.OnButtonRelease(evt);
-			if (PrimaryInteractor != null && !evt.Handled && interactionState != InteractionState.View3D)
-				PrimaryInteractor.OnButtonRelease(evt);
-			if (!evt.Handled) // the overlays didn't handle the event
-				renderableInteractor.OnButtonRelease(evt);
+			Viewport.OnButtonRelease(evt);
+			
 			PaintGL();
 		}
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
 		{			
-			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));
-			overlayInteractor.OnMouseMotion(evt);
-			if (PrimaryInteractor != null && !evt.Handled && interactionState != InteractionState.View3D)
-				PrimaryInteractor.OnMouseMotion(evt);
-			if (!evt.Handled) // the overlays didn't handle the event
-				renderableInteractor.OnMouseMotion(evt);
+			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));			
+			Viewport.OnMouseMotion(evt);
+			
 			PaintGL();
 		}
 		
 		protected virtual void OnScroll(object sender, Gtk.ScrollEventArgs args)
-		{
-			bool blocked = false;
-
-			// TODO: Make different scroll interactions in the InteractionState
-//			switch(interactionState.GetWheelType(args.Event.State))
-//			{
-//			case InteractionType.Dolly:
-				double factor = 0;
-				if (args.Event.Direction == Gdk.ScrollDirection.Up)
-					factor = camera.DollyFactor;
-				else if (args.Event.Direction == Gdk.ScrollDirection.Down)
-					factor = -camera.DollyFactor;
-				
-				// allow the renderables to deal with the interaction
-				foreach (Renderable3D renderable in renderList.Renderables)
-				{
-					if (renderable.HandleDolly(this, factor))
-						blocked = true;
-				}
-				
-				if (!blocked)
-					camera.Dolly(factor);
-//				break;
-//			}
+		{			
+			WheelDirection direction = WheelDirection.Up;
+			if (args.Event.Direction == Gdk.ScrollDirection.Down)
+				direction = WheelDirection.Down;
+			
+			MouseWheelEvent evt = new MouseWheelEvent(direction, GetModifier(args.Event.State));
+			Viewport.OnMouseWheel(evt);
+			
 			PaintGL();
 		}
 
@@ -305,9 +162,7 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void InitializeGL()
 		{			
-			renderManager.Initialize();
-			
-			camera.Configure();
+			Viewport.Initialize();
 						
 			PaintGL();
 		}
@@ -332,7 +187,7 @@ namespace MonoWorks.GuiGtk
 			if(base.MakeCurrent() == 0)
 				return;
 				
-			camera.Configure();
+			Viewport.Resize();
 		}
 		
 		/// <summary>
@@ -347,9 +202,8 @@ namespace MonoWorks.GuiGtk
 		{
 			if( !IsRealized || base.MakeCurrent() == 0)
 				return;	
-			camera.Configure();
 			
-			renderList.OnViewportResized(this);
+			Viewport.Resize();
 			PaintGL();
 		}
 		
@@ -375,13 +229,7 @@ namespace MonoWorks.GuiGtk
 			if (base.MakeCurrent() == 0)
 				return;
 			
-			// Clear the scene
-			renderManager.ClearScene();
-
-			// render the render list
-			renderList.Render(this);
-
-			renderableInteractor.RubberBand.Render(this);
+			Viewport.Render();
 													
 			// bring back buffer to front, put front buffer in back
 			SwapBuffers ();

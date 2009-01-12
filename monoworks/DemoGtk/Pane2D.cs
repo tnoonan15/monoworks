@@ -35,9 +35,8 @@ namespace MonoWorks.DemoGtk
 		public Pane2D()
 		{			
 			// add the viewport
-//			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
-			Viewport = new Viewport();
-			PackEnd(Viewport);
+			adapter = new ViewportAdapter();
+			PackEnd(adapter);
 			TestAxes2D axes = new TestAxes2D();
 			Viewport.RenderList.AddRenderable(axes);
 			
@@ -52,10 +51,15 @@ namespace MonoWorks.DemoGtk
 //			controlPane.ControlChanged += OnControlChanged;
 		}
 		
+		protected ViewportAdapter adapter;
+		
 		/// <summary>
 		/// The viewport.
 		/// </summary>
-		protected Viewport Viewport {get; private set;}
+		protected Viewport Viewport
+		{
+			get {return adapter.Viewport;}
+		}
 		
 		/// <summary>
 		/// Handler for state changed events from the control pane.

@@ -78,7 +78,8 @@
     <File name="Framework/ToolArea/icons/HHandle.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Framework/ToolArea/icons/SlateHandles.svg" subtype="Code" buildaction="Nothing" />
     <File name="Framework/ToolArea/icons/VHandle.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport.cs" subtype="Code" buildaction="Compile" />
+    <File name="ViewportAdapter.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tree/TreeModel.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

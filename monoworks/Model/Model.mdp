@@ -44,12 +44,13 @@
     <File name="Assembly.cs" subtype="Code" buildaction="Compile" />
     <File name="EntityManager.cs" subtype="Code" buildaction="Compile" />
     <File name="ISelectionListener.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport/Controller.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/flat.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/nosolid.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/smooth.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/wireframe.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/flat.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/nosolid.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/smooth.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/wireframe.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/Controller.cs" subtype="Code" buildaction="Compile" />
+    <File name="ViewportControls/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="IEntityListener.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />
