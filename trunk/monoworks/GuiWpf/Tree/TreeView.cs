@@ -49,15 +49,17 @@ namespace MonoWorks.GuiWpf.Tree
 		protected Dictionary<Entity, EntityTreeItem> items = new Dictionary<Entity,EntityTreeItem>();
 
 
+		/// <summary>
+		/// Adds an entity to the tree.
+		/// </summary>
 		public void AddEntity(Entity entity)
 		{
 			AddEntity(entity, null);
 		}
 
 		/// <summary>
-		/// Adds an entity to the tree.
+		/// Adds an entity to the tree with the given parent.
 		/// </summary>
-		/// <param name="entity"></param>
 		protected void AddEntity(Entity entity, EntityTreeItem parent)
 		{
 			EntityTreeItem item = new EntityTreeItem(entity);

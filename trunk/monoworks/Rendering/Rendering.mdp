@@ -15,7 +15,6 @@
   </Configurations>
   <Contents>
     <File name="." subtype="Directory" buildaction="Compile" />
-    <File name="IViewport.cs" subtype="Code" buildaction="Compile" />
     <File name="Camera.cs" subtype="Code" buildaction="Compile" />
     <File name="Color.cs" subtype="Code" buildaction="Compile" />
     <File name="ColorManager.cs" subtype="Code" buildaction="Compile" />
@@ -59,24 +58,26 @@
     <File name="Interaction/AbstractInteractor.cs" subtype="Code" buildaction="Compile" />
     <File name="Interaction/OverlayInteractor.cs" subtype="Code" buildaction="Compile" />
     <File name="Interaction/RenderableInteractor.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport" subtype="Directory" buildaction="Compile" />
-    <File name="Viewport/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/ViewportController.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport/UiManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="Viewport/icons/2d.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/3d.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/3d-view.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/3d-interact.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/back-view.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/bottom-view.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/export.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/front-view.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/left-view.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/perspective.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/right-view.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/standard-view.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Viewport/icons/top-view.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Controls/ContextLayer.cs" subtype="Code" buildaction="Compile" />
+    <File name="ViewportControls/icons/2d.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/3d.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/3d-interact.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/3d-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/back-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/bottom-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/export.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/front-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/left-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/perspective.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/right-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/standard-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/top-view.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/UiManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="ViewportControls/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/ViewportController.cs" subtype="Code" buildaction="Compile" />
+    <File name="IViewportAdapter.cs" subtype="Code" buildaction="Compile" />
+    <File name="Viewport.cs" subtype="Code" buildaction="Compile" />
+    <File name="Events/MouseWheelEvent.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

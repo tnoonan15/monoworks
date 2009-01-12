@@ -18,7 +18,9 @@
 
 using System;
 
-namespace MonoWorks.GuiGtk
+using MonoWorks.Model;
+
+namespace MonoWorks.GuiGtk.Tree
 {
 	
 	/// <summary>
@@ -31,6 +33,41 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public TreeView() : base()
 		{
+			WidthRequest = 200;
+			
+			
+			model = new TreeModel();
+			this.Model = model;		
+			
+			// Create a column 
+			Gtk.TreeViewColumn column = new Gtk.TreeViewColumn();
+			column.Title = "Entity";
+			AppendColumn(column);
+
+			// create the renderers
+			Gtk.CellRendererText nameRenderer = new Gtk.CellRendererText();
+			column.PackStart(nameRenderer, true);
+			column.AddAttribute(nameRenderer, "text", 0);
 		}
+		
+		protected TreeModel model;
+		
+		
+		
+
+		protected Drawing drawing;
+		//// <value>
+		/// The drawing.
+		/// </value>
+		public Drawing Drawing
+		{
+			get { return drawing; }
+			set
+			{
+				this.drawing = value;
+				model.Drawing = value;
+			}
+		}
+		
 	}
 }

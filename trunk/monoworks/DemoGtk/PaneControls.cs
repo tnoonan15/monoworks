@@ -39,9 +39,8 @@ namespace MonoWorks.DemoGtk
 		public PaneControls() : base()
 		{
 			// add the viewport
-//			TooledViewport tooledViewport = new TooledViewport(ViewportUsage.Plotting, false);
-			Viewport viewport = new Viewport();
-			PackEnd(viewport);
+			adapter = new ViewportAdapter();
+			PackEnd(adapter);
 			
 			ToolBar toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
@@ -59,8 +58,19 @@ namespace MonoWorks.DemoGtk
 
 			Anchor anchor = new Anchor(toolbar);
 			anchor.Location = AnchorLocation.E;
-			viewport.RenderList.AddOverlay(anchor);
+			Viewport.RenderList.AddOverlay(anchor);
 
 		}
+		
+		protected ViewportAdapter adapter;
+		
+		/// <summary>
+		/// The viewport.
+		/// </summary>
+		protected Viewport Viewport
+		{
+			get {return adapter.Viewport;}
+		}
+		
 	}
 }

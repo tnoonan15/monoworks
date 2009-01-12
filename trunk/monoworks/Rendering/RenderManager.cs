@@ -47,7 +47,7 @@ namespace MonoWorks.Rendering
 		{
 //			this.colorManager = new ColorManager();
 			
-			solidMode = SolidMode.Flat;
+			solidMode = SolidMode.Smooth;
 			colorMode = ColorMode.Cartoon;
 			
 			showWireframe = false;
