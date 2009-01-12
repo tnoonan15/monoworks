@@ -55,6 +55,23 @@ namespace MonoWorks.Rendering
             gl.glLightfv(gl.GL_LIGHT0, gl.GL_SPECULAR, lightSpecular);
 
 		}
+
+
+		/// <summary>
+		/// Enables lighting.
+		/// </summary>
+		public void Enable()
+		{
+			gl.glEnable(gl.GL_LIGHTING);
+		}
+
+		/// <summary>
+		/// Disables lighting.
+		/// </summary>
+		public void Disable()
+		{
+			gl.glDisable(gl.GL_LIGHTING);
+		}
 		
 		
 	}

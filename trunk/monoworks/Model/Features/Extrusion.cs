@@ -151,7 +151,7 @@ namespace MonoWorks.Model
 			base.ComputeSolidGeometry();
 			
 			gl.glNewList(displayLists + SolidListOffset, gl.GL_COMPILE);
-			
+
 			// determine spin and scaling factors
 			int N = 1;
 //			Angle dSpin;

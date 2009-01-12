@@ -127,6 +127,8 @@ namespace MonoWorks.GuiWpf
 			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
 									SwfExtensions.ButtonNumber(args.Button));
 			Viewport.OnButtonPress(evt);
+
+			PaintGL();
 		}
 
 		protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs args)
@@ -136,8 +138,6 @@ namespace MonoWorks.GuiWpf
             MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
                                     SwfExtensions.ButtonNumber(args.Button));
 			Viewport.OnButtonRelease(evt);
-
-			PaintGL();
 
 			PaintGL();
 		}

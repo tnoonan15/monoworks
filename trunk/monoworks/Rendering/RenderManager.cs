@@ -47,14 +47,14 @@ namespace MonoWorks.Rendering
 		{
 //			this.colorManager = new ColorManager();
 			
-			solidMode = SolidMode.Smooth;
-			colorMode = ColorMode.Cartoon;
+			SolidMode = SolidMode.Smooth;
+			ColorMode = ColorMode.Cartoon;
 			
-			showWireframe = false;
-			wireframeColor = ColorManager.Global["Black"];
-			wireframeWidth = 1.5f;
+			ShowWireframe = false;
+			WireframeColor = ColorManager.Global["Black"];
+			WireframeWidth = 1.5f;
 			
-			referenceColor = new Color(0, 128, 0, 64);
+			ReferenceColor = new Color(0, 128, 0, 64);
 			
 			Lighting = new Lighting();
 		}
@@ -82,8 +82,6 @@ namespace MonoWorks.Rendering
 			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 			gl.glClearDepth(1.0f);
 
-//			gl.glEnable(gl.GL_AUTO_NORMAL);
-//			gl.glEnable(gl.GL_NORMALIZE);
 			gl.glEnable(gl.GL_COLOR_MATERIAL);
 
 			// depth testing
@@ -121,131 +119,86 @@ namespace MonoWorks.Rendering
 
 
 		/// <summary>
+		/// Sets up the current OpenGL context for rendering solids.
+		/// </summary>
+		public void BeginSolids()
+		{
+			switch (SolidMode)
+			{
+				case SolidMode.None:
+					break;
+				case SolidMode.Flat:
+					gl.glShadeModel(gl.GL_FLAT);
+					break;
+				case SolidMode.Smooth:
+					gl.glShadeModel(gl.GL_SMOOTH);
+					break;
+			}
+			Lighting.Enable();
+			gl.glEnable(gl.GL_DEPTH_TEST);
+			gl.glEnable(gl.GL_POLYGON_OFFSET_FILL);
+		}
+
+		/// <summary>
 		/// Sets up OpenGL to render overlays instead of 3D content.
 		/// </summary>
 		public void BeginOverlays()
 		{
 			gl.glDisable(gl.GL_DEPTH_TEST);
 			gl.glShadeModel(gl.GL_SMOOTH);
+			Lighting.Disable();
+			gl.glDisable(gl.GL_POLYGON_OFFSET_FILL);
 		}
 
-		/// <summary>
-		/// Sets up OpenGL for rendering 3D content.
-		/// </summary>
-		public void EndOverlays()
-		{
-			gl.glEnable(gl.GL_DEPTH_TEST);
-		}
 		
 		
 #region Wireframe Display
 		
-		protected bool showWireframe;
 		/// <value>
 		/// Whether or not to render the wireframe.
 		/// </value>
-		public bool ShowWireframe
-		{
-			get {return showWireframe;}
-			set {showWireframe = value;}
-		}
+		public bool ShowWireframe { get; set; }
 		
-		
-		protected Color wireframeColor;
 		/// <value>
 		/// The wireframe color.
 		/// </value>
-		public Color WireframeColor
-		{
-			get {return wireframeColor;}
-			set {wireframeColor = value;}
-		}
+		public Color WireframeColor { get; set; }
 		
-		protected float wireframeWidth;
 		/// <value>
 		/// Wireframe width.
 		/// </value>
-		public float WireframeWidth
-		{
-			get {return wireframeWidth;}
-			set {wireframeWidth = value;}
-		}
+		public float WireframeWidth { get; set; }
 		
 #endregion
 		
 		
-#region Reference Items
+#region Attrbutes
 		
-		protected Color referenceColor;
 		/// <value>
 		/// The color of reference items;
 		/// </value>
-		public Color ReferenceColor
-		{
-			get {return referenceColor;}
-			set {referenceColor = value;}
-		}		
-		
-#endregion
-		
-		
-#region Solid Mode
+		public Color ReferenceColor { get; set; }		
+	
 
-		protected SolidMode solidMode;
 		/// <value>
 		/// The solid rendering mode.
 		/// </value>
-		public SolidMode SolidMode
-		{
-			get {return solidMode;}
-			set {solidMode = value;}
-		}
-		
-		/// <summary>
-		/// Sets up the current OpenGL context for rendering solids.
-		/// </summary>
-		public void SetupSolidMode()
-		{
-			switch (solidMode)
-			{
-			case SolidMode.None:
-				break;
-			case SolidMode.Flat:
-				gl.glShadeModel(gl.GL_FLAT);
-				break;
-			case SolidMode.Smooth:
-				gl.glShadeModel(gl.GL_SMOOTH);
-				break;
-			}
-		}
+		public SolidMode SolidMode { get; set; }
 
-#endregion
-		
 
-#region Color Mode
-		
-		protected ColorMode colorMode;
 		/// <value>
 		/// The feature's color mode.
 		/// </value>
-		public ColorMode ColorMode
-		{
-			get {return colorMode;}
-			set {colorMode = value;}
-		}		
-		
-#endregion
-		
-		
-#region Lighting
-		
+		public ColorMode ColorMode { get; set; }
+
+
 		/// <summary>
 		/// The lighting settings.
 		/// </summary>
-		public Lighting Lighting {get; private set;}
+		public Lighting Lighting { get; private set; }
 		
 #endregion
-		
+				
 		
 		
 		

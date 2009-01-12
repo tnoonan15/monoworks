@@ -134,9 +134,8 @@ namespace MonoWorks.Rendering
 
 		public void Render(Viewport viewport)
 		{
+			viewport.RenderManager.BeginSolids();
 			viewport.Camera.Place(); // place the camera for 3D rendering
-
-			viewport.RenderManager.SetupSolidMode();
 			
 			foreach (Renderable3D renderable in renderables)
 				renderable.RenderOpaque(viewport);
@@ -152,7 +151,6 @@ namespace MonoWorks.Rendering
 			viewport.RenderManager.BeginOverlays();
 			foreach (Overlay overlay in overlays)
 				overlay.RenderOverlay(viewport);
-			viewport.RenderManager.EndOverlays();
 		}
 
 		#endregion
