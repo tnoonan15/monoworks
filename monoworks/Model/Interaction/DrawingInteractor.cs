@@ -49,7 +49,7 @@ namespace MonoWorks.Model.Interaction
 		{
 			base.OnButtonRelease(evt);
 
-			if (evt.Handled)
+			if (evt.Handled || evt.Button != 1)
 				return;
 
 			// deselect everything, if necessary
@@ -62,7 +62,8 @@ namespace MonoWorks.Model.Interaction
 			
 			if (hitEntity != null)
 			{
-				drawing.EntityManager.Select(null, hitEntity);	
+				drawing.EntityManager.Select(null, hitEntity);
+				evt.Handle();
 			}
 		}
 		

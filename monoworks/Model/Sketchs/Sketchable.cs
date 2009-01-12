@@ -90,10 +90,8 @@ namespace MonoWorks.Model
 		/// </summary>
 		public virtual void DrawVertices()
 		{
-			foreach (Vector vector in solidPoints)
-			{
-				gl.glVertex3d(vector[0], vector[1], vector[2]);
-			}
+			foreach (Vector point in solidPoints)
+				point.glVertex();
 		}
 		
 #endregion

@@ -123,12 +123,12 @@ namespace MonoWorks.Model
 		/// <value>
 		/// The offset of the solid list.
 		/// </value>
-		protected const int SolidListOffset = 0;
+		protected const int SolidListOffset = 1;
 		
 		/// <value>
 		/// The offset of the wireframe list.
 		/// </value>
-		protected const int WireframeListOffset = 1;
+		protected const int WireframeListOffset = 0;
 		
 		
 #endregion
@@ -145,13 +145,20 @@ namespace MonoWorks.Model
 			base.ComputeGeometry();
 			
 			// ensure the display lists are empty
-			if (gl.glIsList(displayLists)!=0)
-			{
-				gl.glDeleteLists(displayLists, NumLists); // delete the lists
-			}
+			//if (gl.glIsList(displayLists)!=0)
+			//{
+			//    //gl.glDeleteLists(displayLists, NumLists); // delete the lists
+			//}
 			
-			displayLists = gl.glGenLists(NumLists); // regenerate the display lists
-			
+			//displayLists = gl.glGenLists(NumLists); // regenerate the display lists
+
+			if (displayLists == 0)
+				displayLists = gl.glGenLists(NumLists); // generate the display lists
+
+			//if (displayLists == 0)
+			//    Console.WriteLine("feature display list value: {0}, is valid: {1}", 
+			//        displayLists, gl.glIsList(displayLists));
+
 			ComputeWireframeGeometry();
 			
 			ComputeSolidGeometry();
@@ -179,7 +186,6 @@ namespace MonoWorks.Model
 		public override void RenderTransparent(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);
-//			Render(viewport);
 		}
 		
 		/// <summary>
@@ -202,18 +208,15 @@ namespace MonoWorks.Model
 					Material.Setup();
 					break;
 				}
-				gl.glEnable(gl.GL_LIGHTING);
-				gl.glEnable(gl.GL_POLYGON_OFFSET_FILL);
+
 				gl.glCallList(displayLists+SolidListOffset);
-				gl.glDisable(gl.GL_POLYGON_OFFSET_FILL);
-				gl.glDisable(gl.GL_LIGHTING);
 			}
 			
 			// render the wireframe
 			if (viewport.RenderManager.ShowWireframe)
 			{
 				gl.glLineWidth( viewport.RenderManager.WireframeWidth);
-				gl.glMaterialf(gl.GL_FRONT_AND_BACK, gl.GL_SHININESS, 0.0f);
+				//gl.glMaterialf(gl.GL_FRONT_AND_BACK, gl.GL_SHININESS, 0.0f);
 				viewport.RenderManager.WireframeColor.Setup();
 				gl.glCallList(displayLists+WireframeListOffset);
 			}

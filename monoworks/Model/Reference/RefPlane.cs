@@ -120,11 +120,11 @@ namespace MonoWorks.Model
 		{
 			base.RenderTransparent(viewport);
 			
-			viewport.RenderManager.ReferenceColor.Setup();
+			//viewport.RenderManager.ReferenceColor.Setup();
 			
 			gl.glBegin(gl.GL_POLYGON);
 			foreach (Vector corner in quadCorners)
-				gl.glVertex3d(corner[0], corner[1], corner[2]);
+				corner.glVertex();
 			gl.glEnd();
 			
 		}

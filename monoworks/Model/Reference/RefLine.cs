@@ -114,12 +114,12 @@ namespace MonoWorks.Model
 			base.RenderOpaque(viewport);
 
 			// render the points
-			gl.glBegin(gl.GL_LINE);
-			gl.glColor3b(255,0,0);
-			gl.glLineWidth(3f);
-			gl.glVertex3d(start[0], start[1], start[2]);
-			gl.glVertex3d(stop[0], stop[1], stop[2]); 
-			gl.glEnd();
+			//gl.glBegin(gl.GL_LINE);
+			//gl.glColor3b(255,0,0);
+			//gl.glLineWidth(3f);
+			//gl.glVertex3d(start[0], start[1], start[2]);
+			//gl.glVertex3d(stop[0], stop[1], stop[2]); 
+			//gl.glEnd();
 
 		}
 
@@ -127,6 +127,12 @@ namespace MonoWorks.Model
 		{
 			base.RenderTransparent(viewport);
 
+			gl.glBegin(gl.GL_LINE);
+			gl.glLineWidth(3f);
+			gl.glColor3b(255, 0, 0);
+			gl.glVertex3d(start[0], start[1], start[2]);
+			gl.glVertex3d(stop[0], stop[1], stop[2]);
+			gl.glEnd();
 		}
 
 		
