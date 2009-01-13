@@ -18,6 +18,8 @@
 
 using System;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Rendering
 {
 	
@@ -76,7 +78,18 @@ namespace MonoWorks.Rendering
 		/// <returns> True if the renderable was hit. </returns>
 		public virtual bool HitTest(HitLine hitLine)
 		{
-			return bounds.HitTest(hitLine);
+			return bounds.HitTest(hitLine, out lastHit);
 		}
+
+		protected Vector lastHit = null;
+		/// <summary>
+		/// The position of the last hit during a hit test.
+		/// </summary>
+		/// <remarks>NOTE: This could very often be null.</remarks>
+		public Vector LastHit
+		{
+			get { return lastHit; }
+		}
+
 	}
 }

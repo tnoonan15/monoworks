@@ -498,10 +498,22 @@ namespace MonoWorks.Rendering
 		/// <returns> True if the entity was hit. </returns>
 		public virtual bool HitTest(HitLine hitLine)
 		{
+			Vector hit;
+			return HitTest(hitLine, out hit);
+		}
+		
+		/// <summary>
+		/// Performs a hit test with two vectors lying on a 3D line.
+		/// </summary>
+		/// <param name="hitLine"> A <see cref="HitLine"/> defining the hit. </param>
+		/// <param name="hit">The point of the hit, if any.</param>
+		/// <returns> True if the entity was hit. </returns>
+		public virtual bool HitTest(HitLine hitLine, out Vector hit)
+		{
+			hit = null;
+
 			if (!isSet)
 				return false;
-
-			Vector Hit;
 			
 			// check if the line lies entirely outside the box
 			if (hitLine.Back[0] < minima[0] && hitLine.Front[0] < minima[0])
@@ -522,18 +534,20 @@ namespace MonoWorks.Rendering
 			    hitLine.Front[1] > minima[1] && hitLine.Front[1] < maxima[1] &&
 			    hitLine.Front[2] > minima[2] && hitLine.Front[2] < maxima[2]) 
 			{
-				Hit = hitLine.Front; 
+				hit = hitLine.Front; 
 			    return true;
 			}
 			
 			// check if the line intersects any of the individual sides
-			if ( (GetIntersection( hitLine.Front[0]-minima[0], hitLine.Back[0]-minima[0], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 1 ))
-			  || (GetIntersection( hitLine.Front[1]-minima[1], hitLine.Back[1]-minima[1], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 2 )) 
-			  || (GetIntersection( hitLine.Front[2]-minima[2], hitLine.Back[2]-minima[2], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 3 )) 
-			  || (GetIntersection( hitLine.Front[0]-maxima[0], hitLine.Back[0]-maxima[0], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 1 )) 
-			  || (GetIntersection( hitLine.Front[1]-maxima[1], hitLine.Back[1]-maxima[1], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 2 )) 
-			  || (GetIntersection( hitLine.Front[2]-maxima[2], hitLine.Back[2]-maxima[2], hitLine.Front, hitLine.Back, out Hit) && InBox( Hit, minima, maxima, 3 )))
+			if ((GetIntersection(hitLine.Front[0] - minima[0], hitLine.Back[0] - minima[0], hitLine.Front, hitLine.Back, out hit) && InBox(hit, minima, maxima, 1))
+			  || (GetIntersection(hitLine.Front[1] - minima[1], hitLine.Back[1] - minima[1], hitLine.Front, hitLine.Back, out hit) && InBox(hit, minima, maxima, 2))
+			  || (GetIntersection(hitLine.Front[2] - minima[2], hitLine.Back[2] - minima[2], hitLine.Front, hitLine.Back, out hit) && InBox(hit, minima, maxima, 3))
+			  || (GetIntersection(hitLine.Front[0] - maxima[0], hitLine.Back[0] - maxima[0], hitLine.Front, hitLine.Back, out hit) && InBox(hit, minima, maxima, 1))
+			  || (GetIntersection(hitLine.Front[1] - maxima[1], hitLine.Back[1] - maxima[1], hitLine.Front, hitLine.Back, out hit) && InBox(hit, minima, maxima, 2))
+			  || (GetIntersection(hitLine.Front[2] - maxima[2], hitLine.Back[2] - maxima[2], hitLine.Front, hitLine.Back, out hit) && InBox(hit, minima, maxima, 3)))
+			{
 				return true;
+			}
 
 			return false;
 

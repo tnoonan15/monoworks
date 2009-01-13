@@ -294,6 +294,7 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 
+		protected bool justClicked = false;
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -303,6 +304,7 @@ namespace MonoWorks.Rendering.Controls
 			{
 				ToggleSelection();
 				evt.Handle();
+				justClicked = true;
 				Click();
 			}
 		}
@@ -314,6 +316,13 @@ namespace MonoWorks.Rendering.Controls
 
 			if (IsSelected && !IsTogglable)
 				Deselect();
+
+			// if we were just clicked, we get to handle the next button release event
+			if (justClicked)
+			{
+				justClicked = false;
+				evt.Handle();
+			}
 
 		}
 

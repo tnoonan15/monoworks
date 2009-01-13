@@ -62,7 +62,7 @@ namespace MonoWorks.GuiWpf
 				treeView.Drawing = drawing;
 
 				drawing.EntityManager.SelectionChanged += new EntityManager.SelectionChangedHandler( Controller.OnSelectionChanged);
-
+				drawing.EntityManager.RaiseSelectionChanged();
 			}
 		}
 

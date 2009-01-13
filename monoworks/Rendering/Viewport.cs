@@ -190,10 +190,16 @@ namespace MonoWorks.Rendering
 		{
 
 			overlayInteractor.OnButtonPress(evt);
-			if (PrimaryInteractor != null && !evt.Handled && InteractionState != InteractionState.View3D)
+
+			// primary interactor
+			if (PrimaryInteractor != null &&
+				((InteractionState != InteractionState.View3D && 
+				evt.Modifier != InteractionModifier.Control) ||
+				(InteractionState == InteractionState.View3D &&
+				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnButtonPress(evt);
-			if (!evt.Handled)
-				renderableInteractor.OnButtonPress(evt);
+
+			renderableInteractor.OnButtonPress(evt);
 
 			// handle double click
 			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
@@ -209,19 +215,31 @@ namespace MonoWorks.Rendering
 		public void OnButtonRelease(MouseButtonEvent evt)
 		{
 			overlayInteractor.OnButtonRelease(evt);
-			if (PrimaryInteractor != null && !evt.Handled && InteractionState != InteractionState.View3D)
+
+			// primary interactor
+			if (PrimaryInteractor != null &&
+				((InteractionState != InteractionState.View3D &&
+				evt.Modifier != InteractionModifier.Control) ||
+				(InteractionState == InteractionState.View3D &&
+				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnButtonRelease(evt);
-			if (!evt.Handled)
-				renderableInteractor.OnButtonRelease(evt);
+
+			renderableInteractor.OnButtonRelease(evt);
 		}
 
 		public void OnMouseMotion(MouseEvent evt)
 		{
 			overlayInteractor.OnMouseMotion(evt);
-			if (PrimaryInteractor != null && !evt.Handled && InteractionState != InteractionState.View3D)
+
+			// primary interactor
+			if (PrimaryInteractor != null &&
+				((InteractionState != InteractionState.View3D &&
+				evt.Modifier != InteractionModifier.Control) ||
+				(InteractionState == InteractionState.View3D &&
+				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnMouseMotion(evt);
-			if (!evt.Handled)
-				renderableInteractor.OnMouseMotion(evt);
+
+			renderableInteractor.OnMouseMotion(evt);
 		}
 
 

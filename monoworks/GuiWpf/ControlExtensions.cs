@@ -22,10 +22,11 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using sd = System.Drawing;
-using wf = System.Windows.Forms;
+using swf = System.Windows.Forms;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.GuiWpf
 {
@@ -51,19 +52,40 @@ namespace MonoWorks.GuiWpf
 		/// </summary>
 		/// <param name="buttons"></param>
 		/// <returns></returns>
-		public static int ButtonNumber(wf.MouseButtons buttons)
+		public static int ButtonNumber(swf.MouseButtons buttons)
 		{
 			switch (buttons)
 			{
-			case wf.MouseButtons.Left:
+			case swf.MouseButtons.Left:
 				return 1;
-			case wf.MouseButtons.Middle:
+			case swf.MouseButtons.Middle:
 				return 2;
-			case wf.MouseButtons.Right:
+			case swf.MouseButtons.Right:
 				return 3;
 			}
 			return 0;
 		}
+
+		/// <summary>
+		/// Gets the interaction modifier associated with the swf keys.
+		/// </summary>
+		/// <param name="keys"></param>
+		/// <returns></returns>
+		public static InteractionModifier GetModifier(swf.Keys keys)
+		{
+			switch (keys)
+			{
+				case swf.Keys.Control:
+					return InteractionModifier.Control;
+				case swf.Keys.Shift:
+					return InteractionModifier.Shift;
+				case swf.Keys.Alt:
+					return InteractionModifier.Alt;
+				default:
+					return InteractionModifier.None;
+			}
+		}
+
 
 	}
 
