@@ -6,6 +6,15 @@
 		<Action name="No Solid" icon="nosolid" tooltip="No solid rendering" togglable="true"/>
 		<Action name="Flat Shaded" icon="flat" tooltip="Flat shaded rendering" togglable="true"/>
 		<Action name="Smooth Shaded" icon="smooth" tooltip="Smooth shaded rendering" togglable="true"/>
+
+		<Action name="Delete" icon="delete" tooltip="Delete the currently selected entity(s)"/>
+
+		<Action name="Sketch" icon="sketch" tooltip="Add a new sketch"/>
+
+		<Action name="Ref Point" icon="refpoint" tooltip="Add a new reference point"/>
+		<Action name="Ref Line" icon="refline" tooltip="Add a new reference line"/>
+		<Action name="Ref Plane" icon="refplane" tooltip="Add a new reference plane"/>
+		
 	</Actions>
 
 	<Tools>
@@ -15,6 +24,20 @@
 			<Item action="No Solid"/>
 			<Item action="Flat Shaded"/>
 			<Item action="Smooth Shaded"/>
+		</Toolbar>
+
+		<Toolbar name="Delete" buttonStyle="ImageOverLabel">
+			<Item action="Delete"/>
+		</Toolbar>
+
+		<Toolbar name="AddSketch" buttonStyle="ImageOverLabel">
+			<Item action="Sketch"/>
+		</Toolbar>
+
+		<Toolbar name="AddRef" buttonStyle="ImageOverLabel">
+			<Item action="Ref Point"/>
+			<Item action="Ref Line"/>
+			<Item action="Ref Plane"/>
 		</Toolbar>
 
 	</Tools>

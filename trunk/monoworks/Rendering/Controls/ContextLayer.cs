@@ -165,6 +165,7 @@ namespace MonoWorks.Rendering.Controls
 			toolbar.StyleClassName = "toolbar-" + loc.ToString().ToLower();
 			toolbar.ToolStyle = "tool-" + loc.ToString().ToLower();
 			stacks[loc].Add(toolbar);
+			anchors[loc].MakeDirty();
 		}
 
 		/// <summary>

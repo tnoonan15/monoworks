@@ -1,7 +1,7 @@
 ﻿<Window x:Class="MonoWorks.DemoWpf.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="MonoWorks Plotting Demo" Height="800" Width="1000">
+    Title="MonoWorks Plotting Demo" Height="1000" Width="1200">
     <DockPanel x:Name="dockPanel">
     </DockPanel>
 </Window>

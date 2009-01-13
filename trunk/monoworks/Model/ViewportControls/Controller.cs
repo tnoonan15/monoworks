@@ -101,5 +101,78 @@ namespace MonoWorks.Model.ViewportControls
 
 
 
+#region Context Management
+
+		/// <summary>
+		/// The location of the primary toolbar.
+		/// </summary>
+		protected ContextLocation primaryLoc = ContextLocation.E;
+
+		/// <summary>
+		/// Handles the selection being changed, 
+		/// update the context toolbar.
+		/// </summary>
+		public void OnSelectionChanged(Drawing drawing)
+		{
+			ContextLayer.ClearContexts(primaryLoc);
+
+			if (drawing.EntityManager.NumSelected == 0) // nothing selected
+			{
+				ContextLayer.AddContext(primaryLoc, "AddSketch");
+				ContextLayer.AddContext(primaryLoc, "AddRef");
+			}
+			else // something selected
+			{
+
+
+
+				ContextLayer.AddContext(primaryLoc, "Delete");
+			}
+
+			viewport.PaintGL();
+		}
+
+#endregion
+
+
+
+#region Add-Delete Actions
+
+		[Action("Sketch")]
+		public void AddSketch()
+		{
+			Console.WriteLine("add sketch");
+		}
+
+		[Action("Ref Point")]
+		public void AddRefPoint()
+		{
+			Console.WriteLine("add ref point");
+		}
+
+		[Action("Ref Line")]
+		public void AddRefLine()
+		{
+			Console.WriteLine("add ref line");
+		}
+
+		[Action("Ref Plane")]
+		public void AddRefPlane()
+		{
+			Console.WriteLine("add ref plane");
+		}
+
+
+		[Action()]
+		public void Delete()
+		{
+			Console.WriteLine("delete");
+		}
+
+
+
+#endregion
+
+
 	}
 }
