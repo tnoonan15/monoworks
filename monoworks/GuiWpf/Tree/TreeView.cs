@@ -126,12 +126,14 @@ namespace MonoWorks.GuiWpf.Tree
 
 		public void OnSelectAll()
 		{
-			//throw new NotImplementedException();
+			foreach (EntityTreeItem item in items.Values)
+				item.IsSelected = true;
 		}
 
 		public void OnDeselectAll()
 		{
-			//throw new NotImplementedException();
+			foreach (EntityTreeItem item in items.Values)
+				item.IsSelected = false;
 		}
 
 #endregion

@@ -61,10 +61,7 @@ namespace MonoWorks.GuiWpf
 				// connect the entity manager with the tree view
 				treeView.Drawing = drawing;
 
-				drawing.EntityManager.SelectionChanged += delegate(Drawing drw)
-				{
-					Viewport.PaintGL();
-				};
+				drawing.EntityManager.SelectionChanged += new EntityManager.SelectionChangedHandler( Controller.OnSelectionChanged);
 
 			}
 		}

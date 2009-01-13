@@ -77,9 +77,10 @@ namespace MonoWorks.Rendering.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-			
+
 			// compute the size
-			size = new Coord();
+			if (!UserSize)
+				size = new Coord();
 			double span = 0;
 			Control[] children_ = new Control[children.Count];
 			children.CopyTo(children_);
@@ -96,13 +97,15 @@ namespace MonoWorks.Rendering.Controls
 				{
 					child.Position = position + new Coord(span, padding);
 					span += size_.X;
-					size.Y = Math.Max(size.Y, size_.Y);
+					if (!UserSize)
+						size.Y = Math.Max(size.Y, size_.Y);
 				}
 				else // vertical
 				{
 					child.Position = position + new Coord(padding, span);
 					span += size_.Y;
-					size.X = Math.Max(size.X, size_.X);
+					if (!UserSize)
+						size.X = Math.Max(size.X, size_.X);
 				}
 				span += padding;
 			}
@@ -118,9 +121,9 @@ namespace MonoWorks.Rendering.Controls
 			{
 				child.UserSize = true;
 				if (orientation == Orientation.Horizontal)
-					child.Height = size.Y;
+					child.Height = size.Y - 2 * padding;
 				else
-					child.Width = size.X;
+					child.Width = size.X - 2 * padding;
 
 				child.MakeDirty();
 			}

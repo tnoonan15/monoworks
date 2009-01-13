@@ -90,6 +90,7 @@ namespace MonoWorks.Rendering.ViewportControls
 			OnProjectionChanged();
 		}
 
+
 		
 #region View Direction Actions
 		

@@ -76,7 +76,7 @@ namespace MonoWorks.Model
 #endregion
 
 
-#region Selection Listeners
+#region Entity Listeners
 
 		/// <summary>
 		/// All the selection listeners to tell about selection events.
@@ -135,6 +135,13 @@ namespace MonoWorks.Model
 		/// </summary>
 		public List<Entity> Selected {get; private set;}
 
+		/// <summary>
+		/// The number of entities selected.
+		/// </summary>
+		public int NumSelected
+		{
+			get { return Selected.Count; }
+		}
 		
 		/// <summary>
 		/// Selects an entity.

@@ -92,6 +92,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="EntityMetaData.xml" />
+    <EmbeddedResource Include="ViewportControls\icons\arc.png" />
+    <EmbeddedResource Include="ViewportControls\icons\delete.png" />
+    <EmbeddedResource Include="ViewportControls\icons\extrusion.png" />
+    <EmbeddedResource Include="ViewportControls\icons\line.png" />
+    <EmbeddedResource Include="ViewportControls\icons\refline.png" />
+    <EmbeddedResource Include="ViewportControls\icons\refplane.png" />
+    <EmbeddedResource Include="ViewportControls\icons\refpoint.png" />
+    <EmbeddedResource Include="ViewportControls\icons\revolution.png" />
+    <EmbeddedResource Include="ViewportControls\icons\sketch.png" />
+    <EmbeddedResource Include="ViewportControls\icons\spline.png" />
+    <EmbeddedResource Include="ViewportControls\icons\sweep.png" />
     <EmbeddedResource Include="ViewportControls\icons\nosolid.png" />
     <EmbeddedResource Include="ViewportControls\icons\flat.png" />
     <EmbeddedResource Include="ViewportControls\icons\smooth.png" />
