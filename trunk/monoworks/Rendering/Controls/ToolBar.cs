@@ -130,7 +130,23 @@ namespace MonoWorks.Rendering.Controls
 		}
 		
 #endregion
-		
-		
+
+
+#region Mouse Interaction
+
+
+		public override void OnMouseMotion(MonoWorks.Rendering.Events.MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+
+			// catch hover even if the buttons didn't
+			if (HitTest(evt.Pos))
+				evt.Handle();
+		}
+
+
+#endregion
+
+
 	}
 }

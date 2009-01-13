@@ -72,11 +72,11 @@ namespace MonoWorks.Model.Interaction
 		{
 			base.OnMouseMotion(evt);
 
-			if (evt.Handled)
-				return;
-			
 			foreach (Entity entity in drawing.Children)
 				entity.IsHovering = false;
+
+			if (evt.Handled)
+				return;
 			
 			
 			Entity hitEntity = HitEntity(evt);
@@ -97,9 +97,7 @@ namespace MonoWorks.Model.Interaction
 			foreach (Entity entity in drawing.Children)
 			{
 				if (entity.HitTest(hitLine))
-				{
 					hits.Add(entity);
-				}
 			}
 			
 			// perform depth test
@@ -107,6 +105,7 @@ namespace MonoWorks.Model.Interaction
 			double frontDist = 0;
 			foreach (Entity entity in hits)
 			{
+				//double dist_ = viewport.Camera.GetDistance(entity.LastHit);
 				double dist_ = viewport.Camera.GetDistance(entity.Bounds.Center);
 				if (front == null || dist_ < frontDist)
 				{

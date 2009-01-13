@@ -19,6 +19,7 @@
 using System;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.Rendering.Events
 {
@@ -28,20 +29,25 @@ namespace MonoWorks.Rendering.Events
 	/// </summary>
 	public class MouseEvent : Event
 	{
-		
-		public MouseEvent(Coord pos) : base()
+		public MouseEvent(Coord pos)
+			: this(pos, InteractionModifier.None)
 		{
-			this.pos = pos;
 		}
 		
-		private Coord pos;
+		public MouseEvent(Coord pos, InteractionModifier modifier) : base()
+		{
+			Pos = pos;
+			Modifier = modifier;
+		}
+		
 		/// <value>
 		/// The position of the event.
 		/// </value>
-		public Coord Pos
-		{
-			get {return pos;}
-			set {pos = value;}
-		}
+		public Coord Pos { get; private set; }
+
+		/// <value>
+		/// The modifier for the event.
+		/// </value>
+		public InteractionModifier Modifier { get; set; }
 	}
 }

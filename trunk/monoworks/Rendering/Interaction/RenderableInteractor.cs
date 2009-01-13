@@ -41,6 +41,7 @@ namespace MonoWorks.Rendering.Interaction
 			mouseType = InteractionType.None;
 
 			ConnectMouseType(InteractionType.Rotate, 1);
+			ConnectMouseType(InteractionType.Rotate, 1, InteractionModifier.Control);
 			ConnectMouseType(InteractionType.Dolly, 2);
 			ConnectMouseType(InteractionType.Pan, 3);
 			ConnectMouseType(InteractionType.Dolly, 3, InteractionModifier.Shift);
@@ -113,9 +114,8 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			get
 			{
-                if (viewport.InteractionState != InteractionState.View3D && mouseType == InteractionType.Rotate)
-                    return InteractionType.Select;
-                else if (viewport.InteractionState == InteractionState.Interact2D && mouseType == InteractionType.Dolly)
+                if (viewport.InteractionState == InteractionState.Interact2D 
+					&& mouseType == InteractionType.Dolly)
                     return InteractionType.Zoom;
                 else
 					return mouseType;
@@ -129,6 +129,17 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
+
+			// Ctrl swaps first button view and interact types
+			if (evt.Handled || 
+				(evt.Button == 1 && 
+				evt.Modifier != InteractionModifier.Control &&
+				viewport.InteractionState != InteractionState.View3D) || 
+				(evt.Button == 1 && 
+				evt.Modifier == InteractionModifier.Control &&
+				viewport.InteractionState == InteractionState.View3D))
+				return;
+
 			int key = GetKey(evt.Button, evt.Modifier);
 			if (mouseTypes.ContainsKey(key))
 				mouseType = mouseTypes[key];

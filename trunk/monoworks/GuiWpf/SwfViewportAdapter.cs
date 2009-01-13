@@ -125,7 +125,8 @@ namespace MonoWorks.GuiWpf
 			base.OnMouseDown(args);
 
 			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
-									SwfExtensions.ButtonNumber(args.Button));
+									SwfExtensions.ButtonNumber(args.Button),
+									SwfExtensions.GetModifier(ModifierKeys));
 			Viewport.OnButtonPress(evt);
 
 			PaintGL();
@@ -136,7 +137,8 @@ namespace MonoWorks.GuiWpf
 			base.OnMouseUp(args);
 
             MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
-                                    SwfExtensions.ButtonNumber(args.Button));
+									SwfExtensions.ButtonNumber(args.Button),
+									SwfExtensions.GetModifier(ModifierKeys));
 			Viewport.OnButtonRelease(evt);
 
 			PaintGL();
@@ -146,7 +148,8 @@ namespace MonoWorks.GuiWpf
 		{
 			base.OnMouseMove(args);
 
-			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location));
+			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location),
+									SwfExtensions.GetModifier(ModifierKeys));
 			Viewport.OnMouseMotion(evt);
 
 			PaintGL();

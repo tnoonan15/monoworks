@@ -16,8 +16,8 @@
 	<Color name="Dark Gray" value="888888"/>
 	
 	<!-- Control colors -->
-	<Color name="Control Grad Dark" value="888c"/>
-	<Color name="Control Grad Light" value="dddc"/>
+	<Color name="Control Grad Dark" value="aaac"/>
+	<Color name="Control Grad Light" value="eeec"/>
 	<Color name="Control White" value="fffc"/>
 	<Color name="Control Hovering" value="fafafc"/>
 	

@@ -45,10 +45,9 @@ namespace MonoWorks.Rendering.Events
 		}
 
 		public MouseButtonEvent(Coord pos, int button, InteractionModifier modifier, ClickMultiplicity multiplicity)
-			: base(pos)
+			: base(pos, modifier)
 		{
 			Button = button;
-			Modifier = modifier;
 			Multiplicity = multiplicity;
 		}
 
@@ -57,11 +56,6 @@ namespace MonoWorks.Rendering.Events
 		/// The mouse button that was pressed.
 		/// </value>
 		public int Button { get; private set; }
-	
-		/// <value>
-		/// The modifier for the event.
-		/// </value>
-		public InteractionModifier Modifier { get; private set; }
 
 		/// <value>
 		/// The multiplicity for the click.
