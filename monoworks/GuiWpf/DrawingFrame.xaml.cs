@@ -22,7 +22,7 @@ namespace MonoWorks.GuiWpf
 		{
 			InitializeComponent();
 
-			Controller = new Controller(Viewport);
+			Controller = new Controller(Viewport, attributePanel);
 			Controller.SetUsage(ViewportUsage.CAD);
 
 		}
@@ -65,7 +65,6 @@ namespace MonoWorks.GuiWpf
 				drawing.EntityManager.RaiseSelectionChanged();
 			}
 		}
-
 
 	}
 }

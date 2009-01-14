@@ -79,12 +79,19 @@ namespace MonoWorks.GuiWpf.Tree
 
 		void OnItemSelected(object sender, System.Windows.RoutedEventArgs e)
 		{
+			if (internalUpdate)
+				return;
+
+			//Console.WriteLine("tree item selected");
 			EntityTreeItem item = sender as EntityTreeItem;
 			drawing.EntityManager.Select(this, item.Entity);
 		}
 
 		void OnItemDeselected(object sender, System.Windows.RoutedEventArgs e)
 		{
+			if (internalUpdate)
+				return;
+
 			EntityTreeItem item = sender as EntityTreeItem;
 			drawing.EntityManager.Deselect(this, item.Entity);
 		}
@@ -110,30 +117,56 @@ namespace MonoWorks.GuiWpf.Tree
 
 #region ISelectionListener Members
 
+		protected bool internalUpdate = false;
+
+		/// <summary>
+		/// Start an internal update.
+		/// </summary>
+		protected void BeginInternalUpdate()
+		{
+			internalUpdate = true;
+		}
+
+		/// <summary>
+		/// Ends an internal update.
+		/// </summary>
+		protected void EndInternalUpdate()
+		{
+			internalUpdate = false;
+		}
+
 		public void OnSelect(Entity entity)
 		{
+			BeginInternalUpdate();
 			EntityTreeItem item = items[entity];
 			item.IsSelected = true;
-			Console.WriteLine("select entity {0}", entity.Name);
+			//Console.WriteLine("tree select entity {0}", entity.Name);
+			EndInternalUpdate();
 		}
 
 		public void OnDeselect(Entity entity)
 		{
+			BeginInternalUpdate();
 			EntityTreeItem item = items[entity];
 			item.IsSelected = false;
-			Console.WriteLine("deselect entity {0}", entity.Name);
+			//Console.WriteLine("tree deselect entity {0}", entity.Name);
+			EndInternalUpdate();
 		}
 
 		public void OnSelectAll()
 		{
+			BeginInternalUpdate();
 			foreach (EntityTreeItem item in items.Values)
 				item.IsSelected = true;
+			EndInternalUpdate();
 		}
 
 		public void OnDeselectAll()
 		{
+			BeginInternalUpdate();
 			foreach (EntityTreeItem item in items.Values)
 				item.IsSelected = false;
+			EndInternalUpdate();
 		}
 
 #endregion
