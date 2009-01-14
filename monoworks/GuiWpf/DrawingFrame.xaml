@@ -5,17 +5,18 @@
     xmlns:mwg="clr-namespace:MonoWorks.GuiWpf"
 	xmlns:attr="clr-namespace:MonoWorks.GuiWpf.AttributeControls"
     Height="300" Width="300">
-    <Grid x:Name="theGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*" />
-            <ColumnDefinition Width="5" />
-			<ColumnDefinition Width="50*" />
-        </Grid.ColumnDefinitions>
-		<StackPanel Orientation="Vertical" Grid.Column="0">
-			<t:EntityTreeView x:Name="treeView" VerticalAlignment="Stretch"/>
-			<attr:AttributePanel x:Name="attributePanel" Visibility="Collapsed" Height="Auto"/>
-		</StackPanel>
-		<GridSplitter x:Name="splitter" Grid.Column="1" HorizontalAlignment="Stretch" />
-        <mwg:ViewportWrapper x:Name="viewportWrapper" Grid.Column="3"/>
-    </Grid>
+
+    <DockPanel LastChildFill="True">
+        <attr:AttributePanel x:Name="attributePanel" Visibility="Collapsed" DockPanel.Dock="Right"/>
+        <Grid x:Name="theGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="5" />
+			    <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+            <t:EntityTreeView x:Name="treeView" VerticalAlignment="Stretch"  Grid.Column="0"/>
+		    <GridSplitter x:Name="splitter" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <mwg:ViewportWrapper x:Name="viewportWrapper" Grid.Column="3"/>
+        </Grid>
+    </DockPanel>
 </UserControl>

@@ -126,7 +126,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeControls\AttributeControl.cs" />
     <Compile Include="AttributeControls\AttributePanel.cs" />
+    <Compile Include="AttributeControls\NumericControl.cs" />
+    <Compile Include="AttributeControls\NullControl.cs" />
+    <Compile Include="AttributeControls\StringControl.cs" />
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="DrawingFrame.xaml.cs">
       <DependentUpon>DrawingFrame.xaml</DependentUpon>

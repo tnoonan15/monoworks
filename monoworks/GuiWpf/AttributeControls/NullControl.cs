@@ -1,4 +1,4 @@
-﻿// AttributePanel.cs - MonoWorks Project
+﻿// NullControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -21,53 +21,26 @@ using System.Collections.Generic;
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
-	/// Panel containing attribute controls for an entity.
+	/// Attribute control for attributes that have no control defined.
 	/// </summary>
-	public class AttributePanel : StackPanel, IAttributePanel
+	public class NullControl : AttributeControl
 	{
 
-		public AttributePanel() : base()
+		public NullControl(Entity entity, AttributeMetaData metaData)
+			: base(entity, metaData)
 		{
-
-		}
-
-
-		/// <summary>
-		/// Show the panel with the given entity.
-		/// </summary>
-		/// <param name="entity"></param>
-		public void Show(Entity entity)
-		{
-			Visibility = Visibility.Visible;
-
-			Children.Clear();
 
 			Label label = new Label();
-			label.Content = entity.Name;
+			label.Content = "Not Editable";
+			label.Foreground = Brushes.Gray;
 			Children.Add(label);
-
-			// create the attribute controls
-			foreach (AttributeMetaData metaData in entity.MetaData.AttributeList)
-			{
-				AttributeControl control = AttributeControl.Generate(entity, metaData);
-				Children.Add(control);
-			}
 		}
-
-		/// <summary>
-		/// Hide the panel.
-		/// </summary>
-		public void Hide()
-		{
-			Visibility = Visibility.Collapsed;
-		}
-
 	}
 }
