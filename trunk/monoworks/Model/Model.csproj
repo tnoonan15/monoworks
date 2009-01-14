@@ -89,9 +89,11 @@
     <Compile Include="Sketchs\Sketchable.cs" />
     <Compile Include="TestPart.cs" />
     <Compile Include="ViewportControls\Controller.cs" />
+    <Compile Include="ViewportControls\IAttributePanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EntityMetaData.xml" />
+    <EmbeddedResource Include="ViewportControls\icons\edit.png" />
     <EmbeddedResource Include="ViewportControls\icons\arc.png" />
     <EmbeddedResource Include="ViewportControls\icons\delete.png" />
     <EmbeddedResource Include="ViewportControls\icons\extrusion.png" />

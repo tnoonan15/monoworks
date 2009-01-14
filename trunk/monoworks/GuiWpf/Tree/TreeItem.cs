@@ -34,5 +34,7 @@ namespace MonoWorks.GuiWpf.Tree
 			Header = Entity.Name;
 		}
 
+
+
 	}
 }

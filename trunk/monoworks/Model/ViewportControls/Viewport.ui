@@ -7,6 +7,7 @@
 		<Action name="Flat Shaded" icon="flat" tooltip="Flat shaded rendering" togglable="true"/>
 		<Action name="Smooth Shaded" icon="smooth" tooltip="Smooth shaded rendering" togglable="true"/>
 
+		<Action name="Edit" icon="edit" tooltip="Edit the currently selected entity"/>
 		<Action name="Delete" icon="delete" tooltip="Delete the currently selected entity(s)"/>
 
 		<Action name="Sketch" icon="sketch" tooltip="Add a new sketch"/>
@@ -24,6 +25,10 @@
 			<Item action="No Solid"/>
 			<Item action="Flat Shaded"/>
 			<Item action="Smooth Shaded"/>
+		</Toolbar>
+
+		<Toolbar name="Edit" buttonStyle="ImageOverLabel">
+			<Item action="Edit"/>
 		</Toolbar>
 
 		<Toolbar name="Delete" buttonStyle="ImageOverLabel">

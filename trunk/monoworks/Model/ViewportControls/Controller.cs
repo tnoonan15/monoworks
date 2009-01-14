@@ -32,9 +32,11 @@ namespace MonoWorks.Model.ViewportControls
 	/// </summary>
 	public class Controller : ViewportController
 	{
-		public Controller(Viewport viewport)
+		public Controller(Viewport viewport, IAttributePanel attributePanel)
 			: base(viewport)
 		{
+			this.attributePanel = attributePanel;
+
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
 			OnSolidModeChanged();
 		}
@@ -109,24 +111,54 @@ namespace MonoWorks.Model.ViewportControls
 		protected ContextLocation primaryLoc = ContextLocation.E;
 
 		/// <summary>
+		/// Convenience method to add a context to the primary context location.
+		/// </summary>
+		/// <param name="context"></param>
+		protected void AddPrimaryContext(string context)
+		{
+			ContextLayer.AddContext(primaryLoc, context);
+		}
+
+		/// <summary>
+		/// The last drawing to be used on the viewport.
+		/// </summary>
+		protected Drawing lastDrawing = null;
+
+		/// <summary>
+		/// The last entity to be selected.
+		/// </summary>
+		protected Entity lastEntity = null;
+
+		/// <summary>
 		/// Handles the selection being changed, 
 		/// update the context toolbar.
 		/// </summary>
 		public void OnSelectionChanged(Drawing drawing)
 		{
+			attributePanel.Hide();
+
 			ContextLayer.ClearContexts(primaryLoc);
 
+			lastDrawing = drawing;
 			if (drawing.EntityManager.NumSelected == 0) // nothing selected
 			{
-				ContextLayer.AddContext(primaryLoc, "AddSketch");
-				ContextLayer.AddContext(primaryLoc, "AddRef");
+				AddPrimaryContext("AddSketch");
+				AddPrimaryContext("AddRef");
 			}
 			else // something selected
 			{
+				if (drawing.EntityManager.NumSelected == 1) // only one selected
+				{
+					lastEntity = drawing.EntityManager.Selected[0];
+					AddPrimaryContext("Edit");
+				}
+				else // multiple entities selected
+				{
+					foreach (Entity entity in drawing.EntityManager.Selected)
+						Console.WriteLine("entity: " + entity.Name);
+				}
 
-
-
-				ContextLayer.AddContext(primaryLoc, "Delete");
+				AddPrimaryContext("Delete");
 			}
 
 			viewport.PaintGL();
@@ -172,6 +204,28 @@ namespace MonoWorks.Model.ViewportControls
 
 
 #endregion
+
+
+#region Entity Editing
+
+		protected IAttributePanel attributePanel;
+
+		//public delegate void EntityEventHandler(Entity entity);
+
+		//public event EntityEventHandler EditEntity;
+
+		[Action()]
+		public void Edit()
+		{
+			if (lastEntity == null)
+				throw new Exception("The Edit action should never be called without lastEntity set.");
+
+			attributePanel.Show(lastEntity);
+		}
+
+#endregion
+
+
 
 
 	}
