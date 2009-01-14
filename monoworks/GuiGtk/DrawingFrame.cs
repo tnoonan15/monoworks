@@ -66,6 +66,10 @@ namespace MonoWorks.GuiGtk
 				// add the drawing interactor
 				DrawingInteractor interactor = new DrawingInteractor(Viewport, drawing);
 				Viewport.PrimaryInteractor = interactor;
+				
+				// connect the viewport to the drawing
+				drawing.EntityManager.SelectionChanged += Controller.OnSelectionChanged;
+				drawing.EntityManager.RaiseSelectionChanged();
 			}
 		}
 

@@ -51,6 +51,17 @@
     <File name="ViewportControls/Controller.cs" subtype="Code" buildaction="Compile" />
     <File name="ViewportControls/Viewport.ui" subtype="Code" buildaction="EmbedAsResource" />
     <File name="IEntityListener.cs" subtype="Code" buildaction="Compile" />
+    <File name="ViewportControls/icons/arc.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/delete.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/extrusion.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/line.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/refline.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/refplane.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/refpoint.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/revolution.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/sketch.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/spline.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ViewportControls/icons/sweep.png" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../extbin/Linux/Tao.OpenGl.dll" />

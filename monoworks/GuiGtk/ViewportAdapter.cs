@@ -226,6 +226,9 @@ namespace MonoWorks.GuiGtk
 		/// </summary>
 		public void PaintGL()
 		{
+			if (!IsRealized)
+				return;
+			
 			if (base.MakeCurrent() == 0)
 				return;
 			
