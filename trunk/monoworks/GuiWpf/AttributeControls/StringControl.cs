@@ -1,4 +1,4 @@
-﻿// AttributePanel.cs - MonoWorks Project
+﻿// StringControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -23,51 +23,24 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
-	/// Panel containing attribute controls for an entity.
+	/// Attribute control for strings.
 	/// </summary>
-	public class AttributePanel : StackPanel, IAttributePanel
+	public class StringControl : AttributeControl
 	{
-
-		public AttributePanel() : base()
+		public StringControl(Entity entity, AttributeMetaData metaData)
+			: base(entity, metaData)
 		{
-
+			textBox = new TextBox();
+			Children.Add(textBox);
+			textBox.Text = (string)entity.GetAttribute(metaData.Name);
 		}
 
+		protected TextBox textBox;
 
-		/// <summary>
-		/// Show the panel with the given entity.
-		/// </summary>
-		/// <param name="entity"></param>
-		public void Show(Entity entity)
-		{
-			Visibility = Visibility.Visible;
-
-			Children.Clear();
-
-			Label label = new Label();
-			label.Content = entity.Name;
-			Children.Add(label);
-
-			// create the attribute controls
-			foreach (AttributeMetaData metaData in entity.MetaData.AttributeList)
-			{
-				AttributeControl control = AttributeControl.Generate(entity, metaData);
-				Children.Add(control);
-			}
-		}
-
-		/// <summary>
-		/// Hide the panel.
-		/// </summary>
-		public void Hide()
-		{
-			Visibility = Visibility.Collapsed;
-		}
 
 	}
 }

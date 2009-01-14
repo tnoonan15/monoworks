@@ -63,7 +63,7 @@ namespace MonoWorks.Model
 		protected Dictionary<string, EntityMetaData> children;
 		
 		/// <summary>
-		/// Gets the entity of a given name.
+		/// Gets the entity of a given name by recursively climbing the meta data tree.
 		/// </summary>
 		/// <param name="childName"> The entity's name. </param>
 		/// <returns> The <see cref="EntityMetaData"/> representing the entity. </returns>
@@ -93,7 +93,7 @@ namespace MonoWorks.Model
 		protected Dictionary<string, AttributeMetaData> attributes;
 		
 		/// <value>
-		/// Returns allattributes in a list.
+		/// Returns all attributes in a list.
 		/// </value>
 		public List<AttributeMetaData> AttributeList
 		{
@@ -114,13 +114,30 @@ namespace MonoWorks.Model
 		/// <param name="name"> The name of the attribute. </param>
 		public bool ContainsAttribute(string name)
 		{
-			List<AttributeMetaData> attributeList = AttributeList;
-			foreach (AttributeMetaData attribute in attributeList)
+			foreach (AttributeMetaData attribute in AttributeList)
 			{
 				if (attribute.Name == name)
 					return true;
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// Returns the attribute meta data for the given attribute name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns>The attribute meta data, or null if the entity does not 
+		/// have an attribute with the given name.
+		/// There is no exception thrown since the caller should choose how
+		/// to deal with this situation.</returns>
+		public AttributeMetaData GetAttribute(string name)
+		{
+			foreach (AttributeMetaData attribute in AttributeList)
+			{
+				if (attribute.Name == name)
+					return attribute;
+			}
+			return null;
 		}
 		
 #endregion

@@ -1,4 +1,4 @@
-﻿// AttributePanel.cs - MonoWorks Project
+﻿// DoubleControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -23,51 +23,27 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
-	/// Panel containing attribute controls for an entity.
+	/// Attribute control for numeric or dimensional values.
 	/// </summary>
-	public class AttributePanel : StackPanel, IAttributePanel
+	public class NumericControl<T> : AttributeControl
 	{
-
-		public AttributePanel() : base()
+		public NumericControl(Entity entity, AttributeMetaData metaData)
+			: base(entity, metaData)
 		{
+			slider = new Slider();
 
+			StackPanel sliderStack = new StackPanel();
+			sliderStack.Orientation = Orientation.Horizontal;
+			sliderStack.Children.Add(slider);
+
+			Children.Add(sliderStack);
 		}
 
-
-		/// <summary>
-		/// Show the panel with the given entity.
-		/// </summary>
-		/// <param name="entity"></param>
-		public void Show(Entity entity)
-		{
-			Visibility = Visibility.Visible;
-
-			Children.Clear();
-
-			Label label = new Label();
-			label.Content = entity.Name;
-			Children.Add(label);
-
-			// create the attribute controls
-			foreach (AttributeMetaData metaData in entity.MetaData.AttributeList)
-			{
-				AttributeControl control = AttributeControl.Generate(entity, metaData);
-				Children.Add(control);
-			}
-		}
-
-		/// <summary>
-		/// Hide the panel.
-		/// </summary>
-		public void Hide()
-		{
-			Visibility = Visibility.Collapsed;
-		}
+		protected Slider slider;
 
 	}
 }
