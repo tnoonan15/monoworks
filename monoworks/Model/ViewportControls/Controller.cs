@@ -210,17 +210,23 @@ namespace MonoWorks.Model.ViewportControls
 
 		protected IAttributePanel attributePanel;
 
-		//public delegate void EntityEventHandler(Entity entity);
-
-		//public event EntityEventHandler EditEntity;
-
 		[Action()]
 		public void Edit()
 		{
 			if (lastEntity == null)
 				throw new Exception("The Edit action should never be called without lastEntity set.");
 
-			attributePanel.Show(lastEntity);
+			attributePanel.Show(this, lastEntity);
+		}
+
+		/// <summary>
+		/// Handles an attribute being changed by an attribute control.
+		/// </summary>
+		/// <param name="attrControl"></param>
+		public void OnAttributeChanged(IAttributeControl attrControl)
+		{
+			Console.WriteLine("attribute {0} changed", attrControl.MetaData.Name);
+			viewport.PaintGL();
 		}
 
 #endregion

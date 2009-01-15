@@ -30,15 +30,16 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\MonoWorks\GuiWpf\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <OutputType>Library</OutputType>
     <AssemblyName>MonoWorks.GuiWpf</AssemblyName>
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
     <RootNamespace>MonoWorks.GuiWpf</RootNamespace>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -132,6 +133,7 @@
   <ItemGroup>
     <Compile Include="AttributeControls\AttributeControl.cs" />
     <Compile Include="AttributeControls\AttributePanel.cs" />
+    <Compile Include="AttributeControls\DimensionalControl.cs" />
     <Compile Include="AttributeControls\NumericControl.cs" />
     <Compile Include="AttributeControls\NullControl.cs" />
     <Compile Include="AttributeControls\StringControl.cs" />
@@ -156,6 +158,7 @@
     <Compile Include="SwfViewportAdapter.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Utilities\SpinControl.cs" />
     <Compile Include="ViewportWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

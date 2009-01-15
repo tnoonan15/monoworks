@@ -10,7 +10,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// <summary>
 		/// Show the panel with the given entity.
 		/// </summary>
-		void Show(Entity entity);
+		void Show(Controller controller, Entity entity);
 
 		/// <summary>
 		/// Hide the panel.

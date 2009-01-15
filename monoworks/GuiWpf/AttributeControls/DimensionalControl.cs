@@ -1,4 +1,4 @@
-﻿// StringControl.cs - MonoWorks Project
+﻿// DimensionalControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -22,31 +22,29 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
+using MonoWorks.Base;
 using MonoWorks.Model;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
-	/// Attribute control for strings.
+	/// Control for dimensional attributes.
 	/// </summary>
-	public class StringControl : AttributeControl
+	/// <typeparam name="T">A dimensional type.</typeparam>
+	public class DimensionalControl<T> : NumericControl where T : Dimensional
 	{
-		public StringControl(Entity entity, AttributeMetaData metaData)
+		public DimensionalControl(Entity entity, AttributeMetaData metaData) 
 			: base(entity, metaData)
 		{
-			textBox = new TextBox();
-			Children.Add(textBox);
-			textBox.Text = (string)entity.GetAttribute(metaData.Name);
-			textBox.TextChanged += OnTextChanged;
+			dimVal = entity.GetAttribute(metaData.Name) as T;
+			spin.Value = dimVal.DisplayValue;
 		}
 
-		protected TextBox textBox;
+		T dimVal;
 
-
-		void OnTextChanged(object sender, TextChangedEventArgs e)
+		protected override void OnValueChanged(double val)
 		{
-			Entity.SetAttribute(MetaData.Name, textBox.Text);
-
+			dimVal.DisplayValue = val;
 			RaiseAttributeChanged();
 		}
 
