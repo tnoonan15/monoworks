@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlottingTest", "PlottingTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{88CBD331-92E5-4424-BC71-8AE23596C4EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{D4D7CB5E-2429-4208-9FD5-7AA41ECB4555}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D7CB5E-2429-4208-9FD5-7AA41ECB4555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D7CB5E-2429-4208-9FD5-7AA41ECB4555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D7CB5E-2429-4208-9FD5-7AA41ECB4555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D7CB5E-2429-4208-9FD5-7AA41ECB4555}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
