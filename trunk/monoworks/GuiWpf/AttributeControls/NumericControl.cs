@@ -1,4 +1,4 @@
-﻿// DoubleControl.cs - MonoWorks Project
+﻿// NumericControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -23,27 +23,41 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Model;
+using MonoWorks.GuiWpf.Utilities;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
-	/// Attribute control for numeric or dimensional values.
+	/// Attribute control for numeric (double) values.
 	/// </summary>
-	public class NumericControl<T> : AttributeControl
+	public class NumericControl : AttributeControl
 	{
 		public NumericControl(Entity entity, AttributeMetaData metaData)
 			: base(entity, metaData)
 		{
-			slider = new Slider();
+			dockPanel = new DockPanel();
+			dockPanel.LastChildFill = true;
+			Children.Add(dockPanel);
 
-			StackPanel sliderStack = new StackPanel();
-			sliderStack.Orientation = Orientation.Horizontal;
-			sliderStack.Children.Add(slider);
+			spin = new SpinControl();
+			dockPanel.Children.Add(spin);
+			spin.ValueChanged += OnValueChanged;
 
-			Children.Add(sliderStack);
 		}
 
-		protected Slider slider;
+		protected DockPanel dockPanel;
+
+		protected SpinControl spin;
+
+		/// <summary>
+		/// Handles the value being changed.
+		/// </summary>
+		/// <param name="val"></param>
+		protected virtual void OnValueChanged(double val)
+		{
+			Entity.SetAttribute(MetaData.Name, val);
+			RaiseAttributeChanged();
+		}
 
 	}
 }

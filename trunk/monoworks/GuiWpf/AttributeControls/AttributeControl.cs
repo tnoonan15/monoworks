@@ -23,18 +23,20 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Model;
+using MonoWorks.Model.ViewportControls;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
 	/// Base class for attribute controls.
 	/// </summary>
-	public abstract class AttributeControl : StackPanel
+	public abstract class AttributeControl : StackPanel, IAttributeControl
 	{
 
 		public AttributeControl(Entity entity, AttributeMetaData metaData)
 			: base()
 		{
+			Entity = entity;
 			MetaData = metaData;
 
 			Orientation = Orientation.Vertical;
@@ -44,8 +46,9 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			Children.Add(label);
 		}
 
-		public AttributeMetaData MetaData { get; private set; }
+		public Entity Entity { get; private set; }
 
+		public AttributeMetaData MetaData { get; private set; }
 
 		#region Factory
 
@@ -63,14 +66,36 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			case "System.String":
 				return new StringControl(entity, metaData);
 			case "System.Double":
-				return new NumericControl<Double>(entity, metaData);
+				return new NumericControl(entity, metaData);
 			case "MonoWorks.Base.Length":
-				return new NumericControl<MonoWorks.Base.Length>(entity, metaData);
+				return new DimensionalControl<MonoWorks.Base.Length>(entity, metaData);
 			case "MonoWorks.Base.Angle":
-				return new NumericControl<MonoWorks.Base.Angle>(entity, metaData);
+				return new DimensionalControl<MonoWorks.Base.Angle>(entity, metaData);
 			default:
 				return new NullControl(entity, metaData);
 			}
+		}
+
+		#endregion
+
+
+		#region Attribute Changed Event
+
+
+		public delegate void AttributeChangedHandler(IAttributeControl sender);
+
+		/// <summary>
+		/// Raised when the value of the attribute changed.
+		/// </summary>
+		public event AttributeChangedHandler AttributeChanged;
+
+		/// <summary>
+		/// Raise the attribute changed handler, if anyone is listening.
+		/// </summary>
+		protected void RaiseAttributeChanged()
+		{
+			if (AttributeChanged != null)
+				AttributeChanged(this);
 		}
 
 		#endregion

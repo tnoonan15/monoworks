@@ -89,6 +89,7 @@
     <Compile Include="Sketchs\Sketchable.cs" />
     <Compile Include="TestPart.cs" />
     <Compile Include="ViewportControls\Controller.cs" />
+    <Compile Include="ViewportControls\IAttributeControl.cs" />
     <Compile Include="ViewportControls\IAttributePanel.cs" />
   </ItemGroup>
   <ItemGroup>

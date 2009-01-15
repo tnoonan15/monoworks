@@ -1,4 +1,4 @@
-﻿// StringControl.cs - MonoWorks Project
+﻿// IAttributeControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -19,36 +19,24 @@
 using System;
 using System.Collections.Generic;
 
-using System.Windows;
-using System.Windows.Controls;
-
 using MonoWorks.Model;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.Model.ViewportControls
 {
 	/// <summary>
-	/// Attribute control for strings.
+	/// Interface for user controls to alter entity attributes.
 	/// </summary>
-	public class StringControl : AttributeControl
+	public interface IAttributeControl
 	{
-		public StringControl(Entity entity, AttributeMetaData metaData)
-			: base(entity, metaData)
-		{
-			textBox = new TextBox();
-			Children.Add(textBox);
-			textBox.Text = (string)entity.GetAttribute(metaData.Name);
-			textBox.TextChanged += OnTextChanged;
-		}
+		/// <summary>
+		/// The entity being controlled.
+		/// </summary>
+		Entity Entity { get; }
 
-		protected TextBox textBox;
-
-
-		void OnTextChanged(object sender, TextChangedEventArgs e)
-		{
-			Entity.SetAttribute(MetaData.Name, textBox.Text);
-
-			RaiseAttributeChanged();
-		}
+		/// <summary>
+		/// The attribute being controlled.
+		/// </summary>
+		AttributeMetaData MetaData { get; }
 
 	}
 }

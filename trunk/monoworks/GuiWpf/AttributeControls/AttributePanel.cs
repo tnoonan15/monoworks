@@ -23,14 +23,15 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Model;
-using MonoWorks.GuiWpf.Framework;
+using MonoWorks.Model.ViewportControls;
+using fw=MonoWorks.GuiWpf.Framework;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
 	/// Panel containing attribute controls for an entity.
 	/// </summary>
-	public class AttributePanel : StackPanel, Model.ViewportControls.IAttributePanel
+	public class AttributePanel : StackPanel, IAttributePanel
 	{
 
 		public AttributePanel() : base()
@@ -46,7 +47,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			Button applyButton = new Button();
 			StackPanel panel = new StackPanel();
 			panel.Orientation = Orientation.Horizontal;
-			panel.Children.Add(ResourceManager.RenderIcon("apply", 22));
+			panel.Children.Add(fw.ResourceManager.RenderIcon("apply", 22));
 			panel.AddLabel("Apply");
 			applyButton.Content = panel;
 			Children.Add(applyButton);
@@ -54,7 +55,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			Button cancelButton = new Button();
 			panel = new StackPanel();
 			panel.Orientation = Orientation.Horizontal;
-			panel.Children.Add(ResourceManager.RenderIcon("cancel", 22));
+			panel.Children.Add(fw.ResourceManager.RenderIcon("cancel", 22));
 			panel.AddLabel("Cancel");
 			cancelButton.Content = panel;
 			Children.Add(cancelButton);
@@ -65,11 +66,11 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		/// Show the panel with the given entity.
 		/// </summary>
 		/// <param name="entity"></param>
-		public void Show(Entity entity)
+		public void Show(Controller controller, Entity entity)
 		{
 			Children.Clear();
 
-			Visibility = Visibility.Visible;
+			Width = 160;
 
 			AddButtons();
 
@@ -77,8 +78,12 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			foreach (AttributeMetaData metaData in entity.MetaData.AttributeList)
 			{
 				AttributeControl control = AttributeControl.Generate(entity, metaData);
+				control.Margin = new Thickness(6);
 				Children.Add(control);
+				control.AttributeChanged += controller.OnAttributeChanged;
 			}
+
+			Visibility = Visibility.Visible;
 		}
 
 		/// <summary>

@@ -126,17 +126,49 @@ namespace MonoWorks.GuiWpf
 	public static class GridExtensions
 	{
 		/// <summary>
-		/// Adds element to the grid at the given row an dcolumn.
+		/// Adds element to the grid at the given row and column.
 		/// </summary>
-		/// <param name="grid"></param>
-		/// <param name="element"></param>
-		/// <param name="row"></param>
-		/// <param name="col"></param>
 		public static void AddAt(this Grid grid, UIElement element, int row, int col)
 		{
 			grid.Children.Add(element);
 			Grid.SetColumn(element, col);
 			Grid.SetRow(element, row);
+		}
+
+		/// <summary>
+		/// Adds element to the grid at the given row and column.
+		/// </summary>
+		/// <remarks>Also define row and column span.</remarks>
+		public static void AddAt(this Grid grid, UIElement element, int row, int col, int rowspan, int colspan)
+		{
+			grid.Children.Add(element);
+			Grid.SetColumn(element, col);
+			Grid.SetColumnSpan(element, colspan);
+			Grid.SetRow(element, row);
+			Grid.SetRowSpan(element, rowspan);
+		}
+
+		/// <summary>
+		/// Adds a row definition.
+		/// </summary>
+		/// <param name="grid"></param>
+		public static RowDefinition AddRow(this Grid grid)
+		{
+			RowDefinition rowDef = new RowDefinition();
+			grid.RowDefinitions.Add(rowDef);
+			return rowDef;
+		}
+
+		/// <summary>
+		/// Adds a row definition with a defined height.
+		/// </summary>
+		/// <param name="grid"></param>
+		public static RowDefinition AddRow(this Grid grid, double heigt)
+		{
+			RowDefinition rowDef = new RowDefinition();
+			rowDef.Height = new GridLength(heigt);
+			grid.RowDefinitions.Add(rowDef);
+			return rowDef;
 		}
 
 		/// <summary>
@@ -157,6 +189,29 @@ namespace MonoWorks.GuiWpf
 		public static ColumnDefinition AddColumn(this Grid grid)
 		{
 			ColumnDefinition colDef = new ColumnDefinition();
+			grid.ColumnDefinitions.Add(colDef);
+			return colDef;
+		}
+
+		/// <summary>
+		/// Adds a column definition with a defined width.
+		/// </summary>
+		public static ColumnDefinition AddColumn(this Grid grid, double width)
+		{
+			ColumnDefinition colDef = new ColumnDefinition();
+			colDef.Width = new GridLength(width);
+			grid.ColumnDefinitions.Add(colDef);
+			return colDef;
+		}
+
+		/// <summary>
+		/// Adds a column definition with automatic width.
+		/// </summary>
+		/// <param name="grid"></param>
+		public static ColumnDefinition AddAutoColumn(this Grid grid)
+		{
+			ColumnDefinition colDef = new ColumnDefinition();
+			colDef.Width = GridLength.Auto;
 			grid.ColumnDefinitions.Add(colDef);
 			return colDef;
 		}
