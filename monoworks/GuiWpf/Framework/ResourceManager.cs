@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Reflection;
 
 namespace MonoWorks.GuiWpf.Framework
 {
@@ -12,8 +13,8 @@ namespace MonoWorks.GuiWpf.Framework
 	public class ResourceManager : MonoWorks.Framework.ResourceManagerBase
 	{
 
-		protected ResourceManager(string dirName)
-			: base(dirName)
+		protected ResourceManager()
+			: base()
 		{
 
 		}
@@ -26,15 +27,28 @@ namespace MonoWorks.GuiWpf.Framework
 		protected static ResourceManager Instance;
 
 		/// <summary>
-		/// Initialize the singleton resource manager.
+		/// Loads the given directory.
 		/// </summary>
-		/// <param name="dirName"> The directory of the resources.</param>
-		public static void Initialize(string dirName)
+		public static void LoadDirectory(string dirName)
 		{
-			if (!IsInitialized)
-			{
-				Instance = new ResourceManager(dirName);
-			}
+			if (Instance == null)
+				Instance = new ResourceManager();
+
+			Instance.LoadDir(dirName);
+		}
+
+		/// <summary>
+		/// Loads an assembly.
+		/// </summary>
+		/// <param name="asmName">The name of the assembly.</param>
+		/// <remarks>The assembly should have generally the same layout 
+		/// as a resource directory should.</remarks>
+		public static void LoadAssembly(string asmName)
+		{
+			if (Instance == null)
+				Instance = new ResourceManager();
+
+			Instance.LoadAsm(asmName);
 		}
 
 		#endregion
@@ -61,6 +75,20 @@ namespace MonoWorks.GuiWpf.Framework
 				icons[name] = icon;
 			}
 			icon.AddFile(fileInfo.FullName);
+		}
+
+		protected override void LoadIconStream(Stream stream, string name)
+		{
+			Icon icon;
+			if (icons.ContainsKey(name))
+				icon = icons[name];
+			else
+			{
+				icon = new Icon();
+				icon.Name = name;
+				icons[name] = icon;
+			}
+			icon.AddStream(stream);
 		}
 
 		/// <summary>
@@ -90,10 +118,5 @@ namespace MonoWorks.GuiWpf.Framework
 		#endregion
 
 
-
-        public override void FillIconBuffer(string name, int size, ref float[] buffer)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

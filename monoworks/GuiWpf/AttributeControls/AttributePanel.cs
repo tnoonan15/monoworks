@@ -23,19 +23,41 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
+using MonoWorks.GuiWpf.Framework;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 	/// <summary>
 	/// Panel containing attribute controls for an entity.
 	/// </summary>
-	public class AttributePanel : StackPanel, IAttributePanel
+	public class AttributePanel : StackPanel, Model.ViewportControls.IAttributePanel
 	{
 
 		public AttributePanel() : base()
 		{
+		}
 
+
+		/// <summary>
+		/// Adds the buttons to the top of the panel.
+		/// </summary>
+		protected void AddButtons()
+		{
+			Button applyButton = new Button();
+			StackPanel panel = new StackPanel();
+			panel.Orientation = Orientation.Horizontal;
+			panel.Children.Add(ResourceManager.RenderIcon("apply", 22));
+			panel.AddLabel("Apply");
+			applyButton.Content = panel;
+			Children.Add(applyButton);
+
+			Button cancelButton = new Button();
+			panel = new StackPanel();
+			panel.Orientation = Orientation.Horizontal;
+			panel.Children.Add(ResourceManager.RenderIcon("cancel", 22));
+			panel.AddLabel("Cancel");
+			cancelButton.Content = panel;
+			Children.Add(cancelButton);
 		}
 
 
@@ -45,13 +67,11 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		/// <param name="entity"></param>
 		public void Show(Entity entity)
 		{
-			Visibility = Visibility.Visible;
-
 			Children.Clear();
 
-			Label label = new Label();
-			label.Content = entity.Name;
-			Children.Add(label);
+			Visibility = Visibility.Visible;
+
+			AddButtons();
 
 			// create the attribute controls
 			foreach (AttributeMetaData metaData in entity.MetaData.AttributeList)

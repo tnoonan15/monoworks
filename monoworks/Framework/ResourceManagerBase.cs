@@ -17,7 +17,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace MonoWorks.Framework
 {
@@ -27,30 +29,20 @@ namespace MonoWorks.Framework
 	public abstract class ResourceManagerBase
 	{
 		/// <summary>
-		/// Constructor that takes the resource directory name.
+		/// Default constructor.
 		/// </summary>
-		/// <param name="dir"> Absolute or relative path to the resource directory.</param>
-		protected ResourceManagerBase(string dirName)
+		protected ResourceManagerBase()
 		{
 			singletonInstance = this;
 			
-			resourceDir = new DirectoryInfo(dirName);
-			IsInitialized = true;
-
-			LoadIcons();
 		}
-
-		/// <summary>
-		/// Whether the resources have been initialized.
-		/// </summary>
-		protected static bool IsInitialized = false;
 
 		/// <summary>
 		/// Throws an exception if the resource manager is not initialized.
 		/// </summary>
 		protected static void EnsureInitialized()
 		{
-			if (!IsInitialized)
+			if (singletonInstance == null)
 				throw new Exception("Resource Manager is not initialized.");
 		}
 		
@@ -61,30 +53,24 @@ namespace MonoWorks.Framework
 		/// access some resources that aren't GUI specific.</remarks>
 		private static ResourceManagerBase singletonInstance;
 
-		protected DirectoryInfo resourceDir;
 
-		/// <summary>
-		/// The resource directory.
-		/// </summary>
-		public static DirectoryInfo ResourceDir
+		protected void LoadDir(string dirName)
 		{
-			get {return singletonInstance.resourceDir;}
+			if (!DirIsLoaded(dirName))
+			{
+				DirectoryInfo info = new DirectoryInfo(dirName);
+				LoadIconDirectory(info);
+				loadedDirs.Add(dirName);
+			}
 		}
 
-		/// <summary>
-		/// Gets the directory for icons of the given size.
-		/// </summary>
-		public static string IconDir(int size)
-		{
-			return ResourceDir.FullName + "icons" + size.ToString() + "/";
-		}
 
 		/// <summary>
-		/// Loads the icons.
+		/// Loads the icons from a root directory.
 		/// </summary>
-		protected virtual void LoadIcons()
+		protected virtual void LoadIconDirectory(DirectoryInfo info)
 		{
-			DirectoryInfo[] iconDirs = resourceDir.GetDirectories("icons*"); // get the icon directories
+			DirectoryInfo[] iconDirs = info.GetDirectories("icons*"); // get the icon directories
 			foreach (DirectoryInfo iconDir in iconDirs)
 			{
 				// determine the size associated with this directory
@@ -102,23 +88,77 @@ namespace MonoWorks.Framework
 		/// <summary>
 		/// Loads a single icon from the given path.
 		/// </summary>
-		/// <param name="fileInfo"></param>
-		/// <param name="size"></param>
 		protected abstract void LoadIcon(FileInfo fileInfo, int size);
 
-		/// <summary>
-		/// Fills the buffer with the pixels of the icon with the given name.
-		/// </summary>
-		/// <remarks>The buffer will be automatically sized.</remarks>
-		public abstract void FillIconBuffer(string name, int size, ref float[] buffer);
 
 		/// <summary>
-		/// Fills the buffer with the pixels of the icon with the given name.
+		/// Load an assembly.
 		/// </summary>
-		/// <remarks>The buffer will be automatically sized.</remarks>
-		public static void GetIconPixels(string name, int size, ref float[] buffer)
+		/// <param name="asmName"></param>
+		protected void LoadAsm(string asmName)
 		{
-				singletonInstance.FillIconBuffer(name, size, ref buffer);
+			if (!AsmIsLoaded(asmName))
+			{
+				Assembly asm = Assembly.Load(AssemblyName.GetAssemblyName(asmName + ".dll"));
+				LoadIconAssembly(asm);
+				loadedAsms.Add(asmName);
+			}
+		}
+
+
+		/// <summary>
+		/// Load icons from an assembly.
+		/// </summary>
+		/// <param name="asm"></param>
+		/// <remarks>Looks for png files in an icon(size) sub-namespace.</remarks>
+		protected virtual void LoadIconAssembly(Assembly asm)
+		{
+			string[] resNames = asm.GetManifestResourceNames();
+			foreach (string resName in resNames)
+			{
+				// look for an icon declaration
+				string[] comps = resName.Split('.');
+				if (comps[comps.Length - 1] == "png" && comps.Length > 1)
+				{
+					Stream stream = asm.GetManifestResourceStream(resName);
+					string name = comps[comps.Length - 2];
+					LoadIconStream(stream, name);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads the icon from the given stream and stores it with the given name.
+		/// </summary>
+		/// <param name="stream"></param>
+		/// <param name="name"></param>
+		/// <remarks>The size is inferred.</remarks>
+		protected abstract void LoadIconStream(Stream stream, string name);
+
+
+		protected List<string> loadedDirs = new List<string>();
+
+		/// <summary>
+		/// Returns true if the given directory has been loaded.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool DirIsLoaded(string name)
+		{
+			return loadedDirs.Contains(name);
+		}
+
+
+		protected List<string> loadedAsms = new List<string>();
+
+		/// <summary>
+		/// Returns true if the given assembly has been loaded.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool AsmIsLoaded(string name)
+		{
+			return loadedAsms.Contains(name);
 		}
 
 	}
