@@ -131,6 +131,10 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{D4D7CB5E-2429-4208-9FD5-7AA41ECB4555}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

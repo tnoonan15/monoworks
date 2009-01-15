@@ -22,6 +22,8 @@ namespace MonoWorks.GuiWpf
 		{
 			InitializeComponent();
 
+			MonoWorks.GuiWpf.Framework.ResourceManager.LoadAssembly("MonoWorks.Resources");
+
 			Controller = new Controller(Viewport, attributePanel);
 			Controller.SetUsage(ViewportUsage.CAD);
 

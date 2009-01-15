@@ -38,19 +38,25 @@ namespace MonoWorks.GuiWpf.Framework
 		protected Dictionary<int, BitmapSource> sources = new Dictionary<int, BitmapSource>();
 
 		/// <summary>
-		/// Adds a file to the decoders.
+		/// Adds a file to the sources.
 		/// </summary>
 		/// <param name="filePath"></param>
 		public void AddFile(string filePath)
 		{
 			FileStream stream = new FileStream(filePath, FileMode.Open);
-			//using (FileStream stream = new FileStream(filePath, FileMode.Open))
-			//{
-				PngBitmapDecoder decoder = new PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-				BitmapSource source = decoder.Frames[0];
-				int size = source.PixelWidth;
-				sources[size] = source;
-			//}
+			AddStream(stream);
+		}
+
+		/// <summary>
+		/// Adds a stream to the sources.
+		/// </summary>
+		/// <param name="stream"></param>
+		public void AddStream(Stream stream)
+		{
+			PngBitmapDecoder decoder = new PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+			BitmapSource source = decoder.Frames[0];
+			int size = source.PixelWidth;
+			sources[size] = source;
 		}
 
 		/// <summary>
