@@ -1,6 +1,6 @@
-// Controller.cs - Slate Mono Application Framework
+// AttributePanel.cs - MonoWorks Project
 //
-//  Copyright (C) 2008 Andy Selvig
+//  Copyright (C) 2009 Andy Selvig
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -18,32 +18,37 @@
 
 using System;
 
-using MonoWorks.Framework;
+using MonoWorks.Model;
+using MonoWorks.Model.ViewportControls;
 
-namespace MonoWorks.GuiGtk.Framework
+namespace MonoWorks.GuiGtk.AttributeControls
 {
 	
 	/// <summary>
-	/// Base class for Gtk controllers.
+	/// Gtk implementation of IAttributePanel.
 	/// </summary>
-	public class Controller : AbstractController
+	public class AttributePanel : Gtk.Frame, IAttributePanel
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public Controller(SlateWindow window) : base()
+		
+		public AttributePanel() : base()
 		{
-			this.window = window;
+			vBox = new Gtk.VBox(false, 6);
 		}
 		
-		private SlateWindow window;
-		/// <value>
-		/// The window for this controller.
-		/// </value>
-		public SlateWindow Window
+		private Gtk.VBox vBox;
+		
+		
+		#region IAttributePanel implementation 
+		
+		public void Show(Controller controller, Entity entity)
 		{
-			get {return window;}
 		}
+		
+		public void Hide()
+		{
+		}
+		
+		#endregion 
 		
 		
 	}

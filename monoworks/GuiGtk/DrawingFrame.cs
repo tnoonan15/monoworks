@@ -23,6 +23,7 @@ using MonoWorks.Model;
 using MonoWorks.Model.ViewportControls;
 using MonoWorks.Model.Interaction;
 using MonoWorks.GuiGtk.Tree;
+using MonoWorks.GuiGtk.AttributeControls;
 
 namespace MonoWorks.GuiGtk
 {
@@ -39,14 +40,24 @@ namespace MonoWorks.GuiGtk
 			treeView = new TreeView();
 			Add1(treeView);
 			
+			// create the box to hold the viewport and attribute panel
+			viewportBox = new Gtk.HBox();
+			Add2(viewportBox);
+			
 			// create the viewport			
 			adapter = new ViewportAdapter();
-			Add2(adapter);
+			viewportBox.PackStart(adapter, true, true, 0);
 			
-			Controller = new Controller(Viewport);
+			// create the attribute panel
+			attributePanel = new AttributePanel();
+			viewportBox.PackStart(attributePanel, false, true, 0);
+			
+			Controller = new Controller(Viewport, attributePanel);
 			Controller.SetUsage(ViewportUsage.CAD);
 		}
 		
+		
+		private Gtk.HBox viewportBox;
 		
 		protected Drawing drawing = null;
 		/// <value>
@@ -94,5 +105,15 @@ namespace MonoWorks.GuiGtk
 			get {return treeView;}
 			set {treeView = value;}
 		}
+		
+		protected AttributePanel attributePanel;
+		/// <value>
+		/// The attribute panel.
+		/// </value>
+		public IAttributePanel AttributePanel
+		{
+			get {return attributePanel;}
+		}
+		
 	}
 }

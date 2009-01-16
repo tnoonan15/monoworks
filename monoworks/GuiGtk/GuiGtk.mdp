@@ -36,7 +36,6 @@
     <File name="../Resources/icons22/2d.png" subtype="Code" buildaction="EmbedAsResource" resource_id="2d.png" />
     <File name="../Resources/icons22/3dInteract.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="../Resources/icons22/3dSelect.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="Framework/Controller.cs" subtype="Code" buildaction="Compile" />
     <File name="Framework/FloatWindow.cs" subtype="Code" buildaction="Compile" />
     <File name="Framework/ResourceManager.cs" subtype="Code" buildaction="Compile" />
     <File name="Framework/SlateWindow.cs" subtype="Code" buildaction="Compile" />
@@ -80,6 +79,8 @@
     <File name="Framework/ToolArea/icons/VHandle.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="ViewportAdapter.cs" subtype="Code" buildaction="Compile" />
     <File name="Tree/TreeModel.cs" subtype="Code" buildaction="Compile" />
+    <File name="AttributeControls" subtype="Directory" buildaction="Compile" />
+    <File name="AttributeControls/AttributePanel.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

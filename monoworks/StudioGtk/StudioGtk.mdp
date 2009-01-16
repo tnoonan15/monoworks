@@ -32,6 +32,7 @@
     <ProjectReference type="Project" localcopy="True" refto="Model" />
     <ProjectReference type="Project" localcopy="True" refto="Rendering" />
     <ProjectReference type="Project" localcopy="True" refto="Framework" />
+    <ProjectReference type="Project" localcopy="True" refto="Resources" />
   </References>
   <GtkDesignInfo />
 </Project>
