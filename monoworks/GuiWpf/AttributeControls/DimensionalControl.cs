@@ -38,6 +38,10 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		{
 			dimVal = entity.GetAttribute(metaData.Name) as T;
 			spin.Value = dimVal.DisplayValue;
+
+			// custom settings for the spinner
+			if (dimVal is Angle)
+				spin.Step = 15;
 		}
 
 		T dimVal;
@@ -45,6 +49,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		protected override void OnValueChanged(double val)
 		{
 			dimVal.DisplayValue = val;
+			Entity.MakeDirty();
 			RaiseAttributeChanged();
 		}
 

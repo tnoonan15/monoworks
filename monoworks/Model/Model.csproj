@@ -68,6 +68,7 @@
     <Compile Include="Assembly.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AttributeMetaData.cs" />
+    <Compile Include="ModelController.cs" />
     <Compile Include="Drawing.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityManager.cs" />
