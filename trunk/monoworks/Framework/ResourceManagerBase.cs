@@ -53,7 +53,12 @@ namespace MonoWorks.Framework
 		/// access some resources that aren't GUI specific.</remarks>
 		private static ResourceManagerBase singletonInstance;
 
+		
+#region Directory Loading
 
+		/// <summary>
+		/// Loads resources from the given directory.
+		/// </summary>
 		protected void LoadDir(string dirName)
 		{
 			if (!DirIsLoaded(dirName))
@@ -63,7 +68,6 @@ namespace MonoWorks.Framework
 				loadedDirs.Add(dirName);
 			}
 		}
-
 
 		/// <summary>
 		/// Loads the icons from a root directory.
@@ -89,7 +93,24 @@ namespace MonoWorks.Framework
 		/// Loads a single icon from the given path.
 		/// </summary>
 		protected abstract void LoadIcon(FileInfo fileInfo, int size);
+		
+		protected List<string> loadedDirs = new List<string>();
 
+		/// <summary>
+		/// Returns true if the given directory has been loaded.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool DirIsLoaded(string name)
+		{
+			return loadedDirs.Contains(name);
+		}
+
+#endregion
+		
+		
+		
+#region Assembly Loading
 
 		/// <summary>
 		/// Load an assembly.
@@ -135,20 +156,6 @@ namespace MonoWorks.Framework
 		/// <remarks>The size is inferred.</remarks>
 		protected abstract void LoadIconStream(Stream stream, string name);
 
-
-		protected List<string> loadedDirs = new List<string>();
-
-		/// <summary>
-		/// Returns true if the given directory has been loaded.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public bool DirIsLoaded(string name)
-		{
-			return loadedDirs.Contains(name);
-		}
-
-
 		protected List<string> loadedAsms = new List<string>();
 
 		/// <summary>
@@ -160,6 +167,10 @@ namespace MonoWorks.Framework
 		{
 			return loadedAsms.Contains(name);
 		}
+		
+#endregion
+
+
 
 	}
 }

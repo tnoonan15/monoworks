@@ -35,17 +35,22 @@ namespace MonoWorks.GuiGtk.Framework
 	public class UiManager : UiManagerBase
 	{
 		
-		public UiManager(Controller controller) : base(controller)
+		public UiManager(AbstractController controller, SlateWindow window) : base(controller)
 		{
 			this.controller = controller;
 			
-			dockManager = controller.Window.DockManager;
+			dockManager = window.DockManager;
 		}
 		
 		/// <summary>
 		/// The controller.
 		/// </summary>
-		private Controller controller;
+		private AbstractController controller;
+		
+		/// <value>
+		/// The window.
+		/// </value>
+		private SlateWindow window;
 
 		/// <value>
 		/// String for generating a Gtk UiManager.
@@ -124,10 +129,10 @@ namespace MonoWorks.GuiGtk.Framework
 			Gtk.UIManager gtkUiManager = new Gtk.UIManager();
 			gtkUiManager.InsertActionGroup(actionGroup, 0);
 			gtkUiManager.AddUiFromString(uiString);
-			controller.Window.AddAccelGroup(gtkUiManager.AccelGroup);
+			window.AddAccelGroup(gtkUiManager.AccelGroup);
 
 			Gtk.MenuBar menuBar = (Gtk.MenuBar)gtkUiManager.GetWidget("/menubar");
-			controller.Window.AddMenuBar(menuBar);
+			window.AddMenuBar(menuBar);
 
 			// add the tools menu item
 			if (CreateToolsMenu)
@@ -269,7 +274,7 @@ namespace MonoWorks.GuiGtk.Framework
 		{
 			string name = GetName(reader);
 			ToolPosition position = GetToolPosition(reader);
-			currentToolbar = controller.Window.CreateToolbar(position);
+			currentToolbar = window.CreateToolbar(position);
 			toolbars[name] = currentToolbar;
 		}
 		
@@ -288,7 +293,7 @@ namespace MonoWorks.GuiGtk.Framework
 		
 		protected override void CreateToolBox(XmlReader reader)
 		{
-			currentToolBox = controller.Window.CreateToolBox(GetToolPosition(reader), GetName(reader));
+			currentToolBox = window.CreateToolBox(GetToolPosition(reader), GetName(reader));
 			toolBoxes[GetName(reader)] = currentToolBox;
 		}
 

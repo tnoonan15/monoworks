@@ -33,8 +33,7 @@ namespace MonoWorks.GuiGtk.Framework
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		/// <param name="resourceDir"> The resource directory. </param>
-		protected ResourceManager(string resourceDir) : base(resourceDir)
+		protected ResourceManager() : base()
 		{
 			
 		}
@@ -48,19 +47,32 @@ namespace MonoWorks.GuiGtk.Framework
 		protected static ResourceManager Instance;
 
 		/// <summary>
-		/// Initialize the singleton resource manager.
+		/// Loads the given directory.
 		/// </summary>
-		/// <param name="dirName"> The directory of the resources.</param>
-		public static void Initialize(string dirName)
+		public static void LoadDirectory(string dirName)
 		{
-			if (!IsInitialized)
-			{
-				Instance = new ResourceManager(dirName);
-			}
+			if (Instance == null)
+				Instance = new ResourceManager();
+
+			Instance.LoadDir(dirName);
 		}
 
+		/// <summary>
+		/// Loads an assembly.
+		/// </summary>
+		/// <param name="asmName">The name of the assembly.</param>
+		/// <remarks>The assembly should have generally the same layout 
+		/// as a resource directory should.</remarks>
+		public static void LoadAssembly(string asmName)
+		{
+			if (Instance == null)
+				Instance = new ResourceManager();
+
+			Instance.LoadAsm(asmName);
+		}
 
 #endregion
+		
 		
 
 #region Icons
@@ -91,9 +103,9 @@ namespace MonoWorks.GuiGtk.Framework
 		/// <summary>
 		/// Loads the icons from files.
 		/// </summary>
-		protected override void LoadIcons()
+		protected override void LoadIconDirectory(DirectoryInfo info)
 		{
-			base.LoadIcons();
+			base.LoadIconDirectory(info);
 			
 			// add the icons to the factory
 			foreach (KeyValuePair<string,Gtk.IconSet> icon in icons)
@@ -117,17 +129,25 @@ namespace MonoWorks.GuiGtk.Framework
 			}
 		}
 
-		
-		public override void FillIconBuffer(string name, int size, ref float[] buffer)
+
+		protected override void LoadIconStream(Stream stream, string name)
 		{
-			if (!Instance.icons.ContainsKey(name))
-				throw new Exception(name + " is not a valid icon name.");
-			
-//			Gtk.IconSet iconSet = icons[name];
-//			Gdk.Pixbuf pixbuf = iconSet.RenderIcon(new Gtk.Style(), Gtk.TextDirection.Ltr, Gtk.StateType.Normal, Gtk.IconSize.Dnd, null, "");
-//			pixbuf.
+			LoadIconStream(stream, name);
+			if (icons.ContainsKey(name)) // this icon has already been made
+			{
+				Gtk.IconSource source = new Gtk.IconSource();
+				source.Pixbuf = new Gdk.Pixbuf(stream);
+				icons[name].AddSource(source);
+			}
+			else // this icon hasn't been made
+			{
+				Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(stream);
+				icons[name] = new Gtk.IconSet(pixbuf);
+			}
 		}
 
+
+		
 		
 #endregion
 		

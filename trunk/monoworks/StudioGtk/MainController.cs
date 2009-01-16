@@ -22,6 +22,7 @@ using System;
 
 using MonoWorks.Framework;
 using MonoWorks.GuiGtk.Framework;
+using MonoWorks.Model;
 
 namespace MonoWorks.StudioGtk
 {
@@ -29,20 +30,18 @@ namespace MonoWorks.StudioGtk
 	/// <summary>
 	/// Main controller class for the Studio.
 	/// </summary>
-	public class MainController : Controller
+	public class MainController : ModelController
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="window"> </param>
-		public MainController(MainWindow window) : base(window)
+		public MainController(MainWindow window) : base()
 		{
-//			this.window = window;
+			ResourceManager.LoadAssembly("MonoWorks.Resources");
 			
-			ResourceManager.Initialize("../../../Resources");
-			
-			uiManager = new UiManager(this);
-			uiManager.LoadFile("../../../Resources/Scope.ui");
+			uiManager = new UiManager(this, window);
+			uiManager.LoadStream(ResourceHelper.GetStream("Scope.ui", "MonoWorks.Resources"));
 		}
 
 		/// <summary>
