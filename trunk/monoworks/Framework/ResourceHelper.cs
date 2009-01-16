@@ -50,7 +50,16 @@ namespace MonoWorks.Framework
 			Assembly asm = Assembly.GetCallingAssembly();
 			return GetStream(name, asm);
 		}
-
+		
+		/// <summary>
+		/// Gets a resource stream based on the provided name from the named assembly.
+		/// </summary>
+		/// <returns></returns>
+		public static Stream GetStream(string name, string asmName)
+		{
+			Assembly asm = Assembly.Load(new AssemblyName(asmName));
+			return GetStream(name, asm);
+		}
 
 		/// <summary>
 		/// Gets a resource stream based on the provided name and assembly.

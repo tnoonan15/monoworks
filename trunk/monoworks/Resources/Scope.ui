@@ -94,25 +94,6 @@
 			<Item action="Copy"/>
 			<Item action="Paste"/>
 		</Toolbar>	
-		<ToolBox name="Entity" position="Right">
-			<ToolShelf name="Sketch">
-				<Item action="New Sketch"/>
-				<Item action="Edit Sketch"/>
-				<Item action="Line"/>
-				<Item action="Arc"/>
-				<Item action="Spline"/>
-			</ToolShelf>
-			<ToolShelf name="Features">
-				<Item action="Extrusion"/>
-				<Item action="Revolution"/>
-				<Item action="Sweep"/>
-			</ToolShelf>
-			<ToolShelf name="Reference">
-				<Item action="Ref Point"/>
-				<Item action="Ref Line"/>
-				<Item action="Ref Plane"/>
-			</ToolShelf>
-		</ToolBox>
 	</Tools>
 
 	

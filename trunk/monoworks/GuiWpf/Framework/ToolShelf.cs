@@ -66,7 +66,7 @@ namespace MonoWorks.GuiWpf.Framework
 		/// Adds an action to the shelf.
 		/// </summary>
 		/// <param name="action"></param>
-		public void AddAction(ActionAttribute action, Controller controller)
+		public void AddAction(ActionAttribute action, AbstractController controller)
 		{
 			// get the action's image
 			Image image = ResourceManager.RenderIcon(action.IconName, 48);

@@ -195,6 +195,21 @@
     <EmbeddedResource Include="icons48\spline.png" />
     <EmbeddedResource Include="icons48\sweep.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scope.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons48\assembly.png" />
+    <EmbeddedResource Include="icons48\part.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons22\assembly.png" />
+    <EmbeddedResource Include="icons22\part.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons16\assembly.png" />
+    <EmbeddedResource Include="icons16\part.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

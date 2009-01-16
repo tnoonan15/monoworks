@@ -141,7 +141,6 @@
     <Compile Include="DrawingFrame.xaml.cs">
       <DependentUpon>DrawingFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Framework\Controller.cs" />
     <Compile Include="Framework\DockableBase.cs" />
     <Compile Include="Framework\DocumentBase.cs" />
     <Compile Include="Framework\Icon.cs" />

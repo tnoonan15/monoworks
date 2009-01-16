@@ -19,14 +19,16 @@ namespace MonoWorks.GuiWpf.Framework
     public class UiManager : UiManagerBase
     {
 
-		public UiManager(Controller controller) : base(controller)
+		public UiManager(AbstractController controller, SlateWindow window) : base(controller)
 		{
 			this.controller = controller;
-
+			this.window = window;
 		}
 
 
-		protected Controller controller;
+		protected AbstractController controller;
+
+		protected SlateWindow window;
 
 
 		protected override void Load(XmlReader reader)
@@ -38,7 +40,7 @@ namespace MonoWorks.GuiWpf.Framework
 			}
 			catch (Exception ex)
 			{
-				string messageText = "Slate encountered an error when parsing the UI file. " + 
+				string messageText = "MonoWorks encountered an error when parsing the UI file. " + 
 					"The contents of the error is listed below. Please revise the UI file to fix this error.\n\n" + 
 					ex.Message;
 				MessageBox.Show(messageText, "MonoWorks Framework Error", MessageBoxButton.OK);
@@ -60,7 +62,7 @@ namespace MonoWorks.GuiWpf.Framework
 					viewMenu = menus["View"];
 				else // no view menu
 				{
-					viewMenu = controller.Window.CreateMenu("View");
+					viewMenu = window.CreateMenu("View");
 					menus["View"] = viewMenu;					
 				}
 
@@ -184,7 +186,7 @@ namespace MonoWorks.GuiWpf.Framework
 		{
 			string name = GetName(reader);
 			ToolPosition position = GetToolPosition(reader);
-			currentToolbar = controller.Window.CreateToolbar(position);
+			currentToolbar = window.CreateToolbar(position);
 			toolbars[name] = currentToolbar;
 		}
 
@@ -209,7 +211,7 @@ namespace MonoWorks.GuiWpf.Framework
 		protected override void CreateMenu(XmlReader reader)
 		{
 			string name = GetName(reader);
-			currentMenu = controller.Window.CreateMenu(name);
+			currentMenu = window.CreateMenu(name);
 			menus[name] = currentMenu;
 		}
 
@@ -251,7 +253,7 @@ namespace MonoWorks.GuiWpf.Framework
 		{
 			string name = GetName(reader);
 			ToolPosition position = GetToolPosition(reader);
-			currentToolBox = controller.Window.CreateToolBox(position, name);
+			currentToolBox = window.CreateToolBox(position, name);
 			toolBoxes[name] = currentToolBox;
 		}
 
@@ -334,7 +336,7 @@ namespace MonoWorks.GuiWpf.Framework
 			}
 			else // add the sizer to the dockable area
 			{
-				controller.Window.DockManager.Content = sizer;
+				window.DockManager.Content = sizer;
 			}
 			currentDockableSizer = sizer;
 		}
@@ -351,7 +353,7 @@ namespace MonoWorks.GuiWpf.Framework
             }
             else // add the sizer to the dockable area
             {
-                controller.Window.DockManager.Content = currentDockableBook;
+                window.DockManager.Content = currentDockableBook;
             }
 
 		}
@@ -407,7 +409,7 @@ namespace MonoWorks.GuiWpf.Framework
                 }
                 else // add the sizer to the dockable area
                 {
-                    controller.Window.DockManager.Content = pane;
+                    window.DockManager.Content = pane;
                 }
 
             }
@@ -446,10 +448,37 @@ namespace MonoWorks.GuiWpf.Framework
 			if (currentDockableSizer != null)
 				currentDockableSizer.Children.Add(documentArea);
 			else // add the sizer to the dockable area
-				controller.Window.DockManager.Content = documentArea;
-			controller.Window.DocumentArea = documentArea;
+				window.DockManager.Content = documentArea;
+			window.DocumentArea = documentArea;
 		}
 
 		#endregion
+
+
+		#region Documents
+
+
+		public override void CreateDocument(DocumentType documentType)
+		{
+			base.CreateDocument(documentType);
+
+			// create the instance
+			object docObject = Activator.CreateInstance(documentType.Type);
+
+			// ensure the type is valid
+			if (!(docObject is DocumentBase))
+				throw new Exception(documentType.ToString() + " is not a valid document type.");
+			DocumentBase document = docObject as DocumentBase;
+
+			// add the document to the document pane
+			document.Title = documentType.DisplayName + documentCounters[documentType].ToString();
+
+			window.DocumentArea.Items.Add(document);
+		}
+
+
+		#endregion
+
+
 	}
 }
