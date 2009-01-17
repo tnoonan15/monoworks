@@ -38,6 +38,7 @@ namespace MonoWorks.GuiGtk.Framework
 		public UiManager(AbstractController controller, SlateWindow window) : base(controller)
 		{
 			this.controller = controller;
+			this.window = window;
 			
 			dockManager = window.DockManager;
 		}
