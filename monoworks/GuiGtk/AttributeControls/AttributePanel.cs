@@ -33,6 +33,7 @@ namespace MonoWorks.GuiGtk.AttributeControls
 		public AttributePanel() : base()
 		{
 			vBox = new Gtk.VBox(false, 6);
+			Add(vBox);
 		}
 		
 		private Gtk.VBox vBox;
@@ -44,7 +45,7 @@ namespace MonoWorks.GuiGtk.AttributeControls
 		{
 		}
 		
-		public void Hide()
+		public new void Hide()
 		{
 		}
 		
