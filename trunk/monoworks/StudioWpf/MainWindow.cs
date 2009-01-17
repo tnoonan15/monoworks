@@ -34,7 +34,7 @@ namespace MonoWorks.StudioWpf
 		{
 			Title = "MonoWorks Studio";
 
-			new MainController(this);
+			new MainControllerWpf(this);
 		}
 
 	}

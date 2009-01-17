@@ -473,7 +473,7 @@ namespace MonoWorks.GuiWpf.Framework
 			// add the document to the document pane
 			document.Title = documentType.DisplayName + documentCounters[documentType].ToString();
 
-			window.DocumentArea.Items.Add(document);
+			window.AddDocument(document);
 		}
 
 

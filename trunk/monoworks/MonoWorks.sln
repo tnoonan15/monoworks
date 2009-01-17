@@ -26,37 +26,89 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoGtk", "DemoGtk\DemoGtk.csproj", "{03901B82-65B6-4112-B3CF-CE4E9DFC363B}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		GtkDebug|Any CPU = GtkDebug|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		GtkDebug|Any CPU = GtkDebug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		WpfDebug|Any CPU = WpfDebug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.Debug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.Release|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{9B52CB99-58BF-4F59-8754-19F5F187D23E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B52CB99-58BF-4F59-8754-19F5F187D23E}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{9B52CB99-58BF-4F59-8754-19F5F187D23E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B52CB99-58BF-4F59-8754-19F5F187D23E}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{9B52CB99-58BF-4F59-8754-19F5F187D23E}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.Debug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.Release|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.WpfDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2235DD77-21A7-40AE-9384-0C56DE649540}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{2235DD77-21A7-40AE-9384-0C56DE649540}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{857385F0-7861-4D80-9D73-995A24FB8602}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{857385F0-7861-4D80-9D73-995A24FB8602}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{88CBD331-92E5-4424-BC71-8AE23596C4EB}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{9B52CB99-58BF-4F59-8754-19F5F187D23E}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
-		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
-		{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		name = MonoWorks
@@ -64,12 +116,5 @@ Global
 		StartupItem = Plotting\Plotting.csproj
 		MonoDevelop.ChangeLogAddIn.ChangeLogInfo = $0
 		$0.policy = UpdateNearestChangeLog
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
