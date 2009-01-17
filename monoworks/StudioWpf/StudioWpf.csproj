@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -35,6 +35,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WpfDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\WpfDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonDock, Version=1.1.1714.0, Culture=neutral, PublicKeyToken=85a1e0ada7ec13e4">
@@ -84,7 +92,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AssemblyView.cs" />
-    <Compile Include="MainController.cs" />
+    <Compile Include="MainControllerWpf.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="PartView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -128,6 +136,10 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -155,5 +167,6 @@ copy "$(SolutionDir)extbin\Win32\DevIL.dll" "$(TargetDir)"</PostBuildEvent>
         <GtkDesignInfo />
       </Properties>
     </MonoDevelop>
+    <VisualStudio />
   </ProjectExtensions>
 </Project>

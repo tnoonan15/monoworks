@@ -8,10 +8,10 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// Base controller class for MonoWorks.
 	/// </summary>
-	public class ModelController : AbstractController
+	public class MainController : AbstractController
 	{
 
-		public ModelController()
+		public MainController()
 			: base()
 		{
 
@@ -29,6 +29,7 @@ namespace MonoWorks.Model
 		{
 			this.uiManager = uiManager;
 		}
+
 
 
 #region File Actions

@@ -27,10 +27,10 @@ namespace MonoWorks.StudioWpf
 	/// <summary>
 	/// Main controller for the MonoWorks Studio.
 	/// </summary>
-	public class MainController : ModelController
+	public class MainControllerWpf : MainController
 	{
 
-		public MainController(MainWindow window)
+		public MainControllerWpf(MainWindow window)
 			: base()
 		{
 			this.window = window;
