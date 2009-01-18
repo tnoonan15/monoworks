@@ -18,7 +18,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+
+using MonoWorks.Framework;
 
 namespace MonoWorks.GuiGtk.Framework.Tools
 {
@@ -66,11 +67,9 @@ namespace MonoWorks.GuiGtk.Framework.Tools
 			if (!iconsInitialized)
 			{
 				iconsInitialized = true;
-				
-				Assembly asm = Assembly.GetExecutingAssembly();
-				
-				handlePixbufs[Gtk.Orientation.Vertical] = new Gdk.Pixbuf(asm.GetManifestResourceStream("VHandle.png"));
-				handlePixbufs[Gtk.Orientation.Horizontal] = new Gdk.Pixbuf(asm.GetManifestResourceStream("HHandle.png"));
+								
+				handlePixbufs[Gtk.Orientation.Vertical] = new Gdk.Pixbuf(ResourceHelper.GetStream("VHandle.png"));
+				handlePixbufs[Gtk.Orientation.Horizontal] = new Gdk.Pixbuf(ResourceHelper.GetStream("HHandle.png"));
 			}
 		}
 		

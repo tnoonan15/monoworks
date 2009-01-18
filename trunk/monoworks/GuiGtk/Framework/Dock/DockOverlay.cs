@@ -18,7 +18,8 @@
 
 using System;
 using System.IO;
-using System.Reflection;
+
+using MonoWorks.Framework;
 
 namespace MonoWorks.GuiGtk.Framework.Dock
 {
@@ -38,8 +39,7 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 			Decorated = false;
 			
 			// get the image
-			Assembly asm = Assembly.GetExecutingAssembly();
-			Gdk.Pixbuf pixBuf = new Gdk.Pixbuf(asm.GetManifestResourceStream(position.ToString() + "Overlay.png"));
+			Gdk.Pixbuf pixBuf = new Gdk.Pixbuf(ResourceHelper.GetStream(position.ToString() + "Overlay.png"));
 			Gdk.Pixbuf hoveringPixbuf = new Gdk.Pixbuf(pixBuf, 0, 0, Width, Width);
 			normalImage = new Gtk.Image(pixBuf);
 			pixBuf.SaturateAndPixelate(hoveringPixbuf, 3.0F, false);
