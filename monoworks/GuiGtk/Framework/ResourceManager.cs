@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 using MonoWorks.Framework;
 
@@ -113,6 +114,18 @@ namespace MonoWorks.GuiGtk.Framework
 			iconFactory.AddDefault();
 		}
 		
+		
+		protected override void LoadIconAssembly(Assembly asm)
+		{
+			base.LoadIconAssembly(asm);
+			
+			// add the icons to the factory
+			foreach (KeyValuePair<string,Gtk.IconSet> icon in icons)
+				iconFactory.Add(icon.Key, icon.Value);
+			iconFactory.AddDefault();
+		}
+
+		
 		protected override void LoadIcon(FileInfo fileInfo, int size)
 		{
 			string iconName = fileInfo.Name.Split('.')[0];
@@ -132,7 +145,7 @@ namespace MonoWorks.GuiGtk.Framework
 
 		protected override void LoadIconStream(Stream stream, string name)
 		{
-			LoadIconStream(stream, name);
+			Console.WriteLine("loading icon {0} from a stream", name);
 			if (icons.ContainsKey(name)) // this icon has already been made
 			{
 				Gtk.IconSource source = new Gtk.IconSource();

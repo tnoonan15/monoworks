@@ -19,8 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
+using MonoWorks.Framework;
 
 namespace MonoWorks.GuiGtk.Framework.Dock
 {
@@ -148,18 +148,16 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 		public void CreateButtons()
 		{
 			buttons = new Dictionary<string,Gtk.Button>();
-			
-			Assembly asm = Assembly.GetExecutingAssembly();
-			
+						
 			Gtk.Button minimizeButton = new Gtk.Button();
-			minimizeButton.Image = new Gtk.Image(new Gdk.Pixbuf(asm.GetManifestResourceStream("minimize.png")));
+			minimizeButton.Image = new Gtk.Image(new Gdk.Pixbuf(ResourceHelper.GetStream("minimize.png")));
 			minimizeButton.Clicked += delegate(object sender, EventArgs e) {
 				dockable.Minimize();
 			};
 			buttons.Add("minimize", minimizeButton);
 			
 			Gtk.Button dockButton = new Gtk.Button();
-			dockButton.Image =  new Gtk.Image(new Gdk.Pixbuf(asm.GetManifestResourceStream("float.png")));
+			dockButton.Image =  new Gtk.Image(new Gdk.Pixbuf(ResourceHelper.GetStream("float.png")));
 			dockButton.Clicked += delegate(object sender, EventArgs e) {
 				if (dockable.DockFloating)
 					dockable.Dock();
@@ -169,7 +167,7 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 			buttons.Add("dock", dockButton);
 			
 			Gtk.Button closeButton = new Gtk.Button();
-			closeButton.Image =  new Gtk.Image(new Gdk.Pixbuf(asm.GetManifestResourceStream("close.png")));
+			closeButton.Image =  new Gtk.Image(new Gdk.Pixbuf(ResourceHelper.GetStream("close.png")));
 			closeButton.Clicked += delegate(object sender, EventArgs e) {
 				dockable.Close();
 			};

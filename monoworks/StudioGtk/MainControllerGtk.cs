@@ -30,18 +30,19 @@ namespace MonoWorks.StudioGtk
 	/// <summary>
 	/// Main controller class for the Studio.
 	/// </summary>
-	public class MainController : ModelController
+	public class MainControllerGtk : MainController
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="window"> </param>
-		public MainController(MainWindow window) : base()
+		public MainControllerGtk(MainWindow window) : base()
 		{
 			ResourceManager.LoadAssembly("MonoWorks.Resources");
 			
 			uiManager = new UiManager(this, window);
 			uiManager.LoadStream(ResourceHelper.GetStream("Scope.ui", "MonoWorks.Resources"));
+			SetUiManager(uiManager);
 		}
 
 		/// <summary>

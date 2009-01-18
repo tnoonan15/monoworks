@@ -43,7 +43,7 @@ namespace MonoWorks.StudioGtk
 		public MainWindow() : base("MonoWorks Studio")
 		{
 
-			new MainController(this);
+			new MainControllerGtk(this);
 
 		}
 
