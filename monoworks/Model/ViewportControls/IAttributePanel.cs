@@ -5,6 +5,9 @@ using MonoWorks.Model;
 
 namespace MonoWorks.Model.ViewportControls
 {
+
+	public delegate void AttributePanelHandler(IAttributePanel panel);
+
 	public interface IAttributePanel
 	{
 		/// <summary>
@@ -16,5 +19,6 @@ namespace MonoWorks.Model.ViewportControls
 		/// Hide the panel.
 		/// </summary>
 		void Hide();
+
 	}
 }

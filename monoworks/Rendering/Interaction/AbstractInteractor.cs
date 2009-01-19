@@ -35,11 +35,6 @@ namespace MonoWorks.Rendering.Interaction
 	/// </summary>
 	public enum InteractionType {None, Select, Rotate, Pan, Dolly, Zoom};
 
-	/// <summary>
-	/// Possible interactoin modifiers.
-	/// </summary>
-	public enum InteractionModifier { None = 3, Shift, Control, Alt };
-
 
 	/// <summary>
 	/// Base class for classes that handle user interaction from the viewport.

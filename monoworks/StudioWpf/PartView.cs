@@ -28,21 +28,14 @@ namespace MonoWorks.StudioWpf
 	/// <summary>
 	/// Control for the Part document.
 	/// </summary>
-	public class PartView : DocumentBase
+	public class PartView : DrawingView
 	{
 
 		public PartView()
 			: base()
 		{
-			frame = new DrawingFrame();
-			frame.Width = Double.NaN;
-			frame.Height = Double.NaN;
-			Content = frame;
-
-			frame.Drawing = new TestPart();
+			Drawing = new TestPart();
 		}
-
-		protected DrawingFrame frame;
 
 	}
 }

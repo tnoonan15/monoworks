@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering;
 
@@ -60,7 +61,7 @@ namespace MonoWorks.Rendering.Interaction
 		/// <returns> A unique int representing button and modifier.</returns>
 		protected int GetKey(int button, InteractionModifier modifier)
 		{
-			return button + (int)Math.Pow(2, (int)modifier);
+			return button + (int)modifier;
 		}
 
 

@@ -34,6 +34,7 @@ namespace MonoWorks.StudioWpf
 			: base()
 		{
 			this.window = window;
+			window.KeyPressed += OnKeyPress;
 
 			ResourceManager.LoadAssembly("MonoWorks.Resources");
 

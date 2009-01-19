@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using AvalonDock;
 
 using MonoWorks.Framework;
+using MonoWorks.Rendering.Interaction;
 
 namespace MonoWorks.GuiWpf.Framework
 {
@@ -123,16 +124,28 @@ namespace MonoWorks.GuiWpf.Framework
 
 		#region Catching Keyboard Events
 
+		/// <summary>
+		/// Called when a key is pressed in the window.
+		/// </summary>
+		public event KeyHandler KeyPressed;
 
 		protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
 		{
 			base.OnKeyDown(e);
 
-			Console.WriteLine("key: {0}", e.Key);
+			int key = (int)e.Key + 53; // offset in WPF key mapping
 
-			if (Keyboard.IsKeyDown(Key.LeftShift))
-				Console.WriteLine("shift");
+			if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+				key += (int)InteractionModifier.Shift;
+			if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+				key += (int)InteractionModifier.Control;
+			if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+				key += (int)InteractionModifier.Alt;
+
+			if (KeyPressed != null)
+				KeyPressed(key);			
 		}
+
 
 		#endregion
 

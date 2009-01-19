@@ -27,6 +27,7 @@ namespace MonoWorks.GuiWpf
 			Controller = new Controller(Viewport, attributePanel);
 			Controller.SetUsage(ViewportUsage.CAD);
 
+			attributePanel.Hidden += Controller.OnAttributePanelHidden;
 		}
 
 		/// <summary>
