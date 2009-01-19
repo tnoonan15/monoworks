@@ -34,6 +34,20 @@ namespace MonoWorks.Framework
 	/// </summary>
 	public enum UiMode { None, Actions, Action, Menu, Tools, Toolbar, ToolBox, ToolShelf, DockableArea, DockableSizer, DockableBook};
 
+
+	/// <summary>
+	/// Possible interactoin modifiers.
+	/// </summary>
+	[Flags()]
+	public enum InteractionModifier
+	{
+		None = 256,
+		Shift = 512,
+		Control = 1024,
+		Alt = 2048
+	};
+
+
 	/// <summary>
 	/// Base class for UI managers.
 	/// </summary>
@@ -205,40 +219,110 @@ namespace MonoWorks.Framework
 		protected virtual void CreateAction(XmlReader reader)
 		{
 			string name = GetName(reader);
+			ActionAttribute action = null;
 			if (abstractController.HasMethod(name))
 			{
-				actions[name] = abstractController.GetAction(name);
+				action = abstractController.GetAction(name);
 			}
 			else
 			{
 				Console.WriteLine("The controller does not have an action called {0}", name);
-				actions[name] = new ActionAttribute();
+				action = new ActionAttribute();
 			}
 
 
 			// assign the icon name
 			string iconName = reader.GetAttribute("icon");
 			if (iconName != null)
-				actions[name].IconName = iconName;
+				action.IconName = iconName;
 
 			// assign the tooltip
 			string tooltip = reader.GetAttribute("tooltip");
 			if (tooltip != null)
-				actions[name].Tooltip = tooltip;
+				action.Tooltip = tooltip;
 
 			// assign the tooltip
 			string togglableString = reader.GetAttribute("togglable");
 			if (togglableString != null)
-				actions[name].IsTogglable = Boolean.Parse(togglableString);
+				action.IsTogglable = Boolean.Parse(togglableString);
 
 			// assign the shortcut
-			actions[name].Shortcut = reader.GetAttribute("shortcut");
+			action.Shortcut = reader.GetAttribute("shortcut");
+			if (action.Shortcut != null)
+			{
+				int key = ParseShortcut(action.Shortcut);
+				actionKeyMap[key] = action;
+				Console.WriteLine("mapped key {0} to action {1}", key, name);
+			}
+
+			actions[name] = action;
 		}
 
         #endregion
 
 
-        #region Tools
+		#region Keyboard Handling
+
+		/// <summary>
+		/// Maps key combinations to actions.
+		/// </summary>
+		protected Dictionary<int, ActionAttribute> actionKeyMap = new Dictionary<int, ActionAttribute>();
+
+		/// <summary>
+		/// Parses the string representation of a shortcut into a unique integer.
+		/// </summary>
+		/// <param name="shortcut"></param>
+		/// <returns></returns>
+		protected int ParseShortcut(string shortcut)
+		{
+			string[] comps = shortcut.Split('+');
+			int key = 0;
+			foreach (string comp in comps)
+			{
+				string compLower = comp.ToLower();
+				switch (compLower)
+				{
+				case "ctrl":
+				case "control":
+					key += (int)InteractionModifier.Control;
+					break;
+				case "shift":
+					key += (int)InteractionModifier.Alt;
+					break;
+				case "alt":
+					key += (int)InteractionModifier.Shift;
+					break;
+				default:
+					if (compLower.Length == 1) // a proper character
+						key += (int)compLower.ToCharArray()[0];
+					else
+						throw new Exception("Invalid shortcut: " + comp);
+					break;
+				}
+			}
+			return key;
+		}
+
+		/// <summary>
+		/// Attempts to handle the key press with its assigned action, if any.
+		/// </summary>
+		/// <param name="key">A bitwise OR of the key value and interaction modifiers.</param>
+		/// <returns>True if the key press was handled.</returns>
+		public bool HandleKeyPress(int key)
+		{
+			ActionAttribute action;
+			if (actionKeyMap.TryGetValue(key, out action))
+			{
+				action.MethodInfo.Invoke(abstractController, null);
+				return true;
+			}
+			return false;
+		}
+
+		#endregion
+
+
+		#region Tools
 
 		/// <summary>
 		/// Whether or not to create a tools submenu in the view menu that shows all tools.
@@ -423,20 +507,22 @@ namespace MonoWorks.Framework
 		/// <summary>
 		/// Creates a document of the given type.
 		/// </summary>
-		public virtual void CreateDocument(DocumentType documentType)
+		public virtual IDocument CreateDocument(DocumentType documentType)
 		{
 			// get the counter for this type
 			if (!documentCounters.ContainsKey(documentType))
 				documentCounters[documentType] = 0;
 			documentCounters[documentType]++;
+
+			return null;
 		}
 
 		/// <summary>
 		/// Creates a document with the given type name.
 		/// </summary>
-		public void CreateDocumentByName(string typeName)
+		public IDocument CreateDocumentByName(string typeName)
 		{
-			CreateDocument(GetDocumentType(typeName));
+			return CreateDocument(GetDocumentType(typeName));
 		}
 		
         #endregion

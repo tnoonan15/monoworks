@@ -225,7 +225,15 @@ namespace MonoWorks.Model.ViewportControls
 		/// <param name="attrControl"></param>
 		public void OnAttributeChanged(IAttributeControl attrControl)
 		{
-			Console.WriteLine("attribute {0} changed", attrControl.MetaData.Name);
+			viewport.PaintGL();
+		}
+
+		/// <summary>
+		/// Handles an attribute panel being hiddein.
+		/// </summary>
+		/// <param name="panel"></param>
+		public void OnAttributePanelHidden(IAttributePanel panel)
+		{
 			viewport.PaintGL();
 		}
 

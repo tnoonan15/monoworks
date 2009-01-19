@@ -442,7 +442,8 @@ namespace MonoWorks.GuiWpf.Framework
 			DocumentPane documentArea = new DocumentPane();
 
 			// make the document area prettier
-			documentArea.Background = new LinearGradientBrush(Colors.Gray, Colors.LightBlue, new Point(0,0), new Point(400, 400));
+			//documentArea.Background = new LinearGradientBrush(Colors.Gray, Colors.LightBlue, new Point(0, 0), new Point(400, 400));
+			documentArea.Background = Brushes.White;
 
 			// add the document area to the current container
 			if (currentDockableSizer != null)
@@ -450,6 +451,7 @@ namespace MonoWorks.GuiWpf.Framework
 			else // add the sizer to the dockable area
 				window.DockManager.Content = documentArea;
 			window.DocumentArea = documentArea;
+
 		}
 
 		#endregion
@@ -458,7 +460,7 @@ namespace MonoWorks.GuiWpf.Framework
 		#region Documents
 
 
-		public override void CreateDocument(DocumentType documentType)
+		public override IDocument CreateDocument(DocumentType documentType)
 		{
 			base.CreateDocument(documentType);
 
@@ -474,6 +476,8 @@ namespace MonoWorks.GuiWpf.Framework
 			document.Title = documentType.DisplayName + documentCounters[documentType].ToString();
 
 			window.AddDocument(document);
+
+			return document;
 		}
 
 

@@ -38,6 +38,10 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		{
 		}
 
+		/// <summary>
+		/// The entity being edited.
+		/// </summary>
+		protected Entity entity = null;
 
 		/// <summary>
 		/// Adds the buttons to the top of the panel.
@@ -50,6 +54,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			panel.Children.Add(fw.ResourceManager.RenderIcon("apply", 22));
 			panel.AddLabel("Apply");
 			applyButton.Content = panel;
+			applyButton.Click += OnApply;
 			Children.Add(applyButton);
 
 			Button cancelButton = new Button();
@@ -58,7 +63,31 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			panel.Children.Add(fw.ResourceManager.RenderIcon("cancel", 22));
 			panel.AddLabel("Cancel");
 			cancelButton.Content = panel;
+			cancelButton.Click += OnCancel;
 			Children.Add(cancelButton);
+		}
+
+		/// <summary>
+		/// Handles the editing action being applied.
+		/// </summary>
+		void OnApply(object sender, RoutedEventArgs e)
+		{
+			entity.Snapshot();
+			EntityAction action = new EntityAction(entity);
+			entity.GetDrawing().AddAction(action);
+			Hide();
+			
+		}
+
+		/// <summary>
+		/// Handles the editing action being cancelled.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void OnCancel(object sender, RoutedEventArgs e)
+		{
+			entity.Revert();
+			Hide();
 		}
 
 
@@ -69,6 +98,8 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		public void Show(Controller controller, Entity entity)
 		{
 			Children.Clear();
+
+			this.entity = entity;
 
 			Width = 160;
 
@@ -87,11 +118,18 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		}
 
 		/// <summary>
+		/// Raised when the panel is hidden.
+		/// </summary>
+		public event AttributePanelHandler Hidden;
+
+		/// <summary>
 		/// Hide the panel.
 		/// </summary>
 		public void Hide()
 		{
 			Visibility = Visibility.Collapsed;
+			if (Hidden != null)
+				Hidden(this);
 		}
 
 	}

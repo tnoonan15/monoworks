@@ -23,6 +23,12 @@ using System.Reflection;
 
 namespace MonoWorks.Framework
 {
+
+	/// <summary>
+	/// Key event delegate.
+	/// </summary>
+	public delegate void KeyHandler(int key);
+
 	/// <summary>
 	/// Base class for Framework controllers.
 	/// </summary>
@@ -79,6 +85,15 @@ namespace MonoWorks.Framework
 		public ActionAttribute GetAction(string name)
 		{
 			return actions[name];
+		}
+
+		/// <summary>
+		/// Base key press handler.
+		/// </summary>
+		/// <param name="key"></param>
+		public virtual void OnKeyPress(int key)
+		{
+
 		}
 
 

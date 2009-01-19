@@ -423,7 +423,12 @@ namespace MonoWorks.Model
 		/// </summary>
 		public override void ComputeGeometry()
 		{
+			if (!dirty)
+				return;
+
 			base.ComputeGeometry();
+
+			bounds.Reset();
 			
 			// update the children's geometry and resize the bounds
 			foreach (Entity child in children)

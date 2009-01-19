@@ -27,8 +27,15 @@ namespace MonoWorks.Framework
 	/// </summary>
 	public interface IDocument
 	{
+		/// <summary>
+		/// Title of the document.
+		/// </summary>
+		string Title { get; set; }
 
-		string Name { get; set; }
-	
+		/// <summary>
+		/// Whether the document is the current one in its container.
+		/// </summary>
+		bool IsCurrent { get; }
+
 	}
 }

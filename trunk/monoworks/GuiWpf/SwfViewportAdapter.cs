@@ -29,6 +29,7 @@ using MonoWorks.Rendering;
 
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering.Interaction;
+using MonoWorks.Framework;
 
 namespace MonoWorks.GuiWpf
 {

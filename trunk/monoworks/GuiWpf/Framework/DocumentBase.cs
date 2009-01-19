@@ -12,5 +12,11 @@ namespace MonoWorks.GuiWpf.Framework
     /// </summary>
     public class DocumentBase : DocumentContent, IDocument
     {
+
+		public bool IsCurrent
+		{
+			get	{return IsActiveDocument;}
+		}
+
     }
 }

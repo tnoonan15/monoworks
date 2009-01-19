@@ -30,6 +30,20 @@ namespace MonoWorks.Model
 			this.uiManager = uiManager;
 		}
 
+		protected DocumentManager<IDrawingView> drawingManager = new DocumentManager<IDrawingView>();
+
+
+
+#region Key Press Handling
+
+		public override void OnKeyPress(int key)
+		{
+			base.OnKeyPress(key);
+
+			uiManager.HandleKeyPress(key);
+		}
+
+#endregion
 
 
 #region File Actions
@@ -37,13 +51,15 @@ namespace MonoWorks.Model
 		[Action("New Part")]
 		public void NewPart()
 		{
-			uiManager.CreateDocumentByName("PartView");
+			IDrawingView view = uiManager.CreateDocumentByName("PartView") as IDrawingView;
+			drawingManager.Add(view);
 		}
 
 		[Action("New Assembly")]
 		public void NewAssembly()
 		{
-			uiManager.CreateDocumentByName("AssemblyView");
+			IDrawingView view = uiManager.CreateDocumentByName("AssemblyView") as IDrawingView;
+			drawingManager.Add(view);
 		}
 
 		[Action()]
@@ -85,13 +101,23 @@ namespace MonoWorks.Model
 		[Action()]
 		public void Undo()
 		{
-			Console.WriteLine("undo");
+			if (drawingManager.Count > 0)
+			{
+				Console.WriteLine("undo {0}", drawingManager.Current.Title);
+				drawingManager.Current.Drawing.Undo();
+				drawingManager.Current.Repaint();
+			}
 		}
 
 		[Action()]
 		public void Redo()
 		{
-			Console.WriteLine("redo");
+			if (drawingManager.Count > 0)
+			{
+				Console.WriteLine("redo {0}", drawingManager.Current.Title);
+				drawingManager.Current.Drawing.Redo();
+				drawingManager.Current.Repaint();
+			}
 		}
 
 		[Action()]

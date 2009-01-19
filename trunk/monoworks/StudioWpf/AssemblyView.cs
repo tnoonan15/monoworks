@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Model;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.Framework;
 
@@ -27,7 +28,14 @@ namespace MonoWorks.StudioWpf
 	/// <summary>
 	/// Control for the Assembly document.
 	/// </summary>
-	public class AssemblyView : DocumentBase
+	public class AssemblyView : DrawingView
 	{
+
+		public AssemblyView()
+			: base()
+		{
+			Drawing = new Assembly();
+		}
+
 	}
 }
