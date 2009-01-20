@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animator.cs" />
     <Compile Include="Bounds.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Color.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Events\MouseWheelEvent.cs" />
     <Compile Include="FillGradient.cs" />
     <Compile Include="HitLine.cs" />
+    <Compile Include="IAnimatable.cs" />
     <Compile Include="IFill.cs" />
     <Compile Include="IMouseHandler.cs" />
     <Compile Include="Interaction\AbstractInteractor.cs" />

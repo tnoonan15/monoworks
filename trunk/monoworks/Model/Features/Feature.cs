@@ -86,24 +86,6 @@ namespace MonoWorks.Model
 				AddChild(value);
 			}
 		}
-
-		/// <value>
-		/// The feature's material (used in realistic mode).
-		/// </value>
-		public Material Material
-		{
-			get {return (Material)this["material"];}
-			set {this["material"] = value;}
-		}
-		
-		/// <value>
-		/// The feature's color when being rendered in cartoon mode.
-		/// </value>
-		public Color CartoonColor
-		{
-			get {return (Color)this["cartoonColor"];}
-			set {this["cartoonColor"] = value;}
-		}
 	
 #endregion
 		
@@ -199,15 +181,6 @@ namespace MonoWorks.Model
 			// render solid geometry
 			if (viewport.RenderManager.SolidMode != SolidMode.None)
 			{
-				switch (viewport.RenderManager.ColorMode)
-				{
-				case ColorMode.Cartoon:
-					CartoonColor.Setup();
-					break;
-				case ColorMode.Realistic:
-					Material.Setup();
-					break;
-				}
 
 				gl.glCallList(displayLists+SolidListOffset);
 			}

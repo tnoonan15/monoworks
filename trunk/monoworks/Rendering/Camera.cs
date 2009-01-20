@@ -38,7 +38,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// The camera class stores the viewing location, up-vector, and view center. 
 	/// </summary>
-	public class Camera
+	public class Camera : IAnimatable
 	{
 		/// <summary>
 		/// Default constructor.
@@ -619,6 +619,7 @@ namespace MonoWorks.Rendering
 		/// <param name="upVecOut"> The up vector. </param>
 		public void GetDirectionVectors(ViewDirection direction, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
+			viewport.RenderList.ResetBounds();
 			Bounds bounds = viewport.RenderList.Bounds;
 			
 			// determine the distance needed to view all renderables
@@ -668,7 +669,7 @@ namespace MonoWorks.Rendering
 				upVecOut = new Vector(0, 0, 1);
 				break;
 			}
-			posOut = (travel*dist) + centerOut;
+			posOut = (travel * dist * 0.8) + centerOut; // HACK for filling more of the viewport
 		}
 		
 		/// <summary>
@@ -677,7 +678,6 @@ namespace MonoWorks.Rendering
 		public void SetViewDirection(ViewDirection direction)
 		{
 			lastDirection = direction;
-			viewport.RenderList.ResetBounds();
 			GetDirectionVectors(direction, out center, out pos, out upVec);
 			RecomputeUpVector();
 			viewport.Resize();
@@ -689,11 +689,52 @@ namespace MonoWorks.Rendering
 		
 		
 #region Animation
-	
-		
+
+		Vector animStartCenter, animStartDir, animStartUpVec;
+
+		Vector animStopCenter, animStopDir, animStopUpVec;
+
+		double animStartDist, animStopDist;
+
+		/// <summary>
+		/// Animates to teh given view direction.
+		/// </summary>
+		/// <param name="direction"></param>
+		public void AnimateTo(ViewDirection direction)
+		{
+			animStartCenter = center;
+			animStartDir = Direction.Normalize();
+			animStartUpVec = upVec;
+			animStartDist = Distance;
+
+			Vector animStopPos;
+			GetDirectionVectors(direction, out animStopCenter, out animStopPos, out animStopUpVec);
+			animStopDir = animStopPos - animStopCenter;
+			animStopDist = animStopDir.Magnitude;
+			animStopDir = animStopDir.Normalize();
+
+			viewport.Animator.RegisterAnimation(this, 3);
+		}
+
+
+		public void Animate(double progress)
+		{
+			center = (animStopCenter - animStartCenter) * progress + animStartCenter;
+			double dist = (animStopDist - animStartDist) * progress + animStartDist;
+			Vector dir = (animStopDir - animStartDir) * progress + animStartDir;
+			pos = center + dir * dist;
+			upVec = (animStopUpVec - animStartUpVec) * progress + animStartUpVec;
+			RecomputeUpVector();
+		}
+
+		public void EndAnimation()
+		{
+
+		}	
 		
 		
 #endregion
-		
+
+
 	}
 }

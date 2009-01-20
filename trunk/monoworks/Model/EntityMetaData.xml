@@ -6,6 +6,12 @@
 	<!-- Drawings -->
 	<Entity name="Drawing">
 		<Entity name="Part">
+			<Attribute name="cartoonColor" type="MonoWorks.Rendering.Color">
+				The color for cartoon mode.
+			</Attribute>
+			<Attribute name="material" type="MonoWorks.Rendering.Material">
+				The feature's material.
+			</Attribute>
 			<Entity name="TestPart"/>
 		</Entity>
 		<Entity name="Assembly"/>
@@ -18,12 +24,6 @@
 	<Entity name="Feature">
 		<Attribute name="sketch" type="MonoWorks.Model.Sketch">
 			The Sketch that the feature is based on.
-		</Attribute>
-		<Attribute name="cartoonColor" type="MonoWorks.Rendering.Color">
-			The color for cartoon mode.
-		</Attribute>
-		<Attribute name="material" type="MonoWorks.Rendering.Material">
-			The feature's material.
 		</Attribute>
 		<Entity name="Extrusion">
 			<Attribute name="path" type="MonoWorks.Model.RefLine">
