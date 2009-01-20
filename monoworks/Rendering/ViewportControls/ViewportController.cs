@@ -113,50 +113,44 @@ namespace MonoWorks.Rendering.ViewportControls
 		[Action("Standard View")]
 		public void OnStandardView()
 		{
-			Console.WriteLine("standard");
-			viewport.Camera.SetViewDirection(ViewDirection.Standard);
+			viewport.Camera.AnimateTo(ViewDirection.Standard);
 		}
 		
 		[Action("Front View")]
 		public void OnFrontView()
 		{
-			Console.WriteLine("front");
-			viewport.Camera.SetViewDirection(ViewDirection.Front);
+			viewport.Camera.AnimateTo(ViewDirection.Front);
 		}
 		
 		[Action("Back View")]
 		public void OnBackView()
 		{
-			Console.WriteLine("back");
-			viewport.Camera.SetViewDirection(ViewDirection.Back);
+			viewport.Camera.AnimateTo(ViewDirection.Back);
 		}
 		
 		[Action("Left View")]
 		public void OnLeftView()
 		{
 			Console.WriteLine("left");
-			viewport.Camera.SetViewDirection(ViewDirection.Left);
+			viewport.Camera.AnimateTo(ViewDirection.Left);
 		}
 		
 		[Action("Right View")]
 		public void OnRightView()
 		{
-			Console.WriteLine("right");
-			viewport.Camera.SetViewDirection(ViewDirection.Right);
+			viewport.Camera.AnimateTo(ViewDirection.Right);
 		}
 		
 		[Action("Top View")]
 		public void OnTopView()
 		{
-			Console.WriteLine("top");
-			viewport.Camera.SetViewDirection(ViewDirection.Top);
+			viewport.Camera.AnimateTo(ViewDirection.Top);
 		}
 		
 		[Action("Bottom View")]
 		public void OnBottomView()
 		{
-			Console.WriteLine("bottom");
-			viewport.Camera.SetViewDirection(ViewDirection.Bottom);
+			viewport.Camera.AnimateTo(ViewDirection.Bottom);
 		}
 		
 		[Action("Projection")]

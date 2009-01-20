@@ -18,6 +18,8 @@
 
 using System;
 
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Model
 {
 	
@@ -28,5 +30,41 @@ namespace MonoWorks.Model
 		public Part() : base()
 		{
 		}
+
+		/// <value>
+		/// The part's material (used in realistic mode).
+		/// </value>
+		public Material Material
+		{
+			get { return (Material)this["material"]; }
+			set { this["material"] = value; }
+		}
+
+		/// <value>
+		/// The part's color when being rendered in cartoon mode.
+		/// </value>
+		public Color CartoonColor
+		{
+			get { return (Color)this["cartoonColor"]; }
+			set { this["cartoonColor"] = value; }
+		}
+
+		public override void RenderOpaque(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+
+			switch (viewport.RenderManager.ColorMode)
+			{
+			case ColorMode.Cartoon:
+				CartoonColor.Setup();
+				break;
+			case ColorMode.Realistic:
+				Material.Setup();
+				break;
+			}
+		}
+
+
+
 	}
 }
