@@ -70,6 +70,12 @@ namespace MonoWorks.Base
 			other.val = val;
 			return other;
 		}
+
+
+		public override string ToString()
+		{
+			return val.ToString();
+		}
 		
 		
 #region Units

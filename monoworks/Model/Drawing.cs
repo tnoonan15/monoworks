@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
+using System.IO;
 
 using gl = Tao.OpenGl.Gl;
 
@@ -53,6 +55,8 @@ namespace MonoWorks.Model
 			// initialize actions
 			currentAction = -1;
 			actionList = new List<Action>();
+
+			Modified = false;
 		}
 		
 		
@@ -74,16 +78,60 @@ namespace MonoWorks.Model
 			get {return colorManager;}
 			set {colorManager = value;}
 		}
-		
-		
-		
+				
 		/// <summary>
 		/// Handles entity selection.
 		/// </summary>
-		public EntityManager EntityManager {get; private set;}
-		
+		public EntityManager EntityManager {get; private set; }
 
-		
+
+
+#region File I/O
+				
+		/// <summary> 
+		/// Loads a drawing from a file.
+		/// </summary>
+		/// <param name="fileName">The name of the file.</param>
+		/// <returns>A drawing or part, depending on file extension.</returns>
+		public static Drawing FromFile(string fileName)
+		{
+			if (fileName.EndsWith("mwp")) // a part file
+			{
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Writes the drawing to a file.
+		/// </summary>
+		/// <param name="fileName">The file name.</param>
+		public void SaveAs(string fileName)
+		{
+			Modified = false;
+
+			XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.ASCII);
+			writer.Formatting = Formatting.Indented;
+			ToXml(writer);
+			writer.Close();
+			FileName = fileName;
+		}
+
+		/// <summary>
+		/// Saves the file to the last used file name.
+		/// </summary>
+		public void Save()
+		{
+
+		}
+
+		/// <summary>
+		/// The file name of the drawing.
+		/// </summary>
+		public string FileName { get; private set; }
+
+#endregion
+
+
 #region Undo and Redo
 
 		/// <summary>
@@ -107,6 +155,8 @@ namespace MonoWorks.Model
 			
 			actionList.Add(action);
 			currentAction = actionList.Count - 1;
+
+			Modified = true;
 		}
 		
 		/// <summary>
@@ -132,6 +182,11 @@ namespace MonoWorks.Model
 				actionList[currentAction].Redo();
 			}
 		}
+
+		/// <summary>
+		/// Whether the document has been modified and needs saving.
+		/// </summary>
+		public bool Modified { get; protected set; }
 		
 #endregion
 		

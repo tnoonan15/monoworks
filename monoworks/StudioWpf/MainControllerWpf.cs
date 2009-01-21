@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows;
 
 using MonoWorks.Model;
 using MonoWorks.GuiWpf.Framework;
@@ -47,6 +48,75 @@ namespace MonoWorks.StudioWpf
 		private MainWindow window;
 
 		private UiManager uiManager;
+
+
+
+		public override void Open()
+		{
+			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+			dlg.DefaultExt = ".mwp"; // Default file extension
+			dlg.Filter = "Part (.mwp)|*.mwp"; // Filter files by extension
+
+			// Show open file dialog box
+			bool? result = dlg.ShowDialog();
+
+			// Process open file dialog box results
+			if (result == true)
+			{
+				try
+				{
+					Drawing.FromFile(dlg.FileName);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("There was an error loading the drawing: \n\n" + ex.Message, "Load Error", MessageBoxButton.OK);
+				}
+			}
+
+		}
+
+
+		public override void Save()
+		{
+			Drawing drawing = drawingManager.Current.Drawing;
+			if (drawing == null)
+				return;
+			else if (drawing.FileName == null)
+				SaveAs();
+			else
+				drawing.Save();
+		}
+
+
+		public override void SaveAs()
+		{
+			Drawing drawing = drawingManager.Current.Drawing;
+			if (drawing == null)
+				return;
+
+			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+			if (drawing.FileName != null)
+				dlg.FileName = drawing.FileName;
+			dlg.DefaultExt = ".mwp"; // Default file extension
+			dlg.Filter = "Part (.mwp)|*.mwp"; // Filter files by extension
+
+			// Show open file dialog box
+			bool? result = dlg.ShowDialog();
+
+			// Process savefile dialog box results
+			if (result == true)
+			{
+				try
+				{
+					drawing.SaveAs(dlg.FileName);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("There was an error saving the drawing: \n\n" + ex.Message, "Load Error", MessageBoxButton.OK);
+				}
+			}
+		}
+
 
 	}
 }

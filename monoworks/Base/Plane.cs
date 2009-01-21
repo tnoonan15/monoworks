@@ -59,7 +59,20 @@ namespace MonoWorks.Base
 		}		
 		
 #endregion
-		
-		
+
+
+
+#region String Conversion
+
+
+		public override string ToString()
+		{
+			return Center.ToString() + Normal.ToString(); ;
+		}
+
+
+#endregion
+
+
 	}
 }
