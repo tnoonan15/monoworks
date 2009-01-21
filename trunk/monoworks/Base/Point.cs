@@ -149,6 +149,12 @@ namespace MonoWorks.Base
 		{
 			return new Vector(val[0].Value, val[1].Value, val[2].Value);
 		}
+
+
+		public override string ToString()
+		{
+			return ToVector().ToString();
+		}
 		
 	}
 }

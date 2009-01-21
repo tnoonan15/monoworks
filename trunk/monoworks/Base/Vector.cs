@@ -318,7 +318,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public override string ToString()
 		{
-			return String.Format("[{0}, {1}, {2}]", val[0], val[1], val[2]);
+			return String.Format("[{0},{1},{2}]", val[0], val[1], val[2]);
 		}
 		
 		/// <summary>
@@ -335,14 +335,12 @@ namespace MonoWorks.Base
 			double[] otherVal = (other as Vector).val;
 			return val[0]==otherVal[0] && val[1]==otherVal[1] && val[2]==otherVal[2]; 
 		}
-		
-		
+
+
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
 		}
-
-		
 		
 	}
 }

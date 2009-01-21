@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 using gl=Tao.OpenGl.Gl;
 
@@ -41,7 +42,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Counter for the ID given to each new entity.
 		/// </summary>
-		protected static long IdCounter = 0;
+		protected static int IdCounter = 0;
 		
 		/// <summary>
 		/// Dictionary of counters used to give unique names to each new entity.
@@ -122,8 +123,7 @@ namespace MonoWorks.Model
 		}
 		
 #endregion
-		
-		
+			
 
 #region Momentos
 		
@@ -153,7 +153,7 @@ namespace MonoWorks.Model
 				if (!attribute.IsEntity)
 					momento[attribute.Name] = attribute.Instantiate();
 			}
-			momento["name"] = ClassName + Entity.GetCount(ClassName).ToString();
+			momento["name"] = ClassName + GetCount(ClassName).ToString();
 			return momento;
 		}
 		
@@ -260,11 +260,11 @@ namespace MonoWorks.Model
 		}
 		
 		
-		protected long id;
+		protected int id;
 		/// <value>
 		/// Gets the item id.
 		/// </value>
-		public long Id
+		public int Id
 		{
 			get {return id;}
 		}
@@ -394,7 +394,6 @@ namespace MonoWorks.Model
 		}
 		
 #endregion
-
 		
 		
 #region Rendering
@@ -489,8 +488,37 @@ namespace MonoWorks.Model
 
 		
 #endregion
-		
-		
-		
+
+
+#region File I/O
+
+		/// <summary>
+		/// Recursively writes the entity and all of its children to an XML file.
+		/// </summary>
+		/// <param name="writer"></param>
+		public virtual void ToXml(XmlWriter writer)
+		{
+			writer.WriteStartElement(ClassName);
+
+			writer.WriteAttributeString("id", id.ToString());
+
+			// write the attributes
+			foreach (AttributeMetaData attribute in MetaData.AttributeList)
+			{
+				if (attribute.IsEntity)
+					writer.WriteAttributeString(attribute.Name, (this[attribute.Name] as Entity).Id.ToString());
+				else
+					writer.WriteAttributeString(attribute.Name, this[attribute.Name].ToString());
+			}
+
+			// write the children
+			foreach (Entity child in children)
+				child.ToXml(writer);
+
+			writer.WriteEndElement();
+		}
+
+#endregion
+
 	}
 }

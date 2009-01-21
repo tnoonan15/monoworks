@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 
 using MonoWorks.Framework;
 
@@ -8,7 +9,7 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// Base controller class for MonoWorks.
 	/// </summary>
-	public class MainController : AbstractController
+	public abstract class MainController : AbstractController
 	{
 
 		public MainController()
@@ -63,22 +64,13 @@ namespace MonoWorks.Model
 		}
 
 		[Action()]
-		public void Open()
-		{
-			Console.WriteLine("open");
-		}
+		public abstract void Open();
 
 		[Action()]
-		public void Save()
-		{
-			Console.WriteLine("save");
-		}
+		public abstract void Save();
 
 		[Action("Save As")]
-		public void SaveAs()
-		{
-			Console.WriteLine("save as");
-		}
+		public abstract void SaveAs();
 
 		[Action()]
 		public void Close()

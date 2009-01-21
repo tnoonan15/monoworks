@@ -311,13 +311,6 @@ namespace MonoWorks.Rendering
 			return new Color((c1.Redf + c2.Redf) / 2, (c1.Greenf + c2.Greenf) / 2, (c1.Bluef + c2.Bluef) / 2);
 		}
 
-		
-		public override string ToString()
-		{
-			return string.Format("Color: Name={0}, RGBA=({1}, {2}, {3}, {4})", Name, rgba[0], rgba[1], rgba[2], rgba[3]);
-		}
-
-
 #endregion
 
 
@@ -409,6 +402,14 @@ namespace MonoWorks.Rendering
 			
 			// try to read as hex values
 			return FromString(reader.GetRequiredString("value"));
+		}
+
+		public override string ToString()
+		{
+			if (Name == null) // not named
+				return string.Format("{0:x2}{1:x2}{2:x2}{3:x2}", rgba[0], rgba[1], rgba[2], rgba[3]);
+			else // named
+				return Name;
 		}
 		
 #endregion
