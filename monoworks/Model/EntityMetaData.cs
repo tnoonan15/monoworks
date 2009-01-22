@@ -18,9 +18,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 
 namespace MonoWorks.Model
 {
@@ -45,7 +47,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// The the top-level (Entity) instance.
 		/// </summary>
-		public static EntityMetaData TopLevel = Create("../../../Model/EntityMetaData.xml");
+		public static EntityMetaData TopLevel = CreateFromStream(ResourceHelper.GetStream("EntityMetaData.xml"));
 		
 		
 		private string name;
@@ -150,10 +152,24 @@ namespace MonoWorks.Model
 		/// </summary>
 		/// <param name="fileName"> The file name. </param>
 		/// <returns> A new <see cref="EntityMetaData"/>. </returns>
-		public static EntityMetaData Create(string fileName)
+		public static EntityMetaData CreateFromFile(string fileName)
 		{
 			EntityMetaData data  = new EntityMetaData(null);
-			data.Load(fileName);
+			data.FromFile(fileName);
+			return data;
+		}
+
+		/// <summary>
+		/// Creates an instance from an XML stream.
+		/// </summary>
+		/// <param name="stream"> The stream. </param>
+		/// <returns> A new <see cref="EntityMetaData"/>. </returns>
+		public static EntityMetaData CreateFromStream(Stream stream)
+		{
+			EntityMetaData data = new EntityMetaData(null);
+			XmlReader reader = new XmlTextReader(stream);
+			reader.Read();
+			data.FromXML(reader);
 			return data;
 		}
 		
@@ -161,7 +177,7 @@ namespace MonoWorks.Model
 		/// Loads the meta data from an XML file.
 		/// </summary>
 		/// <param name="fileName"> The file name. </param>
-		public void Load(string fileName)
+		public void FromFile(string fileName)
 		{			
 			XmlTextReader reader = new XmlTextReader(fileName);
 			reader.Read();

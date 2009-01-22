@@ -17,6 +17,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MonoWorks.Base
 {
@@ -26,6 +28,44 @@ namespace MonoWorks.Base
 	/// </summary>
 	public static class GeneralExtensions
 	{
-		
+
+
+
+
+		/// <summary>
+		/// Parse a string with an Enum type.
+		/// </summary>
+		/// <typeparam name="T">An enum.</typeparam>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static T EnumParse<T>(this string value)
+		{
+			return GeneralExtensions.EnumParse<T>(value, false);
+
+		}
+
+		/// <summary>
+		/// Parse a string with an Enum type.
+		/// </summary>
+		/// <typeparam name="T">An enum.</typeparam>
+		/// <param name="value"></param>
+		/// <param name="ignoreCase">Whether or not to ignore the case of the string.</param>
+		/// <returns></returns>
+		public static T EnumParse<T>(this string value, bool ignoreCase)
+		{
+			if (value == null)
+				throw new ArgumentNullException("value");
+
+			value = value.Trim();
+			if (value.Length == 0)
+				throw new ArgumentException("Must specify valid information for parsing in the string.", "value");
+
+			Type t = typeof(T);
+			if (!t.IsEnum)
+				throw new ArgumentException("Type provided must be an Enum.", "T");
+			T enumType = (T)Enum.Parse(t, value, ignoreCase);
+			return enumType;
+		}
+
 	}
 }

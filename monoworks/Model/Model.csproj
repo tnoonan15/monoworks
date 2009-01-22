@@ -93,7 +93,7 @@
     <Compile Include="ViewportControls\IAttributePanel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EntityMetaData.xml" />
+    <EmbeddedResource Include="EntityMetaData.xml" />
     <EmbeddedResource Include="ViewportControls\icons\edit.png" />
     <EmbeddedResource Include="ViewportControls\icons\arc.png" />
     <EmbeddedResource Include="ViewportControls\icons\delete.png" />
