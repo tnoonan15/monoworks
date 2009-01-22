@@ -12,7 +12,8 @@
 			<Attribute name="material" type="MonoWorks.Rendering.Material">
 				The feature's material.
 			</Attribute>
-			<Entity name="TestPart"/>
+			<Entity name="TestPart">
+			</Entity>
 		</Entity>
 		<Entity name="Assembly"/>
 	</Entity>

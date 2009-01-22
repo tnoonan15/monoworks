@@ -16,6 +16,7 @@
 //    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -150,6 +151,7 @@ namespace MonoWorks.Model
 			Momento momento = new Momento();
 			foreach (AttributeMetaData attribute in MetaData.AttributeList)
 			{
+				//Console.WriteLine("creating default attribute {0} for entity {1}", attribute.Name, MetaData.Name);
 				if (!attribute.IsEntity)
 					momento[attribute.Name] = attribute.Instantiate();
 			}
@@ -262,7 +264,7 @@ namespace MonoWorks.Model
 		
 		protected int id;
 		/// <value>
-		/// Gets the item id.
+		/// The entity id.
 		/// </value>
 		public int Id
 		{
@@ -505,10 +507,13 @@ namespace MonoWorks.Model
 			// write the attributes
 			foreach (AttributeMetaData attribute in MetaData.AttributeList)
 			{
+				object attrObject = this[attribute.Name];
 				if (attribute.IsEntity)
-					writer.WriteAttributeString(attribute.Name, (this[attribute.Name] as Entity).Id.ToString());
+					writer.WriteAttributeString(attribute.Name, (attrObject as Entity).Id.ToString());
+				else if (attrObject is IList)
+					writer.WriteAttributeString(attribute.Name, (attrObject as IList).ListString());
 				else
-					writer.WriteAttributeString(attribute.Name, this[attribute.Name].ToString());
+					writer.WriteAttributeString(attribute.Name, attrObject.ToString());
 			}
 
 			// write the children
@@ -517,6 +522,8 @@ namespace MonoWorks.Model
 
 			writer.WriteEndElement();
 		}
+
+
 
 #endregion
 
