@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">GtkDebug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{93981ADD-F7E7-45F1-934F-13B2EB7088DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>MonoWorks.GuiGtk</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>MonoWorks.GuiGtk</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GtkDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\GtkDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoWorks.GuiGtk</RootNamespace>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <EnvironmentVariables>
+      <EnvironmentVariables />
+    </EnvironmentVariables>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Tao.DevIl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.FreeType, Version=2.3.5.0, Culture=neutral, PublicKeyToken=e499629dc69cd531">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Tao.FreeType.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="ISE.FreeType, Version=1.0.2935.1740, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\ISE.FreeType.dll</HintPath>
+    </Reference>
+    <Reference Include="gtkglarea-sharp, Version=0.0.3.0, Culture=neutral, PublicKeyToken=7df758c0fb49fe62">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\gtkglarea-sharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="DrawingFrame.cs" />
+    <Compile Include="ViewportAdapter.cs" />
+    <Compile Include="AttributeControls\AttributePanel.cs" />
+    <Compile Include="Framework\Dock\BookNode.cs" />
+    <Compile Include="Framework\Dock\Dockable.cs" />
+    <Compile Include="Framework\Dock\DockableBase.cs" />
+    <Compile Include="Framework\Dock\DockableNode.cs" />
+    <Compile Include="Framework\Dock\DockArea.cs" />
+    <Compile Include="Framework\Dock\DockBook.cs" />
+    <Compile Include="Framework\Dock\DockManager.cs" />
+    <Compile Include="Framework\Dock\DockOverlay.cs" />
+    <Compile Include="Framework\Dock\DocumentAreaNode.cs" />
+    <Compile Include="Framework\Dock\DocumentBase.cs" />
+    <Compile Include="Framework\Dock\DocumentNode.cs" />
+    <Compile Include="Framework\Dock\Node.cs" />
+    <Compile Include="Framework\Dock\PanedNode.cs" />
+    <Compile Include="Framework\Dock\RootNode.cs" />
+    <Compile Include="Framework\Dock\TitleBar.cs" />
+    <Compile Include="Framework\ToolArea\DynamicBox.cs" />
+    <Compile Include="Framework\ToolArea\HandleBox.cs" />
+    <Compile Include="Framework\ToolArea\ITool.cs" />
+    <Compile Include="Framework\ToolArea\ToolArea.cs" />
+    <Compile Include="Framework\ToolArea\Toolbar.cs" />
+    <Compile Include="Framework\ToolArea\ToolBox.cs" />
+    <Compile Include="Framework\ToolArea\ToolGutter.cs" />
+    <Compile Include="Framework\ToolArea\ToolShelf.cs" />
+    <Compile Include="Framework\FloatWindow.cs" />
+    <Compile Include="Framework\ResourceManager.cs" />
+    <Compile Include="Framework\SlateWindow.cs" />
+    <Compile Include="Framework\UiManager.cs" />
+    <Compile Include="PlotControls\PlotPane.cs" />
+    <Compile Include="PlotControls\PointPlotPane.cs" />
+    <Compile Include="Tree\TreeModel.cs" />
+    <Compile Include="Tree\TreeView.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <GtkDesignInfo />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rendering\Rendering.csproj">
+      <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
+      <Name>Rendering</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plotting\Plotting.csproj">
+      <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>
+      <Name>Plotting</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Framework\Dock\icons\SlateDockIcons.svg" />
+    <None Include="Framework\Dock\icons\SlateDockOverlays.svg" />
+    <None Include="Framework\ToolArea\icons\SlateHandles.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Framework\Dock\icons\BottomOverlay.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\close.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\dock.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\float.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\LeftOverlay.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\minimize.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\RightOverlay.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\TabOverlay.png" />
+    <EmbeddedResource Include="Framework\Dock\icons\TopOverlay.png" />
+    <EmbeddedResource Include="Framework\ToolArea\icons\HHandle.png" />
+    <EmbeddedResource Include="Framework\ToolArea\icons\VHandle.png" />
+  </ItemGroup>
+</Project>
