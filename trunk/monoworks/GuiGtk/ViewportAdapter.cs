@@ -25,6 +25,7 @@ using glu=Tao.OpenGl.Glu;
 using GtkGL;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering.Interaction;
@@ -182,7 +183,7 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Called when the viewport is configured.
 		/// </summary>
-		void OnConfigure (object o, EventArgs e)
+		void OnConfigure(object o, EventArgs e)
 		{	
 			if(base.MakeCurrent() == 0)
 				return;
@@ -193,7 +194,7 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Called when the viewport is resized.
 		/// </summary>
-		void OnSizeAllocated (object o, Gtk.SizeAllocatedArgs e)
+		void OnSizeAllocated(object o, Gtk.SizeAllocatedArgs e)
 		{
 			ResizeGL();
 		}
@@ -215,16 +216,32 @@ namespace MonoWorks.GuiGtk
 		/// <summary>
 		/// Called when the viewport is exposed.
 		/// </summary>
-		protected void OnExposed (object o, EventArgs e)
+		protected void OnExposed(object o, EventArgs e)
 		{
-			PaintGL();
+			Render();
 		}
 		
 
 		/// <summary>
-		/// Renders the scene.
+		/// Queues the scene for rendering.
 		/// </summary>
 		public void PaintGL()
+		{
+			QueueDraw();
+		}
+		
+		/// <summary>
+		/// Queues the scene for rendering from another thread.
+		/// </summary>
+		public void RemotePaintGL()
+		{
+			Gtk.Application.Invoke(delegate {QueueDraw();});
+		}		
+		
+		/// <summary>
+		/// Actually performs the rendering.
+		/// </summary>
+		protected void Render()
 		{
 			if (!IsRealized)
 				return;
@@ -234,8 +251,7 @@ namespace MonoWorks.GuiGtk
 			
 			Viewport.Render();
 													
-			// bring back buffer to front, put front buffer in back
-			SwapBuffers ();
+			SwapBuffers();
 		}
 		
 		/// <summary>

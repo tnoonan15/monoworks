@@ -150,6 +150,27 @@ namespace MonoWorks.StudioGtk
 #endregion
 
 		
+#region File Loading
+		
+
+
+		public override void Save ()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public override void SaveAs ()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public override void Open ()
+		{
+			throw new System.NotImplementedException();
+		}		
+		
+#endregion
+		
 
 	}
 }

@@ -71,8 +71,13 @@ namespace MonoWorks.Rendering
 		void ResizeGL();
 		
 		/// <summary>
-		/// Performs the rendering for one frame.
+		/// Queues the rendering for one frame.
 		/// </summary>
 		void PaintGL();
+		
+		/// <summary>
+		/// Queues the rendering for one frame from another thread.
+		/// </summary>
+		void RemotePaintGL();
 	}
 }

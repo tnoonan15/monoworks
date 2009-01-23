@@ -1,4 +1,4 @@
-﻿// Viewport.cs - MonoWorks Project
+// Viewport.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -138,6 +138,14 @@ namespace MonoWorks.Rendering
 		/// Passes the paint command to the viewport adapter.
 		/// </summary>
 		public void PaintGL()
+		{
+			adapter.PaintGL();
+		}
+
+		/// <summary>
+		/// Passes the remote paint command to the viewport adapter.
+		/// </summary>
+		public void RemotePaintGL()
 		{
 			adapter.PaintGL();
 		}

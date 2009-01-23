@@ -483,7 +483,7 @@ namespace MonoWorks.GuiGtk.Framework
 
 #region Documents
 
-		public override void CreateDocument(DocumentType documentType)
+		public override IDocument CreateDocument(DocumentType documentType)
 		{
 			base.CreateDocument(documentType);
 			
@@ -502,6 +502,8 @@ namespace MonoWorks.GuiGtk.Framework
 			// add the document to the document pane
 			document.Name = documentType.DisplayName + documentCounters[documentType].ToString();
 			dockManager.AddDocument(document);
+			
+			return document;
 		}
 
 

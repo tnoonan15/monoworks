@@ -18,6 +18,8 @@
 
 using System;
 
+using MonoWorks.Model;
+
 namespace MonoWorks.StudioGtk
 {
 	
@@ -27,6 +29,8 @@ namespace MonoWorks.StudioGtk
 		
 		public PartView()
 		{
+			Drawing = new TestPart();
+			
 		}
 	}
 }

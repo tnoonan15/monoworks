@@ -20,17 +20,39 @@
 
 using System;
 
+using MonoWorks.GuiGtk;
 using MonoWorks.GuiGtk.Framework.Dock;
+using MonoWorks.Model;
 
 namespace MonoWorks.StudioGtk
 {
 	
 	
-	public class DrawingView : DocumentBase
+	public class DrawingView : DocumentBase, IDrawingView
 	{
 		
 		public DrawingView()
 		{
+			drawingFrame = new DrawingFrame();
+			Add(drawingFrame);
+			
 		}
+		
+		
+		protected DrawingFrame drawingFrame;
+		
+		public Drawing Drawing
+		{
+			get {return drawingFrame.Drawing;}
+			set {drawingFrame.Drawing = value;}
+		}
+		
+		
+		public void Repaint()
+		{
+			drawingFrame.Viewport.PaintGL();
+		}
+		
+		
 	}
 }
