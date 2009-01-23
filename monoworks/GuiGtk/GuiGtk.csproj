@@ -58,7 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DrawingFrame.cs" />
     <Compile Include="ViewportAdapter.cs" />
     <Compile Include="AttributeControls\AttributePanel.cs" />
@@ -95,13 +94,6 @@
     <Compile Include="Tree\TreeView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <GtkDesignInfo />
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
   <ItemGroup>
     <ProjectReference Include="..\Resources\Resources.csproj">
       <Project>{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}</Project>

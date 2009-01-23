@@ -34,15 +34,23 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 		}
 		
 
-//		protected string name;
-//		/// <value>
-//		/// The document name.
-//		/// </value>
-//		public string Name
-//		{
-//			get {return name;}
-//			set {name = value;}
-//		}
+		/// <value>
+		/// The document title.
+		/// </value>
+		public string Title
+		{
+			get {return Name;}
+			set {Name = value;}
+		}
+		
+		public bool IsCurrent
+		{
+			get
+			{
+				return false;
+			}
+		}
+		
 		
 	}
 }
