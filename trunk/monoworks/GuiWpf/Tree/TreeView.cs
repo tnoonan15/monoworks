@@ -104,7 +104,7 @@ namespace MonoWorks.GuiWpf.Tree
 
 		public void OnEntityAdded(Entity entity)
 		{
-			throw new NotImplementedException();
+			AddEntity(entity);
 		}
 
 		public void OnEntityDeleted(Entity entity)

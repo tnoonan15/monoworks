@@ -2,6 +2,9 @@
 	<Attribute name="name" type="System.String">
 		The entity's name.
 	</Attribute>
+	<Attribute name="locked" type="System.Boolean">
+		If locked, the entity is not editable through the user interface.
+	</Attribute>
 	
 	<!-- Drawings -->
 	<Entity name="Drawing">

@@ -142,15 +142,24 @@ namespace MonoWorks.Model.ViewportControls
 			lastDrawing = drawing;
 			if (drawing.EntityManager.NumSelected == 0) // nothing selected
 			{
-				AddPrimaryContext("AddSketch");
 				AddPrimaryContext("AddRef");
 			}
 			else // something selected
 			{
-				if (drawing.EntityManager.NumSelected == 1) // only one selected
+				if (drawing.EntityManager.NumSelected == 1) // only one selected 
 				{
 					lastEntity = drawing.EntityManager.Selected[0];
-					AddPrimaryContext("Edit");
+
+					// add sketch context if it's a plane
+					if (lastEntity is RefPlane)
+						AddPrimaryContext("AddSketch");
+
+					// only edit if it's not locked
+					if (!lastEntity.IsLocked) 
+					{
+						AddPrimaryContext("Edit");
+						AddPrimaryContext("Delete");
+					}
 				}
 				else // multiple entities selected
 				{
@@ -158,7 +167,6 @@ namespace MonoWorks.Model.ViewportControls
 						Console.WriteLine("entity: " + entity.Name);
 				}
 
-				AddPrimaryContext("Delete");
 			}
 
 			viewport.PaintGL();
@@ -239,6 +247,26 @@ namespace MonoWorks.Model.ViewportControls
 
 #endregion
 
+
+
+#region Sketching
+
+		/// <summary>
+		/// Creates or edits a sketch.
+		/// </summary>
+		[Action("Sketch")]
+		public void OnSketch()
+		{
+			if (lastEntity is RefPlane)
+			{
+				Sketch sketch = new Sketch(lastEntity as RefPlane);
+				lastDrawing.AddSketch(sketch);
+				viewport.Camera.AnimateTo((lastEntity as RefPlane).Plane);
+			}
+
+		}
+
+#endregion
 
 
 
