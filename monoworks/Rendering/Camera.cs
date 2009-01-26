@@ -683,7 +683,47 @@ namespace MonoWorks.Rendering
 			viewport.Resize();
 			viewport.OnDirectionChanged();
 		}
-		
+
+		/// <summary>
+		/// Gets the vector needed to look at a plane.
+		/// </summary>
+		/// <param name="direction"></param>
+		/// <param name="centerOut"></param>
+		/// <param name="posOut"></param>
+		/// <param name="upVecOut"></param>
+		public void GetPlaneVectors(Plane plane, out Vector centerOut, out Vector posOut, out Vector upVecOut)
+		{
+			viewport.RenderList.ResetBounds();
+			Bounds bounds = viewport.RenderList.Bounds;
+
+			// determine the distance needed to view all renderables
+			double dist = 0;
+			if (viewport.RenderList.RenderableCount > 0 && bounds.IsSet)
+				dist = bounds.MaxWidth / (fov * 0.5).Tan();
+			else
+				dist = 2 / (fov * 0.5).Tan();
+
+			centerOut = plane.Center.ToVector();
+			posOut = centerOut + plane.Normal.Normalize() * dist * 0.8;
+			if (plane.Normal[1] == 0 && plane.Normal[2] == 0) // the normal is in the Y-Z axis
+				upVecOut = new Vector(0.0, 1.0, 0.0);
+			else // the plane is not in the Y-Z axis
+				upVecOut = new Vector(1.0, 0.0, 0.0);		
+		}
+
+
+		/// <summary>
+		/// Forces the camera to look squarely at a plane.
+		/// </summary>
+		/// <param name="plane"></param>
+		public void LookAt(Plane plane)
+		{
+			GetPlaneVectors(plane, out center, out pos, out upVec);
+			RecomputeUpVector();
+			viewport.Resize();
+			viewport.OnDirectionChanged();
+		}
+
 #endregion
 		
 		
@@ -697,7 +737,7 @@ namespace MonoWorks.Rendering
 		double animStartDist, animStopDist;
 
 		/// <summary>
-		/// Animates to teh given view direction.
+		/// Animates to the given view direction.
 		/// </summary>
 		/// <param name="direction"></param>
 		public void AnimateTo(ViewDirection direction)
@@ -716,6 +756,25 @@ namespace MonoWorks.Rendering
 			viewport.Animator.RegisterAnimation(this, 3);
 		}
 
+
+		/// <summary>
+		/// Animates to look at the given plane.
+		/// </summary>
+		public void AnimateTo(Plane plane)
+		{
+			animStartCenter = center;
+			animStartDir = Direction.Normalize();
+			animStartUpVec = upVec;
+			animStartDist = Distance;
+
+			Vector animStopPos;
+			GetPlaneVectors(plane, out animStopCenter, out animStopPos, out animStopUpVec);
+			animStopDir = animStopPos - animStopCenter;
+			animStopDist = animStopDir.Magnitude;
+			animStopDir = animStopDir.Normalize();
+
+			viewport.Animator.RegisterAnimation(this, 3);
+		}
 
 		public void Animate(double progress)
 		{

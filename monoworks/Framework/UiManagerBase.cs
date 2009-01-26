@@ -252,7 +252,6 @@ namespace MonoWorks.Framework
 			{
 				int key = ParseShortcut(action.Shortcut);
 				actionKeyMap[key] = action;
-				Console.WriteLine("mapped key {0} to action {1}", key, name);
 			}
 
 			actions[name] = action;

@@ -83,10 +83,10 @@
     <Compile Include="Reference\Reference.cs" />
     <Compile Include="Reference\RefLine.cs" />
     <Compile Include="Reference\RefPlane.cs" />
-    <Compile Include="Sketchs\Arc.cs" />
-    <Compile Include="Sketchs\Line.cs" />
-    <Compile Include="Sketchs\Sketch.cs" />
-    <Compile Include="Sketchs\Sketchable.cs" />
+    <Compile Include="Sketching\Arc.cs" />
+    <Compile Include="Sketching\Line.cs" />
+    <Compile Include="Sketching\Sketch.cs" />
+    <Compile Include="Sketching\Sketchable.cs" />
     <Compile Include="TestPart.cs" />
     <Compile Include="ViewportControls\Controller.cs" />
     <Compile Include="ViewportControls\IAttributeControl.cs" />

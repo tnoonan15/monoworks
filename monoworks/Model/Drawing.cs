@@ -57,6 +57,21 @@ namespace MonoWorks.Model
 			actionList = new List<Action>();
 
 			Modified = false;
+
+			// create the default reference geometry
+			for (int i = 0; i < defaultPlanes.Length; i++)
+			{
+				defaultPlanes[i] = new RefPlane();
+				defaultPlanes[i].Name = DimensionNames[i] + " Plane";
+				defaultPlanes[i].IsLocked = true;
+				AddReference(defaultPlanes[i]);
+
+				Plane plane = new Plane();
+				plane.Center = new Point();
+				plane.Normal = new Vector();
+				plane.Normal[i] = 1;
+				defaultPlanes[i].Plane = plane;
+			}
 		}
 		
 		
@@ -121,7 +136,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public void Save()
 		{
-
+			SaveAs(FileName);
 		}
 
 		/// <summary>
@@ -235,9 +250,34 @@ namespace MonoWorks.Model
 
 	
 #endregion
-		
-		
-		
+
+
+#region Default Reference Entities
+
+		/// <summary>
+		/// Default reference planes.
+		/// </summary>
+		protected RefPlane[] defaultPlanes = new RefPlane[3];
+
+		/// <summary>
+		/// The reference plane orthagonal to the x axis.
+		/// </summary>
+		public RefPlane XPlane { get { return defaultPlanes[0]; } }
+
+		/// <summary>
+		/// The reference plane orthagonal to the x axis.
+		/// </summary>
+		public RefPlane YPlane { get { return defaultPlanes[1]; } }
+
+		/// <summary>
+		/// The reference plane orthagonal to the z axis.
+		/// </summary>
+		public RefPlane ZPlane { get { return defaultPlanes[2]; } }
+
+#endregion
+
+
+
 	}
 	
 }

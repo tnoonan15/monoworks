@@ -236,6 +236,11 @@ namespace MonoWorks.GuiWpf
 			Draw();
 		}
 
+		public void RemotePaintGL()
+		{
+			Draw();
+		}
+
 
 #endregion
 

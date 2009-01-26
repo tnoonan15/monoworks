@@ -37,11 +37,15 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		{
 			dockPanel = new DockPanel();
 			dockPanel.LastChildFill = true;
+			dockPanel.Width = Double.NaN;
+			dockPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
 			Children.Add(dockPanel);
 
 			spin = new SpinControl();
 			dockPanel.Children.Add(spin);
 			spin.ValueChanged += OnValueChanged;
+			spin.HorizontalAlignment = HorizontalAlignment.Stretch;
+			spin.Width = Double.NaN;
 
 		}
 

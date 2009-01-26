@@ -224,11 +224,11 @@ namespace MonoWorks.GuiWpf
 	public static class LabelExtensions
 	{
 		/// <summary>
-		/// Adds a label to a stack panel.
+		/// Adds a label to a panel.
 		/// </summary>
 		/// <param name="panel"></param>
 		/// <param name="text"></param>
-		public static void AddLabel(this StackPanel panel, string text)
+		public static void AddLabel(this Panel panel, string text)
 		{
 			Label label = new Label();
 			label.Content = text;

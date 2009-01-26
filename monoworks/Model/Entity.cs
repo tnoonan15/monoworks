@@ -105,6 +105,22 @@ namespace MonoWorks.Model
 		{
 			get {return EntityMetaData.TopLevel.GetEntity(ClassName);}
 		}
+
+		/// <summary>
+		/// This is a queue to the user interface to determine if the entity is editable.
+		/// </summary>
+		public bool IsLocked
+		{
+			get { return (bool)this["locked"]; }
+			set { this["locked"] = value; } 
+		}
+
+
+		/// <summary>
+		/// Names of the primary dimensions.
+		/// </summary>
+		public readonly string[] DimensionNames = { "X", "Y", "Z" };
+
 		
 #region The Drawing
 		
@@ -156,6 +172,7 @@ namespace MonoWorks.Model
 					momento[attribute.Name] = attribute.Instantiate();
 			}
 			momento["name"] = ClassName + GetCount(ClassName).ToString();
+			momento["locked"] = false;
 			return momento;
 		}
 		
@@ -281,7 +298,7 @@ namespace MonoWorks.Model
 		/// <value>
 		/// Read-only access to the children.
 		/// </value>
-		public EntityList Children
+		public IEnumerable<Entity> Children
 		{
 			get {return children;}
 		}

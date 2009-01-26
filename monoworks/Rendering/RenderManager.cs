@@ -54,7 +54,7 @@ namespace MonoWorks.Rendering
 			WireframeColor = ColorManager.Global["Black"];
 			WireframeWidth = 1.5f;
 			
-			ReferenceColor = new Color(0, 128, 0, 64);
+			ReferenceColor = new Color(0, 128, 0, 32);
 			
 			Lighting = new Lighting();
 		}

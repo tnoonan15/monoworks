@@ -153,9 +153,7 @@ namespace MonoWorks.Rendering
 #endregion
 
 
-
-
-		#region Text Renderering
+#region Text Renderering
 
 		/// <summary>
 		/// Renders text to the viewport.
@@ -214,10 +212,6 @@ namespace MonoWorks.Rendering
 #endregion
 
 
-
-
-
-
 #region IMouseHandler Members
 
 		public void OnButtonPress(MouseButtonEvent evt)
@@ -239,9 +233,9 @@ namespace MonoWorks.Rendering
 			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
 			{
 				if (InteractionState == InteractionState.Interact2D)
-					Camera.SetViewDirection(ViewDirection.Front);
+					Camera.AnimateTo(ViewDirection.Front);
 				else
-					Camera.SetViewDirection(ViewDirection.Standard);
+					Camera.AnimateTo(ViewDirection.Standard);
 				evt.Handle();
 			}
 		}
@@ -300,8 +294,6 @@ namespace MonoWorks.Rendering
 		}
 
 #endregion
-
-
 
 
 	}

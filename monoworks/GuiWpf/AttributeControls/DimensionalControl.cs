@@ -39,6 +39,9 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			dimVal = entity.GetAttribute(metaData.Name) as T;
 			spin.Value = dimVal.DisplayValue;
 
+			// add the unit label
+			dockPanel.AddLabel(dimVal.DisplayUnits);
+
 			// custom settings for the spinner
 			if (dimVal is Angle)
 				spin.Step = 15;
