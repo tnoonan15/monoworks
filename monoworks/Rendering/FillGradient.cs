@@ -53,6 +53,11 @@ namespace MonoWorks.Rendering
 			return fg;
 		}
 
+
+		public override string ToString()
+		{
+			return String.Format("Fill Gradient start={0}, stop={1}", startColor, stopColor);
+		}
 		
 		protected Color startColor;
 		/// <summary>
@@ -153,9 +158,31 @@ namespace MonoWorks.Rendering
 				break;
 			}
 			gl.glEnd();
+		}
 
 
 
+		/// <summary>
+		/// Draws a gradient triangle in the given corner.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <param name="size"></param>
+		public void DrawCorner(Coord pos, Coord size, Corner corner)
+		{
+			gl.glBegin(gl.GL_TRIANGLES);
+			switch (corner)
+			{
+			case Corner.NE:
+				stopColor.Setup();
+				gl.glVertex2d(pos.X, pos.Y + size.Y);
+				gl.glVertex2d(pos.X + size.X, pos.Y);
+				startColor.Setup();
+				gl.glVertex2d(pos.X + size.X, pos.Y + size.Y);
+				break;
+			default:
+				throw new NotImplementedException();
+			}
+			gl.glEnd();
 		}
 		
 		

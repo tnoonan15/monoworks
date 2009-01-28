@@ -251,6 +251,9 @@ namespace MonoWorks.Model.ViewportControls
 
 #region Sketching
 
+
+		ApplyCancelControl sketchApplyCancel;
+
 		/// <summary>
 		/// Creates or edits a sketch.
 		/// </summary>
@@ -262,6 +265,10 @@ namespace MonoWorks.Model.ViewportControls
 				Sketch sketch = new Sketch(lastEntity as RefPlane);
 				lastDrawing.AddSketch(sketch);
 				viewport.Camera.AnimateTo((lastEntity as RefPlane).Plane);
+
+				sketchApplyCancel = new ApplyCancelControl();
+				viewport.RenderList.AddOverlay(sketchApplyCancel);
+				viewport.Resize();
 			}
 
 		}

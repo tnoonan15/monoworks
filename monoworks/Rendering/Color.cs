@@ -60,6 +60,14 @@ namespace MonoWorks.Rendering
 			return color;
 		}
 
+
+		public override string ToString()
+		{
+			if (Name == null) // not named
+				return string.Format("{0:x2}{1:x2}{2:x2}{3:x2}", rgba[0], rgba[1], rgba[2], rgba[3]);
+			else // named
+				return Name;
+		}
 		
 		
 #region Constructors		
@@ -338,6 +346,28 @@ namespace MonoWorks.Rendering
 			gl.glVertex2d(pos.X, pos.Y + size.Y);
 			gl.glEnd();
 		}
+
+		/// <summary>
+		/// Draws a solid triangle in the given corner.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <param name="size"></param>
+		public void DrawCorner(Coord pos, Coord size, Corner corner)
+		{
+			Setup();
+			gl.glBegin(gl.GL_TRIANGLES);
+			switch (corner)
+			{
+			case Corner.NE:
+				gl.glVertex2d(pos.X, pos.Y + size.Y);
+				gl.glVertex2d(pos.X + size.X, pos.Y + size.Y);
+				gl.glVertex2d(pos.X + size.X, pos.Y);
+				break;
+			default:
+				throw new NotImplementedException();
+			}
+			gl.glEnd();
+		}
 		
 #endregion
 		
@@ -402,14 +432,6 @@ namespace MonoWorks.Rendering
 			
 			// try to read as hex values
 			return FromString(reader.GetRequiredString("value"));
-		}
-
-		public override string ToString()
-		{
-			if (Name == null) // not named
-				return string.Format("{0:x2}{1:x2}{2:x2}{3:x2}", rgba[0], rgba[1], rgba[2], rgba[3]);
-			else // named
-				return Name;
 		}
 		
 #endregion

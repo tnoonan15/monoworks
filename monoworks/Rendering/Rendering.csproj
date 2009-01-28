@@ -82,6 +82,7 @@
     <Compile Include="ColorManager.cs" />
     <Compile Include="ColorMap.cs" />
     <Compile Include="Controls\Anchor.cs" />
+    <Compile Include="Controls\ApplyCancelControl.cs" />
     <Compile Include="Controls\Bin.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Container.cs" />
@@ -151,6 +152,10 @@
       <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
       <Name>Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ViewportControls\icons\apply.png" />
+    <EmbeddedResource Include="ViewportControls\icons\cancel.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

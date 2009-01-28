@@ -23,5 +23,26 @@
 			<Color name="Dark Gray"/>
 		</Foreground>
 	</StyleClass>
+
+	<StyleClass name="applycancel">
+		<Background hitState="None">
+			<FillGradient start="Control Grad Dark" stop="Control Grad Light" direction="NE2SW"/>
+		</Background>
+		<Foreground hitState="None">
+			<Color name="Dark Gray"/>
+		</Foreground>
+		<Background hitState="Hovering">
+			<FillGradient start="Control Grad Light" stop="Control White" direction="NE2SW"/>
+		</Background>
+		<Background hitState="Selected">
+			<FillGradient start="Control Hovering" stop="Control Grad Light" direction="NE2SW"/>
+		</Background>
+		<Foreground hitState="Hovering">
+			<Color name="Dark Gray"/>
+		</Foreground>
+		<Foreground hitState="Selected">
+			<Color name="Dark Gray"/>
+		</Foreground>
+	</StyleClass>
 	
 </StyleGroup>

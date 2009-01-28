@@ -23,6 +23,11 @@ using MonoWorks.Base;
 namespace MonoWorks.Rendering
 {
 	/// <summary>
+	/// A corner of the viewport.
+	/// </summary>
+	public enum Corner {NE, NW, SE, SW};
+
+	/// <summary>
 	/// Interface for objects that can be used to fill overlays.
 	/// </summary>
 	public interface IFill : ICloneable
@@ -32,5 +37,9 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		void DrawRectangle(Coord pos, Coord size);
 
+		/// <summary>
+		/// Draw a triangle at the given position and size with the specified corner.
+		/// </summary>
+		void DrawCorner(Coord pos, Coord size, Corner corner);
 	}
 }
