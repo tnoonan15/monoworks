@@ -52,6 +52,12 @@ namespace MonoWorks.Rendering
 			return sc;
 		}
 
+
+		public override string ToString()
+		{
+			return String.Format("Style Class fg: {0}, bg: {1}", backgrounds[HitState.None], foregrounds[HitState.None]);
+		}
+
 		
 		/// <summary>
 		/// Forces all gradients in the class to have the given direction.

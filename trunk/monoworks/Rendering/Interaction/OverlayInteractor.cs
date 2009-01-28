@@ -40,8 +40,8 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
-			
-			foreach (Overlay overlay in renderList.Overlays)
+
+			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnButtonPress(evt);
 		}
 
@@ -49,8 +49,8 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
-			
-			foreach (Overlay overlay in renderList.Overlays)
+
+			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnButtonRelease(evt);
 		}
 
@@ -59,10 +59,8 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			base.OnMouseMotion(evt);
 
-			foreach (Overlay overlay in renderList.Overlays)
-			{			
+			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnMouseMotion(evt);
-			}
 		}
 
 	}

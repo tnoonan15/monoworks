@@ -98,9 +98,24 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Overlays to render.
 		/// </summary>
+		/// <remarks>If the overlay list might be modified during iteration, use OverlayCopy instead.</remarks>
 		public IEnumerable<Overlay> Overlays
 		{
 			get { return overlays; }
+		}
+
+		/// <summary>
+		/// A copy of the overlay list.
+		/// </summary>
+		/// <remarks>Use this to iterate when the list might be modified.</remarks>
+		public Overlay[] OverlayCopy
+		{
+			get
+			{
+				Overlay[] overlayCopy = new Overlay[OverlayCount];
+				overlays.CopyTo(overlayCopy);
+				return overlayCopy;
+			}
 		}
 
 		/// <summary>
