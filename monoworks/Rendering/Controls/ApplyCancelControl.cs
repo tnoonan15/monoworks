@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -30,30 +32,47 @@ namespace MonoWorks.Rendering.Controls
 	/// </summary>
 	public class ApplyCancelControl : Control
 	{
+		/// <summary>
+		/// Defines the two regions of the button.
+		/// </summary>
+		protected enum Region { None, Apply, Cancel }
 
 		public ApplyCancelControl()
 		{
 			StyleClassName = "applycancel";
 			size = MinSize;
+			IsHoverable = true;
+
+			applyImage = new Image(ResourceHelper.GetStream("apply.png"));
+			cancelImage = new Image(ResourceHelper.GetStream("cancel.png"));
 		}
+
 
 		/// <summary>
 		/// Width of the control along the edge of the viewport.
 		/// </summary>
-		private const double EdgeWidth = 64;
-
-
+		private const double EdgeWidth = 76;
+		
 		public override Coord MinSize
 		{
 			get {return new Coord(EdgeWidth, EdgeWidth);}
 		}
 
+		protected Image applyImage;
+
+		protected Image cancelImage;
+
 		public override void OnViewportResized(Viewport viewport)
 		{
 			base.OnViewportResized(viewport);
 
-			position = new Coord(viewport.WidthGL, viewport.HeightGL) - size;
-			Console.WriteLine("apply-cancel moved to {0} with size {1}", position, size);
+			Coord corner = new Coord(viewport.WidthGL, viewport.HeightGL);
+			position = corner - size;
+
+			// position the images
+			applyImage.Position = corner - new Coord(2.2 * applyImage.MinWidth, applyImage.MinHeight + 4);
+			cancelImage.Position = corner - new Coord(cancelImage.MinWidth + 4, 2.2 * cancelImage.MinWidth);
+			Console.WriteLine("apply image position {0}, cancel image position {1}", applyImage.Position, cancelImage.Position);
 		}
 
 
@@ -69,11 +88,14 @@ namespace MonoWorks.Rendering.Controls
 			RenderBackground();
 
 			RenderOutline();
+
+			applyImage.RenderOverlay(viewport);
+			cancelImage.RenderOverlay(viewport);
 		}
 
 		protected override void RenderOutline()
 		{
-			Color fg = styleClass.GetForeground(hitState);
+			Color fg = styleClass.GetForeground(HitState.None);
 			if (fg != null)
 			{
 				fg.Setup();
@@ -88,12 +110,127 @@ namespace MonoWorks.Rendering.Controls
 
 		protected override void RenderBackground()
 		{
-
-			IFill bg = styleClass.GetBackground(hitState);
+			// the no-hitstate background is always rendered
+			IFill bg = styleClass.GetBackground(HitState.None);
 			if (bg != null)
 				bg.DrawCorner(position, size, Corner.NE);
 
+			// now apply other styles
+			bg = styleClass.GetBackground(hitState);
+			if (bg is FillGradient && hitState != HitState.None && hitRegion != Region.None)
+			{
+				FillGradient grad = bg as FillGradient;
+				gl.glBegin(gl.GL_TRIANGLES);
+				grad.StartColor.Setup();
+				(position + size).glVertex();
+				grad.StopColor.Setup();
+				(position + size/2).glVertex();
+				if (hitRegion == Region.Apply)
+					(position + new Coord(0, EdgeWidth)).glVertex();
+				else // cancel
+					(position + new Coord(EdgeWidth, 0)).glVertex();
+				gl.glEnd();
+			}
 		}
+
+
+
+#region Mouse Interaction
+
+		/// <summary>
+		/// Tells which region the mouse is in.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		protected Region HitRegion(Coord pos)
+		{
+			Coord dPos = pos - position;
+			if (dPos.X > size.X || dPos.Y > size.Y ||
+				dPos.X + dPos.Y < EdgeWidth)
+				return Region.None;
+			else if (dPos.X > dPos.Y)
+				return Region.Cancel;
+			else
+				return Region.Apply;
+		}
+
+		protected Region hitRegion = Region.None;
+
+
+		protected override bool HitTest(Coord pos)
+		{
+			hitRegion = HitRegion(pos);
+			return hitRegion != Region.None;
+		}
+
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+
+			hitRegion = HitRegion(evt.Pos);
+
+			if (hitRegion != Region.None)
+			{
+				ToggleSelection();
+				evt.Handle();
+				if (hitRegion == Region.Apply)
+					RaiseApply();
+				else
+					RaiseCancel();
+
+			}
+		}
+
+
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+
+			if (IsSelected)
+				Deselect();
+
+			// if we were just clicked, we get to handle the next button release event
+			if (hitRegion != Region.None)
+			{
+				hitRegion = Region.None;
+				evt.Handle();
+			}
+
+		}
+
+
+		/// <summary>
+		/// Called when the apply button is clicked by the user.
+		/// </summary>
+		public event EventHandler Apply;
+
+		/// <summary>
+		/// Activates the apply event.
+		/// </summary>
+		public void RaiseApply()
+		{
+			Console.WriteLine("apply");
+			if (Apply != null)
+				Apply(this, new EventArgs());
+		}
+
+		/// <summary>
+		/// Called when the cancel button is clicked by the user.
+		/// </summary>
+		public event EventHandler Cancel;
+
+		/// <summary>
+		/// Activates the cancel event.
+		/// </summary>
+		public void RaiseCancel()
+		{
+			Console.WriteLine("cancel");
+			if (Cancel != null)
+				Cancel(this, new EventArgs());
+		}
+
+#endregion
+
 
 	}
 }
