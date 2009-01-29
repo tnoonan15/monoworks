@@ -37,12 +37,6 @@
 		<Background hitState="Selected">
 			<FillGradient start="Control Hovering" stop="Control Grad Light" direction="NE2SW"/>
 		</Background>
-		<Foreground hitState="Hovering">
-			<Color name="Dark Gray"/>
-		</Foreground>
-		<Foreground hitState="Selected">
-			<Color name="Dark Gray"/>
-		</Foreground>
 	</StyleClass>
 	
 </StyleGroup>
