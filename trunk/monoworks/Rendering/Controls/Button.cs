@@ -233,27 +233,27 @@ namespace MonoWorks.Rendering.Controls
 			{
 			case ButtonStyle.Label: // only show the label
 				if (image != null)
-					image.Visible = false;
+					image.IsVisible = false;
 				label.Position = position + pad;
 				break;
 				
 			case ButtonStyle.Image: // only show the image
 				if (label != null)
-					label.Visible = false;
-				image.Visible = true;
+					label.IsVisible = false;
+				image.IsVisible = true;
 				image.Position = position + pad;
 				break;
 				
 			case ButtonStyle.ImageOverLabel: // place the image over the label
-				image.Visible = true;
-				label.Visible = true;
+				image.IsVisible = true;
+				label.IsVisible = true;
 				label.Position = position + pad + new Coord((Width-label.Width)/2.0 - padding, 0);
 				image.Position = position + pad + new Coord(0, label.Height + padding);
 				break;
 				
 			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
-				image.Visible = true;
-				label.Visible = true;
+				image.IsVisible = true;
+				label.IsVisible = true;
 				image.Position = position + pad;
 				label.Position = position + pad + new Coord(image.Width + padding, (Height-label.Height)/2.0 - padding);
 				break;
@@ -268,10 +268,10 @@ namespace MonoWorks.Rendering.Controls
 			
 			RenderOutline();
 
-			if (label != null && label.Visible)
+			if (label != null && label.IsVisible)
 				label.RenderOverlay(viewport);
 			
-			if (image != null && image.Visible)
+			if (image != null && image.IsVisible)
 				image.RenderOverlay(viewport);
 		}
 

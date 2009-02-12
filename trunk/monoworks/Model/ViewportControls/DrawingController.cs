@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
-
+using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Rendering.ViewportControls;
 
@@ -30,15 +30,22 @@ namespace MonoWorks.Model.ViewportControls
 	/// <summary>
 	/// Controller for a Model viewport.
 	/// </summary>
-	public class Controller : ViewportController
+	public class DrawingController : ViewportController
 	{
-		public Controller(Viewport viewport, IAttributePanel attributePanel)
+		public DrawingController(Viewport viewport, IAttributePanel attributePanel)
 			: base(viewport)
 		{
 			this.attributePanel = attributePanel;
 
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
 			OnSolidModeChanged();
+
+			// get ready for sketching
+			sketchApplyCancel = new ApplyCancelControl();
+			sketchApplyCancel.IsVisible = false;
+			sketchApplyCancel.Apply += OnApplySketch;
+			sketchApplyCancel.Cancel += OnCancelSketch;
+			viewport.RenderList.AddOverlay(sketchApplyCancel);
 		}
 
 
@@ -122,12 +129,12 @@ namespace MonoWorks.Model.ViewportControls
 		/// <summary>
 		/// The last drawing to be used on the viewport.
 		/// </summary>
-		protected Drawing lastDrawing = null;
+		protected Drawing drawing = null;
 
 		/// <summary>
 		/// The last entity to be selected.
 		/// </summary>
-		protected Entity lastEntity = null;
+		protected Entity entity = null;
 
 		/// <summary>
 		/// Handles the selection being changed, 
@@ -135,27 +142,39 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		public void OnSelectionChanged(Drawing drawing)
 		{
+			this.drawing = drawing;
+			OnContextChanged();
+		}
+		
+		
+		/// <summary>
+		/// Handles the selection/interaction context changing.
+		/// </summary>
+		protected void OnContextChanged()
+		{
 			attributePanel.Hide();
 
 			ContextLayer.ClearContexts(primaryLoc);
 
-			lastDrawing = drawing;
 			if (drawing.EntityManager.NumSelected == 0) // nothing selected
 			{
-				AddPrimaryContext("AddRef");
+				if (IsSketching)
+					AddPrimaryContext("Sketch");
+				else
+					AddPrimaryContext("AddRef");
 			}
 			else // something selected
 			{
 				if (drawing.EntityManager.NumSelected == 1) // only one selected 
 				{
-					lastEntity = drawing.EntityManager.Selected[0];
+					entity = drawing.EntityManager.Selected[0];
 
 					// add sketch context if it's a plane
-					if (lastEntity is RefPlane)
+					if (entity is RefPlane && !IsSketching)
 						AddPrimaryContext("AddSketch");
 
 					// only edit if it's not locked
-					if (!lastEntity.IsLocked) 
+					if (!entity.IsLocked) 
 					{
 						AddPrimaryContext("Edit");
 						AddPrimaryContext("Delete");
@@ -221,10 +240,10 @@ namespace MonoWorks.Model.ViewportControls
 		[Action()]
 		public void Edit()
 		{
-			if (lastEntity == null)
+			if (entity == null)
 				throw new Exception("The Edit action should never be called without lastEntity set.");
 
-			attributePanel.Show(this, lastEntity);
+			attributePanel.Show(this, entity);
 		}
 
 		/// <summary>
@@ -251,8 +270,26 @@ namespace MonoWorks.Model.ViewportControls
 
 #region Sketching
 
+		
+		//// <value>
+		/// Whether the user is currently sketching.
+		/// </value>
+		protected bool IsSketching {get {return sketchApplyCancel.IsVisible;}}
 
-		ApplyCancelControl sketchApplyCancel;
+		/// <summary>
+		/// The sketch interactor.
+		/// </summary>
+		protected SketchInteractor sketchInteractor = null;
+
+		/// <summary>
+		/// Control for applying/cancelling sketch changes.
+		/// </summary>
+		private ApplyCancelControl sketchApplyCancel;
+
+		/// <summary>
+		/// The primary interactor used by the viewport rigbht before the sketching starts.
+		/// </summary>
+		private AbstractInteractor primaryInteractor = null;
 
 		/// <summary>
 		/// Creates or edits a sketch.
@@ -260,17 +297,80 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Sketch")]
 		public void OnSketch()
 		{
-			if (lastEntity is RefPlane)
+			if (entity is RefPlane)
 			{
-				Sketch sketch = new Sketch(lastEntity as RefPlane);
-				lastDrawing.AddSketch(sketch);
-				viewport.Camera.AnimateTo((lastEntity as RefPlane).Plane);
+				Sketch sketch = new Sketch(entity as RefPlane);
+				drawing.AddSketch(sketch);
+				viewport.Camera.AnimateTo(entity as RefPlane);
 
-				sketchApplyCancel = new ApplyCancelControl();
-				viewport.RenderList.AddOverlay(sketchApplyCancel);
-				viewport.Resize();
+				// switch out the primary interactor
+				sketchInteractor = new SketchInteractor(viewport, sketch);
+				primaryInteractor = viewport.PrimaryInteractor;
+				viewport.PrimaryInteractor = sketchInteractor;
+				viewport.InteractionState = InteractionState.Interact3D;
+
+				drawing.EntityManager.DeselectAll(null);
+
+				sketchApplyCancel.IsVisible = true;
+				OnContextChanged();
 			}
+			else
+				throw new Exception("Trying to sketch an entity that isn't a plane. This should never happen.");
 
+		}
+
+		/// <summary>
+		/// Things to do when the sketching ends, whether or not it was applied or cancelled.
+		/// </summary>
+		private void OnEndSketch()
+		{
+			sketchApplyCancel.IsVisible = false;
+			viewport.PrimaryInteractor = primaryInteractor;
+			sketchInteractor = null;
+			OnContextChanged();
+		}
+
+		/// <summary>
+		/// Handles the sketching being applied.
+		/// </summary>
+		public void OnApplySketch(object sender, EventArgs args)
+		{
+			OnEndSketch();
+		}
+
+		/// <summary>
+		/// Handles the sketching being canceled.
+		/// </summary>
+		public void OnCancelSketch(object sender, EventArgs args)
+		{
+			OnEndSketch();
+		}
+
+		/// <summary>
+		/// Adds a line to the current sketch.
+		/// </summary>
+		[Action("Line")]
+		public void OnSketchLine()
+		{
+			sketchInteractor.AddSketchable(new Line());
+		}
+
+		/// <summary>
+		/// Adds a arc to the current sketch.
+		/// </summary>
+		[Action("Arc")]
+		public void OnSketchArc()
+		{
+			sketchInteractor.AddSketchable(new Arc());
+		}
+
+		/// <summary>
+		/// Adds a spline to the current sketch.
+		/// </summary>
+		[Action("Spline")]
+		public void OnSketchSpline()
+		{
+			sketchInteractor.AddSketchable(new Spline());
 		}
 
 #endregion

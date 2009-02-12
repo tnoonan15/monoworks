@@ -139,7 +139,7 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOpaque(viewport);
 
-			if (!visible)
+			if (!IsVisible)
 				return;
 
 			CallDisplayList();

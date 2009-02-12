@@ -41,7 +41,7 @@ namespace MonoWorks.GuiGtk.AttributeControls
 		
 		#region IAttributePanel implementation 
 		
-		public void Show(Controller controller, Entity entity)
+		public void Show(DrawingController controller, Entity entity)
 		{
 		}
 		

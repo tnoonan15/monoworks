@@ -37,6 +37,11 @@ namespace MonoWorks.Rendering
 	public abstract class Renderable : IMouseHandler
 	{
 
+		public Renderable()
+		{
+			IsVisible = true;
+		}
+
 		protected bool dirty = true;
 		/// <summary>
 		/// True if the renderable is dirty and needs its geometry recomputed.
@@ -73,16 +78,10 @@ namespace MonoWorks.Rendering
 
 #region Rendering
 
-		protected bool visible = true;
 		/// <summary>
 		/// Whether to render the renderable.
 		/// </summary>
-		/// <remarks> All geometry will still be computed.</remarks>
-		public bool Visible
-		{
-			get { return visible; }
-			set { visible = value; }
-		}
+		public bool IsVisible { get; set; }
 
 
 		/// <summary>

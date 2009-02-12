@@ -62,6 +62,49 @@ namespace MonoWorks.Model
 		/// The corners of the quadrilateral that represents the plane.
 		/// </summary>
 		protected Vector[] quadCorners;
+
+		/// <summary>
+		/// The center of the plane as it's being rendered.
+		/// </summary>
+		public Vector RenderCenter
+		{
+			get
+			{
+				if (quadCorners == null || quadCorners.Length != 4)
+					return new Vector();
+				else
+					return (quadCorners[0] + quadCorners[1] + quadCorners[2] + quadCorners[3]) / 4.0;
+			}
+		}
+
+		/// <summary>
+		/// The up vector of the plane as it's rendered.
+		/// </summary>
+		public Vector RenderUpVector
+		{
+			get
+			{
+				if (quadCorners == null || quadCorners.Length != 4)
+					return new Vector(0, 0, 1);
+				else
+					return (quadCorners[0] + quadCorners[3] - RenderCenter*2).Normalize();
+			}
+		}
+
+		/// <summary>
+		/// The width of the plane as it's rendered.
+		/// </summary>
+		public double RenderWidth
+		{
+			get
+			{
+				if (quadCorners == null || quadCorners.Length != 4)
+					return 1.0;
+				else
+					return Math.Abs((quadCorners[0] - quadCorners[1]).Magnitude);
+			}
+		}
+
 		
 #endregion		
 		
@@ -133,4 +176,7 @@ namespace MonoWorks.Model
 #endregion
 		
 	}
+
+
+
 }

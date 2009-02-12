@@ -48,6 +48,21 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 		/// <value>
+		/// A copy of the children.
+		/// </value>
+		/// <remarks>Only use this if there's a possibility the children 
+		/// will be edited during iteration.</remarks>
+		protected Control[] ChildrenCopy
+		{
+			get
+			{
+				Control[] copy = new Control[children.Count];
+				children.CopyTo(copy);
+				return copy;
+			}
+		}
+		
+		/// <value>
 		/// Access the children by index.
 		/// </value>
 		public Control this[int index]
@@ -108,12 +123,12 @@ namespace MonoWorks.Rendering.Controls
 
 
 #region Mouse Interaction
-
+		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
 			
-			foreach (Control child in children)
+			foreach (Control child in ChildrenCopy)
 				child.OnButtonPress(evt);
 		}
 
@@ -121,7 +136,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnButtonRelease(evt);
 			
-			foreach (Control child in children)
+			foreach (Control child in ChildrenCopy)
 				child.OnButtonRelease(evt);
 		}
 
@@ -129,7 +144,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			foreach (Control child in children)
+			foreach (Control child in ChildrenCopy)
 				child.OnMouseMotion(evt);
 		}
 

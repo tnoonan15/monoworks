@@ -92,7 +92,7 @@ namespace MonoWorks.GuiWpf.PlotControls
 
 			internalUpdate = true;
 
-			visibleCheck.IsChecked = axis.Visible;
+			visibleCheck.IsChecked = axis.IsVisible;
 
 			internalUpdate = false;
 		}
@@ -107,7 +107,7 @@ namespace MonoWorks.GuiWpf.PlotControls
 			if (axis == null || internalUpdate)
 				return;
 
-			axis.Visible = (bool)visibleCheck.IsChecked;
+			axis.IsVisible = (bool)visibleCheck.IsChecked;
 
 			CallUpdateEvent();
 		}

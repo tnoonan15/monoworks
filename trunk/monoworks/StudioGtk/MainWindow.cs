@@ -35,7 +35,7 @@ namespace MonoWorks.StudioGtk
 		{
 			Gtk.Application.Init();
 			MainWindow window = new MainWindow();
-			window.Resize(900, 800);
+			window.Resize(1100, 800);
 			window.ShowAll();
 			Gtk.Application.Run();
 		}

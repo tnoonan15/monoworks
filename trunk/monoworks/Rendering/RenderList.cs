@@ -151,21 +151,33 @@ namespace MonoWorks.Rendering
 		{
 			viewport.RenderManager.BeginSolids();
 			viewport.Camera.Place(); // place the camera for 3D rendering
-			
-			foreach (Renderable3D renderable in renderables)
-				renderable.RenderOpaque(viewport);
 
 			foreach (Renderable3D renderable in renderables)
-				renderable.RenderTransparent(viewport);
+			{
+				if (renderable.IsVisible)
+					renderable.RenderOpaque(viewport);
+			}
+
+			foreach (Renderable3D renderable in renderables)
+			{
+				if (renderable.IsVisible)
+					renderable.RenderTransparent(viewport);
+			}
 
 			viewport.Camera.PlaceOverlay(); // place the camera for overlay rendering
 			foreach (Renderable3D renderable in renderables)
-				renderable.RenderOverlay(viewport);
+			{
+				if (renderable.IsVisible)
+					renderable.RenderOverlay(viewport);
+			}
 
 			// render the overlays
 			viewport.RenderManager.BeginOverlays();
 			foreach (Overlay overlay in overlays)
-				overlay.RenderOverlay(viewport);
+			{
+				if (overlay.IsVisible)
+					overlay.RenderOverlay(viewport);
+			}
 		}
 
 		#endregion

@@ -18,6 +18,7 @@
 
 using System;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 
 
@@ -62,4 +63,29 @@ namespace MonoWorks.Model
 		}
 
 	}
+
+
+
+	/// <summary>
+	/// Extension methods to make Rendering interact more directly with Reference entities.
+	/// </summary>
+	public static class ReferenceExtensions
+	{
+
+		/// <summary>
+		/// Animates the camera to look at the reference plane.
+		/// </summary>
+		/// <param name="camera"></param>
+		/// <param name="refPlane"></param>
+		public static void AnimateTo(this Camera camera, RefPlane refPlane)
+		{
+			double width = refPlane.RenderWidth;
+			double distance = 0.7*width / (camera.FoV * 0.5).Tan();
+			Vector center = refPlane.RenderCenter;
+			camera.AnimateTo(center, center + refPlane.Plane.Normal * distance, refPlane.RenderUpVector);
+		}
+
+	}
+
+
 }

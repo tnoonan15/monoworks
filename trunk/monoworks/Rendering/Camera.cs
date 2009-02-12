@@ -742,18 +742,9 @@ namespace MonoWorks.Rendering
 		/// <param name="direction"></param>
 		public void AnimateTo(ViewDirection direction)
 		{
-			animStartCenter = center;
-			animStartDir = Direction.Normalize();
-			animStartUpVec = upVec;
-			animStartDist = Distance;
-
-			Vector animStopPos;
-			GetDirectionVectors(direction, out animStopCenter, out animStopPos, out animStopUpVec);
-			animStopDir = animStopPos - animStopCenter;
-			animStopDist = animStopDir.Magnitude;
-			animStopDir = animStopDir.Normalize();
-
-			viewport.Animator.RegisterAnimation(this, 3);
+			Vector center, position, upVec;
+			GetDirectionVectors(direction, out center, out position, out upVec);
+			AnimateTo(center, position, upVec);
 		}
 
 
@@ -762,14 +753,25 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void AnimateTo(Plane plane)
 		{
-			animStartCenter = center;
+			Vector center, position, upVec;
+			GetPlaneVectors(plane, out center, out position, out upVec);
+			AnimateTo(center, position, upVec);
+		}
+
+		/// <summary>
+		/// Animates to the given set of vectors. 
+		/// </summary>
+		/// <remarks>All other AnimateTo() methods should call this one.</remarks>
+		public void AnimateTo(Vector center, Vector position, Vector upVec)
+		{
+			animStartCenter = this.center;
 			animStartDir = Direction.Normalize();
-			animStartUpVec = upVec;
+			animStartUpVec = this.upVec;
 			animStartDist = Distance;
 
-			Vector animStopPos;
-			GetPlaneVectors(plane, out animStopCenter, out animStopPos, out animStopUpVec);
-			animStopDir = animStopPos - animStopCenter;
+			animStopCenter = center;
+			animStopUpVec = upVec;
+			animStopDir = position - center;
 			animStopDist = animStopDir.Magnitude;
 			animStopDir = animStopDir.Normalize();
 
