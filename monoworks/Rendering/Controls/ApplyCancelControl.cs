@@ -1,4 +1,4 @@
-﻿// ApplyCancelControl.cs - MonoWorks Project
+// ApplyCancelControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -72,7 +72,6 @@ namespace MonoWorks.Rendering.Controls
 			// position the images
 			applyImage.Position = corner - new Coord(2.2 * applyImage.MinWidth, applyImage.MinHeight + 4);
 			cancelImage.Position = corner - new Coord(cancelImage.MinWidth + 4, 2.2 * cancelImage.MinWidth);
-			Console.WriteLine("apply image position {0}, cancel image position {1}", applyImage.Position, cancelImage.Position);
 		}
 
 
@@ -209,7 +208,6 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		public void RaiseApply()
 		{
-			Console.WriteLine("apply");
 			if (Apply != null)
 				Apply(this, new EventArgs());
 		}
@@ -224,7 +222,6 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		public void RaiseCancel()
 		{
-			Console.WriteLine("cancel");
 			if (Cancel != null)
 				Cancel(this, new EventArgs());
 		}

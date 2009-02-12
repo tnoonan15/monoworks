@@ -11,6 +11,9 @@
 		<Action name="Delete" icon="delete" tooltip="Delete the currently selected entity(s)"/>
 
 		<Action name="Sketch" icon="sketch" tooltip="Add a new sketch"/>
+		<Action name="Line" icon="line" tooltip="Add a line to the sketch"/>
+		<Action name="Arc" icon="arc" tooltip="Add an arc to the sketch"/>
+		<Action name="Spline" icon="spline" tooltip="Add a spline to the sketch"/>
 
 		<Action name="Ref Point" icon="refpoint" tooltip="Add a new reference point"/>
 		<Action name="Ref Line" icon="refline" tooltip="Add a new reference line"/>
@@ -43,6 +46,12 @@
 			<Item action="Ref Point"/>
 			<Item action="Ref Line"/>
 			<Item action="Ref Plane"/>
+		</Toolbar>
+
+		<Toolbar name="Sketch" buttonStyle="ImageOverLabel">
+			<Item action="Line"/>
+			<Item action="Arc"/>
+			<Item action="Spline"/>
 		</Toolbar>
 
 	</Tools>

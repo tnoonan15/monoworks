@@ -156,8 +156,7 @@ namespace MonoWorks.StudioGtk
 
 		public override void Save ()
 		{
-			DemoGtk.MainWindow window = new DemoGtk.MainWindow();
-			window.ShowAll();
+			throw new System.NotImplementedException();
 		}
 
 		public override void SaveAs ()

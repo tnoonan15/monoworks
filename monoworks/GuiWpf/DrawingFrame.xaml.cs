@@ -24,7 +24,7 @@ namespace MonoWorks.GuiWpf
 
 			MonoWorks.GuiWpf.Framework.ResourceManager.LoadAssembly("MonoWorks.Resources");
 
-			Controller = new Controller(Viewport, attributePanel);
+			Controller = new DrawingController(Viewport, attributePanel);
 			Controller.SetUsage(ViewportUsage.CAD);
 
 			attributePanel.Hidden += Controller.OnAttributePanelHidden;
@@ -41,7 +41,7 @@ namespace MonoWorks.GuiWpf
 		/// <summary>
 		/// The viewport controller.
 		/// </summary>
-		public Controller Controller { get; private set; }
+		public DrawingController Controller { get; private set; }
 
 		protected Drawing drawing = null;
 		/// <summary>

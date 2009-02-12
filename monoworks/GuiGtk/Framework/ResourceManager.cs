@@ -145,7 +145,6 @@ namespace MonoWorks.GuiGtk.Framework
 
 		protected override void LoadIconStream(Stream stream, string name)
 		{
-			Console.WriteLine("loading icon {0} from a stream", name);
 			if (icons.ContainsKey(name)) // this icon has already been made
 			{
 				Gtk.IconSource source = new Gtk.IconSource();

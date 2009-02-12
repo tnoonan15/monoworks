@@ -297,11 +297,11 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public bool GridVisible
 		{
-			get { return grids[0].Visible; }
+			get { return grids[0].IsVisible; }
 			set 
 			{
 				foreach (Grid grid in grids)
-					grid.Visible = value;
+					grid.IsVisible = value;
 			}
 		}
 
@@ -547,7 +547,7 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOpaque(viewport);
 
-			if (!visible)
+			if (!IsVisible)
 				return;
 
 			gl.glColor3b(0, 0, 0);
@@ -571,7 +571,7 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOverlay(viewport);
 
-			if (!visible)
+			if (!IsVisible)
 				return;
 
 			// render the axes

@@ -133,7 +133,7 @@ namespace MonoWorks.GuiGtk
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
 		{			
-			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y));			
+			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), GetModifier(args.Event.State));			
 			Viewport.OnMouseMotion(evt);
 			
 			PaintGL();

@@ -52,7 +52,7 @@ namespace MonoWorks.GuiGtk
 			attributePanel = new AttributePanel();
 			viewportBox.PackStart(attributePanel, false, true, 0);
 			
-			Controller = new Controller(Viewport, attributePanel);
+			Controller = new DrawingController(Viewport, attributePanel);
 			Controller.SetUsage(ViewportUsage.CAD);
 		}
 		
@@ -94,7 +94,7 @@ namespace MonoWorks.GuiGtk
 			get {return adapter.Viewport;}
 		}
 		
-		public Controller Controller {get; private set;}
+		public DrawingController Controller {get; private set;}
 		
 		protected TreeView treeView;
 		/// <value>

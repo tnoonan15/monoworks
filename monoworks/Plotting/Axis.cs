@@ -217,7 +217,7 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOverlay(viewport);
 
-			if (!visible)
+			if (!IsVisible)
 				return;
 
 			// get the screen coordinates of the axis

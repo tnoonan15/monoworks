@@ -37,27 +37,27 @@
     <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ISE.FreeType, Version=1.0.2935.1740, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ISE.FreeType, Version=1.0.2935.1740, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\ISE.FreeType.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957, processorArchitecture=MSIL">
+    <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\Tao.DevIl.dll</HintPath>
     </Reference>
-    <Reference Include="Tao.FreeType, Version=2.3.5.0, Culture=neutral, PublicKeyToken=e499629dc69cd531, processorArchitecture=MSIL">
+    <Reference Include="Tao.FreeType, Version=2.3.5.0, Culture=neutral, PublicKeyToken=e499629dc69cd531">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\Tao.FreeType.dll</HintPath>
     </Reference>
-    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -87,8 +87,10 @@
     <Compile Include="Sketching\Line.cs" />
     <Compile Include="Sketching\Sketch.cs" />
     <Compile Include="Sketching\Sketchable.cs" />
+    <Compile Include="Sketching\SketchInteractor.cs" />
+    <Compile Include="Sketching\Spline.cs" />
     <Compile Include="TestPart.cs" />
-    <Compile Include="ViewportControls\Controller.cs" />
+    <Compile Include="ViewportControls\DrawingController.cs" />
     <Compile Include="ViewportControls\IAttributeControl.cs" />
     <Compile Include="ViewportControls\IAttributePanel.cs" />
   </ItemGroup>
@@ -129,11 +131,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
-    <MonoDevelop>
-      <Properties>
-        <GtkDesignInfo />
-      </Properties>
-    </MonoDevelop>
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y "$(TargetPath)" "%25HOMEDRIVE%25%25HOMEPATH%25\clr\"</PostBuildEvent>
