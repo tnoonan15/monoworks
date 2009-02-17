@@ -50,5 +50,10 @@ namespace MonoWorks.Rendering.Events
 		/// The modifier for the event.
 		/// </value>
 		public InteractionModifier Modifier { get; set; }
+
+		/// <summary>
+		/// The hit line in 3D space.
+		/// </summary>
+		public HitLine HitLine { get; set; }
 	}
 }

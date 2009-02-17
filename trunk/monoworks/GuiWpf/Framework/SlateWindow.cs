@@ -133,6 +133,9 @@ namespace MonoWorks.GuiWpf.Framework
 		{
 			base.OnKeyDown(e);
 
+			if (e.Handled)
+				return;
+
 			int key = (int)e.Key + 53; // offset in WPF key mapping
 
 			if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))

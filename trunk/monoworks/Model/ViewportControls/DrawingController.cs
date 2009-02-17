@@ -335,6 +335,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		public void OnApplySketch(object sender, EventArgs args)
 		{
+			sketchInteractor.Apply();
 			OnEndSketch();
 		}
 
@@ -343,6 +344,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		public void OnCancelSketch(object sender, EventArgs args)
 		{
+			sketchInteractor.Cancel();
 			OnEndSketch();
 		}
 

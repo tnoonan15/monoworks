@@ -22,7 +22,9 @@
 	</Entity>
 	
 	<!-- Sketch -->
-	<Entity name="Sketch"></Entity>
+	<Entity name="Sketch">
+		<Attribute name="plane" type="MonoWorks.Model.RefPlane"/>
+	</Entity>
 	
 	<!-- Features -->
 	<Entity name="Feature">

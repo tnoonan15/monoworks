@@ -186,6 +186,38 @@ namespace MonoWorks.GuiWpf
 #endregion
 
 
+#region Keyboard Interaction
+
+		protected override void OnKeyDown(System.Windows.Forms.KeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+			
+			// get the modifier
+			int mod = 0;
+			if (e.Shift)
+				mod += (int)InteractionModifier.Shift;
+			if (e.Control)
+				mod += (int)InteractionModifier.Control;
+			if (e.Alt)
+				mod += (int)InteractionModifier.Alt;
+			if (mod == 0)
+				mod = (int)InteractionModifier.None;
+
+			int val = e.KeyValue;
+
+			KeyEvent evt = new KeyEvent(val, (InteractionModifier)mod);
+			Console.WriteLine("viewport key press {0} ({1}, {2})", evt.Value, evt.SpecialKey, evt.Modifier);
+
+			Viewport.OnKeyPress(evt);
+
+			e.Handled = evt.Handled;
+
+			PaintGL();
+		}
+
+
+#endregion
+
 
 #region GL Stuff
 

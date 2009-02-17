@@ -35,6 +35,7 @@ namespace MonoWorks.Model
 		/// <param name="plane">The reference plane that the sketch lies on.</param>
 		public Sketch(RefPlane plane) : base()
 		{
+			Plane = plane;
 		}
 				
 		

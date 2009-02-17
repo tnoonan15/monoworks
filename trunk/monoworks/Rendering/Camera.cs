@@ -631,7 +631,7 @@ namespace MonoWorks.Rendering
 			}
 			else
 			{
-				dist = 2 / (fov * 0.5).Tan();
+				dist = 1 / (fov * 0.5).Tan();
 				centerOut = new Vector();
 			}
 			

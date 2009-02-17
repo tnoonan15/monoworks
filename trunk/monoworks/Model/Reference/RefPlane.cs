@@ -119,6 +119,8 @@ namespace MonoWorks.Model
 			base.ComputeGeometry();
 			
 			double radius = GetDrawing().Bounds.Radius; // radius of the bounds
+			if (radius == 0) // when there's nothing in the drawing
+				radius = 1;
 //			Console.WriteLine("bounds radius {0}", radius);
 
 			// find one corner of the plane to draw
@@ -137,8 +139,10 @@ namespace MonoWorks.Model
 				boundsCenter = new Vector();
 			Vector planeCenter = Plane.Center.ToVector();
 			Vector planeToBounds = planeCenter - boundsCenter;
-			double dist = planeToBounds.Magnitude * planeToBounds.Dot(Plane.Normal) 
-				/ planeToBounds.Magnitude / Plane.Normal.Magnitude;
+			double dist = 0;
+			if (planeToBounds.Magnitude > 0)
+				dist = planeToBounds.Dot(Plane.Normal) 
+					 / Plane.Normal.Magnitude;
 			Vector center = boundsCenter + Plane.Normal * dist;
 			
 			// generate the corner points
@@ -146,7 +150,7 @@ namespace MonoWorks.Model
 			bounds.Reset();
 			for (int i=0; i<4; i++)
 			{
-//				Console.WriteLine("quad corner at {0}", Plane.Center.ToVector() + corner);
+				//Console.WriteLine("quad corner at {0}", Plane.Center.ToVector() + corner);
 				quadCorners[i] = center + corner;
 				bounds.Resize(quadCorners[i]);
 				corner = corner.Rotate(direction, new Angle(Angle.PI/2.0));
@@ -162,8 +166,6 @@ namespace MonoWorks.Model
 		public override void RenderTransparent(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);
-			
-			//viewport.RenderManager.ReferenceColor.Setup();
 			
 			gl.glBegin(gl.GL_POLYGON);
 			foreach (Vector corner in quadCorners)

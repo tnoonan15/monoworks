@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">WpfDebug</Configuration>
@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animator.cs" />
+    <Compile Include="BaseExtensions.cs" />
     <Compile Include="Bounds.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Color.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Controls\Stack.cs" />
     <Compile Include="Controls\ToolBar.cs" />
     <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\KeyEvent.cs" />
     <Compile Include="Events\MouseButtonEvent.cs" />
     <Compile Include="Events\MouseEvent.cs" />
     <Compile Include="Events\MouseWheelEvent.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="HitLine.cs" />
     <Compile Include="IAnimatable.cs" />
     <Compile Include="IFill.cs" />
+    <Compile Include="IKeyHandler.cs" />
     <Compile Include="IMouseHandler.cs" />
     <Compile Include="Interaction\AbstractInteractor.cs" />
     <Compile Include="Interaction\OverlayInteractor.cs" />
@@ -117,7 +120,6 @@
     <Compile Include="RenderList.cs" />
     <Compile Include="RenderManager.cs" />
     <Compile Include="RubberBand.cs" />
-    <Compile Include="TaoExtensions.cs" />
     <Compile Include="TextDef.cs" />
     <Compile Include="TextRenderer.cs" />
     <Compile Include="Transform.cs" />
@@ -156,7 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties/" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

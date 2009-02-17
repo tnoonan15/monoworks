@@ -89,20 +89,31 @@ namespace MonoWorks.Base
 			}
 		}
 				
-		
+		/// <summary>
+		/// Sets the raw position.
+		/// </summary>
+		/// <param name="vector"></param>
+		/// <remarks>This operation is slightly unsafe as it uses 
+		/// the default units to convert from doubles to length.</remarks>
+		public void SetPosition(Vector vector)
+		{
+			for (int i = 0; i < val.Length; i++)
+				val[i].Value = vector[i];
+		}
+
 #endregion
 
-		
-		
-#region Operator Overloading
-		
+
+
+		#region Operator Overloading
+
 		/// <summary>
 		/// Adds the elements of each point.
 		/// </summary>
 		/// <param name="lhs"> The left hand operand. </param>
 		/// <param name="rhs"> The right hand operand. </param>
 		/// <returns> The resulting <see cref="Point"/>. </returns>
-		public static Point operator+(Point lhs, Point rhs)
+		public static Point operator +(Point lhs, Point rhs)
 		{
 			return new Point(lhs[0]+rhs[0], lhs[1]+rhs[1], lhs[2]+rhs[2]);
 		}

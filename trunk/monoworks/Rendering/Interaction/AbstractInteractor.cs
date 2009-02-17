@@ -39,7 +39,7 @@ namespace MonoWorks.Rendering.Interaction
 	/// <summary>
 	/// Base class for classes that handle user interaction from the viewport.
 	/// </summary>
-	public abstract class AbstractInteractor : IMouseHandler
+	public abstract class AbstractInteractor : IMouseHandler, IKeyHandler
 	{
 		/// <summary>
 		/// Default constructor.
@@ -108,6 +108,11 @@ namespace MonoWorks.Rendering.Interaction
 
 
 		public virtual void OnMouseWheel(MouseWheelEvent evt)
+		{
+
+		}
+
+		public virtual void OnKeyPress(KeyEvent evt)
 		{
 
 		}

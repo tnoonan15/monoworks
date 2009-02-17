@@ -79,7 +79,20 @@ namespace MonoWorks.Rendering
 			set { camera = value; }
 		}
 
-	
+
+		/// <summary>
+		/// Gets the intersection of the hitline with a plane.
+		/// </summary>
+		/// <param name="plane"></param>
+		/// <returns></returns>
+		/// <remarks>Uses the formula found in the Wikipedia article 
+		/// (http://en.wikipedia.org/wiki/Line-plane_intersection).</remarks>
+		public Vector GetIntersection(Plane plane)
+		{
+			double d = plane.Center.ToVector().Dot(plane.Normal);
+			double t = (d - front.Dot(plane.Normal)) / (back - front).Dot(plane.Normal);
+			return (back - front) * t + front;
+		}
 
 	}
 }
