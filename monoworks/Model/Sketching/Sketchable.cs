@@ -78,10 +78,23 @@ namespace MonoWorks.Model
 		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
-			gl.glColor3f(1.0f, 1.0f, 1.0f);
+
+			viewport.RenderManager.Lighting.Disable();
+
+			// edges
+			ColorManager.Global["Black"].Setup();
+			gl.glLineWidth(2);
 			gl.glBegin(gl.GL_LINE_STRIP);
 			DrawVertices();
 			gl.glEnd();
+
+			// vertices
+			gl.glPointSize(5);
+			gl.glBegin(gl.GL_POINTS);
+			DrawVertices();
+			gl.glEnd();
+
+			viewport.RenderManager.Lighting.Enable();
 		}
 		
 		

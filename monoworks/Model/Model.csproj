@@ -83,8 +83,11 @@
     <Compile Include="Reference\Reference.cs" />
     <Compile Include="Reference\RefLine.cs" />
     <Compile Include="Reference\RefPlane.cs" />
+    <Compile Include="Sketching\AbstractSketcher.cs" />
     <Compile Include="Sketching\Arc.cs" />
+    <Compile Include="Sketching\ISketcher.cs" />
     <Compile Include="Sketching\Line.cs" />
+    <Compile Include="Sketching\LineSketcher.cs" />
     <Compile Include="Sketching\Sketch.cs" />
     <Compile Include="Sketching\Sketchable.cs" />
     <Compile Include="Sketching\SketchInteractor.cs" />

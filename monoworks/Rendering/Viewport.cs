@@ -26,7 +26,7 @@ using MonoWorks.Framework;
 
 namespace MonoWorks.Rendering
 {
-	public class Viewport : IMouseHandler
+	public class Viewport : IMouseHandler, IKeyHandler
 	{
 
 		public Viewport(IViewportAdapter adapter)
@@ -216,6 +216,7 @@ namespace MonoWorks.Rendering
 
 		public void OnButtonPress(MouseButtonEvent evt)
 		{
+			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 
 			overlayInteractor.OnButtonPress(evt);
 
@@ -242,6 +243,8 @@ namespace MonoWorks.Rendering
 
 		public void OnButtonRelease(MouseButtonEvent evt)
 		{
+			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
+
 			overlayInteractor.OnButtonRelease(evt);
 
 			// primary interactor
@@ -257,6 +260,8 @@ namespace MonoWorks.Rendering
 
 		public void OnMouseMotion(MouseEvent evt)
 		{
+			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
+
 			overlayInteractor.OnMouseMotion(evt);
 
 			// primary interactor
@@ -296,5 +301,19 @@ namespace MonoWorks.Rendering
 #endregion
 
 
+
+#region IKeyHandler Members
+
+		public void OnKeyPress(KeyEvent evt)
+		{
+			overlayInteractor.OnKeyPress(evt);
+
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.OnKeyPress(evt);
+
+			renderableInteractor.OnKeyPress(evt);
+		}
+
+#endregion
 	}
 }

@@ -34,7 +34,7 @@ namespace MonoWorks.StudioWpf
 		public PartView()
 			: base()
 		{
-			Drawing = new TestPart();
+			Drawing = new Part();
 		}
 
 	}

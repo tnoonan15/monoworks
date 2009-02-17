@@ -80,10 +80,12 @@ namespace MonoWorks.Model
 				solidPoints[i] = Points[i].ToVector();
 				
 				// compute the direction
-				if (i < Points.Count-1)
-					directions[i] = (solidPoints[i] - Points[i+1].ToVector()).Normalize();
+				if (i < Points.Count - 1)
+					directions[i] = (solidPoints[i] - Points[i + 1].ToVector()).Normalize();
+				else if (Points.Count > 1) // only compute direction if there's more than one point
+					directions[i] = (solidPoints[i] - solidPoints[i - 1]).Normalize();
 				else
-					directions[i] = (solidPoints[i] - solidPoints[i-1]).Normalize();
+					directions[i] = new Vector();
 				
 				bounds.Resize(solidPoints[i]);
 			}

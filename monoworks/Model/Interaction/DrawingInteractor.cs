@@ -90,14 +90,11 @@ namespace MonoWorks.Model.Interaction
 		/// </summary>
 		protected Entity HitEntity(MouseEvent evt)
 		{
-			
-			HitLine hitLine = viewport.Camera.ScreenToWorld(evt.Pos);
-
 			// gather a list of entities that were hit
 			List<Entity> hits = new List<Entity>();
 			foreach (Entity entity in drawing.Children)
 			{
-				if (entity.HitTest(hitLine))
+				if (entity.HitTest(evt.HitLine))
 					hits.Add(entity);
 			}
 			
