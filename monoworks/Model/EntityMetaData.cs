@@ -67,7 +67,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Gets the entity of a given name by recursively climbing the meta data tree.
 		/// </summary>
-		/// <param name="childName"> The entity's name. </param>
+		/// <param name="entityName"> The entity's name. </param>
 		/// <returns> The <see cref="EntityMetaData"/> representing the entity. </returns>
 		public EntityMetaData GetEntity(string entityName)
 		{
@@ -186,9 +186,8 @@ namespace MonoWorks.Model
 		}
 		
 		/// <summary>
-		/// Reads the meta data in from the specified XML file.
+		/// Reads the meta data in from the specified XML reader.
 		/// </summary>
-		/// <param name="fileName"> The file name. </param>
 		public void FromXML(XmlReader reader)
 		{
 			name = reader.GetAttribute("name");

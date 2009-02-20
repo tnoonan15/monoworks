@@ -44,6 +44,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		/// <param name="center"> The center. </param>
 		/// <param name="start"> The starting point. </param>
+		/// <param name="normal"> The normal vector. </param>
 		/// <param name="sweep"> The sweep angle. </param>
 		public Arc(Point center, Point start, Vector normal, Angle sweep) : this()
 		{

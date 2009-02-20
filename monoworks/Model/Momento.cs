@@ -46,8 +46,8 @@ namespace MonoWorks.Model
 			Momento other = new Momento();
 			foreach (KeyValuePair<string, object> attr in this)
 			{
-				if (attr.Value is ICopyable)
-					other[attr.Key] = ((ICopyable)attr.Value).DeepCopy();
+				if (attr.Value is ICloneable)
+					other[attr.Key] = ((ICloneable)attr.Value).Clone();
 				else
 					other[attr.Key] = attr.Value;
 			}

@@ -1,4 +1,4 @@
-// IViewport.cs - MonoWorks Project
+// Viewport.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //
@@ -35,10 +35,10 @@ namespace MonoWorks.Rendering
 	public delegate void UpdateHandler();
 	
 	/// <summary>
-	/// The IViewportAdapter interface defines an interface for MonoWorks viewports adapters. 
+	/// The ViewportAdapter interface defines an interface for MonoWorks viewports adapters. 
 	/// This lets the rendering system interact with viewports in a GUI-independant manner.
 	/// </summary>
-	public interface IViewportAdapter
+	public interface ViewportAdapter
 	{
 		/// <summary>
 		/// The viewport.

@@ -405,7 +405,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders the bounding box to the given viewport.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public virtual void Render(Viewport viewport)
 		{
 			if (isSet && minima != null)

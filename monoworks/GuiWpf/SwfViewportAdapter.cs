@@ -37,7 +37,7 @@ namespace MonoWorks.GuiWpf
 	/// <summary>
 	/// Viewport for WPF.
 	/// </summary>
-	public class SwfViewportAdapter : SimpleOpenGlControl, IViewportAdapter
+	public class SwfViewportAdapter : SimpleOpenGlControl, ViewportAdapter
 	{
 		public SwfViewportAdapter()
 			: base()
@@ -58,7 +58,7 @@ namespace MonoWorks.GuiWpf
 		swf.ToolTip toolTip;
 
 
-#region IViewportAdaptger Implementation
+#region ViewportAdaptger Implementation
 
 		/// <summary>
 		/// The viewport.

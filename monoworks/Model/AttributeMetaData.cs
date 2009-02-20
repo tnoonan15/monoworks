@@ -155,9 +155,9 @@ namespace MonoWorks.Model
 #region File I/O
 		
 		/// <summary>
-		/// Reads the meta data in from the specified XML file.
+		/// Reads the meta data in from the specified XML reader.
 		/// </summary>
-		/// <param name="fileName"> The file name. </param>
+		/// <param name="reader"> The XML reader. </param>
 		public void FromXML(XmlReader reader)
 		{
 			name = reader.GetAttribute("name");

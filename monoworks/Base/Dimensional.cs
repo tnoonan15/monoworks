@@ -43,7 +43,7 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// The Dimensional class represents dimensional quantities. 
 	/// </summary>
-	public class Dimensional : ICopyable
+	public class Dimensional : ICloneable
 	{
 		
 		/// <summary>
@@ -63,19 +63,25 @@ namespace MonoWorks.Base
 			this.val = val;
 		}
 		
-		
-		public object DeepCopy()
+		/// <summary>
+		/// Prints the value of the dimensional.
+		/// </summary>
+		public override string ToString()
+		{
+			return val.ToString();
+		}
+
+		/// <summary>
+		/// Clones the dimensional.
+		/// </summary>
+		/// <returns></returns>
+		public object Clone()
 		{
 			Dimensional other = (Dimensional)System.Activator.CreateInstance(this.GetType());
 			other.val = val;
 			return other;
 		}
 
-
-		public override string ToString()
-		{
-			return val.ToString();
-		}
 		
 		
 #region Units
@@ -185,8 +191,8 @@ namespace MonoWorks.Base
 		
 		
 #endregion
-		
-		
+
+
 		
 	}
 		

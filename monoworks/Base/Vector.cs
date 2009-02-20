@@ -336,11 +336,14 @@ namespace MonoWorks.Base
 			return val[0]==otherVal[0] && val[1]==otherVal[1] && val[2]==otherVal[2]; 
 		}
 
-
+		/// <summary>
+		/// For some reason I have to imeplement this because I override Equals().
+		/// </summary>
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
 		}
+
 		
 	}
 }

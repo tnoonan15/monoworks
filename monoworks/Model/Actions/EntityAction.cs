@@ -31,6 +31,9 @@ namespace MonoWorks.Model
 	/// </summary>
 	public class EntityAction : Action
 	{
+		/// <summary>
+		/// The entities that are acted upon.
+		/// </summary>
 		protected EntityList entities;
 		
 		/// <summary>
@@ -52,13 +55,18 @@ namespace MonoWorks.Model
 			this.entities = entities;
 		}
 		
-		
+		/// <summary>
+		/// Undo the entity action.
+		/// </summary>
 		public override void Undo()
 		{
 			foreach (Entity entity in entities)
 				entity.Undo();
 		}
 		
+		/// <summary>
+		/// Redo the entity action.
+		/// </summary>
 		public override void Redo()
 		{
 			foreach (Entity entity in entities)

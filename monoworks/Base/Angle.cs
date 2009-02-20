@@ -23,7 +23,16 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// The standard compas directions.
 	/// </summary>
-	public enum Direction { North, South, East, West };
+	public enum Direction { 
+		/// <summary> North. </summary>
+		North,
+		/// <summary> South. </summary>
+		South,
+		/// <summary> East. </summary>
+		East,
+		/// <summary> West. </summary>
+		West 
+	};
 		
 	/// <summary>
 	/// The Angle class represents length quantities. 

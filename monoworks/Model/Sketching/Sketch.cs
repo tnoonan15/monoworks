@@ -56,7 +56,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Adds a child sketchable.
 		/// </summary>
-		/// <param name="sketch"> A <see cref="Sketchable"/> to add as a chid. </param>
+		/// <param name="sketchable"> A <see cref="Sketchable"/> to add as a chid. </param>
 		public virtual void AddChild(Sketchable sketchable)
 		{
 			base.AddChild(sketchable);

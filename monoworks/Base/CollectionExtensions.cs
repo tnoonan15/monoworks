@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace MonoWorks.Base
 {
+	/// <summary>
+	/// Extension methods for classes in the System.Collections.Generic.
+	/// </summary>
 	public static class CollectionExtensions
 	{
 
