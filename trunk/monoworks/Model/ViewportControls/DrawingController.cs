@@ -271,7 +271,7 @@ namespace MonoWorks.Model.ViewportControls
 #region Sketching
 
 		
-		//// <value>
+		/// <value>
 		/// Whether the user is currently sketching.
 		/// </value>
 		protected bool IsSketching {get {return sketchApplyCancel.IsVisible;}}

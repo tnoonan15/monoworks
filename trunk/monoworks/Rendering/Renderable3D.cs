@@ -53,7 +53,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders the opaque portion of the renderable.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public virtual void RenderOpaque(Viewport viewport)
 		{			
 			if (dirty)
@@ -63,7 +63,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders the transparent portion of the renderable, 
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public virtual void RenderTransparent(Viewport viewport)
 		{			
 			if (dirty)

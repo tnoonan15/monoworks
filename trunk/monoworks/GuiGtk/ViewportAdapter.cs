@@ -36,7 +36,7 @@ namespace MonoWorks.GuiGtk
 	/// <summary>
 	/// Gtk viewport.
 	/// </summary>
-	public class ViewportAdapter : GLArea, IViewportAdapter
+	public class ViewportAdapter : GLArea, ViewportAdapter
 	{
 		/// <summary>
 		/// The attributes list.

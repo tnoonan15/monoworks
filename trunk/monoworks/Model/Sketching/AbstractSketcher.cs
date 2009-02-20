@@ -31,7 +31,8 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		/// <param name="sketchble"></param>
+		/// <param name="sketch"></param>
+		/// <param name="sketchble">The sketchable being sketched.</param>
 		public AbstractSketcher(Sketch sketch, T sketchble)
 		{
 			Sketch = sketch;

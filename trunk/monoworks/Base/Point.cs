@@ -161,7 +161,10 @@ namespace MonoWorks.Base
 			return new Vector(val[0].Value, val[1].Value, val[2].Value);
 		}
 
-
+		/// <summary>
+		/// Overriden to just display the vector values.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			return ToVector().ToString();

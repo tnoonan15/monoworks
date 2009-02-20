@@ -162,7 +162,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Renders the plane to the viewport.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public override void RenderTransparent(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);

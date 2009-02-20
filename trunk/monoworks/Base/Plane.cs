@@ -38,25 +38,15 @@ namespace MonoWorks.Base
 		
 #region Geometry
 			
-		protected Point center;
 		/// <value>
 		/// A point that is intersected by the plane.
 		/// </value>
-		public Point Center
-		{
-			get {return center;}
-			set { center = value;}
-		}
+		public Point Center {get; set;}
 		
-		protected Vector normal;
 		/// <value>
 		/// The normal vector of the plane.
 		/// </value>
-		public Vector Normal
-		{
-			get {return normal;}
-			set { normal = value;}
-		}		
+		public Vector Normal {get; set;}
 		
 #endregion
 
@@ -64,10 +54,12 @@ namespace MonoWorks.Base
 
 #region String Conversion
 
-
+		/// <summary>
+		/// Prints the center and normal of the plane.
+		/// </summary>
 		public override string ToString()
 		{
-			return Center.ToString() + Normal.ToString(); ;
+			return Center.ToString() + Normal.ToString();
 		}
 
 

@@ -26,7 +26,9 @@ namespace MonoWorks.Base
 	/// </summary>
 	public class Length : Dimensional
 	{
-		
+		/// <summary>
+		/// Default constructor (value = zero).
+		/// </summary>
 		public Length()  : base()
 		{
 			

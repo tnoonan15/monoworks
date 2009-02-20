@@ -96,7 +96,7 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Reads a dimension manager from an XML strem.
 		/// </summary>
-		/// <param name="fileName"> The name of the file to read from. </param>
+		/// <param name="stream"> The stream to read from. </param>
 		/// <returns> A new <see cref="DimensionManager"/>. </returns>
 		public static DimensionManager FromStream(Stream stream)
 		{

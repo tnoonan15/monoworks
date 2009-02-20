@@ -273,7 +273,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Updates the axes based on the camera position and arrangement, then renders them.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
 		protected void RenderAxes(Viewport viewport)
 		{
 
@@ -489,7 +489,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Enables clipping for the content rendering.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
 		protected void EnableClipping(Viewport viewport)
 		{			
 			// define the clip planes
@@ -536,7 +536,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Disables clipping for the content rendering.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
 		protected void DisableClipping(Viewport viewport)
 		{
 			for (int i=0; i<6; i++)

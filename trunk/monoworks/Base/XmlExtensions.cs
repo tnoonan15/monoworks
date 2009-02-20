@@ -27,6 +27,10 @@ namespace MonoWorks.Base
 	/// </summary>
 	public class InvalidElementExcepion : Exception
 	{
+		/// <summary>
+		/// Construct the exception for an element of the given name.
+		/// </summary>
+		/// <param name="name"></param>
 		public InvalidElementExcepion(string name) : base("Expecting element named " + name)
 		{
 		}
@@ -37,6 +41,9 @@ namespace MonoWorks.Base
 	/// </summary>
 	public class MissingAttributeExcepion : Exception
 	{
+		/// <summary>
+		/// Construct the exception for an attribute of the given name.
+		/// </summary>
 		public MissingAttributeExcepion(string elemName, string attrName) : 
 			base("Expecting attribute named " + attrName + " in element " + elemName)
 		{

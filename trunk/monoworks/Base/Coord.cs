@@ -22,7 +22,19 @@ using System.Collections.Generic;
 
 namespace MonoWorks.Base
 {
-	public enum Orientation {Horizontal, Vertical};
+	/// <summary>
+	/// Your standard orientatino enumeration.
+	/// </summary>
+	public enum Orientation {
+		/// <summary>
+		/// Horizontal.
+		/// </summary>
+		Horizontal, 
+		/// <summary>
+		/// Vertical.
+		/// </summary>
+		Vertical
+	};
 
 	/// <summary>
 	/// Stores a pair of coordinates (representing a position on the screen).
@@ -33,7 +45,7 @@ namespace MonoWorks.Base
 		/// Initialization constructor.
 		/// </summary>
 		/// <param name="X"></param>
-		/// <param name="y"></param>
+		/// <param name="Y"></param>
 		public Coord(double X, double Y)
 		{
 			this.X = X;
@@ -50,28 +62,41 @@ namespace MonoWorks.Base
 		/// </summary>
 		public double Y;
 
-
+		/// <summary>
+		/// Prints the coordinate.
+		/// </summary>
 		public override string ToString()
 		{
 			return String.Format("[{0}, {1}]", X, Y);
 		}
 		
-		
+		/// <summary>
+		/// Addition operator.
+		/// </summary>
 		public static Coord operator+(Coord lhs, Coord rhs)
 		{
 			return new Coord(lhs.X + rhs.X, lhs.Y + rhs.Y);
 		}
 		
+		/// <summary>
+		/// Subtraction operator.
+		/// </summary>
 		public static Coord operator-(Coord lhs, Coord rhs)
 		{
 			return new Coord(lhs.X - rhs.X, lhs.Y - rhs.Y);
 		}
 		
+		/// <summary>
+		/// Multiplication operator.
+		/// </summary>
 		public static Coord operator*(Coord lhs, double rhs)
 		{
 			return new Coord(lhs.X * rhs, lhs.Y * rhs);
 		}
 		
+		/// <summary>
+		/// Division operator.
+		/// </summary>
 		public static Coord operator/(Coord lhs, double rhs)
 		{
 			return new Coord(lhs.X / rhs, lhs.Y / rhs);

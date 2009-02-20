@@ -62,7 +62,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Called when the viewport changes size.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
 		public virtual void OnViewportResized(Viewport viewport)
 		{			
 		}
@@ -70,7 +70,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Called when the viewport changes view direction.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/>. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
 		public virtual void OnViewDirectionChanged(Viewport viewport)
 		{
 		}
@@ -96,7 +96,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders the overlay portion of the renderable, 
 		/// </summary>
-		/// <param name="viewport"> A <see cref="IViewport"/> to render to. </param>
+		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public virtual void RenderOverlay(Viewport viewport)
 		{			
 			if (dirty)
@@ -107,7 +107,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Allows the renderable to directly handle a pan event.
 		/// </summary>
-		/// <param name="viewport"> The <see cref="IViewport"/> on which the interaction was performed. </param>
+		/// <param name="viewport"> The <see cref="Viewport"/> on which the interaction was performed. </param>
 		/// <param name="dx"> The travel in the x screen dimension.</param>
 		/// <param name="dy"> The travel in the y screen dimension.</param>
 		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
@@ -119,7 +119,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Allows the renderable to directly handle a dolly event.
 		/// </summary>
-		/// <param name="viewport"> The <see cref="IViewport"/> on which the interaction was performed. </param>
+		/// <param name="viewport"> The <see cref="Viewport"/> on which the interaction was performed. </param>
 		/// <param name="factor"> The dolly factor.</param>
 		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
 		public virtual bool HandleDolly(Viewport viewport, double factor)
@@ -130,7 +130,7 @@ namespace MonoWorks.Rendering
         /// <summary>
         /// Allows the renderable to directly handle a zoom event.
         /// </summary>
-        /// <param name="viewport"> The <see cref="IViewport"/> on which the interaction was performed. </param>
+        /// <param name="viewport"> The <see cref="Viewport"/> on which the interaction was performed. </param>
         /// <param name="rubberBand"> The rubber band encompassing the zoom.</param>
         /// <returns> True to block the viewport from dealing with the interaction itself. </returns>
         public virtual bool HandleZoom(Viewport viewport, RubberBand rubberBand)

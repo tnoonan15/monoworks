@@ -147,6 +147,7 @@ namespace MonoWorks.Model
 		/// Selects an entity.
 		/// </summary>
 		/// <param name="sender"> A <see cref="ISelectionListener"/> that performed the action. </param>
+		/// <param name="entity">The entity that was selected.</param>
 		public void Select(ISelectionListener sender, Entity entity)
 		{
 			Selected.Add(entity);
@@ -163,6 +164,7 @@ namespace MonoWorks.Model
 		/// Deselects an entity.
 		/// </summary>
 		/// <param name="sender"> A <see cref="ISelectionListener"/> that performed the action. </param>
+		/// <param name="entity">The entity that was deselected.</param>
 		public void Deselect(ISelectionListener sender, Entity entity)
 		{
 			Selected.Remove(entity);

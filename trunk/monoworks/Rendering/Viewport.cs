@@ -29,7 +29,7 @@ namespace MonoWorks.Rendering
 	public class Viewport : IMouseHandler, IKeyHandler
 	{
 
-		public Viewport(IViewportAdapter adapter)
+		public Viewport(ViewportAdapter adapter)
 		{
 			Camera = new Camera(this);
 
@@ -42,7 +42,7 @@ namespace MonoWorks.Rendering
 			Animator = new Animator(this);
 		}
 
-		protected IViewportAdapter adapter;
+		protected ViewportAdapter adapter;
 
 		private RenderList renderList = new RenderList();
 		/// <summary>
