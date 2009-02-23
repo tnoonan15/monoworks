@@ -112,7 +112,7 @@
     <Compile Include="IMouseHandler.cs" />
     <Compile Include="Interaction\AbstractInteractor.cs" />
     <Compile Include="Interaction\OverlayInteractor.cs" />
-    <Compile Include="Interaction\RenderableInteractor.cs" />
+    <Compile Include="Interaction\ViewInteractor.cs" />
     <Compile Include="IViewportAdapter.cs" />
     <Compile Include="Lighting.cs" />
     <Compile Include="Material.cs" />

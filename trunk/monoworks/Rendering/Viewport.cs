@@ -34,8 +34,8 @@ namespace MonoWorks.Rendering
 			Camera = new Camera(this);
 
 			// initialize the interactors
-			renderableInteractor = new RenderableInteractor(this);
-			overlayInteractor = new OverlayInteractor(this);
+			ViewInteractor = new ViewInteractor(this);
+			OverlayInteractor = new OverlayInteractor(this);
 
 			this.adapter = adapter;
 
@@ -118,7 +118,7 @@ namespace MonoWorks.Rendering
 			renderList.Render(this);
 
 			// render the rubber band
-			renderableInteractor.RubberBand.Render(this);
+			ViewInteractor.RubberBand.Render(this);
 
 			//SwapBuffers();
 		}
@@ -185,28 +185,25 @@ namespace MonoWorks.Rendering
 
 #region Interactors
 
-
+		/// <summary>
+		/// The current interaction state (defines which interactor to use).
+		/// </summary>
 		public InteractionState InteractionState { get; set; }
 
+		/// <summary>
+		/// The primary interactor, generally specific to the content of the viewport.
+		/// </summary>
 		public AbstractInteractor PrimaryInteractor { get; set; }
 
-		protected RenderableInteractor renderableInteractor;
 		/// <summary>
 		/// The renderable interactor.
 		/// </summary>
-		public RenderableInteractor RenderableInteractor
-		{
-			get { return renderableInteractor; }
-		}
+		public ViewInteractor ViewInteractor { get; private set; }
 
-		protected OverlayInteractor overlayInteractor;
 		/// <summary>
 		/// The overlay interactor.
 		/// </summary>
-		public OverlayInteractor OverlayInteractor
-		{
-			get { return overlayInteractor; }
-		}
+		public OverlayInteractor OverlayInteractor { get; private set; }
 
 
 #endregion
@@ -218,7 +215,7 @@ namespace MonoWorks.Rendering
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 
-			overlayInteractor.OnButtonPress(evt);
+			OverlayInteractor.OnButtonPress(evt);
 
 			// primary interactor
 			if (PrimaryInteractor != null &&
@@ -228,7 +225,7 @@ namespace MonoWorks.Rendering
 				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnButtonPress(evt);
 
-			renderableInteractor.OnButtonPress(evt);
+			ViewInteractor.OnButtonPress(evt);
 
 			// handle double click
 			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
@@ -245,7 +242,7 @@ namespace MonoWorks.Rendering
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 
-			overlayInteractor.OnButtonRelease(evt);
+			OverlayInteractor.OnButtonRelease(evt);
 
 			// primary interactor
 			if (PrimaryInteractor != null &&
@@ -255,14 +252,14 @@ namespace MonoWorks.Rendering
 				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnButtonRelease(evt);
 
-			renderableInteractor.OnButtonRelease(evt);
+			ViewInteractor.OnButtonRelease(evt);
 		}
 
 		public void OnMouseMotion(MouseEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 
-			overlayInteractor.OnMouseMotion(evt);
+			OverlayInteractor.OnMouseMotion(evt);
 
 			// primary interactor
 			if (PrimaryInteractor != null &&
@@ -272,7 +269,7 @@ namespace MonoWorks.Rendering
 				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnMouseMotion(evt);
 
-			renderableInteractor.OnMouseMotion(evt);
+			ViewInteractor.OnMouseMotion(evt);
 		}
 
 
@@ -306,12 +303,12 @@ namespace MonoWorks.Rendering
 
 		public void OnKeyPress(KeyEvent evt)
 		{
-			overlayInteractor.OnKeyPress(evt);
+			OverlayInteractor.OnKeyPress(evt);
 
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnKeyPress(evt);
 
-			renderableInteractor.OnKeyPress(evt);
+			ViewInteractor.OnKeyPress(evt);
 		}
 
 #endregion

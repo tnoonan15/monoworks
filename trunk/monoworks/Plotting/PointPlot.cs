@@ -23,7 +23,9 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Plotting
 {
@@ -522,8 +524,6 @@ namespace MonoWorks.Plotting
 				return false;
 
 			// project each point on to the screen and find the shortest distance
-			//Coord[] coords = new Coord[dataSet.DisplayIndex.NumOn];
-			//int i=0;
 			int closestIndex = -1;
 			double shortestDistance = -1;
 			foreach (int r in dataSet.DisplayIndex)
@@ -532,7 +532,6 @@ namespace MonoWorks.Plotting
 				double y = dataSet[r, columns[1]];
 				double z = dataSet[r, columns[2]];
 				parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
-				//coords[i] = hitLine.Camera.WorldToScreen(x, y, z);
 				Coord coord = hitLine.Camera.WorldToScreen(x, y, z);
 
 				// compute the distance
@@ -554,10 +553,21 @@ namespace MonoWorks.Plotting
 				return true;
 			}
 
-
 			return false;
 		}
 
+
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+
+			if (evt.Modifier != InteractionModifier.Shift)
+				Deselect();
+			if (HitTest(evt.HitLine))
+			{
+				evt.Handle();
+			}
+		}
 
 		public override string SelectionDescription
 		{
