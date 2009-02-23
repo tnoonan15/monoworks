@@ -23,6 +23,7 @@ using System.Windows;
 using swc = System.Windows.Controls;
 
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.ViewportControls;
 using MonoWorks.Plotting;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.PlotControls;
@@ -54,6 +55,9 @@ namespace MonoWorks.DemoWpf
 			viewportWrapper.Width = Double.NaN;
 			viewportWrapper.Height = Double.NaN;
 			viewport = viewportWrapper.Viewport;
+			viewport.PrimaryInteractor = new PlotInteractor(viewport);
+			ViewportController controller = new ViewportController(viewport);
+			controller.SetUsage(ViewportUsage.Plotting);
 		}
 
 		protected void DockViewport()

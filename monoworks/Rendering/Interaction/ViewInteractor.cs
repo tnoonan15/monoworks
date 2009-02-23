@@ -1,4 +1,4 @@
-// RenderableInteractor.cs - MonoWorks Project
+// ViewInteractor.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -26,18 +26,16 @@ using MonoWorks.Rendering;
 
 
 namespace MonoWorks.Rendering.Interaction
-{
-
-	
+{	
 	/// <summary>
-	/// Base class for mouse interaction viewport.InteractionState.
+	/// Interactor that handles viewing interaction (rotating, panning, zooming, dollying).
 	/// </summary>
-	public class RenderableInteractor : AbstractInteractor
+	public class ViewInteractor : AbstractInteractor
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public RenderableInteractor(Viewport viewport) : base(viewport)
+		public ViewInteractor(Viewport viewport) : base(viewport)
 		{
 			mouseType = InteractionType.None;
 
@@ -133,11 +131,9 @@ namespace MonoWorks.Rendering.Interaction
 
 			// Ctrl swaps first button view and interact types
 			if (evt.Handled || 
-				(evt.Button == 1 && 
-				evt.Modifier != InteractionModifier.Control &&
+				(evt.Button == 1 && evt.Modifier != InteractionModifier.Control &&
 				viewport.InteractionState != InteractionState.View3D) || 
-				(evt.Button == 1 && 
-				evt.Modifier == InteractionModifier.Control &&
+				(evt.Button == 1 && evt.Modifier == InteractionModifier.Control &&
 				viewport.InteractionState == InteractionState.View3D))
 				return;
 
@@ -165,25 +161,6 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			switch (MouseType)
 			{
-			case InteractionType.Select:
-				// determine the 3D position of the hit
-				viewport.Camera.Place();
-
-
-				// TODO: handle multiple hits with depth checking
-
-				// show the selection tooltip
-				//if (hitRend != null)
-				//{
-				//    string description = hitRend.SelectionDescription;
-				//    if (description.Length > 0)
-				//    {
-				//        toolTip.SetToolTip(this, description);
-				//    }
-				//}
-
-				break;
-
 			case InteractionType.Zoom:
 				bool blocked = false;
 				foreach (Renderable3D renderable in renderList.Renderables)
