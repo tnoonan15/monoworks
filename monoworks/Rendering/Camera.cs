@@ -177,7 +177,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Configures the viewport based on its width and height.
 		/// </summary>
-		/// </param>
 		public virtual void Configure()
 		{						
 			// get the width and height
@@ -687,10 +686,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Gets the vector needed to look at a plane.
 		/// </summary>
-		/// <param name="direction"></param>
-		/// <param name="centerOut"></param>
-		/// <param name="posOut"></param>
-		/// <param name="upVecOut"></param>
 		public void GetPlaneVectors(Plane plane, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
 			viewport.RenderList.ResetBounds();

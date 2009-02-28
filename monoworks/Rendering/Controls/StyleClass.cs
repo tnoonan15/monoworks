@@ -119,8 +119,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Modifies the color used for the foreground with the given hit state.
 		/// </summary>
-		/// <param name="hitState"></param>
-		/// <param name="fill"></param>
 		public void ModifyForeground(HitState hitState, Color color)
 		{
 			foregrounds[hitState] = color;

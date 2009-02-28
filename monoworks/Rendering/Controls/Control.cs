@@ -42,7 +42,7 @@ namespace MonoWorks.Rendering.Controls
 		}
 		
 		private Control parent = null;
-		//// <value>
+		/// <value>
 		/// The control's parent.
 		/// </value>
 		public Control Parent
@@ -66,7 +66,7 @@ namespace MonoWorks.Rendering.Controls
 #region Size and Position
 
 		protected Coord position = new Coord();
-		//// <value>
+		/// <value>
 		/// The position of the lower left of the control.
 		/// </value>
 		public virtual Coord Position

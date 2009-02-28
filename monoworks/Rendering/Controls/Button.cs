@@ -138,7 +138,7 @@ namespace MonoWorks.Rendering.Controls
 		public ButtonStyle ButtonStyle {get; set;}
 		
 		
-		//// <value>
+		/// <value>
 		/// Ensures that the label and image geometries have been computed.
 		/// </value>
 		protected void ComputeChildGeometry()

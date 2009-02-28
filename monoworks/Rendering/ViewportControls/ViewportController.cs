@@ -40,6 +40,8 @@ namespace MonoWorks.Rendering.ViewportControls
             : base()
         {
 			this.viewport = viewport;
+			viewport.InteractionStateChanged += ExternalInteractionStateChanged;
+
 			UiManager = new UiManager(this);
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
         }
@@ -89,6 +91,8 @@ namespace MonoWorks.Rendering.ViewportControls
 		 	OnInteractionStateChanged();
 			OnProjectionChanged();
 		}
+
+
 
 
 		
@@ -194,30 +198,63 @@ namespace MonoWorks.Rendering.ViewportControls
 					return null;
 			}
 		}
-		
-		protected readonly Dictionary<InteractionState, string> interactionNames = new Dictionary<InteractionState, string>
-		{{InteractionState.Interact2D,"2D Interaction"}, {InteractionState.Interact3D,"3D Interaction"}, {InteractionState.View3D,"3D View"}};
+
+		/// <summary>
+		/// The name of each interaction state.
+		/// </summary>
+		protected readonly Dictionary<InteractionState, string> interactionNames = new Dictionary<InteractionState, string>{
+			{InteractionState.Interact2D, "2D Interaction"}, 
+			{InteractionState.Interact3D, "3D Interaction"},
+			{InteractionState.View3D, "3D View"}};
+
+
+		/// <summary>
+		/// Handles the interaction state changing from an external s
+		/// </summary>
+		private void ExternalInteractionStateChanged(object sender, EventArgs args)
+		{
+			if (!InternalUpdate && InteractionToolbarName!=null)
+			{
+				ToolBar toolBar = ContextLayer.GetToolbar(InteractionToolbarName);
+				foreach (var kv in interactionNames)
+				{
+					Button button = toolBar.GetButton(kv.Value);
+					if (button == null)
+						continue;
+					if (viewport.InteractionState == kv.Key)
+						button.IsSelected = true;
+					else
+						button.IsSelected = false;
+				}
+			}
+		}
 		
 		
 		[Action("2D Interaction")]
 		public void On2dInteract()
 		{
-			viewport.InteractionState = InteractionState.Interact2D;
+			BeginInternalUpdate();
+			viewport.SetInteractionState(InteractionState.Interact2D);
 		 	OnInteractionStateChanged();
+			EndInternalUpdate();
 		}
 		
 		[Action("3D Interaction")]
 		public void On3dInteract()
 		{
-			viewport.InteractionState = InteractionState.Interact3D;
-		 	OnInteractionStateChanged();
+			BeginInternalUpdate();
+			viewport.SetInteractionState(InteractionState.Interact3D);
+			OnInteractionStateChanged();
+			EndInternalUpdate();
 		}
 		
 		[Action("3D View")]
 		public void On3dView()
 		{
-			viewport.InteractionState = InteractionState.View3D;
-		 	OnInteractionStateChanged();
+			BeginInternalUpdate();
+			viewport.SetInteractionState(InteractionState.View3D);
+			OnInteractionStateChanged();
+			EndInternalUpdate();
 		}	
 		
 		/// <summary>

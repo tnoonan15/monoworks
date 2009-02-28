@@ -109,7 +109,6 @@ namespace MonoWorks.Rendering
 		/// <param name="red"> The red component. </param>
 		/// <param name="green"> The green component. </param>
 		/// <param name="blue"> The blue component. </param>
-		/// <param name="alpha"> The alpha component. </param>
 		public Color(float red, float green, float blue) : this(red, green, blue, 1F)
 		{
 
@@ -350,8 +349,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Draws a solid triangle in the given corner.
 		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="size"></param>
 		public void DrawCorner(Coord pos, Coord size, Corner corner)
 		{
 			Setup();

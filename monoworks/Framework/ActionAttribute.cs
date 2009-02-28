@@ -91,7 +91,7 @@ namespace MonoWorks.Framework
 			set {shortcut = value;}
 		}
 		
-		//// <value>
+		/// <value>
 		/// Whether the action is a togglable (will result in toggle buttons).
 		/// </value>
 		public bool IsTogglable {get; set;}

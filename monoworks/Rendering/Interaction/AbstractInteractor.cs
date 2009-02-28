@@ -80,9 +80,6 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Registers a button press event.
 		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="button"></param>
-		/// <param name="modifier"></param>
 		public virtual void OnButtonPress(MouseButtonEvent evt)
 		{
 			anchor = evt.Pos;
@@ -92,7 +89,6 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Registers a button release event.
 		/// </summary>
-		/// <param name="pos"></param>
 		public virtual void OnButtonRelease(MouseButtonEvent evt)
 		{
 		}
@@ -100,7 +96,6 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Registers the motion event without performing any interaction.
 		/// </summary>
-		/// <param name="pos"></param>
 		public virtual void OnMouseMotion(MouseEvent evt)
 		{
 			lastPos = evt.Pos;

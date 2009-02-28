@@ -307,7 +307,7 @@ namespace MonoWorks.Model.ViewportControls
 				sketchInteractor = new SketchInteractor(viewport, sketch);
 				primaryInteractor = viewport.PrimaryInteractor;
 				viewport.PrimaryInteractor = sketchInteractor;
-				viewport.InteractionState = InteractionState.Interact3D;
+				viewport.SetInteractionState(InteractionState.Interact3D);
 
 				drawing.EntityManager.DeselectAll(null);
 

@@ -56,9 +56,6 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		/// Generates an attribute control of the appropriate subclass
 		/// for the given entity and attribute name.
 		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="attrName"></param>
-		/// <returns></returns>
 		public static AttributeControl Generate(Entity entity, AttributeMetaData metaData)
 		{
 			switch (metaData.TypeName)

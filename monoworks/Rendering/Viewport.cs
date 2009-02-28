@@ -26,12 +26,17 @@ using MonoWorks.Framework;
 
 namespace MonoWorks.Rendering
 {
+	/// <summary>
+	/// The Viewport is the interface between the GUI and rendering pipeline.
+	/// </summary>
 	public class Viewport : IMouseHandler, IKeyHandler
 	{
 
 		public Viewport(ViewportAdapter adapter)
 		{
 			Camera = new Camera(this);
+
+			RenderManager = new RenderManager();
 
 			// initialize the interactors
 			ViewInteractor = new ViewInteractor(this);
@@ -58,24 +63,19 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public Camera Camera { get; private set; }
 
-		protected RenderManager renderManager = new RenderManager();
 		/// <summary>
 		/// The render manager.
 		/// </summary>
-		public RenderManager RenderManager
-		{
-			get { return renderManager; }
-		}
+		public RenderManager RenderManager {get; private set;}
 
-		protected Lighting lighting = new Lighting();
 		/// <summary>
 		/// The lighting.
 		/// </summary>
-		public Lighting Lighting
-		{
-			get { return lighting; }
-		}
+		public Lighting Lighting {get; private set;}
 
+		/// <summary>
+		/// Callback for the view direction changing.
+		/// </summary>
 		public void OnDirectionChanged()
 		{
 			foreach (Renderable3D renderable in renderList.Renderables)
@@ -90,14 +90,19 @@ namespace MonoWorks.Rendering
 
 #region Rendering
 
+		/// <summary>
+		/// Initialize rendering.
+		/// </summary>
 		public void Initialize()
 		{
-			renderManager.Initialize();
+			RenderManager.Initialize();
 
 			Camera.Configure();
 		}
 
-
+		/// <summary>
+		/// Callback for the viewport being resized.
+		/// </summary>
 		public void Resize()
 		{
 
@@ -105,13 +110,15 @@ namespace MonoWorks.Rendering
 
 			renderList.OnViewportResized(this);
 		}
-
-
+		
+		/// <summary>
+		/// Render the viewport.
+		/// </summary>
 		public void Render()
 		{
 			adapter.MakeCurrent();
 
-			renderManager.ClearScene();
+			RenderManager.ClearScene();
 
 
 			// render the rendering list
@@ -123,12 +130,17 @@ namespace MonoWorks.Rendering
 			//SwapBuffers();
 		}
 
-
+		/// <summary>
+		/// Height of the rendered area.
+		/// </summary>
 		public int HeightGL
 		{
 			get { return adapter.HeightGL; }
 		}
 
+		/// <summary>
+		/// Width of the rendered area.
+		/// </summary>
 		public int WidthGL
 		{
 			get { return adapter.WidthGL; }
@@ -163,8 +175,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders text to the viewport.
 		/// </summary>
-		/// <param name="size"></param>
-		/// <returns></returns>
 		public void RenderText(TextDef text)
 		{
 			textRenderer.Render(text);
@@ -173,8 +183,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders lots of text to the viewport.
 		/// </summary>
-		/// <param name="size"></param>
-		/// <returns></returns>
 		public void RenderText(TextDef[] text)
 		{
 			textRenderer.Render(text);
@@ -188,7 +196,22 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// The current interaction state (defines which interactor to use).
 		/// </summary>
-		public InteractionState InteractionState { get; set; }
+		public InteractionState InteractionState { get; private set; }
+
+		/// <summary>
+		/// Set the viewport interaction state.
+		/// </summary>
+		public void SetInteractionState(InteractionState state)
+		{
+			InteractionState = state;
+			if (InteractionStateChanged != null)
+				InteractionStateChanged(this, new EventArgs());
+		}
+
+		/// <summary>
+		/// Raised when the interaction state changes.
+		/// </summary>
+		public EventHandler InteractionStateChanged;
 
 		/// <summary>
 		/// The primary interactor, generally specific to the content of the viewport.
@@ -296,8 +319,7 @@ namespace MonoWorks.Rendering
 		}
 
 #endregion
-
-
+		
 
 #region IKeyHandler Members
 
@@ -312,5 +334,7 @@ namespace MonoWorks.Rendering
 		}
 
 #endregion
+
+
 	}
 }
