@@ -35,7 +35,6 @@ namespace MonoWorks.GuiWpf.PlotControls
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		/// <param name="plot">The plot to control.</param>
 		public PointPlotControl()
 			: base()
 		{
@@ -147,8 +146,6 @@ namespace MonoWorks.GuiWpf.PlotControls
 		/// <summary>
 		/// Handles a combo box changing value.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="args"> </param>
 		protected void OnComboChanged(object sender, swc.SelectionChangedEventArgs e)
 		{
 			if (internalUpdate)

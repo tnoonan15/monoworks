@@ -156,8 +156,7 @@ namespace MonoWorks.Model
 				corner = corner.Rotate(direction, new Angle(Angle.PI/2.0));
 			}
 			
-		}
-		
+		}		
 		
 		/// <summary>
 		/// Renders the plane to the viewport.
@@ -172,6 +171,19 @@ namespace MonoWorks.Model
 				corner.glVertex();
 			gl.glEnd();
 			
+		}
+
+
+		public override void RenderOpaque(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+
+			gl.glColor3f(0.5f, 0.5f, 0.5f);
+			gl.glBegin(gl.GL_LINE_LOOP);
+			foreach (Vector corner in quadCorners)
+				corner.glVertex();
+			gl.glEnd();
+
 		}
 
 		

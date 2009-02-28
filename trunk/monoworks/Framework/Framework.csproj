@@ -45,7 +45,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
-    <DocumentationFile>../Docs/xml/MonoWorks.Framework.XML</DocumentationFile>
+    <DocumentationFile>bin\WpfDebug\MonoWorks.Framework.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

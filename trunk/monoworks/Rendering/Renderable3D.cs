@@ -73,8 +73,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Performs a hit test with two vectors lying on a 3D line.
 		/// </summary>
-		/// <param name="v1"> A <see cref="Vector"/> on the hit line. </param>
-		/// <param name="v2"> A <see cref="Vector"/> on the hit line. </param>
 		/// <returns> True if the renderable was hit. </returns>
 		public virtual bool HitTest(HitLine hitLine)
 		{

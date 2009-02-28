@@ -410,7 +410,6 @@ namespace MonoWorks.Framework
 		/// Adds an action to the current toolshelf.
 		/// The toolshelf element must be declared inside a toolshelf element.
 		/// </summary>
-		/// <param name="reader"> A <see cref="XmlReader"/> at a tool element. </param>
 		protected abstract void CreateToolItem(ActionAttribute action);
 
 		/// <summary>

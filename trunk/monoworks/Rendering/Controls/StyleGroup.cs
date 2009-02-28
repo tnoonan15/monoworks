@@ -82,7 +82,7 @@ namespace MonoWorks.Rendering.Controls
 		
 		/// <summary>
 		/// If toolbar and tools style classes are present, they will be replicated into 
-		/// toolbar-<loc> and tool-<loc> classes, where loc is all value of ContextLocation.
+		/// toolbar-(loc) and tool-(loc) classes, where loc is all value of ContextLocation.
 		/// </summary>
 		public void MakeToolbarClasses()
 		{

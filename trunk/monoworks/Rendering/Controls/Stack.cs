@@ -46,7 +46,7 @@ namespace MonoWorks.Rendering.Controls
 
 
 		private Orientation orientation;
-		//// <value>
+		/// <value>
 		/// The orientation of the stack.
 		/// </value>
 		public Orientation Orientation

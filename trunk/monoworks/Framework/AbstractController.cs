@@ -97,5 +97,31 @@ namespace MonoWorks.Framework
 		}
 
 
-    }
+		#region Internal Updates
+
+		/// <summary>
+		/// This is true when the controller is in the middle of an internal update.
+		/// </summary>
+		protected bool InternalUpdate { get; private set; }
+
+		/// <summary>
+		/// Call at the beginning of an internal update.
+		/// </summary>
+		protected void BeginInternalUpdate()
+		{
+			InternalUpdate = true;
+		}
+
+		/// <summary>
+		/// Call at the end of an internal update.
+		/// </summary>
+		protected void EndInternalUpdate()
+		{
+			InternalUpdate = false;
+		}
+
+		#endregion
+
+
+	}
 }

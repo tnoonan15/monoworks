@@ -111,6 +111,7 @@ namespace MonoWorks.GuiWpf.Framework
 		/// Creates a toolbox at the given position.
 		/// </summary>
 		/// <param name="position"> The toolbox position.</param>
+		/// <param name="name">The name of the toolbox.</param>
 		/// <returns> The new toolbox.</returns>
 		public ToolBox CreateToolBox(ToolPosition position, string name)
 		{

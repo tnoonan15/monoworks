@@ -165,8 +165,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Draws a gradient triangle in the given corner.
 		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="size"></param>
 		public void DrawCorner(Coord pos, Coord size, Corner corner)
 		{
 			gl.glBegin(gl.GL_TRIANGLES);

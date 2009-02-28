@@ -184,7 +184,6 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Registers the motion event without performing any interaction.
 		/// </summary>
-		/// <param name="pos"></param>
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			bool blocked = false;

@@ -152,7 +152,6 @@ namespace MonoWorks.GuiWpf
 		/// <summary>
 		/// Adds a row definition.
 		/// </summary>
-		/// <param name="grid"></param>
 		public static RowDefinition AddRow(this Grid grid)
 		{
 			RowDefinition rowDef = new RowDefinition();
@@ -163,11 +162,10 @@ namespace MonoWorks.GuiWpf
 		/// <summary>
 		/// Adds a row definition with a defined height.
 		/// </summary>
-		/// <param name="grid"></param>
-		public static RowDefinition AddRow(this Grid grid, double heigt)
+		public static RowDefinition AddRow(this Grid grid, double height)
 		{
 			RowDefinition rowDef = new RowDefinition();
-			rowDef.Height = new GridLength(heigt);
+			rowDef.Height = new GridLength(height);
 			grid.RowDefinitions.Add(rowDef);
 			return rowDef;
 		}
@@ -175,7 +173,6 @@ namespace MonoWorks.GuiWpf
 		/// <summary>
 		/// Adds a row definition with automatic height.
 		/// </summary>
-		/// <param name="grid"></param>
 		public static RowDefinition AddAutoRow(this Grid grid)
 		{
 			RowDefinition rowDef = new RowDefinition();

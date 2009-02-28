@@ -66,7 +66,6 @@ namespace MonoWorks.GuiWpf.Framework
         /// <summary>
         /// Shows the given shelf.
         /// </summary>
-        /// <param name="shelf"> The shelf to show.</param>
         public void ShowShelf(ToolShelf showShelf)
         {
             foreach (ToolShelf shelf in shelves.Values)

@@ -94,7 +94,6 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		/// <summary>
 		/// Show the panel with the given entity.
 		/// </summary>
-		/// <param name="entity"></param>
 		public void Show(DrawingController controller, Entity entity)
 		{
 			Children.Clear();
