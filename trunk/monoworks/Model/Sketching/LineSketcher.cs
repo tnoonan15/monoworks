@@ -33,7 +33,7 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// Sketcher for lines.
 	/// </summary>
-	public class LineSketcher : AbstractSketcher<Line>
+	public class LineSketcher : BaseSketcher<Line>
 	{
 
 		public LineSketcher(Sketch sketch, Line line)
@@ -59,6 +59,9 @@ namespace MonoWorks.Model
 			if (state == LineSketcherState.AddVertex)
 				Sketchable.Points.Remove(point);
 		}
+
+
+#region Mouse Interaction
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -96,6 +99,17 @@ namespace MonoWorks.Model
 				Sketchable.MakeDirty();
 			}
 		}
+
+#endregion
+
+
+#region Rendering
+
+
+		
+
+#endregion
+
 
 	}
 }

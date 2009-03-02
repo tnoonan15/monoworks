@@ -38,7 +38,7 @@ namespace MonoWorks.DemoGtk
 			adapter = new ViewportAdapter();
 			PackEnd(adapter);
 			TestAxes3D axes = new TestAxes3D();
-			Viewport.RenderList.AddRenderable(axes);
+			Viewport.RenderList.AddActor(axes);
 			
 			Viewport.Camera.SetViewDirection(ViewDirection.Standard);
 			

@@ -163,7 +163,7 @@ namespace MonoWorks.Rendering.Interaction
 			{
 			case InteractionType.Zoom:
 				bool blocked = false;
-				foreach (Renderable3D renderable in renderList.Renderables)
+				foreach (Actor renderable in renderList.Actors)
 				{
 					if (renderable.HandleZoom(viewport, rubberBand))
 						blocked = true;
@@ -199,7 +199,7 @@ namespace MonoWorks.Rendering.Interaction
 				Coord diff = evt.Pos - lastPos;
 
 				// allow the renderables to deal with the interaction
-				foreach (Renderable3D renderable in renderList.Renderables)
+				foreach (Actor renderable in renderList.Actors)
 				{
 					if (renderable.HandlePan(viewport, diff.X, diff.Y))
 						blocked = true;
@@ -210,7 +210,7 @@ namespace MonoWorks.Rendering.Interaction
 				double factor = (evt.Pos.Y - lastPos.Y) / (double)viewport.HeightGL;
 
 				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderList.Renderables)
+				foreach (Renderable renderable in renderList.Actors)
 				{
 					if (renderable.HandleDolly(viewport, factor))
 						blocked = true;

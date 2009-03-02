@@ -130,8 +130,6 @@ namespace MonoWorks.Framework
 		/// <summary>
 		/// Load icons from an assembly.
 		/// </summary>
-		/// <param name="asm"></param>
-		/// <remarks>Looks for png files in an icon(size) sub-namespace.</remarks>
 		protected virtual void LoadIconAssembly(Assembly asm)
 		{
 			string[] resNames = asm.GetManifestResourceNames();

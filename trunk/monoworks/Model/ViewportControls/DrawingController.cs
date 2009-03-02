@@ -109,7 +109,6 @@ namespace MonoWorks.Model.ViewportControls
 #endregion
 
 
-
 #region Context Management
 
 		/// <summary>
@@ -194,7 +193,6 @@ namespace MonoWorks.Model.ViewportControls
 #endregion
 
 
-
 #region Add-Delete Actions
 
 		[Action("Sketch")]
@@ -265,7 +263,6 @@ namespace MonoWorks.Model.ViewportControls
 		}
 
 #endregion
-
 
 
 #region Sketching

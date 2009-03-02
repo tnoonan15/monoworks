@@ -19,24 +19,23 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Model
 {
 	/// <summary>
-	/// Base class for skecthers (classes that handle the user interface of sketching).
+	/// Abstract base class for skecthers (classes that handle the user interface of sketching).
 	/// </summary>
-	public abstract class AbstractSketcher<T> : ISketcher where T : Sketchable
+	public abstract class AbstractSketcher : Actor
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="sketch"></param>
-		/// <param name="sketchble">The sketchable being sketched.</param>
-		public AbstractSketcher(Sketch sketch, T sketchble)
+		public AbstractSketcher(Sketch sketch)
 		{
 			Sketch = sketch;
-			Sketchable = sketchble;
 		}
 
 		/// <summary>
@@ -45,39 +44,15 @@ namespace MonoWorks.Model
 		public Sketch Sketch { get; private set; }
 
 		/// <summary>
-		/// The sketchable being sketched.
-		/// </summary>
-		public T Sketchable { get; private set; }
-
-		/// <summary>
 		/// Apply the current sketching operation.
 		/// </summary>
 		public abstract void Apply();
 
-	
-#region Mouse and Keyboard Handling
-
-		public virtual void OnButtonPress(MouseButtonEvent evt)
-		{
-		}
-
-		public virtual void OnButtonRelease(MouseButtonEvent evt)
-		{
-		}
-
-		public virtual void OnMouseMotion(MouseEvent evt)
-		{
-		}
-
-		public virtual void OnMouseWheel(MouseWheelEvent evt)
-		{
-		}
 
 		public virtual void OnKeyPress(KeyEvent evt)
 		{
 		}
 
-#endregion
 
 	}
 }

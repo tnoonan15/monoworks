@@ -1,4 +1,4 @@
-﻿// ISketcher.cs - MonoWorks Project
+﻿// BaseSketcher.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -19,21 +19,30 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.Rendering.Interaction;
-using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Model
 {
 	/// <summary>
-	/// Interface for sketchers.
+	/// Generic base class for skecthers (classes that handle the user interface of sketching).
 	/// </summary>
-	public interface ISketcher : IMouseHandler, IKeyHandler
+	public abstract class BaseSketcher<T> : AbstractSketcher where T : Sketchable
 	{
 		/// <summary>
-		/// Apply the current sketching operation.
+		/// Default constructor.
 		/// </summary>
-		void Apply();
+		/// <param name="sketch"></param>
+		/// <param name="sketchble">The sketchable being sketched.</param>
+		public BaseSketcher(Sketch sketch, T sketchble) : base(sketch)
+		{
+			Sketchable = sketchble;
+		}
+
+		/// <summary>
+		/// The sketchable being sketched.
+		/// </summary>
+		public T Sketchable { get; private set; }
 
 	}
 }

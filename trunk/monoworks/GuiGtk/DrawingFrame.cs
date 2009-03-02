@@ -69,9 +69,9 @@ namespace MonoWorks.GuiGtk
 			set
 			{
 				if (drawing != null)
-					Viewport.RenderList.RemoveRenderable(drawing);
+					Viewport.RenderList.RemoveActor(drawing);
 				drawing = value;
-				Viewport.RenderList.AddRenderable(drawing);
+				Viewport.RenderList.AddActor(drawing);
 				treeView.Drawing = drawing;
 			
 				// add the drawing interactor
