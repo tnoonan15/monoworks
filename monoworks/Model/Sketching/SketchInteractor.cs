@@ -51,7 +51,7 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// The current sketcher.
 		/// </summary>
-		private ISketcher sketcher = null;
+		private AbstractSketcher sketcher = null;
 
 		/// <summary>
 		/// Adds a new sketchable to the sketch.
@@ -136,6 +136,42 @@ namespace MonoWorks.Model
 		}
 
 #endregion
+
+
+#region Rendering
+
+		/// <summary>
+		/// Pass the rendering to the sketcher, if there is one.
+		/// </summary>
+		public override void RenderOpaque(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			if (sketcher != null)
+				(sketcher as Actor).RenderOpaque(viewport);
+		}
+
+		/// <summary>
+		/// Pass the rendering to the sketcher, if there is one.
+		/// </summary>
+		public override void RenderTransparent(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			if (sketcher != null)
+				(sketcher as Actor).RenderTransparent(viewport);
+		}
+
+		/// <summary>
+		/// Pass the rendering to the sketcher, if there is one.
+		/// </summary>
+		public override void RenderOverlay(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			if (sketcher != null)
+				(sketcher as Actor).RenderOverlay(viewport);
+		}
+
+#endregion
+
 
 	}
 }

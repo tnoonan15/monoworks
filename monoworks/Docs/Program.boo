@@ -1,17 +1,12 @@
 ﻿namespace Docs
 
 import System
-import System.IO
+import System.Xml
 
 
-parser = XmlParser()
-
-dirName = "../../xml/"
-
-for file in DirectoryInfo(dirName).GetFiles():
-	Console.WriteLine("Parsing " + file.FullName)
-	parser.Parse(file.FullName)
-
+// parse the docs XML file
+doc = XmlDocument()
+doc.Load('Docs.xml')
 
 print "Press any key to continue . . . "
 Console.ReadKey(true)

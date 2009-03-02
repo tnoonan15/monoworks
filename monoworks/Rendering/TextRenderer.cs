@@ -139,7 +139,8 @@ namespace MonoWorks.Rendering
 			gl.glMatrixMode(gl.GL_MODELVIEW);
 			gl.glPushMatrix();
 
-			gl.glTranslated(text.Position.X, text.Position.Y, 0);
+			//gl.glTranslated(text.Position.X, text.Position.Y, 0);
+			gl.glTranslated(Math.Round(text.Position.X), Math.Round(text.Position.Y), 0);
 
 			if (text.Angle.Value != 0)
 				gl.glRotated(text.Angle.Degrees, 0, 0, 1);

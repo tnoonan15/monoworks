@@ -39,7 +39,7 @@ namespace MonoWorks.Rendering.Interaction
 	/// <summary>
 	/// Base class for classes that handle user interaction from the viewport.
 	/// </summary>
-	public abstract class AbstractInteractor : IMouseHandler, IKeyHandler
+	public abstract class AbstractInteractor : Actor, IKeyHandler
 	{
 		/// <summary>
 		/// Default constructor.
@@ -80,7 +80,7 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Registers a button press event.
 		/// </summary>
-		public virtual void OnButtonPress(MouseButtonEvent evt)
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			anchor = evt.Pos;
 			lastPos = evt.Pos;
@@ -89,20 +89,20 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Registers a button release event.
 		/// </summary>
-		public virtual void OnButtonRelease(MouseButtonEvent evt)
+		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 		}
 
 		/// <summary>
 		/// Registers the motion event without performing any interaction.
 		/// </summary>
-		public virtual void OnMouseMotion(MouseEvent evt)
+		public override void OnMouseMotion(MouseEvent evt)
 		{
 			lastPos = evt.Pos;
 		}
 
 
-		public virtual void OnMouseWheel(MouseWheelEvent evt)
+		public override void OnMouseWheel(MouseWheelEvent evt)
 		{
 
 		}

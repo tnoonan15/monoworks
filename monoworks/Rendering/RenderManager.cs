@@ -95,8 +95,8 @@ namespace MonoWorks.Rendering
 			// blending
 			gl.glShadeModel(gl.GL_SMOOTH);						// Enables Smooth Shading
 			gl.glEnable(gl.GL_BLEND);
-			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
-//			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_DST_ALPHA);
+			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA); // kinda works
+			//gl.glBlendFunc(gl.GL_SRC_ALPHA_SATURATE, gl.GL_ONE);
 //			gl.glBlendFunc(gl.GL_ONE, gl.GL_ONE);
 
 			gl.glFrontFace(gl.GL_CW);

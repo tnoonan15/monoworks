@@ -35,7 +35,7 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// The Entity class is the base class for all MonoWorks model objects.
 	/// </summary>
-	public class Entity : Renderable3D
+	public class Entity : Actor
 	{
 		
 #region Counting

@@ -30,7 +30,7 @@ namespace MonoWorks.Plotting
 	/// <summary>
 	/// Base class for plottable objects.
 	/// </summary>
-	public abstract class Plottable : Renderable3D
+	public abstract class Plottable : Actor
 	{
 
 		/// <summary>

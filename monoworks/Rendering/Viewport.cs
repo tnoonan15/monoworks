@@ -78,7 +78,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void OnDirectionChanged()
 		{
-			foreach (Renderable3D renderable in renderList.Renderables)
+			foreach (Actor renderable in renderList.Actors)
 				renderable.OnViewDirectionChanged(this);
 		}
 
@@ -308,7 +308,7 @@ namespace MonoWorks.Rendering
 				factor = -Camera.DollyFactor;
 
 			// allow the renderables to deal with the interaction
-			foreach (Renderable3D renderable in renderList.Renderables)
+			foreach (Actor renderable in renderList.Actors)
 			{
 				if (renderable.HandleDolly(this, factor))
 					blocked = true;

@@ -38,7 +38,7 @@ namespace MonoWorks.DemoGtk
 			adapter = new ViewportAdapter();
 			PackEnd(adapter);
 			TestAxes2D axes = new TestAxes2D();
-			Viewport.RenderList.AddRenderable(axes);
+			Viewport.RenderList.AddActor(axes);
 			
 			Viewport.Camera.Projection = Projection.Parallel;
 			Viewport.InteractionState = InteractionState.Interact2D;

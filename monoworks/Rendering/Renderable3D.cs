@@ -1,4 +1,4 @@
-// Renderable3D.cs - MonoWorks Project
+// Actor.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -26,10 +26,10 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Renderable that can renders itself in 3D.
 	/// </summary>
-	public class Renderable3D : Renderable
+	public class Actor : Renderable
 	{
 		
-		public Renderable3D() : base()
+		public Actor() : base()
 		{
 		}
 

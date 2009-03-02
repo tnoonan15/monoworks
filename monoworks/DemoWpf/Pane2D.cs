@@ -43,7 +43,7 @@ namespace MonoWorks.DemoWpf
 			TestAxes2D axes = new TestAxes2D();
 
 			// add the test axes
-			viewport.RenderList.AddRenderable(axes);
+			viewport.RenderList.AddActor(axes);
 			viewport.Camera.Projection = Projection.Parallel;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
 			viewport.SetInteractionState(InteractionState.Interact2D);

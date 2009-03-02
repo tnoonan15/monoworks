@@ -52,8 +52,8 @@ namespace MonoWorks.Plotting
 			HitLine hitLine = evt.HitLine;
 
 			// TODO: handle multiple hits with depth checking
-			Renderable3D hitRend = null;
-			foreach (Renderable3D rend in renderList.Renderables)
+			Actor hitRend = null;
+			foreach (Actor rend in renderList.Actors)
 			{
 				rend.OnButtonPress(evt);
 				if (rend.HitTest(hitLine))

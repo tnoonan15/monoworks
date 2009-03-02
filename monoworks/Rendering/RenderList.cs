@@ -26,67 +26,68 @@ namespace MonoWorks.Rendering
 	/// </summary>
 	public class RenderList
 	{
-		#region Renderable Registry
 
-		protected List<Renderable3D> renderables = new List<Renderable3D>();
+		#region Actors
+
+		protected List<Actor> actors = new List<Actor>();
 		/// <summary>
-		/// 3D Renderables to render.
+		/// Actors to render.
 		/// </summary>
-		public IEnumerable<Renderable3D> Renderables
+		public IEnumerable<Actor> Actors
 		{
-			get { return renderables; }
+			get { return actors; }
 		}
 
 		/// <summary>
-		/// Adds a renderable to the rendering list.
+		/// Adds a actor to the rendering list.
 		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void AddRenderable(Renderable3D renderable)
+		/// <param name="actor"> A <see cref="Renderable"/>. </param>
+		public void AddActor(Actor actor)
 		{
-			if (!renderables.Contains(renderable))
-				renderables.Add(renderable);
+			if (!actors.Contains(actor))
+				actors.Add(actor);
 		}
 
 		/// <summary>
-		/// Removes a renderable from the rendering list.
+		/// Removes a actor from the rendering list.
 		/// </summary>
-		/// <param name="renderable"> A <see cref="Renderable"/>. </param>
-		public void RemoveRenderable(Renderable3D renderable)
+		/// <param name="actor"> A <see cref="Renderable"/>. </param>
+		public void RemoveActor(Actor actor)
 		{
-			if (!renderables.Contains(renderable))
-				throw new Exception("The renderable is not a part of this viewport's rendering list.");
-			renderables.Remove(renderable);
+			if (!actors.Contains(actor))
+				throw new Exception("The actor is not a part of this viewport's rendering list.");
+			actors.Remove(actor);
 		}
 		
 		/// <value>
-		/// The number of renderables.
+		/// The number of actors.
 		/// </value>
-		public int RenderableCount
+		public int ActorCount
 		{
-			get {return renderables.Count;}
+			get {return actors.Count;}
 		}
 
 		/// <value>
-		/// The bounds of all renderables.
+		/// The bounds of all actors.
 		/// </value>
 		public Bounds Bounds
 		{
 			get
 			{
 				Bounds bounds = new Bounds();
-				foreach (Renderable3D renderable in renderables)
-					bounds.Resize(renderable.Bounds);
+				foreach (Actor actor in actors)
+					bounds.Resize(actor.Bounds);
 				return bounds;
 			}
 		}
 
 		/// <summary>
-		/// Reset the bounds of all renderables.
+		/// Reset the bounds of all actors.
 		/// </summary>
 		public void ResetBounds()
 		{
-			foreach (Renderable3D renderable in renderables)
-				renderable.ResetBounds();
+			foreach (Actor actor in actors)
+				actor.ResetBounds();
 		}
 
 		#endregion
@@ -152,23 +153,23 @@ namespace MonoWorks.Rendering
 			viewport.RenderManager.BeginSolids();
 			viewport.Camera.Place(); // place the camera for 3D rendering
 
-			foreach (Renderable3D renderable in renderables)
+			foreach (Actor actor in actors)
 			{
-				if (renderable.IsVisible)
-					renderable.RenderOpaque(viewport);
+				if (actor.IsVisible)
+					actor.RenderOpaque(viewport);
 			}
 
-			foreach (Renderable3D renderable in renderables)
+			foreach (Actor actor in actors)
 			{
-				if (renderable.IsVisible)
-					renderable.RenderTransparent(viewport);
+				if (actor.IsVisible)
+					actor.RenderTransparent(viewport);
 			}
 
 			viewport.Camera.PlaceOverlay(); // place the camera for overlay rendering
-			foreach (Renderable3D renderable in renderables)
+			foreach (Actor actor in actors)
 			{
-				if (renderable.IsVisible)
-					renderable.RenderOverlay(viewport);
+				if (actor.IsVisible)
+					actor.RenderOverlay(viewport);
 			}
 
 			// render the overlays
@@ -189,8 +190,8 @@ namespace MonoWorks.Rendering
 		/// <param name="viewport"> </param>
 		public void OnViewportResized(Viewport viewport)
 		{
-			foreach (Renderable3D renderable in Renderables)
-				renderable.OnViewportResized(viewport);
+			foreach (Actor actor in Actors)
+				actor.OnViewportResized(viewport);
 			
 			foreach (Overlay overlay in Overlays)
 				overlay.OnViewportResized(viewport);

@@ -623,7 +623,7 @@ namespace MonoWorks.Rendering
 			
 			// determine the distance needed to view all renderables
 			double dist = 0;
-			if (viewport.RenderList.RenderableCount > 0 && bounds.IsSet)
+			if (viewport.RenderList.ActorCount > 0 && bounds.IsSet)
 			{
 				dist = bounds.MaxWidth / (fov * 0.5).Tan();				
 				centerOut = bounds.Center;
@@ -693,7 +693,7 @@ namespace MonoWorks.Rendering
 
 			// determine the distance needed to view all renderables
 			double dist = 0;
-			if (viewport.RenderList.RenderableCount > 0 && bounds.IsSet)
+			if (viewport.RenderList.ActorCount > 0 && bounds.IsSet)
 				dist = bounds.MaxWidth / (fov * 0.5).Tan();
 			else
 				dist = 2 / (fov * 0.5).Tan();

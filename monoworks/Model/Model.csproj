@@ -78,7 +78,8 @@
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\Revolution.cs" />
     <Compile Include="IEntityListener.cs" />
-    <Compile Include="Interaction\DrawingInteractor.cs" />
+    <Compile Include="Sketching\BaseSketcher.cs" />
+    <Compile Include="ViewportControls\DrawingInteractor.cs" />
     <Compile Include="ISelectionListener.cs" />
     <Compile Include="Momento.cs" />
     <Compile Include="Part.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="Reference\RefPlane.cs" />
     <Compile Include="Sketching\AbstractSketcher.cs" />
     <Compile Include="Sketching\Arc.cs" />
-    <Compile Include="Sketching\ISketcher.cs" />
     <Compile Include="Sketching\Line.cs" />
     <Compile Include="Sketching\LineSketcher.cs" />
     <Compile Include="Sketching\Sketch.cs" />

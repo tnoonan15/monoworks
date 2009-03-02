@@ -57,7 +57,7 @@ namespace MonoWorks.DemoWpf
 
 
 			// add the test axes
-			viewport.RenderList.AddRenderable(axes);
+			viewport.RenderList.AddActor(axes);
 			viewport.Camera.SetViewDirection(ViewDirection.Standard);
 
 		}

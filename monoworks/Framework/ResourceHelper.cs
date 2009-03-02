@@ -77,7 +77,7 @@ namespace MonoWorks.Framework
 				// search for incomplete matches
 				foreach (string resName in resNames)
 				{
-					if (resName.EndsWith(name)) // incomplete match
+					if (resName.EndsWith(name) && resName[resName.Length - name.Length - 1] == '.') // incomplete match
 						return asm.GetManifestResourceStream(resName);
 				}
 			}
