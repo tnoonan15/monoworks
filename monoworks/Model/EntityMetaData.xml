@@ -78,6 +78,9 @@
 			<Attribute name="points" type="List(MonoWorks.Base.Point)">
 				The points representing the vertices of the line.
 			</Attribute>
+			<Attribute name="isClosed" type="System.Boolean">
+				Whether or not the line is closed on itself.
+			</Attribute>
 		</Entity>
 		<Entity name="Arc">
 			<Attribute name="center" type="MonoWorks.Base.Point">

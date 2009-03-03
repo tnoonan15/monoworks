@@ -34,7 +34,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public Line() : base()
 		{
-			
+			IsClosed = false;
 		}
 		
 		
@@ -51,7 +51,7 @@ namespace MonoWorks.Model
 		}
 		
 		
-#region Points
+#region Attributes
 
 		/// <value>
 		/// The list of points.
@@ -59,6 +59,15 @@ namespace MonoWorks.Model
 		public List<Point> Points
 		{
 			get {return (List<Point>)this["points"];}
+		}
+
+		/// <summary>
+		/// Whether or not the line is closed on itself.
+		/// </summary>
+		public bool IsClosed
+		{
+			get { return (bool)this["isClosed"]; }
+			set { this["isClosed"] = value; }
 		}
 			
 #endregion
@@ -91,8 +100,15 @@ namespace MonoWorks.Model
 			}
 			
 			// for lines, the solid and wireframe points are the same
-			wireframePoints = solidPoints;
-			
+			// except if the line is closed
+			if (IsClosed)
+			{
+				wireframePoints = new Vector[solidPoints.Length + 1];
+				Array.Copy(solidPoints, wireframePoints, solidPoints.Length);
+				wireframePoints[solidPoints.Length] = solidPoints[0];
+			}
+			else
+				wireframePoints = solidPoints;
 		}
 		
 		

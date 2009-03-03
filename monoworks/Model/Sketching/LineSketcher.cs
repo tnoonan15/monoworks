@@ -53,6 +53,10 @@ namespace MonoWorks.Model
 		/// </summary>
 		private Point point = null;
 
+		/// <summary>
+		/// A point that is close to where the mouse is.
+		/// </summary>
+		private Point closePoint = null;
 
 		public override void Apply()
 		{
@@ -70,19 +74,32 @@ namespace MonoWorks.Model
 
 			base.OnButtonPress(evt);
 
-			if (state == LineSketcherState.AddVertex)
+			if (closePoint != null)
 			{
-				point = new Point();
-				Sketchable.Points.Add(point);
-				Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
-				point.SetPosition(intersect);
+				Sketchable.Points.Remove(point);
+				Sketchable.IsClosed = true;
+				point = null;
+				closePoint = null;
+				state = LineSketcherState.None;
 			}
+			else // there is no close point
+			{
+				if (state == LineSketcherState.AddVertex)
+				{
+					point = new Point();
+					Sketchable.Points.Add(point);
+					Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
+					point.SetPosition(intersect);
+				}
+			}
+			Sketchable.MakeDirty();
 		}
 
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
+			closePoint = null;
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
@@ -92,11 +109,22 @@ namespace MonoWorks.Model
 
 			base.OnMouseMotion(evt);
 
-			if (state == LineSketcherState.AddVertex)
+			if (state == LineSketcherState.AddVertex || state == LineSketcherState.Vertex)
 			{
 				Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
 				point.SetPosition(intersect);
 				Sketchable.MakeDirty();
+				
+				// check if the first point is close
+				if (point == Sketchable.Points.Last() && Sketchable.Points.Count > 2)
+				{
+					Coord firstCoord = evt.HitLine.Camera.WorldToScreen(Sketchable.Points.First().ToVector());
+					Coord lastCoord = evt.HitLine.Camera.WorldToScreen(Sketchable.Points.Last().ToVector());
+					if ((firstCoord - lastCoord).Magnitude < 6)
+						closePoint = Sketchable.Points.First();
+					else
+						closePoint = null;
+				}
 			}
 		}
 
@@ -106,6 +134,13 @@ namespace MonoWorks.Model
 #region Rendering
 
 
+		public override void RenderOpaque(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+
+			if (closePoint != null)
+				HighlightPoint(viewport, closePoint);
+		}
 		
 
 #endregion

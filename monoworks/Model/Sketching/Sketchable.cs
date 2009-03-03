@@ -85,7 +85,7 @@ namespace MonoWorks.Model
 			ColorManager.Global["Black"].Setup();
 			gl.glLineWidth(2);
 			gl.glBegin(gl.GL_LINE_STRIP);
-			DrawVertices();
+			DrawEdges();
 			gl.glEnd();
 
 			// vertices
@@ -95,8 +95,7 @@ namespace MonoWorks.Model
 			gl.glEnd();
 
 			viewport.RenderManager.Lighting.Enable();
-		}
-		
+		}		
 		
 		/// <summary>
 		/// Draws the vertices to the OpenGL context.
@@ -104,6 +103,15 @@ namespace MonoWorks.Model
 		public virtual void DrawVertices()
 		{
 			foreach (Vector point in solidPoints)
+				point.glVertex();
+		}
+
+		/// <summary>
+		/// Draws the edges to the OpenGL context.
+		/// </summary>
+		public virtual void DrawEdges()
+		{
+			foreach (Vector point in wireframePoints)
 				point.glVertex();
 		}
 		
