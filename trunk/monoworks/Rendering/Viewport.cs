@@ -124,8 +124,21 @@ namespace MonoWorks.Rendering
 			// render the rendering list
 			renderList.Render(this);
 
-			// render the rubber band
-			ViewInteractor.RubberBand.Render(this);
+			// let the interactors render themselves
+			Camera.Place();
+			ViewInteractor.RenderOpaque(this);
+			ViewInteractor.RenderTransparent(this);
+			ViewInteractor.RenderOverlay(this);
+			if (PrimaryInteractor != null)
+			{
+				PrimaryInteractor.RenderOpaque(this);
+				PrimaryInteractor.RenderTransparent(this);
+				PrimaryInteractor.RenderOverlay(this);
+			}
+			Camera.PlaceOverlay();
+			OverlayInteractor.RenderOpaque(this);
+			OverlayInteractor.RenderTransparent(this);
+			OverlayInteractor.RenderOverlay(this);
 
 			//SwapBuffers();
 		}

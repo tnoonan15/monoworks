@@ -49,6 +49,8 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			this.renderList = viewport.RenderList;
 			this.viewport = viewport;
+
+			RubberBand = new RubberBand();
 		}
 
 
@@ -76,6 +78,11 @@ namespace MonoWorks.Rendering.Interaction
 			get { return lastPos; }
 			set { lastPos = value; }
 		}
+
+		/// <summary>
+		/// Every interactor gets a rubber band to use as it pleases.
+		/// </summary>
+		protected RubberBand RubberBand { get; private set; }
 
 		/// <summary>
 		/// Registers a button press event.
@@ -110,6 +117,15 @@ namespace MonoWorks.Rendering.Interaction
 		public virtual void OnKeyPress(KeyEvent evt)
 		{
 
+		}
+
+
+		public override void RenderOverlay(Viewport viewport)
+		{
+			base.RenderOverlay(viewport);
+
+			// render the rubberband
+			RubberBand.Render(viewport);
 		}
 
 	}

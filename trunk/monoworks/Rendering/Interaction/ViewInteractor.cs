@@ -95,15 +95,6 @@ namespace MonoWorks.Rendering.Interaction
 
 #region Mouse Interaction
 
-		protected RubberBand rubberBand = new RubberBand();
-		/// <summary>
-		/// The rubber band used for select and zoom interactions.
-		/// </summary>
-		public RubberBand RubberBand
-		{
-			get { return rubberBand; }
-		}
-
 		protected InteractionType mouseType;
 		/// <value>
 		/// The current interaction mode.
@@ -146,8 +137,8 @@ namespace MonoWorks.Rendering.Interaction
 			// TODO: make this work for rubber band selection
 			if (MouseType == InteractionType.Zoom)
 			{
-				rubberBand.Start = evt.Pos;
-				rubberBand.Enabled = true;
+				RubberBand.Start = evt.Pos;
+				RubberBand.Enabled = true;
 				evt.Handle();
 			}
 
@@ -165,7 +156,7 @@ namespace MonoWorks.Rendering.Interaction
 				bool blocked = false;
 				foreach (Actor renderable in renderList.Actors)
 				{
-					if (renderable.HandleZoom(viewport, rubberBand))
+					if (renderable.HandleZoom(viewport, RubberBand))
 						blocked = true;
 				}
 				if (!blocked)
@@ -176,7 +167,7 @@ namespace MonoWorks.Rendering.Interaction
 			}
 
 
-			rubberBand.Enabled = false;
+			RubberBand.Enabled = false;
 			base.OnButtonRelease(evt);
 			mouseType = InteractionType.None;
 		}
@@ -192,7 +183,7 @@ namespace MonoWorks.Rendering.Interaction
 			{
 			case InteractionType.Select:
 			case InteractionType.Zoom:
-				rubberBand.Stop = evt.Pos;
+				RubberBand.Stop = evt.Pos;
 				break;
 
 			case InteractionType.Pan:
@@ -235,8 +226,8 @@ namespace MonoWorks.Rendering.Interaction
 			switch (MouseType)
 			{
 			case InteractionType.Select:
-				//rubberBand.StopX = interactionState.LastLoc.X;
-				//rubberBand.StopY = HeightGL - interactionState.LastLoc.Y;
+				//RubberBand.StopX = interactionState.LastLoc.X;
+				//RubberBand.StopY = HeightGL - interactionState.LastLoc.Y;
 				break;
 
 			case InteractionType.Rotate:

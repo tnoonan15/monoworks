@@ -19,8 +19,12 @@
 using System;
 using System.Collections.Generic;
 
+using gl = Tao.OpenGl.Gl;
+
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
+
 
 namespace MonoWorks.Model
 {
@@ -52,6 +56,26 @@ namespace MonoWorks.Model
 		public virtual void OnKeyPress(KeyEvent evt)
 		{
 		}
+
+
+
+#region Rendering Helpers
+
+		/// <summary>
+		/// Highlights the given point.
+		/// </summary>
+		protected void HighlightPoint(Viewport viewport, Point point)
+		{
+			viewport.RenderManager.Lighting.Disable();
+			gl.glPointSize(10f);
+			gl.glColor3d(1, 0, 0);
+			gl.glBegin(gl.GL_POINTS);
+			point.glVertex();
+			gl.glEnd();
+			viewport.RenderManager.Lighting.Enable();
+		}
+
+#endregion
 
 
 	}

@@ -147,7 +147,7 @@ namespace MonoWorks.Model
 		{
 			base.RenderOpaque(viewport);
 			if (sketcher != null)
-				(sketcher as Actor).RenderOpaque(viewport);
+				sketcher.RenderOpaque(viewport);
 		}
 
 		/// <summary>
@@ -157,7 +157,7 @@ namespace MonoWorks.Model
 		{
 			base.RenderOpaque(viewport);
 			if (sketcher != null)
-				(sketcher as Actor).RenderTransparent(viewport);
+				sketcher.RenderTransparent(viewport);
 		}
 
 		/// <summary>
@@ -167,7 +167,7 @@ namespace MonoWorks.Model
 		{
 			base.RenderOpaque(viewport);
 			if (sketcher != null)
-				(sketcher as Actor).RenderOverlay(viewport);
+				sketcher.RenderOverlay(viewport);
 		}
 
 #endregion

@@ -10,8 +10,6 @@ namespace MonoWorks.Base
 	/// </summary>
 	public static class CollectionExtensions
 	{
-
-
 		/// <summary>
 		/// Writes a list to a string by concatonating the element string values.
 		/// </summary>
@@ -29,6 +27,22 @@ namespace MonoWorks.Base
 				builder.Remove(builder.Length - 1, 1);
 			builder.Append(']');
 			return builder.ToString();
+		}
+
+		/// <summary>
+		/// Returns the first element of a list.
+		/// </summary>
+		public static T First<T>(this List<T> list)
+		{
+			return list[0];
+		}
+
+		/// <summary>
+		/// Returns the last element of a list.
+		/// </summary>
+		public static T Last<T>(this List<T> list)
+		{
+			return list[list.Count - 1];
 		}
 	}
 }
