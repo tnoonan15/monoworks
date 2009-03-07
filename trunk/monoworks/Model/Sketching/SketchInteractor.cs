@@ -146,6 +146,7 @@ namespace MonoWorks.Model
 		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
+			Sketch.Plane.RenderGrid(viewport);
 			if (sketcher != null)
 				sketcher.RenderOpaque(viewport);
 		}

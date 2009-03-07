@@ -68,7 +68,7 @@ namespace MonoWorks.Rendering.Controls
 		
 		public override void RenderOverlay(Viewport viewport)
 		{	
-			if (dirty)
+			if (IsDirty)
 				ComputeGeometry();
 			
 			RenderBackground();

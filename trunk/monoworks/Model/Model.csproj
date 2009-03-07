@@ -45,6 +45,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957">
       <SpecificVersion>False</SpecificVersion>
@@ -78,6 +81,7 @@
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\Revolution.cs" />
     <Compile Include="IEntityListener.cs" />
+    <Compile Include="ModelingOptions.cs" />
     <Compile Include="Sketching\BaseSketcher.cs" />
     <Compile Include="ViewportControls\DrawingInteractor.cs" />
     <Compile Include="ISelectionListener.cs" />
@@ -132,6 +136,9 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DefaultModelingOptions.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

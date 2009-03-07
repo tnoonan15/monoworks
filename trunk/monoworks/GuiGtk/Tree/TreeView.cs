@@ -55,11 +55,11 @@ namespace MonoWorks.GuiGtk.Tree
 		
 		
 
-		protected Drawing drawing;
+		protected TheDrawing drawing;
 		//// <value>
 		/// The drawing.
 		/// </value>
-		public Drawing Drawing
+		public TheDrawing Drawing
 		{
 			get { return drawing; }
 			set

@@ -69,7 +69,7 @@ namespace MonoWorks.Rendering.Controls
 		public override void RenderOverlay(Viewport viewport)
 		{
 			// adjust position according to location
-			if (dirty) // need to check this before calling parent since they will make us clean
+			if (IsDirty) // need to check this before calling parent since they will make us clean
 			{
 				child.ComputeGeometry();
 				size = child.Size;

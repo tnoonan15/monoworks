@@ -74,7 +74,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		{
 			entity.Snapshot();
 			EntityAction action = new EntityAction(entity);
-			entity.GetDrawing().AddAction(action);
+			entity.TheDrawing.AddAction(action);
 			Hide();
 			
 		}

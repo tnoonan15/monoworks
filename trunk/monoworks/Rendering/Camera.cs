@@ -16,6 +16,7 @@
 //    License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 using gl = Tao.OpenGl.Gl;
 using glu = Tao.OpenGl.Glu;
@@ -61,6 +62,8 @@ namespace MonoWorks.Rendering
 			panFactor = 0.05;
 			
 			lastDirection = ViewDirection.Front;
+
+			Frustum = new FrustumDef();
 		}
 		
 
@@ -182,6 +185,7 @@ namespace MonoWorks.Rendering
 			// get the width and height
 			int width = viewport.WidthGL;
 			int height = viewport.HeightGL;
+			double ar = (double)width/(double)height;
 			
 			// prevent divide by zero
 			if (height==0)	
@@ -192,17 +196,19 @@ namespace MonoWorks.Rendering
 			// initialize the projection matrix
 			gl.glMatrixMode(gl.GL_PROJECTION);
 			gl.glLoadIdentity();
-
+			
 			if (projection == Projection.Perspective)
-			{
+			{								
+				// store the frustum
+				Frustum = new FrustumDef(fov, 0.001*Distance, 100*Distance, ar);
 				// set the perspective projection matrix
-				glu.gluPerspective((float)fov["deg"], (float)width/(float)height, (float)(0.001*Distance), (float)(100*Distance));
+				glu.gluPerspective((float)fov["deg"], (float)Frustum.AR, (float)Frustum.NearDist, (float)Frustum.FarDist);
+
 			}
 			else // parallel
 			{
 				// determine the size of the viewing box
 				double h = (fov*0.5).Tan() * Distance;
-				double ar = (double)width/(double)height;
 				gl.glOrtho(-ar*h, ar*h, -h, h, 0.001*Distance, 100*Distance);
 			}
 
@@ -397,11 +403,38 @@ namespace MonoWorks.Rendering
 		}
 		
 #endregion
-		
-		
-		
+
+
+#region Frustum
+
+		/// <summary>
+		/// The definition of the view frustum geometry.
+		/// </summary>
+		public FrustumDef Frustum { get; private set; }
+
+		/// <summary>
+		/// Hit lines that lay on the frustum edges.
+		/// </summary>
+		public HitLine[] FrustumEdges
+		{
+			get
+			{
+				HitLine[] edges = new HitLine[4];
+
+				edges[0] = ScreenToWorld(new Coord(0, 0));
+				edges[1] = ScreenToWorld(new Coord(0, Height));
+				edges[2] = ScreenToWorld(new Coord(Width, 0));
+				edges[3] = ScreenToWorld(new Coord(Width, Height));
+
+				return edges;
+			}
+		}
+
+#endregion
+
+
 #region Dollying
-		
+
 		protected double dollyFactor;
 		/// <value>
 		/// The default factor by which dollies are performed.
@@ -595,8 +628,7 @@ namespace MonoWorks.Rendering
 		
 #endregion
 
-
-		
+				
 #region View Direction
 		
 		
@@ -720,8 +752,7 @@ namespace MonoWorks.Rendering
 		}
 
 #endregion
-		
-		
+			
 		
 #region Animation
 
@@ -793,4 +824,65 @@ namespace MonoWorks.Rendering
 
 
 	}
+
+
+	/// <summary>
+	/// A data structure containing the geometry of a view frustum.
+	/// </summary>
+	public struct FrustumDef
+	{
+		/// <summary>
+		/// Constructs the frustm def.
+		/// </summary>
+		public FrustumDef(Angle fov, double near, double far, double ar) : this()
+		{
+			NearDist = near;
+			FarDist = far;
+			AR = ar;
+			NearHeight = 2.0 * (fov / 2.0).Tan() * NearDist;
+			FarHeight = 2.0 * (fov / 2.0).Tan() * FarDist;
+		}
+
+		/// <summary>
+		/// The aspect ratio.
+		/// </summary>
+		public double AR { get; private set; }
+		
+		/// <summary>
+		/// The distance from the camera to the near plane.
+		/// </summary>
+		public double NearDist { get; private set; }
+
+		/// <summary>
+		/// Height of the near plane.
+		/// </summary>
+		public double NearHeight { get; private set; }
+
+		/// <summary>
+		/// Width of the near plane.
+		/// </summary>
+		public double NearWidth
+		{
+			get	{return AR * NearHeight;}
+		}
+
+		/// <summary>
+		/// The distance from the camera to the far plane.
+		/// </summary>
+		public double FarDist { get; private set; }
+
+		/// <summary>
+		/// Height of the far plane.
+		/// </summary>
+		public double FarHeight { get; private set; }
+
+		/// <summary>
+		/// Width of the far plane.
+		/// </summary>
+		public double FarWidth
+		{
+			get { return AR * FarHeight; }
+		}
+	}
+
 }

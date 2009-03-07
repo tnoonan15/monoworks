@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.IO;
 
@@ -78,21 +79,15 @@ namespace MonoWorks.Model
 		/// <value>
 		/// Returns itself.
 		/// </value>
-		public override Drawing GetDrawing()
+		public override Drawing TheDrawing
 		{
-			return this;
+			get { return this; }
 		}
 		
-
-		protected ColorManager colorManager;
 		/// <value>
 		/// The color manager for this drawing.
 		/// </value>
-		public ColorManager ColorManager
-		{
-			get {return colorManager;}
-			set {colorManager = value;}
-		}
+		public ColorManager ColorManager { get; private set; }
 				
 		/// <summary>
 		/// Handles entity selection.
@@ -206,7 +201,6 @@ namespace MonoWorks.Model
 #endregion
 		
 		
-		
 #region Children
 	
 		/// <summary>
@@ -248,6 +242,26 @@ namespace MonoWorks.Model
 			base.MakeDirty();
 		}
 
+		/// <summary>
+		/// Gets called when a child is made dirty.
+		/// </summary>
+		public void ChildDirty(Entity child)
+		{
+			if (child is Feature)
+			{
+				MakeReferencesDirty();
+			}		
+		}
+
+
+		/// <summary>
+		/// Makes all reference entities at the top level of the drawing dirty.
+		/// </summary>
+		public void MakeReferencesDirty()
+		{
+			foreach (Entity ref_ in GetChildren<Reference>())
+				ref_.MakeDirty();
+		}
 	
 #endregion
 

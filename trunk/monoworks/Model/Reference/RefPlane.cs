@@ -64,6 +64,16 @@ namespace MonoWorks.Model
 		protected Vector[] quadCorners;
 
 		/// <summary>
+		/// The local x axis.
+		/// </summary>
+		protected Vector localX;
+
+		/// <summary>
+		/// The local y axis.
+		/// </summary>
+		protected Vector localY;
+
+		/// <summary>
 		/// The center of the plane as it's being rendered.
 		/// </summary>
 		public Vector RenderCenter
@@ -117,11 +127,11 @@ namespace MonoWorks.Model
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-			
-			double radius = GetDrawing().Bounds.Radius; // radius of the bounds
+
+			// get the radius of the drawing
+			double radius = TheDrawing.Bounds.MaxWidth; // radius of the bounds
 			if (radius == 0) // when there's nothing in the drawing
 				radius = 1;
-//			Console.WriteLine("bounds radius {0}", radius);
 
 			// find one corner of the plane to draw
 			Vector direction = Plane.Normal;
@@ -134,7 +144,7 @@ namespace MonoWorks.Model
 			corner = corner.Rotate(direction, new Angle(Angle.PI/4.0)) * (1.0 * radius);
 			
 			// find the center of the plane to draw
-			Vector boundsCenter = GetDrawing().Bounds.Center;
+			Vector boundsCenter = TheDrawing.Bounds.Center;
 			if (boundsCenter == null)
 				boundsCenter = new Vector();
 			Vector planeCenter = Plane.Center.ToVector();
@@ -150,18 +160,17 @@ namespace MonoWorks.Model
 			bounds.Reset();
 			for (int i=0; i<4; i++)
 			{
-				//Console.WriteLine("quad corner at {0}", Plane.Center.ToVector() + corner);
 				quadCorners[i] = center + corner;
 				bounds.Resize(quadCorners[i]);
 				corner = corner.Rotate(direction, new Angle(Angle.PI/2.0));
 			}
+
+			// compute the x and y axes of the local coordinate system
+			localX = ((quadCorners[0] + quadCorners[1]) * 0.5 - center).Normalize();
+			localY = ((quadCorners[1] + quadCorners[2]) * 0.5 - center).Normalize();
 			
-		}		
-		
-		/// <summary>
-		/// Renders the plane to the viewport.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
+		}				
+
 		public override void RenderTransparent(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);
@@ -172,7 +181,6 @@ namespace MonoWorks.Model
 			gl.glEnd();
 			
 		}
-
 
 		public override void RenderOpaque(Viewport viewport)
 		{
@@ -185,12 +193,131 @@ namespace MonoWorks.Model
 			gl.glEnd();
 
 		}
-
-		
+				
 #endregion
-		
+
+
+#region The Grid
+
+		/// <summary>
+		/// The grid.
+		/// </summary>
+		private GridDef Grid = new GridDef();
+
+		/// <summary>
+		/// Renders the grid on the plane.
+		/// </summary>
+		public void RenderGrid(Viewport viewport)
+		{
+			// project the edges of the view frustum to the plane
+			HitLine[] hits = viewport.Camera.FrustumEdges;
+			double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
+			for (int i = 0; i < hits.Length; i++)
+			{
+				Vector vec = hits[i].GetIntersection(Plane);
+				Coord coord = WorldToLocal(vec);
+				if (i == 0)
+				{
+					xMin = xMax = coord.X;
+					yMin = yMax = coord.Y;
+				}
+				else // not the first one
+				{
+					xMin = Math.Min(xMin, coord.X);
+					xMax = Math.Max(xMax, coord.X);
+					yMin = Math.Min(yMin, coord.Y);
+					yMax = Math.Max(yMax, coord.Y);
+				}
+			}
+
+			// compute the grid step
+			double displayStep = Bounds.NiceStep(Dimensional.DefaultToDisplay<Length>(xMin), 
+				Dimensional.DefaultToDisplay<Length>(xMax), 40);
+			Grid.Step = Dimensional.DisplayToDefault<Length>(displayStep);
+
+			// round the limits to the outside step
+			xMin = Math.Floor(xMin / Grid.Step) * Grid.Step;
+			xMax = Math.Ceiling(xMax / Grid.Step) * Grid.Step;
+			yMin = Math.Floor(yMin / Grid.Step) * Grid.Step;
+			yMax = Math.Ceiling(yMax / Grid.Step) * Grid.Step;
+
+			// draw the grid
+			gl.glBegin(gl.GL_LINES);
+			gl.glColor3f(0.5f, 0.5f, 0.5f);
+			gl.glLineWidth(1f);
+			for (double x = xMin; x < xMax; x += Grid.Step)
+			{
+				LocalToWorld(new Coord(x, yMin)).glVertex();
+				LocalToWorld(new Coord(x, yMax)).glVertex();
+			}
+			for (double y = yMin; y < yMax; y += Grid.Step)
+			{
+				LocalToWorld(new Coord(xMin, y)).glVertex();
+				LocalToWorld(new Coord(xMax, y)).glVertex();
+			}
+			gl.glEnd();
+		}
+
+		/// <summary>
+		/// Snaps a vector to the grid.
+		/// </summary>
+		public Vector SnapToGrid(Vector vec)
+		{
+			Coord local = WorldToLocal(vec);
+			Coord snapped = new Coord(Math.Round(local.X / Grid.Step) * Grid.Step, 
+				Math.Round(local.Y / Grid.Step) * Grid.Step);
+			return LocalToWorld(snapped);
+		}
+
+		/// <summary>
+		/// Transforms a point on the plane into the local coordinate system.
+		/// </summary>
+		public Coord WorldToLocal(Vector point)
+		{
+			Coord coord = new Coord();
+			Vector renderCenter = RenderCenter;
+			Vector dCenter = point - renderCenter;
+			coord.X = dCenter.Dot(localX);
+			coord.Y = dCenter.Dot(localY);
+			return coord;
+		}
+
+		/// <summary>
+		/// Transforms a point from the local coordinate system to the world system.
+		/// </summary>
+		public Vector LocalToWorld(Coord coord)
+		{
+			return Plane.Center.ToVector() + localX * coord.X + localY * coord.Y;
+		}
+
+#endregion
+
+
 	}
 
+
+	/// <summary>
+	/// Definition of the grid on a plane.
+	/// </summary>
+	internal class GridDef
+	{
+
+		/// <summary>
+		/// The step size of the grid.
+		/// </summary>
+		internal double Step;
+
+		///// <summary>
+		///// The x grid intervals.
+		///// </summary>
+		//internal double[] X;
+
+		///// <summary>
+		///// The y grid intervals.
+		///// </summary>
+		//internal double[] Y;
+
+	}
 
 
 }

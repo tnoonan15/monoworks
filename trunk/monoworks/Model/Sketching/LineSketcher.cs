@@ -112,8 +112,11 @@ namespace MonoWorks.Model
 			if (state == LineSketcherState.AddVertex || state == LineSketcherState.Vertex)
 			{
 				Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
+				if (ModelingOptions.Global.SnapToGrid)
+					intersect = Sketch.Plane.SnapToGrid(intersect);
 				point.SetPosition(intersect);
 				Sketchable.MakeDirty();
+
 				
 				// check if the first point is close
 				if (point == Sketchable.Points.Last() && Sketchable.Points.Count > 2)
