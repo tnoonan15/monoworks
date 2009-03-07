@@ -41,7 +41,7 @@ namespace MonoWorks.StudioGtk
 		
 		protected DrawingFrame drawingFrame;
 		
-		public Drawing Drawing
+		public TheDrawing Drawing
 		{
 			get {return drawingFrame.Drawing;}
 			set {drawingFrame.Drawing = value;}

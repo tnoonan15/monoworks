@@ -106,17 +106,17 @@ namespace MonoWorks.Base
 		{
 			get
 			{
-				return DimensionManager.CurrentInstance.GetUnits(this.ClassName);
+				return DimensionManager.Global.GetUnits(this.ClassName);
 			}
 		}
 		
 		
 		/// <summary>
-		/// Returns the default unit string.  
+		/// The name of the default units.  
 		/// </summary>
-		public string DefaultUnits()
+		public string DefaultUnits
 		{
-			return Units[0];
+			get	{return DimensionManager.Global.GetDefaultUnits(ClassName);}
 		}
 		
 		/// <summary>
@@ -137,7 +137,7 @@ namespace MonoWorks.Base
 		/// </value>
 		public string DisplayUnits
 		{
-			get {return DimensionManager.CurrentInstance.GetDisplayUnits(this.ClassName);}
+			get {return DimensionManager.Global.GetDisplayUnits(this.ClassName);}
 		}
 		
 #endregion
@@ -176,22 +176,56 @@ namespace MonoWorks.Base
 		{
 			get 
 			{
-				if (!UnitFactors.ContainsKey(units))
+				double unitFactor;
+				if (!UnitFactors.TryGetValue(units, out unitFactor))
 					throw new UnitException(units);
-				return val / UnitFactors[units];
+				return val / unitFactor;
 			}
-			set 
+			set
 			{
-				if (!UnitFactors.ContainsKey(units))
+				double unitFactor;
+				if (!UnitFactors.TryGetValue(units, out unitFactor))
 					throw new UnitException(units);
-				val = value * UnitFactors[units]; 
+				val = value * unitFactor; 
 			}
 		}
 				
 		
 		
 #endregion
+		
 
+#region Convenience Conversions
+
+		/// <summary>
+		/// Converts a display value to default value.
+		/// </summary>
+		public static double DisplayToDefault<T>(double val) where T : Dimensional
+		{
+			string[] nameComps = typeof(T).ToString().Split('.');
+			string name = nameComps[nameComps.Length-1];
+			double unitFactor;
+			string units = DimensionManager.Global.GetDefaultUnits(name);
+			if (!DimensionManager.Global.GetUnits(name).TryGetValue(units, out unitFactor))
+				throw new UnitException(units);
+			return val * unitFactor;
+		}
+
+		/// <summary>
+		/// Converts a default value to display value.
+		/// </summary>
+		public static double DefaultToDisplay<T>(double val) where T : Dimensional
+		{
+			string[] nameComps = typeof(T).ToString().Split('.');
+			string name = nameComps[nameComps.Length - 1];
+			double unitFactor;
+			string units = DimensionManager.Global.GetDefaultUnits(name);
+			if (!DimensionManager.Global.GetUnits(name).TryGetValue(units, out unitFactor))
+				throw new UnitException(units);
+			return val / unitFactor;
+		}
+
+#endregion
 
 		
 	}

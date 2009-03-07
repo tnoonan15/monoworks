@@ -291,7 +291,6 @@ namespace MonoWorks.Plotting
 
 			// update tick alignment
 			HorizontalAlignment newAlignment = HorizontalAlignment.Center;
-			//if (tickAngle 
 
 			// render the ticks
 			gl.glBegin(gl.GL_LINES);

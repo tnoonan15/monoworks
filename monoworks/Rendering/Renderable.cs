@@ -40,23 +40,20 @@ namespace MonoWorks.Rendering
 		public Renderable()
 		{
 			IsVisible = true;
+			IsDirty = true;
 		}
 
-		protected bool dirty = true;
 		/// <summary>
 		/// True if the renderable is dirty and needs its geometry recomputed.
 		/// </summary>
-		public bool IsDirty
-		{
-			get { return dirty; }
-		}
+		public bool IsDirty { get; protected set; }
 
 		/// <summary>
 		/// Makes the renderable dirty.
 		/// </summary>
 		public virtual void MakeDirty()
 		{
-			dirty = true;
+			IsDirty = true;
 		}
 
 		/// <summary>
@@ -89,7 +86,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void ComputeGeometry()
 		{
-			dirty = false;
+			IsDirty = false;
 		}
 		
 		
@@ -99,7 +96,7 @@ namespace MonoWorks.Rendering
 		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public virtual void RenderOverlay(Viewport viewport)
 		{			
-			if (dirty)
+			if (IsDirty)
 				ComputeGeometry();
 		}
 		

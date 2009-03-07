@@ -163,21 +163,6 @@ namespace MonoWorks.Rendering
 		}
 		
 		/// <value>
-		/// The "radius" of the box.
-		/// </value>
-		/// <remarks>Basically the average of the width in each dimension.</remarks>
-		public double Radius
-		{
-			get
-			{
-				if (isSet)
-					return (maxima[0] + maxima[1] + maxima[2] - minima[0] - minima[1] - minima[2]) / 3.0;
-				else
-					return 0;
-			}
-		}
-		
-		/// <value>
 		/// The maximum width in any dimension.
 		/// </value>
 		public double MaxWidth
@@ -456,10 +441,9 @@ namespace MonoWorks.Rendering
 		}
 		
 #endregion
-		
 
 		
-#region Hit Test		
+#region Hit Test
 		
 		protected bool GetIntersection( double fDst1, double fDst2, Vector P1, Vector P2, out Vector Hit)
 		{
@@ -556,7 +540,6 @@ namespace MonoWorks.Rendering
 #endregion
 
 
-
 #region Prettifying
 
 		/// <summary>
@@ -572,7 +555,7 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Returns a nice step that is between 1/5 to 1/8 of the range.
+		/// Returns a nice step to divide the range.
 		/// </summary>
 		/// <param name="min"> The minimum value of the range.</param>
 		/// <param name="max"> the maximum value of the range.</param>
@@ -593,6 +576,44 @@ namespace MonoWorks.Rendering
 			// adjust step down if it's too high
 			while (range / step < desiredNumSteps-1)
 				step /= 2.0;
+
+			return step;
+		}
+
+		/// <summary>
+		/// Returns a decimal step that is between 1/5 to 1/8 of the range.
+		/// </summary>
+		/// <param name="min"> The minimum value of the range.</param>
+		/// <param name="max"> the maximum value of the range.</param>
+		/// <returns> The decimal step size.</returns>
+		/// <remarks> The default desired number of steps is 7.</remarks>
+		public static double DecStep(double min, double max)
+		{
+			return DecStep(min, max, 7);
+		}
+
+		/// <summary>
+		/// Returns a decimal step to divide the range.
+		/// </summary>
+		/// <param name="min"> The minimum value of the range.</param>
+		/// <param name="max"> the maximum value of the range.</param>
+		/// <param name="desiredNumSteps"> The desired number of steps between min and max (will get within +/- 1).</param>
+		/// <returns> The decimal step size.</returns>
+		public static double DecStep(double min, double max, double desiredNumSteps)
+		{
+			double range = max - min;
+
+			// get the order of magnitude of the range
+			// which is a good first guess for the step
+			double step = Math.Pow(10, Math.Floor(Math.Log10(max - min)));
+
+			// adjust step up if it's too low
+			while (range / step > desiredNumSteps + 1)
+				step *= 10.0;
+
+			// adjust step down if it's too high
+			while (range / step < desiredNumSteps - 1)
+				step /= 10.0;
 
 			return step;
 		}

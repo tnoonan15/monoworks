@@ -41,7 +41,7 @@ namespace MonoWorks.Base
 		/// <value>
 		/// The current singleton instance.
 		/// </value>
-		public static DimensionManager CurrentInstance
+		public static DimensionManager Global
 		{
 			get {return currentInstance;}
 			set {currentInstance = value;}
@@ -209,5 +209,8 @@ namespace MonoWorks.Base
 		}
 		
 #endregion
+
+
+
 	}
 }

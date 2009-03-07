@@ -18,6 +18,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 using gl=Tao.OpenGl.Gl;
@@ -74,7 +75,7 @@ namespace MonoWorks.Model
 			parent = null;
 			IdCounter++;
 			id = IdCounter;
-			dirty = false;
+			IsDirty = false;
 			bounds = new Bounds();
 			children = new EntityList();
 			dependencies = new EntityList();
@@ -129,14 +130,10 @@ namespace MonoWorks.Model
 		/// <value>
 		/// Returns the drawing this entity belongs to.
 		/// </value>
-		public virtual Drawing GetDrawing()
+		public virtual Drawing TheDrawing
 		{
-			return drawing;
-		}
-		
-		protected void SetDrawing(Drawing drawing)
-		{
-			this.drawing = drawing;
+			get {return drawing;}
+			set { drawing = value; }
 		}
 		
 #endregion
@@ -302,7 +299,18 @@ namespace MonoWorks.Model
 		{
 			get {return children;}
 		}
-		
+
+		/// <summary>
+		/// Gets all the children that inherit from T.
+		/// </summary>
+		/// <typeparam name="T">Entity or one of its subclasses.</typeparam>
+		public IEnumerable<T> GetChildren<T>() where T : Entity
+		{
+			return from child in children
+				   where child is T
+				   select child as T;
+		}
+
 		/// <summary>
 		/// Registers an entity with the drawing.
 		/// The drawing keeps a flat list of entities it contains that can be looked up by id.
@@ -310,7 +318,7 @@ namespace MonoWorks.Model
 		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
 		protected void RegisterEntity(Entity entity)
 		{
-			GetDrawing().EntityManager.RegisterEntity(entity);
+			TheDrawing.EntityManager.RegisterEntity(entity);
 		}	
 		
 		protected Entity parent;
@@ -329,7 +337,7 @@ namespace MonoWorks.Model
 		protected virtual void AddChild(Entity child)
 		{
 			children.Add(child);
-			child.SetDrawing(GetDrawing());
+			child.TheDrawing = TheDrawing;
 			RegisterEntity(child);
 			child.parent = this;
 			MakeDirty();
@@ -424,16 +432,25 @@ namespace MonoWorks.Model
 		public override void MakeDirty()
 		{
 			base.MakeDirty();
-			if (parent != null)
-				parent.MakeDirty();
+
+			//if (parent != null)
+			//    parent.MakeDirty();
+			ParentDirty();
+
+			if (TheDrawing != null)
+				TheDrawing.ChildDirty(this);
 		}
-		
+
 		/// <summary>
-		/// Makes only the entity dirty (not its parent).
+		/// Makes the parent dirty.
 		/// </summary>
-		public virtual void ForceDirty()
+		protected void ParentDirty()
 		{
-			dirty = true;
+			if (parent != null)
+			{
+				parent.IsDirty = true;
+				parent.ParentDirty();
+			}
 		}
 		
 		/// <summary>
@@ -441,7 +458,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public override void ComputeGeometry()
 		{
-			if (!dirty)
+			if (!IsDirty)
 				return;
 
 			base.ComputeGeometry();
@@ -449,13 +466,28 @@ namespace MonoWorks.Model
 			bounds.Reset();
 			
 			// update the children's geometry and resize the bounds
-			foreach (Entity child in children)
+			foreach (Entity child in GetChildren<Feature>())
 			{
-				child.ComputeGeometry();
-				if (child is Reference)
-					child.ForceDirty();
-				else
-					bounds.Resize(child.Bounds);
+				if (child.IsDirty)
+					child.ComputeGeometry();
+				bounds.Resize(child.Bounds);
+			}
+			foreach (Entity child in GetChildren<Sketch>())
+			{
+				if (child.IsDirty)
+					child.ComputeGeometry();
+				bounds.Resize(child.Bounds);
+			}
+			foreach (Entity child in GetChildren<Sketchable>())
+			{
+				if (child.IsDirty)
+					child.ComputeGeometry();
+				bounds.Resize(child.Bounds);
+			}
+			foreach (Entity child in GetChildren<Reference>())
+			{
+				if (child.IsDirty)
+					child.ComputeGeometry();
 			}
 		}
 		

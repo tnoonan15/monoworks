@@ -321,6 +321,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		private void OnEndSketch()
 		{
+			drawing.MakeReferencesDirty();
 			sketchApplyCancel.IsVisible = false;
 			viewport.PrimaryInteractor = primaryInteractor;
 			sketchInteractor = null;

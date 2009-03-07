@@ -59,11 +59,11 @@ namespace MonoWorks.GuiGtk
 		
 		private Gtk.HBox viewportBox;
 		
-		protected Drawing drawing = null;
+		protected TheDrawing drawing = null;
 		/// <value>
 		/// The drawing associated with this frame.
 		/// </value>
-		public Drawing Drawing
+		public TheDrawing Drawing
 		{
 			get {return drawing;}
 			set
