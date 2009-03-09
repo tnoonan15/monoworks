@@ -171,10 +171,8 @@ namespace MonoWorks.Model
 			
 		}				
 
-		public override void RenderTransparent(Viewport viewport)
-		{
-			base.RenderTransparent(viewport);
-			
+		public override void RenderFill(Viewport viewport)
+		{			
 			gl.glBegin(gl.GL_POLYGON);
 			foreach (Vector corner in quadCorners)
 				corner.glVertex();
@@ -182,11 +180,8 @@ namespace MonoWorks.Model
 			
 		}
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderEdge(Viewport viewport)
 		{
-			base.RenderOpaque(viewport);
-
-			gl.glColor3f(0.5f, 0.5f, 0.5f);
 			gl.glBegin(gl.GL_LINE_LOOP);
 			foreach (Vector corner in quadCorners)
 				corner.glVertex();
@@ -243,7 +238,7 @@ namespace MonoWorks.Model
 
 			// draw the grid
 			gl.glBegin(gl.GL_LINES);
-			gl.glColor3f(0.5f, 0.5f, 0.5f);
+			gl.glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			gl.glLineWidth(1f);
 			for (double x = xMin; x < xMax; x += Grid.Step)
 			{

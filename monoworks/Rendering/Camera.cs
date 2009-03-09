@@ -380,7 +380,8 @@ namespace MonoWorks.Rendering
 			hitLine.Front = ScreenToWorld(screen, false);
 			hitLine.Back = ScreenToWorld(screen, true);
 			hitLine.Camera = this;
-			hitLine.Screen = new Coord(screen.X, ViewportHeight - screen.Y);
+			//hitLine.Screen = new Coord(screen.X, ViewportHeight - screen.Y);
+			hitLine.Screen = new Coord(screen.X, screen.Y);
 			return hitLine;
 		}
 

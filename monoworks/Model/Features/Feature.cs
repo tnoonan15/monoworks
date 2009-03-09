@@ -125,21 +125,9 @@ namespace MonoWorks.Model
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-			
-			// ensure the display lists are empty
-			//if (gl.glIsList(displayLists)!=0)
-			//{
-			//    //gl.glDeleteLists(displayLists, NumLists); // delete the lists
-			//}
-			
-			//displayLists = gl.glGenLists(NumLists); // regenerate the display lists
 
 			if (displayLists == 0)
 				displayLists = gl.glGenLists(NumLists); // generate the display lists
-
-			//if (displayLists == 0)
-			//    Console.WriteLine("feature display list value: {0}, is valid: {1}", 
-			//        displayLists, gl.glIsList(displayLists));
 
 			ComputeWireframeGeometry();
 			
@@ -181,7 +169,7 @@ namespace MonoWorks.Model
 			// render solid geometry
 			if (viewport.RenderManager.SolidMode != SolidMode.None)
 			{
-
+				ColorManager.Global["Gray"].Setup();
 				gl.glCallList(displayLists+SolidListOffset);
 			}
 			
@@ -189,7 +177,6 @@ namespace MonoWorks.Model
 			if (viewport.RenderManager.ShowWireframe)
 			{
 				gl.glLineWidth( viewport.RenderManager.WireframeWidth);
-				//gl.glMaterialf(gl.GL_FRONT_AND_BACK, gl.GL_SHININESS, 0.0f);
 				viewport.RenderManager.WireframeColor.Setup();
 				gl.glCallList(displayLists+WireframeListOffset);
 			}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Linq;
 
 using MonoWorks.Model;
 
@@ -109,7 +110,11 @@ namespace MonoWorks.GuiWpf.Tree
 
 		public void OnEntityDeleted(Entity entity)
 		{
-			throw new NotImplementedException();
+			var items = from TreeViewItem item in Items
+						where (item as EntityTreeItem).Entity == entity
+						select item;
+			if (items.Count() > 0)
+				Items.Remove(items);
 		}
 
 #endregion

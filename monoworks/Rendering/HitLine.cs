@@ -37,47 +37,33 @@ namespace MonoWorks.Rendering
 
 		}
 
-
-		protected Coord screen;
 		/// <summary>
 		/// The screen position.
 		/// </summary>
-		public Coord Screen
-		{
-			get { return screen; }
-			set { screen = value; }
-		}
+		public Coord Screen { get; set; }
 
-		protected Vector front = new Vector();
 		/// <summary>
-		/// The intersection at the front of the view frustrum.
+		/// The intersection at the Front of the view frustrum.
 		/// </summary>
-		public Vector Front
-		{
-			get { return front; }
-			set { front = value; }
-		}
+		public Vector Front { get; set; }
 
-		protected Vector back = new Vector();
 		/// <summary>
-		/// The intersection at the back of the view frustrum.
+		/// The intersection at the Back of the view frustrum.
 		/// </summary>
-		public Vector Back
+		public Vector Back { get; set; }
+
+		/// <summary>
+		/// The direction of the hit line.
+		/// </summary>
+		public Vector Direction
 		{
-			get { return back; }
-			set { back = value; }
+			get { return Back - Front; }
 		}
 
-
-		protected Camera camera;
 		/// <summary>
 		/// The camera used during the hit.
 		/// </summary>
-		public Camera Camera
-		{
-			get { return camera; }
-			set { camera = value; }
-		}
+		public Camera Camera { get; set; }
 
 
 		/// <summary>
@@ -90,8 +76,22 @@ namespace MonoWorks.Rendering
 		public Vector GetIntersection(Plane plane)
 		{
 			double d = plane.Center.ToVector().Dot(plane.Normal);
-			double t = (d - front.Dot(plane.Normal)) / (back - front).Dot(plane.Normal);
-			return (back - front) * t + front;
+			double t = (d - Front.Dot(plane.Normal)) / (Back - Front).Dot(plane.Normal);
+			return (Back - Front) * t + Front;
+		}
+
+
+		/// <summary>
+		/// Computes the shortest distance between two lines.
+		/// </summary>
+		/// <remarks>Uses the forumlae from 
+		/// http://pacificcoast.net/~cazelais/261/distance.pdf</remarks>
+		public double ShortestDistance(HitLine other)
+		{
+			Vector n = Direction.Cross(other.Direction);
+			if (n.Magnitude == 0)
+				return 0;
+			return Math.Abs((Front - other.Front).Dot(n) / n.Magnitude);
 		}
 
 	}

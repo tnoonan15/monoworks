@@ -20,10 +20,21 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Model
 {
 	public class Spline : Sketchable
 	{
+
+#region Hit Testing
+
+		public override bool HitTest(HitLine hit)
+		{
+			throw new NotImplementedException();
+		}
+
+#endregion
 	}
+
 }

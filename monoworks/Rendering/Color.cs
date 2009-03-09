@@ -17,6 +17,7 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 
 using gl = Tao.OpenGl.Gl;
 
@@ -41,22 +42,18 @@ namespace MonoWorks.Rendering
 	public class Color : IFill
 	{
 			
-		protected string name;
 		/// <value>
 		/// The color's name.
 		/// </value>
-		public string Name
-		{
-			get {return name;}
-			set {name = value;}
-		}
+		[XmlAttribute]
+		public string Name { get; set; }
 		
 		
 		public object Clone ()
 		{
 			Color color = new Color();
 			color.rgba = rgba;
-			color.Name = name;
+			color.Name = Name;
 			return color;
 		}
 
@@ -191,6 +188,7 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The RGB components of the color.
 		/// </value>
+		[XmlAttribute]
 		public byte[] RGBA
 		{
 			get {return rgba;}
@@ -229,11 +227,14 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Returns true if the color is opaque.
 		/// </summary>
-		public bool IsOpaque()
+		public bool IsOpaque
 		{
-			if (rgba[3]<255)
-				return false;
-			return true;
+			get
+			{
+				if (rgba[3] < 255)
+					return false;
+				return true;
+			}
 		}
 
 		/// <summary>

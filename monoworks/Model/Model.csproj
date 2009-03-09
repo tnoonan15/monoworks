@@ -96,7 +96,6 @@
     <Compile Include="Sketching\LineSketcher.cs" />
     <Compile Include="Sketching\Sketch.cs" />
     <Compile Include="Sketching\Sketchable.cs" />
-    <Compile Include="Sketching\SketchInteractor.cs" />
     <Compile Include="Sketching\Spline.cs" />
     <Compile Include="TestPart.cs" />
     <Compile Include="ViewportControls\DrawingController.cs" />

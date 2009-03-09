@@ -118,6 +118,7 @@ namespace MonoWorks.GuiWpf
 		protected Coord MouseToViewport(System.Drawing.Point point)
 		{
 			return new Coord((double)point.X, (double)(HeightGL - point.Y));
+			//return new Coord((double)point.X, (double)point.Y);
 		}
 
 

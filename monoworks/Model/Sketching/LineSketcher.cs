@@ -19,16 +19,15 @@
 using System;
 using System.Collections.Generic;
 
+using gl = Tao.OpenGl.Gl;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Framework;
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Model
 {
-	/// <summary>
-	/// Enumerates which part of the line is being edited.
-	/// </summary>
-	public enum LineSketcherState { None, AddVertex, Vertex, Segment };
 
 	/// <summary>
 	/// Sketcher for lines.
@@ -39,19 +38,14 @@ namespace MonoWorks.Model
 		public LineSketcher(Sketch sketch, Line line)
 			: base(sketch, line)
 		{
-			point = new Point();
-			line.Points.Add(point);
+			if (line.Points.Count == 0) // this is a new line
+			{
+				Point point = new Point();
+				line.Points.Add(point);
+				Select(point);
+				addingVertex = true;
+			}
 		}
-
-		/// <summary>
-		/// The state of the sketching.
-		/// </summary>
-		private LineSketcherState state = LineSketcherState.AddVertex;
-
-		/// <summary>
-		/// The current point being edited for state = AddVertex | Vertex.
-		/// </summary>
-		private Point point = null;
 
 		/// <summary>
 		/// A point that is close to where the mouse is.
@@ -60,12 +54,97 @@ namespace MonoWorks.Model
 
 		public override void Apply()
 		{
-			if (state == LineSketcherState.AddVertex)
-				Sketchable.Points.Remove(point);
+			base.Apply();
+
+			if (addingVertex)
+				Sketchable.Points.Remove(selection[0]);
 		}
 
 
+#region Selection
+		
+		/// <summary>
+		/// The selected points.
+		/// </summary>
+		private List<Point> selection = new List<Point>();
+
+		/// <summary>
+		/// Whether or not something is selected.
+		/// </summary>
+		private bool SomethingSelected
+		{
+			get { return selection.Count > 0; }
+		}
+
+		/// <summary>
+		/// Clears the selection.
+		/// </summary>
+		private void ClearSelection()
+		{
+			selection.Clear();
+		}
+
+		/// <summary>
+		/// Adds the point to the selection.
+		/// </summary>
+		private void Select(Point point)
+		{
+			selection.Add(point);
+		}
+
+		/// <summary>
+		/// Appends the selection with hit points.
+		/// </summary>
+		private void AppendSelection(HitLine hit)
+		{
+			if (Sketchable.Points.Count == 0)
+				return;
+
+			// look for vertex hits
+			bool hitSomething = false;
+			foreach (var point in Sketchable.Points)
+			{
+				// project the point onto the screen
+				Coord pointProj = hit.Camera.WorldToScreen(point.ToVector());
+				if ((pointProj - hit.Screen).Magnitude <= Line.HitTol)
+				{
+					selection.Add(point);
+					hitSomething = true;
+				}
+			}
+			if (hitSomething) // don't look for edges if we found a vertex
+				return;
+
+			// look for edge hits
+			for (int i = 0; i < Sketchable.Points.Count - 1; i++)
+			{
+				HitLine line = new HitLine()
+				{
+					Front = Sketchable.Points[i].ToVector(),
+					Back = Sketchable.Points[i+1].ToVector()
+				};
+				if (line.ShortestDistance(hit) < Line.HitTol * hit.Camera.ViewportToWorldScaling)
+				{
+					selection.Add(Sketchable.Points[i]);
+					selection.Add(Sketchable.Points[i+1]);
+				}
+			}
+		}
+
+#endregion
+
+
 #region Mouse Interaction
+
+		/// <summary>
+		/// True if the next mouse click adds a vertex.
+		/// </summary>
+		private bool addingVertex = false;
+
+		/// <summary>
+		/// Whether or not the user is currently dragging something.
+		/// </summary>
+		private bool isDragging = false;
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -74,23 +153,35 @@ namespace MonoWorks.Model
 
 			base.OnButtonPress(evt);
 
-			if (closePoint != null)
+			if (closePoint != null) // there is a close point
 			{
-				Sketchable.Points.Remove(point);
+				Sketchable.Points.Remove(selection[0]);
 				Sketchable.IsClosed = true;
-				point = null;
 				closePoint = null;
-				state = LineSketcherState.None;
+				ClearSelection();
+				addingVertex = false;
+				Apply();
 			}
-			else // there is no close point
+			else if (addingVertex) // add a vertex
 			{
-				if (state == LineSketcherState.AddVertex)
-				{
-					point = new Point();
-					Sketchable.Points.Add(point);
-					Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
-					point.SetPosition(intersect);
-				}
+				ClearSelection();
+				Point point = new Point();
+				Select(point);
+				Sketchable.Points.Add(point);
+				Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
+				point.SetPosition(intersect);
+				//ClearSelection();
+			}
+			else if (evt.Button == 1) // look for a hit
+			{
+				if (evt.Modifier == InteractionModifier.None)
+					ClearSelection();
+				AppendSelection(evt.HitLine);
+
+				if (!SomethingSelected)
+					Apply();
+				else
+					isDragging = true;
 			}
 			Sketchable.MakeDirty();
 		}
@@ -100,6 +191,7 @@ namespace MonoWorks.Model
 		{
 			base.OnButtonRelease(evt);
 			closePoint = null;
+			isDragging = false;
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
@@ -109,17 +201,17 @@ namespace MonoWorks.Model
 
 			base.OnMouseMotion(evt);
 
-			if (state == LineSketcherState.AddVertex || state == LineSketcherState.Vertex)
+			if (addingVertex || (selection.Count == 1 && isDragging))
 			{
 				Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
 				if (ModelingOptions.Global.SnapToGrid)
 					intersect = Sketch.Plane.SnapToGrid(intersect);
-				point.SetPosition(intersect);
+				selection[0].SetPosition(intersect);
 				Sketchable.MakeDirty();
 
 				
 				// check if the first point is close
-				if (point == Sketchable.Points.Last() && Sketchable.Points.Count > 2)
+				if (selection[0] == Sketchable.Points.Last() && Sketchable.Points.Count > 2)
 				{
 					Coord firstCoord = evt.HitLine.Camera.WorldToScreen(Sketchable.Points.First().ToVector());
 					Coord lastCoord = evt.HitLine.Camera.WorldToScreen(Sketchable.Points.Last().ToVector());
@@ -142,7 +234,19 @@ namespace MonoWorks.Model
 			base.RenderOpaque(viewport);
 
 			if (closePoint != null)
-				HighlightPoint(viewport, closePoint);
+				HighlightPoint(viewport, closePoint, ColorManager.Global["Red"], 10);
+
+			// highlight the selection
+			Color selectedColor = ModelingOptions.Global.GetColor("sketchable", HitState.Selected);
+			foreach (Point point in selection)
+				HighlightPoint(viewport, point, selectedColor, 8);
+			if (selection.Count > 1)
+			{
+				gl.glBegin(gl.GL_LINE_STRIP);
+				foreach (Point point in selection)
+					point.glVertex();
+				gl.glEnd();
+			}
 		}
 		
 

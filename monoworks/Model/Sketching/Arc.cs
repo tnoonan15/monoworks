@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 using MonoWorks.Base;
+using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 using gl = Tao.OpenGl.Gl;
 
@@ -143,5 +145,16 @@ namespace MonoWorks.Model
 		}
 		
 #endregion
+
+
+#region Hit Testing
+		
+		public override bool HitTest(HitLine hit)
+		{
+			throw new NotImplementedException();
+		}
+
+#endregion
+
 	}
 }

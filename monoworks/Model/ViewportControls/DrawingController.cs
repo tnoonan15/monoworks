@@ -49,6 +49,16 @@ namespace MonoWorks.Model.ViewportControls
 		}
 
 
+
+		/// <summary>
+		/// The drawing interactor attached to the viewport.
+		/// </summary>
+		protected DrawingInteractor DrawingInteractor
+		{
+			get { return viewport.PrimaryInteractor as DrawingInteractor; }
+		}
+
+
 #region Shading Actions
 
 		
@@ -171,9 +181,12 @@ namespace MonoWorks.Model.ViewportControls
 					// add sketch context if it's a plane
 					if (entity is RefPlane && !IsSketching)
 						AddPrimaryContext("AddSketch");
-
-					// only edit if it's not locked
-					if (!entity.IsLocked) 
+					else if (entity is Sketch)
+					{
+						AddPrimaryContext("EditSketch");
+						AddPrimaryContext("Features");
+					}
+					else if (!entity.IsLocked) // only edit if it's not locked
 					{
 						AddPrimaryContext("Edit");
 						AddPrimaryContext("Delete");
@@ -193,7 +206,7 @@ namespace MonoWorks.Model.ViewportControls
 #endregion
 
 
-#region Add-Delete Actions
+#region References
 
 		[Action("Sketch")]
 		public void AddSketch()
@@ -218,15 +231,6 @@ namespace MonoWorks.Model.ViewportControls
 		{
 			Console.WriteLine("add ref plane");
 		}
-
-
-		[Action()]
-		public void Delete()
-		{
-			Console.WriteLine("delete");
-		}
-
-
 
 #endregion
 
@@ -262,6 +266,13 @@ namespace MonoWorks.Model.ViewportControls
 			viewport.PaintGL();
 		}
 
+		[Action()]
+		public void Delete()
+		{
+			Console.WriteLine("delete");
+		}
+
+
 #endregion
 
 
@@ -274,36 +285,23 @@ namespace MonoWorks.Model.ViewportControls
 		protected bool IsSketching {get {return sketchApplyCancel.IsVisible;}}
 
 		/// <summary>
-		/// The sketch interactor.
-		/// </summary>
-		protected SketchInteractor sketchInteractor = null;
-
-		/// <summary>
 		/// Control for applying/cancelling sketch changes.
 		/// </summary>
 		private ApplyCancelControl sketchApplyCancel;
 
-		/// <summary>
-		/// The primary interactor used by the viewport rigbht before the sketching starts.
-		/// </summary>
-		private AbstractInteractor primaryInteractor = null;
 
 		/// <summary>
-		/// Creates or edits a sketch.
+		/// Creates a sketch.
 		/// </summary>
-		[Action("Sketch")]
-		public void OnSketch()
+		[Action("Add Sketch")]
+		public void OnAddSketch()
 		{
 			if (entity is RefPlane)
 			{
 				Sketch sketch = new Sketch(entity as RefPlane);
 				drawing.AddSketch(sketch);
 				viewport.Camera.AnimateTo(entity as RefPlane);
-
-				// switch out the primary interactor
-				sketchInteractor = new SketchInteractor(viewport, sketch);
-				primaryInteractor = viewport.PrimaryInteractor;
-				viewport.PrimaryInteractor = sketchInteractor;
+				DrawingInteractor.BeginSketching(sketch);
 				viewport.SetInteractionState(InteractionState.Interact3D);
 
 				drawing.EntityManager.DeselectAll(null);
@@ -317,14 +315,34 @@ namespace MonoWorks.Model.ViewportControls
 		}
 
 		/// <summary>
+		/// Edits a sketch.
+		/// </summary>
+		[Action("Edit Sketch")]
+		public void OnEditSketch()
+		{
+			if (entity is Sketch)
+			{
+				Sketch sketch = entity as Sketch;
+				viewport.Camera.AnimateTo(sketch.Plane);
+				DrawingInteractor.BeginSketching(sketch);
+				viewport.SetInteractionState(InteractionState.Interact3D);
+
+				drawing.EntityManager.DeselectAll(null);
+
+				sketchApplyCancel.IsVisible = true;
+				OnContextChanged();
+			}
+			else
+				throw new Exception("Trying to sketch an entity that isn't a Sketch. This should never happen.");
+		}
+
+		/// <summary>
 		/// Things to do when the sketching ends, whether or not it was applied or cancelled.
 		/// </summary>
 		private void OnEndSketch()
 		{
 			drawing.MakeReferencesDirty();
 			sketchApplyCancel.IsVisible = false;
-			viewport.PrimaryInteractor = primaryInteractor;
-			sketchInteractor = null;
 			OnContextChanged();
 		}
 
@@ -333,7 +351,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		public void OnApplySketch(object sender, EventArgs args)
 		{
-			sketchInteractor.Apply();
+			DrawingInteractor.ApplySketching();
 			OnEndSketch();
 		}
 
@@ -342,7 +360,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		public void OnCancelSketch(object sender, EventArgs args)
 		{
-			sketchInteractor.Cancel();
+			DrawingInteractor.CancelSketching();
 			OnEndSketch();
 		}
 
@@ -352,7 +370,7 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Line")]
 		public void OnSketchLine()
 		{
-			sketchInteractor.AddSketchable(new Line());
+			DrawingInteractor.AddSketchable(new Line());
 		}
 
 		/// <summary>
@@ -361,7 +379,7 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Arc")]
 		public void OnSketchArc()
 		{
-			sketchInteractor.AddSketchable(new Arc());
+			DrawingInteractor.AddSketchable(new Arc());
 		}
 
 		/// <summary>
@@ -370,7 +388,51 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Spline")]
 		public void OnSketchSpline()
 		{
-			sketchInteractor.AddSketchable(new Spline());
+			DrawingInteractor.AddSketchable(new Spline());
+		}
+
+#endregion
+
+
+#region Features
+
+		/// <summary>
+		/// Adds an extrusion based on a selected sketch.
+		/// </summary>
+		[Action("Extrusion")]
+		public void OnAddExtrusion()
+		{
+			if (drawing.EntityManager.NumSelected != 1 ||
+				!(drawing.EntityManager.Selected[0] is Sketch))
+				throw new Exception("Attempting to add a feature to something other than a sketch. This should never happen.");
+			
+			Sketch sketch = drawing.EntityManager.Selected[0] as Sketch;
+			Extrusion extrusion = new Extrusion(sketch);
+			drawing.AddFeature(extrusion);
+			drawing.EntityManager.DeselectAll(null);
+			drawing.EntityManager.Select(null, extrusion);
+			entity = extrusion;
+			Edit(); // edit the extrusion
+
+			viewport.Camera.AnimateTo(ViewDirection.Standard);
+		}
+
+		/// <summary>
+		/// Adds a revolution based on a selected sketch.
+		/// </summary>
+		[Action("Revolution")]
+		public void OnAddRevolution()
+		{
+
+		}
+
+		/// <summary>
+		/// Adds a sweep based on a selected sketch.
+		/// </summary>
+		[Action("Sweep")]
+		public void OnAddSweep()
+		{
+
 		}
 
 #endregion

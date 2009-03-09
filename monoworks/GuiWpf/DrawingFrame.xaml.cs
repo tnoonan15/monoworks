@@ -8,7 +8,6 @@ using System.Windows.Forms.Integration;
 
 using MonoWorks.Model;
 using MonoWorks.Model.ViewportControls;
-using MonoWorks.Model.Interaction;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.GuiWpf
@@ -28,6 +27,8 @@ namespace MonoWorks.GuiWpf
 			Controller.SetUsage(ViewportUsage.CAD);
 
 			attributePanel.Hidden += Controller.OnAttributePanelHidden;
+
+			Viewport.Camera.SetViewDirection(ViewDirection.Standard);
 		}
 
 		/// <summary>

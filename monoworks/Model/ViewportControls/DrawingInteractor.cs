@@ -24,7 +24,7 @@ using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Framework;
 
-namespace MonoWorks.Model.Interaction
+namespace MonoWorks.Model.ViewportControls
 {
 	
 	/// <summary>
@@ -40,9 +40,12 @@ namespace MonoWorks.Model.Interaction
 		
 		protected Drawing drawing;
 		
-		public override void OnButtonPress (MouseButtonEvent evt)
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
+
+			if (sketcher != null)
+				sketcher.OnButtonPress(evt);
 		}
 
 		
@@ -50,21 +53,37 @@ namespace MonoWorks.Model.Interaction
 		{
 			base.OnButtonRelease(evt);
 
-			if (evt.Handled || evt.Button != 1)
+			if (evt.Handled)
 				return;
 
-			// deselect everything, if necessary
-			if (evt.Modifier != InteractionModifier.Shift)
+			if (sketcher != null)
+				sketcher.OnButtonRelease(evt);
+			else
 			{
-				drawing.EntityManager.DeselectAll(null);
-			}
-			
-			Entity hitEntity = HitEntity(evt);
-			
-			if (hitEntity != null)
-			{
-				drawing.EntityManager.Select(null, hitEntity);
-				evt.Handle();
+				if (evt.Button != 1)
+					return;
+
+				// deselect everything, if necessary
+				if (evt.Modifier != InteractionModifier.Shift)
+				{
+					drawing.EntityManager.DeselectAll(null);
+				}
+
+				// find which entity was hit
+				Entity hitEntity = null;
+				if (IsSketching)
+					hitEntity = HitEntity<Sketchable>(sketch, evt);
+				else
+					hitEntity = HitEntity(evt);
+
+				if (hitEntity != null)
+				{
+					drawing.EntityManager.Select(null, hitEntity);
+					evt.Handle();
+
+					if (hitEntity is Sketchable && IsSketching && sketch.ContainsChild(hitEntity))
+						SetSketachable(hitEntity as Sketchable);
+				}
 			}
 		}
 		
@@ -78,30 +97,88 @@ namespace MonoWorks.Model.Interaction
 
 			if (evt.Handled)
 				return;
-			
-			
-			Entity hitEntity = HitEntity(evt);
-			if (hitEntity != null)
-				hitEntity.IsHovering = true;
+
+			if (sketcher != null)
+				sketcher.OnMouseMotion(evt);
+			else
+			{
+				Entity hitEntity = null;
+				if (IsSketching)
+					hitEntity = HitEntity<Sketchable>(sketch, evt);
+				else
+					hitEntity = HitEntity(evt);
+				if (hitEntity != null)
+					hitEntity.IsHovering = true;
+			}
 		}
+
+
+		public override void OnMouseWheel(MouseWheelEvent evt)
+		{
+			if (sketcher != null)
+				sketcher.OnMouseWheel(evt);
+		}
+		
+
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			if (evt.Handled)
+				return;
+
+			if (evt.SpecialKey == SpecialKey.Enter || evt.SpecialKey == SpecialKey.Escape)
+				ApplySketching();
+			else if (sketcher != null)
+				sketcher.OnKeyPress(evt);
+
+		}
+
 		
 		/// <summary>
 		/// Determines which, if any, entity was hit.
 		/// </summary>
+		/// <remarks>Entites are searched in this order: sketch, sketchable, features, references.</remarks>
 		protected Entity HitEntity(MouseEvent evt)
 		{
+			Entity hit = HitEntity<Sketchable>(evt);
+			if (hit != null)
+				return hit;
+			hit = HitEntity<Sketch>(evt);
+			if (hit != null)
+				return hit;
+			hit = HitEntity<Feature>(evt);
+			if (hit != null)
+				return hit;
+			hit = HitEntity<Reference>(evt);
+			if (hit != null)
+				return hit;
+			return null;
+		}
+
+		/// <summary>
+		/// Determines which, if any, entity was hit of the given type.
+		/// </summary>
+		protected T HitEntity<T>(MouseEvent evt) where T : Entity
+		{
+			return HitEntity<T>(drawing, evt);
+		}
+
+		/// <summary>
+		/// Performs the hit test on the given parent.
+		/// </summary>
+		protected T HitEntity<T>(Entity parent, MouseEvent evt) where T : Entity
+		{
 			// gather a list of entities that were hit
-			List<Entity> hits = new List<Entity>();
-			foreach (Entity entity in drawing.Children)
+			List<T> hits = new List<T>();
+			foreach (T entity in parent.GetChildren<T>())
 			{
 				if (entity.HitTest(evt.HitLine))
 					hits.Add(entity);
 			}
-			
+
 			// perform depth test
-			Entity front = null;
+			T front = null;
 			double frontDist = 0;
-			foreach (Entity entity in hits)
+			foreach (T entity in hits)
 			{
 				//double dist_ = viewport.Camera.GetDistance(entity.LastHit);
 				double dist_ = viewport.Camera.GetDistance(entity.Bounds.Center);
@@ -113,6 +190,132 @@ namespace MonoWorks.Model.Interaction
 			}
 			return front;
 		}
+
+
+#region Sketching
+
+		/// <summary>
+		/// The current sketch being edited.
+		/// </summary>
+		private Sketch sketch = null;
+
+		/// <summary>
+		/// Whether the interactor is sketching.
+		/// </summary>
+		public bool IsSketching
+		{
+			get { return sketch != null; }
+		}
+
+		/// <summary>
+		/// Begin sketching.
+		/// </summary>
+		public void BeginSketching(Sketch sketch)
+		{
+			this.sketch = sketch;
+		}
+
+		/// <summary>
+		/// Cancel the sketching.
+		/// </summary>
+		public void CancelSketching()
+		{
+			if (sketcher != null)
+			{
+				sketcher.Apply();
+				sketcher = null;
+			}
+			sketch = null;
+		}
+
+		/// <summary>
+		/// Apply the sketching.
+		/// </summary>
+		public void ApplySketching()
+		{
+			if (sketcher != null)
+			{
+				sketcher.Apply();
+				sketcher = null;
+			}
+			sketch = null;
+		}
+
+		/// <summary>
+		/// The current sketcher.
+		/// </summary>
+		private AbstractSketcher sketcher = null;
+
+		/// <summary>
+		/// Adds a new sketchable to the sketch.
+		/// </summary>
+		/// <param name="sketchable"></param>
+		public void AddSketchable(Sketchable sketchable)
+		{
+			sketch.AddChild(sketchable);
+			SetSketachable(sketchable);
+		}
+
+		/// <summary>
+		/// Sets the sketchable that is currently being edited.
+		/// </summary>
+		public void SetSketachable(Sketchable sketchable)
+		{
+			if (sketchable is Line)
+				sketcher = new LineSketcher(sketch, sketchable as Line);
+			else
+				throw new NotImplementedException();
+
+			sketcher.SketchApplied += OnSketchApplied;
+		}
+
+		/// <summary>
+		/// Handler for the sketcher's SketchApplied event.
+		/// </summary>
+		public void OnSketchApplied()
+		{
+			sketcher = null;
+		}
+
+#endregion
+
+
+#region Rendering
+
+		/// <summary>
+		/// Pass the rendering to the sketcher, if there is one.
+		/// </summary>
+		public override void RenderOpaque(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			if (sketcher != null)
+				sketcher.RenderOpaque(viewport);
+		}
+
+		/// <summary>
+		/// Pass the rendering to the sketcher, if there is one.
+		/// </summary>
+		public override void RenderTransparent(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			if (IsSketching)
+				sketch.Plane.RenderGrid(viewport);
+			if (sketcher != null)
+				sketcher.RenderTransparent(viewport);
+		}
+
+		/// <summary>
+		/// Pass the rendering to the sketcher, if there is one.
+		/// </summary>
+		public override void RenderOverlay(Viewport viewport)
+		{
+			base.RenderOpaque(viewport);
+			if (sketcher != null)
+				sketcher.RenderOverlay(viewport);
+		}
+
+#endregion
+
 
 
 	}
