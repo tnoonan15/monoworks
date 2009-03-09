@@ -154,8 +154,8 @@
     <Compile Include="PlotControls\AxesControl.cs" />
     <Compile Include="PlotControls\AxisControl.cs" />
     <Compile Include="PlotControls\PointPlotControl.cs" />
-    <Compile Include="Tree\TreeItem.cs" />
-    <Compile Include="Tree\TreeView.cs" />
+    <Compile Include="Tree\EntityTreeItem.cs" />
+    <Compile Include="Tree\EntityTreeView.cs" />
     <Compile Include="SwfViewportAdapter.cs">
       <SubType>UserControl</SubType>
     </Compile>

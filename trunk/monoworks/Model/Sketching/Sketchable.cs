@@ -21,6 +21,7 @@ using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Model
 {
@@ -28,7 +29,7 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// The sketchable is the bae class for all entities that can belong to a sketch.
 	/// </summary>
-	public class Sketchable : Entity
+	public abstract class Sketchable : Entity
 	{
 		
 		public Sketchable() : base()
@@ -37,7 +38,13 @@ namespace MonoWorks.Model
 			wireframePoints = new Vector[0];
 			directions = new Vector[0];
 		}
-		
+
+
+		/// <summary>
+		/// Tolerance for hit testing.
+		/// </summary>
+		public const double HitTol = 6;
+
 		
 #region Points
 		
@@ -82,17 +89,20 @@ namespace MonoWorks.Model
 			viewport.RenderManager.Lighting.Disable();
 
 			// edges
-			ColorManager.Global["Black"].Setup();
+			ModelingOptions.Global.GetColor("sketchable", hitState).Setup();
 			gl.glLineWidth(2);
 			gl.glBegin(gl.GL_LINE_STRIP);
 			DrawEdges();
 			gl.glEnd();
 
 			// vertices
-			gl.glPointSize(5);
-			gl.glBegin(gl.GL_POINTS);
-			DrawVertices();
-			gl.glEnd();
+			if (IsSelected)
+			{
+				gl.glPointSize(5);
+				gl.glBegin(gl.GL_POINTS);
+				DrawVertices();
+				gl.glEnd();
+			}
 
 			viewport.RenderManager.Lighting.Enable();
 		}		

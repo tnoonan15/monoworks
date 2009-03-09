@@ -65,7 +65,7 @@ namespace MonoWorks.Model
 		/// <value>
 		/// Returns a list of sketchables.
 		/// </value>
-		public List<Sketchable> Sketchables
+		public IEnumerable<Sketchable> Sketchables
 		{
 			get
 			{
@@ -77,8 +77,7 @@ namespace MonoWorks.Model
 				return kids;
 			}
 		}
-		
-		
+
 		
 #region Rendering
 		

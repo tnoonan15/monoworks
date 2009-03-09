@@ -48,9 +48,23 @@ namespace MonoWorks.Model
 		public Sketch Sketch { get; private set; }
 
 		/// <summary>
+		/// Delegate for the SketchApplied event.
+		/// </summary>
+		public delegate void SketchAppliedHandler();
+
+		/// <summary>
+		/// Gets called when the sketch is applied.
+		/// </summary>
+		public event SketchAppliedHandler SketchApplied;
+
+		/// <summary>
 		/// Apply the current sketching operation.
 		/// </summary>
-		public abstract void Apply();
+		public virtual void Apply()
+		{
+			if (SketchApplied != null)
+				SketchApplied();
+		}
 
 
 		public virtual void OnKeyPress(KeyEvent evt)
@@ -64,11 +78,11 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Highlights the given point.
 		/// </summary>
-		protected void HighlightPoint(Viewport viewport, Point point)
+		protected void HighlightPoint(Viewport viewport, Point point, Color color, float size)
 		{
 			viewport.RenderManager.Lighting.Disable();
-			gl.glPointSize(10f);
-			gl.glColor3d(1, 0, 0);
+			gl.glPointSize(size);
+			color.Setup();
 			gl.glBegin(gl.GL_POINTS);
 			point.glVertex();
 			gl.glEnd();

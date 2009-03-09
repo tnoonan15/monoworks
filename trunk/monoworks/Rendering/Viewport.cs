@@ -251,6 +251,8 @@ namespace MonoWorks.Rendering
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 
+			Console.WriteLine("mouse pos: {0}", evt.Pos);
+
 			OverlayInteractor.OnButtonPress(evt);
 
 			// primary interactor

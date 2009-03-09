@@ -165,7 +165,9 @@ namespace MonoWorks.Model
 			foreach (AttributeMetaData attribute in MetaData.AttributeList)
 			{
 				//Console.WriteLine("creating default attribute {0} for entity {1}", attribute.Name, MetaData.Name);
-				if (!attribute.IsEntity)
+				if (attribute.IsEntity)
+					momento[attribute.Name] = null;
+				else
 					momento[attribute.Name] = attribute.Instantiate();
 			}
 			momento["name"] = ClassName + GetCount(ClassName).ToString();
@@ -382,6 +384,14 @@ namespace MonoWorks.Model
 		public virtual int ChildIndex(Entity child)
 		{
 			return children.IndexOf(child);
+		}
+
+		/// <summary>
+		/// Returns true if the entity contains the given child.
+		/// </summary>
+		public bool ContainsChild(Entity child)
+		{
+			return children.Contains(child);
 		}
 		
 #endregion

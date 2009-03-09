@@ -23,6 +23,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 using MonoWorks.Framework;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Model
 {
@@ -32,6 +33,13 @@ namespace MonoWorks.Model
 	[XmlRoot()]
 	public class ModelingOptions
 	{
+
+		public ModelingOptions()
+		{
+			colors.Add("sketchable", new ColorGroup("Sketchable", "Sketchable Hover", "Sketchable Selected"));
+			colors.Add("ref-fill", new ColorGroup("Ref Fill", "Ref Fill Hover", "Ref Fill Selected"));
+			colors.Add("ref-edge", new ColorGroup("Ref Edge", "Ref Edge Hover", "Ref Edge Selected"));
+		}
 
 		#region Singleton
 
@@ -72,5 +80,60 @@ namespace MonoWorks.Model
 		[XmlElement()]
 		public bool SnapToGrid { get; set; }
 
+
+#region Colors
+
+		[XmlArray]
+		private Dictionary<string, ColorGroup> colors = new Dictionary<string, ColorGroup>();
+
+		/// <summary>
+		/// Gets the color entities of the given name and hit state.
+		/// </summary>
+		public Color GetColor(string name, HitState hitState)
+		{
+			ColorGroup group = null;
+			if (colors.TryGetValue(name, out group))
+				return group.GetColor(hitState);
+			else
+				throw new Exception("There is no color group called " + name);
+		}
+
+#endregion
+
 	}
+
+
+	/// <summary>
+	/// A group of color names, one for each hit state.
+	/// </summary>
+	public class ColorGroup : Dictionary<HitState,string>
+	{
+		public ColorGroup()
+		{
+		}
+
+		/// <summary>
+		/// Initialize the class with the three color names.
+		/// </summary>
+		public ColorGroup(string none, string hovering, string selected) : this()
+		{
+			this[HitState.None] = none;
+			this[HitState.Hovering] = hovering;
+			this[HitState.Selected] = selected;
+		}
+
+		public Color GetColor(HitState hitState)
+		{
+			string name = null;
+			if (TryGetValue(hitState, out name))
+				return ColorManager.Global[name];
+			if (hitState != HitState.None && TryGetValue(HitState.None, out name))
+				return ColorManager.Global[name];
+			else
+				throw new Exception("Color group does not have an entry for this color with hit state " + hitState.ToString());
+		}
+
+	}
+
+
 }

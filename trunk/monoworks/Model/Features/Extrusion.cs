@@ -40,6 +40,9 @@ namespace MonoWorks.Model
 		/// <param name="sketch"> A <see cref="Sketch"/> to extrude. </param>
 		public Extrusion(Sketch sketch) : base(sketch)
 		{
+
+			Scale = 1;
+			Travel = new Length(1);
 		}
 			
 		
@@ -103,7 +106,11 @@ namespace MonoWorks.Model
 			
 			int N = 1;
 			double dTravel = Travel.Value / (double)N;
-			Vector direction = Path.Direction;
+			Vector direction = null;
+			if (Path != null)
+				direction = Path.Direction;
+			else
+				direction = Sketch.Plane.Plane.Normal;
 			
 			// cycle through sketch children
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
@@ -174,7 +181,11 @@ namespace MonoWorks.Model
 //				}
 //			}
 			double dTravel = Travel.Value / (double)N;
-			Vector direction = Path.Direction;
+			Vector direction = null;
+			if (Path != null)
+				direction = Path.Direction;
+			else
+				direction = Sketch.Plane.Plane.Normal;
 			
 			// cycle through sketch children
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)

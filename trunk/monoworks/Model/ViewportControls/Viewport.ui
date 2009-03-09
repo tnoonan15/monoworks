@@ -10,7 +10,8 @@
 		<Action name="Edit" icon="edit" tooltip="Edit the currently selected entity"/>
 		<Action name="Delete" icon="delete" tooltip="Delete the currently selected entity(s)"/>
 
-		<Action name="Sketch" icon="sketch" tooltip="Add a new sketch"/>
+		<Action name="Add Sketch" icon="sketch" tooltip="Add a new sketch"/>
+		<Action name="Edit Sketch" icon="sketch" tooltip="Edit the selected sketch"/>
 		<Action name="Line" icon="line" tooltip="Add a line to the sketch"/>
 		<Action name="Arc" icon="arc" tooltip="Add an arc to the sketch"/>
 		<Action name="Spline" icon="spline" tooltip="Add a spline to the sketch"/>
@@ -18,6 +19,10 @@
 		<Action name="Ref Point" icon="refpoint" tooltip="Add a new reference point"/>
 		<Action name="Ref Line" icon="refline" tooltip="Add a new reference line"/>
 		<Action name="Ref Plane" icon="refplane" tooltip="Add a new reference plane"/>
+
+		<Action name="Extrusion" icon="extrusion" tooltip="Add a new extrusion based on the sketch"/>
+		<Action name="Revolution" icon="revolution" tooltip="Add a new revolution based on the sketch"/>
+		<Action name="Sweep" icon="sweep" tooltip="Add a new sweep based on the sketch"/>
 		
 	</Actions>
 
@@ -39,7 +44,11 @@
 		</Toolbar>
 
 		<Toolbar name="AddSketch" buttonStyle="ImageOverLabel">
-			<Item action="Sketch"/>
+			<Item action="Add Sketch"/>
+		</Toolbar>
+
+		<Toolbar name="EditSketch" buttonStyle="ImageOverLabel">
+			<Item action="Edit Sketch"/>
 		</Toolbar>
 
 		<Toolbar name="AddRef" buttonStyle="ImageOverLabel">
@@ -52,6 +61,12 @@
 			<Item action="Line"/>
 			<Item action="Arc"/>
 			<Item action="Spline"/>
+		</Toolbar>
+
+		<Toolbar name="Features" buttonStyle="ImageOverLabel">
+			<Item action="Extrusion"/>
+			<Item action="Revolution"/>
+			<Item action="Sweep"/>
 		</Toolbar>
 
 	</Tools>

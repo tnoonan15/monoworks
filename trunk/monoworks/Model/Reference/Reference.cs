@@ -28,7 +28,7 @@ namespace MonoWorks.Model
 	/// <summary>
 	/// Reference is the base cass for all reference entities.
 	/// </summary>
-	public class Reference : Entity
+	public abstract class Reference : Entity
 	{
 		/// <summary>
 		/// Default constructor.
@@ -45,9 +45,20 @@ namespace MonoWorks.Model
 		public override void RenderTransparent(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);
-			
-			if (!viewport.RenderManager.ReferenceColor.IsOpaque())
-				viewport.RenderManager.ReferenceColor.Setup();
+
+			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
+			if (!fill.IsOpaque)
+			{
+				fill.Setup();
+				RenderFill(viewport);
+			}
+
+			Color edge = ModelingOptions.Global.GetColor("ref-edge", hitState);
+			if (!edge.IsOpaque)
+			{
+				edge.Setup();
+				RenderEdge(viewport);
+			}
 		}
 		
 		/// <summary>
@@ -57,10 +68,31 @@ namespace MonoWorks.Model
 		public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
-			
-			if (viewport.RenderManager.ReferenceColor.IsOpaque())
-				viewport.RenderManager.ReferenceColor.Setup();
+
+			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
+			if (fill.IsOpaque)
+			{
+				fill.Setup();
+				RenderFill(viewport);
+			}
+
+			Color edge = ModelingOptions.Global.GetColor("ref-edge", hitState);
+			if (edge.IsOpaque)
+			{
+				edge.Setup();
+				RenderEdge(viewport);
+			}
 		}
+
+		/// <summary>
+		/// Subclasses must override to render the filled part of the reference.
+		/// </summary>
+		public abstract void RenderFill(Viewport viewport);
+
+		/// <summary>
+		/// Subclasses must override to render the edge part of the reference.
+		/// </summary>
+		public abstract void RenderEdge(Viewport viewport);
 
 	}
 

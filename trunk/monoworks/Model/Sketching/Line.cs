@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 using MonoWorks.Base;
+using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 using gl = Tao.OpenGl.Gl;
 
@@ -81,9 +83,17 @@ namespace MonoWorks.Model
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-			
-			solidPoints = new Vector[Points.Count];
-			directions = new Vector[Points.Count];
+
+			if (IsClosed)
+			{
+				solidPoints = new Vector[Points.Count+1];
+				directions = new Vector[Points.Count+1];
+			}
+			else // open
+			{
+				solidPoints = new Vector[Points.Count];
+				directions = new Vector[Points.Count];
+			}
 			for (int i=0; i<Points.Count; i++)
 			{
 				solidPoints[i] = Points[i].ToVector();
@@ -99,22 +109,21 @@ namespace MonoWorks.Model
 				bounds.Resize(solidPoints[i]);
 			}
 			
-			// for lines, the solid and wireframe points are the same
-			// except if the line is closed
+			// if closed, the first point needs to be copied to the end
 			if (IsClosed)
 			{
-				wireframePoints = new Vector[solidPoints.Length + 1];
-				Array.Copy(solidPoints, wireframePoints, solidPoints.Length);
-				wireframePoints[solidPoints.Length] = solidPoints[0];
+				solidPoints[Points.Count] = solidPoints[0];
+				directions[Points.Count] = directions[0];
 			}
-			else
-				wireframePoints = solidPoints;
+
+			// for lines, the solid and wireframe points are the same
+			wireframePoints = solidPoints;
 		}
 		
 		
 		/// <summary>
 		/// Draws the vertices to the current GL context.
-		/// Updates the geometry if the number of points has changes.
+		/// Updates the geometry if the number of points has changed.
 		/// </summary>
 		public override void DrawVertices()
 		{
@@ -124,7 +133,30 @@ namespace MonoWorks.Model
 		}
 		
 #endregion
-		
+
+
+#region Hit Testing
+
+		public override bool HitTest(HitLine hit)
+		{
+			if (Points.Count == 0)
+				return false;
+
+			for (int i = 0; i < Points.Count - 1; i++)
+			{
+				HitLine line = new HitLine() {
+					Front = Points[i].ToVector(),
+					Back = Points[i+1].ToVector(),
+					Camera = hit.Camera
+				};
+				if (line.ShortestDistance(hit) < HitTol * hit.Camera.ViewportToWorldScaling)
+					return true;
+			}
+			return false;
+		}
+
+#endregion
+
 	}
 	
 }

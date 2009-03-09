@@ -104,32 +104,16 @@ namespace MonoWorks.Model
 			bounds.Resize(stop);
 		}
 
-		
-		/// <summary>
-		/// Renders the line to the viewport.
-		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderFill(Viewport viewport)
 		{
-			base.RenderOpaque(viewport);
-
-			// render the points
-			//gl.glBegin(gl.GL_LINE);
-			//gl.glColor3b(255,0,0);
-			//gl.glLineWidth(3f);
-			//gl.glVertex3d(start[0], start[1], start[2]);
-			//gl.glVertex3d(stop[0], stop[1], stop[2]); 
-			//gl.glEnd();
-
 		}
 
-		public override void RenderTransparent(Viewport viewport)
+		public override void RenderEdge(Viewport viewport)
 		{
 			base.RenderTransparent(viewport);
 
 			gl.glBegin(gl.GL_LINE);
 			gl.glLineWidth(3f);
-			gl.glColor3b(255, 0, 0);
 			gl.glVertex3d(start[0], start[1], start[2]);
 			gl.glVertex3d(stop[0], stop[1], stop[2]);
 			gl.glEnd();
