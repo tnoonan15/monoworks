@@ -92,12 +92,12 @@ namespace MonoWorks.GuiGtk.Tree
 
 #region IEntityListener implementation 
 		
-		public void OnEntityAdded(Entity entity)
+		public void AddEntity(Entity entity)
 		{
 			AddEntity(entity);
 		}
 		
-		public void OnEntityDeleted(Entity entity)
+		public void RemoveEntity(Entity entity)
 		{
 			throw new System.NotImplementedException();
 		}

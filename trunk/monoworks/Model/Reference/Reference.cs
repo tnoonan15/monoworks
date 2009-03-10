@@ -21,6 +21,8 @@ using System;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
+using gl = Tao.OpenGl.Gl;
+
 
 namespace MonoWorks.Model
 {
@@ -57,6 +59,10 @@ namespace MonoWorks.Model
 			if (!edge.IsOpaque)
 			{
 				edge.Setup();
+				if (hitState == HitState.None)
+					gl.glLineWidth(1f);
+				else
+					gl.glLineWidth(2f);
 				RenderEdge(viewport);
 			}
 		}
@@ -80,6 +86,10 @@ namespace MonoWorks.Model
 			if (edge.IsOpaque)
 			{
 				edge.Setup();
+				if (hitState == HitState.None)
+					gl.glLineWidth(1f);
+				else
+					gl.glLineWidth(2f);
 				RenderEdge(viewport);
 			}
 		}

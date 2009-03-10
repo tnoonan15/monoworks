@@ -150,7 +150,10 @@ namespace MonoWorks.Model
 					Camera = hit.Camera
 				};
 				if (line.ShortestDistance(hit) < HitTol * hit.Camera.ViewportToWorldScaling)
+				{
+					lastHit = hit.GetIntersection((Parent as Sketch).Plane.Plane);
 					return true;
+				}
 			}
 			return false;
 		}

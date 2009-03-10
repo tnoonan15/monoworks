@@ -34,6 +34,7 @@ namespace MonoWorks.Model
 		
 		public Sketchable() : base()
 		{
+			
 			solidPoints = new Vector[0];
 			wireframePoints = new Vector[0];
 			directions = new Vector[0];

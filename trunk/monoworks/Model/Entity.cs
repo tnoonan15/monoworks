@@ -340,8 +340,8 @@ namespace MonoWorks.Model
 		{
 			children.Add(child);
 			child.TheDrawing = TheDrawing;
-			RegisterEntity(child);
 			child.parent = this;
+			RegisterEntity(child);
 			MakeDirty();
 		}
 		
