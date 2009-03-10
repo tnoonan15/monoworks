@@ -180,8 +180,8 @@ namespace MonoWorks.Model.ViewportControls
 			double frontDist = 0;
 			foreach (T entity in hits)
 			{
-				//double dist_ = viewport.Camera.GetDistance(entity.LastHit);
-				double dist_ = viewport.Camera.GetDistance(entity.Bounds.Center);
+				double dist_ = viewport.Camera.GetDistance(entity.LastHit);
+				//double dist_ = viewport.Camera.GetDistance(entity.Bounds.Center);
 				if (front == null || dist_ < frontDist)
 				{
 					front = entity;

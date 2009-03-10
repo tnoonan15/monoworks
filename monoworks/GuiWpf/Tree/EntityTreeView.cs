@@ -55,7 +55,12 @@ namespace MonoWorks.GuiWpf.Tree
 		/// </summary>
 		public void AddEntity(Entity entity)
 		{
-			AddEntity(entity, null);
+			Console.WriteLine("tree add entity {0}", entity.Name);
+
+			if (entity.Parent != null && items.ContainsKey(entity.Parent))
+				AddEntity(entity, GetItem(entity.Parent));
+			else
+				AddEntity(entity, null);
 		}
 
 		/// <summary>
@@ -63,11 +68,17 @@ namespace MonoWorks.GuiWpf.Tree
 		/// </summary>
 		protected void AddEntity(Entity entity, EntityTreeItem parent)
 		{
-			EntityTreeItem item = new EntityTreeItem(entity);
+			if (items.ContainsKey(entity))
+				RemoveEntity(entity);
+
+			EntityTreeItem item = new EntityTreeItem(entity, parent);
 			if (parent == null)
 				Items.Add(item);
 			else
+			{
 				parent.Items.Add(item);
+				parent.IsExpanded = true;
+			}
 			items[entity] = item;
 
 			item.Selected += OnItemSelected;
@@ -78,16 +89,48 @@ namespace MonoWorks.GuiWpf.Tree
 				AddEntity(child, item);
 		}
 
+		/// <summary>
+		/// Removes an entity from the tree.
+		/// </summary>
+		public void RemoveEntity(Entity entity)
+		{
+			EntityTreeItem item = GetItem(entity);
+			if (item != null)
+			{
+				if (item.ParentItem == null)
+					Items.Remove(item);
+				else
+					item.ParentItem.Items.Remove(item);
+				items.Remove(entity);
+			}
+		}
+
+		/// <summary>
+		/// Gets the item associated with the entity.
+		/// </summary>
+		protected EntityTreeItem GetItem(Entity entity)
+		{
+			EntityTreeItem item = null;
+			items.TryGetValue(entity, out item);
+			return item;
+		}
+
+		/// <summary>
+		/// Handles an item on the tree being selected.
+		/// </summary>
 		void OnItemSelected(object sender, System.Windows.RoutedEventArgs e)
 		{
 			if (internalUpdate)
 				return;
 
-			//Console.WriteLine("tree item selected");
 			EntityTreeItem item = sender as EntityTreeItem;
+			Console.WriteLine("tree item {0} selected", item.Entity.Name);
 			drawing.EntityManager.Select(this, item.Entity);
 		}
 
+		/// <summary>
+		/// Handles an item on the tree being deselected.
+		/// </summary>
 		void OnItemDeselected(object sender, System.Windows.RoutedEventArgs e)
 		{
 			if (internalUpdate)
@@ -98,26 +141,6 @@ namespace MonoWorks.GuiWpf.Tree
 		}
 
 
-
-
-
-#region IEntityListener Members
-
-		public void OnEntityAdded(Entity entity)
-		{
-			AddEntity(entity);
-		}
-
-		public void OnEntityDeleted(Entity entity)
-		{
-			var items = from TreeViewItem item in Items
-						where (item as EntityTreeItem).Entity == entity
-						select item;
-			if (items.Count() > 0)
-				Items.Remove(items);
-		}
-
-#endregion
 
 
 #region ISelectionListener Members

@@ -9,9 +9,9 @@ namespace MonoWorks.Model
 	public interface IEntityListener
 	{
 
-		void OnEntityAdded(Entity entity);
+		void AddEntity(Entity entity);
 
-		void OnEntityDeleted(Entity entity);
+		void RemoveEntity(Entity entity);
 
 
 	}

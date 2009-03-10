@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 
 using MonoWorks.Model;
+using MonoWorks.GuiWpf;
+using MonoWorks.GuiWpf.Framework;
 
 namespace MonoWorks.GuiWpf.Tree
 {
@@ -14,10 +16,10 @@ namespace MonoWorks.GuiWpf.Tree
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		/// <param name="entity"></param>
-		public EntityTreeItem(Entity entity)
+		public EntityTreeItem(Entity entity, EntityTreeItem parent)
 		{
 			Entity = entity;
+			ParentItem = parent;
 			GenerateHeader();
 		}
 
@@ -26,12 +28,23 @@ namespace MonoWorks.GuiWpf.Tree
 		/// </summary>
 		public Entity Entity { get; private set; }
 
+
+		/// <summary>
+		/// The parent item.
+		/// </summary>
+		public EntityTreeItem ParentItem { get; private set; }
+
+
 		/// <summary>
 		/// Generate the display for this item.
 		/// </summary>
 		public void GenerateHeader()
 		{
-			Header = Entity.Name;
+			StackPanel stack = new StackPanel();
+			stack.Orientation = Orientation.Horizontal;
+			stack.Children.Add(ResourceManager.RenderIcon(Entity.ClassName.ToLower(), 16));
+			stack.Children.Add(new Label() { Content = Entity.Name });
+			Header = stack;
 		}
 
 

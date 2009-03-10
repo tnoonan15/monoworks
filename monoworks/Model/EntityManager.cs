@@ -52,12 +52,14 @@ namespace MonoWorks.Model
 		/// be looked by id.
 		/// </summary>
 		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
+		/// <remarks>This method is meant to be called multiple times on the same entity
+		/// (i.e. not only for entity creation, but for reparenting as well).</remarks>
 		public void RegisterEntity(Entity entity)
 		{
 			if (!entityRegistry.ContainsKey(entity.Id))
 				entityRegistry[entity.Id] = entity;
 			foreach (IEntityListener listener in entityListeners)
-				listener.OnEntityAdded(entity);
+				listener.AddEntity(entity);
 		}
 		
 		/// <summary>

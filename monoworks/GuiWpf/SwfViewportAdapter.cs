@@ -207,7 +207,7 @@ namespace MonoWorks.GuiWpf
 			int val = e.KeyValue;
 
 			KeyEvent evt = new KeyEvent(val, (InteractionModifier)mod);
-			Console.WriteLine("viewport key press {0} ({1}, {2})", evt.Value, evt.SpecialKey, evt.Modifier);
+			//Console.WriteLine("viewport key press {0} ({1}, {2})", evt.Value, evt.SpecialKey, evt.Modifier);
 
 			Viewport.OnKeyPress(evt);
 
