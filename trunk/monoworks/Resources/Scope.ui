@@ -16,21 +16,7 @@
 		<Action name="Paste" icon="edit-paste" shortcut="Ctrl+V" tooltip="Paste the clipboard"/>
 		
 		<Action name="Render Preferences" icon="render-preferences" tooltip="Rendering preferences"/>
-			
-		<Action name="New Sketch" icon="add-sketch" tooltip="Create a new sketch"/>
-		<Action name="Edit Sketch" icon="sketch" tooltip="Edit the selected sketch"/>		
-		<Action name="Line" icon="line" tooltip="Add a line to the sketch"/>		
-		<Action name="Arc" icon="arc" tooltip="Add an arc to the sketch"/>		
-		<Action name="Spline" icon="spline" tooltip="Add a spline to the sketch"/>
-		
-		<Action name="Extrusion" icon="extrusion" tooltip="Add an extrusion"/>
-		<Action name="Revolution" icon="revolution" tooltip="Add a revolution"/>
-		<Action name="Sweep" icon="sweep" tooltip="Add a sweep"/>
-		
-		<Action name="Ref Point" icon="refpoint" tooltip="Add a reference point"/>
-		<Action name="Ref Line" icon="refline" tooltip="Add a reference line"/>
-		<Action name="Ref Plane" icon="refplane" tooltip="Add a reference plane"/>
-		
+				
 		
 	</Actions>
 
@@ -55,23 +41,6 @@
 		</Menu>
 		<Menu name="View">
 			<Item action="Render Preferences"/>
-		</Menu>
-		<Menu name="Sketch">
-			<Item action="New Sketch"/>
-			<Item action="Edit Sketch"/>
-			<Item action="Line"/>
-			<Item action="Arc"/>
-			<Item action="Spline"/>
-		</Menu>
-		<Menu name="Features">
-			<Item action="Extrusion"/>
-			<Item action="Revolution"/>
-			<Item action="Sweep"/>
-		</Menu>
-		<Menu name="Reference">
-			<Item action="Ref Point"/>
-			<Item action="Ref Line"/>
-			<Item action="Ref Plane"/>
 		</Menu>
 	</Menus>
 

@@ -55,7 +55,7 @@ namespace MonoWorks.GuiWpf.Tree
 		/// </summary>
 		public void AddEntity(Entity entity)
 		{
-			Console.WriteLine("tree add entity {0}", entity.Name);
+			//Console.WriteLine("tree add entity {0}", entity.Name);
 
 			if (entity.Parent != null && items.ContainsKey(entity.Parent))
 				AddEntity(entity, GetItem(entity.Parent));
@@ -124,8 +124,21 @@ namespace MonoWorks.GuiWpf.Tree
 				return;
 
 			EntityTreeItem item = sender as EntityTreeItem;
-			Console.WriteLine("tree item {0} selected", item.Entity.Name);
-			drawing.EntityManager.Select(this, item.Entity);
+
+			// see if any of the children are selected
+			bool childSelected = false;
+			foreach (var child in item.Items)
+			{
+				if ((child as EntityTreeItem).IsSelected)
+				{
+					childSelected = true;
+					break;
+				}
+			}
+
+			//Console.WriteLine("tree item {0} selected, child selected? {1}", item.Entity.Name, childSelected);
+			if (!childSelected)
+				drawing.EntityManager.Select(this, item.Entity);
 		}
 
 		/// <summary>
