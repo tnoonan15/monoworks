@@ -34,24 +34,35 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public RubberBand()
 		{
+			Enabled = false;
+
 			// initialize the position
-			start.X = 0.0;
-			start.Y = 0.0;
-			stop.X = 0.0;
-			stop.Y = 0.0;
+			Start = new Coord();
+			Stop = new Coord();
 		}
 
 		
 #region Rendering
 
-		protected bool m_enabled;
 		/// <value>
 		/// The rubber band willonly be shown if its enabled.
 		/// </value>
-		public bool Enabled
+		public bool Enabled {get; set;}
+
+		/// <summary>
+		/// Enables the rubber band.
+		/// </summary>
+		public void Enable()
 		{
-			get {return m_enabled;}
-			set {m_enabled = value;}
+			Enabled = true;
+		}
+
+		/// <summary>
+		/// Disables the rubber band.
+		/// </summary>
+		public void disable()
+		{
+			Enabled = false;
 		}
 		
 		/// <summary>
@@ -59,18 +70,16 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void Render(Viewport viewport)
 		{
-			if (m_enabled) // only render if it's enabled
-			{
-				viewport.Camera.PlaceOverlay();
-									
+			if (Enabled) // only render if it's enabled
+			{									
 				gl.glBegin(gl.GL_LINE_STRIP);
-					gl.glColor3f(1.0f, 0.0f, 1.0f);
-					gl.glLineWidth(1.5f);
-					gl.glVertex3d(start.X, start.Y, 0);
-					gl.glVertex3d(start.X, stop.Y, 0);
-					gl.glVertex3d(stop.X, stop.Y, 0);
-					gl.glVertex3d(stop.X, start.Y, 0);		
-					gl.glVertex3d(start.X, start.Y, 0);			
+				gl.glColor3f(0f, 0.5f, 0.8f);
+				gl.glLineWidth(1.5f);
+				gl.glVertex3d(Start.X, Start.Y, 0);
+				gl.glVertex3d(Start.X, Stop.Y, 0);
+				gl.glVertex3d(Stop.X, Stop.Y, 0);
+				gl.glVertex3d(Stop.X, Start.Y, 0);		
+				gl.glVertex3d(Start.X, Start.Y, 0);			
 				gl.glEnd();
 				
 			}
@@ -82,32 +91,31 @@ namespace MonoWorks.Rendering
 		
 #region Position
 
-		protected Coord start;
+		/// <summary>
+		/// Sets both Start and Stop to the given coord.
+		/// </summary>
+		public void Reset(Coord coord)
+		{
+			Start = coord;
+			Stop = coord;
+		}
+
 		/// <summary>
 		/// The starting position.
 		/// </summary>
-		public Coord Start
-		{
-			get { return start; }
-			set { start = value; }
-		}
+		public Coord Start { get; set; }
 
-		protected Coord stop;
 		/// <summary>
 		/// The stop position.
 		/// </summary>
-		public Coord Stop
-		{
-			get { return stop; }
-			set { stop = value; }
-		}
+		public Coord Stop {get; set;}
 
 		/// <summary>
 		/// The point closest to the lower left.
 		/// </summary>
 		public Coord Min
 		{
-			get { return new Coord(Math.Min(start.X, stop.X), Math.Min(start.Y, stop.Y)); }
+			get { return new Coord(Math.Min(Start.X, Stop.X), Math.Min(Start.Y, Stop.Y)); }
 		}
 
 		/// <summary>
@@ -115,7 +123,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public Coord Max
 		{
-			get { return new Coord(Math.Max(start.X, stop.X), Math.Max(start.Y, stop.Y)); }
+			get { return new Coord(Math.Max(Start.X, Stop.X), Math.Max(Start.Y, Stop.Y)); }
 		}
 		
 #endregion

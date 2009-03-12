@@ -24,6 +24,7 @@ using gl = Tao.OpenGl.Gl;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Plotting
 {
@@ -662,23 +663,19 @@ namespace MonoWorks.Plotting
         }
 
 
-		public override bool HitTest(HitLine hitLine)
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			// this isn't true since we can hit axes that are outside the "bounds"
-			//if (!base.HitTest(hitLine))
-			//    return false;
-
-			//bool childHit = false;
+			base.OnButtonPress(evt);
 			foreach (Plottable child in children)
-			{
-				if (child is AbstractPlot && child.HitTest(hitLine))
-					return true;
-					//childHit = true;
-			}
-			//return childHit;
-			return false;
+				child.OnButtonPress(evt);
 		}
 
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+			foreach (Plottable child in children)
+				child.OnButtonRelease(evt);
+		}
 
 		public override void Deselect()
 		{

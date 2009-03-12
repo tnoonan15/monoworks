@@ -234,8 +234,10 @@ namespace MonoWorks.Plotting
 
 			// the main axis line
 			// RIGHT NOW, THIS IS COLLIDING WITH THE GRID AND LOOKS FUNNY
-//			gl.glVertex2i(startCoord.X, startCoord.Y);
-//			gl.glVertex2i(stopCoord.X, stopCoord.Y);
+			gl.glBegin(gl.GL_LINES);
+			gl.glVertex2d(startCoord.X, startCoord.Y);
+			gl.glVertex2d(stopCoord.X, stopCoord.Y);
+			gl.glEnd();
 
 			// get the angle of the main axis line
 			bool isVertical = false, ishorizontal = false;
@@ -247,7 +249,6 @@ namespace MonoWorks.Plotting
 					tickAngle = Angle.Pi();
 				else
 					tickAngle = new Angle();
-				//Console.WriteLine("axis {0} is vertical with angle {1}", dimension, tickAngle);
 			}
 			if (startCoord.Y == stopCoord.Y) // the axis is horizontal
 			{
@@ -256,15 +257,13 @@ namespace MonoWorks.Plotting
 					tickAngle = Angle.Pi() * 1.5;
 				else
 					tickAngle = Angle.Pi() * 0.5;
-				//Console.WriteLine("axis {0} is horizontal with angle {1}", dimension, tickAngle);
 			}
 			if (ishorizontal && isVertical) // the axis is singular, don't render it
 				return;
 			if (!ishorizontal && !isVertical) // the axis is sloped
 			{
 				tickAngle = Angle.ArcTan(stopCoord.Y - startCoord.Y, stopCoord.X - startCoord.X);
-				//Console.WriteLine("axis {0} goes from {1} to {2} with tick angle {3}", dimension, startCoord, stopCoord, tickAngle * 180 / Math.PI);
-
+				
 				// determine which direction to flip it
 				double sign = 1;
 				if (dimension == 2) // need to flip the sign on the z axis
@@ -292,8 +291,8 @@ namespace MonoWorks.Plotting
 			// update tick alignment
 			HorizontalAlignment newAlignment = HorizontalAlignment.Center;
 
-			// render the ticks
 			gl.glBegin(gl.GL_LINES);
+			// render the ticks
 			for (int i = 0; i < tickPositions.Length; i++)
 			{
 				startCoord = viewport.Camera.WorldToScreen(tickPositions[i]);
