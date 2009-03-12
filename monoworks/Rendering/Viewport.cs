@@ -128,17 +128,18 @@ namespace MonoWorks.Rendering
 			Camera.Place();
 			ViewInteractor.RenderOpaque(this);
 			ViewInteractor.RenderTransparent(this);
-			ViewInteractor.RenderOverlay(this);
+			OverlayInteractor.RenderOpaque(this);
+			OverlayInteractor.RenderTransparent(this);
 			if (PrimaryInteractor != null)
 			{
 				PrimaryInteractor.RenderOpaque(this);
 				PrimaryInteractor.RenderTransparent(this);
-				PrimaryInteractor.RenderOverlay(this);
 			}
 			Camera.PlaceOverlay();
-			OverlayInteractor.RenderOpaque(this);
-			OverlayInteractor.RenderTransparent(this);
+			ViewInteractor.RenderOverlay(this);
 			OverlayInteractor.RenderOverlay(this);
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.RenderOverlay(this);
 
 			//SwapBuffers();
 		}
@@ -219,6 +220,7 @@ namespace MonoWorks.Rendering
 			InteractionState = state;
 			if (InteractionStateChanged != null)
 				InteractionStateChanged(this, new EventArgs());
+			Resize();
 		}
 
 		/// <summary>
@@ -245,13 +247,11 @@ namespace MonoWorks.Rendering
 #endregion
 
 
-#region IMouseHandler Members
+#region Mouse Interaction
 
 		public void OnButtonPress(MouseButtonEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
-
-			Console.WriteLine("mouse pos: {0}", evt.Pos);
 
 			OverlayInteractor.OnButtonPress(evt);
 
@@ -264,16 +264,6 @@ namespace MonoWorks.Rendering
 				PrimaryInteractor.OnButtonPress(evt);
 
 			ViewInteractor.OnButtonPress(evt);
-
-			// handle double click
-			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
-			{
-				if (InteractionState == InteractionState.Interact2D)
-					Camera.AnimateTo(ViewDirection.Front);
-				else
-					Camera.AnimateTo(ViewDirection.Standard);
-				evt.Handle();
-			}
 		}
 
 		public void OnButtonRelease(MouseButtonEvent evt)
@@ -331,6 +321,14 @@ namespace MonoWorks.Rendering
 
 			if (!blocked)
 				Camera.Dolly(factor);
+		}
+
+		/// <summary>
+		/// Sets the tooltip on the viewport.
+		/// </summary>
+		public string ToolTip
+		{
+			set { adapter.ToolTip = value; }
 		}
 
 #endregion

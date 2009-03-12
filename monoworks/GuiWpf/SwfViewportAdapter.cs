@@ -55,10 +55,6 @@ namespace MonoWorks.GuiWpf
 			InitializeGL();
 		}
 
-		swf.ToolTip toolTip;
-
-
-#region ViewportAdaptger Implementation
 
 		/// <summary>
 		/// The viewport.
@@ -83,8 +79,20 @@ namespace MonoWorks.GuiWpf
 			get { return Size.Height; }
 		}
 
-#endregion
 
+
+		private swf.ToolTip toolTip;
+
+		/// <summary>
+		/// The tooltip on the viewport.
+		/// </summary>
+		public string ToolTip
+		{
+			set
+			{
+				toolTip.Show(value, this);
+			}
+		}
 
 		/// <summary>
 		/// Export the viewport to a bitmap in the given file name.

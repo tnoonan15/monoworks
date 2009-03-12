@@ -544,9 +544,9 @@ namespace MonoWorks.Plotting
 			}
 
 			// determine if one was selected
-			double tol = 8;
+			double tolSquared = 64;
 			//Console.WriteLine("shorted distance {0} at index {1}", Math.Sqrt(shortestDistance), closestIndex);
-			if (shortestDistance < tol * tol)
+			if (shortestDistance < tolSquared)
 			{
 				selectedIndex[closestIndex] = true;
 				IsSelected = true;
@@ -559,6 +559,12 @@ namespace MonoWorks.Plotting
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
+			if (evt.Handled)
+			{
+				Deselect();
+				return;
+			}
+
 			base.OnButtonRelease(evt);
 
 			if (evt.Modifier != InteractionModifier.Shift)

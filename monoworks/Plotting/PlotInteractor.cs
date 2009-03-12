@@ -41,10 +41,27 @@ namespace MonoWorks.Plotting
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
+
+			// handle double click
+			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
+			{
+				if (viewport.InteractionState == InteractionState.Interact2D)
+				{
+					foreach (Actor actor in renderList.Actors)
+					{
+						if (actor is AxesBox)
+							(actor as AxesBox).ResizeMode = ResizeMode.Auto;
+					}
+					evt.Handle();
+				}
+			}
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
+			if (evt.Handled)
+				return;
+
 			base.OnButtonRelease(evt);
 
 			// determine the 3D position of the hit
@@ -55,8 +72,8 @@ namespace MonoWorks.Plotting
 			Actor hitRend = null;
 			foreach (Actor rend in renderList.Actors)
 			{
-				rend.OnButtonPress(evt);
-				if (rend.HitTest(hitLine))
+				rend.OnButtonRelease(evt);
+				if (evt.Handled)
 					hitRend = rend;
 			}
 
@@ -65,10 +82,7 @@ namespace MonoWorks.Plotting
 			{
 				string description = hitRend.SelectionDescription;
 				if (description.Length > 0)
-				{
-					//toolTip.SetToolTip(this, description);
-					Console.WriteLine("tooltip: {0}", description);
-				}
+					viewport.ToolTip = description;
 			}
 		}
 

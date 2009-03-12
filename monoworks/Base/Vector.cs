@@ -318,7 +318,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public override string ToString()
 		{
-			return String.Format("[{0},{1},{2}]", val[0], val[1], val[2]);
+			return String.Format("[{0:g4},{1:g4},{2:g4}]", val[0], val[1], val[2]);
 		}
 		
 		/// <summary>

@@ -37,6 +37,7 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public Grid(AxesBox parent) : base(parent)
 		{
+			Color = ColorManager.Global["Gray"];
 		}
 		
 		
@@ -88,8 +89,6 @@ namespace MonoWorks.Plotting
 				// generate the display list
 				gl.glNewList(displayList, gl.GL_COMPILE);
 				
-//				gl.glEnable(gl.GL_LINE_SMOOTH);
-				
 				gl.glBegin(gl.GL_LINES);
 				for (int n=0; n<2; n++) // axes number
 				{
@@ -126,7 +125,6 @@ namespace MonoWorks.Plotting
 						currentPoint2[dim] += travelSign*tickStep;
 					}
 				}
-//				gl.glDisable(gl.GL_LINE_SMOOTH);
 				gl.glEnd();
 				
 				

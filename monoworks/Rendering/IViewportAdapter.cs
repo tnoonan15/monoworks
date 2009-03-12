@@ -79,5 +79,10 @@ namespace MonoWorks.Rendering
 		/// Queues the rendering for one frame from another thread.
 		/// </summary>
 		void RemotePaintGL();
+
+		/// <summary>
+		/// The tooltip on the viewport.
+		/// </summary>
+		string ToolTip { set; }
 	}
 }

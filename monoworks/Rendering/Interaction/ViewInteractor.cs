@@ -137,8 +137,18 @@ namespace MonoWorks.Rendering.Interaction
 			// TODO: make this work for rubber band selection
 			if (MouseType == InteractionType.Zoom)
 			{
-				RubberBand.Start = evt.Pos;
+				RubberBand.Reset(evt.Pos);
 				RubberBand.Enabled = true;
+				evt.Handle();
+			}
+
+			// handle double click
+			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
+			{
+				if (viewport.InteractionState == InteractionState.Interact2D)
+					viewport.Camera.AnimateTo(ViewDirection.Front);
+				else
+					viewport.Camera.AnimateTo(ViewDirection.Standard);
 				evt.Handle();
 			}
 
@@ -154,9 +164,9 @@ namespace MonoWorks.Rendering.Interaction
 			{
 			case InteractionType.Zoom:
 				bool blocked = false;
-				foreach (Actor renderable in renderList.Actors)
+				foreach (Actor actor in renderList.Actors)
 				{
-					if (renderable.HandleZoom(viewport, RubberBand))
+					if (actor.HandleZoom(viewport, RubberBand))
 						blocked = true;
 				}
 				if (!blocked)
@@ -173,8 +183,9 @@ namespace MonoWorks.Rendering.Interaction
 		}
 
 		/// <summary>
-		/// Registers the motion event without performing any interaction.
+		/// Mouse motion handler that looks for child actors to handle the motion event.
 		/// </summary>
+		/// <remarks>If no one handles the event, then OnMouseMotion(MouseEvent, Camera) is called.</remarks>
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			bool blocked = false;
@@ -220,16 +231,10 @@ namespace MonoWorks.Rendering.Interaction
 		/// </summary>
 		/// <param name="evt"></param>
 		/// <param name="camera"> The camera that will handle the interaction.</param>
-		/// <remarks> Viewport implementations should check for blocking by renderables before calling this.</remarks>
-		public void OnMouseMotion(MouseEvent evt, Camera camera)
+		protected void OnMouseMotion(MouseEvent evt, Camera camera)
 		{
 			switch (MouseType)
 			{
-			case InteractionType.Select:
-				//RubberBand.StopX = interactionState.LastLoc.X;
-				//RubberBand.StopY = HeightGL - interactionState.LastLoc.Y;
-				break;
-
 			case InteractionType.Rotate:
 				viewport.Camera.Rotate(evt.Pos - lastPos);
 				break;

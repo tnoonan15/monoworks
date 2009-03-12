@@ -220,6 +220,11 @@ namespace MonoWorks.Rendering
 			viewportSize = new int[] {0, 0, width, height};
 		}
 
+		/// <summary>
+		/// Gets raised whenever the projection changes.
+		/// </summary>
+		public EventHandler ProjectionChanged;
+
 		protected Projection projection = Projection.Perspective;
 		/// <value>
 		/// The projection.
@@ -230,6 +235,8 @@ namespace MonoWorks.Rendering
 			set
 			{
 				projection = value;
+				if (ProjectionChanged != null)
+					ProjectionChanged(this, new EventArgs());
 				Configure();
 			}
 		}
@@ -380,8 +387,8 @@ namespace MonoWorks.Rendering
 			hitLine.Front = ScreenToWorld(screen, false);
 			hitLine.Back = ScreenToWorld(screen, true);
 			hitLine.Camera = this;
-			//hitLine.Screen = new Coord(screen.X, ViewportHeight - screen.Y);
 			hitLine.Screen = new Coord(screen.X, screen.Y);
+			//Console.WriteLine("hit screen {0}, {1}", screen, hitLine);
 			return hitLine;
 		}
 

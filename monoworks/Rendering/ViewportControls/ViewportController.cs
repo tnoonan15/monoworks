@@ -41,6 +41,7 @@ namespace MonoWorks.Rendering.ViewportControls
         {
 			this.viewport = viewport;
 			viewport.InteractionStateChanged += ExternalInteractionStateChanged;
+			viewport.Camera.ProjectionChanged += ExternalProjectionChanged;
 
 			UiManager = new UiManager(this);
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
@@ -157,14 +158,19 @@ namespace MonoWorks.Rendering.ViewportControls
 			viewport.Camera.AnimateTo(ViewDirection.Bottom);
 		}
 		
+#endregion
+
+
+#region Projection Actions
+
+
 		[Action("Projection")]
 		public void OnChangeProjection()
 		{
-			Console.WriteLine("projection");
 			viewport.Camera.ToggleProjection();
-				
+			OnProjectionChanged();
 		}
-		
+
 		/// <summary>
 		/// Updates the projection button based on the current projection.
 		/// </summary>
@@ -177,12 +183,21 @@ namespace MonoWorks.Rendering.ViewportControls
 				projButton.IsSelected = viewport.Camera.Projection == Projection.Perspective;
 			}
 		}
-		
+
+		/// <summary>
+		/// Handles the projection changing from an external source.
+		/// </summary>
+		private void ExternalProjectionChanged(object sender, EventArgs args)
+		{
+			if (!InternalUpdate)
+				OnProjectionChanged();
+		}
+
 #endregion
-		
-		
+
+
 #region Interaction Actions
-		
+
 		/// <summary>
 		/// The name of the interaction toolbar on the viewport, or null if there isn't one.
 		/// </summary>
@@ -209,31 +224,21 @@ namespace MonoWorks.Rendering.ViewportControls
 
 
 		/// <summary>
-		/// Handles the interaction state changing from an external s
+		/// Handles the interaction state changing from an external source.
 		/// </summary>
 		private void ExternalInteractionStateChanged(object sender, EventArgs args)
 		{
-			if (!InternalUpdate && InteractionToolbarName!=null)
-			{
-				ToolBar toolBar = ContextLayer.GetToolbar(InteractionToolbarName);
-				foreach (var kv in interactionNames)
-				{
-					Button button = toolBar.GetButton(kv.Value);
-					if (button == null)
-						continue;
-					if (viewport.InteractionState == kv.Key)
-						button.IsSelected = true;
-					else
-						button.IsSelected = false;
-				}
-			}
+			if (!InternalUpdate)
+				OnInteractionStateChanged();
 		}
-		
+
 		
 		[Action("2D Interaction")]
 		public void On2dInteract()
 		{
 			BeginInternalUpdate();
+			viewport.Camera.SetViewDirection(ViewDirection.Front);
+			viewport.Camera.Projection = Projection.Parallel;
 			viewport.SetInteractionState(InteractionState.Interact2D);
 		 	OnInteractionStateChanged();
 			EndInternalUpdate();

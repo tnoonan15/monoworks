@@ -60,6 +60,12 @@ namespace MonoWorks.Rendering
 			get { return Back - Front; }
 		}
 
+
+		public override string ToString()
+		{
+			return String.Format("HitLine: {0} to {1}", Front, Back);
+		}
+
 		/// <summary>
 		/// The camera used during the hit.
 		/// </summary>
