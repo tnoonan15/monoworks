@@ -38,7 +38,7 @@ namespace MonoWorks.Rendering
 	/// The ViewportAdapter interface defines an interface for MonoWorks viewports adapters. 
 	/// This lets the rendering system interact with viewports in a GUI-independant manner.
 	/// </summary>
-	public interface ViewportAdapter
+	public interface IViewportAdapter
 	{
 		/// <summary>
 		/// The viewport.

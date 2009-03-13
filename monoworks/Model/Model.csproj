@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">GtkDebug</Configuration>
@@ -121,6 +121,7 @@
     <EmbeddedResource Include="ViewportControls\icons\smooth.png" />
     <EmbeddedResource Include="ViewportControls\icons\wireframe.png" />
     <EmbeddedResource Include="ViewportControls\Viewport.ui" />
+    <EmbeddedResource Include="DefaultModelingOptions.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -135,9 +136,6 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DefaultModelingOptions.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
