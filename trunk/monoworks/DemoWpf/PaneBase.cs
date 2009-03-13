@@ -49,7 +49,6 @@ namespace MonoWorks.DemoWpf
 			col = new swc.ColumnDefinition();
 			ColumnDefinitions.Add(col);
 
-
 			// create the viewport
 			viewportWrapper = new ViewportWrapper();
 			viewportWrapper.Width = Double.NaN;

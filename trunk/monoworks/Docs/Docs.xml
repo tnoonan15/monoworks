@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Docs>
+	<Assemblies>
+		<Assembly name="MonoWorks.Base"/>
+		<Assembly name="MonoWorks.Rendering"/>
+		<Assembly name="MonoWorks.Model"/>
+	</Assemblies>
+</Docs>

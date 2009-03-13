@@ -39,6 +39,9 @@ namespace MonoWorks.DemoWpf
 		public Pane2D()
 			: base()
 		{
+			// hide the first column
+			this.ColumnDefinitions[0].Width = new GridLength(0);
+
 			// create the axes
 			TestAxes2D axes = new TestAxes2D();
 

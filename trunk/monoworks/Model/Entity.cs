@@ -72,7 +72,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		protected Entity()
 		{
-			parent = null;
+			Parent = null;
 			IdCounter++;
 			id = IdCounter;
 			IsDirty = false;
@@ -323,14 +323,10 @@ namespace MonoWorks.Model
 			TheDrawing.EntityManager.RegisterEntity(entity);
 		}	
 		
-		protected Entity parent;
 		/// <value>
 		/// The parent of this entity.
 		/// </value>
-		public Entity Parent
-		{
-			get {return parent;}
-		}
+		public Entity Parent { get; private set; }
 	
 		/// <summary>
 		/// Add a child.
@@ -340,7 +336,7 @@ namespace MonoWorks.Model
 		{
 			children.Add(child);
 			child.TheDrawing = TheDrawing;
-			child.parent = this;
+			child.Parent = this;
 			RegisterEntity(child);
 			MakeDirty();
 		}
@@ -456,10 +452,10 @@ namespace MonoWorks.Model
 		/// </summary>
 		protected void ParentDirty()
 		{
-			if (parent != null)
+			if (Parent != null)
 			{
-				parent.IsDirty = true;
-				parent.ParentDirty();
+				Parent.IsDirty = true;
+				Parent.ParentDirty();
 			}
 		}
 		
