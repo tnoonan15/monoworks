@@ -314,8 +314,8 @@ namespace MonoWorks.Model
 		}
 
 		/// <summary>
-		/// Registers an entity with the drawing.
-		/// The drawing keeps a flat list of entities it contains that can be looked up by id.
+		/// Registers an entity with the entity manager.
+		/// The entity manager keeps a flat list of entities it contains that can be looked up by id.
 		/// </summary>
 		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
 		protected void RegisterEntity(Entity entity)
@@ -474,26 +474,38 @@ namespace MonoWorks.Model
 			// update the children's geometry and resize the bounds
 			foreach (Entity child in GetChildren<Feature>())
 			{
-				if (child.IsDirty)
-					child.ComputeGeometry();
-				bounds.Resize(child.Bounds);
+				if (child != null)
+				{
+					if (child.IsDirty)
+						child.ComputeGeometry();
+					bounds.Resize(child.Bounds);
+				}
 			}
 			foreach (Entity child in GetChildren<Sketch>())
 			{
-				if (child.IsDirty)
-					child.ComputeGeometry();
-				bounds.Resize(child.Bounds);
+				if (child != null)
+				{
+					if (child.IsDirty)
+						child.ComputeGeometry();
+					bounds.Resize(child.Bounds);
+				}
 			}
 			foreach (Entity child in GetChildren<Sketchable>())
 			{
-				if (child.IsDirty)
-					child.ComputeGeometry();
-				bounds.Resize(child.Bounds);
+				if (child != null)
+				{
+					if (child.IsDirty)
+						child.ComputeGeometry();
+					bounds.Resize(child.Bounds);
+				}
 			}
 			foreach (Entity child in GetChildren<Reference>())
 			{
-				if (child.IsDirty)
-					child.ComputeGeometry();
+				if (child != null)
+				{
+					if (child.IsDirty)
+						child.ComputeGeometry();
+				}
 			}
 		}
 		

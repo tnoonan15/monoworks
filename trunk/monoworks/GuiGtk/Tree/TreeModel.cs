@@ -33,11 +33,11 @@ namespace MonoWorks.GuiGtk.Tree
 		}
 		
 
-		protected TheDrawing drawing;
+		protected Drawing drawing;
 		//// <value>
 		/// The drawing.
 		/// </value>
-		public TheDrawing Drawing
+		public Drawing Drawing
 		{
 			get { return drawing; }
 			set
@@ -89,20 +89,11 @@ namespace MonoWorks.GuiGtk.Tree
 				AddEntity(child, iter);
 		}
 		
-
-#region IEntityListener implementation 
-		
-		public void AddEntity(Entity entity)
-		{
-			AddEntity(entity);
-		}
-		
 		public void RemoveEntity(Entity entity)
 		{
 			throw new System.NotImplementedException();
 		}
 
-#endregion 
 		
 		
 	}

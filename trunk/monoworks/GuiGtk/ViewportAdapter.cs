@@ -36,7 +36,7 @@ namespace MonoWorks.GuiGtk
 	/// <summary>
 	/// Gtk viewport.
 	/// </summary>
-	public class ViewportAdapter : GLArea, ViewportAdapter
+	public class ViewportAdapter : GLArea, IViewportAdapter
 	{
 		/// <summary>
 		/// The attributes list.
@@ -151,6 +151,17 @@ namespace MonoWorks.GuiGtk
 			PaintGL();
 		}
 
+		
+		/// <value>
+		/// Sets the tooltip on the viewport.
+		/// </value>
+		public string ToolTip
+		{
+			set
+			{
+				this.ToolTip = value;
+			}
+		}
 		
 #endregion
 

@@ -41,7 +41,7 @@ namespace MonoWorks.DemoGtk
 			Viewport.RenderList.AddActor(axes);
 			
 			Viewport.Camera.Projection = Projection.Parallel;
-			Viewport.InteractionState = InteractionState.Interact2D;
+			Viewport.SetInteractionState(InteractionState.Interact2D);
 			Viewport.Camera.SetViewDirection(ViewDirection.Front);
 			
 			

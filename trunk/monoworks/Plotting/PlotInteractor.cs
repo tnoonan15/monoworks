@@ -66,7 +66,7 @@ namespace MonoWorks.Plotting
 
 			// determine the 3D position of the hit
 			viewport.Camera.Place();
-			HitLine hitLine = evt.HitLine;
+//			HitLine hitLine = evt.HitLine;
 
 			// TODO: handle multiple hits with depth checking
 			Actor hitRend = null;

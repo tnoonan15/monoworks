@@ -21,7 +21,6 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Model;
 using MonoWorks.Model.ViewportControls;
-using MonoWorks.Model.Interaction;
 using MonoWorks.GuiGtk.Tree;
 using MonoWorks.GuiGtk.AttributeControls;
 
@@ -59,11 +58,11 @@ namespace MonoWorks.GuiGtk
 		
 		private Gtk.HBox viewportBox;
 		
-		protected TheDrawing drawing = null;
+		protected Drawing drawing = null;
 		/// <value>
 		/// The drawing associated with this frame.
 		/// </value>
-		public TheDrawing Drawing
+		public Drawing Drawing
 		{
 			get {return drawing;}
 			set
