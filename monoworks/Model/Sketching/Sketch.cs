@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 using MonoWorks.Rendering;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Model.Sketching
 {
 	
 	/// <summary>

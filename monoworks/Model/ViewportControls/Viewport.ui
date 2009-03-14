@@ -13,7 +13,9 @@
 		<Action name="Add Sketch" icon="sketch" tooltip="Add a new sketch"/>
 		<Action name="Edit Sketch" icon="sketch" tooltip="Edit the selected sketch"/>
 		<Action name="Line" icon="line" tooltip="Add a line to the sketch"/>
+		<Action name="Rectangle" icon="rectangle" tooltip="Add a rectanlge to the sketch"/>
 		<Action name="Arc" icon="arc" tooltip="Add an arc to the sketch"/>
+		<Action name="Ellipse" icon="ellipse" tooltip="Add an ellipse to the sketch"/>
 		<Action name="Spline" icon="spline" tooltip="Add a spline to the sketch"/>
 
 		<Action name="Ref Point" icon="refpoint" tooltip="Add a new reference point"/>
@@ -59,7 +61,9 @@
 
 		<Toolbar name="Sketch" buttonStyle="ImageOverLabel">
 			<Item action="Line"/>
+			<Item action="Rectangle"/>
 			<Item action="Arc"/>
+			<Item action="Ellipse"/>
 			<Item action="Spline"/>
 		</Toolbar>
 

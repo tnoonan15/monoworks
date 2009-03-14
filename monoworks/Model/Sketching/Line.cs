@@ -1,4 +1,4 @@
-//   Sketchable.cs - MonoWorks Project
+//   Line.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //
@@ -23,7 +23,7 @@ using MonoWorks.Rendering.Events;
 
 using gl = Tao.OpenGl.Gl;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Model.Sketching
 {
 	
 	/// <summary>

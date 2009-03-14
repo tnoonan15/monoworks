@@ -26,7 +26,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Framework;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Model.Sketching
 {
 
 	/// <summary>
@@ -140,11 +140,6 @@ namespace MonoWorks.Model
 		/// True if the next mouse click adds a vertex.
 		/// </summary>
 		private bool addingVertex = false;
-
-		/// <summary>
-		/// Whether or not the user is currently dragging something.
-		/// </summary>
-		private bool isDragging = false;
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{

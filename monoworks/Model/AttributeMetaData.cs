@@ -73,7 +73,12 @@ namespace MonoWorks.Model
 				
 
 #region Instantiation
-		
+
+		/// <summary>
+		/// Cache the types so we don't have to load them from the assemblies each time.
+		/// </summary>
+		private static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
+
 		/// <value>
 		/// The type of the attribute.
 		/// </value>
@@ -89,22 +94,25 @@ namespace MonoWorks.Model
 					type_ = typeName.Substring(5, typeName.Length-6);
 				}
 				
-				// load the assembly
-				string[] typeComps = type_.Split('.');
-				string asmName = "";
-				for (int i=0; i<typeComps.Length-1; i++)
-				{
-					asmName += typeComps[i] + ".";
-				}
-				
 				// get the type
 				Type theType = null;
 				if (type_.StartsWith("System"))
 					theType = Type.GetType(type_, true);
 				else
-				{
-					System.Reflection.Assembly asm = System.Reflection.Assembly.Load(asmName.Substring(0, asmName.Length - 1));
-					theType = asm.GetType(type_, true);
+				{	
+					// look in the type cache
+					if (typeCache.TryGetValue(type_, out theType))
+						return theType;
+
+					// find the type in the currently loaded assemblies
+					foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+					{
+						if (type_.StartsWith(asm.GetName().Name))
+							theType = asm.GetType(type_);
+					}
+					if (theType == null)
+						throw new Exception("Could no find type " + typeName);
+					typeCache[type_] = theType; // cache the type
 				}
 				
 				return theType;

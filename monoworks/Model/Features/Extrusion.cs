@@ -23,6 +23,7 @@ using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Model.Sketching;
 
 namespace MonoWorks.Model
 {
