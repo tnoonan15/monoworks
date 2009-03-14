@@ -18,6 +18,7 @@
 using System;
 
 using MonoWorks.Base;
+using MonoWorks.Model.Sketching;
 
 namespace MonoWorks.Model
 {

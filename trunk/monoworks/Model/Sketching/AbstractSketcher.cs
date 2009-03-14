@@ -26,7 +26,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 
-namespace MonoWorks.Model
+namespace MonoWorks.Model.Sketching
 {
 	/// <summary>
 	/// Abstract base class for skecthers (classes that handle the user interface of sketching).
@@ -70,6 +70,12 @@ namespace MonoWorks.Model
 		public virtual void OnKeyPress(KeyEvent evt)
 		{
 		}
+
+
+		/// <summary>
+		/// Whether or not the user is dragging something.
+		/// </summary>
+		protected bool isDragging = false;
 
 
 

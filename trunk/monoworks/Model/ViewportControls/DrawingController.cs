@@ -24,6 +24,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Rendering.ViewportControls;
+using MonoWorks.Model.Sketching;
 
 namespace MonoWorks.Model.ViewportControls
 {
@@ -374,12 +375,30 @@ namespace MonoWorks.Model.ViewportControls
 		}
 
 		/// <summary>
+		/// Adds a rectangle to the current sketch.
+		/// </summary>
+		[Action("Rectangle")]
+		public void OnSketchRectangle()
+		{
+			DrawingInteractor.AddSketchable(new Rectangle());
+		}
+
+		/// <summary>
 		/// Adds a arc to the current sketch.
 		/// </summary>
 		[Action("Arc")]
 		public void OnSketchArc()
 		{
 			DrawingInteractor.AddSketchable(new Arc());
+		}
+
+		/// <summary>
+		/// Adds a ellipse to the current sketch.
+		/// </summary>
+		[Action("Ellipse")]
+		public void OnSketchEllipse()
+		{
+			DrawingInteractor.AddSketchable(new Ellipse());
 		}
 
 		/// <summary>

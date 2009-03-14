@@ -22,9 +22,9 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 using glu = Tao.OpenGl.Glu;
 
-using MonoWorks.Rendering;
-
 using MonoWorks.Base;
+using MonoWorks.Rendering;
+using MonoWorks.Model.Sketching;
 
 namespace MonoWorks.Model
 {

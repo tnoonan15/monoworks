@@ -23,7 +23,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Model.Sketching
 {
 	
 	/// <summary>
@@ -122,7 +122,7 @@ namespace MonoWorks.Model
 		/// </summary>
 		public virtual void DrawEdges()
 		{
-			foreach (Vector point in wireframePoints)
+			foreach (Vector point in solidPoints)
 				point.glVertex();
 		}
 		

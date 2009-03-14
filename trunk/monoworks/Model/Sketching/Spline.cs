@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Model.Sketching
 {
 	public class Spline : Sketchable
 	{

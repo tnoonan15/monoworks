@@ -24,7 +24,7 @@ using MonoWorks.Rendering.Events;
 
 using gl = Tao.OpenGl.Gl;
 
-namespace MonoWorks.Model
+namespace MonoWorks.Model.Sketching
 {
 	
 	

@@ -28,7 +28,7 @@
 	
 	<!-- Features -->
 	<Entity name="Feature">
-		<Attribute name="sketch" type="MonoWorks.Model.Sketch">
+		<Attribute name="sketch" type="MonoWorks.Model.Sketching.Sketch">
 			The Sketch that the feature is based on.
 		</Attribute>
 		<Entity name="Extrusion">
@@ -80,6 +80,14 @@
 			</Attribute>
 			<Attribute name="isClosed" type="System.Boolean">
 				Whether or not the line is closed on itself.
+			</Attribute>
+		</Entity>
+		<Entity name="Rectangle">
+			<Attribute name="anchor1" type="MonoWorks.Base.Point">
+				The point representing the first anchor (corner) of the rectangle.
+			</Attribute>
+			<Attribute name="anchor2" type="MonoWorks.Base.Point">
+				The point representing the second anchor (corner) of the rectangle.
 			</Attribute>
 		</Entity>
 		<Entity name="Arc">

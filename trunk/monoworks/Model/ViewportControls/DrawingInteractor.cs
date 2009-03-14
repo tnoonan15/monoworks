@@ -23,6 +23,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Framework;
+using MonoWorks.Model.Sketching;
 
 namespace MonoWorks.Model.ViewportControls
 {
@@ -263,6 +264,8 @@ namespace MonoWorks.Model.ViewportControls
 		{
 			if (sketchable is Line)
 				sketcher = new LineSketcher(sketch, sketchable as Line);
+			else if (sketchable is Rectangle)
+				sketcher = new RectangleSketcher(sketch, sketchable as Rectangle);
 			else
 				throw new NotImplementedException();
 
