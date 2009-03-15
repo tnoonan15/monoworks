@@ -74,6 +74,9 @@
 	
 	<!-- Sketchables -->
 	<Entity name="Sketchable">
+		<Attribute name="sketch" type="MonoWorks.Model.Sketching.Sketch">
+			The sketch this sketchable belongs to.
+		</Attribute>
 		<Entity name="Line">
 			<Attribute name="points" type="List(MonoWorks.Base.Point)">
 				The points representing the vertices of the line.

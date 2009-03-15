@@ -371,7 +371,7 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Line")]
 		public void OnSketchLine()
 		{
-			DrawingInteractor.AddSketchable(new Line());
+			DrawingInteractor.AddSketchable(new Line(DrawingInteractor.Sketch));
 		}
 
 		/// <summary>
@@ -380,7 +380,7 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Rectangle")]
 		public void OnSketchRectangle()
 		{
-			DrawingInteractor.AddSketchable(new Rectangle());
+			DrawingInteractor.AddSketchable(new Rectangle(DrawingInteractor.Sketch));
 		}
 
 		/// <summary>
@@ -389,7 +389,7 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Arc")]
 		public void OnSketchArc()
 		{
-			DrawingInteractor.AddSketchable(new Arc());
+			DrawingInteractor.AddSketchable(new Arc(DrawingInteractor.Sketch));
 		}
 
 		/// <summary>
@@ -398,7 +398,7 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Ellipse")]
 		public void OnSketchEllipse()
 		{
-			DrawingInteractor.AddSketchable(new Ellipse());
+			DrawingInteractor.AddSketchable(new Ellipse(DrawingInteractor.Sketch));
 		}
 
 		/// <summary>
@@ -407,7 +407,7 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Spline")]
 		public void OnSketchSpline()
 		{
-			DrawingInteractor.AddSketchable(new Spline());
+			DrawingInteractor.AddSketchable(new Spline(DrawingInteractor.Sketch));
 		}
 
 #endregion

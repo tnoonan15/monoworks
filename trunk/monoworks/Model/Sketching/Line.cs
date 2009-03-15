@@ -34,7 +34,7 @@ namespace MonoWorks.Model.Sketching
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Line() : base()
+		public Line(Sketch sketch) : base(sketch)
 		{
 			IsClosed = false;
 		}
@@ -44,9 +44,10 @@ namespace MonoWorks.Model.Sketching
 		/// Initialization constructor.
 		/// Sets the values of the first two points.
 		/// </summary>
+		/// <param name="sketch">The sketch.</param>
 		/// <param name="p1"> The first <see cref="Point"/>. </param>
 		/// <param name="p2"> The second <see cref="Point"/>. </param>
-		public Line(Point p1, Point p2) : this()
+		public Line(Sketch sketch, Point p1, Point p2) : this(sketch)
 		{
 			Points.Add(p1);
 			Points.Add(p2);
@@ -127,7 +128,8 @@ namespace MonoWorks.Model.Sketching
 		/// </summary>
 		public override void DrawVertices()
 		{
-			if (Points.Count != solidPoints.Length)
+			if ((!IsClosed && Points.Count != solidPoints.Length) || 
+				(IsClosed && Points.Count+1 != solidPoints.Length))
 				ComputeGeometry();
 			base.DrawVertices();
 		}

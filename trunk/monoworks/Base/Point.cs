@@ -26,7 +26,7 @@ namespace MonoWorks.Base
 	/// The Point class represents a point real in 3D space.
 	/// The point is defined by 3 Length dimensionals.
 	/// </summary>
-	public class Point
+	public class Point : ICloneable
 	{
 		/// <summary>
 		/// Default constructor.
@@ -170,5 +170,16 @@ namespace MonoWorks.Base
 			return ToVector().ToString();
 		}
 		
+		/// <summary>
+		/// Creates a clone of the point.
+		/// </summary>
+		public object Clone()
+		{
+			Point point = new Point();
+			for (int i = 0; i < val.Length; i++)
+				point.val[i] = val[i].Clone() as Length;
+			return point;
+		}
+
 	}
 }

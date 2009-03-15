@@ -27,6 +27,12 @@ namespace MonoWorks.Model.Sketching
 	public class Spline : Sketchable
 	{
 
+		public Spline(Sketch sketch)
+			: base(sketch)
+		{
+
+		}
+
 #region Hit Testing
 
 		public override bool HitTest(HitLine hit)

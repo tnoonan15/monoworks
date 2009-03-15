@@ -33,19 +33,14 @@ namespace MonoWorks.Model.Sketching
 	/// </summary>
 	public abstract class AbstractSketcher : Actor
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		/// <param name="sketch"></param>
-		public AbstractSketcher(Sketch sketch)
+		public AbstractSketcher()
 		{
-			Sketch = sketch;
 		}
 
 		/// <summary>
 		/// The sketch being sketched on.
 		/// </summary>
-		public Sketch Sketch { get; private set; }
+		public abstract Sketch Sketch { get; }
 
 		/// <summary>
 		/// Delegate for the SketchApplied event.

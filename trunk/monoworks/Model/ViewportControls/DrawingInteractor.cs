@@ -73,7 +73,7 @@ namespace MonoWorks.Model.ViewportControls
 				// find which entity was hit
 				Entity hitEntity = null;
 				if (IsSketching)
-					hitEntity = HitEntity<Sketchable>(sketch, evt);
+					hitEntity = HitEntity<Sketchable>(Sketch, evt);
 				else
 					hitEntity = HitEntity(evt);
 
@@ -82,7 +82,7 @@ namespace MonoWorks.Model.ViewportControls
 					drawing.EntityManager.Select(null, hitEntity);
 					evt.Handle();
 
-					if (hitEntity is Sketchable && IsSketching && sketch.ContainsChild(hitEntity))
+					if (hitEntity is Sketchable && IsSketching && Sketch.ContainsChild(hitEntity))
 						SetSketachable(hitEntity as Sketchable);
 				}
 			}
@@ -95,22 +95,25 @@ namespace MonoWorks.Model.ViewportControls
 
 			foreach (Entity entity in drawing.Children)
 				entity.IsHovering = false;
-
-			if (evt.Handled)
-				return;
+			if (IsSketching)
+			{
+				foreach (var entity in Sketch.Children)
+					entity.IsHovering = false;
+			}
 
 			if (sketcher != null)
 				sketcher.OnMouseMotion(evt);
+			
+			if (evt.Handled)
+				return;
+
+			Entity hitEntity = null;
+			if (IsSketching)
+				hitEntity = HitEntity<Sketchable>(Sketch, evt);
 			else
-			{
-				Entity hitEntity = null;
-				if (IsSketching)
-					hitEntity = HitEntity<Sketchable>(sketch, evt);
-				else
-					hitEntity = HitEntity(evt);
-				if (hitEntity != null)
-					hitEntity.IsHovering = true;
-			}
+				hitEntity = HitEntity(evt);
+			if (hitEntity != null)
+				hitEntity.IsHovering = true;
 		}
 
 
@@ -198,14 +201,14 @@ namespace MonoWorks.Model.ViewportControls
 		/// <summary>
 		/// The current sketch being edited.
 		/// </summary>
-		private Sketch sketch = null;
+		public Sketch Sketch {get; private set;}
 
 		/// <summary>
 		/// Whether the interactor is sketching.
 		/// </summary>
 		public bool IsSketching
 		{
-			get { return sketch != null; }
+			get { return Sketch != null; }
 		}
 
 		/// <summary>
@@ -213,7 +216,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		public void BeginSketching(Sketch sketch)
 		{
-			this.sketch = sketch;
+			Sketch = sketch;
 		}
 
 		/// <summary>
@@ -226,7 +229,7 @@ namespace MonoWorks.Model.ViewportControls
 				sketcher.Apply();
 				sketcher = null;
 			}
-			sketch = null;
+			Sketch = null;
 		}
 
 		/// <summary>
@@ -239,7 +242,7 @@ namespace MonoWorks.Model.ViewportControls
 				sketcher.Apply();
 				sketcher = null;
 			}
-			sketch = null;
+			Sketch = null;
 		}
 
 		/// <summary>
@@ -253,7 +256,6 @@ namespace MonoWorks.Model.ViewportControls
 		/// <param name="sketchable"></param>
 		public void AddSketchable(Sketchable sketchable)
 		{
-			sketch.AddChild(sketchable);
 			SetSketachable(sketchable);
 		}
 
@@ -263,9 +265,9 @@ namespace MonoWorks.Model.ViewportControls
 		public void SetSketachable(Sketchable sketchable)
 		{
 			if (sketchable is Line)
-				sketcher = new LineSketcher(sketch, sketchable as Line);
+				sketcher = new LineSketcher(sketchable as Line);
 			else if (sketchable is Rectangle)
-				sketcher = new RectangleSketcher(sketch, sketchable as Rectangle);
+				sketcher = new RectangleSketcher(sketchable as Rectangle);
 			else
 				throw new NotImplementedException();
 
@@ -278,6 +280,7 @@ namespace MonoWorks.Model.ViewportControls
 		public void OnSketchApplied()
 		{
 			sketcher = null;
+			drawing.EntityManager.DeselectAll(null);
 		}
 
 #endregion
@@ -302,7 +305,7 @@ namespace MonoWorks.Model.ViewportControls
 		{
 			base.RenderOpaque(viewport);
 			if (IsSketching)
-				sketch.Plane.RenderGrid(viewport);
+				Sketch.Plane.RenderGrid(viewport);
 			if (sketcher != null)
 				sketcher.RenderTransparent(viewport);
 		}

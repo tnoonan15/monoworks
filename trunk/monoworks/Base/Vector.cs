@@ -165,8 +165,7 @@ namespace MonoWorks.Base
 		}
 		
 #endregion
-		
-		
+				
 		
 #region Operator Overloading
 		
@@ -234,6 +233,14 @@ namespace MonoWorks.Base
 		public static Vector operator/(Vector lhs, Vector rhs)
 		{
 			return new Vector(lhs[0] / rhs[0], lhs[1] / rhs[1], lhs[2] / rhs[2]);
+		}
+
+		/// <summary>
+		/// Inverts the vector.
+		/// </summary>
+		public Vector Invert()
+		{
+			return new Vector(-X, -Y, -Z);
 		}
 		
 #endregion

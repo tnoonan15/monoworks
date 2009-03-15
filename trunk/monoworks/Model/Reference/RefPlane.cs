@@ -66,12 +66,12 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// The local x axis.
 		/// </summary>
-		protected Vector localX;
+		public Vector LocalX;
 
 		/// <summary>
 		/// The local y axis.
 		/// </summary>
-		protected Vector localY;
+		public Vector LocalY;
 
 		/// <summary>
 		/// The center of the plane as it's being rendered.
@@ -166,8 +166,8 @@ namespace MonoWorks.Model
 			}
 
 			// compute the x and y axes of the local coordinate system
-			localX = ((quadCorners[0] + quadCorners[1]) * 0.5 - center).Normalize();
-			localY = ((quadCorners[1] + quadCorners[2]) * 0.5 - center).Normalize();
+			LocalX = ((quadCorners[0] + quadCorners[1]) * 0.5 - center).Normalize();
+			LocalY = ((quadCorners[1] + quadCorners[2]) * 0.5 - center).Normalize();
 			
 		}				
 
@@ -272,8 +272,8 @@ namespace MonoWorks.Model
 			Coord coord = new Coord();
 			Vector renderCenter = RenderCenter;
 			Vector dCenter = point - renderCenter;
-			coord.X = dCenter.Dot(localX);
-			coord.Y = dCenter.Dot(localY);
+			coord.X = dCenter.Dot(LocalX);
+			coord.Y = dCenter.Dot(LocalY);
 			return coord;
 		}
 
@@ -282,7 +282,20 @@ namespace MonoWorks.Model
 		/// </summary>
 		public Vector LocalToWorld(Coord coord)
 		{
-			return Plane.Center.ToVector() + localX * coord.X + localY * coord.Y;
+			return Plane.Center.ToVector() + LocalX * coord.X + LocalY * coord.Y;
+		}
+
+
+		/// <summary>
+		/// Finds the intersection of the hit line and the plane.
+		/// </summary>
+		/// <remarks>The vector will be snapped if ModelingOptions.Global.SnapToGrid.</remarks>
+		public Vector GetIntersection(HitLine hit)
+		{
+			Vector vec = hit.GetIntersection(Plane);
+			if (ModelingOptions.Global.SnapToGrid)
+				vec = SnapToGrid(vec);
+			return vec;
 		}
 
 #endregion

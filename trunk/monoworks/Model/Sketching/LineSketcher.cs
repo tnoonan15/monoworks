@@ -35,8 +35,8 @@ namespace MonoWorks.Model.Sketching
 	public class LineSketcher : BaseSketcher<Line>
 	{
 
-		public LineSketcher(Sketch sketch, Line line)
-			: base(sketch, line)
+		public LineSketcher(Line line)
+			: base(line)
 		{
 			if (line.Points.Count == 0) // this is a new line
 			{
@@ -163,7 +163,7 @@ namespace MonoWorks.Model.Sketching
 				Point point = new Point();
 				Select(point);
 				Sketchable.Points.Add(point);
-				Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
+				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				point.SetPosition(intersect);
 				//ClearSelection();
 			}
@@ -198,9 +198,7 @@ namespace MonoWorks.Model.Sketching
 
 			if (addingVertex || (selection.Count == 1 && isDragging))
 			{
-				Vector intersect = evt.HitLine.GetIntersection(Sketch.Plane.Plane);
-				if (ModelingOptions.Global.SnapToGrid)
-					intersect = Sketch.Plane.SnapToGrid(intersect);
+				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				selection[0].SetPosition(intersect);
 				Sketchable.MakeDirty();
 
@@ -232,9 +230,9 @@ namespace MonoWorks.Model.Sketching
 				HighlightPoint(viewport, closePoint, ColorManager.Global["Red"], 10);
 
 			// highlight the selection
-			Color selectedColor = ModelingOptions.Global.GetColor("sketchable", HitState.Selected);
+			Color highlightColor = ModelingOptions.Global.GetColor("sketchable", HitState.Hovering);
 			foreach (Point point in selection)
-				HighlightPoint(viewport, point, selectedColor, 8);
+				HighlightPoint(viewport, point, highlightColor, 8);
 			if (selection.Count > 1)
 			{
 				gl.glBegin(gl.GL_LINE_STRIP);

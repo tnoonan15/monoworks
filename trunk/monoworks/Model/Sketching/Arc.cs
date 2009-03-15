@@ -37,18 +37,19 @@ namespace MonoWorks.Model.Sketching
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Arc() : base()
+		public Arc(Sketch sketch) : base(sketch)
 		{
 		}
 		
 		/// <summary>
 		/// Initialization constructor.
 		/// </summary>
+		/// <param name="sketch">The sketch.</param>
 		/// <param name="center"> The center. </param>
 		/// <param name="start"> The starting point. </param>
 		/// <param name="normal"> The normal vector. </param>
 		/// <param name="sweep"> The sweep angle. </param>
-		public Arc(Point center, Point start, Vector normal, Angle sweep) : this()
+		public Arc(Sketch sketch, Point center, Point start, Vector normal, Angle sweep) : this(sketch)
 		{
 			Center = center;
 			Start = start;
