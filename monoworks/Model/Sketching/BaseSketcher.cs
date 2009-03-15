@@ -29,12 +29,8 @@ namespace MonoWorks.Model.Sketching
 	/// </summary>
 	public abstract class BaseSketcher<T> : AbstractSketcher where T : Sketchable
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		/// <param name="sketch"></param>
-		/// <param name="sketchble">The sketchable being sketched.</param>
-		public BaseSketcher(Sketch sketch, T sketchble) : base(sketch)
+
+		public BaseSketcher(T sketchble) : base()
 		{
 			Sketchable = sketchble;
 		}
@@ -43,6 +39,12 @@ namespace MonoWorks.Model.Sketching
 		/// The sketchable being sketched.
 		/// </summary>
 		public T Sketchable { get; private set; }
+
+
+		public override Sketch Sketch
+		{
+			get { return Sketchable.Sketch; }
+		}
 
 	}
 }

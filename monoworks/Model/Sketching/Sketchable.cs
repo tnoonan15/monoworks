@@ -32,9 +32,10 @@ namespace MonoWorks.Model.Sketching
 	public abstract class Sketchable : Entity
 	{
 		
-		public Sketchable() : base()
+		public Sketchable(Sketch sketch) : base()
 		{
-			
+			Sketch = sketch;
+			sketch.AddChild(this);
 			solidPoints = new Vector[0];
 			wireframePoints = new Vector[0];
 			directions = new Vector[0];
@@ -46,6 +47,14 @@ namespace MonoWorks.Model.Sketching
 		/// </summary>
 		public const double HitTol = 6;
 
+		/// <summary>
+		/// The sketch this sketchable belongs to.
+		/// </summary>
+		public Sketch Sketch
+		{
+			get { return GetAttribute("sketch") as Sketch; }
+			set { SetAttribute("sketch", value); }
+		}
 		
 #region Points
 		

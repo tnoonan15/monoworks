@@ -59,13 +59,10 @@ namespace MonoWorks.Model
 			Point p1 = new Point(1.0, -1.0, 0.0);
 			Point p2 = new Point(-1.0, -1.0, 0.0);
 			Point p3 = new Point(-1.0, 1.0, 0.0);
-			Line line1 = new Line(p1, p2);
-			line1.Points.Add(p3);
-			extSketch.AddChild(line1);
+			Line line1 = new Line(extSketch, p1, p2);
 			
 			// add the arc
-			Arc arc1 = new Arc(p2, p3, new Vector(0.0, 0.0, 1.0), Angle.Pi()/-2.0);
-			extSketch.AddChild(arc1);
+			Arc arc1 = new Arc(extSketch, p2, p3, new Vector(0.0, 0.0, 1.0), Angle.Pi()/-2.0);
 			
 			// add the extrusion
 			Extrusion ext1 = new Extrusion(extSketch);
@@ -90,15 +87,13 @@ namespace MonoWorks.Model
 			Point bottom = new Point(0.0, 1.0, 1.5);
 			Point top = new Point(0.0, 1.0, 2.5);
 			Point middle = new Point(0.0, 1.0, 2.0);
-			Line line2 = new Line(bottom, top);
+			Line line2 = new Line(revolutionSketch, bottom, top);
 			line2.Points.Add(new Point(0.0, 1.25, 2.5));
 			line2.Points.Add(new Point(0.0, 1.25, 2.0));
 			line2.Points.Add(new Point(0.0, 1.5, 2.0));
-			revolutionSketch.AddChild(line2);
 			
 			// add the arc			
-			Arc arc2 = new Arc(middle, bottom, new Vector( 1.0, 0.0, 0.0), Angle.Pi()/2);
-			revolutionSketch.AddChild(arc2);
+			Arc arc2 = new Arc(revolutionSketch, middle, bottom, new Vector( 1.0, 0.0, 0.0), Angle.Pi()/2);
 			
 			// create the revolution
 			Revolution revolution1 = new Revolution(revolutionSketch);
