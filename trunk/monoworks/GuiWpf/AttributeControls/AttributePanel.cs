@@ -90,6 +90,10 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			Hide();
 		}
 
+		/// <summary>
+		/// The attribute controls keyed by attribute name.
+		/// </summary>
+		private Dictionary<string, AttributeControl> controls = new Dictionary<string, AttributeControl>();
 
 		/// <summary>
 		/// Show the panel with the given entity.
@@ -97,8 +101,10 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		public void Show(DrawingController controller, Entity entity)
 		{
 			Children.Clear();
+			controls.Clear();
 
 			this.entity = entity;
+			entity.AttributeUpdated += OnExternalUpdate;
 
 			Width = 160;
 
@@ -111,6 +117,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 				control.Margin = new Thickness(6);
 				Children.Add(control);
 				control.AttributeChanged += controller.OnAttributeChanged;
+				controls[metaData.Name] = control;
 			}
 
 			Visibility = Visibility.Visible;
@@ -126,9 +133,20 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		/// </summary>
 		public void Hide()
 		{
+			if (entity != null)
+				entity.AttributeUpdated -= OnExternalUpdate;
 			Visibility = Visibility.Collapsed;
 			if (Hidden != null)
 				Hidden(this);
+		}
+
+
+		/// <summary>
+		/// Handles an attribute being updated externally.
+		/// </summary>
+		public void OnExternalUpdate(Entity entity, string name)
+		{
+			controls[name].Update();
 		}
 
 	}

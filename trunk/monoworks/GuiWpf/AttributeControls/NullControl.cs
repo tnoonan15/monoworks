@@ -42,5 +42,9 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			label.Foreground = Brushes.Gray;
 			Children.Add(label);
 		}
+
+		public override void Update()
+		{
+		}
 	}
 }

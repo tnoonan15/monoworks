@@ -96,6 +96,15 @@ namespace MonoWorks.Model.Sketching
 			directions[4] = directions[0];
 		}
 
+		/// <summary>
+		/// Inverts the corners that the anchors are on.
+		/// </summary>
+		public void InvertAnchors()
+		{
+			Anchor1.SetPosition(solidPoints[1]);
+			Anchor2.SetPosition(solidPoints[3]);
+		}
+
 #endregion
 
 

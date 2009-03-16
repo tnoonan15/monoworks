@@ -59,8 +59,19 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		/// <param name="val"></param>
 		protected virtual void OnValueChanged(double val)
 		{
+			BeginUpdate();
 			Entity.SetAttribute(MetaData.Name, val);
 			RaiseAttributeChanged();
+			EndUpdate();
+		}
+
+
+		public override void Update()
+		{
+			if (!InternalUpdate)
+			{
+				spin.Value = (double)Entity.GetAttribute(MetaData.Name);
+			}
 		}
 
 	}

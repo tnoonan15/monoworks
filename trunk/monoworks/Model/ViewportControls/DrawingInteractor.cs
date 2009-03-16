@@ -272,7 +272,20 @@ namespace MonoWorks.Model.ViewportControls
 				throw new NotImplementedException();
 
 			sketcher.SketchApplied += OnSketchApplied;
+
+			if (SketchableChanged != null)
+				SketchableChanged(sketchable);
 		}
+
+		/// <summary>
+		/// Handler for the SketchableChanged event.
+		/// </summary>
+		public delegate void SketchableChangedHandler(Sketchable sketchable);
+
+		/// <summary>
+		/// Raised whenever the current sketchable is changed.
+		/// </summary>
+		public event SketchableChangedHandler SketchableChanged;
 
 		/// <summary>
 		/// Handler for the sketcher's SketchApplied event.
