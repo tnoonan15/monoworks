@@ -119,18 +119,21 @@ namespace MonoWorks.Rendering.ViewportControls
 		public void OnStandardView()
 		{
 			viewport.Camera.AnimateTo(ViewDirection.Standard);
+			viewport.Resize();
 		}
 		
 		[Action("Front View")]
 		public void OnFrontView()
 		{
 			viewport.Camera.AnimateTo(ViewDirection.Front);
+			viewport.Resize();
 		}
 		
 		[Action("Back View")]
 		public void OnBackView()
 		{
 			viewport.Camera.AnimateTo(ViewDirection.Back);
+			viewport.Resize();
 		}
 		
 		[Action("Left View")]
@@ -138,24 +141,28 @@ namespace MonoWorks.Rendering.ViewportControls
 		{
 			Console.WriteLine("left");
 			viewport.Camera.AnimateTo(ViewDirection.Left);
+			viewport.Resize();
 		}
 		
 		[Action("Right View")]
 		public void OnRightView()
 		{
 			viewport.Camera.AnimateTo(ViewDirection.Right);
+			viewport.Resize();
 		}
 		
 		[Action("Top View")]
 		public void OnTopView()
 		{
 			viewport.Camera.AnimateTo(ViewDirection.Top);
+			viewport.Resize();
 		}
 		
 		[Action("Bottom View")]
 		public void OnBottomView()
 		{
 			viewport.Camera.AnimateTo(ViewDirection.Bottom);
+			viewport.Resize();
 		}
 		
 #endregion

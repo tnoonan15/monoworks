@@ -73,64 +73,6 @@ namespace MonoWorks.Plotting
 			}
 		}
 		
-			
-		/// <summary>
-		/// Generates a display list for the grid.
-		/// </summary>
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-			
-			if (axes[0] != null && corner != null)
-			{			
-				displayList = gl.glGenLists(1);
-				
-				
-				// generate the display list
-				gl.glNewList(displayList, gl.GL_COMPILE);
-				
-				gl.glBegin(gl.GL_LINES);
-				for (int n=0; n<2; n++) // axes number
-				{
-					int nOther = 1 - n; // number of the other axes
-					int dim = axes[n].Dimension; // dimension of this axis
-					int dimOther = axes[nOther].Dimension; // dimension of the other axis
-					double firstTickStep = axes[n].FirstWorldTickStep; // first tick step in world coords
-					double tickStep = axes[n].WorldTickStep; // all other tick steps in world coords
-
-					// get the two points that transverse the axis
-					Vector currentPoint1 = Corner.Copy(); // one of the points moving along the axis
-					Vector currentPoint2 = Corner.Copy(); // one of the points moving along the axis 
-					if (corner[dimOther] == axes[nOther].Start[dimOther])
-						currentPoint2[dimOther] = axes[nOther].Stop[dimOther];
-					else
-						currentPoint2[dimOther] = axes[nOther].Start[dimOther];
-					
-					// get the sign of the travel across the axis
-					double travelSign;
-					if (corner[dim] == axes[n].Start[dim])
-						travelSign = 1;
-					else // travel backwards
-						travelSign = -1;
-					
-					currentPoint1[dim] += travelSign*firstTickStep;
-					currentPoint2[dim] += travelSign*firstTickStep;
-					
-					// cycle through tick marks for this dimension
-					for (int t=0; t<axes[n].TickVals.Length; t++)
-					{
-						gl.glVertex3d(currentPoint1[0], currentPoint1[1], currentPoint1[2]);
-						currentPoint1[dim] += travelSign*tickStep;
-						gl.glVertex3d(currentPoint2[0], currentPoint2[1], currentPoint2[2]);
-						currentPoint2[dim] += travelSign*tickStep;
-					}
-				}
-				gl.glEnd();
-				
-				
-				gl.glEndList();
-			}
-		}
 
 		
 		public override void RenderOpaque(Viewport viewport)
@@ -140,7 +82,46 @@ namespace MonoWorks.Plotting
 			if (!IsVisible)
 				return;
 
-			CallDisplayList();
+			if (axes[0] == null && corner == null)
+				return;
+
+			gl.glBegin(gl.GL_LINES);
+			for (int n = 0; n < 2; n++) // axes number
+			{
+				int nOther = 1 - n; // number of the other axes
+				int dim = axes[n].Dimension; // dimension of this axis
+				int dimOther = axes[nOther].Dimension; // dimension of the other axis
+				double firstTickStep = axes[n].FirstWorldTickStep; // first tick step in world coords
+				double tickStep = axes[n].WorldTickStep; // all other tick steps in world coords
+
+				// get the two points that transverse the axis
+				Vector currentPoint1 = Corner.Copy(); // one of the points moving along the axis
+				Vector currentPoint2 = Corner.Copy(); // one of the points moving along the axis 
+				if (corner[dimOther] == axes[nOther].Start[dimOther])
+					currentPoint2[dimOther] = axes[nOther].Stop[dimOther];
+				else
+					currentPoint2[dimOther] = axes[nOther].Start[dimOther];
+
+				// get the sign of the travel across the axis
+				double travelSign;
+				if (corner[dim] == axes[n].Start[dim])
+					travelSign = 1;
+				else // travel backwards
+					travelSign = -1;
+
+				currentPoint1[dim] += travelSign * firstTickStep;
+				currentPoint2[dim] += travelSign * firstTickStep;
+
+				// cycle through tick marks for this dimension
+				for (int t = 0; t < axes[n].TickVals.Length; t++)
+				{
+					gl.glVertex3d(currentPoint1[0], currentPoint1[1], currentPoint1[2]);
+					currentPoint1[dim] += travelSign * tickStep;
+					gl.glVertex3d(currentPoint2[0], currentPoint2[1], currentPoint2[2]);
+					currentPoint2[dim] += travelSign * tickStep;
+				}
+			}
+			gl.glEnd();
 		}
 
 

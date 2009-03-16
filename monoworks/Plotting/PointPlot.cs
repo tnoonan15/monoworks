@@ -424,7 +424,7 @@ namespace MonoWorks.Plotting
 							x = dataSet[r, columns[0]];
 							y = dataSet[r, columns[1]];
 							z = dataSet[r, columns[2]];
-							parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+							Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 							if (markersVisible)
 								gl.glVertex3d(x, y, z);
 							bounds.Resize(x, y, z);
@@ -444,7 +444,7 @@ namespace MonoWorks.Plotting
 								x = dataSet[r, columns[0]];
 								y = dataSet[r, columns[1]];
 								z = dataSet[r, columns[2]];
-								parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+								Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 								gl.glVertex3d(x, y, z);
 							}
 							gl.glEnd();
@@ -484,7 +484,7 @@ namespace MonoWorks.Plotting
 				x = dataSet[r, columns[0]];
 				y = dataSet[r, columns[1]];
 				z = dataSet[r, columns[2]];
-				parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+				Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 				gl.glVertex3d(x, y, z);
 			}
 			gl.glEnd();
@@ -531,7 +531,7 @@ namespace MonoWorks.Plotting
 				double x = dataSet[r, columns[0]];
 				double y = dataSet[r, columns[1]];
 				double z = dataSet[r, columns[2]];
-				parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+				Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 				Coord coord = hitLine.Camera.WorldToScreen(x, y, z);
 
 				// compute the distance

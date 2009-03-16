@@ -44,29 +44,27 @@ namespace MonoWorks.Plotting
 			label = new TextDef(12);
 			label.Text = "label";
 			label.HorizontalAlignment = HorizontalAlignment.Center;
+
+			Start = new Vector();
+			Stop = new Vector();
 		}
 
 
-		protected Vector start = new Vector();
 		/// <summary>
 		/// The starting position of the axis.
 		/// </summary>
-		public Vector Start
-		{
-			get { return start; }
-			set { start = value; }
-		}
+		public Vector Start { get; set; }
 
-		protected Vector stop = new Vector();
 		/// <summary>
 		/// The stopping position of the axes.
 		/// </summary>
-		public Vector Stop
-		{
-			get { return stop; }
-			set { stop = value; }
-		}
+		public Vector Stop { get; set; }
 
+		/// <summary>
+		/// The center of the axes box as it's rendered on the screen.
+		/// </summary>
+		/// <remarks>This is used to determine where to place the tick marks.</remarks>
+		public Coord AxesCenter { get; set; }
 		
 #region Label
 
@@ -137,8 +135,8 @@ namespace MonoWorks.Plotting
 		public void GenerateTicks(int dim)
 		{
 			dimension = dim;
-			double min = parent.PlotBounds.Minima[dim];
-			double max = parent.PlotBounds.Maxima[dim];
+			double min = Parent.PlotBounds.Minima[dim];
+			double max = Parent.PlotBounds.Maxima[dim];
 			
 			// get the tick values
 			tickVals = Bounds.NiceRange(min, max, true);
@@ -169,8 +167,8 @@ namespace MonoWorks.Plotting
 		{
 			get
 			{
-				double step = tickVals[0] - parent.PlotBounds.Minima[dimension];
-				return parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+				double step = tickVals[0] - Parent.PlotBounds.Minima[dimension];
+				return Parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
 			}
 		}	
 		
@@ -182,7 +180,7 @@ namespace MonoWorks.Plotting
 			get
 			{
 				double step = tickVals[1] - tickVals[0];
-				return parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+				return Parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
 			}
 		}		
 
@@ -198,7 +196,7 @@ namespace MonoWorks.Plotting
 
 				// compute the tick positions
 				tickPositions = new Vector[tickVals.Length];
-				tickPositions[0] = start.Copy();
+				tickPositions[0] = Start.Copy();
 				tickPositions[0][dimension] += FirstWorldTickStep;
 				for (int i = 1; i < tickVals.Length; i++)
 				{
@@ -221,8 +219,8 @@ namespace MonoWorks.Plotting
 				return;
 
 			// get the screen coordinates of the axis
-			Coord startCoord = viewport.Camera.WorldToScreen(start);
-			Coord stopCoord = viewport.Camera.WorldToScreen(stop);
+			Coord startCoord = viewport.Camera.WorldToScreen(Start);
+			Coord stopCoord = viewport.Camera.WorldToScreen(Stop);
 
 			// flip the coordinates around if they aren't in x order (this helps with drawing ticks)
 			if (startCoord.X > stopCoord.X)
@@ -265,13 +263,11 @@ namespace MonoWorks.Plotting
 				tickAngle = Angle.ArcTan(stopCoord.Y - startCoord.Y, stopCoord.X - startCoord.X);
 				
 				// determine which direction to flip it
-				double sign = 1;
-				if (dimension == 2) // need to flip the sign on the z axis
-					sign = -1;
-				if (startCoord.Y < viewport.HeightGL / 2) // it's on the bottom side
-					tickAngle -= new Angle(sign * Math.PI / 2.0);
+				Angle angleToCenter = (stopCoord - startCoord).AngleTo(AxesCenter-startCoord);
+				if (angleToCenter.Value >= 0)
+					tickAngle.DecByHalfPi();
 				else
-					tickAngle += new Angle(sign * Math.PI / 2.0);
+					tickAngle.IncByHalfPi();
 
 			}
 
@@ -279,10 +275,10 @@ namespace MonoWorks.Plotting
 			ComputeTickPositions();
 			
 			// render the axis label
-			double labelOffset = 80;
+			double labelOffset = 70;
 			Coord labelPos = (startCoord + stopCoord) / 2;
 			label.Position = labelPos + tickAngle.ToCoord() * labelOffset;
-			if (label.Text.Length > 4 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
+			if (label.Text.Length > 5 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
 				label.Angle = Angle.Pi() / 2;
 			else
 				label.Angle = new Angle();

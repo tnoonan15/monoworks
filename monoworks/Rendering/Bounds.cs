@@ -292,7 +292,7 @@ namespace MonoWorks.Rendering
 			Vector camCenter = viewport.Camera.Center;
 
 			double zVal = minima[2]; // z value of the x and y axes
-			if (camPos[2] < camCenter[2]) // z position of the camera is negative
+			if (camPos[2] + 0.01 < camCenter[2]) // z position of the camera is negative
 				zVal = maxima[2]; // draw the z axis on top
 
 			// big, fugly if statement

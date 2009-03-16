@@ -23,7 +23,7 @@ using System.Collections.Generic;
 namespace MonoWorks.Base
 {
 	/// <summary>
-	/// Your standard orientatino enumeration.
+	/// Your standard orientation enumeration.
 	/// </summary>
 	public enum Orientation {
 		/// <summary>
@@ -120,6 +120,14 @@ namespace MonoWorks.Base
 		}
 
 		/// <summary>
+		/// Returns a normalized copy of the coord.
+		/// </summary>
+		public Coord Normalize()
+		{
+			return this / Magnitude;
+		}
+
+		/// <summary>
 		/// Returns whether the coord is more horizontal of vertical.
 		/// </summary>
 		public Orientation Orientation
@@ -178,6 +186,29 @@ namespace MonoWorks.Base
 		}
 
 		#endregion
+
+
+#region Trigonometry and Vector Math
+
+		/// <summary>
+		/// Performs the 2D dot product.
+		/// </summary>
+		public double Dot(Coord other)
+		{
+			return X * other.X + Y * other.Y;
+		}
+
+		/// <summary>
+		/// Computes the angle between one vector and another.
+		/// </summary>
+		/// <remarks>The angle is positive if the shortest way to go from this to other is counter clockwise.</remarks>
+		public Angle AngleTo(Coord other)
+		{
+			Angle angle = Angle.ArcTan(other.Y, other.X) - Angle.ArcTan(Y, X);
+			return angle;
+		}
+
+#endregion
 
 	}
 }

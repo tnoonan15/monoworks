@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using gl = Tao.OpenGl.Gl;
@@ -101,11 +102,7 @@ namespace MonoWorks.Plotting
 		/// <param name="plottable"> A <see cref="Plottable"/>. </param>
 		public void AddChild(Plottable plottable)
 		{
-			//if (plottable is Axis)
-			//    axes.Add(plottable as Axis);
-			//else
-				children.Add(plottable);
-			plottable.Parent = this;
+			children.Add(plottable);
 		}
 
 		/// <summary>
@@ -114,12 +111,21 @@ namespace MonoWorks.Plotting
 		/// <param name="plottable"> A <see cref="Plottable"/> that is a child of the axes. </param>
 		public void RemoveChild(Plottable plottable)
 		{
-			//if (plottable is Axis)
-			//    axes.Remove(plottable as Axis);
-			//else
-				children.Remove(plottable);
-			plottable.Parent = null;
+			children.Remove(plottable);
 		}
+
+
+		/// <summary>
+		/// Gets all the children that inherit from T.
+		/// </summary>
+		/// <typeparam name="T">Plottable or one of its subclasses.</typeparam>
+		public IEnumerable<T> GetChildren<T>() where T : Plottable
+		{
+			return from child in children
+				   where child is T
+				   select child as T;
+		}
+
 
 #endregion
 
@@ -306,33 +312,18 @@ namespace MonoWorks.Plotting
 			}
 		}
 
-		
 		/// <summary>
-		/// The furthest corner of the bounding box from the camera.
+		/// The last corner that the grids were set at.
 		/// </summary>
-		protected Vector furthestCorner = null;
+		protected Vector lastCorner = null;
 				
-		/// <summary>
-		/// Update the positions of the grids.
-		/// </summary>
-		protected void UpdateGrids(Viewport viewport)
-		{
-			// check if the furthest point from the camera is the same
-			Vector furthestCorner_ = bounds.FurthestCorner(viewport.Camera.Position);
-			if (furthestCorner == null || furthestCorner_ != furthestCorner)
-			{
-				furthestCorner = furthestCorner_;
-				foreach (Grid grid in grids)
-					grid.Corner = furthestCorner;
-			}
-		}
-		
 		/// <summary>
 		/// Render the grids.
 		/// </summary>
 		protected void RenderGrids(Viewport viewport)
 		{
 			// update axes the positions
+			Vector corner = null;
 			switch (arrangement)
 			{
 			case AxesArrangement.Origin: // the axes should be placed at the lowest end of each range
@@ -342,6 +333,13 @@ namespace MonoWorks.Plotting
 				axes[0].Stop = new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]);
 				axes[1].Stop = new Vector(bounds.Minima[0], bounds.Maxima[1], bounds.Minima[2]);
 				axes[2].Stop = new Vector(bounds.Minima[0], bounds.Minima[1], bounds.Maxima[2]);
+				corner = new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]);
+				if (lastCorner == null || corner != lastCorner)
+				{
+					foreach (Grid grid in grids)
+						grid.Corner = corner;
+					lastCorner = corner;
+				}
 				break;
 
 			case AxesArrangement.Outside: // the axes should be placed along the oustide of the viewable area
@@ -352,15 +350,39 @@ namespace MonoWorks.Plotting
 					axes[i].Stop = edges[2 * i + 1];
 					axes[i].DirtyTicks();
 				}
+
+				// figure out the grid corner
+				if (edges[1] == edges[2])
+					corner = new Vector(edges[0].X, edges[3].Y, edges[0].Z);
+				else if (edges[0] == edges[3])
+					corner = new Vector(edges[1].X, edges[2].Y, edges[0].Z);
+				else if (edges[1] == edges[3])
+					corner = new Vector(edges[0].X, edges[2].Y, edges[0].Z);
+				else if (edges[0] == edges[2])
+					corner = new Vector(edges[1].X, edges[3].Y, edges[0].Z);
+				if (corner == null)
+					throw new Exception("Something is wrong with the grid corner finding. Otherwise, you wouldn't be seeing this message.");
+				if (lastCorner == null || corner != lastCorner)
+				{
+					foreach (Grid grid in grids)
+						grid.Corner = corner;
+					lastCorner = corner;
+				}
+
 				break;
 
 			default:
-				throw new Exception(String.Format("arrangement {0} not supported", arrangement));
+				throw new NotImplementedException(String.Format("arrangement {0} not supported", arrangement));
 			}
 
 			// render them
 			foreach (Grid grid in grids)
 				grid.RenderOpaque(viewport);
+
+			// tell the axes about the corner
+			Coord center = viewport.Camera.WorldToScreen(corner);
+			foreach (var axis in axes)
+				axis.AxesCenter = center;
 		}
 		
 #endregion
@@ -554,14 +576,13 @@ namespace MonoWorks.Plotting
 			gl.glColor3b(0, 0, 0);
 			
 			// render the grids
-			UpdateGrids(viewport);
 			RenderGrids(viewport);
 			
 			// enable clipping
 			EnableClipping(viewport);
 			
 			// render the children
-			foreach (Plottable child in children)
+			foreach (var child in GetChildren<AbstractPlot>())
 				child.RenderOpaque(viewport);
 			
 			// disable clipping
@@ -582,7 +603,7 @@ namespace MonoWorks.Plotting
 			RenderTitle(viewport);
 
 			// render the child overlays
-			foreach (Plottable child in children)
+			foreach (var child in GetChildren<AbstractPlot>())
 				child.RenderOverlay(viewport);
 		}
 

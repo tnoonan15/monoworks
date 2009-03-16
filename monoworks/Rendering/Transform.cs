@@ -33,32 +33,23 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public Transform()
 		{
-			offset = new Vector();
-			scaling = new Vector();
+			Offset = new Vector();
+			Scaling = new Vector();
 		}
 
 
 		#region Attributes
 
-		protected Vector offset;
+		protected Vector Offset;
 		/// <summary>
 		/// The offset (applied before the scaling).
 		/// </summary>
-		public Vector Offset
-		{
-			get { return offset; }
-			set { offset = value; }
-		}
+		public Vector Offset { get; set; }
 
-		protected Vector scaling;
 		/// <summary>
 		/// The scaling (applied after the offset).
 		/// </summary>
-		public Vector Scaling
-		{
-			get { return scaling; }
-			set { scaling = value; }
-		}
+		public Vector Scaling {get; set;}
 
 		#endregion
 
@@ -70,8 +61,8 @@ namespace MonoWorks.Rendering
 		/// <param name="bounds2"></param>
 		public void Compute(Bounds bounds1, Bounds bounds2)
 		{
-			scaling = bounds2.Size / bounds1.Size;
-			offset = (bounds2.Minima - bounds1.Minima*scaling);
+			Scaling = bounds2.Size / bounds1.Size;
+			Offset = (bounds2.Minima - bounds1.Minima*Scaling);
 		}
 
 
@@ -83,7 +74,7 @@ namespace MonoWorks.Rendering
 		/// <remarks> This is basically scaling*(vector+offset). </remarks>
 		public Vector Apply(Vector vector)
 		{
-			return scaling * vector + offset;
+			return Scaling * vector + Offset;
 		}
 
 		/// <summary>
@@ -93,7 +84,7 @@ namespace MonoWorks.Rendering
 		/// <returns> The tranformed <see cref="Vector"/>. </returns>
 		public Vector InverseApply(Vector vector)
 		{
-			return (vector - offset) / scaling;
+			return (vector - Offset) / Scaling;
 		}
 
 		/// <summary>
@@ -104,9 +95,9 @@ namespace MonoWorks.Rendering
 		/// <param name="z"></param>
 		public void Apply(ref double x, ref double y, ref double z)
 		{
-			x = scaling[0] * x + offset[0];
-			y = scaling[1] * y + offset[1];
-			z = scaling[2] * z + offset[2];
+			x = Scaling[0] * x + Offset[0];
+			y = Scaling[1] * y + Offset[1];
+			z = Scaling[2] * z + Offset[2];
 		}
 
 		/// <summary>
@@ -117,9 +108,9 @@ namespace MonoWorks.Rendering
 		/// <param name="z"></param>
 		public void InverseApply(ref double x, ref double y, ref double z)
 		{
-			x = (x - offset[0]) / scaling[0];
-			y = (y - offset[1]) / scaling[1];
-			z = (z - offset[2]) / scaling[2];
+			x = (x - Offset[0]) / Scaling[0];
+			y = (y - Offset[1]) / Scaling[1];
+			z = (z - Offset[2]) / Scaling[2];
 		}
 
 		/// <summary>
@@ -133,7 +124,7 @@ namespace MonoWorks.Rendering
 			if (dim < 0 || dim > 2)
 				throw new Exception("Dimension is invalid.");
 
-			return scaling[dim] * val + offset[dim];
+			return Scaling[dim] * val + Offset[dim];
 		}
 
 	}
