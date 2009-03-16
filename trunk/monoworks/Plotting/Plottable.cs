@@ -39,7 +39,7 @@ namespace MonoWorks.Plotting
 		public Plottable(AxesBox parent)
 			: base()
 		{
-			this.parent = parent;
+			Parent = parent;
 			if (parent != null)
 				parent.AddChild(this);
 		}
@@ -50,15 +50,10 @@ namespace MonoWorks.Plotting
 			//ClearDisplayList();
 		}
 
-		protected AxesBox parent = null;
 		/// <value>
 		/// The parent axes.
 		/// </value>
-		public AxesBox Parent
-		{
-			get { return parent; }
-			set { parent = value; }
-		}
+		public AxesBox Parent { get; private set; }
 
         protected string title = "";
         /// <summary>
@@ -75,8 +70,8 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public override void MakeDirty()
 		{
-			if (parent != null)
-				parent.MakeDirty();
+			if (Parent != null)
+				Parent.MakeDirty();
 			base.MakeDirty();
 		}
 

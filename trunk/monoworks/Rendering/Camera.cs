@@ -779,6 +779,7 @@ namespace MonoWorks.Rendering
 			Vector center, position, upVec;
 			GetDirectionVectors(direction, out center, out position, out upVec);
 			AnimateTo(center, position, upVec);
+			lastDirection = direction;
 		}
 
 

@@ -36,7 +36,7 @@ namespace MonoWorks.Plotting
 
 			// make the array data set
 			arrayData = new ArrayDataSet(1024*1, 4);
-			double dt = 0.01; // time step
+			double dt = 0.005; // time step
 			for (int r = 0; r < arrayData.NumRows; r++)
 			{
 				double t = r * dt;

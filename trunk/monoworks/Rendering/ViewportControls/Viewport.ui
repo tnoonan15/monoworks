@@ -22,7 +22,7 @@
 		<Toolbar name="PlotView" buttonStyle="Image">
 			<Item action="Standard View"/>
 			<Item action="Front View"/>
-			<Item action="Left View"/>
+			<Item action="Right View"/>
 			<Item action="Top View"/>
 			<Item action="Projection"/>
 		</Toolbar>

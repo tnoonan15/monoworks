@@ -344,6 +344,26 @@ namespace MonoWorks.Base
 		}
 
 		/// <summary>
+		/// Equality operator overload for vectors.
+		/// </summary>
+		public static bool operator ==(Vector v1, Vector v2)
+		{
+			if ((object)v1 == null)
+				return false;
+			return v1.Equals(v2);
+		}
+
+		/// <summary>
+		/// Inequality operator overload for vectors.
+		/// </summary>
+		public static bool operator !=(Vector v1, Vector v2)
+		{
+			if ((object)v1 == null)
+				return false;
+			return !v1.Equals(v2);
+		}
+
+		/// <summary>
 		/// For some reason I have to imeplement this because I override Equals().
 		/// </summary>
 		public override int GetHashCode()
