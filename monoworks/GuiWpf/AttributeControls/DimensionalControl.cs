@@ -36,8 +36,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		public DimensionalControl(Entity entity, AttributeMetaData metaData) 
 			: base(entity, metaData)
 		{
-			dimVal = entity.GetAttribute(metaData.Name) as T;
-			spin.Value = dimVal.DisplayValue;
+			Update();
 
 			// add the unit label
 			dockPanel.AddLabel(dimVal.DisplayUnits);
@@ -54,6 +53,16 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			dimVal.DisplayValue = val;
 			Entity.MakeDirty();
 			RaiseAttributeChanged();
+		}
+
+
+		public override void Update()
+		{
+			if (!InternalUpdate)
+			{
+				dimVal = Entity.GetAttribute(MetaData.Name) as T;
+				spin.Value = dimVal.DisplayValue;
+			}
 		}
 
 	}

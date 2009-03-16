@@ -254,10 +254,23 @@ namespace MonoWorks.Model
 			{
 				workingMomento[name] = value;
 				MakeDirty();
+				if (AttributeUpdated != null)
+					AttributeUpdated(this, name);
 			}
 			else
 				throw new Exception("This entity does not contain an attribute named " + name + ".");
 		}
+
+		/// <summary>
+		/// Handler for the AttributeUpdated event.
+		/// </summary>
+		public delegate void AttributeUpdatedHandler(Entity entity, string attrName);
+
+		/// <summary>
+		/// Raised whenever an attribute of an entity is changed.
+		/// </summary>
+		public event AttributeUpdatedHandler AttributeUpdated;
+
 		
 		/// <value>
 		/// Attribute accessors.
@@ -507,6 +520,8 @@ namespace MonoWorks.Model
 						child.ComputeGeometry();
 				}
 			}
+
+
 		}
 		
 				

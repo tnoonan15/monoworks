@@ -44,6 +44,8 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			Label label = new Label();
 			label.Content = metaData.Name;
 			Children.Add(label);
+
+			InternalUpdate = false;
 		}
 
 		public Entity Entity { get; private set; }
@@ -97,6 +99,36 @@ namespace MonoWorks.GuiWpf.AttributeControls
 
 		#endregion
 
+
+		#region Updating
+
+		/// <summary>
+		/// Update the control based on the attribute.
+		/// </summary>
+		public abstract void Update();
+
+		/// <summary>
+		/// Whether or not an internal update is occuring.
+		/// </summary>
+		protected bool InternalUpdate { get; private set; }
+
+		/// <summary>
+		/// Begin an internal update.
+		/// </summary>
+		protected void BeginUpdate()
+		{
+			InternalUpdate = true;
+		}
+
+		/// <summary>
+		/// End an internal update.
+		/// </summary>
+		protected void EndUpdate()
+		{
+			InternalUpdate = false;
+		}
+
+		#endregion
 
 	}
 }

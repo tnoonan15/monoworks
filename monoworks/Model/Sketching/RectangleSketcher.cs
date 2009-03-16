@@ -76,14 +76,49 @@ namespace MonoWorks.Model.Sketching
 			}
 			else // not dragging anything, look for hit
 			{
-
-				Apply();
+				// test for first anchor
+				Coord vecProj = evt.HitLine.Camera.WorldToScreen(Sketchable.Anchor1.ToVector());
+				if ((vecProj - evt.Pos).Magnitude <= Rectangle.HitTol)
+				{
+					dragPoint = Sketchable.Anchor1;
+					return;
+				}
+				// test for second anchor
+				vecProj = evt.HitLine.Camera.WorldToScreen(Sketchable.Anchor2.ToVector());
+				if ((vecProj - evt.Pos).Magnitude <= Rectangle.HitTol)
+				{
+					dragPoint = Sketchable.Anchor2;
+					return;
+				}
+				// test for corner 1
+				vecProj = evt.HitLine.Camera.WorldToScreen(Sketchable.SolidPoints[1]);
+				if ((vecProj - evt.Pos).Magnitude <= Rectangle.HitTol)
+				{
+					Sketchable.InvertAnchors();
+					dragPoint = Sketchable.Anchor1;
+					return;
+				}
+				// test for corner 3
+				vecProj = evt.HitLine.Camera.WorldToScreen(Sketchable.SolidPoints[3]);
+				if ((vecProj - evt.Pos).Magnitude <= Rectangle.HitTol)
+				{
+					Sketchable.InvertAnchors();
+					dragPoint = Sketchable.Anchor2;
+					return;
+				}
+				
+				// if we didn't hit anything, apply the sketching
+				if (!Sketchable.HitTest(evt.HitLine))
+					Apply();
 			}
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
+
+			if (!isDragging && dragPoint != null) // moving a corner
+				dragPoint = null;
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
@@ -93,7 +128,7 @@ namespace MonoWorks.Model.Sketching
 
 			base.OnMouseMotion(evt);
 
-			if (isDragging)
+			if (dragPoint != null)
 			{
 				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				dragPoint.SetPosition(intersect);

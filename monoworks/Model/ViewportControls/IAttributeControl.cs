@@ -38,5 +38,10 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		AttributeMetaData MetaData { get; }
 
+		/// <summary>
+		/// Update the control based on the attribute.
+		/// </summary>
+		void Update();
+
 	}
 }

@@ -153,6 +153,7 @@ namespace MonoWorks.Model.ViewportControls
 		public void OnSelectionChanged(Drawing drawing)
 		{
 			this.drawing = drawing;
+			(viewport.PrimaryInteractor as DrawingInteractor).SketchableChanged += OnSketchableChanged;
 			OnContextChanged();
 		}
 		
@@ -363,6 +364,14 @@ namespace MonoWorks.Model.ViewportControls
 		{
 			DrawingInteractor.CancelSketching();
 			OnEndSketch();
+		}
+
+		/// <summary>
+		/// Handles the currently selected changing.
+		/// </summary>
+		public void OnSketchableChanged(Sketchable skethable)
+		{
+			attributePanel.Show(this, skethable);
 		}
 
 		/// <summary>

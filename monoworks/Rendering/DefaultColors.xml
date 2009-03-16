@@ -31,5 +31,6 @@
 	<Color name="Sketchable" value="000"/>
 	<Color name="Sketchable Hover" value="080"/>
 	<Color name="Sketchable Selected" value="008"/>
+	<Color name="Sketchable Highlight" value="F00"/>
 	
 </Colors>

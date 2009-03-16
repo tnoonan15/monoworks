@@ -50,5 +50,12 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			RaiseAttributeChanged();
 		}
 
+		public override void Update()
+		{
+			if (!InternalUpdate)
+			{
+				textBox.Text = Entity.GetAttribute(MetaData.Name) as string;
+			}
+		}
 	}
 }
