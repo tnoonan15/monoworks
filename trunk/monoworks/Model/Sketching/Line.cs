@@ -61,7 +61,15 @@ namespace MonoWorks.Model.Sketching
 		/// </value>
 		public List<Point> Points
 		{
-			get {return (List<Point>)this["points"];}
+			get { return this["points"] as List<Point>; }
+		}
+
+		/// <summary>
+		/// Call this method when the points list is possibly updated.
+		/// </summary>
+		public void PointsUpdated()
+		{
+			RaiseAttributeUpdated("points");
 		}
 
 		/// <summary>

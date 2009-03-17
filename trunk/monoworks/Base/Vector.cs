@@ -348,6 +348,8 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static bool operator ==(Vector v1, Vector v2)
 		{
+			if ((object)v1 == null && (object)v2 == null) // nulls are equal
+				return true;
 			if ((object)v1 == null)
 				return false;
 			return v1.Equals(v2);

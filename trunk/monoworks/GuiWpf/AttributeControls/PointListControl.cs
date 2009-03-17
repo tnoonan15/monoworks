@@ -1,4 +1,4 @@
-﻿// ListControl.cs - MonoWorks Project
+﻿// PointListControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -28,15 +28,48 @@ using MonoWorks.GuiWpf.Utilities;
 namespace MonoWorks.GuiWpf.AttributeControls
 {
 
-	public class PointListControl<T> : AttributeControl where T : AttributeControl
+	public class PointListControl : AttributeControl
 	{
 		public PointListControl(Entity entity, AttributeMetaData metaData)
 			: base(entity, metaData)
 		{
 		}
 
+		/// <summary>
+		/// The widgets for each point.
+		/// </summary>
+		protected List<PointWidget> widgets = new List<PointWidget>();
+
+		/// <summary>
+		/// Repopulates the point widgets.
+		/// </summary>
+		protected void Repopulate(List<Point> points)
+		{
+			// clear the existing widgets
+			foreach (var widget in widgets)
+				Children.Remove(widget);
+			widgets.Clear();
+
+			// create the new ones
+			foreach (var point in points)
+			{
+				PointWidget widget = new PointWidget(point);
+				widgets.Add(widget);
+				Children.Add(widget);
+			}
+		}
+
 		public override void Update()
 		{
+			List<Point> points = Entity.GetAttribute(MetaData.Name) as List<Point>;
+			if (points == null)
+				return;
+
+			if (points.Count != widgets.Count)
+				Repopulate(points);
+
+			for (int i = 0; i < points.Count; i++ )
+				widgets[i].Update(points[i]);
 		}
 
 	}
