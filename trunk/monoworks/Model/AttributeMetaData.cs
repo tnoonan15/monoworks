@@ -59,6 +59,26 @@ namespace MonoWorks.Model
 		{
 			get {return typeName;}
 		}
+
+
+		public string NonCollectionTypeName
+		{
+			get
+			{
+				// look for a list
+				if (IsList)
+					return typeName.Substring(5, typeName.Length - 6);
+				return typeName;
+			}
+		}
+
+		/// <summary>
+		/// Returns true if the attribute is a list type.
+		/// </summary>
+		public bool IsList
+		{
+			get { return typeName.StartsWith("List("); }
+		}
 		
 		private string description;
 		/// <value>
@@ -86,14 +106,8 @@ namespace MonoWorks.Model
 		{
 			get
 			{
-				// look for a list
-				bool isList = typeName.StartsWith("List(");
-				string type_ = typeName;
-				if (isList)
-				{
-					type_ = typeName.Substring(5, typeName.Length-6);
-				}
-				
+				string type_ = NonCollectionTypeName;
+
 				// get the type
 				Type theType = null;
 				if (type_.StartsWith("System"))

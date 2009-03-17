@@ -271,6 +271,14 @@ namespace MonoWorks.Model
 		/// </summary>
 		public event AttributeUpdatedHandler AttributeUpdated;
 
+		/// <summary>
+		/// Raise the AttributeUpdated event for the given attribute name.
+		/// </summary>
+		protected void RaiseAttributeUpdated(string attrName)
+		{
+			if (AttributeUpdated != null)
+				AttributeUpdated(this, attrName);
+		}
 		
 		/// <value>
 		/// Attribute accessors.

@@ -105,6 +105,15 @@ namespace MonoWorks.Model.Sketching
 			Anchor2.SetPosition(solidPoints[3]);
 		}
 
+		/// <summary>
+		/// Call this method to let the rectangle know that the values of the anchors may have changed.
+		/// </summary>
+		public void AnchorsUpdated()
+		{
+			RaiseAttributeUpdated("anchor1");
+			RaiseAttributeUpdated("anchor2");
+		}
+
 #endregion
 
 

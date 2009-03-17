@@ -72,6 +72,7 @@ namespace MonoWorks.Model.Sketching
 					Apply();
 				}
 				Sketchable.MakeDirty();
+				Sketchable.AnchorsUpdated();
 				evt.Handle();
 			}
 			else // not dragging anything, look for hit
@@ -133,6 +134,7 @@ namespace MonoWorks.Model.Sketching
 				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				dragPoint.SetPosition(intersect);
 				Sketchable.MakeDirty();
+				Sketchable.AnchorsUpdated();
 				evt.Handle();
 			}
 		}
