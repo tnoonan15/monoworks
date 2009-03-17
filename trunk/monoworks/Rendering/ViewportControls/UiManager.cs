@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 using MonoWorks.Base;
@@ -36,6 +37,8 @@ namespace MonoWorks.Rendering.ViewportControls
             : base(controller)
         {	
 			this.controller = controller;
+
+			ContextLayer = new ContextLayer();
         }
 
 		protected ViewportController controller;
@@ -56,17 +59,10 @@ namespace MonoWorks.Rendering.ViewportControls
 			
         }
 
-        protected override bool CreateToolsMenu
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+		/// <summary>
+		/// A context layer that contains all toolbars in the UI manager.
+		/// </summary>
+		public ContextLayer ContextLayer { get; private set; }
 
 		
 #region Toolbars
@@ -74,6 +70,14 @@ namespace MonoWorks.Rendering.ViewportControls
 		protected Dictionary<string, ToolBar> toolbars = new Dictionary<string, ToolBar>();
 		
 		protected ToolBar currentToolbar = null;
+
+		/// <summary>
+		/// Maps the toolbar button style to a preferred icon size.
+		/// </summary>
+		protected Dictionary<ButtonStyle, int> iconsSizes = new Dictionary<ButtonStyle, int>() {
+			{ButtonStyle.Image, 22},
+			{ButtonStyle.ImageOverLabel, 48}
+		};
 
 
 		/// <summary>
@@ -107,6 +111,7 @@ namespace MonoWorks.Rendering.ViewportControls
 			if (styleString != null)
 				currentToolbar.ButtonStyle = (ButtonStyle)Enum.Parse(typeof(ButtonStyle), styleString);
 
+			ContextLayer.AddToolbar(name, toolbars[name]);
         }
 
         protected override void CreateToolbarItem(ActionAttribute action)
@@ -116,7 +121,15 @@ namespace MonoWorks.Rendering.ViewportControls
 			Button button;
 			if (action.IconName != null)
 			{
-				icon = new Image(ResourceHelper.GetStream(action.IconName + ".png", CallingAssembly));
+				// get the desired icon size
+				int iconSize;
+				if (!iconsSizes.TryGetValue(currentToolbar.ButtonStyle, out iconSize))
+					iconSize = 16; // use the smallest as the default
+
+				// write the icon to a temporary file
+				string tempPath = Path.GetTempPath() + "temp.png";
+				ResourceManagerBase.RenderIconToFile(tempPath, action.IconName, iconSize);
+				icon = new Image(tempPath);
 				button = new Button(action.Name, icon);
 			}
 			else
@@ -134,26 +147,21 @@ namespace MonoWorks.Rendering.ViewportControls
 #endregion
 
 
-#region ContextLayer Creation
 
-		/// <summary>
-		/// Creates a context layer and puts all toolbars into it.
-		/// </summary>
-		/// <returns></returns>
-		public ContextLayer CreateContextLayer()
+
+#region Not Used
+
+		protected override bool CreateToolsMenu
 		{
-			ContextLayer layer = new ContextLayer();
-			foreach (string name in toolbars.Keys)
-				layer.AddToolbar(name, toolbars[name]);
-			return layer;
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
 		}
-
-
-#endregion
-
-
-
-		#region Not Used
 
 		protected override void CreateMenu(XmlReader reader)
         {
@@ -206,6 +214,7 @@ namespace MonoWorks.Rendering.ViewportControls
 		}
 
 #endregion
+
 
 	}
 }

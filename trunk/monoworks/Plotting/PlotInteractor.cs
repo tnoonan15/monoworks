@@ -47,11 +47,8 @@ namespace MonoWorks.Plotting
 			{
 				if (viewport.InteractionState == InteractionState.Interact2D)
 				{
-					foreach (Actor actor in renderList.Actors)
-					{
-						if (actor is AxesBox)
-							(actor as AxesBox).ResizeMode = ResizeMode.Auto;
-					}
+					viewport.RenderList.ResetBounds();
+					viewport.Resize();
 					evt.Handle();
 				}
 			}
@@ -64,26 +61,26 @@ namespace MonoWorks.Plotting
 
 			base.OnButtonRelease(evt);
 
-			// determine the 3D position of the hit
-			viewport.Camera.Place();
-//			HitLine hitLine = evt.HitLine;
 
-			// TODO: handle multiple hits with depth checking
-			Actor hitRend = null;
-			foreach (Actor rend in renderList.Actors)
+			if (evt.Button == 1)
 			{
-				rend.OnButtonRelease(evt);
-				if (evt.Handled)
-					hitRend = rend;
-			}
+				// TODO: handle multiple hits with depth checking
+				Actor hitRend = null;
+				foreach (Actor rend in renderList.Actors)
+				{
+					rend.OnButtonRelease(evt);
+					if (evt.Handled)
+						hitRend = rend;
+				}
 
-			// show the selection tooltip
-			if (hitRend != null)
-			{
-				string description = hitRend.SelectionDescription;
-				if (description.Length > 0)
-					viewport.ToolTip = description;
-			}
+				// show the selection tooltip
+				if (hitRend != null)
+				{
+					string description = hitRend.SelectionDescription;
+					if (description.Length > 0)
+						viewport.ToolTip = description;
+				}
+			} // button 1
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)

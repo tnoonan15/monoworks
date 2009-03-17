@@ -32,5 +32,14 @@ namespace MonoWorks.Plotting
 		{
 
 		}
+
+		/// <summary>
+		/// Each plot gets the chance to populate a legend with one or more of its own items.
+		/// </summary>
+		public virtual void PopulateLegend(Legend legend)
+		{
+
+		}
+
 	}
 }

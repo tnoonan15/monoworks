@@ -372,7 +372,7 @@ namespace MonoWorks.Rendering
 			glu.gluProject(x, y, z,
 				modelMatrix, projectionMatrix, viewportSize,
 				out screenX, out screenY, out screenZ);
-			if (screenX == Double.NaN || screenY == Double.NaN)
+			if (Double.IsNaN(screenX) || Double.IsNaN(screenY))
 				return new Coord(0, 0);
 			return new Coord((int)screenX, (int)screenY);
 		}
@@ -825,7 +825,6 @@ namespace MonoWorks.Rendering
 
 		public void EndAnimation()
 		{
-
 		}	
 		
 		
