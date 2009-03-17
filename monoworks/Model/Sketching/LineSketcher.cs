@@ -156,6 +156,7 @@ namespace MonoWorks.Model.Sketching
 				ClearSelection();
 				addingVertex = false;
 				Apply();
+				Sketchable.PointsUpdated();
 			}
 			else if (addingVertex) // add a vertex
 			{
@@ -165,7 +166,7 @@ namespace MonoWorks.Model.Sketching
 				Sketchable.Points.Add(point);
 				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				point.SetPosition(intersect);
-				//ClearSelection();
+				Sketchable.PointsUpdated();
 			}
 			else if (evt.Button == 1) // look for a hit
 			{
@@ -213,6 +214,7 @@ namespace MonoWorks.Model.Sketching
 					else
 						closePoint = null;
 				}
+				Sketchable.PointsUpdated();
 			}
 		}
 

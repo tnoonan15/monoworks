@@ -40,7 +40,6 @@ namespace MonoWorks.Rendering
 
 		#region Attributes
 
-		protected Vector Offset;
 		/// <summary>
 		/// The offset (applied before the scaling).
 		/// </summary>

@@ -49,6 +49,15 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		/// </summary>
 		public Point Point { get; set; }
 
+		/// <summary>
+		/// Sets the point then calls update.
+		/// </summary>
+		public void Update(Point point)
+		{
+			Point = point;
+			Update();
+		}
+
 		public void Update()
 		{
 			if (Point == null)
