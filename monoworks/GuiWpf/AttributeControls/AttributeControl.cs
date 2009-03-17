@@ -70,6 +70,8 @@ namespace MonoWorks.GuiWpf.AttributeControls
 				return new DimensionalControl<MonoWorks.Base.Length>(entity, metaData);
 			case "MonoWorks.Base.Angle":
 				return new DimensionalControl<MonoWorks.Base.Angle>(entity, metaData);
+			case "MonoWorks.Base.Point":
+				return new PointControl(entity, metaData);
 			default:
 				return new NullControl(entity, metaData);
 			}
