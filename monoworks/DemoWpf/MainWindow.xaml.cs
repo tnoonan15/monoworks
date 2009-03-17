@@ -23,14 +23,14 @@ namespace MonoWorks.DemoWpf
 			dockPanel.Children.Add(book);
 
 			// create the model tab
-			DrawingFrame docFrame = new DrawingFrame();
-			docFrame.Height = Double.NaN;
-			docFrame.Width = Double.NaN;
-			docFrame.Drawing = new TestPart();
-			TabItem itemModel = new TabItem();
-			itemModel.Header = "Model";
-			itemModel.Content = docFrame;
-			book.Items.Add(itemModel);
+			//DrawingFrame docFrame = new DrawingFrame();
+			//docFrame.Height = Double.NaN;
+			//docFrame.Width = Double.NaN;
+			//docFrame.Drawing = new TestPart();
+			//TabItem itemModel = new TabItem();
+			//itemModel.Header = "Model";
+			//itemModel.Content = docFrame;
+			//book.Items.Add(itemModel);
 
 			// create the basic 3D tab
 			Pane3D pane3d = new Pane3D();

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -87,6 +87,9 @@
     <Compile Include="Axis.cs" />
     <Compile Include="DataSet.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="Legend.cs" />
+    <Compile Include="LegendItem.cs" />
+    <Compile Include="PlotController.cs" />
     <Compile Include="PlotIndex.cs" />
     <Compile Include="PlotInteractor.cs" />
     <Compile Include="Plottable.cs" />
@@ -112,6 +115,9 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="plotting.ui" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

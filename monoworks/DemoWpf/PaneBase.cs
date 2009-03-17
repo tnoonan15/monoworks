@@ -55,8 +55,7 @@ namespace MonoWorks.DemoWpf
 			viewportWrapper.Height = Double.NaN;
 			viewport = viewportWrapper.Viewport;
 			viewport.PrimaryInteractor = new PlotInteractor(viewport);
-			ViewportController controller = new ViewportController(viewport);
-			controller.SetUsage(ViewportUsage.Plotting);
+			PlotController controller = new PlotController(viewport);
 		}
 
 		protected void DockViewport()

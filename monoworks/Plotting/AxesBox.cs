@@ -137,6 +137,8 @@ namespace MonoWorks.Plotting
 
 			bounds.Minima = new Vector(-1, -1, -1);
 			bounds.Maxima = new Vector(1, 1, 1);
+
+			ResizeMode = ResizeMode.Auto;
 		}
 
 		
@@ -220,7 +222,11 @@ namespace MonoWorks.Plotting
 		public ResizeMode ResizeMode
 		{
 			get { return resizeMode; }
-			set { resizeMode = value; }
+			set
+			{
+				resizeMode = value;
+				MakeDirty();
+			}
 		}
 
 
@@ -662,15 +668,15 @@ namespace MonoWorks.Plotting
 					plotBounds.Maxima[0] = max.X;
 					plotBounds.Maxima[2] = max.Z;
 					break;
-				case ViewDirection.Top:
-				case ViewDirection.Bottom:
+				case ViewDirection.Left:
+				case ViewDirection.Right:
 					plotBounds.Minima[1] = min[1];
 					plotBounds.Minima[2] = min[2];
 					plotBounds.Maxima[1] = max[1];
 					plotBounds.Maxima[2] = max[2];
 					break;
-				case ViewDirection.Left:
-				case ViewDirection.Right:
+				case ViewDirection.Top:
+				case ViewDirection.Bottom:
 					plotBounds.Minima[0] = min[0];
 					plotBounds.Minima[1] = min[1];
 					plotBounds.Maxima[0] = max[0];
@@ -723,6 +729,21 @@ namespace MonoWorks.Plotting
 		}
 		
 #endregion
+
+
+#region Legend
+
+		/// <summary>
+		/// Populates a legend with items associated with all plots in the axes box.
+		/// </summary>
+		public void PopulateLegend(Legend legend)
+		{
+			foreach (var plot in GetChildren<AbstractPlot>())
+				plot.PopulateLegend(legend);
+		}
+
+#endregion
+
 
 	}
 }

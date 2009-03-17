@@ -1,4 +1,4 @@
-// Controller.cs - MonoWorks Project
+// DrawingController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -38,8 +38,11 @@ namespace MonoWorks.Model.ViewportControls
 		{
 			this.attributePanel = attributePanel;
 
-			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
+			UiManager.LoadStream(ResourceHelper.GetStream("drawing.ui"));
 			OnSolidModeChanged();
+
+			LoadStandardToolbars();
+			ContextLayer.AddContext(ContextLocation.N, "Shading");
 
 			// get ready for sketching
 			sketchApplyCancel = new ApplyCancelControl();
@@ -58,6 +61,7 @@ namespace MonoWorks.Model.ViewportControls
 		{
 			get { return viewport.PrimaryInteractor as DrawingInteractor; }
 		}
+
 
 
 #region Shading Actions

@@ -43,8 +43,12 @@ namespace MonoWorks.Rendering.ViewportControls
 			viewport.InteractionStateChanged += ExternalInteractionStateChanged;
 			viewport.Camera.ProjectionChanged += ExternalProjectionChanged;
 
+			ResourceManagerBase.LoadAssembly("MonoWorks.Rendering");
+
 			UiManager = new UiManager(this);
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
+
+			viewport.RenderList.AddOverlay(UiManager.ContextLayer);
         }
 
         protected Viewport viewport;
@@ -57,112 +61,70 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// <summary>
 		/// The context layer containing all of the toolbars.
 		/// </summary>
-		public ContextLayer ContextLayer { get; private set; }
-
-		
-		protected ViewportUsage viewportUsage = ViewportUsage.Custom;
-		
-		/// <summary>
-		/// Sets the usage and resets the context layer appropriately.
-		/// </summary>
-		/// <param name="usage"></param>
-		public void SetUsage(ViewportUsage usage)
+		public ContextLayer ContextLayer
 		{
-			if (ContextLayer == null) // add the context layer
-			{				
-				ContextLayer = UiManager.CreateContextLayer();
-				viewport.RenderList.AddOverlay(ContextLayer);
-			}
-			else // the context layer already exists
-				ContextLayer.ClearAllContexts();
-			switch (usage)
-			{
-				case ViewportUsage.CAD:
-					ContextLayer.AddContext(ContextLocation.N, "CadView");
-					ContextLayer.AddContext(ContextLocation.N, "CadInteraction");
-					ContextLayer.AddContext(ContextLocation.N, "Shading");
-					break;
-				case ViewportUsage.Plotting:
-					ContextLayer.AddContext(ContextLocation.N, "PlotView");
-					ContextLayer.AddContext(ContextLocation.N, "PlotInteraction");
-					break;
-			}
-			viewportUsage = usage;
-			
-		 	OnInteractionStateChanged();
-			OnProjectionChanged();
+			get { return UiManager.ContextLayer; }
 		}
 
-
-
-
+		/// <summary>
+		/// Loads the standard (View and Interaction) toolbars from the UiManager.
+		/// </summary>
+		protected void LoadStandardToolbars()
+		{
+			ContextLayer.AddContext(ContextLocation.N, "View");
+			ContextLayer.AddContext(ContextLocation.N, "Interaction");
+		}
 		
 #region View Direction Actions
 		
-		/// <summary>
-		/// The name of the view toolbar on the viewport, or null if there isn't one.
-		/// </summary>
-		protected string ViewToolbarName
-		{
-			get				
-			{			
-				if (viewportUsage == ViewportUsage.CAD)
-					return "CadView";
-				else if (viewportUsage == ViewportUsage.Plotting)
-					return "PlotView";	
-				else
-					return null;
-			}
-		}
 		
 		[Action("Standard View")]
 		public void OnStandardView()
 		{
+			viewport.RenderList.ResetBounds();
 			viewport.Camera.AnimateTo(ViewDirection.Standard);
-			viewport.Resize();
 		}
 		
 		[Action("Front View")]
 		public void OnFrontView()
 		{
+			viewport.RenderList.ResetBounds();
 			viewport.Camera.AnimateTo(ViewDirection.Front);
-			viewport.Resize();
 		}
 		
 		[Action("Back View")]
 		public void OnBackView()
 		{
+			viewport.RenderList.ResetBounds();
 			viewport.Camera.AnimateTo(ViewDirection.Back);
-			viewport.Resize();
 		}
 		
 		[Action("Left View")]
 		public void OnLeftView()
 		{
-			Console.WriteLine("left");
+			viewport.RenderList.ResetBounds();
 			viewport.Camera.AnimateTo(ViewDirection.Left);
-			viewport.Resize();
 		}
 		
 		[Action("Right View")]
 		public void OnRightView()
 		{
+			viewport.RenderList.ResetBounds();
 			viewport.Camera.AnimateTo(ViewDirection.Right);
-			viewport.Resize();
 		}
 		
 		[Action("Top View")]
 		public void OnTopView()
 		{
+			viewport.RenderList.ResetBounds();
 			viewport.Camera.AnimateTo(ViewDirection.Top);
-			viewport.Resize();
 		}
 		
 		[Action("Bottom View")]
 		public void OnBottomView()
 		{
+			viewport.RenderList.ResetBounds();
 			viewport.Camera.AnimateTo(ViewDirection.Bottom);
-			viewport.Resize();
 		}
 		
 #endregion
@@ -183,9 +145,9 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// </summary>
 		public void OnProjectionChanged()
 		{
-			if (ViewToolbarName != null)
+			ToolBar toolbar = UiManager.GetToolbar("View");
+			if (toolbar != null)
 			{
-				ToolBar toolbar = UiManager.GetToolbar(ViewToolbarName);
 				Button projButton = toolbar.GetButton("Projection");
 				projButton.IsSelected = viewport.Camera.Projection == Projection.Perspective;
 			}
@@ -196,7 +158,7 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// </summary>
 		private void ExternalProjectionChanged(object sender, EventArgs args)
 		{
-			if (!InternalUpdate)
+			//if (!InternalUpdate)
 				OnProjectionChanged();
 		}
 
@@ -204,22 +166,6 @@ namespace MonoWorks.Rendering.ViewportControls
 
 
 #region Interaction Actions
-
-		/// <summary>
-		/// The name of the interaction toolbar on the viewport, or null if there isn't one.
-		/// </summary>
-		protected string InteractionToolbarName
-		{
-			get				
-			{			
-				if (viewportUsage == ViewportUsage.CAD)
-					return "CadInteraction";
-				else if (viewportUsage == ViewportUsage.Plotting)
-					return "PlotInteraction";	
-				else
-					return null;
-			}
-		}
 
 		/// <summary>
 		/// The name of each interaction state.
@@ -273,10 +219,10 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// Updates the controls after the interaction state has changed.
 		/// </summary>
 		public void OnInteractionStateChanged()
-		{			
-			if (InteractionToolbarName != null)
+		{	
+			ToolBar toolbar = UiManager.GetToolbar("Interaction");
+			if (toolbar != null)
 			{
-				ToolBar toolbar = UiManager.GetToolbar(InteractionToolbarName);
 				string interactionName = interactionNames[viewport.InteractionState];
 				foreach (Button button in toolbar)
 				{

@@ -27,13 +27,21 @@ namespace MonoWorks.GuiWpf.Framework
 		protected static ResourceManager Instance;
 
 		/// <summary>
-		/// Loads the given directory.
+		/// Safely initializes the global resource manager.
 		/// </summary>
-		public static void LoadDirectory(string dirName)
+		public static void Initialize()
 		{
 			if (Instance == null)
 				Instance = new ResourceManager();
+		}
 
+		/// <summary>
+		/// Loads the given directory.
+		/// </summary>
+		/// <remarks>The manager will be automatically initialized.</remarks>
+		public static void LoadDirectory(string dirName)
+		{
+			Initialize();
 			Instance.LoadDir(dirName);
 		}
 
@@ -43,11 +51,9 @@ namespace MonoWorks.GuiWpf.Framework
 		/// <param name="asmName">The name of the assembly.</param>
 		/// <remarks>The assembly should have generally the same layout 
 		/// as a resource directory should.</remarks>
-		public static void LoadAssembly(string asmName)
+		public static new void LoadAssembly(string asmName)
 		{
-			if (Instance == null)
-				Instance = new ResourceManager();
-
+			Initialize();
 			Instance.LoadAsm(asmName);
 		}
 
@@ -113,6 +119,12 @@ namespace MonoWorks.GuiWpf.Framework
 		{
 			EnsureInitialized();
 			return Instance.GetIcon(name).Render(size);
+		}
+
+
+		public override void WriteLoadedIconToFile(string fileName, string iconName, int size)
+		{
+			GetIcon(iconName).RenderToFile(fileName, size);
 		}
 
 		#endregion

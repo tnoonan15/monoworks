@@ -43,7 +43,8 @@ namespace MonoWorks.Framework
 		protected static void EnsureInitialized()
 		{
 			if (singletonInstance == null)
-				throw new Exception("Resource Manager is not initialized.");
+				throw new Exception("ResourceManager is not initialized. " + 
+			"You must initialize a GUI-dependent resource manager before trying to use the static methods.");
 		}
 		
 		/// <summary>
@@ -107,10 +108,18 @@ namespace MonoWorks.Framework
 		}
 
 #endregion
-		
-		
+				
 		
 #region Assembly Loading
+
+		/// <summary>
+		/// Loads an assembly into the global resource manager.
+		/// </summary>
+		public static void LoadAssembly(string asmName)
+		{
+			EnsureInitialized();
+			singletonInstance.LoadAsm(asmName);
+		}
 
 		/// <summary>
 		/// Load an assembly.
@@ -153,6 +162,7 @@ namespace MonoWorks.Framework
 		/// <param name="name"></param>
 		/// <remarks>The size is inferred.</remarks>
 		protected abstract void LoadIconStream(Stream stream, string name);
+		
 
 		protected List<string> loadedAsms = new List<string>();
 
@@ -168,6 +178,24 @@ namespace MonoWorks.Framework
 		
 #endregion
 
+
+#region Icons
+
+		/// <summary>
+		/// Gets an icon stream from an already loaded icon.
+		/// </summary>
+		public abstract void WriteLoadedIconToFile(string name, string iconName, int size);
+
+		/// <summary>
+		/// Renders an already loaded icon back to a file.
+		/// </summary>
+		public static void RenderIconToFile(string fileName, string iconName, int size)
+		{
+			EnsureInitialized();
+			singletonInstance.WriteLoadedIconToFile(fileName, iconName, size);
+		}
+
+#endregion
 
 
 	}

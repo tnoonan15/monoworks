@@ -94,31 +94,30 @@ namespace MonoWorks.Plotting
 				double firstTickStep = axes[n].FirstWorldTickStep; // first tick step in world coords
 				double tickStep = axes[n].WorldTickStep; // all other tick steps in world coords
 
+				// figure out the corner to actually start in
+				Vector corner_ = Corner.Copy();
+				if (corner_[dim] == axes[n].Stop[dim])
+					corner_[dim] = axes[n].Start[dim];
+
 				// get the two points that transverse the axis
-				Vector currentPoint1 = Corner.Copy(); // one of the points moving along the axis
-				Vector currentPoint2 = Corner.Copy(); // one of the points moving along the axis 
-				if (corner[dimOther] == axes[nOther].Start[dimOther])
+				Vector currentPoint1 = corner_; // one of the points moving along the axis
+				Vector currentPoint2 = corner_.Copy(); // one of the points moving along the axis 
+				if (corner_[dimOther] == axes[nOther].Start[dimOther])
 					currentPoint2[dimOther] = axes[nOther].Stop[dimOther];
 				else
-					currentPoint2[dimOther] = axes[nOther].Start[dimOther];
+				    currentPoint2[dimOther] = axes[nOther].Start[dimOther];
 
-				// get the sign of the travel across the axis
-				double travelSign;
-				if (corner[dim] == axes[n].Start[dim])
-					travelSign = 1;
-				else // travel backwards
-					travelSign = -1;
-
-				currentPoint1[dim] += travelSign * firstTickStep;
-				currentPoint2[dim] += travelSign * firstTickStep;
+				// initialize the points to the first tick
+				currentPoint1[dim] += firstTickStep;
+				currentPoint2[dim] += firstTickStep;
 
 				// cycle through tick marks for this dimension
 				for (int t = 0; t < axes[n].TickVals.Length; t++)
 				{
-					gl.glVertex3d(currentPoint1[0], currentPoint1[1], currentPoint1[2]);
-					currentPoint1[dim] += travelSign * tickStep;
-					gl.glVertex3d(currentPoint2[0], currentPoint2[1], currentPoint2[2]);
-					currentPoint2[dim] += travelSign * tickStep;
+					currentPoint1.glVertex();
+					currentPoint1[dim] += tickStep;
+					currentPoint2.glVertex();
+					currentPoint2[dim] += tickStep;
 				}
 			}
 			gl.glEnd();

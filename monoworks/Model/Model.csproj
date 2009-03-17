@@ -123,7 +123,7 @@
     <EmbeddedResource Include="ViewportControls\icons\flat.png" />
     <EmbeddedResource Include="ViewportControls\icons\smooth.png" />
     <EmbeddedResource Include="ViewportControls\icons\wireframe.png" />
-    <EmbeddedResource Include="ViewportControls\Viewport.ui" />
+    <EmbeddedResource Include="ViewportControls\drawing.ui" />
     <EmbeddedResource Include="DefaultModelingOptions.xml" />
   </ItemGroup>
   <ItemGroup>

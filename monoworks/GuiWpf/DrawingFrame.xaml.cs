@@ -24,7 +24,6 @@ namespace MonoWorks.GuiWpf
 			MonoWorks.GuiWpf.Framework.ResourceManager.LoadAssembly("MonoWorks.Resources");
 
 			Controller = new DrawingController(Viewport, attributePanel);
-			Controller.SetUsage(ViewportUsage.CAD);
 
 			attributePanel.Hidden += Controller.OnAttributePanelHidden;
 

@@ -36,18 +36,18 @@ namespace MonoWorks.Plotting
 
 			// make the array data set
 			arrayData = new ArrayDataSet(1024*1, 4);
-			double dt = 0.005; // time step
+			double dt = 0.02; // time step
 			for (int r = 0; r < arrayData.NumRows; r++)
 			{
 				double t = r * dt;
 				arrayData[r, 0] = t;
-				arrayData[r, 1] = Math.Sin(t);
-				arrayData[r, 2] = Math.Cos(t*2);
+				arrayData[r, 1] = Math.Sin(t) * 10;
+				arrayData[r, 2] = Math.Cos(t*2) * t;
 				arrayData[r, 3] = 0;
 			}
 			arrayData.SetColumnName(0, "time");
-			arrayData.SetColumnName(1, "sin(t)");
-			arrayData.SetColumnName(2, "cos(2t)");
+			arrayData.SetColumnName(1, "10*sin(t)");
+			arrayData.SetColumnName(2, "cos(2t)*t");
 			arrayData.SetColumnName(3, "zero");
 						
 
