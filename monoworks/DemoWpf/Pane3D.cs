@@ -38,27 +38,26 @@ namespace MonoWorks.DemoWpf
 		public Pane3D() : base()
 		{
 			// create the axes
-			TestAxes3D axes = new TestAxes3D();
+			axesBox = new TestAxes3D();
 
 			// add the plot control
 			PointPlotControl plotControl = new PointPlotControl();
-			plotControl.Plot = axes.PointPlot;
+			plotControl.Plot = (axesBox as TestAxes3D).PointPlot;
 			plotControl.ControlUpdated += OnUpdated;
 			this.AddAt(plotControl, 0, 0);
 
 
 			// add the axes control
 			AxesControl axesControl = new AxesControl();
-			axesControl.Axes = axes;
+			axesControl.Axes = axesBox;
 			axesControl.ControlUpdated += OnUpdated;
 			this.AddAt(axesControl, 1, 0);
 
-			DockViewport();
-
-
 			// add the test axes
-			viewport.RenderList.AddActor(axes);
+			viewport.RenderList.AddActor(axesBox);
 			viewport.Camera.SetViewDirection(ViewDirection.Standard);
+
+			DockViewport();
 
 		}
 	}

@@ -1,4 +1,4 @@
-﻿// LegendItem.cs - MonoWorks Project
+﻿// LegendIcon.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -25,49 +25,54 @@ using MonoWorks.Rendering.Controls;
 
 namespace MonoWorks.Plotting
 {
-	/// <summary>
-	/// An item in a legend.
-	/// </summary>
-	public class LegendItem : Stack
+	public class LegendIcon : Control
 	{
 
-		public LegendItem()
-			: base(Orientation.Horizontal)
+		public LegendIcon()
+			: base()
 		{
-			Icon = new LegendIcon();
-			Add(Icon);
-
-			label = new Label("item");
-			Add(label);
+			size = new Coord(22, 22);
 		}
 
-		protected Label label;
+
+#region Attributes
 
 		/// <summary>
-		/// The item text.
+		/// The color of the marker.
 		/// </summary>
-		public string Text
-		{
-			get { return label.Text; }
-			set
-			{
-				label.Text = value;
-				MakeDirty();
-			}
-		}
+		public Color Color { get; set; }
 
 		/// <summary>
-		/// Privatize adding children. Outsiders don't get to do this.
+		/// The shape of the marker.
 		/// </summary>
-		protected new void Add(Control child)
-		{
-			base.Add(child);
-		}
+		public PlotShape MarkerShape { get; set; }
 
 		/// <summary>
-		/// The icon used to show the plot settings for this item.
+		/// The size of the marker.
 		/// </summary>
-		public LegendIcon Icon { get; private set; }
+		public float MarkerSize { get; set; }
+
+		/// <summary>
+		/// The line width.
+		/// </summary>
+		public float LineWidth { get; set; }
+
+		/// <summary>
+		/// The line style.
+		/// </summary>
+		public LineStyle LineStyle { get; set; }
+
+		/// <summary>
+		/// Whether or not to show the line.
+		/// </summary>
+		public bool ShowLine { get; set; }
+
+		/// <summary>
+		/// Whether or not to show the marker.
+		/// </summary>
+		public bool ShowMarker { get; set; }
+
+#endregion
 
 	}
 }

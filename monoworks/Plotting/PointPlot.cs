@@ -471,6 +471,8 @@ namespace MonoWorks.Plotting
 			if (!IsVisible)
 				return;
 
+			viewport.RenderManager.Lighting.Disable();
+
 			CallDisplayList();
 
 			// render the selection highlight
@@ -488,6 +490,8 @@ namespace MonoWorks.Plotting
 				gl.glVertex3d(x, y, z);
 			}
 			gl.glEnd();
+
+			viewport.RenderManager.Lighting.Enable();
 		}
 
 
@@ -594,6 +598,20 @@ namespace MonoWorks.Plotting
 				}
 				return desc.ToString();
 			}
+		}
+
+#endregion
+
+
+#region Legend
+		
+		public override void PopulateLegend(Legend legend)
+		{
+			base.PopulateLegend(legend);
+
+			LegendItem item = new LegendItem();
+			item.Text = dataSet.GetColumnName(Columns[2]);
+			legend.Add(item);
 		}
 
 #endregion

@@ -29,8 +29,14 @@ namespace MonoWorks.Rendering.Controls
 	/// </summary>
 	public class Bin : Control
 	{
-		
-		public Bin(Control child) : base()
+
+		public Bin()
+			: base()
+		{
+
+		}
+
+		public Bin(Control child) : this()
 		{
 			Child = child;
 		}
@@ -55,22 +61,35 @@ namespace MonoWorks.Rendering.Controls
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
-			
-			child.OnButtonPress(evt);
+
+			if (child != null)
+				child.OnButtonPress(evt);
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
 			
-			child.OnButtonRelease(evt);
+			if (child != null)
+				child.OnButtonRelease(evt);
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
-			
-			child.OnMouseMotion(evt);
+
+			if (child != null)
+				child.OnMouseMotion(evt);
 		}
+
+
+		public override void RenderOverlay(Viewport viewport)
+		{
+			base.RenderOverlay(viewport);
+
+			if (child != null)
+				child.RenderOverlay(viewport);
+		}
+
 	}
 }

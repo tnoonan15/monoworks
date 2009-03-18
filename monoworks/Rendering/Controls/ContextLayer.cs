@@ -57,15 +57,20 @@ namespace MonoWorks.Rendering.Controls
 		public ContextLayer() : base()
 		{
 			// create the anchors
+			foreach (AnchorLocation anchorLoc in Enum.GetValues(typeof(AnchorLocation)))
+			{
+				anchors[anchorLoc] = new Anchor(anchorLoc);
+				Add(anchors[anchorLoc]);
+			}
+
+			// create the stacks
 			foreach (ContextLocation loc in Enum.GetValues(typeof(ContextLocation)))
 			{
 				Stack stack = new Stack();
 				stack.Orientation = ContextOrientation(loc);
 				stack.Padding = 0;
 				stacks[loc] = stack;
-				anchors[loc] = new Anchor(stack);
-				anchors[loc].Location = (AnchorLocation)loc;
-				Add(anchors[loc]);
+				anchors[(AnchorLocation)loc].Child = stack;
 			}
 		}
 		
@@ -144,9 +149,21 @@ namespace MonoWorks.Rendering.Controls
 				return Orientation.Vertical;
 		}
 
-		Dictionary<ContextLocation, Anchor> anchors = new Dictionary<ContextLocation, Anchor>();
+		Dictionary<AnchorLocation, Anchor> anchors = new Dictionary<AnchorLocation, Anchor>();
 
 		Dictionary<ContextLocation, Stack> stacks = new Dictionary<ContextLocation, Stack>();
+
+
+		/// <summary>
+		/// Anchors a control at the given location.
+		/// </summary>
+		public void AnchorControl(Control control, AnchorLocation location)
+		{
+			if (anchors[location].Child != null)
+				throw new Exception("There's already something at this anchor.");
+
+			anchors[location].Child = control;
+		}
 		
 #endregion
 
@@ -165,7 +182,7 @@ namespace MonoWorks.Rendering.Controls
 			toolbar.StyleClassName = "toolbar-" + loc.ToString().ToLower();
 			toolbar.ToolStyle = "tool-" + loc.ToString().ToLower();
 			stacks[loc].Add(toolbar);
-			anchors[loc].MakeDirty();
+			anchors[(AnchorLocation)loc].MakeDirty();
 		}
 
 		/// <summary>

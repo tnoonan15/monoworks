@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 
 namespace MonoWorks.Plotting
@@ -33,6 +34,7 @@ namespace MonoWorks.Plotting
 		public Legend()
 			: base(Orientation.Vertical)
 		{
+			StyleClassName = "toolbar";
 
 		}
 
@@ -50,6 +52,19 @@ namespace MonoWorks.Plotting
 		public void Add(LegendItem item)
 		{
 			children.Add(item);
+			MakeDirty();
+		}
+
+		public override void RenderOverlay(Viewport viewport)
+		{
+			if (IsDirty)
+				ComputeGeometry();
+
+			RenderBackground();
+			RenderOutline();
+
+			base.RenderOverlay(viewport);
+
 		}
 
 	}
