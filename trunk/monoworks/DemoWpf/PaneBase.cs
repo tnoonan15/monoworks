@@ -55,14 +55,19 @@ namespace MonoWorks.DemoWpf
 			viewportWrapper.Height = Double.NaN;
 			viewport = viewportWrapper.Viewport;
 			viewport.PrimaryInteractor = new PlotInteractor(viewport);
-			PlotController controller = new PlotController(viewport);
+			controller = new PlotController(viewport);
 		}
+
+		protected PlotController controller;
+
+		protected AxesBox axesBox;
 
 		protected void DockViewport()
 		{
 			this.AddAt(viewportWrapper, 0, 1);
 			swc.Grid.SetRowSpan(viewportWrapper, 2);
-			viewport.Resize();
+
+			OnUpdated();
 		}
 
 		/// <summary>
@@ -70,7 +75,11 @@ namespace MonoWorks.DemoWpf
 		/// </summary>
 		public void OnUpdated()
 		{
-			viewport.Render();
+			if (axesBox != null)
+				controller.RefreshLegend(axesBox);
+
+			viewport.Resize();
+			viewport.PaintGL();
 		}
 
 		private ViewportWrapper viewportWrapper;

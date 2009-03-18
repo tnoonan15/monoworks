@@ -88,6 +88,7 @@
     <Compile Include="DataSet.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Legend.cs" />
+    <Compile Include="LegendIcon.cs" />
     <Compile Include="LegendItem.cs" />
     <Compile Include="PlotController.cs" />
     <Compile Include="PlotIndex.cs" />

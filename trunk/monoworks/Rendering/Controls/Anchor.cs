@@ -34,10 +34,12 @@ namespace MonoWorks.Rendering.Controls
 	/// </summary>
 	public class Anchor : Bin
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		/// <param name="child"> The <see cref="Control"/> to anchor. </param>
+		public Anchor(AnchorLocation location)
+			: base()
+		{
+			Location = location;
+		}
+
 		public Anchor(Control child) : base(child)
 		{
 		}
@@ -69,7 +71,7 @@ namespace MonoWorks.Rendering.Controls
 		public override void RenderOverlay(Viewport viewport)
 		{
 			// adjust position according to location
-			if (IsDirty) // need to check this before calling parent since they will make us clean
+			if (IsDirty && child != null) // need to check this before calling parent since they will make us clean
 			{
 				child.ComputeGeometry();
 				size = child.Size;
@@ -108,8 +110,6 @@ namespace MonoWorks.Rendering.Controls
 
 			base.RenderOverlay(viewport);
 
-			child.RenderOverlay(viewport);
-			//Console.WriteLine("anchor still still dirty? {0}", dirty);
 		}
 
 

@@ -43,15 +43,16 @@ namespace MonoWorks.DemoWpf
 			this.ColumnDefinitions[0].Width = new GridLength(0);
 
 			// create the axes
-			TestAxes2D axes = new TestAxes2D();
+			axesBox = new TestAxes2D();
 
 			// add the test axes
-			viewport.RenderList.AddActor(axes);
+			viewport.RenderList.AddActor(axesBox);
 			viewport.Camera.Projection = Projection.Parallel;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
 			viewport.SetInteractionState(InteractionState.Interact2D);
 
 			DockViewport();
+
 		}
 
 	}
