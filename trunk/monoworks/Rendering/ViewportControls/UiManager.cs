@@ -135,6 +135,8 @@ namespace MonoWorks.Rendering.ViewportControls
 			else
 				button = new Button(action.Name);
 
+			if (action.Tooltip != null)
+				button.ToolTip = action.Tooltip;
 			currentToolbar.Add(button);
 			button.Clicked += delegate(object sender, EventArgs args)
 			{

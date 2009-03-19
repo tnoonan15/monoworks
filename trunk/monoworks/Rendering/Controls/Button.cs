@@ -64,21 +64,22 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 		/// <summary>
+		/// Creates a button with the given label text and image.
+		/// </summary>
+		public Button(string text, Image image) : this(new Label(text), image)
+		{
+		}
+
+		/// <summary>
 		/// Create a button with the given label and image.
 		/// </summary>
 		public Button(Label label, Image image)
+			: base()
 		{
 			this.label = label;
 			this.image = image;
 			ButtonStyle = ButtonStyle.ImageOverLabel;
 			IsHoverable = true;
-		}
-
-		/// <summary>
-		/// Creates a button with the given label text and image.
-		/// </summary>
-		public Button(string text, Image image) : this(new Label(text), image)
-		{
 		}
 
 		private Label label;
@@ -117,8 +118,6 @@ namespace MonoWorks.Rendering.Controls
 			get {return image;}
 			set {image = value;}
 		}
-
-		
 		
 #region Layout
 		

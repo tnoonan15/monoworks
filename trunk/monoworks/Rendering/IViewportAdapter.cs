@@ -17,18 +17,10 @@
 
 using System;
 
+using MonoWorks.Framework;
+
 namespace MonoWorks.Rendering
 {
-	/// <summary>
-	/// How the viewport is being used.
-	/// </summary>
-	public enum ViewportUsage {CAD, Plotting, Custom};
-	
-	/// <summary>
-	/// The viewing mode of the viewport.
-	/// </summary>
-	public enum ViewMode { TwoD, ThreeD };
-
 	/// <summary>
 	/// General delegate for update events with no arguments.
 	/// </summary>
@@ -84,5 +76,17 @@ namespace MonoWorks.Rendering
 		/// The tooltip on the viewport.
 		/// </summary>
 		string ToolTip { set; }
+
+		/// <summary>
+		/// Takes a snapshot of the viewport and exports it to the given file.
+		/// </summary>
+		void Export(string fileName);
+
+		/// <summary>
+		/// Creates a file dialog with the given dialog definition.
+		/// </summary>
+		/// <param name="dialog">Contains information about the dialog.</param>
+		/// <returns>True if the action was applied by the user.</returns>
+		bool FileDialog(FileDialogDef dialog);
 	}
 }

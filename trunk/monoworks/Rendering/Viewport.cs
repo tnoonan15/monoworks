@@ -110,6 +110,16 @@ namespace MonoWorks.Rendering
 
 			renderList.OnViewportResized(this);
 		}
+
+		private bool queueResize = false;
+		/// <summary>
+		/// Tells the viewport to resize the next render cycle.
+		/// </summary>
+		/// <remarks>This is safe to call from non-GUI threads.</remarks>
+		public void QueueResize()
+		{
+			queueResize = true;
+		}
 		
 		/// <summary>
 		/// Render the viewport.
@@ -120,6 +130,12 @@ namespace MonoWorks.Rendering
 
 			RenderManager.ClearScene();
 
+			// resize if needed
+			if (queueResize)
+			{
+				Resize();
+				queueResize = false;
+			}
 
 			// render the rendering list
 			renderList.Render(this);
@@ -334,7 +350,7 @@ namespace MonoWorks.Rendering
 #endregion
 		
 
-#region IKeyHandler Members
+#region Keyboard Interaction
 
 		public void OnKeyPress(KeyEvent evt)
 		{
@@ -348,6 +364,22 @@ namespace MonoWorks.Rendering
 
 #endregion
 
+
+#region Exporting
+
+		/// <summary>
+		/// Prompts the user for a file name, then exports to that file.
+		/// </summary>
+		public void Export()
+		{
+			FileDialogDef dialogDef = new FileDialogDef() {Type = FileDialogType.SaveAs};
+			dialogDef.Extensions.Add("png");
+			adapter.FileDialog(dialogDef);
+			if (dialogDef.Success)
+				adapter.Export(dialogDef.FileName);
+		}
+
+#endregion
 
 	}
 }

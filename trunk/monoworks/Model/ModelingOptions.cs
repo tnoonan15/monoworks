@@ -56,8 +56,11 @@ namespace MonoWorks.Model
 		/// <summary>
 		/// Create the singleton instance.
 		/// </summary>
-		public static ModelingOptions CreateInstance()
+		protected static ModelingOptions CreateInstance()
 		{
+			// make sure the modeling colors are loaded
+			ColorManager.Global.Load(ResourceHelper.GetStream("DefaultColors.xml"));
+
 			XmlSerializer deserializer = new XmlSerializer(typeof(ModelingOptions));
 			TextReader textReader = new StreamReader(ResourceHelper.GetStream("DefaultModelingOptions.xml"));
 			ModelingOptions modelingOptions = (ModelingOptions)deserializer.Deserialize(textReader);

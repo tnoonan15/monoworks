@@ -82,7 +82,7 @@ namespace MonoWorks.Rendering.Controls
 					position = new Coord((viewport.WidthGL-Width)/2.0, viewport.HeightGL - Height); 
 					break;
 				case AnchorLocation.NE:
-					position = new Coord(viewport.WidthGL-Width, viewport.HeightGL - Height); 
+					position = new Coord(viewport.WidthGL - Width - 2, viewport.HeightGL - Height - 2); 
 					break;
 				case AnchorLocation.E:
 					position = new Coord(viewport.WidthGL-Width, (viewport.HeightGL - Height)/2.0); 

@@ -40,7 +40,7 @@ namespace MonoWorks.StudioWpf
 			ResourceManager.LoadAssembly("MonoWorks.Resources");
 
 			uiManager = new UiManager(this, window);
-			uiManager.LoadStream(Framework.ResourceHelper.GetStream("Scope.ui", "MonoWorks.Resources"));
+			uiManager.LoadStream(Framework.ResourceHelper.GetStream("Studio.ui", "MonoWorks.Resources"));
 			SetUiManager(uiManager);
 		}
 

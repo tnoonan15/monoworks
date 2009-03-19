@@ -144,6 +144,9 @@
     <EmbeddedResource Include="ViewportControls\icons\ellipse.png" />
     <EmbeddedResource Include="ViewportControls\icons\rectangle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DefaultColors.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

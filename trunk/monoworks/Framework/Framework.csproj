@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -59,6 +59,7 @@
     <Compile Include="ActionAttribute.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="DocumentType.cs" />
+    <Compile Include="FileDialogDef.cs" />
     <Compile Include="IDocument.cs" />
     <Compile Include="ResourceHelper.cs" />
     <Compile Include="ResourceManagerBase.cs" />
@@ -81,4 +82,10 @@
   <ProjectExtensions>
     <VisualStudio />
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

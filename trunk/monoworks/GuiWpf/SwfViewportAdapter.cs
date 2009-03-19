@@ -111,6 +111,36 @@ namespace MonoWorks.GuiWpf
 			bmp.Save(fileName);
 		}
 
+		/// <summary>
+		/// Creates a file dialog.
+		/// </summary>
+		public bool FileDialog(FileDialogDef dialogDef)
+		{
+			Microsoft.Win32.FileDialog dialog = null;
+
+			// create the dialog
+			if (dialogDef.Type == FileDialogType.Open)
+				dialog = new Microsoft.Win32.OpenFileDialog();
+			else if (dialogDef.Type == FileDialogType.SaveAs)
+				dialog = new Microsoft.Win32.SaveFileDialog();
+
+			// set the options from the def
+			if (dialogDef.FileName != null)
+				dialog.FileName = "Document"; // Default file name
+			foreach (var ext in dialogDef.Extensions)
+			{
+				dialog.Filter = String.Format("{0} (.{1})|*.{1}", dialogDef.GetDescription(ext), ext);
+			}
+			if (dialogDef.Extensions.Count > 0)
+				dialog.DefaultExt = "." + dialogDef.Extensions[0]; // Default file extension
+
+			// Show the dialog
+			Nullable<bool> result = dialog.ShowDialog();
+			dialogDef.Success = result != null && (bool)result;
+			if (dialogDef.Success == true)
+				dialogDef.FileName = dialog.FileName;
+			return dialogDef.Success;
+		}
 
 
 

@@ -467,8 +467,9 @@ namespace MonoWorks.Framework
         /// <param name="reader"></param>
         protected virtual void AddDocumentType(XmlReader reader)
         {
-            string name = GetName(reader);
-			DocumentType documentType = new DocumentType(name);
+			string name = GetName(reader);
+			string baseNamespace = reader.GetAttribute("baseNamespace");
+			DocumentType documentType = new DocumentType(name, baseNamespace);
 
 			// add the display name
 			string displayName = reader.GetAttribute("displayName");

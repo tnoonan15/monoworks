@@ -67,8 +67,8 @@
 
 	
 	<DocumentTypes>
-		<DocumentType name="PartView" displayName="part" icon="part"/>
-		<DocumentType name="AssemblyView" displayName="assembly" icon="assembly"/>
+		<DocumentType name="PartView" baseNamespace="MonoWorks" displayName="part" icon="part"/>
+		<DocumentType name="AssemblyView" baseNamespace="MonoWorks" displayName="assembly" icon="assembly"/>
 	</DocumentTypes>
 
 

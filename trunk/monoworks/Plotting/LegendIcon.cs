@@ -100,11 +100,12 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOverlay(viewport);
 
+			Color.Setup();
+
 			if (ShowMarker)
 			{
 				PointPlot.SetupShape(MarkerShape);
 				gl.glPointSize(MarkerSize * 2);
-				Color.Setup();
 				gl.glBegin(gl.GL_POINTS);
 				(position + size / 2).glVertex();
 				gl.glEnd();
