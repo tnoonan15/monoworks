@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Framework
 {
 	/// <summary>
@@ -31,8 +33,13 @@ namespace MonoWorks.Framework
 		/// Default constructor.
 		/// </summary>
 		/// <param name="typeName"> The name of the type.</param>
-		/// <remarks> All loaded assemblies will be searched fir types of this name.</remarks>
-		public DocumentType(string typeName)
+		/// <param name="baseNamespace">The base of the namespace to which 
+		/// the type belongs, or null if one isn't specified.</param>
+		/// <remarks> All loaded assemblies will be searched for types of 
+		/// this name and base namespace. This lookup does not require 
+		/// fully-qualified names so that the same document type UI entry
+		/// can be used in multiple GUI frameworks.</remarks>
+		public DocumentType(string typeName, string baseNamespace)
 		{
 			this.typeName = typeName;
 
@@ -42,9 +49,9 @@ namespace MonoWorks.Framework
 				Type[] types = assembly.GetExportedTypes();
 				foreach (Type type in types) // search all exported types in this assembly
 				{
-					string[] typeNames = type.Name.Split('.');
-					string name = typeNames[typeNames.Length - 1];
-					if (typeName == name)
+					var comps = type.Name.Split('.');
+					if (type.FullName.StartsWith(baseNamespace) &&
+						comps[comps.Length-1] == typeName)
 					{
 						this.type = type;
 					}

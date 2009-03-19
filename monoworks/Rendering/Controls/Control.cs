@@ -37,8 +37,9 @@ namespace MonoWorks.Rendering.Controls
 		public Control() : base()
 		{
 			styleGroup = StyleGroup.Default;
-			
+
 			UserSize = false;
+			ToolTip = "";
 		}
 		
 		private Control parent = null;
@@ -61,6 +62,16 @@ namespace MonoWorks.Rendering.Controls
 			//if (parent != null)
 				//parent.MakeDirty();
 		}
+
+		/// <summary>
+		/// The control tooltip.
+		/// </summary>
+		public string ToolTip { get; set; }
+
+		/// <summary>
+		/// Queues the control to set its tooltip next time it's rendered.
+		/// </summary>
+		private bool queueSetToolTip = false;
 
 
 #region Size and Position
@@ -168,7 +179,11 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.RenderOverlay(viewport);
 
-			
+			if (queueSetToolTip)
+			{
+				viewport.ToolTip = ToolTip;
+				queueSetToolTip = false;
+			}
 		}
 
 
@@ -209,6 +224,8 @@ namespace MonoWorks.Rendering.Controls
 			{
 				IsHovering = true;
 				evt.Handle();
+				if (ToolTip.Length > 0)
+					queueSetToolTip = true;
 			}
 			else
 				IsHovering = false;

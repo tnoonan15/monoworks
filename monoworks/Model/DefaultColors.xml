@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Colors>
+  <!-- Modeling Colors -->
+  <Color name="Ref Fill" value="0a42"/>
+  <Color name="Ref Fill Hover" value="0aa2"/>
+  <Color name="Ref Fill Selected" value="0f02"/>
+  <Color name="Ref Edge" value="088"/>
+  <Color name="Ref Edge Hover" value="08a"/>
+  <Color name="Ref Edge Selected" value="0a0"/>
+  <Color name="Sketchable" value="000"/>
+  <Color name="Sketchable Hover" value="080"/>
+  <Color name="Sketchable Selected" value="008"/>
+  <Color name="Sketchable Highlight" value="F00"/>
+</Colors>

@@ -825,6 +825,7 @@ namespace MonoWorks.Rendering
 
 		public void EndAnimation()
 		{
+			viewport.QueueResize();
 		}	
 		
 		

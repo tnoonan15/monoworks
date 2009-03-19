@@ -61,6 +61,9 @@ namespace MonoWorks.Rendering.Interaction
 
 			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnMouseMotion(evt);
+
+			//if (!evt.Handled)
+			//    viewport.ToolTip = "";
 		}
 
 	}

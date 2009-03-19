@@ -247,7 +247,7 @@ namespace MonoWorks.Rendering.ViewportControls
 		[Action("Export")]
 		public void OnExport()
 		{
-
+			viewport.Export();
 		}
 
 #endregion

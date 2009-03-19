@@ -85,6 +85,7 @@ namespace MonoWorks.Plotting
 			if (axes[0] == null && corner == null)
 				return;
 
+			gl.glLineWidth(1f);
 			gl.glBegin(gl.GL_LINES);
 			for (int n = 0; n < 2; n++) // axes number
 			{

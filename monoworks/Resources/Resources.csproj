@@ -198,7 +198,7 @@
     <EmbeddedResource Include="icons48\sketch.png" />
     <EmbeddedResource Include="icons48\spline.png" />
     <EmbeddedResource Include="icons48\sweep.png" />
-    <EmbeddedResource Include="Scope.ui" />
+    <EmbeddedResource Include="Studio.ui" />
     <EmbeddedResource Include="icons48\ellipse.png" />
     <EmbeddedResource Include="icons16\ellipse.png" />
     <EmbeddedResource Include="icons16\rectangle.png" />
