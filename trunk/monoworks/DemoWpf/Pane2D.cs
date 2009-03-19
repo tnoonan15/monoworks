@@ -44,6 +44,7 @@ namespace MonoWorks.DemoWpf
 
 			// create the axes
 			axesBox = new TestAxes2D();
+			axesBox.Legend = controller.Legend;
 
 			// add the test axes
 			viewport.RenderList.AddActor(axesBox);

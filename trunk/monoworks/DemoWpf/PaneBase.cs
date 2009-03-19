@@ -75,9 +75,6 @@ namespace MonoWorks.DemoWpf
 		/// </summary>
 		public void OnUpdated()
 		{
-			if (axesBox != null)
-				controller.RefreshLegend(axesBox);
-
 			viewport.Resize();
 			viewport.PaintGL();
 		}

@@ -304,6 +304,18 @@ namespace MonoWorks.Plotting
 
 
 		/// <summary>
+		/// Sets up the rendering of a shape.
+		/// </summary>
+		public static void SetupShape(PlotShape shape)
+		{
+			if (shape == PlotShape.Circle)
+				gl.glEnable(gl.GL_POINT_SMOOTH);
+			else
+				gl.glDisable(gl.GL_POINT_SMOOTH);
+		}
+
+
+		/// <summary>
 		/// Compute the plot geometry.
 		/// </summary>
 		public override void ComputeGeometry()
@@ -387,11 +399,8 @@ namespace MonoWorks.Plotting
 				if (this[ColumnIndex.Shape] >= 0)
 					shapeIndex = dataSet.GetColumnIndex(this[ColumnIndex.Shape], shapeRange[shapeI], shapeRange[shapeI+1]);
 
-				// set the marker
-				if (shapes[shapeI]==PlotShape.Circle)
-					gl.glEnable(gl.GL_POINT_SMOOTH);
-				else
-					gl.glDisable(gl.GL_POINT_SMOOTH);
+				// set the marker shape
+				SetupShape(shapes[shapeI]);
 				
 				for (int sizeI=0; sizeI<sizes.Length; sizeI++) // cycle through sizes
 				{
@@ -451,16 +460,98 @@ namespace MonoWorks.Plotting
 							gl.glLineWidth(1);
 						}
 
+
 					} // colorI
 					
 						
 				} // sizeI
 				
 			} // shapeI
-				
-						
-
+			
 			gl.glEndList();
+
+			// add legend items
+			if (Parent.Legend != null)
+			{
+				// color legend entries
+				if (colors.Length > 1)
+				{
+					string colorColumn = dataSet.GetColumnName(this[ColumnIndex.Color]);
+					for (int i = 0; i < colors.Length; i++ )
+					{
+						LegendItem item = new LegendItem();
+						item.Icon.LineWidth = lineWidth;
+						item.Icon.ShowLine = LineVisible;
+						item.Icon.ShowMarker = MarkersVisible;
+						item.Icon.Color = colors[i];
+						item.Text = String.Format("{0}: {1} to {2}", colorColumn, 
+							colorRange[i], colorRange[i+1]);
+						if (shapes.Length == 1) // only one shape
+							item.Icon.MarkerShape = shapes[0];
+						if (sizes.Length == 1) // only one size
+							item.Icon.MarkerSize = markerSize;
+						Parent.Legend.Add(item);
+					}
+				}
+
+				// shape legend entries
+				if (shapes.Length > 1)
+				{
+					string shapeColumn = dataSet.GetColumnName(this[ColumnIndex.Shape]);
+					for (int i = 0; i < shapes.Length; i++)
+					{
+						LegendItem item = new LegendItem();
+						item.Icon.LineWidth = lineWidth;
+						item.Icon.ShowLine = LineVisible;
+						item.Icon.ShowMarker = MarkersVisible;
+						item.Text = String.Format("{0}: {1} to {2}", shapeColumn,
+							shapeRange[i], shapeRange[i + 1]);
+						item.Icon.MarkerShape = shapes[i];
+						if (colors.Length == 1) // only one color
+							item.Icon.Color = colors[0];
+						if (sizes.Length == 1) // only one size
+							item.Icon.MarkerSize = markerSize;
+						Parent.Legend.Add(item);
+					}
+				}
+
+				// size legend entries
+				if (sizes.Length > 1)
+				{
+					string sizeColumn = dataSet.GetColumnName(this[ColumnIndex.Size]);
+					for (int i = 0; i < sizes.Length; i++)
+					{
+						LegendItem item = new LegendItem();
+						item.Icon.LineWidth = lineWidth;
+						item.Icon.ShowLine = LineVisible;
+						item.Icon.ShowMarker = MarkersVisible;
+						item.Text = String.Format("{0}: {1} to {2}", sizeColumn,
+							sizeRange[i], sizeRange[i + 1]);
+						item.Icon.MarkerSize = sizes[i];
+						if (colors.Length == 1) // only one color
+							item.Icon.Color = colors[0];
+						if (shapes.Length == 1) // only one shape
+							item.Icon.MarkerShape = shapes[0];
+						Parent.Legend.Add(item);
+					}
+				}
+
+				// single legend entry, if nothing varies
+				if (colors.Length == 1 && shapes.Length == 1 && sizes.Length == 1)
+				{
+					LegendItem item = new LegendItem();
+					item.Icon.LineWidth = lineWidth;
+					item.Icon.ShowLine = LineVisible;
+					item.Icon.ShowMarker = MarkersVisible;
+					item.Text = dataSet.GetColumnName(Columns[2]);
+					item.Icon.Color = colors[0];
+					item.Icon.MarkerShape = shapes[0];
+					item.Icon.MarkerSize = sizes[0];
+					Parent.Legend.Add(item);
+				}
+
+			}
+
 		}
 
 
@@ -602,19 +693,6 @@ namespace MonoWorks.Plotting
 
 #endregion
 
-
-#region Legend
-		
-		public override void PopulateLegend(Legend legend)
-		{
-			base.PopulateLegend(legend);
-
-			LegendItem item = new LegendItem();
-			item.Text = dataSet.GetColumnName(Columns[2]);
-			legend.Add(item);
-		}
-
-#endregion
 
 	}
 }

@@ -40,6 +40,7 @@ namespace MonoWorks.Plotting
 
 			Legend = new Legend();
 			ContextLayer.AnchorControl(Legend, AnchorLocation.NE);
+
 		}
 
 		/// <summary>
@@ -47,14 +48,6 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public Legend Legend { get; private set; }
 
-		/// <summary>
-		/// Refresh the legend with the given axes box.
-		/// </summary>
-		public void RefreshLegend(AxesBox axes)
-		{
-			Legend.Clear();
-			axes.PopulateLegend(Legend);
-		}
 
 	}
 }

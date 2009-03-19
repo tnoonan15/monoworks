@@ -412,6 +412,10 @@ namespace MonoWorks.Plotting
 		{
 			base.ComputeGeometry();
 
+			// clear the legend
+			if (Legend != null)
+				Legend.Clear();
+
 			// count the plots
 			int childCount = 0;
 			foreach (Plottable child in Children)
@@ -734,13 +738,9 @@ namespace MonoWorks.Plotting
 #region Legend
 
 		/// <summary>
-		/// Populates a legend with items associated with all plots in the axes box.
+		/// The legend that the axes populates when it computes geometry.
 		/// </summary>
-		public void PopulateLegend(Legend legend)
-		{
-			foreach (var plot in GetChildren<AbstractPlot>())
-				plot.PopulateLegend(legend);
-		}
+		public Legend Legend { get; set; }
 
 #endregion
 
