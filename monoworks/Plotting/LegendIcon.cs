@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using gl = Tao.OpenGl.Gl;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
@@ -31,7 +33,24 @@ namespace MonoWorks.Plotting
 		public LegendIcon()
 			: base()
 		{
-			size = new Coord(22, 22);
+			//size = new Coord(12, 12);
+
+			ShowLine = true;
+			ShowMarker = true;
+
+			Color = ColorManager.Global["Black"];
+			LineWidth = 2f;
+			MarkerSize = 4f;
+			MarkerShape = PlotShape.Square;
+		}
+
+
+		public override Coord MinSize
+		{
+			get
+			{
+				return new Coord(14, 14);
+			}
 		}
 
 
@@ -73,6 +92,37 @@ namespace MonoWorks.Plotting
 		public bool ShowMarker { get; set; }
 
 #endregion
+
+
+#region Rendering
+		
+		public override void RenderOverlay(Viewport viewport)
+		{
+			base.RenderOverlay(viewport);
+
+			if (ShowMarker)
+			{
+				PointPlot.SetupShape(MarkerShape);
+				gl.glPointSize(MarkerSize * 2);
+				Color.Setup();
+				gl.glBegin(gl.GL_POINTS);
+				(position + size / 2).glVertex();
+				gl.glEnd();
+			}
+
+			if (ShowLine)
+			{
+				gl.glLineWidth(LineWidth);
+				gl.glBegin(gl.GL_LINES);
+				double y = position.Y + Height / 2;
+				gl.glVertex2d(position.X , y);
+				gl.glVertex2d(position.X + Width , y);
+				gl.glEnd();
+			}
+		}
+
+#endregion
+
 
 	}
 }

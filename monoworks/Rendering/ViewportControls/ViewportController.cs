@@ -73,6 +73,7 @@ namespace MonoWorks.Rendering.ViewportControls
 		{
 			ContextLayer.AddContext(ContextLocation.N, "View");
 			ContextLayer.AddContext(ContextLocation.N, "Interaction");
+			ContextLayer.AddContext(ContextLocation.N, "Export");
 		}
 		
 #region View Direction Actions
@@ -236,8 +237,20 @@ namespace MonoWorks.Rendering.ViewportControls
 		}
 		
 #endregion
-		
-		
-		
-    }
+
+
+#region Exporting
+
+		/// <summary>
+		/// Exports the viewport to a file, prompting the user for the file location.
+		/// </summary>
+		[Action("Export")]
+		public void OnExport()
+		{
+
+		}
+
+#endregion
+
+	}
 }

@@ -121,6 +121,9 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public static Coord GetExtents(TextDef textDef)
 		{
+			if (textDef.Text == null)
+				return new Coord();
+
 			FTFont font = GetGlobalFont(textDef.Size);
 			return new Coord((double)font.ftExtent(ref textDef.Text), (double)textDef.Size);
 		}
@@ -136,6 +139,9 @@ namespace MonoWorks.Rendering
 		/// <param name="text"></param>
 		public void Render(TextDef text)
 		{
+			if (text.Text == null)
+				return;
+
 			gl.glMatrixMode(gl.GL_MODELVIEW);
 			gl.glPushMatrix();
 
@@ -148,8 +154,8 @@ namespace MonoWorks.Rendering
 			FTFont font = GetFont(text.Size);
 			font.ftBeginFont();
 			text.Color.Setup();
-			font.ftWrite(text.Text);
 			font.FT_ALIGN = (FTFontAlign)text.HorizontalAlignment;
+			font.ftWrite(text.Text);
 			font.ftEndFont();
 
 			gl.glMatrixMode(gl.GL_MODELVIEW);

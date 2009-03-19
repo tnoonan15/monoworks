@@ -39,6 +39,7 @@ namespace MonoWorks.DemoWpf
 		{
 			// create the axes
 			axesBox = new TestAxes3D();
+			axesBox.Legend = controller.Legend;
 
 			// add the plot control
 			PointPlotControl plotControl = new PointPlotControl();
