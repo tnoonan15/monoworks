@@ -268,6 +268,8 @@ namespace MonoWorks.Model.ViewportControls
 				sketcher = new LineSketcher(sketchable as Line);
 			else if (sketchable is Rectangle)
 				sketcher = new RectangleSketcher(sketchable as Rectangle);
+			else if (sketchable is Arc)
+				sketcher = new ArcSketcher(sketchable as Arc);
 			else
 				throw new NotImplementedException();
 

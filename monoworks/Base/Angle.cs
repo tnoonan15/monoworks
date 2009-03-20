@@ -49,13 +49,15 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Generates an angle whos value is pi.
 		/// </summary>
-		/// <returns>
-		/// A new <see cref="Angle"/> with value pi.
-		/// </returns>
 		public static Angle Pi()
 		{
 			return new Angle(Angle.PI);
 		}
+
+		/// <summary>
+		/// 2 * pi.
+		/// </summary>
+		public static readonly Angle TwoPi = new Angle(Angle.PI) * 2;
 		
 		/// <summary>
 		/// Default angle constructor.
@@ -284,6 +286,22 @@ namespace MonoWorks.Base
 		public Coord ToCoord()
 		{
 			return new Coord(Cos(), Sin());
+		}
+
+#endregion
+
+
+#region Bounds
+
+		/// <summary>
+		/// Returns true if the angle is between a1 and a2, in a circle sense.
+		/// </summary>
+		/// <param name="a1">An angle between +/-Pi.</param>
+		/// <param name="a2">An angle between +/-Pi.</param>
+		/// <returns>True if this angle would fall on the path traced from a2 to a2 on a circle.</returns>
+		public bool IsBetween(Angle a1, Angle a2)
+		{
+			return false;
 		}
 
 #endregion

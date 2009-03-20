@@ -62,7 +62,7 @@ namespace MonoWorks.Model
 			Line line1 = new Line(extSketch, p1, p2);
 			
 			// add the arc
-			Arc arc1 = new Arc(extSketch, p2, p3, new Vector(0.0, 0.0, 1.0), Angle.Pi()/-2.0);
+			Arc arc1 = new Arc(extSketch, p2, p3, Angle.Pi()/-2.0);
 			
 			// add the extrusion
 			Extrusion ext1 = new Extrusion(extSketch);
@@ -93,7 +93,7 @@ namespace MonoWorks.Model
 			line2.Points.Add(new Point(0.0, 1.5, 2.0));
 			
 			// add the arc			
-			Arc arc2 = new Arc(revolutionSketch, middle, bottom, new Vector( 1.0, 0.0, 0.0), Angle.Pi()/2);
+			Arc arc2 = new Arc(revolutionSketch, middle, bottom, Angle.Pi()/2);
 			
 			// create the revolution
 			Revolution revolution1 = new Revolution(revolutionSketch);

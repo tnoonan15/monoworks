@@ -113,6 +113,9 @@ namespace MonoWorks.GuiWpf.AttributeControls
 			// create the attribute controls
 			foreach (AttributeMetaData metaData in entity.MetaData.AttributeList)
 			{
+				if (metaData.Name == "locked")
+					continue;
+
 				AttributeControl control = AttributeControl.Generate(entity, metaData);
 				control.Margin = new Thickness(6);
 				Children.Add(control);

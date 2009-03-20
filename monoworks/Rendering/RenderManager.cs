@@ -101,6 +101,9 @@ namespace MonoWorks.Rendering
 
 			gl.glFrontFace(gl.GL_CW);
 
+			// enable stipplinggl
+			gl.glEnable(gl.GL_LINE_STIPPLE);
+
 			// Really Nice Perspective Calculations
 			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
 			

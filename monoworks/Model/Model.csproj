@@ -82,6 +82,7 @@
     <Compile Include="Features\Revolution.cs" />
     <Compile Include="IEntityListener.cs" />
     <Compile Include="ModelingOptions.cs" />
+    <Compile Include="Sketching\ArcSketcher.cs" />
     <Compile Include="Sketching\BaseSketcher.cs" />
     <Compile Include="Sketching\Ellipse.cs" />
     <Compile Include="Sketching\Rectangle.cs" />

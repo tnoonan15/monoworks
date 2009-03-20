@@ -542,18 +542,6 @@ namespace MonoWorks.Model
 			base.RenderOpaque(viewport);
 			foreach (Entity child in children)
 				child.RenderOpaque(viewport);
-			if (IsHovering)
-			{
-				gl.glLineWidth( 1.0f);
-				ColorManager.Global["Blue"].Setup();
-				bounds.Render(viewport);
-			}
-			else if (IsSelected)
-			{
-				gl.glLineWidth( 2.0f);
-				ColorManager.Global["Red"].Setup();
-				bounds.Render(viewport);
-			}
 		}
 		
 		/// <summary>
