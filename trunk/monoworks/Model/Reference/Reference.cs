@@ -59,10 +59,7 @@ namespace MonoWorks.Model
 			if (!edge.IsOpaque)
 			{
 				edge.Setup();
-				if (hitState == HitState.None)
-					gl.glLineWidth(1f);
-				else
-					gl.glLineWidth(2f);
+				gl.glLineWidth(1f);
 				RenderEdge(viewport);
 			}
 		}

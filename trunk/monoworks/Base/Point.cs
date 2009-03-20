@@ -152,7 +152,20 @@ namespace MonoWorks.Base
 		}
 		
 #endregion
-		
+
+
+		/// <summary>
+		/// The magnitude of the point.
+		/// </summary>
+		public Length Magnitude
+		{
+			get
+			{
+				return new Length(Math.Sqrt(val[0].Value * val[0].Value +
+					val[1].Value * val[1].Value + val[2].Value * val[2].Value));
+			}
+		}
+
 		/// <summary>
 		/// Converts the point to a dimensionless vector.
 		/// </summary>

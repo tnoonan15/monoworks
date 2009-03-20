@@ -39,6 +39,8 @@ namespace MonoWorks.Model
 			colors.Add("sketchable", new ColorGroup("Sketchable", "Sketchable Hover", "Sketchable Selected"));
 			colors.Add("ref-fill", new ColorGroup("Ref Fill", "Ref Fill Hover", "Ref Fill Selected"));
 			colors.Add("ref-edge", new ColorGroup("Ref Edge", "Ref Edge Hover", "Ref Edge Selected"));
+
+			CircleDivs = 36;
 		}
 
 		#region Singleton
@@ -82,6 +84,12 @@ namespace MonoWorks.Model
 		/// </summary>
 		[XmlElement()]
 		public bool SnapToGrid { get; set; }
+
+		/// <summary>
+		/// The number of divisions to draw on a circle.
+		/// </summary>
+		[XmlElement()]
+		public int CircleDivs { get; set; }
 
 
 #region Colors

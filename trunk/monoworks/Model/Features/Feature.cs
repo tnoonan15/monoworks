@@ -165,6 +165,20 @@ namespace MonoWorks.Model
 		 public override void RenderOpaque(Viewport viewport)
 		{
 			base.RenderOpaque(viewport);
+
+			// render the highlights
+			if (IsHovering)
+			{
+				gl.glLineWidth(1.0f);
+				ColorManager.Global["Blue"].Setup();
+				bounds.Render(viewport);
+			}
+			else if (IsSelected)
+			{
+				gl.glLineWidth(2.0f);
+				ColorManager.Global["Red"].Setup();
+				bounds.Render(viewport);
+			}
 			
 			// render solid geometry
 			if (viewport.RenderManager.SolidMode != SolidMode.None)
