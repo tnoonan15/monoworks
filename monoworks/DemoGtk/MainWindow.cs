@@ -21,6 +21,7 @@ using System;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.GuiGtk;
+using MonoWorks.GuiGtk.Framework;
 using MonoWorks.Model;
 
 namespace MonoWorks.DemoGtk
@@ -39,6 +40,9 @@ namespace MonoWorks.DemoGtk
 			Title = "MonoWorks Demo";
 			
 			DeleteEvent += OnDeleteEvent;
+			
+			// initialize the Gtk Resource Manager
+			ResourceManager.Initialize();
 			
 			// create the notebook
 			book = new Gtk.Notebook();

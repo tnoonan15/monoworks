@@ -48,6 +48,15 @@ namespace MonoWorks.GuiGtk.Framework
 		protected static ResourceManager Instance;
 
 		/// <summary>
+		/// Safely initializes the global resource manager.
+		/// </summary>
+		public static void Initialize()
+		{
+			if (Instance == null)
+				Instance = new ResourceManager();
+		}
+
+		/// <summary>
 		/// Loads the given directory.
 		/// </summary>
 		public static void LoadDirectory(string dirName)
@@ -64,7 +73,7 @@ namespace MonoWorks.GuiGtk.Framework
 		/// <param name="asmName">The name of the assembly.</param>
 		/// <remarks>The assembly should have generally the same layout 
 		/// as a resource directory should.</remarks>
-		public static void LoadAssembly(string asmName)
+		public new static void LoadAssembly(string asmName)
 		{
 			if (Instance == null)
 				Instance = new ResourceManager();
@@ -158,6 +167,17 @@ namespace MonoWorks.GuiGtk.Framework
 			}
 		}
 
+
+		public override void WriteLoadedIconToFile(string name, string iconName, int size)
+		{
+			if (icons.ContainsKey(iconName))	
+			{
+				Gdk.Pixbuf pixbuf = icons[iconName].RenderIcon(new Gtk.Style(), Gtk.TextDirection.Ltr, Gtk.StateType.Normal, Gtk.IconSize.LargeToolbar, null, "");
+				pixbuf.Savev(name, "png", null, null);
+			}
+			else
+				throw new Exception("The resource manager does not contain an icon called " + iconName);
+		}
 
 		
 		

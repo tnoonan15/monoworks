@@ -41,7 +41,7 @@ namespace MonoWorks.StudioGtk
 			ResourceManager.LoadAssembly("MonoWorks.Resources");
 			
 			uiManager = new UiManager(this, window);
-			uiManager.LoadStream(ResourceHelper.GetStream("Scope.ui", "MonoWorks.Resources"));
+			uiManager.LoadStream(ResourceHelper.GetStream("Studio.ui", "MonoWorks.Resources"));
 			SetUiManager(uiManager);
 		}
 
