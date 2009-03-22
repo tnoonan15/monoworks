@@ -1,4 +1,4 @@
-﻿// MainWindow.cs - MonoWorks Project
+﻿// BooDocument.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -19,22 +19,18 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.GuiWpf.Framework;
-
-namespace MonoWorks.StudioWpf
+namespace MonoWorks.WorkbenchWpf
 {
 	/// <summary>
-	/// The main window for the WPF port of MonoWorks Studio.
+	/// Document containing Boo source.
 	/// </summary>
-	public class MainWindow : SlateWindow
+	public class BooDocument : SourceDocument
 	{
 
-		public MainWindow()
-			: base()
+		public BooDocument()
+			: base(SourceType.Boo)
 		{
-			Title = "MonoWorks Studio";
 
-			new StudioControllerWpf(this);
 		}
 
 	}

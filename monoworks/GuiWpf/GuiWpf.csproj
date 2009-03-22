@@ -175,4 +175,7 @@
   <ProjectExtensions>
     <VisualStudio />
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Editor\" />
+  </ItemGroup>
 </Project>

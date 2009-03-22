@@ -1,4 +1,4 @@
-﻿// MainWindow.cs - MonoWorks Project
+﻿// ISourceDocument.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -19,23 +19,15 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.GuiWpf.Framework;
 
-namespace MonoWorks.StudioWpf
+using MonoWorks.Framework;
+
+namespace MonoWorks.Workbench
 {
 	/// <summary>
-	/// The main window for the WPF port of MonoWorks Studio.
+	/// Interface for Workbench source documents.
 	/// </summary>
-	public class MainWindow : SlateWindow
+	public interface ISourceDocument : IDocument
 	{
-
-		public MainWindow()
-			: base()
-		{
-			Title = "MonoWorks Studio";
-
-			new StudioControllerWpf(this);
-		}
-
 	}
 }

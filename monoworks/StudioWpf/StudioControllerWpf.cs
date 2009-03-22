@@ -1,4 +1,4 @@
-﻿// MainController.cs - MonoWorks Project
+﻿// StudioController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -28,10 +28,10 @@ namespace MonoWorks.StudioWpf
 	/// <summary>
 	/// Main controller for the MonoWorks Studio.
 	/// </summary>
-	public class MainControllerWpf : MainController
+	public class StudioControllerWpf : StudioController
 	{
 
-		public MainControllerWpf(MainWindow window)
+		public StudioControllerWpf(MainWindow window)
 			: base()
 		{
 			this.window = window;
