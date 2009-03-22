@@ -74,6 +74,8 @@ namespace MonoWorks.GuiWpf.AttributeControls
 				return new PointControl(entity, metaData);
 			case "List(MonoWorks.Base.Point)":
 				return new PointListControl(entity, metaData);
+			case "MonoWorks.Model.RefLine":
+				return new EntityControl<RefLine>(entity, metaData);
 			default:
 				return new NullControl(entity, metaData);
 			}

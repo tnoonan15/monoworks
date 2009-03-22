@@ -122,6 +122,7 @@
     <Compile Include="AttributeControls\AttributeControl.cs" />
     <Compile Include="AttributeControls\AttributePanel.cs" />
     <Compile Include="AttributeControls\DimensionalControl.cs" />
+    <Compile Include="AttributeControls\EntityControl.cs" />
     <Compile Include="AttributeControls\PointListControl.cs" />
     <Compile Include="AttributeControls\NumericControl.cs" />
     <Compile Include="AttributeControls\NullControl.cs" />

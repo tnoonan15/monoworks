@@ -455,7 +455,19 @@ namespace MonoWorks.Model.ViewportControls
 		[Action("Revolution")]
 		public void OnAddRevolution()
 		{
+			if (drawing.EntityManager.NumSelected != 1 ||
+				!(drawing.EntityManager.Selected[0] is Sketch))
+				throw new Exception("Attempting to add a feature to something other than a sketch. This should never happen.");
 
+			Sketch sketch = drawing.EntityManager.Selected[0] as Sketch;
+			Revolution revolution = new Revolution(sketch);
+			drawing.AddFeature(revolution);
+			drawing.EntityManager.DeselectAll(null);
+			drawing.EntityManager.Select(null, revolution);
+			entity = revolution;
+			Edit(); // edit the extrusion
+
+			viewport.Camera.AnimateTo(ViewDirection.Standard);
 		}
 
 		/// <summary>

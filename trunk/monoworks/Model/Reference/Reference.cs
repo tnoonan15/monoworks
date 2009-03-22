@@ -38,7 +38,11 @@ namespace MonoWorks.Model
 		public Reference() : base()
 		{
 		}
-				
+
+		/// <summary>
+		/// Hit tolerance for reference entities.
+		/// </summary>
+		public const double HitTol = 6;
 				
 		/// <summary>
 		/// If the reference color is transparent, renders it.
@@ -59,7 +63,10 @@ namespace MonoWorks.Model
 			if (!edge.IsOpaque)
 			{
 				edge.Setup();
-				gl.glLineWidth(1f);
+				if (hitState == HitState.None)
+					gl.glLineWidth(1f);
+				else
+					gl.glLineWidth(2f);
 				RenderEdge(viewport);
 			}
 		}
