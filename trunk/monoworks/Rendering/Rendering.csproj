@@ -170,9 +170,10 @@
     <PostBuildEvent>xcopy /Y "$(TargetPath)" "%25HOMEDRIVE%25%25HOMEPATH%25\clr\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GtkDebug|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Gtk Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -55,8 +55,6 @@
     <None Include="cursors\spin.png" />
     <None Include="cursors\zoom.png" />
     <EmbeddedResource Include="Workbench.ui" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="icons16\assembly.png" />
     <EmbeddedResource Include="icons16\camera.png" />
     <EmbeddedResource Include="icons16\close.png" />
@@ -189,19 +187,13 @@
     <EmbeddedResource Include="icons16\ellipse.png" />
     <EmbeddedResource Include="icons16\rectangle.png" />
     <EmbeddedResource Include="icons48\rectangle.png" />
+    <EmbeddedResource Include="icons48\delete.png" />
+    <EmbeddedResource Include="icons16\monoworks.ico" />
+    <EmbeddedResource Include="icons16\script.png" />
+    <EmbeddedResource Include="icons22\script.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="icons48\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="icons16\monoworks.ico" />
-    <EmbeddedResource Include="icons16\script.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="icons22\script.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

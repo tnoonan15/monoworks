@@ -37,6 +37,8 @@ namespace MonoWorks.Model.ViewportControls
 			: base(viewport)
 		{
 			this.attributePanel = attributePanel;
+			
+			ResourceManagerBase.LoadAssembly("MonoWorks.Model");
 
 			UiManager.LoadStream(ResourceHelper.GetStream("drawing.ui"));
 			OnSolidModeChanged();

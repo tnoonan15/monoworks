@@ -159,7 +159,7 @@ namespace MonoWorks.GuiGtk
 		{
 			set
 			{
-				this.ToolTip = value;
+//				this.ToolTip = value;
 			}
 		}
 		
@@ -291,6 +291,29 @@ namespace MonoWorks.GuiGtk
 			a.RetVal = true;
 		}
 
+
+#region File Dialog Stuff
+		
+		/// <summary>
+		/// Exports the contents of the viewport to the given file.
+		/// </summary>
+		public void Export(string fileName)
+		{
+			throw new System.NotImplementedException();
+		}
+		
+		/// <summary>
+		/// Opens a file dialog with the given settings.
+		/// </summary>
+		/// <returns>
+		/// True if the user didn't cancel.
+		/// </returns>
+		public bool FileDialog (FileDialogDef dialog)
+		{
+			throw new System.NotImplementedException();
+		}
+		
+#endregion
 		
 		
 

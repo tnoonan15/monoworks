@@ -52,7 +52,6 @@ namespace MonoWorks.GuiGtk
 			viewportBox.PackStart(attributePanel, false, true, 0);
 			
 			Controller = new DrawingController(Viewport, attributePanel);
-			Controller.SetUsage(ViewportUsage.CAD);
 		}
 		
 		
