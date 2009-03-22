@@ -76,7 +76,10 @@ namespace MonoWorks.Model
 		public override void ComputeWireframeGeometry()
 		{
 			base.ComputeWireframeGeometry();
-			
+
+			if (Axis == null)
+				return;
+
 			// determine sweep and scaling factors
 			int N = 64;
 			Angle dTravel = Travel / (double)N;
@@ -134,6 +137,9 @@ namespace MonoWorks.Model
 		public override void ComputeSolidGeometry()
 		{
 			base.ComputeSolidGeometry();
+
+			if (Axis == null)
+				return;
 			
 			// determine sweep and scaling factors
 			int N = 32;

@@ -112,16 +112,30 @@ namespace MonoWorks.Model
 		{
 			base.RenderTransparent(viewport);
 
-			gl.glBegin(gl.GL_LINE);
-			gl.glLineWidth(3f);
-			gl.glVertex3d(start[0], start[1], start[2]);
-			gl.glVertex3d(stop[0], stop[1], stop[2]);
+			gl.glBegin(gl.GL_LINES);
+			start.glVertex();
+			stop.glVertex();
 			gl.glEnd();
 		}
 
 		
 #endregion
+
+
+#region Hit Testing
 		
-		
+		public override bool HitTest(HitLine hitLine)
+		{
+			HitLine line = new HitLine();
+			line.Front = start;
+			line.Back = stop;
+			double dist = line.ShortestDistance(hitLine);
+			lastHit = (start + stop) / 2; // HACK: need actual hit position
+			return dist < Reference.HitTol * hitLine.Camera.ViewportToWorldScaling;
+		}
+
+#endregion
+
+
 	}
 }

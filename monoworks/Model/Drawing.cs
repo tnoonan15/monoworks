@@ -72,6 +72,13 @@ namespace MonoWorks.Model
 				plane.Normal = new Vector();
 				plane.Normal[i] = 1;
 				defaultPlanes[i].Plane = plane;
+
+				RefLine line = new RefLine();
+				line.Name = DimensionNames[i] + " Axis";
+				line.Direction = new Vector();
+				line.Direction[i] = 1;
+				defaultLines[i] = line;
+				AddReference(line);
 			}
 		}
 		
@@ -287,6 +294,26 @@ namespace MonoWorks.Model
 		/// The reference plane orthagonal to the z axis.
 		/// </summary>
 		public RefPlane ZPlane { get { return defaultPlanes[2]; } }
+
+		/// <summary>
+		/// Default reference lines.
+		/// </summary>
+		protected RefLine[] defaultLines = new RefLine[3];
+
+		/// <summary>
+		/// The reference line on the x axis.
+		/// </summary>
+		public RefLine XAxis { get { return defaultLines[0]; } }
+
+		/// <summary>
+		/// The reference line on the y axis.
+		/// </summary>
+		public RefLine YAxis { get { return defaultLines[1]; } }
+
+		/// <summary>
+		/// The reference line on the z axis.
+		/// </summary>
+		public RefLine ZAxis { get { return defaultLines[2]; } }
 
 #endregion
 
