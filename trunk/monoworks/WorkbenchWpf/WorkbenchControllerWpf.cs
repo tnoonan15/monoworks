@@ -1,4 +1,4 @@
-﻿// MainWindow.cs - MonoWorks Project
+﻿// WorkbenchController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -19,22 +19,45 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Workbench;
+using MonoWorks.Framework;
+using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.Framework;
 
-namespace MonoWorks.StudioWpf
+namespace MonoWorks.WorkbenchWpf
 {
 	/// <summary>
-	/// The main window for the WPF port of MonoWorks Studio.
+	/// WPF version of the workbench controller.
 	/// </summary>
-	public class MainWindow : SlateWindow
+	public class WorkbenchControllerWpf : WorkbenchController
 	{
 
-		public MainWindow()
-			: base()
+		public WorkbenchControllerWpf(MainWindow window)
 		{
-			Title = "MonoWorks Studio";
+			this.window = window;
+			window.KeyPressed += OnKeyPress;
 
-			new StudioControllerWpf(this);
+			ResourceManager.LoadAssembly("MonoWorks.Resources");
+
+			uiManager = new UiManager(this, window);
+			uiManager.LoadStream(Framework.ResourceHelper.GetStream("Workbench.ui", "MonoWorks.Resources"));
+			SetUiManager(uiManager);
+		}
+
+		private MainWindow window;
+
+		private UiManager uiManager;
+
+		public override void Open()
+		{
+		}
+
+		public override void Save()
+		{
+		}
+
+		public override void SaveAs()
+		{
 		}
 
 	}

@@ -1,4 +1,4 @@
-﻿// MainWindow.cs - MonoWorks Project
+﻿// SourceDocument.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -18,24 +18,48 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms.Integration;
+
+using ScintillaNet;
 
 using MonoWorks.GuiWpf.Framework;
+using MonoWorks.Workbench;
 
-namespace MonoWorks.StudioWpf
+namespace MonoWorks.WorkbenchWpf
 {
+
 	/// <summary>
-	/// The main window for the WPF port of MonoWorks Studio.
+	/// Possible types of source files.
 	/// </summary>
-	public class MainWindow : SlateWindow
+	public enum SourceType { Boo, CSharp };
+
+
+	/// <summary>
+	/// Base class for source code documents.
+	/// </summary>
+	public abstract class SourceDocument : DocumentBase, ISourceDocument
 	{
 
-		public MainWindow()
-			: base()
+		public SourceDocument(SourceType type)
 		{
-			Title = "MonoWorks Studio";
+			host = new WindowsFormsHost();
+			Content = host;
 
-			new StudioControllerWpf(this);
+			editor = new Scintilla();
+			host.Child = editor;
 		}
+
+		/// <summary>
+		/// The type of source code contained in the document.
+		/// </summary>
+		public SourceType SourceType { get; private set; }
+
+		/// <summary>
+		/// Windows forms integration host.
+		/// </summary>
+		private WindowsFormsHost host;
+
+		protected Scintilla editor;
 
 	}
 }

@@ -30,7 +30,7 @@ namespace MonoWorks.StudioGtk
 	/// <summary>
 	/// Main controller class for the Studio.
 	/// </summary>
-	public class MainControllerGtk : MainController
+	public class MainControllerGtk : StudioController
 	{
 		/// <summary>
 		/// Default constructor.

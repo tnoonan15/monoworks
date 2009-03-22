@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UI>
+	<Actions>
+		<Action name="New" icon="script" shortcut="Ctrl+N" tooltip="Create a new script"/>
+		<Action name="Open" icon="open" shortcut="Ctrl+O" tooltip="Open an existing file"/>
+		<Action name="Save" icon="save" shortcut="Ctrl+S" tooltip="Save the current file"/>
+		<Action name="Save As" icon="save-as" shortcut="Ctrl+A" tooltip="Save the current file with a different name"/>
+		<Action name="Close" icon="close" shortcut="Ctrl+W" tooltip="Close the current file"/>
+		<Action name="Quit" icon="exit" shortcut="Ctrl+Q" tooltip="Quit MonoWorks"/>
+
+		<Action name="Undo" icon="edit-undo" shortcut="Ctrl+Z" tooltip="Undo the last action"/>
+		<Action name="Redo" icon="edit-redo" shortcut="Ctrl+Y" tooltip="Redo the last undone action"/>
+		<Action name="Cut" icon="edit-cut" shortcut="Ctrl+X" tooltip="Cut the current selection to the clipboard"/>
+		<Action name="Copy" icon="edit-copy" shortcut="Ctrl+C" tooltip="Copy the current selection to the clipboard"/>
+		<Action name="Paste" icon="edit-paste" shortcut="Ctrl+V" tooltip="Paste the clipboard"/>
+
+	</Actions>
+
+	<Menus>
+		<Menu name="File">
+			<Item action="New"/>
+			<Item action="Open"/>
+			<Item action="Save"/>
+			<Item action="Save As"/>
+			<Item action="Close"/>
+			<Separator/>
+			<Item action="Quit"/>
+		</Menu>
+		<Menu name="Edit">
+			<Item action="Undo"/>
+			<Item action="Redo"/>
+			<Separator/>
+			<Item action="Cut"/>
+			<Item action="Copy"/>
+			<Item action="Paste"/>
+		</Menu>
+		<Menu name="View">
+		</Menu>
+	</Menus>
+
+	<Tools createMenu="True">
+		<Toolbar name="File" position="Top">
+			<Item action="New"/>
+			<Item action="Open"/>
+			<Item action="Save"/>
+			<Item action="Save As"/>
+			<Item action="Close"/>
+			<Separator/>
+			<Item action="Quit"/>
+		</Toolbar>
+		<Toolbar name="Edit" position="Top">
+			<Item action="Undo"/>
+			<Item action="Redo"/>
+			<Separator/>
+			<Item action="Cut"/>
+			<Item action="Copy"/>
+			<Item action="Paste"/>
+		</Toolbar>
+	</Tools>
+
+
+	<DocumentTypes>
+		<DocumentType name="BooDocument" baseNamespace="MonoWorks" displayName="untitled" icon="script"/>
+	</DocumentTypes>
+
+
+	<DockableArea>
+		<DocumentArea/>
+	</DockableArea>
+
+</UI>

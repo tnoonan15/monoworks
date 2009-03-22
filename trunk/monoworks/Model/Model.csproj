@@ -72,7 +72,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AttributeMetaData.cs" />
     <Compile Include="IDrawingView.cs" />
-    <Compile Include="MainController.cs" />
+    <Compile Include="StudioController.cs" />
     <Compile Include="Drawing.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityManager.cs" />

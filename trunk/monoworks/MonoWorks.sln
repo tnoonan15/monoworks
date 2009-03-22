@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoGtk", "DemoGtk\DemoGtk.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudioGtk", "StudioGtk\StudioGtk.csproj", "{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkbenchWpf", "WorkbenchWpf\WorkbenchWpf.csproj", "{1B342208-0B47-4204-AD1E-7D0C659657F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench", "Workbench\Workbench.csproj", "{4E44159F-40EE-4318-805B-07BB0A6B9052}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -137,6 +141,22 @@ Global
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.Release|Any CPU.ActiveCfg = WpfDebug|Any CPU
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.Release|Any CPU.Build.0 = WpfDebug|Any CPU
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.GtkDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.GtkDebug|Any CPU.Build.0 = Debug|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B342208-0B47-4204-AD1E-7D0C659657F8}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.GtkDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.GtkDebug|Any CPU.Build.0 = Debug|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E44159F-40EE-4318-805B-07BB0A6B9052}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

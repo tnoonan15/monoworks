@@ -54,6 +54,7 @@
     <None Include="cursors\dolly.png" />
     <None Include="cursors\spin.png" />
     <None Include="cursors\zoom.png" />
+    <EmbeddedResource Include="Workbench.ui" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons16\assembly.png" />
@@ -90,12 +91,9 @@
     <EmbeddedResource Include="icons22\bottom-view.png" />
     <EmbeddedResource Include="icons22\cancel.png" />
     <EmbeddedResource Include="icons22\cartoon.png" />
-    <EmbeddedResource Include="icons22\circle.png" />
     <EmbeddedResource Include="icons22\close.png" />
     <EmbeddedResource Include="icons22\coord.png" />
     <EmbeddedResource Include="icons22\delete.png" />
-    <EmbeddedResource Include="icons22\display.png" />
-    <EmbeddedResource Include="icons22\doc-info.png" />
     <EmbeddedResource Include="icons22\edit.png" />
     <EmbeddedResource Include="icons22\edit-copy.png" />
     <EmbeddedResource Include="icons22\edit-cut.png" />
@@ -114,22 +112,14 @@
     <EmbeddedResource Include="icons22\info.png" />
     <EmbeddedResource Include="icons22\left-view.png" />
     <EmbeddedResource Include="icons22\line.png" />
-    <EmbeddedResource Include="icons22\mini_rect.png" />
-    <EmbeddedResource Include="icons22\move.png" />
     <EmbeddedResource Include="icons22\new.png" />
-    <EmbeddedResource Include="icons22\no3D.png" />
     <EmbeddedResource Include="icons22\nosolid.png" />
     <EmbeddedResource Include="icons22\open.png" />
     <EmbeddedResource Include="icons22\open-recent.png" />
     <EmbeddedResource Include="icons22\part.png" />
-    <EmbeddedResource Include="icons22\pen.png" />
     <EmbeddedResource Include="icons22\perspective.png" />
-    <EmbeddedResource Include="icons22\picking.png" />
-    <EmbeddedResource Include="icons22\plane.png" />
-    <EmbeddedResource Include="icons22\play.png" />
     <EmbeddedResource Include="icons22\preferences.png" />
     <EmbeddedResource Include="icons22\preferences-other.png" />
-    <EmbeddedResource Include="icons22\python.png" />
     <EmbeddedResource Include="icons22\realistic.png" />
     <EmbeddedResource Include="icons22\rectangle.png" />
     <EmbeddedResource Include="icons22\refline.png" />
@@ -140,15 +130,11 @@
     <EmbeddedResource Include="icons22\revolution.png" />
     <EmbeddedResource Include="icons22\right-view.png" />
     <EmbeddedResource Include="icons22\rotate.png" />
-    <EmbeddedResource Include="icons22\ruby.png" />
-    <EmbeddedResource Include="icons22\ruler.png" />
     <EmbeddedResource Include="icons22\save.png" />
     <EmbeddedResource Include="icons22\save-all.png" />
     <EmbeddedResource Include="icons22\save-as.png" />
-    <EmbeddedResource Include="icons22\script-editor.png" />
-    <EmbeddedResource Include="icons22\search.png" />
+    <EmbeddedResource Include="icons22\workbench.png" />
     <EmbeddedResource Include="icons22\select.png" />
-    <EmbeddedResource Include="icons22\shadow.png" />
     <EmbeddedResource Include="icons22\sketch.png" />
     <EmbeddedResource Include="icons22\smooth.png" />
     <EmbeddedResource Include="icons22\spline.png" />
@@ -209,6 +195,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons48\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons16\monoworks.ico" />
+    <EmbeddedResource Include="icons16\script.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons22\script.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

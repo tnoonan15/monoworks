@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 using MonoWorks.GuiWpf.Framework;
 
-namespace MonoWorks.StudioWpf
+namespace MonoWorks.WorkbenchWpf
 {
 	/// <summary>
 	/// The main window for the WPF port of MonoWorks Studio.
@@ -32,9 +32,9 @@ namespace MonoWorks.StudioWpf
 		public MainWindow()
 			: base()
 		{
-			Title = "MonoWorks Studio";
+			Title = "MonoWorks Workbench";
 
-			new StudioControllerWpf(this);
+			new WorkbenchControllerWpf(this);
 		}
 
 	}
