@@ -40,6 +40,7 @@ namespace MonoWorks.Model
 		/// <param name="sketch"> A <see cref="Sketch"/> to extrude. </param>
 		public Revolution(Sketch sketch) : base(sketch)
 		{
+			Travel = Angle.TwoPi;
 		}
 		
 			

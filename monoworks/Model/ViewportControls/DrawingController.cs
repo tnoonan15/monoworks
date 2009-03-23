@@ -169,7 +169,7 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		protected void OnContextChanged()
 		{
-			attributePanel.Hide();
+			//attributePanel.Hide();
 
 			ContextLayer.ClearContexts(primaryLoc);
 
@@ -202,8 +202,9 @@ namespace MonoWorks.Model.ViewportControls
 				}
 				else // multiple entities selected
 				{
+					Console.WriteLine("muliple selection:");
 					foreach (Entity entity in drawing.EntityManager.Selected)
-						Console.WriteLine("entity: " + entity.Name);
+						Console.WriteLine("  entity: " + entity.Name);
 				}
 
 			}
@@ -467,9 +468,9 @@ namespace MonoWorks.Model.ViewportControls
 			drawing.EntityManager.DeselectAll(null);
 			drawing.EntityManager.Select(null, revolution);
 			entity = revolution;
-			Edit(); // edit the extrusion
 
 			viewport.Camera.AnimateTo(ViewDirection.Standard);
+			Edit(); // edit the extrusion
 		}
 
 		/// <summary>
