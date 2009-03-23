@@ -37,6 +37,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 		{
 			combo = new ComboBox();
 			Children.Add(combo);
+			combo.SelectionChanged += OnSelectionChanged;
 
 			Update();
 		}
@@ -44,20 +45,47 @@ namespace MonoWorks.GuiWpf.AttributeControls
 
 		private ComboBox combo;
 
-		public override void Update()
+		/// <summary>
+		/// Handles the combo's selection being changed by the user.
+		/// </summary>
+		void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			combo.Items.Clear();
-
+			if (e.AddedItems.Count > 0 && !InternalUpdate)
 			{
+				Label selected = e.AddedItems[0] as Label;
 				foreach (var child in Entity.TheDrawing.GetChildren<T>())
 				{
-					Label item = new Label() { Content = child.Name };
-					combo.Items.Add(item);
-					Entity entity = Entity.GetAttribute(MetaData.Name) as T;
-					if (entity != null && child == Entity.GetAttribute(MetaData.Name))
-						combo.SelectedItem = item;
+					if (child.Name == selected.Content as string)
+					{
+						BeginUpdate();
+						Entity.SetAttribute(MetaData.Name, child);
+						Entity.MakeDirty();
+						EndUpdate();
+						RaiseAttributeChanged();
+						break;
+					}
 				}
 			}
+		}
+
+		public override void Update()
+		{
+			if (InternalUpdate)
+				return;
+
+			combo.Items.Clear();
+
+			BeginUpdate();
+			foreach (var child in Entity.TheDrawing.GetChildren<T>())
+			{
+				Label item = new Label() { Content = child.Name };
+				combo.Items.Add(item);
+				Entity entity = Entity.GetAttribute(MetaData.Name) as T;
+				if (entity != null && child == Entity.GetAttribute(MetaData.Name))
+					combo.SelectedItem = item;
+			}
+			EndUpdate();
+
 		}
 
 	}
