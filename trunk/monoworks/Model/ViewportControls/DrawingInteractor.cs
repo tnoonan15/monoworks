@@ -257,6 +257,7 @@ namespace MonoWorks.Model.ViewportControls
 		public void AddSketchable(Sketchable sketchable)
 		{
 			SetSketachable(sketchable);
+			drawing.EntityManager.Select(null, sketchable);
 		}
 
 		/// <summary>
@@ -266,8 +267,8 @@ namespace MonoWorks.Model.ViewportControls
 		{
 			if (sketchable is Line)
 				sketcher = new LineSketcher(sketchable as Line);
-			else if (sketchable is Rectangle)
-				sketcher = new RectangleSketcher(sketchable as Rectangle);
+			else if (sketchable is BoxedSketchable)
+				sketcher = new BoxedSketcher(sketchable as BoxedSketchable);
 			else if (sketchable is Arc)
 				sketcher = new ArcSketcher(sketchable as Arc);
 			else

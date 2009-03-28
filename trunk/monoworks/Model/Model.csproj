@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">GtkDebug</Configuration>
@@ -72,6 +72,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AttributeMetaData.cs" />
     <Compile Include="IDrawingView.cs" />
+    <Compile Include="Sketching\BoxedSketchable.cs" />
     <Compile Include="StudioController.cs" />
     <Compile Include="Drawing.cs" />
     <Compile Include="Entity.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Sketching\BaseSketcher.cs" />
     <Compile Include="Sketching\Ellipse.cs" />
     <Compile Include="Sketching\Rectangle.cs" />
-    <Compile Include="Sketching\RectangleSketcher.cs" />
+    <Compile Include="Sketching\BoxedSketcher.cs" />
     <Compile Include="ViewportControls\DrawingInteractor.cs" />
     <Compile Include="ISelectionListener.cs" />
     <Compile Include="Momento.cs" />

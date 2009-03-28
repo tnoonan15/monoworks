@@ -169,12 +169,12 @@ namespace MonoWorks.Model.ViewportControls
 		/// </summary>
 		protected void OnContextChanged()
 		{
-			//attributePanel.Hide();
 
 			ContextLayer.ClearContexts(primaryLoc);
 
 			if (drawing.EntityManager.NumSelected == 0) // nothing selected
 			{
+				attributePanel.Hide();
 				if (IsSketching)
 					AddPrimaryContext("Sketch");
 				else

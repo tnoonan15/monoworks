@@ -85,14 +85,6 @@
 				Whether or not the line is closed on itself.
 			</Attribute>
 		</Entity>
-		<Entity name="Rectangle">
-			<Attribute name="anchor1" type="MonoWorks.Base.Point">
-				The point representing the first anchor (corner) of the rectangle.
-			</Attribute>
-			<Attribute name="anchor2" type="MonoWorks.Base.Point">
-				The point representing the second anchor (corner) of the rectangle.
-			</Attribute>
-		</Entity>
 		<Entity name="Arc">
 			<Attribute name="center" type="MonoWorks.Base.Point">
 				The center of the arc.
@@ -103,7 +95,24 @@
 			<Attribute name="sweep" type="MonoWorks.Base.Angle">
 				The sweep angle of the arc.
 			</Attribute>
-		</Entity>	
+		</Entity>
+		
+		<Entity name="BoxedSketchable">
+			<Attribute name="tilt" type="MonoWorks.Base.Angle">
+				The tilt angle of the sketchable.
+			</Attribute>
+			<Attribute name="anchor1" type="MonoWorks.Base.Point">
+				The point representing the first anchor (corner) of the sketchable.
+			</Attribute>
+			<Attribute name="anchor2" type="MonoWorks.Base.Point">
+				The point representing the second anchor (corner) of the sketchable.
+			</Attribute>
+			<Entity name="Rectangle">
+			</Entity>
+			<Entity name="Ellipse">
+			</Entity>
+		</Entity>
+		
 	</Entity>
 	
 </Entity>

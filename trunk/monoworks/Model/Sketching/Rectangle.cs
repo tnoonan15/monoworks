@@ -30,32 +30,13 @@ namespace MonoWorks.Model.Sketching
 	/// A sketchable that represents a rectangle.
 	/// </summary>
 	/// <remarks>Rectangles are defined by two anchor points at opposite corners.</remarks>
-	public class Rectangle : Sketchable
+	public class Rectangle : BoxedSketchable
 	{
 		public Rectangle(Sketch sketch) : base(sketch)
 		{
 			solidPoints = new Vector[5]; // needs to come back on itself
 			directions = new Vector[5];
 			wireframePoints = new Vector[4]; // just the corners
-			Anchor2 = null;
-		}
-
-		/// <summary>
-		/// First anchor of the rectangle.
-		/// </summary>
-		public Point Anchor1
-		{
-			get { return GetAttribute("anchor1") as Point; }
-			set { SetAttribute("anchor1", value); }
-		}
-
-		/// <summary>
-		/// Second anchor of the rectangle.
-		/// </summary>
-		public Point Anchor2
-		{
-			get { return GetAttribute("anchor2") as Point; }
-			set { SetAttribute("anchor2", value); }
 		}
 
 
@@ -99,24 +80,6 @@ namespace MonoWorks.Model.Sketching
 			directions[2] = (x + y).Normalize();
 			directions[3] = (y - x).Normalize();
 			directions[4] = directions[0];
-		}
-
-		/// <summary>
-		/// Inverts the corners that the anchors are on.
-		/// </summary>
-		public void InvertAnchors()
-		{
-			Anchor1.SetPosition(solidPoints[1]);
-			Anchor2.SetPosition(solidPoints[3]);
-		}
-
-		/// <summary>
-		/// Call this method to let the rectangle know that the values of the anchors may have changed.
-		/// </summary>
-		public void AnchorsUpdated()
-		{
-			RaiseAttributeUpdated("anchor1");
-			RaiseAttributeUpdated("anchor2");
 		}
 
 #endregion
