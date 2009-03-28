@@ -201,8 +201,11 @@ namespace MonoWorks.Model.Sketching
 		{
 			if (IsDirty)
 				ComputeGeometry();
-			solidPoints[0].glVertex();
-			solidPoints[solidPoints.Length - 1].glVertex();
+			if (solidPoints.Length > 0)
+			{
+				solidPoints[0].glVertex();
+				solidPoints[solidPoints.Length - 1].glVertex();
+			}
 		}
 		
 #endregion

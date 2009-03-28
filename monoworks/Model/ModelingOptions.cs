@@ -40,7 +40,7 @@ namespace MonoWorks.Model
 			colors.Add("ref-fill", new ColorGroup("Ref Fill", "Ref Fill Hover", "Ref Fill Selected"));
 			colors.Add("ref-edge", new ColorGroup("Ref Edge", "Ref Edge Hover", "Ref Edge Selected"));
 
-			CircleDivs = 36;
+			CircleDivs = 48;
 		}
 
 		#region Singleton

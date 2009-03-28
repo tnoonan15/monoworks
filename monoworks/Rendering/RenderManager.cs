@@ -87,17 +87,24 @@ namespace MonoWorks.Rendering
 			// depth testing
 			gl.glEnable(gl.GL_DEPTH_TEST);
 			gl.glDepthFunc(gl.GL_LEQUAL); // The Type Of Depth Test To Do
+			//gl.glDepthMask(gl.GL_TRUE);
+
 
             // enable polygon offset so wireframes are displayed correctly
             gl.glPolygonOffset(1f, 1f);
 
 
 			// blending
-			gl.glShadeModel(gl.GL_SMOOTH);						// Enables Smooth Shading
 			gl.glEnable(gl.GL_BLEND);
 			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA); // kinda works
 			//gl.glBlendFunc(gl.GL_SRC_ALPHA_SATURATE, gl.GL_ONE);
 //			gl.glBlendFunc(gl.GL_ONE, gl.GL_ONE);
+
+			// enable antialiasing
+			gl.glEnable(gl.GL_LINE_SMOOTH);
+			gl.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST);
+			gl.glEnable(gl.GL_POLYGON_SMOOTH);
+			gl.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST);
 
 			gl.glFrontFace(gl.GL_CW);
 
@@ -105,7 +112,7 @@ namespace MonoWorks.Rendering
 			gl.glEnable(gl.GL_LINE_STIPPLE);
 
 			// Really Nice Perspective Calculations
-			gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
+			//gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
 			
 			Lighting.Initialize();
 		}

@@ -31,10 +31,10 @@ namespace MonoWorks.Model.Sketching
 	/// <summary>
 	/// Sketcher for rectangles.
 	/// </summary>
-	public class RectangleSketcher : BaseSketcher<Rectangle>
+	public class BoxedSketcher : BaseSketcher<BoxedSketchable>
 	{
 
-		public RectangleSketcher(Rectangle sketchable)
+		public BoxedSketcher(BoxedSketchable sketchable)
 			: base(sketchable)
 		{
 			if (sketchable.Anchor2 == null) // it's a new rectangle
