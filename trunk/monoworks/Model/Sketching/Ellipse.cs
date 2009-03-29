@@ -67,22 +67,38 @@ namespace MonoWorks.Model.Sketching
 			Vector center = Center.ToVector();
 			double a = x.Dot(Anchor2.ToVector() - center);
 			double b = y.Dot(Anchor2.ToVector() - center);
-
-
+			
+			// compute the locations of the points
 			var sinbeta = Tilt.Sin();
 			var cosbeta = Tilt.Cos();
 			Angle theta = new Angle();
-			Angle dTheta = Angle.TwoPi / N;
+			Angle dTheta = Angle.TwoPi / (N-1);
+			bounds.Reset();
 			for (int i = 0; i < N; i ++)
 			{
-				theta += dTheta;
 				double dx = a * theta.Cos() * cosbeta - b * theta.Sin() * sinbeta;
 				double dy = a * theta.Cos() * sinbeta + b * theta.Sin() * cosbeta;
 				solidPoints[i] = center + x * dx + y * dy;
+				bounds.Resize(solidPoints[i]);
+				theta += dTheta;
 			}
 
-
 			// generate the directions
+			for (int i = 0; i < N; i++)
+			{
+				if (i == 0)
+					directions[i] = (solidPoints[i+1] - solidPoints[N - 1]).Normalize();
+				else if (i == N - 1)
+					directions[i] = (solidPoints[0] - solidPoints[i - 1]).Normalize();
+				else
+					directions[i] = (solidPoints[i + 1] - solidPoints[i - 1]).Normalize();
+			}
+
+			// generate the wireframe points
+			wireframePoints[0] = center + x * a;
+			wireframePoints[1] = center + y * b;
+			wireframePoints[2] = center - x * a;
+			wireframePoints[3] = center - y * b;
 		}
 
 
@@ -93,7 +109,7 @@ namespace MonoWorks.Model.Sketching
 			if (solidPoints.Length > 0)
 			{
 				solidPoints[0].glVertex();
-				solidPoints[solidPoints.Length - 1].glVertex();
+				solidPoints[solidPoints.Length/2].glVertex();
 			}
 		}
 
@@ -106,21 +122,31 @@ namespace MonoWorks.Model.Sketching
 		{
 			if (Anchor2 == null)
 				return false;
+			
+			// get the major and minor axes
+			Vector x = Sketch.Plane.LocalX;
+			Vector y = Sketch.Plane.LocalY;
+			Vector center = Center.ToVector();
+			double a = x.Dot(Anchor2.ToVector() - center);
+			double b = y.Dot(Anchor2.ToVector() - center);
 
-			for (int i = 0; i < solidPoints.Length - 1; i++)
+			// rotate the coordinate system to the tilt
+			if (Tilt.Value != 0)
 			{
-				HitLine line = new HitLine()
-				{
-					Front = solidPoints[i],
-					Back = solidPoints[i + 1],
-					Camera = hit.Camera
-				};
-				if (line.ShortestDistance(hit) < HitTol * hit.Camera.ViewportToWorldScaling)
-				{
-					lastHit = hit.GetIntersection((Parent as Sketch).Plane.Plane);
-					return true;
-				}
+				x = x.Rotate((Parent as Sketch).Plane.Plane.Normal.Rotate, Tilt);
+				y = y.Rotate((Parent as Sketch).Plane.Plane.Normal.Rotate, Tilt);
 			}
+
+			// project the hit onto the plane's coordinate system
+			lastHit = hit.GetIntersection((Parent as Sketch).Plane.Plane);
+			double hitX = (lastHit - center).Dot(x);
+			double hitY = (lastHit - center).Dot(y);
+
+			// test for the hit
+			double hitTol = 0.1;
+			if (Math.Abs(1 - hitX * hitX / (a * a) - hitY * hitY / (b * b)) < hitTol)
+				return true;
+
 			return false;
 		}
 
