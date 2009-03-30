@@ -79,6 +79,7 @@ namespace MonoWorks.Plotting
 					string description = hitRend.SelectionDescription;
 					if (description.Length > 0)
 						viewport.ToolTip = description;
+					evt.Handle();
 				}
 			} // button 1
 		}

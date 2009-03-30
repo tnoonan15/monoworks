@@ -16,15 +16,11 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
-using System;
-using System.Collections.Generic;
 
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Rendering.ViewportControls;
-using MonoWorks.Plotting;
 
 namespace MonoWorks.Plotting
 {
