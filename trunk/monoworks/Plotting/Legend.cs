@@ -28,31 +28,37 @@ namespace MonoWorks.Plotting
 	/// <summary>
 	/// Legend control for plots.
 	/// </summary>
-	public class Legend : Stack
+	public class Legend : Expander
 	{
 
 		public Legend()
-			: base(Orientation.Vertical)
+			: base()
 		{
 			StyleClassName = "toolbar";
-
+			Child = stack;
+			ButtonText = "Legend";
 		}
 
 		/// <summary>
-		/// Privatize adding children. Outsiders must use Add(LegendItem) instead.
+		/// The stack containing the items.
 		/// </summary>
-		protected new void Add(Control child)
-		{
-			base.Add(child);
-		}
+		protected Stack stack = new Stack(Orientation.Vertical);
 
 		/// <summary>
 		/// Adds an item to the legend.
 		/// </summary>
 		public void Add(LegendItem item)
 		{
-			children.Add(item);
+			stack.Add(item);
 			MakeDirty();
+		}
+
+		/// <summary>
+		/// Clear the legend items.
+		/// </summary>
+		public void Clear()
+		{
+			stack.Clear();
 		}
 
 		public override void RenderOverlay(Viewport viewport)

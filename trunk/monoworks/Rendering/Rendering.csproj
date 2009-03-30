@@ -93,6 +93,7 @@
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\ContextLayer.cs" />
     <Compile Include="Controls\Control.cs" />
+    <Compile Include="Controls\Expander.cs" />
     <Compile Include="Controls\StyleClass.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -164,6 +165,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\MonoWorks.Rendering.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ViewportControls\icons\contracted.png" />
+    <EmbeddedResource Include="ViewportControls\icons\expanded.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
