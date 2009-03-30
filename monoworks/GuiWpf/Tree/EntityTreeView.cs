@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Linq;
 
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.GuiWpf.Tree
 {

@@ -22,8 +22,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
+using MonoWorks.Modeling;
+using MonoWorks.Modeling.ViewportControls;
 using fw=MonoWorks.GuiWpf.Framework;
 
 namespace MonoWorks.GuiWpf.AttributeControls

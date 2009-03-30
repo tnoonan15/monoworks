@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.Framework;
 

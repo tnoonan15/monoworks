@@ -54,7 +54,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ScintillaNet, Version=2.0.3138.25704, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL" />
+    <Reference Include="ScintillaNet, Version=2.0.3138.25704, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL">
+      <HintPath>..\extbin\ScintillaNet.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -105,9 +107,9 @@
       <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
       <Name>GuiWpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
+    <ProjectReference Include="..\Modeling\Modeling.csproj">
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
-      <Name>Model</Name>
+      <Name>Modeling</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plotting\Plotting.csproj">
       <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>

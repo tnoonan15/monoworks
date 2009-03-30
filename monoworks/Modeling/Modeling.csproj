@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{857385F0-7861-4D80-9D73-995A24FB8602}</ProjectGuid>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>MonoWorks.Modeling</RootNamespace>
+    <AssemblyName>MonoWorks.Modeling</AssemblyName>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GtkDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\GtkDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoWorks.Model</RootNamespace>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WpfDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\WpfDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+    <DocumentationFile>bin\WpfDebug\MonoWorks.Modeling.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ISE.FreeType, Version=1.0.2935.1740, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\ISE.FreeType.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Tao.DevIl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.FreeType, Version=2.3.5.0, Culture=neutral, PublicKeyToken=e499629dc69cd531">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Tao.FreeType.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\EntityAction.cs" />
+    <Compile Include="Assembly.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="AttributeMetaData.cs" />
+    <Compile Include="IDrawingView.cs" />
+    <Compile Include="Sketching\BoxedSketchable.cs" />
+    <Compile Include="StudioController.cs" />
+    <Compile Include="Drawing.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="EntityManager.cs" />
+    <Compile Include="EntityMetaData.cs" />
+    <Compile Include="Features\Extrusion.cs" />
+    <Compile Include="Features\Feature.cs" />
+    <Compile Include="Features\Revolution.cs" />
+    <Compile Include="IEntityListener.cs" />
+    <Compile Include="ModelingOptions.cs" />
+    <Compile Include="Sketching\ArcSketcher.cs" />
+    <Compile Include="Sketching\BaseSketcher.cs" />
+    <Compile Include="Sketching\Ellipse.cs" />
+    <Compile Include="Sketching\Rectangle.cs" />
+    <Compile Include="Sketching\BoxedSketcher.cs" />
+    <Compile Include="ViewportControls\DrawingInteractor.cs" />
+    <Compile Include="ISelectionListener.cs" />
+    <Compile Include="Momento.cs" />
+    <Compile Include="Part.cs" />
+    <Compile Include="Reference\Reference.cs" />
+    <Compile Include="Reference\RefLine.cs" />
+    <Compile Include="Reference\RefPlane.cs" />
+    <Compile Include="Sketching\AbstractSketcher.cs" />
+    <Compile Include="Sketching\Arc.cs" />
+    <Compile Include="Sketching\Line.cs" />
+    <Compile Include="Sketching\LineSketcher.cs" />
+    <Compile Include="Sketching\Sketch.cs" />
+    <Compile Include="Sketching\Sketchable.cs" />
+    <Compile Include="Sketching\Spline.cs" />
+    <Compile Include="TestPart.cs" />
+    <Compile Include="ViewportControls\DrawingController.cs" />
+    <Compile Include="ViewportControls\IAttributeControl.cs" />
+    <Compile Include="ViewportControls\IAttributePanel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EntityMetaData.xml" />
+    <EmbeddedResource Include="ViewportControls\icons\edit.png" />
+    <EmbeddedResource Include="ViewportControls\icons\arc.png" />
+    <EmbeddedResource Include="ViewportControls\icons\delete.png" />
+    <EmbeddedResource Include="ViewportControls\icons\extrusion.png" />
+    <EmbeddedResource Include="ViewportControls\icons\line.png" />
+    <EmbeddedResource Include="ViewportControls\icons\refline.png" />
+    <EmbeddedResource Include="ViewportControls\icons\refplane.png" />
+    <EmbeddedResource Include="ViewportControls\icons\refpoint.png" />
+    <EmbeddedResource Include="ViewportControls\icons\revolution.png" />
+    <EmbeddedResource Include="ViewportControls\icons\sketch.png" />
+    <EmbeddedResource Include="ViewportControls\icons\spline.png" />
+    <EmbeddedResource Include="ViewportControls\icons\sweep.png" />
+    <EmbeddedResource Include="ViewportControls\icons\nosolid.png" />
+    <EmbeddedResource Include="ViewportControls\icons\flat.png" />
+    <EmbeddedResource Include="ViewportControls\icons\smooth.png" />
+    <EmbeddedResource Include="ViewportControls\icons\wireframe.png" />
+    <EmbeddedResource Include="ViewportControls\drawing.ui" />
+    <EmbeddedResource Include="DefaultModelingOptions.xml" />
+    <EmbeddedResource Include="ViewportControls\icons\ellipse.png" />
+    <EmbeddedResource Include="ViewportControls\icons\rectangle.png" />
+    <EmbeddedResource Include="DefaultColors.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rendering\Rendering.csproj">
+      <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
+      <Name>Rendering</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y "$(TargetPath)" "%25HOMEDRIVE%25%25HOMEPATH%25\clr\"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+</Project>

@@ -23,7 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Base;
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -64,9 +64,9 @@
       <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
       <Name>Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
+    <ProjectReference Include="..\Modeling\Modeling.csproj">
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
-      <Name>Model</Name>
+      <Name>Modeling</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plotting\Plotting.csproj">
       <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>

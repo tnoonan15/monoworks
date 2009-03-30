@@ -22,8 +22,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
+using MonoWorks.Modeling;
+using MonoWorks.Modeling.ViewportControls;
 
 namespace MonoWorks.GuiWpf.AttributeControls
 {
@@ -74,7 +74,7 @@ namespace MonoWorks.GuiWpf.AttributeControls
 				return new PointControl(entity, metaData);
 			case "List(MonoWorks.Base.Point)":
 				return new PointListControl(entity, metaData);
-			case "MonoWorks.Model.RefLine":
+			case "MonoWorks.Modeling.RefLine":
 				return new EntityControl<RefLine>(entity, metaData);
 			default:
 				return new NullControl(entity, metaData);

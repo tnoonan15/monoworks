@@ -6,8 +6,8 @@ using System.Windows.Controls;
 //using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
-using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
+using MonoWorks.Modeling;
+using MonoWorks.Modeling.ViewportControls;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.GuiWpf
