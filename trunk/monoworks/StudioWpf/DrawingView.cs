@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.Framework;
 

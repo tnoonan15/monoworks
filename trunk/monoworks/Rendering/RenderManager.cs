@@ -45,8 +45,6 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public RenderManager()
 		{
-//			this.colorManager = new ColorManager();
-			
 			SolidMode = SolidMode.Smooth;
 			ColorMode = ColorMode.Cartoon;
 			
@@ -60,9 +58,6 @@ namespace MonoWorks.Rendering
 		}
 		
 		
-//		protected ColorManager colorManager;
-
-
 		/// <summary>
 		/// Initialized rendering.
 		/// </summary>
@@ -101,9 +96,7 @@ namespace MonoWorks.Rendering
 //			gl.glBlendFunc(gl.GL_ONE, gl.GL_ONE);
 
 			// enable antialiasing
-			gl.glEnable(gl.GL_LINE_SMOOTH);
 			gl.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST);
-			gl.glEnable(gl.GL_POLYGON_SMOOTH);
 			gl.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST);
 
 			gl.glFrontFace(gl.GL_CW);
@@ -160,7 +153,24 @@ namespace MonoWorks.Rendering
 			gl.glDisable(gl.GL_POLYGON_OFFSET_FILL);
 		}
 
-		
+		/// <summary>
+		/// Enables line and polygon antialiasing.
+		/// </summary>
+		public void EnableAntialiasing()
+		{
+			gl.glEnable(gl.GL_LINE_SMOOTH);
+			gl.glEnable(gl.GL_POLYGON_SMOOTH);
+		}
+
+		/// <summary>
+		/// Disables line and polygon antialiasing.
+		/// </summary>
+		public void DisableAntialiasing()
+		{
+			gl.glDisable(gl.GL_LINE_SMOOTH);
+			gl.glDisable(gl.GL_POLYGON_SMOOTH);
+		}
+
 		
 #region Wireframe Display
 		

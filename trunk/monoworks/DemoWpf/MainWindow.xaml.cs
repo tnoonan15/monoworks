@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using MonoWorks.GuiWpf;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.DemoWpf
 {

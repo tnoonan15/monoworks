@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 using MonoWorks.GuiWpf.Framework;
 
 namespace MonoWorks.StudioWpf

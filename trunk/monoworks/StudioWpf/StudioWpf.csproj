@@ -131,9 +131,9 @@
       <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
       <Name>GuiWpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
+    <ProjectReference Include="..\Modeling\Modeling.csproj">
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
-      <Name>Model</Name>
+      <Name>Modeling</Name>
     </ProjectReference>
     <ProjectReference Include="..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
