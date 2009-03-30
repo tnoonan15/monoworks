@@ -133,8 +133,8 @@ namespace MonoWorks.Model.Sketching
 			// rotate the coordinate system to the tilt
 			if (Tilt.Value != 0)
 			{
-				x = x.Rotate((Parent as Sketch).Plane.Plane.Normal.Rotate, Tilt);
-				y = y.Rotate((Parent as Sketch).Plane.Plane.Normal.Rotate, Tilt);
+				x = x.Rotate((Parent as Sketch).Plane.Plane.Normal, Tilt);
+				y = y.Rotate((Parent as Sketch).Plane.Plane.Normal, Tilt);
 			}
 
 			// project the hit onto the plane's coordinate system
