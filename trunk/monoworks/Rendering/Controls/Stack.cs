@@ -59,17 +59,6 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 		
-		public override Coord Position
-		{
-			get {return base.Position;}
-			set
-			{
-				base.Position = value;
-				//MakeDirty();
-			}
-		}
-
-		
 
 #region Rendering
 
@@ -95,14 +84,14 @@ namespace MonoWorks.Rendering.Controls
 				span += padding;
 				if (orientation == Orientation.Horizontal)
 				{
-					child.Position = position + new Coord(span, padding);
+					child.Position = new Coord(span, padding);
 					span += size_.X;
 					if (!UserSize)
 						size.Y = Math.Max(size.Y, size_.Y);
 				}
 				else // vertical
 				{
-					child.Position = position + new Coord(padding, span);
+					child.Position = new Coord(padding, span);
 					span += size_.Y;
 					if (!UserSize)
 						size.X = Math.Max(size.X, size_.X);
@@ -121,11 +110,11 @@ namespace MonoWorks.Rendering.Controls
 			{
 				child.UserSize = true;
 				if (orientation == Orientation.Horizontal)
-					child.Height = size.Y - 2 * padding;
+					child.Height = size.Y;
 				else
-					child.Width = size.X - 2 * padding;
+					child.Width = size.X;
 
-				child.MakeDirty();
+				//child.MakeDirty();
 			}
 			
 			// add padding to the size

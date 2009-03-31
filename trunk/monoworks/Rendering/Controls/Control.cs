@@ -23,7 +23,8 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 
-using gl=Tao.OpenGl.Gl;
+using gl = Tao.OpenGl.Gl;
+using glu = Tao.OpenGl.Glu;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -76,15 +77,39 @@ namespace MonoWorks.Rendering.Controls
 
 #region Size and Position
 
-		protected Coord position = new Coord();
 		/// <value>
-		/// The position of the lower left of the control.
+		/// The relative position of the lower left of the control.
 		/// </value>
-		public virtual Coord Position
+		/// <remarks>The absolute position if a control will be the combination 
+		/// of all positions through the control hierarchy.</remarks>
+		public Coord Position { get; set; }
+
+		/// <summary>
+		/// Push the position transformation onto the transformation stack.
+		/// </summary>
+		protected void PushPosition()
 		{
-			get {return position;}
-			set {position = value;}
+			gl.glTranslated(Position.X, Position.Y, 0);
 		}
+
+		/// <summary>
+		/// Pop the position transformation from the rendering stack.
+		/// </summary>
+		protected void PopPosition()
+		{
+			gl.glTranslated(-Position.X, -Position.Y, 0);
+		}
+
+		/// <summary>
+		/// The absolute position that the control was last rendered at.
+		/// </summary>
+		/// <remarks>Use this for hit testing.</remarks>
+		protected Coord LastPosition { get; private set; }
+
+		/// <summary>
+		/// This will be true if the control was made dirty after the last rendering cycle.
+		/// </summary>
+		private bool wasDirty = true;
 
 		protected Coord size = new Coord();
 		/// <value>
@@ -145,7 +170,7 @@ namespace MonoWorks.Rendering.Controls
 		public bool UserSize {get; set;}
 		
 
-		protected double padding = 4;
+		protected double padding = 3;
 		/// <summary>
 		/// The padding to use on the interior of controls.
 		/// </summary>
@@ -169,15 +194,36 @@ namespace MonoWorks.Rendering.Controls
 			base.ComputeGeometry();
 
 			styleClass = styleGroup.GetClass(styleClassName);
-			
+
+			wasDirty = true;
+
 			if (!UserSize)
 				size = MinSize;
 //			Console.WriteLine("computing geometry for {0}, size: {1}, user size? {2}", this.GetType(), size, UserSize);
 		}
 
-		public override void RenderOverlay(Viewport viewport)
+		public override sealed void RenderOverlay(Viewport viewport)
 		{
 			base.RenderOverlay(viewport);
+
+			PushPosition();
+
+			Render(viewport);
+
+			if (wasDirty)
+			{
+				// compute the last position
+				double[] modelView = new double[16];
+				gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX, modelView);
+				double screenX, screenY, screenZ;
+				glu.gluProject(0, 0, 0,
+					modelView, viewport.Camera.ProjectionMatrix, viewport.Camera.ViewportSize,
+					out screenX, out screenY, out screenZ);
+				LastPosition = new Coord(screenX, screenY);
+				wasDirty = false;
+			}
+
+			PopPosition();
 
 			if (queueSetToolTip)
 			{
@@ -186,6 +232,16 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
+
+		/// <summary>
+		/// Actually renders the control.
+		/// </summary>
+		/// <remarks>This method should be overriden by subclasses, 
+		/// not RenderOverlay, which handles positioning.</remarks>
+		protected virtual void Render(Viewport viewport)
+		{
+
+		}
 
 
 #endregion
@@ -198,7 +254,7 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		protected override bool HitTest(Coord pos)
 		{
-			return pos >= position && pos <= (position + size);
+			return pos >= LastPosition && pos <= (LastPosition + size);
 		}
 
 #endregion
@@ -281,7 +337,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			IFill bg = styleClass.GetBackground(hitState);
 			if (bg != null)
-				bg.DrawRectangle(position, size);
+				bg.DrawRectangle(new Coord(), size);
 		}
 		
 		/// <summary>
@@ -295,10 +351,10 @@ namespace MonoWorks.Rendering.Controls
 				fg.Setup();
 				gl.glLineWidth(1f);
 				gl.glBegin(gl.GL_LINE_LOOP);
-				position.glVertex();
-				(position + new Coord(Width,0)).glVertex();
-				(position + size).glVertex();
-				(position + new Coord(0,Height)).glVertex();
+				gl.glVertex2d(0, 0);
+				gl.glVertex2d(Width, 0);
+				gl.glVertex2d(Width, Height);
+				gl.glVertex2d(0, Height);
 				gl.glEnd();
 			}
 		}

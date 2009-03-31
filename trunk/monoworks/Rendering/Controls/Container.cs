@@ -153,9 +153,9 @@ namespace MonoWorks.Rendering.Controls
 
 #region Rendering
 
-		public override void RenderOverlay(Viewport viewport)
+		protected override void Render(Viewport viewport)
 		{
-			base.RenderOverlay(viewport);
+			base.Render(viewport);
 			
 			foreach (Control child in children)
 				child.RenderOverlay(viewport);

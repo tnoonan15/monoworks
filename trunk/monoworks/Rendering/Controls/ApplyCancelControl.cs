@@ -67,7 +67,7 @@ namespace MonoWorks.Rendering.Controls
 			base.OnViewportResized(viewport);
 
 			Coord corner = new Coord(viewport.WidthGL, viewport.HeightGL);
-			position = corner - size;
+			Position = corner - size;
 
 			// position the images
 			applyImage.Position = corner - new Coord(2.2 * applyImage.MinWidth, applyImage.MinHeight + 4);
@@ -80,9 +80,9 @@ namespace MonoWorks.Rendering.Controls
 			base.ComputeGeometry();
 		}
 
-		public override void RenderOverlay(Viewport viewport)
+		protected override void Render(Viewport viewport)
 		{
-			base.RenderOverlay(viewport);
+			base.Render(viewport);
 
 			RenderBackground();
 
@@ -100,9 +100,9 @@ namespace MonoWorks.Rendering.Controls
 				fg.Setup();
 				gl.glLineWidth(1f);
 				gl.glBegin(gl.GL_LINE_LOOP);
-				(position + new Coord(Width, 0)).glVertex();
-				(position + size).glVertex();
-				(position + new Coord(0, Height)).glVertex();
+				(Position + new Coord(Width, 0)).glVertex();
+				(Position + size).glVertex();
+				(Position + new Coord(0, Height)).glVertex();
 				gl.glEnd();
 			}
 		}
@@ -112,7 +112,7 @@ namespace MonoWorks.Rendering.Controls
 			// the no-hitstate background is always rendered
 			IFill bg = styleClass.GetBackground(HitState.None);
 			if (bg != null)
-				bg.DrawCorner(position, size, Corner.NE);
+				bg.DrawCorner(Position, size, Corner.NE);
 
 			// now apply other styles
 			bg = styleClass.GetBackground(hitState);
@@ -121,13 +121,13 @@ namespace MonoWorks.Rendering.Controls
 				FillGradient grad = bg as FillGradient;
 				gl.glBegin(gl.GL_TRIANGLES);
 				grad.StartColor.Setup();
-				(position + size).glVertex();
+				(Position + size).glVertex();
 				grad.StopColor.Setup();
-				(position + size/2).glVertex();
+				(Position + size/2).glVertex();
 				if (hitRegion == Region.Apply)
-					(position + new Coord(0, EdgeWidth)).glVertex();
+					(Position + new Coord(0, EdgeWidth)).glVertex();
 				else // cancel
-					(position + new Coord(EdgeWidth, 0)).glVertex();
+					(Position + new Coord(EdgeWidth, 0)).glVertex();
 				gl.glEnd();
 			}
 		}
@@ -143,7 +143,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <returns></returns>
 		protected Region HitRegion(Coord pos)
 		{
-			Coord dPos = pos - position;
+			Coord dPos = pos - LastPosition;
 			if (dPos.X > size.X || dPos.Y > size.Y ||
 				dPos.X + dPos.Y < EdgeWidth)
 				return Region.None;

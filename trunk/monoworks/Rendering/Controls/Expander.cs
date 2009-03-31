@@ -122,38 +122,36 @@ namespace MonoWorks.Rendering.Controls
 			base.ComputeGeometry();
 
 			child.ComputeGeometry();
-			//Console.WriteLine("expander position: {0}, size: {1}, child size: {2}", position, size, child.Size);
-
 			button.ComputeGeometry();
+
 			button.StyleClassName = StyleClassName;
-			button.Position = position + new Coord(0, child.Height);
+			button.UserSize = true;
 			button.Width = child.Width;
+
+			size = child.Size + new Coord(0, button.Height);
+			button.Position = new Coord(0, child.Height);
 
 			if (IsExpanded)
 			{
 				button.Image = expandedIcon;
-
-				child.Position = position;
-
-				size = child.Size + new Coord(0, button.Height);
+				child.IsVisible = true;
 			}
 			else // not expanded
 			{
 				button.Image = contractedIcon;
-				size = button.Size;
-				position = button.Position;
+				child.IsVisible = false;
 			}
 
 		}
 
-		public override void RenderOverlay(Viewport viewport)
+		protected override void Render(Viewport viewport)
 		{
-			//base.RenderOverlay(viewport);
+			base.Render(viewport);
 
 			button.RenderOverlay(viewport);
 
-			if (IsExpanded && child != null)
-				child.RenderOverlay(viewport);
+			//if (IsExpanded && child != null)
+			//    child.RenderOverlay(viewport);
 		}
 
 #endregion
