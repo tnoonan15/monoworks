@@ -129,12 +129,12 @@ namespace MonoWorks.Rendering.Controls
 			base.ComputeGeometry();
 		}
 
-		
-		public override void RenderOverlay(Viewport viewport)
-		{
-			base.RenderOverlay(viewport);
 
-			gl.glRasterPos3d(position.X, position.Y + imageSize.Y, 0);
+		protected override void Render(Viewport viewport)
+		{
+			base.Render(viewport);
+
+			gl.glRasterPos3d(0, imageSize.Y, 0);
 			gl.glPixelZoom(1f, -1f); // need to flip the image rightside up
 			
             il.ilBindImage(ilId);

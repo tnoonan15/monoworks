@@ -56,17 +56,6 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-		public override Coord Position
-		{
-			get {return base.Position;}
-			set
-			{
-				base.Position = value;
-				textDef.Position = value;
-				//MakeDirty();
-			}
-		}
-
 
 		/// <summary>
 		/// The rendering definition of the text.
@@ -87,9 +76,9 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 
-		public override void RenderOverlay(Viewport viewport)
+		protected override void Render(Viewport viewport)
 		{
-			base.RenderOverlay(viewport);
+			base.Render(viewport);
 
 			viewport.RenderText(textDef);
 		}

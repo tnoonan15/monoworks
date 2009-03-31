@@ -62,56 +62,64 @@ namespace MonoWorks.Rendering.Controls
 		public override void OnViewportResized(Viewport viewport)
 		{
 			base.OnViewportResized(viewport);
-			
-			MakeDirty();
+
+			UpdatePosition(viewport);
 		}
 
-		
-		
-		public override void RenderOverlay(Viewport viewport)
+
+
+		protected override void Render(Viewport viewport)
 		{
 			// adjust position according to location
-			if (IsDirty && child != null) // need to check this before calling parent since they will make us clean
+			if (child != null && (IsDirty || child.IsDirty)) // need to check this before calling parent since they will make us clean
+			{
+				UpdatePosition(viewport);
+			}
+
+			base.Render(viewport);
+
+		}
+
+
+		/// <summary>
+		/// Updates the position of the anchor based on the viewport.
+		/// </summary>
+		private void UpdatePosition(Viewport viewport)
+		{
+			if (child != null)
 			{
 				child.ComputeGeometry();
 				size = child.Size;
-//				Console.WriteLine("anchor size: {0}, viewport size: {1} x {2}", size, viewport.WidthGL, viewport.HeightGL);
+				//				Console.WriteLine("anchor size: {0}, viewport size: {1} x {2}", size, viewport.WidthGL, viewport.HeightGL);
 				switch (location)
 				{
 				case AnchorLocation.N:
-					position = new Coord((viewport.WidthGL-Width)/2.0, viewport.HeightGL - Height); 
+					Position = new Coord((viewport.WidthGL - Width) / 2.0, viewport.HeightGL - Height);
 					break;
 				case AnchorLocation.NE:
-					position = new Coord(viewport.WidthGL - Width - 2, viewport.HeightGL - Height - 2); 
+					Position = new Coord(viewport.WidthGL - Width - 2, viewport.HeightGL - Height - 2);
 					break;
 				case AnchorLocation.E:
-					position = new Coord(viewport.WidthGL-Width, (viewport.HeightGL - Height)/2.0); 
+					Position = new Coord(viewport.WidthGL - Width, (viewport.HeightGL - Height) / 2.0);
 					break;
 				case AnchorLocation.SE:
-					position = new Coord(viewport.WidthGL-Width, 0); 
+					Position = new Coord(viewport.WidthGL - Width, 0);
 					break;
 				case AnchorLocation.S:
-					position = new Coord((viewport.WidthGL-Width)/2.0, 0); 
+					Position = new Coord((viewport.WidthGL - Width) / 2.0, 0);
 					break;
 				case AnchorLocation.SW:
-					position = new Coord(0, 0); 
+					Position = new Coord(0, 0);
 					break;
 				case AnchorLocation.W:
-					position = new Coord(0, (viewport.HeightGL - Height)/2.0); 
+					Position = new Coord(0, (viewport.HeightGL - Height) / 2.0);
 					break;
 				case AnchorLocation.NW:
-					position = new Coord(0, viewport.HeightGL - Height); 
+					Position = new Coord(0, viewport.HeightGL - Height);
 					break;
 				}
-				child.Position = position;
-				child.MakeDirty();
-//				Console.WriteLine("anchor position: {0}", position);
 			}
-
-			base.RenderOverlay(viewport);
-
 		}
-
 
 		
 	}

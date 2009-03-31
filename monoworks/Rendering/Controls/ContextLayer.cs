@@ -212,20 +212,6 @@ namespace MonoWorks.Rendering.Controls
 
 #region Rendering
 
-
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-			
-		}
-
-		
-		public override void RenderOverlay(Viewport viewport)
-		{
-			base.RenderOverlay(viewport);
-
-		}
-
 		
 		public override void OnViewportResized(Viewport viewport)
 		{

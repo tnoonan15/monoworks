@@ -61,15 +61,18 @@ namespace MonoWorks.Plotting
 			stack.Clear();
 		}
 
-		public override void RenderOverlay(Viewport viewport)
+		protected override void Render(Viewport viewport)
 		{
 			if (IsDirty)
 				ComputeGeometry();
 
-			RenderBackground();
-			RenderOutline();
+			if (IsExpanded)
+			{
+				RenderBackground();
+				RenderOutline();
+			}
 
-			base.RenderOverlay(viewport);
+			base.Render(viewport);
 
 		}
 

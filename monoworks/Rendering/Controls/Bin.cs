@@ -83,11 +83,11 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 
-		public override void RenderOverlay(Viewport viewport)
+		protected override void Render(Viewport viewport)
 		{
-			base.RenderOverlay(viewport);
+			base.Render(viewport);
 
-			if (child != null)
+			if (child != null && child.IsVisible)
 				child.RenderOverlay(viewport);
 		}
 

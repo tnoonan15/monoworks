@@ -121,15 +121,6 @@ namespace MonoWorks.Rendering.Controls
 		
 #region Layout
 		
-		public override Coord Position
-		{
-			get {return base.Position;}
-			set
-			{
-				base.Position = value;
-				//MakeDirty();
-			}
-		}
 
 		/// <value>
 		/// The style used to layout the image and label.
@@ -233,35 +224,35 @@ namespace MonoWorks.Rendering.Controls
 			case ButtonStyle.Label: // only show the label
 				if (image != null)
 					image.IsVisible = false;
-				label.Position = position + pad;
+				label.Position = pad;
 				break;
 				
 			case ButtonStyle.Image: // only show the image
 				if (label != null)
 					label.IsVisible = false;
 				image.IsVisible = true;
-				image.Position = position + pad;
+				image.Position = pad;
 				break;
 				
 			case ButtonStyle.ImageOverLabel: // place the image over the label
 				image.IsVisible = true;
 				label.IsVisible = true;
-				label.Position = position + pad + new Coord((Width-label.Width)/2.0 - padding, 0);
-				image.Position = position + pad + new Coord(0, label.Height + padding);
+				label.Position = pad + new Coord((Width-label.Width)/2.0 - padding, 0);
+				image.Position = pad + new Coord(0, label.Height + padding);
 				break;
 				
 			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
 				image.IsVisible = true;
 				label.IsVisible = true;
-				image.Position = position + pad;
-				label.Position = position + pad + new Coord(image.Width + padding, (Height-label.Height)/2.0 - padding);
+				image.Position = pad;
+				label.Position = pad + new Coord(image.Width + padding, (Height-label.Height)/2.0 - padding);
 				break;
 			}
 		}
 
-		public override void RenderOverlay(Viewport viewport)
+		protected override void Render(Viewport viewport)
 		{
-			base.RenderOverlay(viewport);
+			base.Render(viewport);
 			
 			RenderBackground();
 			

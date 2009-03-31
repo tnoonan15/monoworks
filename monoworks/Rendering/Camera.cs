@@ -251,21 +251,29 @@ namespace MonoWorks.Rendering
 			else
 				Projection = Projection.Parallel;
 		}
-		
+
+		protected double[] projectionMatrix = new double[16];
 		/// <summary>
 		/// The projection matrix.
 		/// </summary>
-		protected double[] projectionMatrix = new double[16];
+		public double[] ProjectionMatrix
+		{
+			get { return projectionMatrix; }
+		}
 		
 		/// <summary>
 		/// The model-view matrix.
 		/// </summary>
 		protected double[] modelMatrix = new double[16];
-		
+
+		protected int[] viewportSize = new int[4];
 		/// <summary>
 		/// The stored size of the viewport.
 		/// </summary>
-		protected int[] viewportSize = new int[4];
+		public int[] ViewportSize
+		{
+			get { return viewportSize; }
+		}
 
 		/// <summary>
 		/// The stored viewport width.

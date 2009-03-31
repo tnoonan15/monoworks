@@ -95,10 +95,10 @@ namespace MonoWorks.Plotting
 
 
 #region Rendering
-		
-		public override void RenderOverlay(Viewport viewport)
+
+		protected override void Render(Viewport viewport)
 		{
-			base.RenderOverlay(viewport);
+			base.Render(viewport);
 
 			Color.Setup();
 
@@ -107,7 +107,7 @@ namespace MonoWorks.Plotting
 				PointPlot.SetupShape(MarkerShape);
 				gl.glPointSize(MarkerSize * 2);
 				gl.glBegin(gl.GL_POINTS);
-				(position + size / 2).glVertex();
+				(size / 2).glVertex();
 				gl.glEnd();
 			}
 
@@ -115,9 +115,9 @@ namespace MonoWorks.Plotting
 			{
 				gl.glLineWidth(LineWidth);
 				gl.glBegin(gl.GL_LINES);
-				double y = position.Y + Height / 2;
-				gl.glVertex2d(position.X , y);
-				gl.glVertex2d(position.X + Width , y);
+				double y = Height / 2;
+				gl.glVertex2d(0 , y);
+				gl.glVertex2d(Width , y);
 				gl.glEnd();
 			}
 		}
