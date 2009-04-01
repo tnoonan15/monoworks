@@ -90,8 +90,19 @@ namespace MonoWorks.GuiWpf
 		{
 			set
 			{
-				toolTip.Show(value, this);
+				if (value.Length > 0)
+					toolTip.Show(value, this);
+				else
+					toolTip.Hide(this);
 			}
+		}
+
+		/// <summary>
+		/// Clears the tooltip.
+		/// </summary>
+		public void ClearToolTip()
+		{
+			toolTip.Hide(this);
 		}
 
 		/// <summary>
@@ -159,6 +170,10 @@ namespace MonoWorks.GuiWpf
 			//return new Coord((double)point.X, (double)point.Y);
 		}
 
+		/// <summary>
+		/// This is true when the last button down event was handled.
+		/// </summary>
+		private bool lastClickHandled = false;
 
 		protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs args)
 		{
@@ -168,6 +183,8 @@ namespace MonoWorks.GuiWpf
 									SwfExtensions.ButtonNumber(args.Button),
 									SwfExtensions.GetModifier(ModifierKeys));
 			Viewport.OnButtonPress(evt);
+
+			lastClickHandled = evt.Handled;
 
 			PaintGL();
 		}
@@ -212,6 +229,9 @@ namespace MonoWorks.GuiWpf
 		protected override void OnMouseDoubleClick(swf.MouseEventArgs args)
 		{
 			base.OnMouseDoubleClick(args);
+
+			if (lastClickHandled)
+				return;
 
 			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
 									SwfExtensions.ButtonNumber(args.Button),

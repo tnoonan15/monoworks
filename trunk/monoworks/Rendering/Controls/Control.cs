@@ -56,14 +56,6 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-		public override void MakeDirty()
-		{
-			base.MakeDirty();
-			
-			//if (parent != null)
-				//parent.MakeDirty();
-		}
-
 		/// <summary>
 		/// The control tooltip.
 		/// </summary>
@@ -73,6 +65,11 @@ namespace MonoWorks.Rendering.Controls
 		/// Queues the control to set its tooltip next time it's rendered.
 		/// </summary>
 		private bool queueSetToolTip = false;
+
+		/// <summary>
+		/// Queues the control to clear the tooltip next time it's rendered.
+		/// </summary>
+		private bool queueClearToolTip = false;
 
 
 #region Size and Position
@@ -90,14 +87,21 @@ namespace MonoWorks.Rendering.Controls
 		protected void PushPosition()
 		{
 			gl.glTranslated(Position.X, Position.Y, 0);
+			lastPushed.X = Position.X;
+			lastPushed.Y = Position.Y;
 		}
+
+		/// <summary>
+		/// The last pushed position.
+		/// </summary>
+		private Coord lastPushed = new Coord();
 
 		/// <summary>
 		/// Pop the position transformation from the rendering stack.
 		/// </summary>
 		protected void PopPosition()
 		{
-			gl.glTranslated(-Position.X, -Position.Y, 0);
+			gl.glTranslated(-lastPushed.X, -lastPushed.Y, 0);
 		}
 
 		/// <summary>
@@ -230,6 +234,12 @@ namespace MonoWorks.Rendering.Controls
 				viewport.ToolTip = ToolTip;
 				queueSetToolTip = false;
 			}
+			if (queueClearToolTip)
+			{
+				viewport.ClearToolTip();
+				queueClearToolTip = false;
+				Console.WriteLine("tooltip cleared");
+			}
 		}
 
 
@@ -276,16 +286,42 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			if (isHoverable && !evt.Handled && HitTest(evt.Pos) && !IsSelected)
+			if (isHoverable && !evt.Handled)
 			{
-				IsHovering = true;
-				evt.Handle();
-				if (ToolTip.Length > 0)
-					queueSetToolTip = true;
+				if (HitTest(evt.Pos)) // it's hovering now
+				{
+					if (!IsHovering) // it wasn't hovering already
+						OnEnter(evt);
+					IsHovering = true;
+					evt.Handle();
+				}
+				else // it's not hovering now
+				{
+					if (IsHovering) // it was hovering before
+						OnLeave(evt);
+					IsHovering = false;
+				}
 			}
 			else
 				IsHovering = false;
 				
+		}
+
+		/// <summary>
+		/// This will get called whenever the mouse enters the region of the control.
+		/// </summary>
+		protected virtual void OnEnter(MouseEvent evt)
+		{
+			if (ToolTip.Length > 0)
+				queueSetToolTip = true;
+		}
+
+		/// <summary>
+		/// This will get called whenever the mouse enters the region of the control.
+		/// </summary>
+		protected virtual void OnLeave(MouseEvent evt)
+		{
+			queueClearToolTip = true;
 		}
 
 

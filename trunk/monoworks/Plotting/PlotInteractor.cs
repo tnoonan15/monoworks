@@ -81,6 +81,8 @@ namespace MonoWorks.Plotting
 						viewport.ToolTip = description;
 					evt.Handle();
 				}
+				else
+					viewport.ClearToolTip();
 			} // button 1
 		}
 

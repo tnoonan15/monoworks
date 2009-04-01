@@ -73,7 +73,9 @@ namespace MonoWorks.Rendering.Controls
 			// adjust position according to location
 			if (child != null && (IsDirty || child.IsDirty)) // need to check this before calling parent since they will make us clean
 			{
+				PopPosition();
 				UpdatePosition(viewport);
+				PushPosition();
 			}
 
 			base.Render(viewport);
@@ -88,9 +90,9 @@ namespace MonoWorks.Rendering.Controls
 		{
 			if (child != null)
 			{
+				ComputeGeometry();
 				child.ComputeGeometry();
 				size = child.Size;
-				//				Console.WriteLine("anchor size: {0}, viewport size: {1} x {2}", size, viewport.WidthGL, viewport.HeightGL);
 				switch (location)
 				{
 				case AnchorLocation.N:
