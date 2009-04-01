@@ -290,7 +290,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnButtonPress(evt);
 
-			if (HitTest(evt.Pos))
+			if (HitTest(evt.Pos) && !justClicked)
 			{
 				ToggleSelection();
 				evt.Handle();

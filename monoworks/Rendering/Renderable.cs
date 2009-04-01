@@ -184,14 +184,13 @@ namespace MonoWorks.Rendering
 			get {return hitState == HitState.Hovering;}
 			set
 			{
-//				if (value != IsHovering)
-//					MakeDirty();
 				if (value && hitState != HitState.Selected)
 					hitState = HitState.Hovering;
 				else if (hitState == HitState.Hovering)
 					hitState = HitState.None;
 			}
 		}
+
 
 		/// <summary>
 		/// Makes the selected state opposite of what it was before.

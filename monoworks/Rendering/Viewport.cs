@@ -189,7 +189,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void RemotePaintGL()
 		{
-			adapter.PaintGL();
+			adapter.RemotePaintGL();
 		}
 
 #endregion
@@ -345,6 +345,14 @@ namespace MonoWorks.Rendering
 		public string ToolTip
 		{
 			set { adapter.ToolTip = value; }
+		}
+
+		/// <summary>
+		/// Clears the tooltip on the viewport.
+		/// </summary>
+		public void ClearToolTip()
+		{
+			adapter.ClearToolTip();
 		}
 
 #endregion

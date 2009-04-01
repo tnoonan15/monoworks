@@ -122,11 +122,12 @@ namespace MonoWorks.Rendering.Controls
 			base.ComputeGeometry();
 
 			child.ComputeGeometry();
+			button.UserSize = false;
 			button.ComputeGeometry();
+			button.UserSize = true;
+			button.Width = Math.Max(button.Width, child.Width);
 
 			button.StyleClassName = StyleClassName;
-			button.UserSize = true;
-			button.Width = child.Width;
 
 			size = child.Size + new Coord(0, button.Height);
 			button.Position = new Coord(0, child.Height);
@@ -149,9 +150,6 @@ namespace MonoWorks.Rendering.Controls
 			base.Render(viewport);
 
 			button.RenderOverlay(viewport);
-
-			//if (IsExpanded && child != null)
-			//    child.RenderOverlay(viewport);
 		}
 
 #endregion

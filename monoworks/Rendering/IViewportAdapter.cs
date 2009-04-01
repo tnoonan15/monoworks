@@ -78,6 +78,11 @@ namespace MonoWorks.Rendering
 		string ToolTip { set; }
 
 		/// <summary>
+		/// Clears the tooltip on the viewport.
+		/// </summary>
+		void ClearToolTip();
+
+		/// <summary>
 		/// Takes a snapshot of the viewport and exports it to the given file.
 		/// </summary>
 		void Export(string fileName);

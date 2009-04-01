@@ -74,6 +74,8 @@ namespace MonoWorks.Rendering.ViewportControls
 			ContextLayer.AddContext(ContextLocation.N, "View");
 			ContextLayer.AddContext(ContextLocation.N, "Interaction");
 			ContextLayer.AddContext(ContextLocation.N, "Export");
+			OnProjectionChanged();
+			OnInteractionStateChanged();
 		}
 		
 #region View Direction Actions
@@ -159,8 +161,7 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// </summary>
 		private void ExternalProjectionChanged(object sender, EventArgs args)
 		{
-			//if (!InternalUpdate)
-				OnProjectionChanged();
+			OnProjectionChanged();
 		}
 
 #endregion

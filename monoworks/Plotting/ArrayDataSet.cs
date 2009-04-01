@@ -246,8 +246,6 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Reads data from a delimited text file.
 		/// </summary>
-		/// <param name="filePath"></param>
-		/// <param name="delimiter"></param>
 		public void FromFile(string filePath, char delimiter)
 		{
 			StreamReader reader = File.OpenText(filePath);
@@ -258,9 +256,8 @@ namespace MonoWorks.Plotting
 			int numCols = headers.Length;
 
             // read the rows
-//            long pos = reader.BaseStream.Position;
             bool keepGoing = true;
-            List<string[]> rows = new List<string[]>();
+            List<string[]> rowNames = new List<string[]>();
             while (keepGoing)
             {
                 string line = reader.ReadLine();
@@ -270,8 +267,8 @@ namespace MonoWorks.Plotting
                 {
                     string[] row = line.Split(delimiter);
                     if (row.Length != numCols) 
-                        throw new IOException(String.Format("Row {0} has {1} components when it should have {2}.", rows.Count, row.Length, numCols));
-                    rows.Add(row);
+                        throw new IOException(String.Format("Row {0} has {1} components when it should have {2}.", rowNames.Count, row.Length, numCols));
+                    rowNames.Add(row);
                 }
 
                 if (reader.EndOfStream)
@@ -279,16 +276,16 @@ namespace MonoWorks.Plotting
             }
 
             // initialize
-            SetSize(rows.Count, numCols);
+            SetSize(rowNames.Count, numCols);
             columnNames.Clear();
             foreach (string header in headers)
                 columnNames.Add(header);
 
             // parse the data
-            for (int r=0; r<rows.Count; r++)
+            for (int r=0; r<rowNames.Count; r++)
             {
                 for (int c = 0; c < numCols; c++)
-                    data[r, c] = Double.Parse(rows[r][c]);
+                    data[r, c] = Double.Parse(rowNames[r][c]);
             }
 
 			reader.Close();
