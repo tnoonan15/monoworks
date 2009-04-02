@@ -32,5 +32,26 @@ namespace MonoWorks.Plotting
 		public DataSet()
 		{
 		}
+
+		/// <summary>
+		/// Handler for the Changed event.
+		/// </summary>
+		public delegate void DataSetChangedHandler(DataSet dataSet);
+
+		/// <summary>
+		/// This gets raised whenever the size, arrangement, or configuration of the dataset is changed.
+		/// </summary>
+		/// <remarks>This will not necessarily get called when values inside the data set changed.</remarks>
+		public event DataSetChangedHandler Changed;
+
+		/// <summary>
+		/// Internally used to raise the Changed event.
+		/// </summary>
+		protected void RaiseChanged()
+		{
+			if (Changed != null)
+				Changed(this);
+		}
+
 	}
 }

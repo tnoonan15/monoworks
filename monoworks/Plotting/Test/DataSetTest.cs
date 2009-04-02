@@ -46,10 +46,23 @@ namespace MonoWorks.PlottingTest
 		{
 			ArrayDataSet data = new ArrayDataSet();
 			data.FromFile("Test/array-data-byte.csv");
-			data.ParseBits("one byte", 8);
-			Assert.AreEqual(10, data.NumColumns);
+			data.ParseBits("one byte");
+			Assert.AreEqual(11, data.NumColumns);
 			Assert.AreEqual(256, data.NumRows);
-			Assert.AreEqual(1, data[7, 3]);
+
+			// test the column naming
+			Assert.AreEqual("one byte bit0", data.GetColumnName(3));
+			Assert.AreEqual("one byte bit1", data.GetColumnName(4));
+			Assert.AreEqual("one byte bit2", data.GetColumnName(5));
+
+			// check the range of the computed values
+			double min, max;
+			data.ColumnMinMax(6, out min, out max);
+			Assert.AreEqual(0, min);
+			Assert.AreEqual(1, max);
+
+			// test some actual values
+			Assert.AreEqual(1, data[7, 4]);
 		}
 
     }

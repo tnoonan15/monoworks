@@ -716,7 +716,8 @@ namespace MonoWorks.Rendering
 				upVecOut = new Vector(0, 0, 1);
 				break;
 			}
-			posOut = (travel * dist * 0.8) + centerOut; // HACK for filling more of the viewport
+			//posOut = (travel * dist * 0.8) + centerOut; // HACK for filling more of the viewport
+			posOut = (travel * dist) + centerOut; // HACK for filling more of the viewport
 		}
 		
 		/// <summary>

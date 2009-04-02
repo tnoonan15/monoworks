@@ -245,8 +245,9 @@ namespace MonoWorks.Plotting
 		{
 			if (index < 0 || index >= NumColumns)
 				throw new Exception(index.ToString() + " is not a valid index.");
-			
+
 			columnNames[index] = name;
+			RaiseChanged();
 		}
 		
 		/// <summary>
@@ -326,10 +327,12 @@ namespace MonoWorks.Plotting
 				}
 
 				// initialize
-				SetSize(rows.Count, numCols);
+				SetSize(rows.Count, Math.Max(numCols, 3));// there needs to be at least 3 columns for plotting to work
 				columnNames.Clear();
 				foreach (string header in headers)
 					columnNames.Add(header);
+				for (int c = numCols; c < NumColumns; c++) // fill in empty columns
+					columnNames.Add("zeros " + (c-numCols).ToString());
 
 				// parse the data
 				for (int r = 0; r < rows.Count; r++)
@@ -384,12 +387,11 @@ namespace MonoWorks.Plotting
 		/// into new columns with automatically generated names.
 		/// </summary>
 		/// <param name="colName">The name of the column to parse.</param>
-		/// <param name="numBits">The number of bits present in the column.</param>
-		public void ParseBits(string colName, int numBits)
+		public void ParseBits(string colName)
 		{
 			int col = columnNames.IndexOf(colName);
 			if (col >= 0)
-				ParseBits(col, numBits);
+				ParseBits(col);
 			else
 				throw new Exception(colName + " is an invalid column name.");
 		}
@@ -399,11 +401,15 @@ namespace MonoWorks.Plotting
 		/// into new columns with automatically generated names.
 		/// </summary>
 		/// <param name="col">The index of the column to parse.</param>
-		/// <param name="numBits">The number of bits present in the column.</param>
-		public void ParseBits(int col, int numBits)
+		public void ParseBits(int col)
 		{
 			if (col < 0 || col >= NumColumns)
 				throw new Exception(String.Format("column {0} is out of bounds", col));
+
+			// determine the number of bits needed
+			double min, max;
+			ColumnMinMax(col, out min, out max);
+			int numBits = (int)Math.Ceiling(Math.Log(max, 2));
 
 			// add the columns
 			int startCol = NumColumns;
@@ -411,11 +417,18 @@ namespace MonoWorks.Plotting
 
 			for (int c = 0; c < numBits; c++)
 			{
+				columnNames[c + startCol] = columnNames[col] + " bit" + c.ToString();
+				int colBit = (int)Math.Pow(2, c);
 				for (int r = 0; r < NumRows; r++)
 				{
-					data[r, c + startCol] = (double)((int)data[r, col] & c);
+					if (((int)data[r, col] & colBit) == colBit)
+						data[r, c + startCol] = 1;
+					else
+						data[r, c + startCol] = 0;
 				}
 			}
+
+			RaiseChanged();
 		}
 
 #endregion
