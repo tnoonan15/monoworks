@@ -238,7 +238,6 @@ namespace MonoWorks.Rendering.Controls
 			{
 				viewport.ClearToolTip();
 				queueClearToolTip = false;
-				Console.WriteLine("tooltip cleared");
 			}
 		}
 

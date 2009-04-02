@@ -16,14 +16,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-	
+
 using System;
+using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 
 
 namespace MonoWorks.Plotting
 {
+	/// <summary>
+	/// Possible column types when parsing a file. 
+	/// </summary>
+	/// <remarks>These do not yet have any meaning inside the data set.</remarks>
+	public enum ColumnType { Double, Time };
+
+
 	/// <summary>
 	/// Data set containing an array of data to be used on 
 	/// </summary>
@@ -129,7 +138,34 @@ namespace MonoWorks.Plotting
 			if (cols < columnNames.Count)
 				columnNames.RemoveRange(cols, columnNames.Count - cols - 1);
 		}
-		
+
+		/// <summary>
+		/// Adds the given number of columns to the data set.
+		/// </summary>
+		public void AddColumns(int num)
+		{
+			if (NumRows == 0)
+				throw new Exception("The data set must be non-empty before you can add columns.");
+
+			// make the new data
+			double[,] data_ = new double[NumRows, NumColumns + num];
+			for (int r = 0; r < NumRows; r++)
+			{
+				for (int c = 0; c < NumColumns; c++)
+				{
+					data_[r, c] = data[r, c];
+				}
+			}
+			int numColumns = NumColumns;
+			data = data_;
+
+			// add the column names
+			for (int c = numColumns; c < NumColumns; c++)
+			{
+				columnNames.Add("column " + c.ToString());
+			}
+		}
+
 #endregion
 
 
@@ -207,7 +243,7 @@ namespace MonoWorks.Plotting
 		/// <param name="name"> The column's name. </param>
 		public void SetColumnName(int index, string name)
 		{
-			if (index < 0 || index >= NumRows)
+			if (index < 0 || index >= NumColumns)
 				throw new Exception(index.ToString() + " is not a valid index.");
 			
 			columnNames[index] = name;
@@ -227,71 +263,160 @@ namespace MonoWorks.Plotting
 #endregion
 
 
-
 #region File I/O
 
-		/// <summary>
-		/// Loads a data set from a delimited text file.
-		/// </summary>
-		/// <param name="filePath"></param>
-		/// <param name="delimiter"></param>
-		/// <returns></returns>
-		//public static ArrayDataSet FromFile(string filePath, string delimiter)
-		//{
-		//    ArrayDataSet dataSet = new ArrayDataSet();
-		//    dataSet.FromFile(filePath, delimiter);
-		//    return dataSet;
-		//}
+		
 
 		/// <summary>
 		/// Reads data from a delimited text file.
 		/// </summary>
-		public void FromFile(string filePath, char delimiter)
+		/// <remarks>The delimeter will be automagically determined (can be tabs or commas).</remarks>
+		public void FromFile(string filePath)
 		{
 			StreamReader reader = File.OpenText(filePath);
 
-			// parse the header
-			string headerLine = reader.ReadLine();
-			string[] headers = headerLine.Split(delimiter);
-			int numCols = headers.Length;
+			try
+			{
 
-            // read the rows
-            bool keepGoing = true;
-            List<string[]> rowNames = new List<string[]>();
-            while (keepGoing)
-            {
-                string line = reader.ReadLine();
-                if (line == null || line.Length == 0)
-                    keepGoing = false;
-                else
-                {
-                    string[] row = line.Split(delimiter);
-                    if (row.Length != numCols) 
-                        throw new IOException(String.Format("Row {0} has {1} components when it should have {2}.", rowNames.Count, row.Length, numCols));
-                    rowNames.Add(row);
-                }
+				// get the header and determine delimeter
+				char delimiter = 'n';
+				char[] delimeters = new char[] { ',', '\t' };
+				string headerLine = reader.ReadLine();
+				foreach (char delim in delimeters)
+				{
+					if (headerLine.Contains(delim))
+						delimiter = delim;
+				}
+				if (delimiter == 'n')
+					throw new Exception("Could not find a valid delimeter (tab or space) in the file header.");
+				string[] headers = headerLine.Split(delimiter);
+				int numCols = headers.Length;
+				ColumnType[] columnTypes = new ColumnType[numCols];
 
-                if (reader.EndOfStream)
-                    keepGoing = false;
-            }
+				// read the rows
+				bool keepGoing = true;
+				List<string[]> rows = new List<string[]>();
+				while (keepGoing)
+				{
+					string line = reader.ReadLine();
+					if (line == null || line.Length == 0)
+						keepGoing = false;
+					else
+					{
+						string[] row = line.Split(delimiter);
+						if (row.Length != numCols)
+							throw new IOException(String.Format("Row {0} has {1} components when it should have {2}.", rows.Count, row.Length, numCols));
+						rows.Add(row);
 
-            // initialize
-            SetSize(rowNames.Count, numCols);
-            columnNames.Clear();
-            foreach (string header in headers)
-                columnNames.Add(header);
+						// determine the column types
+						if (rows.Count == 1) // this is the first row
+						{
+							for (int c = 0; c < numCols; c++)
+							{
+								if (row[c].Contains(":"))
+									columnTypes[c] = ColumnType.Time;
+								else
+									columnTypes[c] = ColumnType.Double;
+							}
+						}
+					}
 
-            // parse the data
-            for (int r=0; r<rowNames.Count; r++)
-            {
-                for (int c = 0; c < numCols; c++)
-                    data[r, c] = Double.Parse(rowNames[r][c]);
-            }
+					if (reader.EndOfStream)
+						keepGoing = false;
+				}
 
-			reader.Close();
+				// initialize
+				SetSize(rows.Count, numCols);
+				columnNames.Clear();
+				foreach (string header in headers)
+					columnNames.Add(header);
+
+				// parse the data
+				for (int r = 0; r < rows.Count; r++)
+				{
+					for (int c = 0; c < numCols; c++)
+					{
+						if (columnTypes[c] == ColumnType.Time)
+						{
+							try
+							{
+								data[r, c] = DateTime.Parse(rows[r][c]).TimeOfDay.TotalSeconds;
+							}
+							catch (Exception)
+							{
+								throw new Exception(String.Format("Value {0} ({1}, {2}) is not a valid time.", rows[r][c], r, c));
+							}
+						}
+						else //double
+						{
+							try
+							{
+								data[r, c] = Double.Parse(rows[r][c]);
+							}
+							catch (Exception)
+							{
+								throw new Exception(String.Format("Value {0} ({1}, {2}) is not a valid double.", rows[r][c], r, c));
+							}
+						}
+					}
+				}
+
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+			finally
+			{
+				reader.Close();
+			}
 		}
 
 
+
+#endregion
+
+
+#region Bit Parsing
+
+		/// <summary>
+		/// Parse the given column into bits and store their values 
+		/// into new columns with automatically generated names.
+		/// </summary>
+		/// <param name="colName">The name of the column to parse.</param>
+		/// <param name="numBits">The number of bits present in the column.</param>
+		public void ParseBits(string colName, int numBits)
+		{
+			int col = columnNames.IndexOf(colName);
+			if (col >= 0)
+				ParseBits(col, numBits);
+			else
+				throw new Exception(colName + " is an invalid column name.");
+		}
+
+		/// <summary>
+		/// Parse the given column into bits and store their values 
+		/// into new columns with automatically generated names.
+		/// </summary>
+		/// <param name="col">The index of the column to parse.</param>
+		/// <param name="numBits">The number of bits present in the column.</param>
+		public void ParseBits(int col, int numBits)
+		{
+			if (col < 0 || col >= NumColumns)
+				throw new Exception(String.Format("column {0} is out of bounds", col));
+
+			// add the columns
+			int startCol = NumColumns;
+			AddColumns(numBits);
+
+			for (int c = 0; c < numBits; c++)
+			{
+				for (int r = 0; r < NumRows; r++)
+				{
+					data[r, c + startCol] = (double)((int)data[r, col] & c);
+				}
+			}
+		}
 
 #endregion
 
