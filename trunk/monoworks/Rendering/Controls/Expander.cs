@@ -129,7 +129,8 @@ namespace MonoWorks.Rendering.Controls
 
 			button.StyleClassName = StyleClassName;
 
-			size = child.Size + new Coord(0, button.Height);
+			Height = child.Height + button.Height;
+			Width = button.Width;
 			button.Position = new Coord(0, child.Height);
 
 			if (IsExpanded)
