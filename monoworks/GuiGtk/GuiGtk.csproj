@@ -7,7 +7,6 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{93981ADD-F7E7-45F1-934F-13B2EB7088DC}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>GuiGtk</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RootNamespace>MonoWorks.GuiGtk</RootNamespace>
   </PropertyGroup>
@@ -28,12 +27,14 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
+    <AssemblyName>MonoWorks.GuiGtk</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
+    <AssemblyName>GuiGtk</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -119,13 +120,13 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Plotting\Plotting.csproj">
       <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>
       <Name>Plotting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modeling\Modeling.csproj">
+      <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
+      <Name>Modeling</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

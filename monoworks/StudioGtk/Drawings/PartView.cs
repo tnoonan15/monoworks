@@ -18,7 +18,7 @@
 
 using System;
 
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.StudioGtk
 {

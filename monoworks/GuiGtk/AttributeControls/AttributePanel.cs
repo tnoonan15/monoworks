@@ -18,8 +18,8 @@
 
 using System;
 
-using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
+using MonoWorks.Modeling;
+using MonoWorks.Modeling.ViewportControls;
 
 namespace MonoWorks.GuiGtk.AttributeControls
 {

@@ -22,7 +22,7 @@ using System;
 
 using MonoWorks.Framework;
 using MonoWorks.GuiGtk.Framework;
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.StudioGtk
 {
