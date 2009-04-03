@@ -22,7 +22,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.GuiGtk;
 using MonoWorks.GuiGtk.Framework;
-using MonoWorks.Model;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.DemoGtk
 {

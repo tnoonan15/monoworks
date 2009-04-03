@@ -19,8 +19,8 @@ using System;
 
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
-using MonoWorks.Model;
-using MonoWorks.Model.ViewportControls;
+using MonoWorks.Modeling;
+using MonoWorks.Modeling.ViewportControls;
 using MonoWorks.GuiGtk.Tree;
 using MonoWorks.GuiGtk.AttributeControls;
 

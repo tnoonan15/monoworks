@@ -163,6 +163,11 @@ namespace MonoWorks.GuiGtk
 			}
 		}
 		
+		public void ClearToolTip()
+		{
+				
+		}
+		
 #endregion
 
 		
