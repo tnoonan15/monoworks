@@ -173,7 +173,7 @@ namespace MonoWorks.GuiGtk.Framework
 			if (icons.ContainsKey(iconName))	
 			{
 				Gdk.Pixbuf pixbuf = icons[iconName].RenderIcon(new Gtk.Style(), Gtk.TextDirection.Ltr, Gtk.StateType.Normal, Gtk.IconSize.LargeToolbar, null, "");
-				pixbuf.Savev(name, "png", null, null);
+				pixbuf.Save(name, "png");
 			}
 			else
 				throw new Exception("The resource manager does not contain an icon called " + iconName);

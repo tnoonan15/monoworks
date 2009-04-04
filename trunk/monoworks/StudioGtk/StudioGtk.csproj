@@ -21,6 +21,7 @@
         <Command type="AfterBuild" command="cp ${SolutionDir}/extbin/FreeSans.ttf ${TargetDir}" workingdir="${TargetDir}" />
       </CustomCommands>
     </CustomCommands>
+    <AssemblyName />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>none</DebugType>

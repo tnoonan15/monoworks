@@ -21,6 +21,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MonoWorks.GuiGtk</RootNamespace>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <AssemblyName />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>none</DebugType>

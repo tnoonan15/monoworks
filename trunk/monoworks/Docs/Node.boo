@@ -1,6 +1,7 @@
 namespace Docs
 
 import System
+import System.Collections.Generic
 
 class Node:
 """Base node for the internal documentation tree."""
