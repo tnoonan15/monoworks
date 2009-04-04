@@ -1,32 +1,33 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{4DABBC07-36DB-47EB-9EBA-EB81EE77AEB0}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MonoWorks.Docs</RootNamespace>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <ducky>false</ducky>
+    <culture />
     <AssemblyName>MonoWorks.Docs</AssemblyName>
-		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <genwarnings>false</genwarnings>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <ducky>false</ducky>
+    <culture />
+    <AssemblyName>Docs</AssemblyName>
+    <genwarnings>false</genwarnings>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Boo.Lang.Useful" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.boo" />
     <Compile Include="AssemblyNode.boo" />
@@ -34,39 +35,18 @@
     <Compile Include="Node.boo" />
     <Compile Include="Program.boo" />
     <Compile Include="XmlParser.boo" />
-    <None Include="Docs.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base\Base.csproj">
-      <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
-      <Name>Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Framework\Framework.csproj">
-      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
-      <Name>Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GuiWpf\GuiWpf.csproj">
-      <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
-      <Name>GuiWpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plotting\Plotting.csproj">
-      <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>
-      <Name>Plotting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Rendering\Rendering.csproj">
-      <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
-      <Name>Rendering</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StudioWpf\StudioWpf.csproj">
-      <Project>{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}</Project>
-      <Name>StudioWpf</Name>
-    </ProjectReference>
+    <Reference Include="System" />
+    <Reference Include="Boo.Lang, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67">
+      <Package>boo-2.0</Package>
+    </Reference>
+    <Reference Include="Boo.Lang.Useful, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67">
+      <Package>boo-2.0</Package>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
-  <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>

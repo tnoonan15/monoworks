@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench", "Workbench\Work
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modeling", "Modeling\Modeling.csproj", "{857385F0-7861-4D80-9D73-995A24FB8602}"
 EndProject
+Project("{B3672514-7503-4B01-B4B4-B44E87061EA2}") = "Docs", "Docs\Docs.booproj", "{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,12 @@ Global
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Release|Any CPU.ActiveCfg = Release|Any CPU
