@@ -79,10 +79,11 @@ namespace MonoWorks.GuiGtk.Framework.Tools
 		{
 			base.OnSizeRequested(ref requisition);
 
+			int pad = 6;
 			
 			if (Orientation == Gtk.Orientation.Horizontal)
 			{
-				requisition.Width = 4;
+				requisition.Width = pad;
 				requisition.Height = 0;
 				foreach (Gtk.Widget child in Children)
 				{
@@ -90,19 +91,19 @@ namespace MonoWorks.GuiGtk.Framework.Tools
 					requisition.Width += req.Width;
 					requisition.Height = Math.Max(requisition.Height, req.Height);
 				}
-				requisition.Height += 4;
+				requisition.Height += pad;
 			}
 			else // vertical
 			{			
 				requisition.Width = 0;
-				requisition.Height = 4;	
+				requisition.Height = pad;	
 				foreach (Gtk.Widget child in Children)
 				{
 					Gtk.Requisition req = child.SizeRequest();
 					requisition.Height += req.Height;
 					requisition.Width = Math.Max(requisition.Width, req.Width);
 				}
-				requisition.Width += 4;
+				requisition.Width += pad;
 			}			
 		}
 

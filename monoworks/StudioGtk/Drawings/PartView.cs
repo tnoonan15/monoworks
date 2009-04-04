@@ -29,7 +29,7 @@ namespace MonoWorks.StudioGtk
 		
 		public PartView()
 		{
-			Drawing = new TestPart();
+			Drawing = new Part();
 			
 		}
 	}

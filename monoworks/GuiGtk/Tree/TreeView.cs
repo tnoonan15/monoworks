@@ -45,9 +45,13 @@ namespace MonoWorks.GuiGtk.Tree
 			AppendColumn(column);
 
 			// create the renderers
-			Gtk.CellRendererText nameRenderer = new Gtk.CellRendererText();
+			var iconRenderer = new Gtk.CellRendererPixbuf();
+//			iconRenderer.SetFixedSize(18, 18);
+			column.PackStart(iconRenderer, false);
+			column.AddAttribute(iconRenderer, "stock-id", 0);
+			var nameRenderer = new Gtk.CellRendererText();
 			column.PackStart(nameRenderer, true);
-			column.AddAttribute(nameRenderer, "text", 0);
+			column.AddAttribute(nameRenderer, "text", 1);
 		}
 		
 		protected TreeModel model;
