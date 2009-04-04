@@ -44,11 +44,6 @@ namespace MonoWorks.StudioGtk
 			uiManager.LoadStream(ResourceHelper.GetStream("Studio.ui", "MonoWorks.Resources"));
 			SetUiManager(uiManager);
 		}
-
-		/// <summary>
-		/// The main window.
-		/// </summary>
-//		private MainWindow window;
 		
 		/// <summary>
 		/// The UI manager.
@@ -68,86 +63,6 @@ namespace MonoWorks.StudioGtk
 
 #endregion
 
-
-#region Sketch Actions
-
-		[Action("New Sketch")]
-		public void NewSketch()
-		{
-			Console.WriteLine("new sketch");	
-		}
-
-		[Action("Edit Sketch")]
-		public void EditSketch()
-		{
-			Console.WriteLine("edit sketch");	
-		}
-
-		[Action()]
-		public void Line()
-		{
-			Console.WriteLine("sketch line");	
-		}
-
-		[Action()]
-		public void Arc()
-		{
-			Console.WriteLine("sketch arc");	
-		}
-
-		[Action()]
-		public void Spline()
-		{
-			Console.WriteLine("sketch spline");	
-		}		
-
-#endregion
-
-
-#region Feature Actions
-
-		[Action()]
-		public void Extrusion()
-		{
-			Console.WriteLine("extrusion");	
-		}
-
-		[Action()]
-		public void Revolution()
-		{
-			Console.WriteLine("revolution");	
-		}
-
-		[Action()]
-		public void Sweep()
-		{
-			Console.WriteLine("sweep");	
-		}		
-
-#endregion
-
-
-#region Reference Actions
-
-		[Action("Ref Point")]
-		public void RefPoint()
-		{
-			Console.WriteLine("Ref point");	
-		}
-
-		[Action("Ref Line")]
-		public void RefLine()
-		{
-			Console.WriteLine("ref line");	
-		}
-
-		[Action("Ref Plane")]
-		public void RefPlane()
-		{
-			Console.WriteLine("Ref plane");	
-		}
-
-#endregion
 
 		
 #region File Loading

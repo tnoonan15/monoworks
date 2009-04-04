@@ -28,7 +28,7 @@ namespace MonoWorks.GuiGtk.Tree
 	{	
 
 		
-		public TreeModel() : base(typeof(String))
+		public TreeModel() : base(typeof(String), typeof(String))
 		{
 		}
 		
@@ -76,9 +76,9 @@ namespace MonoWorks.GuiGtk.Tree
 //			EntityTreeItem item = new EntityTreeItem(entity);
 			Gtk.TreeIter iter;
 			if (parentIter == null)
-				iter = AppendValues(entity.Name);
+				iter = AppendValues(entity.ClassName.ToLower(), entity.Name);
 			else
-				iter = AppendValues((Gtk.TreeIter)parentIter, entity.Name);
+				iter = AppendValues((Gtk.TreeIter)parentIter, entity.ClassName.ToLower(), entity.Name);
 //			items[entity] = item;
 
 //			item.Selected += OnItemSelected;

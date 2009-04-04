@@ -297,6 +297,7 @@ namespace MonoWorks.GuiGtk.Framework.Tools
 		/// </summary>
 		protected override void OnRealized()
 		{
+			base.OnRealized();
 			LayoutTools();
 			base.OnShown();
 		}
