@@ -38,8 +38,8 @@ namespace MonoWorks.Rendering
 		void DrawRectangle(Coord pos, Coord size);
 
 		/// <summary>
-		/// Draw a triangle at the given position and size with the specified corner.
+		/// Draw a triangle of the given size with the specified corner.
 		/// </summary>
-		void DrawCorner(Coord pos, Coord size, Corner corner);
+		void DrawCorner(Coord size, Corner corner);
 	}
 }

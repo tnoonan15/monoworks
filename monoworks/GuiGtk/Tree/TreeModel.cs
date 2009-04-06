@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
 
 using MonoWorks.Modeling;
 
@@ -65,7 +66,10 @@ namespace MonoWorks.GuiGtk.Tree
 		/// </summary>
 		public void AddEntity(Entity entity)
 		{
-			AddEntity(entity, null);
+			if (entity.Parent == null || entity.Parent is Drawing) // this is the root level entity
+				AddEntity(entity, null);
+			else // this is a child entity
+				AddEntity(entity, GetIter(entity.Parent));
 		}
 
 		/// <summary>
@@ -73,27 +77,57 @@ namespace MonoWorks.GuiGtk.Tree
 		/// </summary>
 		protected void AddEntity(Entity entity, Gtk.TreeIter? parentIter)
 		{
-//			EntityTreeItem item = new EntityTreeItem(entity);
 			Gtk.TreeIter iter;
 			if (parentIter == null)
 				iter = AppendValues(entity.ClassName.ToLower(), entity.Name);
 			else
 				iter = AppendValues((Gtk.TreeIter)parentIter, entity.ClassName.ToLower(), entity.Name);
-//			items[entity] = item;
-
-//			item.Selected += OnItemSelected;
-//			item.Unselected += OnItemDeselected;
 
 			// add the children
 			foreach (Entity child in entity.Children)
 				AddEntity(child, iter);
 		}
 		
+		/// <summary>
+		/// Removes an entity from the tree model.
+		/// </summary>
 		public void RemoveEntity(Entity entity)
 		{
 			throw new System.NotImplementedException();
 		}
+		
+		/// <summary>
+		/// Gets an iter pointing to an existing entity in the tree.
+		/// </summary>
+		public Gtk.TreeIter GetIter(Entity entity)
+		{
+			Gtk.TreeIter theIter = new Gtk.TreeIter();
+			Foreach(delegate(Gtk.TreeModel model, Gtk.TreePath path, Gtk.TreeIter iter) {
+				string name = model.GetValue(iter, 1) as string;
+				if (entity.Name == name)
+				{
+					theIter = iter;
+					return true;
+				}
+				else
+					return false;
+			});
+			if (IterIsValid(theIter))
+				return theIter;
+			else
+				throw new Exception("The entity " + entity.Name + " is not in the tree.");
+		}
 
+		
+		/// <summary>
+		/// Gets the entity associated with the tree iter.
+		/// </summary>
+		public Entity GetEntity(Gtk.TreeIter iter)
+		{
+			string name = GetValue(iter, 1) as string;
+			return Drawing.EntityManager.GetEntity(name);
+		}
+		
 		
 		
 	}

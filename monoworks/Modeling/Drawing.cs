@@ -260,7 +260,6 @@ namespace MonoWorks.Modeling
 			}		
 		}
 
-
 		/// <summary>
 		/// Makes all reference entities at the top level of the drawing dirty.
 		/// </summary>
@@ -269,7 +268,7 @@ namespace MonoWorks.Modeling
 			foreach (Entity ref_ in GetChildren<Reference>())
 				ref_.MakeDirty();
 		}
-	
+			
 #endregion
 
 

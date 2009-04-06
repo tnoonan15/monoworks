@@ -350,16 +350,16 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Draws a solid triangle in the given corner.
 		/// </summary>
-		public void DrawCorner(Coord pos, Coord size, Corner corner)
+		public void DrawCorner(Coord size, Corner corner)
 		{
 			Setup();
 			gl.glBegin(gl.GL_TRIANGLES);
 			switch (corner)
 			{
 			case Corner.NE:
-				gl.glVertex2d(pos.X, pos.Y + size.Y);
-				gl.glVertex2d(pos.X + size.X, pos.Y + size.Y);
-				gl.glVertex2d(pos.X + size.X, pos.Y);
+				gl.glVertex2d(0, size.Y);
+				gl.glVertex2d(size.X, size.Y);
+				gl.glVertex2d(size.X, 0);
 				break;
 			default:
 				throw new NotImplementedException();
