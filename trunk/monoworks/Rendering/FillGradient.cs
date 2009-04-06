@@ -165,17 +165,17 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Draws a gradient triangle in the given corner.
 		/// </summary>
-		public void DrawCorner(Coord pos, Coord size, Corner corner)
+		public void DrawCorner(Coord size, Corner corner)
 		{
 			gl.glBegin(gl.GL_TRIANGLES);
 			switch (corner)
 			{
 			case Corner.NE:
 				stopColor.Setup();
-				gl.glVertex2d(pos.X, pos.Y + size.Y);
-				gl.glVertex2d(pos.X + size.X, pos.Y);
+				gl.glVertex2d(0, size.Y);
+				gl.glVertex2d(size.X, 0);
 				startColor.Setup();
-				gl.glVertex2d(pos.X + size.X, pos.Y + size.Y);
+				gl.glVertex2d(size.X, size.Y);
 				break;
 			default:
 				throw new NotImplementedException();

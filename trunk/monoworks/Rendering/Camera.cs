@@ -710,7 +710,7 @@ namespace MonoWorks.Rendering
 				upVecOut = new Vector(0, 1, 0);
 				break;
 			default:
-				travel = new Vector(1, 1, 0.5);
+				travel = new Vector(1, -1, 0.5);
 				travel.Normalize();
 				dist = 0.8 * dist;
 				upVecOut = new Vector(0, 0, 1);

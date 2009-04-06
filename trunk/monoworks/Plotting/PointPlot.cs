@@ -433,6 +433,8 @@ namespace MonoWorks.Plotting
 							x = dataSet[r, columns[0]];
 							y = dataSet[r, columns[1]];
 							z = dataSet[r, columns[2]];
+							if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(z))
+								continue;
 							Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 							if (markersVisible)
 								gl.glVertex3d(x, y, z);
@@ -453,6 +455,8 @@ namespace MonoWorks.Plotting
 								x = dataSet[r, columns[0]];
 								y = dataSet[r, columns[1]];
 								z = dataSet[r, columns[2]];
+								if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(z))
+									continue;
 								Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 								gl.glVertex3d(x, y, z);
 							}

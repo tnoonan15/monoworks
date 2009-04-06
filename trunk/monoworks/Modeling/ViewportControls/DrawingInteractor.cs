@@ -226,7 +226,7 @@ namespace MonoWorks.Modeling.ViewportControls
 		{
 			if (sketcher != null)
 			{
-				sketcher.Apply();
+				sketcher.Cancel();
 				sketcher = null;
 			}
 			Sketch = null;

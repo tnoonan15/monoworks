@@ -70,8 +70,8 @@ namespace MonoWorks.Rendering.Controls
 			Position = corner - size;
 
 			// position the images
-			applyImage.Position = corner - new Coord(2.2 * applyImage.MinWidth, applyImage.MinHeight + 4);
-			cancelImage.Position = corner - new Coord(cancelImage.MinWidth + 4, 2.2 * cancelImage.MinWidth);
+			cancelImage.Position = new Coord(2.2 * applyImage.MinWidth, applyImage.MinHeight + 4);
+			applyImage.Position = new Coord(cancelImage.MinWidth + 4, 2.2 * cancelImage.MinWidth);
 		}
 
 
@@ -100,9 +100,9 @@ namespace MonoWorks.Rendering.Controls
 				fg.Setup();
 				gl.glLineWidth(1f);
 				gl.glBegin(gl.GL_LINE_LOOP);
-				(Position + new Coord(Width, 0)).glVertex();
-				(Position + size).glVertex();
-				(Position + new Coord(0, Height)).glVertex();
+				gl.glVertex2d(0, Height);
+				gl.glVertex2d(Width, Height);
+				gl.glVertex2d(Width, 0);
 				gl.glEnd();
 			}
 		}
@@ -112,7 +112,7 @@ namespace MonoWorks.Rendering.Controls
 			// the no-hitstate background is always rendered
 			IFill bg = styleClass.GetBackground(HitState.None);
 			if (bg != null)
-				bg.DrawCorner(Position, size, Corner.NE);
+				bg.DrawCorner(size, Corner.NE);
 
 			// now apply other styles
 			bg = styleClass.GetBackground(hitState);
@@ -121,13 +121,13 @@ namespace MonoWorks.Rendering.Controls
 				FillGradient grad = bg as FillGradient;
 				gl.glBegin(gl.GL_TRIANGLES);
 				grad.StartColor.Setup();
-				(Position + size).glVertex();
+				gl.glVertex2d(Width, Height);
 				grad.StopColor.Setup();
-				(Position + size/2).glVertex();
+				gl.glVertex2d(Width/2, Height/2);
 				if (hitRegion == Region.Apply)
-					(Position + new Coord(0, EdgeWidth)).glVertex();
+					gl.glVertex2d(0, EdgeWidth);
 				else // cancel
-					(Position + new Coord(EdgeWidth, 0)).glVertex();
+					gl.glVertex2d(EdgeWidth, 0);
 				gl.glEnd();
 			}
 		}

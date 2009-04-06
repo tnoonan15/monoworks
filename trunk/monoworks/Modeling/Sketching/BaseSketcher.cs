@@ -46,5 +46,19 @@ namespace MonoWorks.Modeling.Sketching
 			get { return Sketchable.Sketch; }
 		}
 
+
+		public override void Apply()
+		{
+			base.Apply();
+			Sketchable.Snapshot();
+		}
+
+
+		public override void Cancel()
+		{
+			base.Cancel();
+			Sketchable.Revert();
+		}
+
 	}
 }

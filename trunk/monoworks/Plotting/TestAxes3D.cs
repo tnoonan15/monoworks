@@ -44,6 +44,7 @@ namespace MonoWorks.Plotting
 				arrayData[r, 2] = Math.Sin(arrayData[r, 0]) * Math.Cos(arrayData[r, 1]);
 				arrayData[r, 3] = arrayData[r, 0] + arrayData[r, 1];
 			}
+			arrayData[512, 2] = Double.NaN; // just to test out the handling of NaN
 			arrayData.SetColumnName(0, "x");
 			arrayData.SetColumnName(1, "y");
 			arrayData.SetColumnName(2, "sin(x)*cos(y)");

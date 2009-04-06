@@ -61,6 +61,13 @@ namespace MonoWorks.Modeling.Sketching
 				SketchApplied();
 		}
 
+		/// <summary>
+		/// Cancel the current sketching operation.
+		/// </summary>
+		public virtual void Cancel()
+		{
+		}
+
 
 		public virtual void OnKeyPress(KeyEvent evt)
 		{

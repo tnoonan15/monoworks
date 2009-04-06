@@ -188,6 +188,8 @@ namespace MonoWorks.Plotting
 				max = data[0, col];
 				for (int r = 1; r < NumRows; r++)
 				{
+					if (Double.IsNaN(data[r, col]))
+						continue;
 					min = Math.Min(min, data[r, col]);
 					max = Math.Max(max, data[r, col]);
 				}
@@ -211,7 +213,7 @@ namespace MonoWorks.Plotting
 			PlotIndex index = new PlotIndex(NumRows);			
 			for (int r=0; r<NumRows; r++)
 			{
-				if (data[r, col] < min || data[r,col] > max)
+				if (!Double.IsNaN(data[r,col]) && (data[r, col] < min || data[r,col] > max))
 					index[r] = false;
 			}
 			return index;
@@ -421,6 +423,8 @@ namespace MonoWorks.Plotting
 				int colBit = (int)Math.Pow(2, c);
 				for (int r = 0; r < NumRows; r++)
 				{
+					if (Double.IsNaN(data[r, c]))
+						continue;
 					if (((int)data[r, col] & colBit) == colBit)
 						data[r, c + startCol] = 1;
 					else

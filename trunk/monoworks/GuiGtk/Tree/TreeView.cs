@@ -26,7 +26,7 @@ namespace MonoWorks.GuiGtk.Tree
 	/// <summary>
 	/// The tree view that acts on a document tree.
 	/// </summary>
-	public class TreeView : Gtk.TreeView
+	public class TreeView : Gtk.TreeView, ISelectionListener
 	{
 		/// <summary>
 		/// Default constructor.
@@ -46,19 +46,17 @@ namespace MonoWorks.GuiGtk.Tree
 
 			// create the renderers
 			var iconRenderer = new Gtk.CellRendererPixbuf();
-//			iconRenderer.SetFixedSize(18, 18);
 			column.PackStart(iconRenderer, false);
 			column.AddAttribute(iconRenderer, "stock-id", 0);
 			var nameRenderer = new Gtk.CellRendererText();
 			column.PackStart(nameRenderer, true);
 			column.AddAttribute(nameRenderer, "text", 1);
+			
+			this.Selection.Changed += OnSelectionChanged;
 		}
 		
 		protected TreeModel model;
 		
-		
-		
-
 		protected Drawing drawing;
 		//// <value>
 		/// The drawing.
@@ -72,6 +70,60 @@ namespace MonoWorks.GuiGtk.Tree
 				model.Drawing = value;
 			}
 		}
+		
+		
+		
+#region Selection
+		
+		/// <summary>
+		/// Set true when the selection state is being updated by the control itself.
+		/// </summary>
+		private bool internalUpdate = false;
+		
+		/// <summary>
+		/// Handles the selection changing by the user.
+		/// </summary>
+		void OnSelectionChanged(object sender, EventArgs e)
+		{
+			if (!internalUpdate)
+			{
+				internalUpdate = true;
+				Drawing.EntityManager.DeselectAll(this);
+				Gtk.TreeIter iter;
+				Gtk.TreeModel treeModel;
+				if (Selection.GetSelected(out treeModel, out iter))
+				{
+					var entity = model.GetEntity(iter);
+					Drawing.EntityManager.Select(this, entity);
+				}
+				internalUpdate = false;
+			}
+		}
+		
+		public void OnSelect(Entity entity)
+		{
+			Gtk.TreeIter iter = model.GetIter(entity);
+			Selection.SelectIter(iter);
+		}
+				
+		public new void OnSelectAll()
+		{
+			Selection.UnselectAll();
+		}
+		
+		public void OnDeselect(Entity entity)
+		{
+			Gtk.TreeIter iter = model.GetIter(entity);
+			Selection.UnselectIter(iter);
+		}
+				
+		public void OnDeselectAll()
+		{
+			Selection.UnselectAll();
+		}
+		
+#endregion
+		
 		
 	}
 }

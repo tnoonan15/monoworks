@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using MonoWorks.Rendering;
 
@@ -41,9 +42,9 @@ namespace MonoWorks.Modeling
 
 		protected Viewport viewport;
 		
+		
 #region Entity Registry
-		
-		
+				
 		protected Dictionary<long, Entity> entityRegistry = new Dictionary<long,Entity>();
 		
 		/// <summary>
@@ -67,12 +68,23 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		/// <param name="id"> A valid entity id. </param>
 		/// <returns> The <see cref="Entity"/> with the id. </returns>
-		public Entity GetEntity(long id)
+		public Entity GetEntity(int id)
 		{
 			if (entityRegistry.ContainsKey(id))
 				return entityRegistry[id];
 			else
 				throw new Exception(String.Format("Drawing does not contain an entity with id {0}", id));
+		}
+		
+		/// <summary>
+		/// Gets an entity by name.
+		/// </summary>
+		public Entity GetEntity(string name)
+		{
+			var entity = from e in entityRegistry.Values
+						where e.Name == name
+						select e;
+			return entity.FirstOrDefault();
 		}
 		
 #endregion
