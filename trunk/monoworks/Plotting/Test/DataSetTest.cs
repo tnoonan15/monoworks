@@ -39,6 +39,19 @@ namespace MonoWorks.PlottingTest
 		}
 
 		/// <summary>
+		/// Tests reading a file with missing cells.
+		/// </summary>
+		[Test]
+		public void TestMissingCells()
+		{
+			ArrayDataSet data = new ArrayDataSet();
+			data.FromFile("Test/array-data-missing.txt");
+			Assert.AreEqual(3, data.NumColumns);
+			Assert.AreEqual(32, data.NumRows);
+			Assert.IsTrue(Double.IsNaN(data[7, 1]));
+		}
+
+		/// <summary>
 		/// Tests parsing a byte into bits.
 		/// </summary>
 		[Test]
@@ -63,6 +76,17 @@ namespace MonoWorks.PlottingTest
 
 			// test some actual values
 			Assert.AreEqual(1, data[7, 4]);
+		}
+
+		/// <summary>
+		/// Tests writing data to a file.
+		/// </summary>
+		[Test]
+		public void TestWriting()
+		{
+			ArrayDataSet data = new ArrayDataSet();
+			data.FromFile("Test/array-data-missing.txt");
+			data.ToFile("Test/array-data-out.txt");
 		}
 
     }

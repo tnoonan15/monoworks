@@ -262,18 +262,30 @@ namespace MonoWorks.Plotting
 				throw new Exception(index.ToString() + " is not a valid index.");
 			return columnNames[index];
 		}
-		
+
+		/// <summary>
+		/// Renames column oldName to newName.
+		/// </summary>
+		public void Rename(string oldName, string newName)
+		{
+			for (int c = 0; c < columnNames.Count; c++)
+			{
+				if (columnNames[c] == oldName)
+					columnNames[c] = newName;
+			}
+		}
+
 #endregion
 
 
-#region File I/O
+		#region File I/O
 
-		
+
 
 		/// <summary>
 		/// Reads data from a delimited text file.
 		/// </summary>
-		/// <remarks>The delimeter will be automagically determined (can be tabs or commas).</remarks>
+		/// <remarks>The delimiter will be automagically determined (can be tabs or commas).</remarks>
 		public void FromFile(string filePath)
 		{
 			StreamReader reader = File.OpenText(filePath);
@@ -281,17 +293,17 @@ namespace MonoWorks.Plotting
 			try
 			{
 
-				// get the header and determine delimeter
+				// get the header and determine delimiter
 				char delimiter = 'n';
-				char[] delimeters = new char[] { ',', '\t' };
+				char[] delimiters = new char[] { ',', '\t' };
 				string headerLine = reader.ReadLine();
-				foreach (char delim in delimeters)
+				foreach (char delim in delimiters)
 				{
 					if (headerLine.Contains(delim))
 						delimiter = delim;
 				}
 				if (delimiter == 'n')
-					throw new Exception("Could not find a valid delimeter (tab or space) in the file header.");
+					throw new Exception("Could not find a valid delimiter (tab or space) in the file header.");
 				string[] headers = headerLine.Split(delimiter);
 				int numCols = headers.Length;
 				ColumnType[] columnTypes = new ColumnType[numCols];
@@ -356,7 +368,10 @@ namespace MonoWorks.Plotting
 						{
 							try
 							{
-								data[r, c] = Double.Parse(rows[r][c]);
+								if (rows[r][c].Length == 0) // treat empty values as NaN
+									data[r, c] = Double.NaN;
+								else
+									data[r, c] = Double.Parse(rows[r][c]);
 							}
 							catch (Exception)
 							{
@@ -377,7 +392,37 @@ namespace MonoWorks.Plotting
 			}
 		}
 
+		/// <summary>
+		/// Writes the data set to a file.
+		/// </summary>
+		public void ToFile(string filePath)
+		{
+			char delimiter = '\t'; // do we need to let the user decide?
 
+			StreamWriter writer = new StreamWriter(filePath);
+
+			// write the header
+			foreach (var name in columnNames)
+			{
+				writer.Write(name);
+				writer.Write(delimiter);
+			}
+			writer.WriteLine();
+
+			// write the data
+			for (int r = 0; r < NumRows; r++)
+			{
+				for (int c = 0; c < NumColumns; c++)
+				{
+					if (!Double.IsNaN(data[r, c]))
+						writer.Write(data[r, c]);
+					writer.Write(delimiter);
+				}
+				writer.WriteLine();
+			}
+
+			writer.Close();
+		}
 
 #endregion
 

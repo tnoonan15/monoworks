@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 using AvalonDock;
 
@@ -58,6 +59,7 @@ namespace MonoWorks.GuiWpf.Framework
             dockManager = new DockingManager();
             dockPanel.Children.Add(dockManager);
             DockPanel.SetDock(dockManager, Dock.Top);
+			dockManager.Background = Brushes.White;
 
             // create the document pane
 			//documentPane = new DocumentPane();
