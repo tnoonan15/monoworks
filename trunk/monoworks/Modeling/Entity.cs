@@ -329,9 +329,17 @@ namespace MonoWorks.Modeling
 		/// <typeparam name="T">Entity or one of its subclasses.</typeparam>
 		public IEnumerable<T> GetChildren<T>() where T : Entity
 		{
-			return from child in children
-				   where child is T
-				   select child as T;
+//			return from child in children
+//				   where child is T
+//				   select child as T;
+			// TODO: put back to Linq way once Mono 2.0 is out of the picture
+			var kids = new List<T>();
+			foreach (var child in children)
+			{
+				if (child is T)
+					kids.Add(child as T);
+			}
+			return kids;
 		}
 
 		/// <summary>

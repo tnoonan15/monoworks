@@ -79,6 +79,7 @@ namespace MonoWorks.GuiGtk
 				// connect the viewport to the drawing
 				drawing.EntityManager.SelectionChanged += Controller.OnSelectionChanged;
 				drawing.EntityManager.RaiseSelectionChanged();
+				drawing.EntityManager.RegisterSelectionListener(treeView);
 				
 				Viewport.Camera.AnimateTo(ViewDirection.Standard);
 			}
