@@ -102,6 +102,9 @@
     <Compile Include="PlotControls\PointPlotPane.cs" />
     <Compile Include="Tree\TreeModel.cs" />
     <Compile Include="Tree\TreeView.cs" />
+    <Compile Include="AttributeControls\AttributeControl.cs" />
+    <Compile Include="AttributeControls\NullControl.cs" />
+    <Compile Include="AttributeControls\StringControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

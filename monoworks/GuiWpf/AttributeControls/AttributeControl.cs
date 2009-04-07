@@ -86,9 +86,6 @@ namespace MonoWorks.GuiWpf.AttributeControls
 
 		#region Attribute Changed Event
 
-
-		public delegate void AttributeChangedHandler(IAttributeControl sender);
-
 		/// <summary>
 		/// Raised when the value of the attribute changed.
 		/// </summary>

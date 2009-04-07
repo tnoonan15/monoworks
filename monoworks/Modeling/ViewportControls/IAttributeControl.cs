@@ -24,6 +24,12 @@ using MonoWorks.Modeling;
 namespace MonoWorks.Modeling.ViewportControls
 {
 	/// <summary>
+	/// Delegate for handling an attribute being changed by a control.
+	/// </summary>
+	public delegate void AttributeChangedHandler(IAttributeControl sender);
+	
+	
+	/// <summary>
 	/// Interface for user controls to alter entity attributes.
 	/// </summary>
 	public interface IAttributeControl
