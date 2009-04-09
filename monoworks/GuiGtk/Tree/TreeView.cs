@@ -102,8 +102,9 @@ namespace MonoWorks.GuiGtk.Tree
 		
 		public void OnSelect(Entity entity)
 		{
-			Gtk.TreeIter iter = model.GetIter(entity);
-			Selection.SelectIter(iter);
+			Gtk.TreeIter iter;
+			if (model.TryGetIter(entity, out iter))
+				Selection.SelectIter(iter);
 		}
 				
 		public new void OnSelectAll()
@@ -113,8 +114,9 @@ namespace MonoWorks.GuiGtk.Tree
 		
 		public void OnDeselect(Entity entity)
 		{
-			Gtk.TreeIter iter = model.GetIter(entity);
-			Selection.UnselectIter(iter);
+			Gtk.TreeIter iter;
+			if (model.TryGetIter(entity, out iter))
+				Selection.UnselectIter(iter);
 		}
 				
 		public void OnDeselectAll()

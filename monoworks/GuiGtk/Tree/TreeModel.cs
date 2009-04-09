@@ -66,10 +66,18 @@ namespace MonoWorks.GuiGtk.Tree
 		/// </summary>
 		public void AddEntity(Entity entity)
 		{
+			// try to remove it first
+			RemoveEntity(entity);
+			
+			// add it
 			if (entity.Parent == null || entity.Parent is Drawing) // this is the root level entity
 				AddEntity(entity, null);
 			else // this is a child entity
-				AddEntity(entity, GetIter(entity.Parent));
+			{
+				Gtk.TreeIter iter;
+				if (TryGetIter(entity.Parent, out iter)) // only proceed if the parent is in the model
+					AddEntity(entity, iter);
+			}
 		}
 
 		/// <summary>
@@ -93,29 +101,31 @@ namespace MonoWorks.GuiGtk.Tree
 		/// </summary>
 		public void RemoveEntity(Entity entity)
 		{
-			throw new System.NotImplementedException();
+			Gtk.TreeIter iter;
+			if (TryGetIter(entity, out iter))
+				Remove(ref iter);
 		}
 		
 		/// <summary>
-		/// Gets an iter pointing to an existing entity in the tree.
+		/// Tries to get an iter pointing to an existing entity in the tree. Returns true if it succeeded.
 		/// </summary>
-		public Gtk.TreeIter GetIter(Entity entity)
+		public bool TryGetIter(Entity entity, out Gtk.TreeIter iter)
 		{
 			Gtk.TreeIter theIter = new Gtk.TreeIter();
-			Foreach(delegate(Gtk.TreeModel model, Gtk.TreePath path, Gtk.TreeIter iter) {
-				string name = model.GetValue(iter, 1) as string;
+			Foreach(delegate(Gtk.TreeModel model, Gtk.TreePath path, Gtk.TreeIter iter_) {
+				string name = model.GetValue(iter_, 1) as string;
 				if (entity.Name == name)
 				{
-					theIter = iter;
+					theIter = iter_;
 					return true;
 				}
 				else
 					return false;
 			});
+			iter = theIter;
 			if (IterIsValid(theIter))
-				return theIter;
-			else
-				throw new Exception("The entity " + entity.Name + " is not in the tree.");
+				return true;
+			return false;
 		}
 
 		

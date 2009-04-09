@@ -18,6 +18,7 @@
 
 using System;
 
+using MonoWorks.Base;
 using MonoWorks.Modeling;
 using MonoWorks.Modeling.ViewportControls;
 
@@ -65,6 +66,8 @@ namespace MonoWorks.GuiGtk.AttributeControls
 			{
 			case "System.String":
 				return new StringControl(entity, metaData);
+			case "MonoWorks.Base.Length":
+				return new DimensionalControl<Length>(entity, metaData);
 			default:
 				return new NullControl(entity, metaData);
 			}
