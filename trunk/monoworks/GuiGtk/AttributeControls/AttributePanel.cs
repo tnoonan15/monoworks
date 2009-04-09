@@ -54,7 +54,7 @@ namespace MonoWorks.GuiGtk.AttributeControls
 			cancelButton.Clicked += OnCancel;
 			PackStart(cancelButton, false, true, 0);
 			
-			
+			Hide();
 		}
 		
 		
@@ -88,7 +88,7 @@ namespace MonoWorks.GuiGtk.AttributeControls
 				}
 			}
 			
-			WidthRequest = 150;
+			WidthRequest = 160;
 			
 			ShowAll();
 		}

@@ -32,6 +32,7 @@ namespace MonoWorks.GuiGtk.AttributeControls
 		public StringControl(Entity entity, AttributeMetaData metaData) : base(entity, metaData)
 		{
 			entry = new Gtk.Entry(entity.GetAttribute(metaData.Name) as string);
+			entry.Changed += HandleChanged;
 			PackStart(entry, false, true, Padding);
 		}
 		
@@ -43,6 +44,13 @@ namespace MonoWorks.GuiGtk.AttributeControls
 			entry.Text = Entity.GetAttribute(MetaData.Name) as string;
 		}
 
+		/// <summary>
+		/// Handles the string being changed by the user.
+		/// </summary>
+		void HandleChanged(object sender, EventArgs e)
+		{
+			Entity.SetAttribute(MetaData.Name, entry.Text);
+		}
 		
 	}
 }

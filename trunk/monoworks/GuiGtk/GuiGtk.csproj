@@ -24,11 +24,12 @@
     <AssemblyName />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <AssemblyName>MonoWorks.GuiGtk</AssemblyName>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -105,6 +106,7 @@
     <Compile Include="AttributeControls\AttributeControl.cs" />
     <Compile Include="AttributeControls\NullControl.cs" />
     <Compile Include="AttributeControls\StringControl.cs" />
+    <Compile Include="AttributeControls\DimensionalControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

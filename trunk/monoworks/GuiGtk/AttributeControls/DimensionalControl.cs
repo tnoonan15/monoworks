@@ -1,4 +1,4 @@
-// NullControl.cs - MonoWorks Project
+// DimensionalControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -18,28 +18,25 @@
 
 using System;
 
+using MonoWorks.Base;
 using MonoWorks.Modeling;
 using MonoWorks.Modeling.ViewportControls;
 
 namespace MonoWorks.GuiGtk.AttributeControls
-{	
+{
 	/// <summary>
-	/// Attribute control for attributes that can't be edited.
-	/// </summary>
-	public class NullControl : AttributeControl
+	/// Attribute control for dimensional values.
+	/// </summary>	
+	public class DimensionalControl<Dimensional> : AttributeControl
 	{
 		
-		public NullControl(Entity entity, AttributeMetaData metaData) : base(entity, metaData)
+		public DimensionalControl(Entity entity, AttributeMetaData metaData) : base(entity, metaData)
 		{
-			
-			// add the label
-			var label = new Gtk.Label("Not Editable");
-			label.ModifyFg(Gtk.StateType.Normal, new Gdk.Color(128, 128, 128));
-			PackStart(label, false, true, Padding);
 		}
 		
-		public override void Update()
+		public override void Update ()
 		{
+			
 		}
 
 	}
