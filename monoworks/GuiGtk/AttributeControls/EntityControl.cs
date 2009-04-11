@@ -1,4 +1,4 @@
-// DimensionalControl.cs - MonoWorks Project
+// EntityControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -25,49 +25,55 @@ using MonoWorks.Modeling.ViewportControls;
 namespace MonoWorks.GuiGtk.AttributeControls
 {
 	/// <summary>
-	/// Attribute control for dimensional values.
+	/// Control for attributes that are entities.
 	/// </summary>	
-	public class DimensionalControl<T> : AttributeControl where T : Dimensional
-	{
-		
-		public DimensionalControl(Entity entity, AttributeMetaData metaData) : base(entity, metaData)
+	public class EntityControl<T> : AttributeControl where T : Entity
+	{		
+		public EntityControl(Entity entity, AttributeMetaData metaData) : base(entity, metaData)
 		{
-			
-			var hbox = new Gtk.HBox(false, 2);
-			PackStart(hbox, true, true, Padding);
-			
-			spin = new Gtk.SpinButton(-10, 10, 0.1);
-			spin.Changed += HandleChanged;
-			hbox.PackStart(spin, true, true, Padding);
-			
-			unitsLabel = new Gtk.Label();
-			hbox.PackEnd(unitsLabel, false, true, Padding);
+			combo = Gtk.ComboBox.NewText();
+			combo.Changed += HandleChanged;
+			PackStart(combo, true, true, Padding);
 			
 			Update();
 		}
 		
-		
-		private Gtk.SpinButton spin = null;
-		
-		private Gtk.Label unitsLabel = null;
-		
+		private Gtk.ComboBox combo;
+	
 		public override void Update ()
 		{
-			T val = Entity.GetAttribute(MetaData.Name) as T;
-			spin.Value = val.Value;
-			unitsLabel.Text = val.DisplayUnits;
+			// populate the combo
+			combo.Clear();
+			T attr = Entity.GetAttribute(MetaData.Name) as T;
+			int i = 0;
+			foreach (var entity in Entity.TheDrawing.GetChildren<T>())
+			{
+				Console.WriteLine("adding " + entity.Name);
+				combo.AppendText(entity.Name);
+				if (attr != null && attr.Name == entity.Name)
+					combo.Active = i;
+				i++;
+			}
 		}
-		
+
 		/// <summary>
-		/// Handles the spins value changing.
+		/// Handles the value of the combo changing.
 		/// </summary>
 		private void HandleChanged(object sender, EventArgs e)
 		{
-			T val = Entity.GetAttribute(MetaData.Name) as T;
-			val.Value = spin.Value;
-			Entity.MakeDirty();
-			RaiseAttributeChanged();
+			if (InternalUpdate)
+				return;
+			string active = combo.ActiveText;			
+			foreach (var entity in Entity.TheDrawing.GetChildren<T>())
+			{
+				if (entity.Name == active)
+				{
+					Entity.SetAttribute(MetaData.Name, entity);
+					Entity.MakeDirty();
+					RaiseAttributeChanged();
+				}
+			}
 		}
-
+		
 	}
 }

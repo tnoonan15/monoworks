@@ -37,7 +37,7 @@ namespace MonoWorks.GuiGtk.AttributeControls
 			// add the label
 			var label = new Gtk.Label(metaData.Name);
 			label.SetAlignment(0,0);
-			PackStart(label, false, true, Padding);
+			PackStart(label, false, false, Padding);
 			
 			
 		}
@@ -68,6 +68,10 @@ namespace MonoWorks.GuiGtk.AttributeControls
 				return new StringControl(entity, metaData);
 			case "MonoWorks.Base.Length":
 				return new DimensionalControl<Length>(entity, metaData);
+			case "MonoWorks.Base.Angle":
+				return new DimensionalControl<Angle>(entity, metaData);
+			case "MonoWorks.Modeling.RefLine":
+				return new EntityControl<RefLine>(entity, metaData);
 			default:
 				return new NullControl(entity, metaData);
 			}
