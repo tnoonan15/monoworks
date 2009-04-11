@@ -107,6 +107,7 @@
     <Compile Include="AttributeControls\NullControl.cs" />
     <Compile Include="AttributeControls\StringControl.cs" />
     <Compile Include="AttributeControls\DimensionalControl.cs" />
+    <Compile Include="AttributeControls\EntityControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
