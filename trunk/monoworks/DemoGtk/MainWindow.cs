@@ -50,18 +50,18 @@ namespace MonoWorks.DemoGtk
 			book.ChangeCurrentPage += OnPageChanged;
 			
 			// create model page		
-			DrawingFrame drawingFrame = new DrawingFrame();
-			book.AppendPage(drawingFrame, new Gtk.Label("Model"));
-			drawingFrame.Drawing = new TestPart();	
-			drawingFrame.Viewport.Camera.SetViewDirection(ViewDirection.Standard);
+//			DrawingFrame drawingFrame = new DrawingFrame();
+//			book.AppendPage(drawingFrame, new Gtk.Label("Model"));
+//			drawingFrame.Drawing = new TestPart();	
+//			drawingFrame.Viewport.Camera.SetViewDirection(ViewDirection.Standard);
 			
-//			// create the 2D page
-//			Pane2D pane2D = new Pane2D();
-//			book.AppendPage(pane2D, new Gtk.Label("Basic 2D"));
-//			
-//			// create the 3D page
-//			Pane3D pane3D = new Pane3D();
-//			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
+			// create the 2D page
+			Pane2D pane2D = new Pane2D();
+			book.AppendPage(pane2D, new Gtk.Label("Basic 2D"));
+			
+			// create the 3D page
+			Pane3D pane3D = new Pane3D();
+			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
 			
 			// create the controls page
 			PaneControls paneControls = new PaneControls();

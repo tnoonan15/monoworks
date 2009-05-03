@@ -41,5 +41,10 @@ namespace MonoWorks.Rendering
 		/// Draw a triangle of the given size with the specified corner.
 		/// </summary>
 		void DrawCorner(Coord size, Corner corner);
+		
+		/// <summary>
+		/// Outlines the given corner.
+		/// </summary>
+		void OutlineCorner(Coord size, Corner corner);
 	}
 }

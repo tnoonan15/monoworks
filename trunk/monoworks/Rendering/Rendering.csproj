@@ -133,6 +133,7 @@
     <Compile Include="ViewportControls\UiManager.cs" />
     <Compile Include="Viewport.cs" />
     <Compile Include="ViewportControls\ViewportController.cs" />
+    <Compile Include="Controls\CornerButtons.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />

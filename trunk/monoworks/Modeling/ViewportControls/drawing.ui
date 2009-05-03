@@ -30,21 +30,17 @@
 
 	<Tools>
     
-    <Toolbar name="View" buttonStyle="Image">
-      <Item action="Standard View"/>
-      <Item action="Front View"/>
-      <Item action="Back View"/>
-      <Item action="Left View"/>
-      <Item action="Right View"/>
-      <Item action="Top View"/>
-      <Item action="Bottom View"/>
-      <Item action="Projection"/>
-    </Toolbar>
+	    <Toolbar name="View" buttonStyle="Image">
+	      <Item action="Standard View"/>
+	      <Item action="Front View"/>
+	      <Item action="Back View"/>
+	      <Item action="Left View"/>
+	      <Item action="Right View"/>
+	      <Item action="Top View"/>
+	      <Item action="Bottom View"/>
+	      <Item action="Projection"/>
+	    </Toolbar>
     
-    <Toolbar name="Interaction" buttonStyle="Image">
-      <Item action="3D Interaction"/>
-      <Item action="3D View"/>
-    </Toolbar>
 
 		<Toolbar name="Shading" buttonStyle="Image">
 			<Item action="Wireframe"/>

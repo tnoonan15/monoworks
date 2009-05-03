@@ -45,7 +45,7 @@ namespace MonoWorks.Plotting
 			// handle double click
 			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
 			{
-				if (viewport.InteractionState == InteractionState.Interact2D)
+				if (viewport.Use2dInteraction)
 				{
 					viewport.RenderList.ResetBounds();
 					viewport.Resize();

@@ -28,7 +28,7 @@ namespace MonoWorks.Rendering.Interaction
 	/// <summary>
 	/// The interaction modes.
 	/// </summary>
-	public enum InteractionState {View3D, Interact3D, Interact2D};
+//	public enum InteractionState {View3D, Interact3D, Interact2D};
 	
 	/// <summary>
 	/// Possible user interaction types.

@@ -41,8 +41,10 @@ namespace MonoWorks.DemoGtk
 			Viewport.RenderList.AddActor(axes);
 			
 			Viewport.Camera.Projection = Projection.Parallel;
-			Viewport.SetInteractionState(InteractionState.Interact2D);
+			Viewport.Use2dInteraction = true;
+			Viewport.UsePrimaryInteractor = true;
 			Viewport.Camera.SetViewDirection(ViewDirection.Front);
+			new PlotController(Viewport);
 			
 			
 			// add the control pane

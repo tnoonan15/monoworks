@@ -104,7 +104,7 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			get
 			{
-                if (viewport.InteractionState == InteractionState.Interact2D 
+                if (viewport.Use2dInteraction
 					&& mouseType == InteractionType.Dolly)
                     return InteractionType.Zoom;
                 else
@@ -123,9 +123,9 @@ namespace MonoWorks.Rendering.Interaction
 			// Ctrl swaps first button view and interact types
 			if (evt.Handled || 
 				(evt.Button == 1 && evt.Modifier != InteractionModifier.Control &&
-				viewport.InteractionState != InteractionState.View3D) || 
+				!viewport.UsePrimaryInteractor) || 
 				(evt.Button == 1 && evt.Modifier == InteractionModifier.Control &&
-				viewport.InteractionState == InteractionState.View3D))
+				!viewport.UsePrimaryInteractor))
 				return;
 
 			int key = GetKey(evt.Button, evt.Modifier);
@@ -145,7 +145,7 @@ namespace MonoWorks.Rendering.Interaction
 			// handle double click
 			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
 			{
-				if (viewport.InteractionState == InteractionState.Interact2D)
+				if (viewport.Use2dInteraction)
 					viewport.Camera.AnimateTo(ViewDirection.Front);
 				else
 					viewport.Camera.AnimateTo(ViewDirection.Standard);

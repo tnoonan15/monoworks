@@ -24,7 +24,7 @@
 		</Foreground>
 	</StyleClass>
 
-	<StyleClass name="applycancel">
+	<StyleClass name="corner">
 		<Background hitState="None">
 			<FillGradient start="Control Grad Dark" stop="Control Grad Light" direction="NE2SW"/>
 		</Background>
