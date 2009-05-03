@@ -41,6 +41,7 @@ namespace MonoWorks.DemoGtk
 			Viewport.RenderList.AddActor(axes);
 			
 			Viewport.Camera.SetViewDirection(ViewDirection.Standard);
+			new PlotController(Viewport);
 			
 			
 			// add the control pane

@@ -10,11 +10,7 @@
 		<Action name="Top View" icon="top-view" tooltip="Top view"/>
 		<Action name="Bottom View" icon="bottom-view" tooltip="Bottom view"/>
 		<Action name="Projection" icon="perspective" tooltip="Toggle between parallel and perspective projection" togglable="true"/>
-		
-		<Action name="2D Interaction" icon="2d" tooltip="2D Interaction Mode" togglable="true"/>
-		<Action name="3D Interaction" icon="3d-interact" tooltip="3D Interaction Mode" togglable="true"/>
-		<Action name="3D View" icon="3d-view" tooltip="3D View Mode" togglable="true"/>
-		
+				
 		<Action name="Export" icon="export" tooltip="Export viewport to a file"/>
 		
 	</Actions>

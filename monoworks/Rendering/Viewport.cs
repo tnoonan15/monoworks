@@ -223,21 +223,51 @@ namespace MonoWorks.Rendering
 
 #region Interactors
 
+		private bool usePrimaryInteractor = false;
+		/// <value>
+		/// Whether or not to use the primary interactor instead of the view interactor. 
+		/// </value>
+		/// <remarks>This is inverted with the control key.</remarks>
+		public bool UsePrimaryInteractor
+		{
+			get {return usePrimaryInteractor;}
+			set
+			{
+				usePrimaryInteractor = value;
+				if (InteractionStateChanged != null)
+					InteractionStateChanged(this, new EventArgs());
+				Resize();
+			}
+		}
+
+		private bool use2dInteraction = false;
+		/// <value>
+		/// Whether or not the user interaction should be 2-dimensional. 
+		/// </value>
+		public bool Use2dInteraction
+		{
+			get {return use2dInteraction;}
+			set
+			{
+				use2dInteraction = value;
+				if (InteractionStateChanged != null)
+					InteractionStateChanged(this, new EventArgs());
+				Resize();
+			}
+		}
+		
 		/// <summary>
 		/// The current interaction state (defines which interactor to use).
 		/// </summary>
-		public InteractionState InteractionState { get; private set; }
+//		public InteractionState InteractionState { get; private set; }
 
 		/// <summary>
 		/// Set the viewport interaction state.
 		/// </summary>
-		public void SetInteractionState(InteractionState state)
-		{
-			InteractionState = state;
-			if (InteractionStateChanged != null)
-				InteractionStateChanged(this, new EventArgs());
-			Resize();
-		}
+//		public void SetInteractionState(InteractionState state)
+//		{
+//			InteractionState = state;
+//		}
 
 		/// <summary>
 		/// Raised when the interaction state changes.
@@ -273,10 +303,10 @@ namespace MonoWorks.Rendering
 
 			// primary interactor
 			if (PrimaryInteractor != null &&
-				((InteractionState != InteractionState.View3D && 
+				(UsePrimaryInteractor && 
 				evt.Modifier != InteractionModifier.Control) ||
-				(InteractionState == InteractionState.View3D &&
-				evt.Modifier == InteractionModifier.Control)))
+				(!UsePrimaryInteractor &&
+				evt.Modifier == InteractionModifier.Control))
 				PrimaryInteractor.OnButtonPress(evt);
 
 			ViewInteractor.OnButtonPress(evt);
@@ -290,9 +320,9 @@ namespace MonoWorks.Rendering
 
 			// primary interactor
 			if (PrimaryInteractor != null &&
-				((InteractionState != InteractionState.View3D &&
+				((UsePrimaryInteractor &&
 				evt.Modifier != InteractionModifier.Control) ||
-				(InteractionState == InteractionState.View3D &&
+				(!UsePrimaryInteractor &&
 				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnButtonRelease(evt);
 
@@ -307,9 +337,9 @@ namespace MonoWorks.Rendering
 
 			// primary interactor
 			if (PrimaryInteractor != null &&
-				((InteractionState != InteractionState.View3D &&
+				((UsePrimaryInteractor &&
 				evt.Modifier != InteractionModifier.Control) ||
-				(InteractionState == InteractionState.View3D &&
+				(!UsePrimaryInteractor &&
 				evt.Modifier == InteractionModifier.Control)))
 				PrimaryInteractor.OnMouseMotion(evt);
 

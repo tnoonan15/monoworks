@@ -47,10 +47,12 @@ namespace MonoWorks.Modeling.ViewportControls
 			ContextLayer.AddContext(ContextLocation.N, "Shading");
 
 			// get ready for sketching
-			sketchApplyCancel = new ApplyCancelControl();
+			sketchApplyCancel = new CornerButtons(Corner.NE);
 			sketchApplyCancel.IsVisible = false;
-			sketchApplyCancel.Apply += OnApplySketch;
-			sketchApplyCancel.Cancel += OnCancelSketch;
+			sketchApplyCancel.Action1 += OnApplySketch;
+			sketchApplyCancel.Action2 += OnCancelSketch;
+			sketchApplyCancel.Image1 = new Image(ResourceHelper.GetStream("apply.png", "MonoWorks.Rendering"));
+			sketchApplyCancel.Image2 = new Image(ResourceHelper.GetStream("cancel.png", "MonoWorks.Rendering"));
 			viewport.RenderList.AddOverlay(sketchApplyCancel);
 		}
 
@@ -296,7 +298,7 @@ namespace MonoWorks.Modeling.ViewportControls
 		/// <summary>
 		/// Control for applying/cancelling sketch changes.
 		/// </summary>
-		private ApplyCancelControl sketchApplyCancel;
+		private CornerButtons sketchApplyCancel;
 
 
 		/// <summary>
@@ -311,7 +313,7 @@ namespace MonoWorks.Modeling.ViewportControls
 				drawing.AddSketch(sketch);
 				viewport.Camera.AnimateTo(entity as RefPlane);
 				DrawingInteractor.BeginSketching(sketch);
-				viewport.SetInteractionState(InteractionState.Interact3D);
+				viewport.UsePrimaryInteractor = true;
 
 				drawing.EntityManager.DeselectAll(null);
 
@@ -334,7 +336,7 @@ namespace MonoWorks.Modeling.ViewportControls
 				Sketch sketch = entity as Sketch;
 				viewport.Camera.AnimateTo(sketch.Plane);
 				DrawingInteractor.BeginSketching(sketch);
-				viewport.SetInteractionState(InteractionState.Interact3D);
+				viewport.UsePrimaryInteractor = true;
 
 				drawing.EntityManager.DeselectAll(null);
 

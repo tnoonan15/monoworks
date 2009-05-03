@@ -146,7 +146,7 @@ namespace MonoWorks.Plotting
 		{
 			base.OnViewportResized(viewport);
 			
-			if (viewport.InteractionState == InteractionState.Interact2D)
+			if (viewport.Use2dInteraction)
 			{
 				double edgeFactor = 0.35 * viewport.Camera.ViewportToWorldScaling;
 				Vector center = viewport.Camera.Center;
@@ -543,7 +543,7 @@ namespace MonoWorks.Plotting
 				gl.glEnable(gl.GL_CLIP_PLANE0 + i);
 			
 			// disable clipping for planes orthagonal to view direction
-			if (viewport.InteractionState == InteractionState.Interact2D)
+			if (viewport.Use2dInteraction)
 			{
 				switch (viewport.Camera.LastDirection)
 				{
@@ -627,7 +627,7 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public override bool HandlePan(Viewport viewport, double dx, double dy)
 		{			
-			if (viewport.InteractionState == InteractionState.Interact2D)
+			if (viewport.Use2dInteraction)
 			{
 				resizeMode = ResizeMode.Manual;
 				// determine the difference to apply to the axes ranges
@@ -642,7 +642,7 @@ namespace MonoWorks.Plotting
 		
 		public override bool HandleDolly(Viewport viewport, double factor)
 		{
-			if (viewport.InteractionState == InteractionState.Interact2D)
+			if (viewport.Use2dInteraction)
 			{
 				resizeMode = ResizeMode.Manual;
 				plotBounds.Expand(1 - factor);
@@ -656,7 +656,7 @@ namespace MonoWorks.Plotting
 
         public override bool HandleZoom(Viewport viewport, RubberBand rubberBand)
         {
-            if (viewport.InteractionState == InteractionState.Interact2D)
+            if (viewport.Use2dInteraction)
 			{
 				ResizeMode = ResizeMode.Manual;
 				Vector min = viewport.Camera.ScreenToWorld(rubberBand.Min, false);

@@ -49,6 +49,15 @@ namespace MonoWorks.Rendering.ViewportControls
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
 
 			viewport.RenderList.AddOverlay(UiManager.ContextLayer);
+			
+			// make the interaction buttons
+			interactionButtons = new CornerButtons(Corner.NW);
+			interactionButtons.Image1 = new Image(ResourceHelper.GetStream("3d-interact.png"));
+			interactionButtons.Action1 += OnEnablePrimaryInteractor;
+			interactionButtons.Image2 = new Image(ResourceHelper.GetStream("3d-view.png"));
+			interactionButtons.Action2 += OnDisablePrimaryInteractor;
+			interactionButtons.IsTogglable = true;
+			viewport.RenderList.AddOverlay(interactionButtons);
         }
 
         protected Viewport viewport;
@@ -72,7 +81,7 @@ namespace MonoWorks.Rendering.ViewportControls
 		protected void LoadStandardToolbars()
 		{
 			ContextLayer.AddContext(ContextLocation.N, "View");
-			ContextLayer.AddContext(ContextLocation.N, "Interaction");
+//			ContextLayer.AddContext(ContextLocation.N, "Interaction");
 			ContextLayer.AddContext(ContextLocation.N, "Export");
 			OnProjectionChanged();
 			OnInteractionStateChanged();
@@ -170,71 +179,89 @@ namespace MonoWorks.Rendering.ViewportControls
 #region Interaction Actions
 
 		/// <summary>
+		/// The buttons in the upper left corner that allow the user to select whether or not to use th primary interactor. 
+		/// </summary>
+		protected CornerButtons interactionButtons;
+		
+		/// <summary>
 		/// The name of each interaction state.
 		/// </summary>
-		protected readonly Dictionary<InteractionState, string> interactionNames = new Dictionary<InteractionState, string>{
-			{InteractionState.Interact2D, "2D Interaction"}, 
-			{InteractionState.Interact3D, "3D Interaction"},
-			{InteractionState.View3D, "3D View"}};
+//		protected readonly Dictionary<InteractionState, string> interactionNames = new Dictionary<InteractionState, string>{
+//			{InteractionState.Interact2D, "2D Interaction"}, 
+//			{InteractionState.Interact3D, "3D Interaction"},
+//			{InteractionState.View3D, "3D View"}};
 
 
 		/// <summary>
 		/// Handles the interaction state changing from an external source.
 		/// </summary>
-		private void ExternalInteractionStateChanged(object sender, EventArgs args)
+		protected virtual void ExternalInteractionStateChanged(object sender, EventArgs args)
 		{
 			if (!InternalUpdate)
 				OnInteractionStateChanged();
 		}
 
 		
-		[Action("2D Interaction")]
-		public void On2dInteract()
-		{
-			BeginInternalUpdate();
-			viewport.Camera.SetViewDirection(ViewDirection.Front);
-			viewport.Camera.Projection = Projection.Parallel;
-			viewport.SetInteractionState(InteractionState.Interact2D);
-		 	OnInteractionStateChanged();
-			EndInternalUpdate();
-		}
+//		[Action("2D Interaction")]
+//		public void On2dInteract()
+//		{
+//			BeginInternalUpdate();
+//			viewport.Camera.SetViewDirection(ViewDirection.Front);
+//			viewport.Camera.Projection = Projection.Parallel;
+//			viewport.SetInteractionState(InteractionState.Interact2D);
+//		 	OnInteractionStateChanged();
+//			EndInternalUpdate();
+//		}
 		
-		[Action("3D Interaction")]
-		public void On3dInteract()
-		{
+//		[Action("3D Interaction")]
+//		public void On3dInteract()
+//		{
+//			BeginInternalUpdate();
+//			viewport.UsePrimaryInteractor = true;
+//			OnInteractionStateChanged();
+//			EndInternalUpdate();
+//		}
+//		
+//		[Action("3D View")]
+//		public void On3dView()
+//		{
+//			BeginInternalUpdate();
+//			viewport.UsePrimaryInteractor = false;
+//			OnInteractionStateChanged();
+//			EndInternalUpdate();
+//		}	
+
+		/// <summary>
+		/// Enables the primary interactor in the viewport. 
+		/// </summary>
+        void OnEnablePrimaryInteractor(object sender, EventArgs e)
+        {
 			BeginInternalUpdate();
-			viewport.SetInteractionState(InteractionState.Interact3D);
-			OnInteractionStateChanged();
+        	viewport.UsePrimaryInteractor = true;
 			EndInternalUpdate();
-		}
-		
-		[Action("3D View")]
-		public void On3dView()
-		{
+        }
+
+		/// <summary>
+		/// Disables the primary interactor in the viewport. 
+		/// </summary>
+        void OnDisablePrimaryInteractor(object sender, EventArgs e)
+        {
 			BeginInternalUpdate();
-			viewport.SetInteractionState(InteractionState.View3D);
-			OnInteractionStateChanged();
+        	viewport.UsePrimaryInteractor = false;
 			EndInternalUpdate();
-		}	
+        }
 		
 		/// <summary>
 		/// Updates the controls after the interaction state has changed.
 		/// </summary>
 		public void OnInteractionStateChanged()
 		{	
-			ToolBar toolbar = UiManager.GetToolbar("Interaction");
-			if (toolbar != null)
-			{
-				string interactionName = interactionNames[viewport.InteractionState];
-				foreach (Button button in toolbar)
-				{
-					if (button.LabelString == interactionName)
-						button.IsSelected = true;
-					else
-						button.IsSelected = false;
-					button.MakeDirty();
-				}
-			}
+			if (InternalUpdate)
+				return;
+			if (viewport.UsePrimaryInteractor)
+				interactionButtons.SelectedRegion = CornerButtons.Region.Button1;
+			else
+				interactionButtons.SelectedRegion = CornerButtons.Region.Button2;
 		}
 		
 #endregion

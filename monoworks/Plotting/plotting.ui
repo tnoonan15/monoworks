@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <UI>
+	<Action name="2D Interaction" icon="2d" tooltip="2D Interaction Mode" togglable="true"/>
 
 	<Tools>
 		<Toolbar name="View" buttonStyle="Image">
@@ -11,8 +12,6 @@
 		</Toolbar>
 		<Toolbar name="Interaction" buttonStyle="Image">
 			<Item action="2D Interaction"/>
-			<Item action="3D Interaction"/>
-			<Item action="3D View"/>
 		</Toolbar>
 	</Tools>
 </UI>
