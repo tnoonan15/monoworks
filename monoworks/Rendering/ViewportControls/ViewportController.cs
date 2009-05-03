@@ -40,7 +40,7 @@ namespace MonoWorks.Rendering.ViewportControls
             : base()
         {
 			this.viewport = viewport;
-			viewport.InteractionStateChanged += ExternalInteractionStateChanged;
+//			viewport.InteractionStateChanged += ExternalInteractionStateChanged;
 			viewport.Camera.ProjectionChanged += ExternalProjectionChanged;
 
 			ResourceManagerBase.LoadAssembly("MonoWorks.Rendering");
@@ -51,13 +51,13 @@ namespace MonoWorks.Rendering.ViewportControls
 			viewport.RenderList.AddOverlay(UiManager.ContextLayer);
 			
 			// make the interaction buttons
-			interactionButtons = new CornerButtons(Corner.NW);
-			interactionButtons.Image1 = new Image(ResourceHelper.GetStream("3d-interact.png"));
-			interactionButtons.Action1 += OnEnablePrimaryInteractor;
-			interactionButtons.Image2 = new Image(ResourceHelper.GetStream("3d-view.png"));
-			interactionButtons.Action2 += OnDisablePrimaryInteractor;
-			interactionButtons.IsTogglable = true;
-			viewport.RenderList.AddOverlay(interactionButtons);
+//			interactionButtons = new CornerButtons(Corner.NW);
+//			interactionButtons.Image1 = new Image(ResourceHelper.GetStream("3d-interact.png"));
+//			interactionButtons.Action1 += OnEnablePrimaryInteractor;
+//			interactionButtons.Image2 = new Image(ResourceHelper.GetStream("3d-view.png"));
+//			interactionButtons.Action2 += OnDisablePrimaryInteractor;
+//			interactionButtons.IsTogglable = true;
+//			viewport.RenderList.AddOverlay(interactionButtons);
         }
 
         protected Viewport viewport;
@@ -84,7 +84,7 @@ namespace MonoWorks.Rendering.ViewportControls
 //			ContextLayer.AddContext(ContextLocation.N, "Interaction");
 			ContextLayer.AddContext(ContextLocation.N, "Export");
 			OnProjectionChanged();
-			OnInteractionStateChanged();
+//			OnInteractionStateChanged();
 		}
 		
 #region View Direction Actions
@@ -181,7 +181,7 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// <summary>
 		/// The buttons in the upper left corner that allow the user to select whether or not to use th primary interactor. 
 		/// </summary>
-		protected CornerButtons interactionButtons;
+//		protected CornerButtons interactionButtons;
 		
 		/// <summary>
 		/// The name of each interaction state.
@@ -195,11 +195,11 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// <summary>
 		/// Handles the interaction state changing from an external source.
 		/// </summary>
-		protected virtual void ExternalInteractionStateChanged(object sender, EventArgs args)
-		{
-			if (!InternalUpdate)
-				OnInteractionStateChanged();
-		}
+//		protected virtual void ExternalInteractionStateChanged(object sender, EventArgs args)
+//		{
+//			if (!InternalUpdate)
+//				OnInteractionStateChanged();
+//		}
 
 		
 //		[Action("2D Interaction")]
@@ -234,35 +234,35 @@ namespace MonoWorks.Rendering.ViewportControls
 		/// <summary>
 		/// Enables the primary interactor in the viewport. 
 		/// </summary>
-        void OnEnablePrimaryInteractor(object sender, EventArgs e)
-        {
-			BeginInternalUpdate();
-        	viewport.UsePrimaryInteractor = true;
-			EndInternalUpdate();
-        }
+//        void OnEnablePrimaryInteractor(object sender, EventArgs e)
+//        {
+//			BeginInternalUpdate();
+//        	viewport.UsePrimaryInteractor = true;
+//			EndInternalUpdate();
+//        }
 
 		/// <summary>
 		/// Disables the primary interactor in the viewport. 
 		/// </summary>
-        void OnDisablePrimaryInteractor(object sender, EventArgs e)
-        {
-			BeginInternalUpdate();
-        	viewport.UsePrimaryInteractor = false;
-			EndInternalUpdate();
-        }
+//        void OnDisablePrimaryInteractor(object sender, EventArgs e)
+//        {
+//			BeginInternalUpdate();
+//        	viewport.UsePrimaryInteractor = false;
+//			EndInternalUpdate();
+//        }
 		
 		/// <summary>
 		/// Updates the controls after the interaction state has changed.
 		/// </summary>
-		public void OnInteractionStateChanged()
-		{	
-			if (InternalUpdate)
-				return;
-			if (viewport.UsePrimaryInteractor)
-				interactionButtons.SelectedRegion = CornerButtons.Region.Button1;
-			else
-				interactionButtons.SelectedRegion = CornerButtons.Region.Button2;
-		}
+//		public void OnInteractionStateChanged()
+//		{	
+//			if (InternalUpdate)
+//				return;
+//			if (viewport.UsePrimaryInteractor)
+//				interactionButtons.SelectedRegion = CornerButtons.Region.Button1;
+//			else
+//				interactionButtons.SelectedRegion = CornerButtons.Region.Button2;
+//		}
 		
 #endregion
 

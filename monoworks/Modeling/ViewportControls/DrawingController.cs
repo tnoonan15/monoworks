@@ -313,7 +313,7 @@ namespace MonoWorks.Modeling.ViewportControls
 				drawing.AddSketch(sketch);
 				viewport.Camera.AnimateTo(entity as RefPlane);
 				DrawingInteractor.BeginSketching(sketch);
-				viewport.UsePrimaryInteractor = true;
+//				viewport.UsePrimaryInteractor = true;
 
 				drawing.EntityManager.DeselectAll(null);
 
@@ -336,7 +336,7 @@ namespace MonoWorks.Modeling.ViewportControls
 				Sketch sketch = entity as Sketch;
 				viewport.Camera.AnimateTo(sketch.Plane);
 				DrawingInteractor.BeginSketching(sketch);
-				viewport.UsePrimaryInteractor = true;
+//				viewport.UsePrimaryInteractor = true;
 
 				drawing.EntityManager.DeselectAll(null);
 

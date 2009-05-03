@@ -223,22 +223,22 @@ namespace MonoWorks.Rendering
 
 #region Interactors
 
-		private bool usePrimaryInteractor = false;
-		/// <value>
-		/// Whether or not to use the primary interactor instead of the view interactor. 
-		/// </value>
-		/// <remarks>This is inverted with the control key.</remarks>
-		public bool UsePrimaryInteractor
-		{
-			get {return usePrimaryInteractor;}
-			set
-			{
-				usePrimaryInteractor = value;
-				if (InteractionStateChanged != null)
-					InteractionStateChanged(this, new EventArgs());
-				Resize();
-			}
-		}
+//		private bool usePrimaryInteractor = false;
+//		/// <value>
+//		/// Whether or not to use the primary interactor instead of the view interactor. 
+//		/// </value>
+//		/// <remarks>This is inverted with the control key.</remarks>
+//		public bool UsePrimaryInteractor
+//		{
+//			get {return usePrimaryInteractor;}
+//			set
+//			{
+//				usePrimaryInteractor = value;
+//				if (InteractionStateChanged != null)
+//					InteractionStateChanged(this, new EventArgs());
+//				Resize();
+//			}
+//		}
 
 		private bool use2dInteraction = false;
 		/// <value>
@@ -301,15 +301,9 @@ namespace MonoWorks.Rendering
 
 			OverlayInteractor.OnButtonPress(evt);
 
-			// primary interactor
-			if (PrimaryInteractor != null &&
-				(UsePrimaryInteractor && 
-				evt.Modifier != InteractionModifier.Control) ||
-				(!UsePrimaryInteractor &&
-				evt.Modifier == InteractionModifier.Control))
-				PrimaryInteractor.OnButtonPress(evt);
-
 			ViewInteractor.OnButtonPress(evt);
+
+			PrimaryInteractor.OnButtonPress(evt);
 		}
 
 		public void OnButtonRelease(MouseButtonEvent evt)
@@ -318,15 +312,9 @@ namespace MonoWorks.Rendering
 
 			OverlayInteractor.OnButtonRelease(evt);
 
-			// primary interactor
-			if (PrimaryInteractor != null &&
-				((UsePrimaryInteractor &&
-				evt.Modifier != InteractionModifier.Control) ||
-				(!UsePrimaryInteractor &&
-				evt.Modifier == InteractionModifier.Control)))
-				PrimaryInteractor.OnButtonRelease(evt);
-
 			ViewInteractor.OnButtonRelease(evt);
+
+			PrimaryInteractor.OnButtonRelease(evt);
 		}
 
 		public void OnMouseMotion(MouseEvent evt)
@@ -335,15 +323,9 @@ namespace MonoWorks.Rendering
 
 			OverlayInteractor.OnMouseMotion(evt);
 
-			// primary interactor
-			if (PrimaryInteractor != null &&
-				((UsePrimaryInteractor &&
-				evt.Modifier != InteractionModifier.Control) ||
-				(!UsePrimaryInteractor &&
-				evt.Modifier == InteractionModifier.Control)))
-				PrimaryInteractor.OnMouseMotion(evt);
-
 			ViewInteractor.OnMouseMotion(evt);
+			
+			PrimaryInteractor.OnMouseMotion(evt);
 		}
 
 
