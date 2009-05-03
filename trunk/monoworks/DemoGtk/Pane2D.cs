@@ -42,7 +42,7 @@ namespace MonoWorks.DemoGtk
 			
 			Viewport.Camera.Projection = Projection.Parallel;
 			Viewport.Use2dInteraction = true;
-			Viewport.UsePrimaryInteractor = true;
+//			Viewport.UsePrimaryInteractor = true;
 			Viewport.Camera.SetViewDirection(ViewDirection.Front);
 			new PlotController(Viewport);
 			

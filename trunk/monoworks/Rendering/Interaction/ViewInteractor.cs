@@ -111,6 +111,11 @@ namespace MonoWorks.Rendering.Interaction
 					return mouseType;
 			}
 		}
+		
+		/// <summary>
+		/// Gets set to true if an interaction has actually been performed during a mouse motion event.
+		/// </summary>
+		private bool interactionPerformed = false;
 
 		/// <summary>
 		/// Registers a button press event.
@@ -119,14 +124,6 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
-
-			// Ctrl swaps first button view and interact types
-			if (evt.Handled || 
-				(evt.Button == 1 && evt.Modifier != InteractionModifier.Control &&
-				!viewport.UsePrimaryInteractor) || 
-				(evt.Button == 1 && evt.Modifier == InteractionModifier.Control &&
-				!viewport.UsePrimaryInteractor))
-				return;
 
 			int key = GetKey(evt.Button, evt.Modifier);
 			if (mouseTypes.ContainsKey(key))
@@ -179,7 +176,16 @@ namespace MonoWorks.Rendering.Interaction
 
 			RubberBand.Enabled = false;
 			base.OnButtonRelease(evt);
-			mouseType = InteractionType.None;
+			
+			// reset the interaction type.
+			// if we've interacted, handle the event so others don't respond to it.
+			if (mouseType != InteractionType.None)
+			{
+				mouseType = InteractionType.None;
+				if (interactionPerformed)
+					evt.Handle();
+				interactionPerformed = false;
+			}
 		}
 
 		/// <summary>
@@ -219,6 +225,10 @@ namespace MonoWorks.Rendering.Interaction
 				}
 				break;
 			}
+			
+			// register whether or not an interactino has been performed
+			if (mouseType != InteractionType.None)
+				interactionPerformed = true;
 
 			if (!blocked)
 				OnMouseMotion(evt, viewport.Camera);
