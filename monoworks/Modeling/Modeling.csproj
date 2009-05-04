@@ -111,6 +111,7 @@
     <Compile Include="ViewportControls\DrawingController.cs" />
     <Compile Include="ViewportControls\IAttributeControl.cs" />
     <Compile Include="ViewportControls\IAttributePanel.cs" />
+    <Compile Include="Sketching\SplineSketcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EntityMetaData.xml" />
