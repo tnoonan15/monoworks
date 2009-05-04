@@ -84,6 +84,8 @@
 			<Attribute name="isClosed" type="System.Boolean">
 				Whether or not the line is closed on itself.
 			</Attribute>
+			<Entity name="Spline">
+			</Entity>
 		</Entity>
 		<Entity name="Arc">
 			<Attribute name="center" type="MonoWorks.Base.Point">

@@ -223,23 +223,6 @@ namespace MonoWorks.Rendering
 
 #region Interactors
 
-//		private bool usePrimaryInteractor = false;
-//		/// <value>
-//		/// Whether or not to use the primary interactor instead of the view interactor. 
-//		/// </value>
-//		/// <remarks>This is inverted with the control key.</remarks>
-//		public bool UsePrimaryInteractor
-//		{
-//			get {return usePrimaryInteractor;}
-//			set
-//			{
-//				usePrimaryInteractor = value;
-//				if (InteractionStateChanged != null)
-//					InteractionStateChanged(this, new EventArgs());
-//				Resize();
-//			}
-//		}
-
 		private bool use2dInteraction = false;
 		/// <value>
 		/// Whether or not the user interaction should be 2-dimensional. 
@@ -255,19 +238,6 @@ namespace MonoWorks.Rendering
 				Resize();
 			}
 		}
-		
-		/// <summary>
-		/// The current interaction state (defines which interactor to use).
-		/// </summary>
-//		public InteractionState InteractionState { get; private set; }
-
-		/// <summary>
-		/// Set the viewport interaction state.
-		/// </summary>
-//		public void SetInteractionState(InteractionState state)
-//		{
-//			InteractionState = state;
-//		}
 
 		/// <summary>
 		/// Raised when the interaction state changes.
@@ -303,7 +273,8 @@ namespace MonoWorks.Rendering
 
 			ViewInteractor.OnButtonPress(evt);
 
-			PrimaryInteractor.OnButtonPress(evt);
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.OnButtonPress(evt);
 		}
 
 		public void OnButtonRelease(MouseButtonEvent evt)
@@ -314,7 +285,8 @@ namespace MonoWorks.Rendering
 
 			ViewInteractor.OnButtonRelease(evt);
 
-			PrimaryInteractor.OnButtonRelease(evt);
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.OnButtonRelease(evt);
 		}
 
 		public void OnMouseMotion(MouseEvent evt)
@@ -325,7 +297,8 @@ namespace MonoWorks.Rendering
 
 			ViewInteractor.OnMouseMotion(evt);
 			
-			PrimaryInteractor.OnMouseMotion(evt);
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.OnMouseMotion(evt);
 		}
 
 

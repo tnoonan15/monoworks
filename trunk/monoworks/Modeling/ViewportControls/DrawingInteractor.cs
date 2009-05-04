@@ -271,6 +271,8 @@ namespace MonoWorks.Modeling.ViewportControls
 				sketcher = new BoxedSketcher(sketchable as BoxedSketchable);
 			else if (sketchable is Arc)
 				sketcher = new ArcSketcher(sketchable as Arc);
+			else if (sketchable is Spline)
+				sketcher = new SplineSketcher(sketchable as Spline);
 			else
 				throw new NotImplementedException();
 
