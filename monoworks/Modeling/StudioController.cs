@@ -34,7 +34,6 @@ namespace MonoWorks.Modeling
 			: base()
 		{
 
-
 		}
 
 
@@ -47,6 +46,7 @@ namespace MonoWorks.Modeling
 		protected void SetUiManager(UiManagerBase uiManager)
 		{
 			this.uiManager = uiManager;
+			NewPart();
 		}
 
 		protected DocumentManager<IDrawingView> drawingManager = new DocumentManager<IDrawingView>();

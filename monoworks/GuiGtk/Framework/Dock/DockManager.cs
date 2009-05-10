@@ -73,7 +73,7 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 		/// <summary>
 		/// Creates a dockable with ths manager.
 		/// </summary>
-		/// <param name="widget"> A <see cref="Gtk.Widget"/> to dock. </param>
+		/// <param name="widget"> A <see cref="DockableBase"/> to dock. </param>
 		/// <param name="name"> The name of the dockable. </param>
 		/// <returns> A new <see cref="Dockable"/>. </returns>
 		public Dockable CreateDockable(DockableBase widget, string name)
@@ -185,7 +185,7 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 		{
 			if (position == Position.Tab) // this is a tab docking
 			{
-				Console.WriteLine("baseNode parent {0}", baseNode.Parent);
+//				Console.WriteLine("baseNode parent {0}", baseNode.Parent);
 				if (baseNode.Parent is BookNode) // the base's parent is already a book
 				{
 //					Console.WriteLine("tab docking {0} to {1}", node, baseNode.Parent);
@@ -203,7 +203,7 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 			else // this is a side docking
 			{
 				// make a paned
-				Console.WriteLine("making a new paned with {0} and {1}", baseNode, node.Dockable.Name);
+//				Console.WriteLine("making a new paned with {0} and {1}", baseNode, node.Dockable.Name);
 				PanedNode paned = new PanedNode(position);
 				baseNode.Parent.Swap(baseNode, paned); // replace the base with the new paned
 				if (position == Position.Top || position == Position.Left)
@@ -228,7 +228,7 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 		{
 			DockableNode node = GetNode(dockable);
 			Node parent = node.Parent;
-			Console.WriteLine("removing {0} from {1}", node, parent);
+//			Console.WriteLine("removing {0} from {1}", node, parent);
 			parent.Remove(node);
 			
 			// if the parent is a paned or book and only has one remaining child, remove it
@@ -289,7 +289,19 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 			documentArea.ShowAll();
 		}
 		
-		
+		/// <value>
+		/// Gets the currently visible document.
+		/// </value>
+		public Dockable CurrentDocument
+		{
+			get
+			{
+				// TODO: Implement CurrentDocument functionality for Gtk
+//				var current = documentArea.Ac
+				return null;
+			}
+		}
+				
 #endregion
 		
 		

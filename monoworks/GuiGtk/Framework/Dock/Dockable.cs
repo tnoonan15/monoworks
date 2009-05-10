@@ -35,6 +35,7 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 		{
 			this.manager = manager;
 			this.widget = widget;
+			widget.Dockable = this;
 			
 			this.AddEvents((int)Gdk.EventMask.AllEventsMask);
 						
@@ -67,7 +68,6 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 		{
 			get {return manager;}
 		}
-
 		
 		protected DockableBase widget;
 
