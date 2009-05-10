@@ -34,6 +34,11 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 			Shadow = Gtk.ShadowType.None;
 			SetSizeRequest(200, 200);
 		}
+		
+		/// <value>
+		/// The dockable this widget is inside.
+		/// </value>
+		public Dockable Dockable {get; set;}
 
 		private string iconName = null;
 		/// <value>

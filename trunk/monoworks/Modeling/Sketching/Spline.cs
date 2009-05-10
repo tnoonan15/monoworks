@@ -55,29 +55,36 @@ namespace MonoWorks.Modeling.Sketching
 			base.ComputeGeometry();
 			
 			int pathDivs = 24; // the number of divisions in each path segemnt
-			int numFullPaths = (int)Math.Floor((double)(Points.Count-1) / 3); // the number of full paths
-			int remainder = (Points.Count-1) % 3; // number of points after the full paths
+			List<Point> points = Points; // reduce calls to the attribute system
+			int numPoints = Points.Count;
+			int numFullPaths = (int)Math.Truncate((double)(numPoints-2) / 2); // the number of full paths
+			int remainder = numPoints - numFullPaths*2; // number of points after the full paths
+			if (remainder < 1)
+				numFullPaths--;
 			int count = 0; // current point count
 			
 			// allocate the solid points
 			if (remainder == 0)
-				solidPoints = new Vector[numFullPaths*pathDivs + 1];
+				solidPoints = new Vector[numFullPaths*pathDivs];
 			else if (remainder == 1)
+				solidPoints = new Vector[numFullPaths*pathDivs + 1];
+			else if (remainder == 2)
 				solidPoints = new Vector[numFullPaths*pathDivs + 2];
-			else // 2 remainder
+			else // 3 remainder
 				solidPoints = new Vector[(numFullPaths+1)*pathDivs + 1];
-			solidPoints[0] = Points[0].ToVector();
+			solidPoints[0] = points[0].ToVector();
 			count = 1;
 			Console.WriteLine("points: {0}, full paths: {1}, remainder: {2}, solid points: {3}", 
-			                  Points.Count, numFullPaths, remainder, solidPoints.Length);
+			                  numPoints, numFullPaths, remainder, solidPoints.Length);
 			
 			// compute the geometry for the full paths
 			for (int p=0; p<numFullPaths; p++)
 			{
-				Vector p0 = Points[p*3 + 0].ToVector();
-				Vector p1 = Points[p*3 + 1].ToVector();
-				Vector p2 = Points[p*3 + 2].ToVector();
-				Vector p3 = Points[p*3 + 3].ToVector();
+				Vector p0 = points[p*2 + 0].ToVector();
+				Vector p1 = points[p*2 + 1].ToVector();
+				Vector p3 = points[p*2 + 2].ToVector();
+				Vector p4 = points[p*2 + 3].ToVector();
+				Vector p2 = p3*2 - p4;
 				for (int i=0; i<pathDivs; i++)
 				{
 					double t = (double)i / (double)(pathDivs - 1);
@@ -94,13 +101,17 @@ namespace MonoWorks.Modeling.Sketching
 			}
 			else if (remainder == 1)
 			{
-				solidPoints[count] = Points[Points.Count-1].ToVector();
+				// do nothing
 			}
-			else // 2 remaining points
+			else if (remainder == 2)
 			{
-				Vector p0 = Points[Points.Count-3].ToVector();
-				Vector p1 = Points[Points.Count-2].ToVector();
-				Vector p2 = Points[Points.Count-1].ToVector();
+				solidPoints[count] = points[numPoints-1].ToVector();
+			}
+			else // 3 remaining points
+			{
+				Vector p0 = points[numPoints-3].ToVector();
+				Vector p1 = points[numPoints-2].ToVector();
+				Vector p2 = points[numPoints-1].ToVector();
 				for (int i=0; i<pathDivs; i++)
 				{
 					double t = (double)i / (double)(pathDivs - 1);
@@ -122,7 +133,7 @@ namespace MonoWorks.Modeling.Sketching
 				// compute the direction
 				if (i < solidPoints.Length - 1)
 					directions[i] = (solidPoints[i] - solidPoints[i + 1]).Normalize();
-				else if (Points.Count > 1) // only compute direction if there's more than one point
+				else if (numPoints > 1) // only compute direction if there's more than one point
 					directions[i] = (solidPoints[i] - solidPoints[i - 1]).Normalize();
 				else
 					directions[i] = new Vector();

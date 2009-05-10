@@ -43,11 +43,14 @@ namespace MonoWorks.GuiGtk.Framework.Dock
 			set {Name = value;}
 		}
 		
+		/// <value>
+		/// Whether the document is the current one.
+		/// </value>
 		public bool IsCurrent
 		{
 			get
 			{
-				return false;
+				return true; // HACK: this will break with more than one document!
 			}
 		}
 		
