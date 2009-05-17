@@ -18,6 +18,8 @@
 
 using System;
 
+using Cairo;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
@@ -27,7 +29,7 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Control containing just text.
 	/// </summary>
-	public class Label : Control
+	public class Label : Control2D
 	{
 		/// <summary>
 		/// Initialization constructor.
@@ -37,7 +39,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			Text = text;
 
-			textDef.Angle = new MonoWorks.Base.Angle(0);
+			FontSize = 12;
 		}
 
 
@@ -51,36 +53,82 @@ namespace MonoWorks.Rendering.Controls
 			set
 			{
 				text = value;
-				textDef.Text = text;
+//				textDef.Text = text;
 				MakeDirty();
 			}
 		}
 
 
 		/// <summary>
-		/// The rendering definition of the text.
+		/// The font size of the text.
 		/// </summary>
-		private TextDef textDef = new TextDef(12);
+		public double FontSize {get; set;}
 
 		
 		public override Coord MinSize
 		{
-			get {return TextRenderer.GetExtents(textDef);}
+			get	{ return extents;}
 		}
 
+		/// <summary>
+		/// The extents of the text.
+		/// </summary>
+		private Coord extents = new Coord();
 		
+		private static Cairo.ImageSurface dummySurface = new Cairo.ImageSurface(Format.ARGB32, 128, 128);
 
+		private string[] Lines
+		{
+			get
+			{
+				return text.Split(new string[]{"\n"}, StringSplitOptions.None);
+			}
+		}
+		
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
+			
+			if (text == null)
+				return;
+			
+			using (var cr = new Context(dummySurface))
+			{
+				cr.SetFontSize(FontSize);
+				extents = new Coord();
+				foreach (var line in Lines)
+				{
+					var crExtents = cr.TextExtents(line);
+					extents.X = Math.Max(crExtents.Width, extents.X);
+					extents.Y += FontSize + Padding;
+				}
+				extents.X += 2*Padding;
+				extents.Y += Padding;
+			};
+			size = extents;
+			Console.WriteLine("extents for {0}: {1}", text, extents);
 		}
 
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{
-			base.Render(viewport);
+			base.Render(cr);
 
-			viewport.RenderText(textDef);
+			if (text != null)
+			{
+				cr.Save();
+				cr.SetFontSize(FontSize);
+				
+				var lines = Lines;
+				var point = cr.CurrentPoint;
+				for (int i=0; i<lines.Length; i++)
+				{
+					cr.MoveTo(point.X + Padding, point.Y + (FontSize + Padding)*(i+1));
+					cr.ShowText(lines[i]);
+				}
+				cr.MoveTo(point);
+				cr.Restore();
+			}
 		}
 
 

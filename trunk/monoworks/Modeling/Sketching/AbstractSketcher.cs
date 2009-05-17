@@ -69,10 +69,6 @@ namespace MonoWorks.Modeling.Sketching
 		}
 
 
-		public virtual void OnKeyPress(KeyEvent evt)
-		{
-		}
-
 
 		/// <summary>
 		/// Whether or not the user is dragging something.

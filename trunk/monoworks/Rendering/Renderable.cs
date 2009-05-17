@@ -34,7 +34,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Base class for renderable objects.
 	/// </summary>
-	public abstract class Renderable : IMouseHandler
+	public abstract class Renderable : IMouseHandler, IKeyHandler
 	{
 
 		public Renderable()
@@ -214,7 +214,7 @@ namespace MonoWorks.Rendering
 #endregion
 		
 		
-#region Mouse Handling
+#region Interaction
 				
 		public virtual void OnButtonPress(MouseButtonEvent evt) {}
 		
@@ -223,6 +223,8 @@ namespace MonoWorks.Rendering
 		public virtual void OnMouseMotion(MouseEvent evt) { }
 
 		public virtual void OnMouseWheel(MouseWheelEvent evt) { }
+		
+		public virtual void OnKeyPress(KeyEvent evt) {}
 				
 #endregion
 

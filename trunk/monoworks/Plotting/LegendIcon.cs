@@ -19,15 +19,13 @@
 using System;
 using System.Collections.Generic;
 
-using gl = Tao.OpenGl.Gl;
-
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 
 namespace MonoWorks.Plotting
 {
-	public class LegendIcon : Control
+	public class LegendIcon : Control2D
 	{
 
 		public LegendIcon()
@@ -96,30 +94,30 @@ namespace MonoWorks.Plotting
 
 #region Rendering
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Cairo.Context cr)
 		{
-			base.Render(viewport);
+			base.Render(cr);
 
 			Color.Setup();
 
-			if (ShowMarker)
-			{
-				PointPlot.SetupShape(MarkerShape);
-				gl.glPointSize(MarkerSize * 2);
-				gl.glBegin(gl.GL_POINTS);
-				(size / 2).glVertex();
-				gl.glEnd();
-			}
-
-			if (ShowLine)
-			{
-				gl.glLineWidth(LineWidth);
-				gl.glBegin(gl.GL_LINES);
-				double y = Height / 2;
-				gl.glVertex2d(0 , y);
-				gl.glVertex2d(Width , y);
-				gl.glEnd();
-			}
+//			if (ShowMarker)
+//			{
+//				PointPlot.SetupShape(MarkerShape);
+//				gl.glPointSize(MarkerSize * 2);
+//				gl.glBegin(gl.GL_POINTS);
+//				(size / 2).glVertex();
+//				gl.glEnd();
+//			}
+//
+//			if (ShowLine)
+//			{
+//				gl.glLineWidth(LineWidth);
+//				gl.glBegin(gl.GL_LINES);
+//				double y = Height / 2;
+//				gl.glVertex2d(0 , y);
+//				gl.glVertex2d(Width , y);
+//				gl.glEnd();
+//			}
 		}
 
 #endregion

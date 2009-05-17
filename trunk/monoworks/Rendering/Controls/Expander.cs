@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using Cairo;
+
 using MonoWorks.Base;
 using MonoWorks.Framework;
 
@@ -28,7 +30,7 @@ namespace MonoWorks.Rendering.Controls
 	/// The Expander control is a container that has a button 
 	/// allowing the user to show or hide the contents.
 	/// </summary>
-	public class Expander : Bin
+	public class Expander : Control2D
 	{
 
 		/// <summary>
@@ -106,6 +108,15 @@ namespace MonoWorks.Rendering.Controls
 
 #endregion
 
+		
+#region The Content
+		
+		/// <value>
+		/// The content of the expander. 
+		/// </value>
+		public Control2D Content {get; set;}
+		
+#endregion
 
 #region Rendering
 
@@ -113,7 +124,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			get
 			{
-				return child.Size + new Coord(0, button.Height);
+				return Content.Size + new Coord(0, button.Height);
 			}
 		}
 		
@@ -121,36 +132,39 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.ComputeGeometry();
 
-			child.ComputeGeometry();
+			Content.ComputeGeometry();
 			button.UserSize = false;
 			button.ComputeGeometry();
 			button.UserSize = true;
-			button.Width = Math.Max(button.Width, child.Width);
+			button.Width = Math.Max(button.Width, Content.Width);
 
 			button.StyleClassName = StyleClassName;
 
-			Height = child.Height + button.Height;
+			Height = Content.Height + button.Height;
 			Width = button.Width;
-			button.Position = new Coord(0, child.Height);
+			button.Position = new Coord(0, Content.Height);
 
 			if (IsExpanded)
 			{
 				button.Image = expandedIcon;
-				child.IsVisible = true;
+				Content.IsVisible = true;
 			}
 			else // not expanded
 			{
 				button.Image = contractedIcon;
-				child.IsVisible = false;
+				Content.IsVisible = false;
 			}
 
 		}
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{
-			base.Render(viewport);
+			base.Render(cr);
 
-			button.RenderOverlay(viewport);
+			button.RenderCairo(cr);
+			
+			if (Content != null)
+				Content.RenderCairo(cr);
 		}
 
 #endregion

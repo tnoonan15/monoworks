@@ -47,13 +47,15 @@ namespace MonoWorks.Modeling.ViewportControls
 			ContextLayer.AddContext(ContextLocation.N, "Shading");
 
 			// get ready for sketching
+			Anchor sketchAnchor = new Anchor(AnchorLocation.NE);
 			sketchApplyCancel = new CornerButtons(Corner.NE);
 			sketchApplyCancel.IsVisible = false;
 			sketchApplyCancel.Action1 += OnApplySketch;
 			sketchApplyCancel.Action2 += OnCancelSketch;
 			sketchApplyCancel.Image1 = new Image(ResourceHelper.GetStream("apply.png", "MonoWorks.Rendering"));
 			sketchApplyCancel.Image2 = new Image(ResourceHelper.GetStream("cancel.png", "MonoWorks.Rendering"));
-			viewport.RenderList.AddOverlay(sketchApplyCancel);
+			sketchAnchor.Control = sketchApplyCancel;
+			viewport.RenderList.AddOverlay(sketchAnchor);
 		}
 
 

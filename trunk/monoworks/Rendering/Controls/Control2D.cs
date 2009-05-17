@@ -18,13 +18,13 @@
 
 using System;
 
+using Cairo;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 
-using gl = Tao.OpenGl.Gl;
-using glu = Tao.OpenGl.Glu;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -32,10 +32,10 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Base class for all renderable controls.
 	/// </summary>
-	public abstract class Control : Overlay
+	public abstract class Control2D : Renderable
 	{
 		
-		public Control() : base()
+		public Control2D() : base()
 		{
 			styleGroup = StyleGroup.Default;
 
@@ -43,11 +43,11 @@ namespace MonoWorks.Rendering.Controls
 			ToolTip = "";
 		}
 		
-		private Control parent = null;
+		private Control2D parent = null;
 		/// <value>
 		/// The control's parent.
 		/// </value>
-		public Control Parent
+		public Control2D Parent
 		{
 			get {return parent;}
 			set
@@ -61,16 +61,6 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		public string ToolTip { get; set; }
 
-		/// <summary>
-		/// Queues the control to set its tooltip next time it's rendered.
-		/// </summary>
-		private bool queueSetToolTip = false;
-
-		/// <summary>
-		/// Queues the control to clear the tooltip next time it's rendered.
-		/// </summary>
-		private bool queueClearToolTip = false;
-
 
 #region Size and Position
 
@@ -81,28 +71,6 @@ namespace MonoWorks.Rendering.Controls
 		/// of all positions through the control hierarchy.</remarks>
 		public Coord Position { get; set; }
 
-		/// <summary>
-		/// Push the position transformation onto the transformation stack.
-		/// </summary>
-		protected void PushPosition()
-		{
-			gl.glTranslated(Position.X, Position.Y, 0);
-			lastPushed.X = Position.X;
-			lastPushed.Y = Position.Y;
-		}
-
-		/// <summary>
-		/// The last pushed position.
-		/// </summary>
-		private Coord lastPushed = new Coord();
-
-		/// <summary>
-		/// Pop the position transformation from the rendering stack.
-		/// </summary>
-		protected void PopPosition()
-		{
-			gl.glTranslated(-lastPushed.X, -lastPushed.Y, 0);
-		}
 
 		/// <summary>
 		/// The absolute position that the control was last rendered at.
@@ -113,7 +81,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// This will be true if the control was made dirty after the last rendering cycle.
 		/// </summary>
-		private bool wasDirty = true;
+//		private bool wasDirty = true;
 
 		protected Coord size = new Coord();
 		/// <value>
@@ -183,6 +151,22 @@ namespace MonoWorks.Rendering.Controls
 			get { return padding; }
 			set { padding = value; }
 		}
+		
+		/// <value>
+		/// The integer width of the control.
+		/// </value>
+		public int IntWidth
+		{
+			get {return (int)Math.Ceiling(Width);}
+		}
+		
+		/// <value>
+		/// The integer height of the control.
+		/// </value>
+		public int IntHeight
+		{
+			get {return (int)Math.Ceiling(Height);}
+		}
 
 #endregion
 
@@ -196,63 +180,95 @@ namespace MonoWorks.Rendering.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-
+			
 			styleClass = styleGroup.GetClass(styleClassName);
 
-			wasDirty = true;
+//			wasDirty = true;
 
 			if (!UserSize)
 				size = MinSize;
 //			Console.WriteLine("computing geometry for {0}, size: {1}, user size? {2}", this.GetType(), size, UserSize);
 		}
 
-		public override sealed void RenderOverlay(Viewport viewport)
+		
+		/// <summary>
+		/// Renders the control to a Cairo context.
+		/// </summary>
+		/// <remarks>Calls Render() internally.</remarks>
+		public void RenderCairo(Context cr)
 		{
-			base.RenderOverlay(viewport);
-
-			PushPosition();
-
-			Render(viewport);
-
-			if (wasDirty)
-			{
-				// compute the last position
-				double[] modelView = new double[16];
-				gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX, modelView);
-				double screenX, screenY, screenZ;
-				glu.gluProject(0, 0, 0,
-					modelView, viewport.Camera.ProjectionMatrix, viewport.Camera.ViewportSize,
-					out screenX, out screenY, out screenZ);
-				LastPosition = new Coord(screenX, screenY);
-				wasDirty = false;
-			}
-
-			PopPosition();
-
-			if (queueSetToolTip)
-			{
-				viewport.ToolTip = ToolTip;
-				queueSetToolTip = false;
-			}
-			if (queueClearToolTip)
-			{
-				viewport.ClearToolTip();
-				queueClearToolTip = false;
-			}
+			if (IsDirty)
+				ComputeGeometry();
+			
+//			Console.WriteLine("moving context for {0}: {1}", this.GetType(), Position);
+			cr.RelMoveTo(Position.X, Position.Y);
+			
+			var point = cr.CurrentPoint;
+			LastPosition = new Coord(point.X, point.Y);
+			
+			Render(cr);
+			
+			cr.RelMoveTo(-Position.X, -Position.Y);
+						
 		}
-
 
 		/// <summary>
-		/// Actually renders the control.
+		/// Performs the 2D rendering of the control.
 		/// </summary>
-		/// <remarks>This method should be overriden by subclasses, 
-		/// not RenderOverlay, which handles positioning.</remarks>
-		protected virtual void Render(Viewport viewport)
+		protected virtual void Render(Context cr)
 		{
-
 		}
 
 
+#endregion
+		
+		
+#region Image Data
+		
+		/// <summary>
+		/// Renders the control to an internal image surface.
+		/// </summary>
+		public void RenderImage()
+		{
+			if (IsDirty)
+				ComputeGeometry();
+			
+			// remake the image surface, if needed
+			if (surface == null || surface.Width != IntWidth || surface.Height != IntHeight)
+			{
+//				Console.WriteLine("resetting surface to {0} x {1}", IntWidth, IntHeight);
+				imageData = new byte[IntWidth * IntHeight * 4];
+				surface = new ImageSurface(ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+			}
+			
+			// render the control to the surface
+			using (Context cr = new Context(surface))
+			{
+				cr.Operator = Operator.Source;
+				cr.Color = new Cairo.Color(0, 1, 0, 0);
+				cr.Paint();
+				
+				cr.Operator = Operator.Over;
+				cr.Color = new Cairo.Color(0, 0, 1, 1);
+				cr.MoveTo(0,0);
+				RenderCairo(cr);		
+				
+				surface.Flush();
+			};
+			
+		}
+		
+		private ImageSurface surface;
+		
+		private byte[] imageData;
+		/// <value>
+		/// The image data.
+		/// </value>
+		public byte[] ImageData
+		{
+			get {return imageData;}
+		}
+		
 #endregion
 
 
@@ -261,7 +277,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// Performs the hit test on the rectangle defined by position and size.
 		/// </summary>
-		protected override bool HitTest(Coord pos)
+		protected virtual bool HitTest(Coord pos)
 		{
 			return pos >= LastPosition && pos <= (LastPosition + size);
 		}
@@ -269,7 +285,7 @@ namespace MonoWorks.Rendering.Controls
 #endregion
 
 		
-#region Mouse Handling
+#region Interaction
 		
 		private bool isHoverable = false;
 		/// <value>
@@ -281,10 +297,18 @@ namespace MonoWorks.Rendering.Controls
 			set {isHoverable = value;}
 		}
 		
-		public override void OnMouseMotion(MouseEvent evt)
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			base.OnMouseMotion(evt);
 			
+		}
+		
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			
+		}
+		
+		public override void OnMouseMotion(MouseEvent evt)
+		{			
 			if (isHoverable && !evt.Handled)
 			{
 				if (HitTest(evt.Pos)) // it's hovering now
@@ -305,14 +329,22 @@ namespace MonoWorks.Rendering.Controls
 				IsHovering = false;
 				
 		}
+		
+		/// <summary>
+		/// Handles a mouse wheel event.
+		/// </summary>
+		public override void OnMouseWheel(MouseWheelEvent evt)
+		{
+			
+		}
 
 		/// <summary>
 		/// This will get called whenever the mouse enters the region of the control.
 		/// </summary>
 		protected virtual void OnEnter(MouseEvent evt)
 		{
-			if (ToolTip.Length > 0)
-				queueSetToolTip = true;
+//			if (ToolTip.Length > 0)
+//				queueSetToolTip = true;
 		}
 
 		/// <summary>
@@ -320,9 +352,16 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		protected virtual void OnLeave(MouseEvent evt)
 		{
-			queueClearToolTip = true;
+//			queueClearToolTip = true;
 		}
 
+		/// <summary>
+		/// Handles a keyboard event.
+		/// </summary>
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			
+		}
 
 
 #endregion
@@ -380,18 +419,18 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		protected virtual void RenderOutline()
 		{
-			Color fg = styleClass.GetForeground(hitState);
-			if (fg != null)
-			{
-				fg.Setup();
-				gl.glLineWidth(1f);
-				gl.glBegin(gl.GL_LINE_LOOP);
-				gl.glVertex2d(0, 0);
-				gl.glVertex2d(Width, 0);
-				gl.glVertex2d(Width, Height);
-				gl.glVertex2d(0, Height);
-				gl.glEnd();
-			}
+//			Color fg = styleClass.GetForeground(hitState);
+//			if (fg != null)
+//			{
+//				fg.Setup();
+//				gl.glLineWidth(1f);
+//				gl.glBegin(gl.GL_LINE_LOOP);
+//				gl.glVertex2d(0, 0);
+//				gl.glVertex2d(Width, 0);
+//				gl.glVertex2d(Width, Height);
+//				gl.glVertex2d(0, Height);
+//				gl.glEnd();
+//			}
 		}
 
 #endregion

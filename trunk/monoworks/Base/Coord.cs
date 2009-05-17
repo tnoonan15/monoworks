@@ -139,6 +139,14 @@ namespace MonoWorks.Base
 				return Orientation.Vertical;
 			}
 		}
+		
+		/// <summary>
+		/// Converts the coord to a vector in the X-Y dimensions. 
+		/// </summary>
+		public Vector ToVector()
+		{
+			return new Vector(X, Y, 0);
+		}
 
 
 		#region Comparison Operators

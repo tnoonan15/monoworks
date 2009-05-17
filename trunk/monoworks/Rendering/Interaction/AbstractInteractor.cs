@@ -114,7 +114,7 @@ namespace MonoWorks.Rendering.Interaction
 
 		}
 
-		public virtual void OnKeyPress(KeyEvent evt)
+		public override void OnKeyPress(KeyEvent evt)
 		{
 
 		}

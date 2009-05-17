@@ -71,11 +71,9 @@ namespace MonoWorks.Rendering.Controls
 			if (!UserSize)
 				size = new Coord();
 			double span = 0;
-			Control[] children_ = new Control[children.Count];
+			Control2D[] children_ = new Control2D[children.Count];
 			children.CopyTo(children_);
-			if (orientation == Orientation.Vertical)
-				Array.Reverse(children_);
-			foreach (Control child in children_)
+			foreach (Control2D child in children_)
 			{
 				child.UserSize = false;
 				//if (child.IsDirty)
@@ -106,7 +104,7 @@ namespace MonoWorks.Rendering.Controls
 				size.Y = span;
 			
 			// assign the children size
-			foreach (Control child in Children)
+			foreach (Control2D child in Children)
 			{
 				child.UserSize = true;
 				if (orientation == Orientation.Horizontal)

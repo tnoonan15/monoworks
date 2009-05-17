@@ -19,12 +19,11 @@
 using System;
 using System.IO;
 
+using Cairo;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
-using gl=Tao.OpenGl.Gl;
-using il=Tao.DevIl.Il;
-using ilu=Tao.DevIl.Ilu;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -32,7 +31,7 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Control containing an image.
 	/// </summary>
-	public class Image : Control
+	public class Image : Control2D
 	{
 		/// <summary>
 		/// Loads an image from a stream.
@@ -41,11 +40,6 @@ namespace MonoWorks.Rendering.Controls
 		public Image(Stream stream)
 			: base()
 		{
-			if (!ilInitialized)
-			{
-				il.ilInit();
-				ilInitialized = true;
-			}
 
 			LoadStream(stream);
 		}
@@ -56,24 +50,10 @@ namespace MonoWorks.Rendering.Controls
 		/// <param name="fileName"> The name of the image file. </param>
 		public Image(string fileName) : base()
 		{
-			if (!ilInitialized)
-			{
-				il.ilInit();
-				ilInitialized = true;
-			}
 			
 			LoadFile(fileName);
 		}
 
-		/// <summary>
-		/// Whether or not DevIL has been initialized.
-		/// </summary>
-		protected static bool ilInitialized = false;
-		
-		/// <summary>
-		/// The DevIL identifier of the image.
-		/// </summary>
-		protected int ilId;
 
 		/// <summary>
 		/// Loads an image from the stream.
@@ -81,8 +61,8 @@ namespace MonoWorks.Rendering.Controls
 		/// <param name="stream"></param>
 		/// <remarks>Writes it to a temporary file first, 
 		/// then reads it with LoadFile(). Kinda hackish 
-		/// but I can't figure out how to convince DevIL
-		/// to load it directly from the stream.</remarks>
+		/// but I'm too lazy to figure out how to
+		/// load it directly from the stream.</remarks>
 		public void LoadStream(Stream stream)
 		{
 			// read the data
@@ -91,7 +71,7 @@ namespace MonoWorks.Rendering.Controls
 			stream.Read(data, 0, N);
 
 			// write to a file
-			string fileName = Path.GetTempPath() + "temp.png";
+			string fileName = System.IO.Path.GetTempPath() + "temp.png";
 			FileStream fileStream = new FileStream(fileName, FileMode.Create);
 			fileStream.Write(data, 0, N);
 			fileStream.Close();
@@ -104,22 +84,28 @@ namespace MonoWorks.Rendering.Controls
 		/// Loads a file image.
 		/// </summary>
 		public void LoadFile(string fileName)
-		{
-			il.ilGenImages(1, out ilId);
-            il.ilBindImage(ilId);
-            il.ilLoadImage(fileName);
+		{	
+			surface = new Cairo.ImageSurface(fileName);
 			
-			imageSize.X = (double)il.ilGetInteger(il.IL_IMAGE_WIDTH);
-			imageSize.Y = (double)il.ilGetInteger(il.IL_IMAGE_HEIGHT);
 		}
+		
+		/// <value>
+		/// The surface containing the image.
+		/// </value>
+		protected ImageSurface surface;
 
-		protected Coord imageSize;
 		/// <value>
 		/// The size of the image.
 		/// </value>
 		public override Coord MinSize
 		{
-			get {return imageSize;}
+			get
+			{
+				if (surface != null)
+					return new Coord(surface.Width, surface.Height);
+				else
+					return new Coord();
+			}
 		}
 
 		
@@ -130,16 +116,14 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{
-			base.Render(viewport);
+			base.Render(cr);
 
-			gl.glRasterPos3d(0, imageSize.Y, 0);
-			gl.glPixelZoom(1f, -1f); // need to flip the image rightside up
-			
-            il.ilBindImage(ilId);
-			gl.glDrawPixels((int)imageSize.X, (int)imageSize.Y, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, il.ilGetData());
-
+			cr.Save();
+			cr.SetSourceSurface(surface, (int)LastPosition.X, (int)LastPosition.Y);
+			cr.Paint();
+			cr.Restore();
 		}
 
 		

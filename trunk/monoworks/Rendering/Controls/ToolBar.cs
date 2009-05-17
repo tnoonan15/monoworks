@@ -20,6 +20,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using Cairo;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
@@ -39,7 +41,7 @@ namespace MonoWorks.Rendering.Controls
 		}
 		
 		
-		public override void Add(Control child)
+		public override void Add(Control2D child)
 		{
 			base.Add(child);
 			
@@ -60,22 +62,16 @@ namespace MonoWorks.Rendering.Controls
 			set
 			{
 				toolStyle = value;
-				foreach (Control child in Children)
+				foreach (Control2D child in Children)
 					child.StyleClassName = value;
 			}
 		}
 
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{	
-			if (IsDirty)
-				ComputeGeometry();
-			
-			RenderBackground();
-			RenderOutline();
-			
-			base.Render(viewport);
-			
+			base.Render(cr);
+						
 		}
 		
 		protected ButtonStyle buttonStyle = ButtonStyle.ImageOverLabel;
@@ -87,7 +83,7 @@ namespace MonoWorks.Rendering.Controls
 			set
 			{
 				buttonStyle = value;
-				foreach (Control child in Children)
+				foreach (Control2D child in Children)
 				{
 					if (child is Button)
 						(child as Button).ButtonStyle = buttonStyle;
@@ -102,7 +98,7 @@ namespace MonoWorks.Rendering.Controls
 		
 		public IEnumerator<Button> GetEnumerator()
 		{
-			foreach(Control child in children)
+			foreach(Control2D child in children)
 			{
 				if (child is Button)
 					yield return (child as Button);
@@ -121,7 +117,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <returns> The button, or null if there isn't one present. </returns>
 		public Button GetButton(string label)
 		{
-			foreach(Control child in children)
+			foreach(Control2D child in children)
 			{
 				if (child is Button && (child as Button).LabelString == label)
 					return (child as Button);

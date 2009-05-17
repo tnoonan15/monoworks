@@ -30,18 +30,23 @@ namespace MonoWorks.Rendering.Controls
 	public enum AnchorLocation { N, E, S, W, NE, SE, SW, NW };
 	
 	/// <summary>
-	/// Single control container that anchors its child to a particular side of the viewport.
+	/// Single control container that anchors its Control to a particular side of the viewport.
 	/// </summary>
-	public class Anchor : Bin
+	public class Anchor : OverlayPane
 	{
 		public Anchor(AnchorLocation location)
-			: base()
+			: this(null, location)
 		{
-			Location = location;
 		}
 
-		public Anchor(Control child) : base(child)
+		public Anchor(Control2D Control) : this(Control, AnchorLocation.N)
 		{
+		}
+		
+		public Anchor(Control2D control, AnchorLocation location)
+		{
+			this.Control = control;
+			Location = location;	
 		}
 		
 		
@@ -67,32 +72,15 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 
-
-		protected override void Render(Viewport viewport)
-		{
-			// adjust position according to location
-			if (child != null && (IsDirty || child.IsDirty)) // need to check this before calling parent since they will make us clean
-			{
-				PopPosition();
-				UpdatePosition(viewport);
-				PushPosition();
-			}
-
-			base.Render(viewport);
-
-		}
-
-
 		/// <summary>
 		/// Updates the position of the anchor based on the viewport.
 		/// </summary>
 		private void UpdatePosition(Viewport viewport)
 		{
-			if (child != null)
+			if (Control != null)
 			{
 				ComputeGeometry();
-				child.ComputeGeometry();
-				size = child.Size;
+				Control.ComputeGeometry();
 				switch (location)
 				{
 				case AnchorLocation.N:

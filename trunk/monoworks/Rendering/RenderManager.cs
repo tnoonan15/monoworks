@@ -17,8 +17,7 @@
 
 using System;
 
-using gl = Tao.OpenGl.Gl;
-using il=Tao.DevIl.Il;
+using Tao.OpenGl;
 
 namespace MonoWorks.Rendering
 {
@@ -74,38 +73,53 @@ namespace MonoWorks.Rendering
 		protected void InitializeGL()
 		{
 
-			gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-			gl.glClearDepth(1.0f);
+			Gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			Gl.glClearDepth(1.0f);
 
-			gl.glEnable(gl.GL_COLOR_MATERIAL);
+//			Gl.glEnable(Gl.GL_COLOR_MATERIAL);
 
 			// depth testing
-			gl.glEnable(gl.GL_DEPTH_TEST);
-			gl.glDepthFunc(gl.GL_LEQUAL); // The Type Of Depth Test To Do
-			//gl.glDepthMask(gl.GL_TRUE);
+			Gl.glEnable(Gl.GL_DEPTH_TEST);
+			Gl.glDepthFunc(Gl.GL_LEQUAL); // The Type Of Depth Test To Do
+			//Gl.glDepthMask(Gl.GL_TRUE);
 
 
             // enable polygon offset so wireframes are displayed correctly
-            gl.glPolygonOffset(1f, 1f);
+            Gl.glPolygonOffset(1f, 1f);
 
 
 			// blending
-			gl.glEnable(gl.GL_BLEND);
-			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA); // kinda works
-			//gl.glBlendFunc(gl.GL_SRC_ALPHA_SATURATE, gl.GL_ONE);
-//			gl.glBlendFunc(gl.GL_ONE, gl.GL_ONE);
+			Gl.glEnable(Gl.GL_BLEND);
+			Gl.glBlendFunc(Gl.GL_SRC_ALPHA, Gl.GL_ONE_MINUS_SRC_ALPHA); // kinda works
+			//Gl.glBlendFunc(Gl.GL_SRC_ALPHA_SATURATE, Gl.GL_ONE);
+//			Gl.glBlendFunc(Gl.GL_ONE, Gl.GL_ONE);
+			Gl.glShadeModel(Gl.GL_FLAT);
+			Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_FILL);
+			Gl.glDisable(Gl.GL_CULL_FACE);
 
 			// enable antialiasing
-			gl.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST);
-			gl.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST);
+//			Gl.glHint(Gl.GL_LINE_SMOOTH_HINT, Gl.GL_NICEST);
+//			Gl.glHint(Gl.GL_POLYGON_SMOOTH_HINT, Gl.GL_NICEST);
 
-			gl.glFrontFace(gl.GL_CW);
+//			Gl.glFrontFace(Gl.GL_CW);
 
 			// enable stipplinggl
-			gl.glEnable(gl.GL_LINE_STIPPLE);
+//			Gl.glEnable(Gl.GL_LINE_STIPPLE);
 
 			// Really Nice Perspective Calculations
-			//gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
+			//Gl.glHint(Gl.GL_PERSPECTIVE_CORRECTION_HINT, Gl.GL_NICEST);
+			
+			// textures
+			Gl.glShadeModel(Gl.GL_FLAT);
+			Gl.glDisable(Gl.GL_TEXTURE_2D);
+			Gl.glEnable(Gl.GL_TEXTURE_RECTANGLE_ARB);
+			Gl.glTexEnvi(Gl.GL_TEXTURE_ENV, Gl.GL_TEXTURE_ENV_MODE, Gl.GL_MODULATE);
+			Gl.glTexParameteri(Gl.GL_TEXTURE_RECTANGLE_ARB,
+				 Gl.GL_TEXTURE_MIN_FILTER,
+				 Gl.GL_NEAREST);
+			Gl.glTexParameteri(Gl.GL_TEXTURE_RECTANGLE_ARB,
+				 Gl.GL_TEXTURE_MAG_FILTER,
+				 Gl.GL_LINEAR);
 			
 			Lighting.Initialize();
 		}
@@ -117,7 +131,7 @@ namespace MonoWorks.Rendering
 		/// <remarks> This should be done at the beginning of each frame.</remarks>
 		public virtual void ClearScene()
 		{
-			gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
+			Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
 		}
 
 
@@ -131,15 +145,15 @@ namespace MonoWorks.Rendering
 				case SolidMode.None:
 					break;
 				case SolidMode.Flat:
-					gl.glShadeModel(gl.GL_FLAT);
+					Gl.glShadeModel(Gl.GL_FLAT);
 					break;
 				case SolidMode.Smooth:
-					gl.glShadeModel(gl.GL_SMOOTH);
+					Gl.glShadeModel(Gl.GL_SMOOTH);
 					break;
 			}
 			Lighting.Enable();
-			gl.glEnable(gl.GL_DEPTH_TEST);
-			gl.glEnable(gl.GL_POLYGON_OFFSET_FILL);
+			Gl.glEnable(Gl.GL_DEPTH_TEST);
+			Gl.glEnable(Gl.GL_POLYGON_OFFSET_FILL);
 		}
 
 		/// <summary>
@@ -147,10 +161,10 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void BeginOverlays()
 		{
-			gl.glDisable(gl.GL_DEPTH_TEST);
-			gl.glShadeModel(gl.GL_SMOOTH);
+			Gl.glDisable(Gl.GL_DEPTH_TEST);
+			Gl.glShadeModel(Gl.GL_SMOOTH);
 			Lighting.Disable();
-			gl.glDisable(gl.GL_POLYGON_OFFSET_FILL);
+			Gl.glDisable(Gl.GL_POLYGON_OFFSET_FILL);
 		}
 
 		/// <summary>
@@ -158,8 +172,8 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void EnableAntialiasing()
 		{
-			gl.glEnable(gl.GL_LINE_SMOOTH);
-			gl.glEnable(gl.GL_POLYGON_SMOOTH);
+			Gl.glEnable(Gl.GL_LINE_SMOOTH);
+			Gl.glEnable(Gl.GL_POLYGON_SMOOTH);
 		}
 
 		/// <summary>
@@ -167,8 +181,8 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void DisableAntialiasing()
 		{
-			gl.glDisable(gl.GL_LINE_SMOOTH);
-			gl.glDisable(gl.GL_POLYGON_SMOOTH);
+			Gl.glDisable(Gl.GL_LINE_SMOOTH);
+			Gl.glDisable(Gl.GL_POLYGON_SMOOTH);
 		}
 
 		

@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-using gl = Tao.OpenGl.Gl;
+using Cairo;
 
 using MonoWorks.Base;
 using MonoWorks.Framework;
@@ -31,7 +31,7 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// A control that contains two buttons and sits in the corner of the viewport.
 	/// </summary>
-	public class CornerButtons : Control
+	public class CornerButtons : Control2D
 	{
 		/// <summary>
 		/// Defines the two regions of the button.
@@ -71,26 +71,26 @@ namespace MonoWorks.Rendering.Controls
 		/// </value>
 		public bool IsTogglable {get; set;}
 
-		public override void OnViewportResized(Viewport viewport)
-		{
-			base.OnViewportResized(viewport);
-
-			switch (Corner)
-			{
-			case Corner.NE:
-				Position = new Coord(viewport.WidthGL, viewport.HeightGL) - size;
-				break;
-			case Corner.NW:
-				Position = new Coord(0, viewport.HeightGL - Height);
-				break;
-			case Corner.SE:
-				Position = new Coord(viewport.WidthGL - Width, 0);
-				break;
-			case Corner.SW:
-				Position = new Coord(0, 0);
-				break;
-			}
-		}
+//		public override void OnViewportResized(Viewport viewport)
+//		{
+//			base.OnViewportResized(viewport);
+//
+//			switch (Corner)
+//			{
+//			case Corner.NE:
+//				Position = new Coord(viewport.WidthGL, viewport.HeightGL) - size;
+//				break;
+//			case Corner.NW:
+//				Position = new Coord(0, viewport.HeightGL - Height);
+//				break;
+//			case Corner.SE:
+//				Position = new Coord(viewport.WidthGL - Width, 0);
+//				break;
+//			case Corner.SW:
+//				Position = new Coord(0, 0);
+//				break;
+//			}
+//		}
 
 
 		public override void ComputeGeometry()
@@ -124,18 +124,18 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{
-			base.Render(viewport);
+			base.Render(cr);
 
 			RenderBackground();
 
 			RenderOutline();
 
 			if (Image1 != null)
-				Image1.RenderOverlay(viewport);
+				Image1.RenderCairo(cr);
 			if (Image2 != null)
-				Image2.RenderOverlay(viewport);
+				Image2.RenderCairo(cr);
 		}
 
 		protected override void RenderOutline()
@@ -175,32 +175,32 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		private void FillRegion(FillGradient grad, Region region)
 		{
-			gl.glBegin(gl.GL_TRIANGLES);
-			grad.StartColor.Setup();
-			switch (Corner)
-			{
-			case Corner.NE:
-				gl.glVertex2d(Width, Height);
-				grad.StopColor.Setup();
-				gl.glVertex2d(Width/2, Height/2);
-				if (region == Region.Button1)
-					gl.glVertex2d(0, Height);
-				else
-					gl.glVertex2d(Width, 0);
-				break;
-			case Corner.NW:
-				gl.glVertex2d(0, Height);
-				grad.StopColor.Setup();
-				gl.glVertex2d(Width/2, Height/2);
-				if (region == Region.Button1)
-					gl.glVertex2d(Width, Height);
-				else
-					gl.glVertex2d(0, 0);
-				break;
-			default:
-				throw new NotImplementedException();
-			}
-			gl.glEnd();
+//			gl.glBegin(gl.GL_TRIANGLES);
+//			grad.StartColor.Setup();
+//			switch (Corner)
+//			{
+//			case Corner.NE:
+//				gl.glVertex2d(Width, Height);
+//				grad.StopColor.Setup();
+//				gl.glVertex2d(Width/2, Height/2);
+//				if (region == Region.Button1)
+//					gl.glVertex2d(0, Height);
+//				else
+//					gl.glVertex2d(Width, 0);
+//				break;
+//			case Corner.NW:
+//				gl.glVertex2d(0, Height);
+//				grad.StopColor.Setup();
+//				gl.glVertex2d(Width/2, Height/2);
+//				if (region == Region.Button1)
+//					gl.glVertex2d(Width, Height);
+//				else
+//					gl.glVertex2d(0, 0);
+//				break;
+//			default:
+//				throw new NotImplementedException();
+//			}
+//			gl.glEnd();
 		}
 
 

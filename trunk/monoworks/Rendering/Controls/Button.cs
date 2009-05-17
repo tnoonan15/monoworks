@@ -18,11 +18,12 @@
 
 using System;
 
+using Cairo;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-using gl=Tao.OpenGl.Gl;
 
 namespace MonoWorks.Rendering.Controls
 {
@@ -36,7 +37,7 @@ namespace MonoWorks.Rendering.Controls
 	/// Control that can be clicked by the user.
 	/// </summary>
 	/// <remarks> Buttons can contain an image and/or label.</remarks>
-	public class Button : Control
+	public class Button : Control2D
 	{
 
 		/// <summary>
@@ -237,8 +238,8 @@ namespace MonoWorks.Rendering.Controls
 			case ButtonStyle.ImageOverLabel: // place the image over the label
 				image.IsVisible = true;
 				label.IsVisible = true;
-				label.Position = pad + new Coord((Width-label.Width)/2.0 - padding, 0);
-				image.Position = pad + new Coord(0, label.Height + padding);
+				image.Position = pad + new Coord((Width-label.Width)/2.0 - padding, 0);
+				label.Position = pad + new Coord(0, image.Height + padding);
 				break;
 				
 			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
@@ -250,19 +251,19 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{
-			base.Render(viewport);
+			base.Render(cr);
 			
 			RenderBackground();
 			
 			RenderOutline();
 
 			if (label != null && label.IsVisible)
-				label.RenderOverlay(viewport);
+				label.RenderCairo(cr);
 			
 			if (image != null && image.IsVisible)
-				image.RenderOverlay(viewport);
+				image.RenderCairo(cr);
 		}
 
 

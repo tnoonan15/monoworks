@@ -26,6 +26,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Events;
+using MonoWorks.Rendering.Controls;
 
 namespace MonoWorks.Plotting
 {
@@ -78,8 +79,8 @@ namespace MonoWorks.Plotting
 			grids[2].Axes[0] = axes[0];
 			grids[2].Axes[1] = axes[2];
 
-			titleDef = new TextDef(16);
-			titleDef.HorizontalAlignment = HorizontalAlignment.Center;
+			titlePane = new LabelPane();
+//			titleDef.HorizontalAlignment = HorizontalAlignment.Center;
 //			title.Text = "";
 		}
 
@@ -474,14 +475,14 @@ namespace MonoWorks.Plotting
 #region Title
 
 
-		protected TextDef titleDef;
+		protected LabelPane titlePane;
 		/// <summary>
 		/// The title.
 		/// </summary>
 		public override string Title
 		{
-			get { return titleDef.Text; }
-			set { titleDef.Text = value; }
+			get { return titlePane.Label.Text; }
+			set { titlePane.Label.Text = value; }
 		}
 
 		/// <summary>
@@ -510,8 +511,8 @@ namespace MonoWorks.Plotting
 					right = coord.X;
 			}
 			
-			titleDef.Position = new Coord((left+right)/2, top + 32);
-			viewport.RenderText(titleDef);
+			titlePane.Position = new Vector((left+right)/2, top + 32, 0);
+			titlePane.RenderOverlay(viewport);
 		}
 
 #endregion
