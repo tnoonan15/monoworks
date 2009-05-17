@@ -59,7 +59,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Privatize adding children. Outsiders don't get to do this.
 		/// </summary>
-		protected new void Add(Control child)
+		protected new void Add(Control2D child)
 		{
 			base.Add(child);
 		}

@@ -42,24 +42,51 @@ namespace MonoWorks.DemoGtk
 			adapter = new ViewportAdapter();
 			PackEnd(adapter);
 			
+			// east toolbar
 			ToolBar toolbar = new ToolBar();
+			toolbar.Orientation = Orientation.Vertical;
+			toolbar.ButtonStyle = ButtonStyle.ImageOverLabel;
+
+			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
+			var image = new Image(iconPath);
+			var button = new Button("Button 1", image);
+			button.Clicked += delegate(object sender, EventArgs e) {
+				Console.WriteLine("clicked button 1");
+			};
+			toolbar.Add(button);
+
+			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
+			image = new Image(iconPath);
+			button = new Button("Button 2", image);
+			button.Clicked += delegate(object sender, EventArgs e) {
+				Console.WriteLine("clicked button 2");
+			};
+			toolbar.Add(button);
+
+			var toolAnchor = new Anchor(toolbar, AnchorLocation.E);
+			Viewport.RenderList.AddOverlay(toolAnchor);
+			
+			
+			// floating toolbar
+			toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 
-			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
-			Image image1 = new Image(iconPath);
-			Button button1 = new Button("3d Button", image1);
-			toolbar.Add(button1);
+			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
+			image = new Image(iconPath);
+			button = new Button("Button 1", image);
+			toolbar.Add(button);
 
 			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
-			Image image2 = new Image(iconPath);
-			Button button2 = new Button("Arc", image2);
-			toolbar.Add(button2);
+			image = new Image(iconPath);
+			button = new Button("Button 2", image);
+			toolbar.Add(button);
 
-			Anchor anchor = new Anchor(toolbar);
-			anchor.Location = AnchorLocation.E;
-			Viewport.RenderList.AddOverlay(anchor);
-
+			var toolActor = new ActorPane(toolbar);
+			Viewport.RenderList.AddActor(toolActor);
+						
+			
+			Viewport.Camera.SetViewDirection(ViewDirection.Standard);
 		}
 		
 		protected ViewportAdapter adapter;

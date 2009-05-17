@@ -44,24 +44,12 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ISE.FreeType, Version=1.0.2935.1740, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\ISE.FreeType.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.DevIl, Version=1.6.8.3, Culture=neutral, PublicKeyToken=7ec4053013524957">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Tao.DevIl.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.FreeType, Version=2.3.5.0, Culture=neutral, PublicKeyToken=e499629dc69cd531">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Tao.FreeType.dll</HintPath>
-    </Reference>
     <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
@@ -69,6 +57,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Mono.Cairo" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />

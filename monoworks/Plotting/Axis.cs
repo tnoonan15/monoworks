@@ -23,6 +23,7 @@ using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Controls;
 
 namespace MonoWorks.Plotting
 {
@@ -41,9 +42,9 @@ namespace MonoWorks.Plotting
 		{
 			tickLength = 8;
 			
-			label = new TextDef(12);
-			label.Text = "label";
-			label.HorizontalAlignment = HorizontalAlignment.Center;
+			labelPane = new LabelPane();
+			labelPane.Label.Text = "label";
+//			label.HorizontalAlignment = HorizontalAlignment.Center;
 
 			Start = new Vector();
 			Stop = new Vector();
@@ -66,17 +67,18 @@ namespace MonoWorks.Plotting
 		/// <remarks>This is used to determine where to place the tick marks.</remarks>
 		public Coord AxesCenter { get; set; }
 		
+		
 #region Label
 
-		protected TextDef label;
+		protected LabelPane labelPane;
 		
 		/// <value>
 		/// The axis label.
 		/// </value>
 		public string Label
 		{
-			get {return label.Text;}
-			set {label.Text = value;}
+			get {return labelPane.Label.Text;}
+			set {labelPane.Label.Text = value;}
 		}
 		
 #endregion
@@ -104,11 +106,11 @@ namespace MonoWorks.Plotting
 			get { return tickVals; }
 		}
 
-		protected TextDef[] tickLabels;
+		protected LabelPane[] tickLabels;
 		/// <summary>
 		/// The labels on the ticks.
 		/// </summary>
-		public TextDef[] TickLabels
+		public LabelPane[] TickLabels
 		{
 			get { return tickLabels; }
 		}
@@ -142,11 +144,11 @@ namespace MonoWorks.Plotting
 			tickVals = Bounds.NiceRange(min, max, true);
 
 			// store the tick labels
-			tickLabels = new TextDef[tickVals.Length];
+			tickLabels = new LabelPane[tickVals.Length];
 			for (int i = 0; i < tickVals.Length; i++)
 			{
-				tickLabels[i] = new TextDef(11);
-				tickLabels[i].Text = String.Format("{0:0.###}", tickVals[i]);
+				tickLabels[i] = new LabelPane();
+				tickLabels[i].Label.Text = String.Format("{0:0.###}", tickVals[i]);
 			}
 		}
 
@@ -277,15 +279,15 @@ namespace MonoWorks.Plotting
 			// render the axis label
 			double labelOffset = 70;
 			Coord labelPos = (startCoord + stopCoord) / 2;
-			label.Position = labelPos + tickAngle.ToCoord() * labelOffset;
-			if (label.Text.Length > 5 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
-				label.Angle = Angle.Pi() / 2;
-			else
-				label.Angle = new Angle();
-			viewport.RenderText(label);
+			labelPane.Position = (labelPos + tickAngle.ToCoord() * labelOffset).ToVector();
+//			if (labelPane.Label.Text.Length > 5 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
+//				labelPane.Angle = Angle.Pi() / 2;
+//			else
+//				label.Angle = new Angle();
+			labelPane.RenderOverlay(viewport);
 
 			// update tick alignment
-			HorizontalAlignment newAlignment = HorizontalAlignment.Center;
+//			HorizontalAlignment newAlignment = HorizontalAlignment.Center;
 
 			gl.glBegin(gl.GL_LINES);
 			// render the ticks
@@ -299,15 +301,18 @@ namespace MonoWorks.Plotting
 				double labelFactor = 3;
 				if (tickAngle.ToCoord().Orientation == Orientation.Horizontal)
 					labelFactor = 4;
-				tickLabels[i].Position = startCoord + tickAngle.ToCoord() * labelFactor * tickLength;
+				tickLabels[i].Position = (startCoord + tickAngle.ToCoord() * labelFactor * tickLength).ToVector();
 			}
 
 			gl.glEnd();
 
 			// render the tick labels
 			for (int i = 0; i < tickPositions.Length; i++)
-				tickLabels[i].HorizontalAlignment = newAlignment;
-			viewport.RenderText(tickLabels);
+			{
+//				tickLabels[i].HorizontalAlignment = newAlignment;
+				tickLabels[i].RenderOverlay(viewport);
+			}
+			
 			
 		}
 	

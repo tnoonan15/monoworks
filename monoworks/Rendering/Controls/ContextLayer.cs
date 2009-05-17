@@ -49,7 +49,7 @@ namespace MonoWorks.Rendering.Controls
 	/// It also contains a collection of toolbars that can be dynamically added
 	/// and removed to the anchors by use of string keywords called contexts.
 	/// </summary>	
-	public class ContextLayer : Container
+	public class ContextLayer : Overlay
 	{
 		/// <summary>
 		/// Default constructor.
@@ -60,7 +60,6 @@ namespace MonoWorks.Rendering.Controls
 			foreach (AnchorLocation anchorLoc in Enum.GetValues(typeof(AnchorLocation)))
 			{
 				anchors[anchorLoc] = new Anchor(anchorLoc);
-				Add(anchors[anchorLoc]);
 			}
 
 			// create the stacks
@@ -70,7 +69,7 @@ namespace MonoWorks.Rendering.Controls
 				stack.Orientation = ContextOrientation(loc);
 				stack.Padding = 0;
 				stacks[loc] = stack;
-				anchors[(AnchorLocation)loc].Child = stack;
+				anchors[(AnchorLocation)loc].Control = stack;
 			}
 		}
 		
@@ -89,7 +88,7 @@ namespace MonoWorks.Rendering.Controls
 			if (HasToolbar(context))
 				toolBars[context].Parent = null;
 			toolBars[context] = toolBar;	
-			toolBar.Parent = this;
+//			toolBar.Parent = this;
 		}		
 		
 		/// <summary>
@@ -157,12 +156,12 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// Anchors a control at the given location.
 		/// </summary>
-		public void AnchorControl(Control control, AnchorLocation location)
+		public void AnchorControl(Control2D control, AnchorLocation location)
 		{
-			if (anchors[location].Child != null)
+			if (anchors[location].Control != null)
 				throw new Exception("There's already something at this anchor.");
 
-			anchors[location].Child = control;
+			anchors[location].Control = control;
 		}
 		
 #endregion
@@ -221,10 +220,31 @@ namespace MonoWorks.Rendering.Controls
 				anchor.OnViewportResized(viewport);
 		}
 
+		public override void RenderOverlay (Viewport viewport)
+		{
+			base.RenderOverlay (viewport);
+			
+			foreach (var anchor in anchors.Values)
+			{
+				anchor.RenderOverlay(viewport);
+			}
+		}
+
 		
 		
 #endregion
 		
+		
+#region Hit Testing
+		
+		
+		protected override bool HitTest (MonoWorks.Base.Coord pos)
+		{
+			return false;
+		}
+
+		
+#endregion
 		
 		
 	}

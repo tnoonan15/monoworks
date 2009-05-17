@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using Cairo;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
@@ -35,7 +37,7 @@ namespace MonoWorks.Plotting
 			: base()
 		{
 			StyleClassName = "toolbar";
-			Child = stack;
+			Content = stack;
 			ButtonText = "Legend";
 		}
 
@@ -61,18 +63,18 @@ namespace MonoWorks.Plotting
 			stack.Clear();
 		}
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{
+			base.Render(cr);
+			
 			if (IsDirty)
 				ComputeGeometry();
 
-			if (IsExpanded)
-			{
-				RenderBackground();
-				RenderOutline();
-			}
-
-			base.Render(viewport);
+//			if (IsExpanded)
+//			{
+//				RenderBackground();
+//				RenderOutline();
+//			}
 
 		}
 

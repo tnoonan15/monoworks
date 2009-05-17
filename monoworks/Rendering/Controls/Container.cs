@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using Cairo;
+
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering.Controls
@@ -27,7 +29,7 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Base class for control container.
 	/// </summary>
-	public abstract class Container : Control
+	public abstract class Container : Control2D
 	{
 		
 		public Container() : base()
@@ -38,11 +40,11 @@ namespace MonoWorks.Rendering.Controls
 #region Children
 
 
-		protected List<Control> children = new List<Control>();
+		protected List<Control2D> children = new List<Control2D>();
 		/// <value>
 		/// The container's children.
 		/// </value>
-		public IEnumerable<Control> Children
+		public IEnumerable<Control2D> Children
 		{
 			get {return children;}
 		}
@@ -52,11 +54,11 @@ namespace MonoWorks.Rendering.Controls
 		/// </value>
 		/// <remarks>Only use this if there's a possibility the children 
 		/// will be edited during iteration.</remarks>
-		protected Control[] ChildrenCopy
+		protected Control2D[] ChildrenCopy
 		{
 			get
 			{
-				Control[] copy = new Control[children.Count];
+				Control2D[] copy = new Control2D[children.Count];
 				children.CopyTo(copy);
 				return copy;
 			}
@@ -65,7 +67,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <value>
 		/// Access the children by index.
 		/// </value>
-		public Control this[int index]
+		public Control2D this[int index]
 		{
 			get {return GetChild(index);}
 			set {SetChild(index, value);}
@@ -77,7 +79,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <param name="child">
 		/// A <see cref="Control"/>
 		/// </param>
-		public virtual void Add(Control child)
+		public virtual void Add(Control2D child)
 		{
 			children.Add(child);
 			child.Parent = this;
@@ -88,7 +90,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// Get a child by index.
 		/// </summary>
-		public Control GetChild(int index)
+		public Control2D GetChild(int index)
 		{
 			if (index < 0 || index >= children.Count)
 				throw new IndexOutOfRangeException("Invalid container child index: " + index.ToString());
@@ -99,7 +101,7 @@ namespace MonoWorks.Rendering.Controls
 		/// Set a child by index.
 		/// </summary>
 		/// <remarks>If index is equal to NumChildren, it will be appended to the end.</remarks>
-		public void SetChild(int index, Control child)
+		public void SetChild(int index, Control2D child)
 		{
 			if (index < 0 || index > children.Count)
 				throw new IndexOutOfRangeException("Invalid container child index: " + index.ToString());
@@ -128,7 +130,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnButtonPress(evt);
 			
-			foreach (Control child in ChildrenCopy)
+			foreach (Control2D child in ChildrenCopy)
 				child.OnButtonPress(evt);
 		}
 
@@ -136,7 +138,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnButtonRelease(evt);
 			
-			foreach (Control child in ChildrenCopy)
+			foreach (Control2D child in ChildrenCopy)
 				child.OnButtonRelease(evt);
 		}
 
@@ -144,7 +146,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			foreach (Control child in ChildrenCopy)
+			foreach (Control2D child in ChildrenCopy)
 				child.OnMouseMotion(evt);
 		}
 
@@ -153,12 +155,12 @@ namespace MonoWorks.Rendering.Controls
 
 #region Rendering
 
-		protected override void Render(Viewport viewport)
+		protected override void Render(Context cr)
 		{
-			base.Render(viewport);
+			base.Render(cr);
 			
-			foreach (Control child in children)
-				child.RenderOverlay(viewport);
+			foreach (Control2D child in children)
+				child.RenderCairo(cr);
 		}
 
 #endregion

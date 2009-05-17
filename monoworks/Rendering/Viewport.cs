@@ -71,7 +71,10 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// The lighting.
 		/// </summary>
-		public Lighting Lighting {get; private set;}
+		public Lighting Lighting
+		{
+			get {return RenderManager.Lighting;}
+		}
 
 		/// <summary>
 		/// Callback for the view direction changing.
@@ -197,26 +200,26 @@ namespace MonoWorks.Rendering
 
 #region Text Renderering
 
-		/// <summary>
-		/// Renders text to the viewport.
-		/// </summary>
-		protected TextRenderer textRenderer = new TextRenderer();
-
-		/// <summary>
-		/// Renders text to the viewport.
-		/// </summary>
-		public void RenderText(TextDef text)
-		{
-			textRenderer.Render(text);
-		}
-
-		/// <summary>
-		/// Renders lots of text to the viewport.
-		/// </summary>
-		public void RenderText(TextDef[] text)
-		{
-			textRenderer.Render(text);
-		}
+//		/// <summary>
+//		/// Renders text to the viewport.
+//		/// </summary>
+//		protected TextRenderer textRenderer = new TextRenderer();
+//
+//		/// <summary>
+//		/// Renders text to the viewport.
+//		/// </summary>
+//		public void RenderText(TextDef text)
+//		{
+//			textRenderer.Render(text);
+//		}
+//
+//		/// <summary>
+//		/// Renders lots of text to the viewport.
+//		/// </summary>
+//		public void RenderText(TextDef[] text)
+//		{
+//			textRenderer.Render(text);
+//		}
 
 #endregion
 
