@@ -19,8 +19,6 @@
 using System;
 using System.Collections.Generic;
 
-using Cairo;
-
 using MonoWorks.Base;
 using MonoWorks.Framework;
 
@@ -157,14 +155,14 @@ namespace MonoWorks.Rendering.Controls
 
 		}
 
-		protected override void Render(Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
+			base.Render(context);
 
-			button.RenderCairo(cr);
+			button.RenderCairo(context);
 			
 			if (Content != null)
-				Content.RenderCairo(cr);
+				Content.RenderCairo(context);
 		}
 
 #endregion

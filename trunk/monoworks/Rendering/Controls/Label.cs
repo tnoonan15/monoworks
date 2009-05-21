@@ -18,8 +18,6 @@
 
 using System;
 
-using Cairo;
-
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
@@ -75,7 +73,7 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		private Coord extents = new Coord();
 		
-		private static Cairo.ImageSurface dummySurface = new Cairo.ImageSurface(Format.ARGB32, 128, 128);
+		private static Cairo.ImageSurface dummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
 
 		private string[] Lines
 		{
@@ -92,7 +90,7 @@ namespace MonoWorks.Rendering.Controls
 			if (text == null)
 				return;
 			
-			using (var cr = new Context(dummySurface))
+			using (var cr = new Cairo.Context(dummySurface))
 			{
 				cr.SetFontSize(FontSize);
 				extents = new Coord();
@@ -106,28 +104,29 @@ namespace MonoWorks.Rendering.Controls
 				extents.Y += Padding;
 			};
 			size = extents;
-			Console.WriteLine("extents for {0}: {1}", text, extents);
+//			Console.WriteLine("extents for {0}: {1}", text, extents);
 		}
 
 
-		protected override void Render(Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
+			base.Render(context);
 
 			if (text != null)
 			{
-				cr.Save();
-				cr.SetFontSize(FontSize);
+				context.Cairo.Save();
+				context.Cairo.SetFontSize(FontSize);
+				context.Cairo.Color = new Cairo.Color(0, 0, 0);
 				
 				var lines = Lines;
-				var point = cr.CurrentPoint;
+				var point = context.Cairo.CurrentPoint;
 				for (int i=0; i<lines.Length; i++)
 				{
-					cr.MoveTo(point.X + Padding, point.Y + (FontSize + Padding)*(i+1));
-					cr.ShowText(lines[i]);
+					context.Cairo.MoveTo(point.X + Padding, point.Y + (FontSize + Padding)*(i+1));
+					context.Cairo.ShowText(lines[i]);
 				}
-				cr.MoveTo(point);
-				cr.Restore();
+				context.Cairo.MoveTo(point);
+				context.Cairo.Restore();
 			}
 		}
 

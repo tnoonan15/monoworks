@@ -67,13 +67,6 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-
-		protected override void Render(Context cr)
-		{	
-			base.Render(cr);
-						
-		}
-		
 		protected ButtonStyle buttonStyle = ButtonStyle.ImageOverLabel;
 		/// <value>
 		/// Set the button style of all buttons in the toolbar.

@@ -63,18 +63,12 @@ namespace MonoWorks.Plotting
 			stack.Clear();
 		}
 
-		protected override void Render(Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
+			base.Render(context);
 			
 			if (IsDirty)
 				ComputeGeometry();
-
-//			if (IsExpanded)
-//			{
-//				RenderBackground();
-//				RenderOutline();
-//			}
 
 		}
 

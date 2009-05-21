@@ -45,6 +45,8 @@ namespace MonoWorks.Rendering
 			this.adapter = adapter;
 
 			Animator = new Animator(this);
+			
+			Decorator = new Controls.BasicDecorator();
 		}
 
 		protected IViewportAdapter adapter;
@@ -90,6 +92,10 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public Animator Animator { get; private set; }
 
+		/// <value>
+		/// The control decorator. 
+		/// </value>
+		public Controls.AbstractDecorator Decorator {get; set;} 
 
 #region Rendering
 

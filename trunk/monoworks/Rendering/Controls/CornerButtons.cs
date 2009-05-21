@@ -62,8 +62,14 @@ namespace MonoWorks.Rendering.Controls
 			get {return new Coord(EdgeWidth, EdgeWidth);}
 		}
 
+		/// <value>
+		/// Top image.
+		/// </value>
 		public Image Image1 {get; set;}
 
+		/// <value>
+		/// Bottom image.
+		/// </value>
 		public Image Image2 {get; set;}
 		
 		/// <value>
@@ -71,42 +77,22 @@ namespace MonoWorks.Rendering.Controls
 		/// </value>
 		public bool IsTogglable {get; set;}
 
-//		public override void OnViewportResized(Viewport viewport)
-//		{
-//			base.OnViewportResized(viewport);
-//
-//			switch (Corner)
-//			{
-//			case Corner.NE:
-//				Position = new Coord(viewport.WidthGL, viewport.HeightGL) - size;
-//				break;
-//			case Corner.NW:
-//				Position = new Coord(0, viewport.HeightGL - Height);
-//				break;
-//			case Corner.SE:
-//				Position = new Coord(viewport.WidthGL - Width, 0);
-//				break;
-//			case Corner.SW:
-//				Position = new Coord(0, 0);
-//				break;
-//			}
-//		}
-
-
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
 
+			double shift = 1.1; // ratio to shift the images from the corner to put them in the right position
+			
 			// position the images			
 			if (Image1 != null)
 			{
 				switch (Corner)
 				{
 				case Corner.NE:
-					Image1.Position = new Coord(Image1.MinWidth + 4, 2.2 * Image1.MinWidth);
+					Image1.Position = new Coord(Width - (shift+1) * Image1.Width, Padding);
 					break;
 				case Corner.NW:
-					Image1.Position = new Coord(Width - 2.2 * Image1.MinWidth, 2.2 * Image1.MinWidth);
+					Image1.Position = new Coord(shift * Image1.Width, Padding);
 					break;
 				}
 			}
@@ -115,27 +101,23 @@ namespace MonoWorks.Rendering.Controls
 				switch (Corner)
 				{
 				case Corner.NE:
-					Image2.Position = new Coord(2.2 * Image2.MinWidth, Image1.MinHeight + 4);
+					Image2.Position = new Coord(Width - Padding - Image2.Width, shift * Image2.Height);
 					break;
 				case Corner.NW:
-					Image2.Position = new Coord(4, Image2.MinHeight + 4);
+					Image2.Position = new Coord(Padding, shift * Image2.Height);
 					break;
 				}
 			}
 		}
 
-		protected override void Render(Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
-
-			RenderBackground();
-
-			RenderOutline();
-
+			base.Render(context);
+			
 			if (Image1 != null)
-				Image1.RenderCairo(cr);
+				Image1.RenderCairo(context);
 			if (Image2 != null)
-				Image2.RenderCairo(cr);
+				Image2.RenderCairo(context);
 		}
 
 		protected override void RenderOutline()
@@ -217,14 +199,14 @@ namespace MonoWorks.Rendering.Controls
 			Coord dPos = pos - LastPosition;
 			switch (Corner)
 			{
-			case Corner.NE:
+			case Corner.NW:
 				if (dPos.X > size.X || dPos.Y > size.Y ||
 					dPos.X + dPos.Y < EdgeWidth)
 					return Region.None;
 				else if (dPos.X > dPos.Y)
 					return Region.Button2;
 				return Region.Button1;
-			case Corner.NW:
+			case Corner.NE:
 				if (dPos.Y / dPos.X < 1)
 					return Region.None;
 				else if (dPos.X + dPos.Y < EdgeWidth)

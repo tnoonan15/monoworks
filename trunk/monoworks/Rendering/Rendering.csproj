@@ -76,7 +76,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="ColorManager.cs" />
     <Compile Include="ColorMap.cs" />
-    <Compile Include="Controls\Anchor.cs" />
+    <Compile Include="Controls\AnchorPane.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\ContextLayer.cs" />
@@ -123,6 +123,10 @@
     <Compile Include="Controls\IPane.cs" />
     <Compile Include="Controls\LabelPane.cs" />
     <Compile Include="Controls\OverlayPane.cs" />
+    <Compile Include="Controls\BasicDecorator.cs" />
+    <Compile Include="Controls\RenderContext.cs" />
+    <Compile Include="Controls\AbstractDecorator.cs" />
+    <Compile Include="ColorGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />

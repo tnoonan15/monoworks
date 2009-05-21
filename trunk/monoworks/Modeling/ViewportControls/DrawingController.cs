@@ -47,7 +47,7 @@ namespace MonoWorks.Modeling.ViewportControls
 			ContextLayer.AddContext(ContextLocation.N, "Shading");
 
 			// get ready for sketching
-			Anchor sketchAnchor = new Anchor(AnchorLocation.NE);
+			AnchorPane sketchAnchor = new AnchorPane(AnchorLocation.NE);
 			sketchApplyCancel = new CornerButtons(Corner.NE);
 			sketchApplyCancel.IsVisible = false;
 			sketchApplyCancel.Action1 += OnApplySketch;

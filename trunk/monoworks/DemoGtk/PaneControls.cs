@@ -21,6 +21,7 @@ using System;
 using System.IO;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Rendering.Interaction;
@@ -42,28 +43,54 @@ namespace MonoWorks.DemoGtk
 			adapter = new ViewportAdapter();
 			PackEnd(adapter);
 			
+			// northeast buttons
+			var cornerButtons = new CornerButtons(Corner.NE);
+			cornerButtons.Image1 = new Image(GetIcon("apply", 22));
+			cornerButtons.Action1 += delegate(object sender, EventArgs e) {
+				Console.WriteLine("clicked apply");
+			};
+			cornerButtons.Image2 = new Image(GetIcon("cancel", 22));
+			cornerButtons.Action2 += delegate(object sender, EventArgs e) {
+				Console.WriteLine("clicked cancel");
+			};
+			var cornerAnchor = new AnchorPane(cornerButtons, AnchorLocation.NE);
+			Viewport.RenderList.AddOverlay(cornerAnchor);
+			
+			
+			// northwest buttons
+			cornerButtons = new CornerButtons(Corner.NW);
+			cornerButtons.Image1 = new Image(GetIcon("zoom-in", 22));
+			cornerButtons.Action1 += delegate(object sender, EventArgs e) {
+				Console.WriteLine("clicked zoom-in");
+			};
+			cornerButtons.Image2 = new Image(GetIcon("zoom-out", 22));
+			cornerButtons.Action2 += delegate(object sender, EventArgs e) {
+				Console.WriteLine("clicked zoom-out");
+			};
+			cornerAnchor = new AnchorPane(cornerButtons, AnchorLocation.NW);
+			Viewport.RenderList.AddOverlay(cornerAnchor);
+			
+			
 			// east toolbar
 			ToolBar toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageOverLabel;
-
-			string iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
-			var image = new Image(iconPath);
-			var button = new Button("Button 1", image);
+			
+			var image = new Image(GetIcon("apply", 48));
+			var button = new Button("Apply", image);
 			button.Clicked += delegate(object sender, EventArgs e) {
-				Console.WriteLine("clicked button 1");
+				Console.WriteLine("clicked apply");
 			};
 			toolbar.Add(button);
 
-			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
-			image = new Image(iconPath);
-			button = new Button("Button 2", image);
+			image = new Image(GetIcon("cancel", 48));
+			button = new Button("Cancel", image);
 			button.Clicked += delegate(object sender, EventArgs e) {
-				Console.WriteLine("clicked button 2");
+				Console.WriteLine("clicked cancel");
 			};
 			toolbar.Add(button);
 
-			var toolAnchor = new Anchor(toolbar, AnchorLocation.E);
+			var toolAnchor = new AnchorPane(toolbar, AnchorLocation.E);
 			Viewport.RenderList.AddOverlay(toolAnchor);
 			
 			
@@ -72,14 +99,12 @@ namespace MonoWorks.DemoGtk
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 
-			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/apply.png";
-			image = new Image(iconPath);
-			button = new Button("Button 1", image);
+			image = new Image(GetIcon("edit-undo", 48));
+			button = new Button("Undo", image);
 			toolbar.Add(button);
 
-			iconPath = Directory.GetCurrentDirectory() + "/../../../Resources/icons48/3d.png";
-			image = new Image(iconPath);
-			button = new Button("Button 2", image);
+			image = new Image(GetIcon("edit-redo", 48));
+			button = new Button("Redo", image);
 			toolbar.Add(button);
 
 			var toolActor = new ActorPane(toolbar);
@@ -97,6 +122,15 @@ namespace MonoWorks.DemoGtk
 		protected Viewport Viewport
 		{
 			get {return adapter.Viewport;}
+		}
+		
+		
+		/// <summary>
+		/// Gets an icon with the given name and size from the resources.
+		/// </summary>
+		private Stream GetIcon(string name, int size)
+		{
+			return ResourceHelper.GetStream(String.Format("icons{0}.{1}.png", size, name), "MonoWorks.Resources");
 		}
 		
 	}

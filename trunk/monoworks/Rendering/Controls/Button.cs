@@ -251,19 +251,15 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
-		protected override void Render(Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
+			base.Render(context);
 			
-			RenderBackground();
-			
-			RenderOutline();
-
 			if (label != null && label.IsVisible)
-				label.RenderCairo(cr);
+				label.RenderCairo(context);
 			
 			if (image != null && image.IsVisible)
-				image.RenderCairo(cr);
+				image.RenderCairo(context);
 		}
 
 
@@ -297,6 +293,7 @@ namespace MonoWorks.Rendering.Controls
 				evt.Handle();
 				justClicked = true;
 				Click();
+				MakeDirty();
 			}
 		}
 
@@ -313,6 +310,7 @@ namespace MonoWorks.Rendering.Controls
 			{
 				justClicked = false;
 				evt.Handle();
+				MakeDirty();
 			}
 
 		}
