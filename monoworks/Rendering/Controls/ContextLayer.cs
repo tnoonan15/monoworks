@@ -59,7 +59,7 @@ namespace MonoWorks.Rendering.Controls
 			// create the anchors
 			foreach (AnchorLocation anchorLoc in Enum.GetValues(typeof(AnchorLocation)))
 			{
-				anchors[anchorLoc] = new Anchor(anchorLoc);
+				anchors[anchorLoc] = new AnchorPane(anchorLoc);
 			}
 
 			// create the stacks
@@ -148,7 +148,7 @@ namespace MonoWorks.Rendering.Controls
 				return Orientation.Vertical;
 		}
 
-		Dictionary<AnchorLocation, Anchor> anchors = new Dictionary<AnchorLocation, Anchor>();
+		Dictionary<AnchorLocation, AnchorPane> anchors = new Dictionary<AnchorLocation, AnchorPane>();
 
 		Dictionary<ContextLocation, Stack> stacks = new Dictionary<ContextLocation, Stack>();
 
@@ -216,7 +216,7 @@ namespace MonoWorks.Rendering.Controls
 		{
 			base.OnViewportResized(viewport);
 			
-			foreach (Anchor anchor in anchors.Values)
+			foreach (AnchorPane anchor in anchors.Values)
 				anchor.OnViewportResized(viewport);
 		}
 
@@ -235,12 +235,35 @@ namespace MonoWorks.Rendering.Controls
 #endregion
 		
 		
-#region Hit Testing
+#region Interaction		
 		
-		
-		protected override bool HitTest (MonoWorks.Base.Coord pos)
+		protected override bool HitTest (Coord pos)
 		{
 			return false;
+		}
+
+		public override void OnButtonPress (MouseButtonEvent evt)
+		{
+			base.OnButtonPress (evt);
+			
+			foreach (var anchor in anchors.Values)
+				anchor.OnButtonPress(evt);
+		}
+
+		public override void OnButtonRelease (MouseButtonEvent evt)
+		{
+			base.OnButtonRelease (evt);
+			
+			foreach (var anchor in anchors.Values)
+				anchor.OnButtonRelease(evt);
+		}
+
+		public override void OnMouseMotion (MouseEvent evt)
+		{
+			base.OnMouseMotion (evt);
+			
+			foreach (var anchor in anchors.Values)
+				anchor.OnMouseMotion(evt);
 		}
 
 		

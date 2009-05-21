@@ -94,9 +94,9 @@ namespace MonoWorks.Plotting
 
 #region Rendering
 
-		protected override void Render(Cairo.Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
+			base.Render(context);
 
 			Color.Setup();
 

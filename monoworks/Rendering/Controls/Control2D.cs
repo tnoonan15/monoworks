@@ -1,4 +1,4 @@
-// Control.cs - MonoWorks Project
+// Control2D.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -56,11 +56,49 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 
+		
+		private IPane pane = null;
+		/// <value>
+		/// The pane this control belongs to.
+		/// </value>
+		public IPane Pane
+		{
+			get
+			{
+				if (pane != null)
+					return pane;
+				else if (Parent != null)
+					return Parent.Pane;
+				else
+					return null;
+			}
+			set
+			{
+				pane = value;
+			}
+		}
+		
+//		/// <value>
+//		/// The pane this control belongs to.
+//		/// </value>
+//		public IPane Pane {get; set;}
+		
+		
 		/// <summary>
 		/// The control tooltip.
 		/// </summary>
 		public string ToolTip { get; set; }
 
+		
+		public override void MakeDirty ()
+		{
+			base.MakeDirty();
+			
+			if (Parent != null)
+				parent.MakeDirty();
+		}
+
+		
 
 #region Size and Position
 
@@ -195,27 +233,30 @@ namespace MonoWorks.Rendering.Controls
 		/// Renders the control to a Cairo context.
 		/// </summary>
 		/// <remarks>Calls Render() internally.</remarks>
-		public void RenderCairo(Context cr)
+		public void RenderCairo(RenderContext context)
 		{
 			if (IsDirty)
 				ComputeGeometry();
 			
 //			Console.WriteLine("moving context for {0}: {1}", this.GetType(), Position);
-			cr.RelMoveTo(Position.X, Position.Y);
+			context.Cairo.RelMoveTo(Position.X, Position.Y);
 			
-			var point = cr.CurrentPoint;
+			var point = context.Cairo.CurrentPoint;
 			LastPosition = new Coord(point.X, point.Y);
+//			Console.WriteLine("last position of {0}: {1}", this.GetType(), LastPosition);
 			
-			Render(cr);
+			context.Decorator.RenderBackground(context.Cairo, this);
 			
-			cr.RelMoveTo(-Position.X, -Position.Y);
+			Render(context);
+			
+			context.Cairo.RelMoveTo(-Position.X, -Position.Y);
 						
 		}
 
 		/// <summary>
 		/// Performs the 2D rendering of the control.
 		/// </summary>
-		protected virtual void Render(Context cr)
+		protected virtual void Render(RenderContext context)
 		{
 		}
 
@@ -228,7 +269,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// Renders the control to an internal image surface.
 		/// </summary>
-		public void RenderImage()
+		public void RenderImage(Viewport viewport)
 		{
 			if (IsDirty)
 				ComputeGeometry();
@@ -245,13 +286,13 @@ namespace MonoWorks.Rendering.Controls
 			using (Context cr = new Context(surface))
 			{
 				cr.Operator = Operator.Source;
-				cr.Color = new Cairo.Color(0, 1, 0, 0);
+				cr.Color = new Cairo.Color(1, 1, 1, 0);
 				cr.Paint();
 				
 				cr.Operator = Operator.Over;
 				cr.Color = new Cairo.Color(0, 0, 1, 1);
 				cr.MoveTo(0,0);
-				RenderCairo(cr);		
+				RenderCairo(new RenderContext(cr, viewport.Decorator));
 				
 				surface.Flush();
 			};
@@ -345,14 +386,16 @@ namespace MonoWorks.Rendering.Controls
 		{
 //			if (ToolTip.Length > 0)
 //				queueSetToolTip = true;
+			MakeDirty();
 		}
 
 		/// <summary>
-		/// This will get called whenever the mouse enters the region of the control.
+		/// This will get called whenever the mouse leaves the region of the control.
 		/// </summary>
 		protected virtual void OnLeave(MouseEvent evt)
 		{
 //			queueClearToolTip = true;
+			MakeDirty();
 		}
 
 		/// <summary>

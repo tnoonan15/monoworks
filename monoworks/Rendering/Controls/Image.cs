@@ -19,8 +19,6 @@
 using System;
 using System.IO;
 
-using Cairo;
-
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
@@ -92,7 +90,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <value>
 		/// The surface containing the image.
 		/// </value>
-		protected ImageSurface surface;
+		protected Cairo.ImageSurface surface;
 
 		/// <value>
 		/// The size of the image.
@@ -116,14 +114,14 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 
-		protected override void Render(Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
+			base.Render(context);
 
-			cr.Save();
-			cr.SetSourceSurface(surface, (int)LastPosition.X, (int)LastPosition.Y);
-			cr.Paint();
-			cr.Restore();
+			context.Cairo.Save();
+			context.Cairo.SetSourceSurface(surface, (int)LastPosition.X, (int)LastPosition.Y);
+			context.Cairo.Paint();
+			context.Cairo.Restore();
 		}
 
 		

@@ -74,7 +74,22 @@ namespace MonoWorks.Rendering.Controls
 		public Vector Position {get; set;}
 		
 		
-		public Control2D Control {get; set;}
+		private Control2D control;
+		
+		public Control2D Control
+		{
+			get {return control;}
+			set
+			{
+				if (control != null)
+					control.Pane = null;
+				if (value != null)
+				{
+					control = value;
+					control.Pane = this;
+				}
+			}
+		}
 		
 		
 		
@@ -106,6 +121,11 @@ namespace MonoWorks.Rendering.Controls
 #region Rendering
 		
 		/// <summary>
+		/// This is set true if the pane was dirty last render cycle.
+		/// </summary>
+		private bool wasDirty = false;
+		
+		/// <summary>
 		/// Handle to the OpenGL texture that the control will be rendered to.
 		/// </summary>
 		private uint texture = 0;
@@ -118,23 +138,9 @@ namespace MonoWorks.Rendering.Controls
 				return;
 						
 			if (texture == 0)
-			{
 				Gl.glGenTextures(1, out texture);
-//				Console.WriteLine("generating texture: {0} ({1})", texture, Gl.GL_INVALID_OPERATION);
-			}
-						
-			// copy the control image to the texture
-			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
-			Control.RenderImage();
-			Gl.glTexImage2D(Gl.GL_TEXTURE_RECTANGLE_ARB,
-			                0, 
-			                Gl.GL_RGBA, 
-			                Control.IntWidth, 
-			                Control.IntHeight, 
-			                0, 
-			                Gl.GL_BGRA, 
-			                Gl.GL_UNSIGNED_BYTE, 
-			                Control.ImageData);
+			
+			wasDirty = true;
 			
 		}
 		
@@ -147,6 +153,23 @@ namespace MonoWorks.Rendering.Controls
 			
 			if (Control.IsDirty)
 				ComputeGeometry();
+			
+			// render the control to the texture
+			if (wasDirty)
+			{
+				Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
+				Control.RenderImage(viewport);
+				Gl.glTexImage2D(Gl.GL_TEXTURE_RECTANGLE_ARB,
+			                0, 
+			                Gl.GL_RGBA, 
+			                Control.IntWidth, 
+			                Control.IntHeight, 
+			                0, 
+			                Gl.GL_BGRA, 
+			                Gl.GL_UNSIGNED_BYTE, 
+			                Control.ImageData);
+				wasDirty = false;
+			}
 			
 			// determine how big the control should be 
 			double scaling = viewport.Camera.ViewportToWorldScaling;

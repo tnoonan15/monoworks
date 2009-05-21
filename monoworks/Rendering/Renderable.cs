@@ -144,6 +144,14 @@ namespace MonoWorks.Rendering
 		protected HitState hitState = HitState.None;
 		
 		/// <value>
+		/// The current hit state of the control.
+		/// </value>
+		public HitState HitState 
+		{
+			get {return hitState;}
+		}
+		
+		/// <value>
 		/// Whether the renderable is selected.
 		/// </value>
 		public bool IsSelected

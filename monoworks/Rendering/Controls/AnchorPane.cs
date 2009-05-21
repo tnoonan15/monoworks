@@ -1,4 +1,4 @@
-// Anchor.cs - MonoWorks Project
+// AnchorPane.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -32,18 +32,18 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// Single control container that anchors its Control to a particular side of the viewport.
 	/// </summary>
-	public class Anchor : OverlayPane
+	public class AnchorPane : OverlayPane
 	{
-		public Anchor(AnchorLocation location)
+		public AnchorPane(AnchorLocation location)
 			: this(null, location)
 		{
 		}
 
-		public Anchor(Control2D Control) : this(Control, AnchorLocation.N)
+		public AnchorPane(Control2D Control) : this(Control, AnchorLocation.N)
 		{
 		}
 		
-		public Anchor(Control2D control, AnchorLocation location)
+		public AnchorPane(Control2D control, AnchorLocation location)
 		{
 			this.Control = control;
 			Location = location;	

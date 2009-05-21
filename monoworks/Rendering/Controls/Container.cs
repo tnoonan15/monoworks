@@ -19,8 +19,6 @@
 using System;
 using System.Collections.Generic;
 
-using Cairo;
-
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering.Controls
@@ -155,12 +153,12 @@ namespace MonoWorks.Rendering.Controls
 
 #region Rendering
 
-		protected override void Render(Context cr)
+		protected override void Render(RenderContext context)
 		{
-			base.Render(cr);
+			base.Render(context);
 			
 			foreach (Control2D child in children)
-				child.RenderCairo(cr);
+				child.RenderCairo(context);
 		}
 
 #endregion
