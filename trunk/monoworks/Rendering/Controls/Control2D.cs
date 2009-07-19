@@ -245,7 +245,7 @@ namespace MonoWorks.Rendering.Controls
 			LastPosition = new Coord(point.X, point.Y);
 //			Console.WriteLine("last position of {0}: {1}", this.GetType(), LastPosition);
 			
-			context.Decorator.RenderBackground(context.Cairo, this);
+			context.Decorator.Decorate(this);
 			
 			Render(context);
 			
@@ -277,7 +277,6 @@ namespace MonoWorks.Rendering.Controls
 			// remake the image surface, if needed
 			if (surface == null || surface.Width != IntWidth || surface.Height != IntHeight)
 			{
-//				Console.WriteLine("resetting surface to {0} x {1}", IntWidth, IntHeight);
 				imageData = new byte[IntWidth * IntHeight * 4];
 				surface = new ImageSurface(ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
@@ -450,17 +449,17 @@ namespace MonoWorks.Rendering.Controls
 		/// <summary>
 		/// Renders the background with the current style.
 		/// </summary>
-		protected virtual void RenderBackground()
+		protected virtual void RenderBackground(RenderContext context)
 		{
-			IFill bg = styleClass.GetBackground(hitState);
-			if (bg != null)
-				bg.DrawRectangle(new Coord(), size);
+//			IFill bg = styleClass.GetBackground(hitState);
+//			if (bg != null)
+//				bg.DrawRectangle(new Coord(), size);
 		}
 		
 		/// <summary>
 		/// Renders the outline with the current style.
 		/// </summary>
-		protected virtual void RenderOutline()
+		protected virtual void RenderOutline(RenderContext context)
 		{
 //			Color fg = styleClass.GetForeground(hitState);
 //			if (fg != null)

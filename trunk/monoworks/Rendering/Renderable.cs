@@ -28,7 +28,10 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Renderable states with respect to mouse interaction.
 	/// </summary>
-	public enum HitState {None, Hovering, Selected};
+	[Flags]
+	public enum HitState {None = 0, 
+		Hovering = 1, 
+		Selected = 2};
 
 	
 	/// <summary>
@@ -156,15 +159,13 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public bool IsSelected
 		{
-			get { return hitState == HitState.Selected; }
+			get {return (hitState & HitState.Selected) > 0;}
 			set
 			{
-//				if (value != IsSelected)
-//					MakeDirty();
 				if (value)
-					hitState = HitState.Selected;
+					hitState |= HitState.Selected;
 				else
-					hitState = HitState.None;
+					hitState &= ~HitState.Selected;
 			}
 		}
 		
@@ -189,13 +190,13 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public virtual bool IsHovering
 		{
-			get {return hitState == HitState.Hovering;}
+			get {return (hitState & HitState.Hovering) > 0;}
 			set
 			{
-				if (value && hitState != HitState.Selected)
-					hitState = HitState.Hovering;
-				else if (hitState == HitState.Hovering)
-					hitState = HitState.None;
+				if (value)
+					hitState |= HitState.Hovering;
+				else
+					hitState &= ~HitState.Hovering;
 			}
 		}
 

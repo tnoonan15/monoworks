@@ -354,58 +354,6 @@ namespace MonoWorks.Rendering
 			gl.glVertex2d(pos.X, pos.Y + size.Y);
 			gl.glEnd();
 		}
-
-		/// <summary>
-		/// Draws a solid triangle in the given corner.
-		/// </summary>
-		public void DrawCorner(Coord size, Corner corner)
-		{
-			Setup();
-			gl.glBegin(gl.GL_TRIANGLES);
-			CornerVertices(size, corner);
-			gl.glEnd();
-		}
-		
-		/// <summary>
-		/// Outlines a corner with the color.
-		/// </summary>
-		public void OutlineCorner(Coord size, Corner corner)
-		{
-			Setup();
-			gl.glBegin(gl.GL_LINE_LOOP);
-			CornerVertices(size, corner);
-			gl.glEnd();
-		}
-		
-		/// <summary>
-		/// Draws the corner vertices for filling and outlining.
-		/// </summary>
-		private void CornerVertices(Coord size, Corner corner)
-		{
-			switch (corner)
-			{
-			case Corner.NE:
-				gl.glVertex2d(0, size.Y);
-				gl.glVertex2d(size.X, size.Y);
-				gl.glVertex2d(size.X, 0);
-				break;
-			case Corner.NW:
-				gl.glVertex2d(0, size.Y);
-				gl.glVertex2d(size.X, size.Y);
-				gl.glVertex2d(0, 0);
-				break;
-			case Corner.SE:
-				gl.glVertex2d(0, 0);
-				gl.glVertex2d(size.X, size.Y);
-				gl.glVertex2d(size.X, 0);
-				break;
-			case Corner.SW:
-				gl.glVertex2d(0, size.Y);
-				gl.glVertex2d(0, 0);
-				gl.glVertex2d(size.X, 0);
-				break;
-			}
-		}
 		
 #endregion
 		

@@ -39,12 +39,6 @@ namespace MonoWorks.Rendering.Controls
 
 	
 	/// <summary>
-	/// The anchor locations available for contexts.
-	/// </summary>
-	public enum ContextLocation { N, E, S, W };
-
-	
-	/// <summary>
 	/// A control layer that contains anchors on all edges of the viewport.
 	/// It also contains a collection of toolbars that can be dynamically added
 	/// and removed to the anchors by use of string keywords called contexts.

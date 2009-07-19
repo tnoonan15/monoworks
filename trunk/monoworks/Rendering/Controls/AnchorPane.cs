@@ -24,10 +24,6 @@ using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering.Controls
 {
-	/// <summary>
-	/// Locations for an anchor.
-	/// </summary>
-	public enum AnchorLocation { N, E, S, W, NE, SE, SW, NW };
 	
 	/// <summary>
 	/// Single control container that anchors its Control to a particular side of the viewport.

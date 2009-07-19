@@ -1,4 +1,4 @@
-// CornerToggle.cs - MonoWorks Project
+// CornerButtons.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -44,7 +44,7 @@ namespace MonoWorks.Rendering.Controls
 			StyleClassName = "corner";
 			size = MinSize;
 			IsHoverable = true;
-			IsTogglable = true;
+			IsTogglable = false;
 		}
 
 		/// <value>
@@ -118,73 +118,8 @@ namespace MonoWorks.Rendering.Controls
 				Image1.RenderCairo(context);
 			if (Image2 != null)
 				Image2.RenderCairo(context);
-		}
-
-		protected override void RenderOutline()
-		{
-			Color fg = styleClass.GetForeground(HitState.None);
-			if (fg != null)
-			{
-				fg.OutlineCorner(size, Corner);
-			}
-		}
-
-		protected override void RenderBackground()
-		{
-			// the no-hitstate background is always rendered
-			IFill bg = styleClass.GetBackground(HitState.None);
-			if (bg != null)
-				bg.DrawCorner(size, Corner);
-
-			// apply the hovering style
-			bg = styleClass.GetBackground(hitState);
-			if (bg is FillGradient && hitState == HitState.Hovering && hitRegion != Region.None)
-			{
-				FillRegion(bg as FillGradient, hitRegion);
-			}
-			
-			// apply the selected style
-			bg = styleClass.GetBackground(HitState.Selected);
-			if (bg is FillGradient && SelectedRegion != Region.None)
-			{
-				FillRegion(bg as FillGradient, SelectedRegion);
-			}
 			
 		}
-		
-		/// <summary>
-		/// Fills the given region with the given fill.
-		/// </summary>
-		private void FillRegion(FillGradient grad, Region region)
-		{
-//			gl.glBegin(gl.GL_TRIANGLES);
-//			grad.StartColor.Setup();
-//			switch (Corner)
-//			{
-//			case Corner.NE:
-//				gl.glVertex2d(Width, Height);
-//				grad.StopColor.Setup();
-//				gl.glVertex2d(Width/2, Height/2);
-//				if (region == Region.Button1)
-//					gl.glVertex2d(0, Height);
-//				else
-//					gl.glVertex2d(Width, 0);
-//				break;
-//			case Corner.NW:
-//				gl.glVertex2d(0, Height);
-//				grad.StopColor.Setup();
-//				gl.glVertex2d(Width/2, Height/2);
-//				if (region == Region.Button1)
-//					gl.glVertex2d(Width, Height);
-//				else
-//					gl.glVertex2d(0, 0);
-//				break;
-//			default:
-//				throw new NotImplementedException();
-//			}
-//			gl.glEnd();
-		}
-
 
 
 #region Mouse Interaction
@@ -201,17 +136,17 @@ namespace MonoWorks.Rendering.Controls
 			{
 			case Corner.NW:
 				if (dPos.X > size.X || dPos.Y > size.Y ||
-					dPos.X + dPos.Y < EdgeWidth)
+					dPos.X + dPos.Y > EdgeWidth)
 					return Region.None;
 				else if (dPos.X > dPos.Y)
-					return Region.Button2;
-				return Region.Button1;
+					return Region.Button1;
+				return Region.Button2;
 			case Corner.NE:
-				if (dPos.Y / dPos.X < 1)
+				if (dPos.Y / dPos.X > 1 || dPos.X < 0 || dPos.Y < 0)
 					return Region.None;
 				else if (dPos.X + dPos.Y < EdgeWidth)
-					return Region.Button2;
-				return Region.Button1;
+					return Region.Button1;
+				return Region.Button2;
 			default: 
 				throw new NotImplementedException();
 			}
@@ -219,14 +154,78 @@ namespace MonoWorks.Rendering.Controls
 
 		protected Region hitRegion = Region.None;
 
-		//// <value>
-		/// The currently selected region of the button, if IsTogglable is true.
+		/// <value>
+		/// The hit state of Region1.
 		/// </value>
-		public Region SelectedRegion {get; set;}
+		public HitState HitState1 {get; set;}
+
+		/// <value>
+		/// The hit state of Region2.
+		/// </value>
+		public HitState HitState2 {get; set;}
+		
+		/// <summary>
+		/// Selects the given region (and deselects the other one).
+		/// </summary>
+		public void Select(Region region)
+		{
+			Select();
+			if (region == Region.Button1)
+			{
+				HitState1 |= HitState.Selected;
+				HitState2 &= ~HitState.Selected;
+			}
+			else if (region == Region.Button2)
+			{
+				HitState2 |= HitState.Selected;
+				HitState1 &= ~HitState.Selected;
+			}
+			else // nothing is selected
+			{
+				HitState1 &= ~HitState.Selected;
+				HitState2 &= ~HitState.Selected;
+			}
+		}
+		
+		/// <summary>
+		/// Sets the hovering state on a region (and unsets it on the other one).
+		/// </summary>
+		protected void Hover(Region region)
+		{
+			if (region == Region.Button1)
+			{
+				if ((HitState1 &= HitState.Hovering) == 0) // wasn't hovering before
+					MakeDirty();
+				HitState1 |= HitState.Hovering;
+				HitState2 &= ~HitState.Hovering;
+			}
+			else if (region == Region.Button2)
+			{
+				if ((HitState2 &= HitState.Hovering) == 0) // wasn't hovering before
+					MakeDirty();
+				HitState2 |= HitState.Hovering;
+				HitState1 &= ~HitState.Hovering;
+			}
+			else // nothing is hovering
+			{
+				HitState1 &= ~HitState.Hovering;
+				HitState2 &= ~HitState.Hovering;				
+			}
+		}
+		
+		public override void Deselect ()
+		{
+			base.Deselect();
+			
+			HitState1 &= ~HitState.Selected;
+			HitState2 &= ~HitState.Selected;
+		}
+
 
 		protected override bool HitTest(Coord pos)
 		{
 			hitRegion = HitRegion(pos);
+			Hover(hitRegion);
 			return hitRegion != Region.None;
 		}
 
@@ -240,17 +239,22 @@ namespace MonoWorks.Rendering.Controls
 			hitRegion = HitRegion(evt.Pos);
 
 			if (hitRegion != Region.None)
-			{
+			{				
 				if (IsTogglable)
-					SelectedRegion = hitRegion;
+				{
+					if (IsSelected)
+						Deselect();
+				}
 				
-				Select();
+				Select(hitRegion);
+							
 				evt.Handle();
 				if (hitRegion == Region.Button1)
 					RaiseAction1();
 				else
 					RaiseAction2();
-
+				
+				MakeDirty();
 			}
 		}
 
@@ -260,15 +264,18 @@ namespace MonoWorks.Rendering.Controls
 			base.OnButtonRelease(evt);
 
 			if (IsSelected && !IsTogglable)
+			{
 				Deselect();
+			}
 
 			// if we were just clicked, we get to handle the next button release event
 			if (hitRegion != Region.None)
 			{
 				hitRegion = Region.None;
 				evt.Handle();
+				MakeDirty();
 			}
-
+			
 		}
 
 
