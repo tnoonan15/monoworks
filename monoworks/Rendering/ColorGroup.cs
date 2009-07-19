@@ -37,11 +37,11 @@ namespace MonoWorks.Rendering
 		}
 		
 		
-		public ColorGroup(Color noneColor, Color selectedColor, Color hoveringColor) : this()
+		public ColorGroup(Color noneColor, Color hoveringColor, Color selectedColor) : this()
 		{
 			colors[HitState.None] = noneColor;
-			colors[HitState.Selected] = selectedColor;
 			colors[HitState.Hovering] = hoveringColor;
+			colors[HitState.Selected] = selectedColor;
 		}
 		
 		
@@ -58,6 +58,8 @@ namespace MonoWorks.Rendering
 		{
 			if (colors.ContainsKey(hitState))
 				return colors[hitState];
+			else if ((hitState & HitState.Selected) >0 && colors.ContainsKey(HitState.Selected))
+				return colors[HitState.Selected];
 			else if (colors.ContainsKey(HitState.None))
 				return colors[HitState.None];
 			else

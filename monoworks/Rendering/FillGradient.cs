@@ -160,63 +160,6 @@ namespace MonoWorks.Rendering
 			gl.glEnd();
 		}
 
-		/// <summary>
-		/// Draws a gradient triangle in the given corner.
-		/// </summary>
-		public void DrawCorner(Coord size, Corner corner)
-		{
-			gl.glBegin(gl.GL_TRIANGLES);
-			CornerVertices(size, corner);
-			gl.glEnd();
-		}
-
-		/// <summary>
-		/// Draws a gradient triangle outline in the given corner.
-		/// </summary>
-		public void OutlineCorner(Coord size, Corner corner)
-		{
-			gl.glBegin(gl.GL_LINE_LOOP);
-			CornerVertices(size, corner);
-			gl.glEnd();
-		}
-				
-		/// <summary>
-		/// Draws the corner vertices for filling and outlining.
-		/// </summary>
-		private void CornerVertices(Coord size, Corner corner)
-		{
-			switch (corner)
-			{
-			case Corner.NE:
-				stopColor.Setup();
-				gl.glVertex2d(0, size.Y);
-				gl.glVertex2d(size.X, 0);
-				startColor.Setup();
-				gl.glVertex2d(size.X, size.Y);
-				break;
-			case Corner.NW:
-				stopColor.Setup();
-				gl.glVertex2d(0, 0);
-				gl.glVertex2d(size.X, size.Y);
-				startColor.Setup();
-				gl.glVertex2d(0, size.Y);
-				break;
-			case Corner.SE:
-				stopColor.Setup();
-				gl.glVertex2d(0, 0);
-				gl.glVertex2d(size.X, size.Y);
-				startColor.Setup();
-				gl.glVertex2d(size.X, 0);
-				break;
-			case Corner.SW:
-				stopColor.Setup();
-				gl.glVertex2d(0, size.Y);
-				gl.glVertex2d(size.X, 0);
-				startColor.Setup();
-				gl.glVertex2d(0, 0);
-				break;
-			}
-		}
 		
 #region XML Loading
 		
@@ -245,8 +188,7 @@ namespace MonoWorks.Rendering
 				grad.IsInverted = Boolean.Parse(invString);	
 			
 			return grad;
-		}
-		
+		}		
 		
 #endregion
 

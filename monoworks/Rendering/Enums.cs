@@ -1,4 +1,4 @@
-// AbstractDecorator.cs - MonoWorks Project
+// Enums.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -16,39 +16,30 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
+
 using System;
 
-using Cairo;
-
-using MonoWorks.Base;
-using MonoWorks.Rendering;
-using MonoWorks.Rendering.Events;
-
-
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
-	/// Abstract base class for decorators that decorate the controls by
-	/// deciding how render their background and outline.
+	/// Locations for an anchor.
 	/// </summary>
-	public abstract class AbstractDecorator
-	{
-		
-		public AbstractDecorator()
-		{
-		}
-		
-		/// <value>
-		/// The current context to render to.
-		/// </value>
-		public RenderContext Context {get; set;}
-		
-		/// <summary>
-		/// Draws the decorations for the given control.
-		/// </summary>
-		public abstract void Decorate(Control2D control);
-		
-		
-	}
+	public enum AnchorLocation { N, E, S, W, NE, SE, SW, NW };
+	
+	/// <summary>
+	/// A corner of the viewport, subset of AnchorLocation.
+	/// </summary>
+	public enum Corner {NE = AnchorLocation.NE,
+						NW = AnchorLocation.NW,
+						SE = AnchorLocation.SE,
+						SW = AnchorLocation.SW};
+	
+	/// <summary>
+	/// The anchor locations available for contexts, subset of AnchorLocation.
+	/// </summary>
+	public enum ContextLocation { N = AnchorLocation.N, 
+								E = AnchorLocation.E, 
+								S = AnchorLocation.S, 
+								W = AnchorLocation.W};
 }
