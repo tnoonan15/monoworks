@@ -151,7 +151,7 @@ namespace MonoWorks.Rendering
 					Gl.glShadeModel(Gl.GL_SMOOTH);
 					break;
 			}
-			Lighting.Enable();
+//			Lighting.Enable();
 			Gl.glEnable(Gl.GL_DEPTH_TEST);
 			Gl.glEnable(Gl.GL_POLYGON_OFFSET_FILL);
 		}

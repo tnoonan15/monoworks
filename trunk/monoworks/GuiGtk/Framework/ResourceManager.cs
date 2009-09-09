@@ -36,7 +36,10 @@ namespace MonoWorks.GuiGtk.Framework
 		/// </summary>
 		protected ResourceManager() : base()
 		{
-			
+			// set named icon sizes
+			int[] sizes = new int[]{16, 32, 48, 64};
+			foreach (var size in sizes)
+				iconSizes[size] = Gtk.Icon.SizeRegister(size.ToString(), size, size);
 		}
 		
 
@@ -86,6 +89,8 @@ namespace MonoWorks.GuiGtk.Framework
 		
 
 #region Icons
+		
+		private Dictionary<int, Gtk.IconSize> iconSizes = new Dictionary<int, Gtk.IconSize>();
 		
 		protected Dictionary<string, Gtk.IconSet> icons = new Dictionary<string,Gtk.IconSet>();
 		
@@ -167,12 +172,16 @@ namespace MonoWorks.GuiGtk.Framework
 			}
 		}
 
-
+		
 		public override void WriteLoadedIconToFile(string name, string iconName, int size)
 		{
 			if (icons.ContainsKey(iconName))	
 			{
-				Gdk.Pixbuf pixbuf = icons[iconName].RenderIcon(new Gtk.Style(), Gtk.TextDirection.Ltr, Gtk.StateType.Normal, Gtk.IconSize.LargeToolbar, null, "");
+				Gtk.IconSize iconSize;
+				if (!iconSizes.TryGetValue(size, out iconSize))
+					iconSize = Gtk.IconSize.LargeToolbar;
+				Gdk.Pixbuf pixbuf = icons[iconName].RenderIcon(new Gtk.Style(), Gtk.TextDirection.Ltr, 
+				                                               Gtk.StateType.Normal, iconSize, null, "");
 				pixbuf.Save(name, "png");
 			}
 			else

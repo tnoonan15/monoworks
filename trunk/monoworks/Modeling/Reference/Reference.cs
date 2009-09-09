@@ -51,6 +51,7 @@ namespace MonoWorks.Modeling
 		public override void RenderTransparent(Viewport viewport)
 		{
 			viewport.RenderManager.EnableAntialiasing();
+			viewport.RenderManager.Lighting.Disable();
 			base.RenderTransparent(viewport);
 
 			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
@@ -80,6 +81,7 @@ namespace MonoWorks.Modeling
 		public override void RenderOpaque(Viewport viewport)
 		{
 			viewport.RenderManager.EnableAntialiasing();
+			viewport.RenderManager.Lighting.Disable();
 			base.RenderOpaque(viewport);
 
 			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
