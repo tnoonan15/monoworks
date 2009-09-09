@@ -44,6 +44,8 @@ namespace MonoWorks.Rendering
 			gl.glEnable(gl.GL_LIGHT0);
 			gl.glEnable(gl.GL_LIGHT1);
 			
+			IsEnabled = true;
+			
 			float lightDist = 3.0f;
             float[] lightAmbient = new float[]{0.2f, 0.2f, 0.2f};
             float[] lightDiffuse = new float[]{0.5f, 0.5f, 0.5f};
@@ -56,13 +58,21 @@ namespace MonoWorks.Rendering
 
 		}
 
+		/// <value>
+		/// Returns true if lighting is enabled in the current OpenGL context.
+		/// </value>
+		public bool IsEnabled {get; private set;}
 
 		/// <summary>
 		/// Enables lighting.
 		/// </summary>
 		public void Enable()
 		{
-			gl.glEnable(gl.GL_LIGHTING);
+			if (!IsEnabled)
+			{
+				gl.glEnable(gl.GL_LIGHTING);
+				IsEnabled = true;
+			}
 		}
 
 		/// <summary>
@@ -70,7 +80,11 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Disable()
 		{
-			gl.glDisable(gl.GL_LIGHTING);
+			if (IsEnabled)
+			{
+				gl.glDisable(gl.GL_LIGHTING);
+				IsEnabled = false;
+			}
 		}
 		
 		

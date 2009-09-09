@@ -60,12 +60,24 @@ namespace MonoWorks.Rendering.Controls
 			}
 		}
 		
+		
 		public override void OnViewportResized(Viewport viewport)
 		{
 			base.OnViewportResized(viewport);
 
 			UpdatePosition(viewport);
 		}
+		
+		public override void RenderOverlay(Viewport viewport)
+		{
+			// if we're dirty, we need to update the position, but this can't be done 
+			// in ComputeGeometry() since we don't know the viewport
+			if (IsDirty)
+				UpdatePosition(viewport);
+			
+			base.RenderOverlay(viewport);
+		}
+
 
 
 		/// <summary>
@@ -106,7 +118,6 @@ namespace MonoWorks.Rendering.Controls
 				}
 			}
 		}
-
 		
 	}
 }

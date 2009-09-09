@@ -18,5 +18,10 @@ namespace MonoWorks.Rendering.Controls
 		/// </value>
 		Control2D Control {get; set;}
 		
+		/// <value>
+		/// Whether or not the pane is visible.
+		/// </value>
+		bool IsVisible {get; set;}
+		
 	}
 }

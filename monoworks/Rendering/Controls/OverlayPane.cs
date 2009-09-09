@@ -186,7 +186,7 @@ namespace MonoWorks.Rendering.Controls
 		
 		public override void RenderOverlay(Viewport viewport)
 		{
-			if (Control == null)
+			if (Control == null || !Control.IsVisible)
 				return;
 			
 			base.RenderOverlay(viewport);

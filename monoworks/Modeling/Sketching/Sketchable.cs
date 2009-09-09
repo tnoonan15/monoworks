@@ -113,8 +113,6 @@ namespace MonoWorks.Modeling.Sketching
 				DrawVertices();
 				gl.glEnd();
 			}
-
-			viewport.RenderManager.Lighting.Enable();
 		}		
 		
 		/// <summary>

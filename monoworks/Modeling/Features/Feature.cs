@@ -164,8 +164,9 @@ namespace MonoWorks.Modeling
 		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
 		public override void RenderOpaque(Viewport viewport)
 		{
-			viewport.RenderManager.EnableAntialiasing();
 			base.RenderOpaque(viewport);
+			viewport.RenderManager.EnableAntialiasing();
+			viewport.RenderManager.Lighting.Enable();
 
 			// render the highlights
 			if (IsHovering)
@@ -195,7 +196,6 @@ namespace MonoWorks.Modeling
 				viewport.RenderManager.WireframeColor.Setup();
 				gl.glCallList(displayLists+WireframeListOffset);
 			}
-			viewport.RenderManager.DisableAntialiasing();
 		}
 
 		

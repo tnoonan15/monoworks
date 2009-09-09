@@ -96,7 +96,7 @@ namespace MonoWorks.Rendering
 				if (times[animatable] >= durations[animatable])
 					RemoveAnimation(animatable);
 			}
-			viewport.PaintGL();
+			viewport.RemotePaintGL();
 		}
 
 	}

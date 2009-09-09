@@ -56,6 +56,7 @@ namespace MonoWorks.Modeling.ViewportControls
 			sketchApplyCancel.Image2 = new Image(ResourceHelper.GetStream("cancel.png", "MonoWorks.Rendering"));
 			sketchAnchor.Control = sketchApplyCancel;
 			viewport.RenderList.AddOverlay(sketchAnchor);
+			
 		}
 
 

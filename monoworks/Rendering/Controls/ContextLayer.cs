@@ -1,4 +1,4 @@
-// ContextBar.cs - MonoWorks Project
+// ContextLayer.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -32,7 +32,7 @@ namespace MonoWorks.Rendering.Controls
 	public class InvalidContextException : Exception
 	{
 		public InvalidContextException(string context) : 
-			base(context + " is not a valid context in this context bar.")
+			base(context + " is not a valid context in this context laye.")
 		{
 		}
 	}

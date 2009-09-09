@@ -238,8 +238,8 @@ namespace MonoWorks.Rendering.Controls
 			case ButtonStyle.ImageOverLabel: // place the image over the label
 				image.IsVisible = true;
 				label.IsVisible = true;
-				image.Position = pad + new Coord((Width-label.Width)/2.0 - padding, 0);
-				label.Position = pad + new Coord(0, image.Height + padding);
+				image.Position = pad + new Coord((Width-image.Width)/2.0 - padding, 0);
+				label.Position = pad + new Coord((Width-label.Width)/2.0 - padding, image.Height + padding);
 				break;
 				
 			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
@@ -289,10 +289,9 @@ namespace MonoWorks.Rendering.Controls
 
 			if (HitTest(evt.Pos) && !justClicked)
 			{
-				ToggleSelection();
 				evt.Handle();
 				justClicked = true;
-				Click();
+				IsSelected = true;
 				MakeDirty();
 			}
 		}
@@ -311,6 +310,7 @@ namespace MonoWorks.Rendering.Controls
 				justClicked = false;
 				evt.Handle();
 				MakeDirty();
+				Click();
 			}
 
 		}
