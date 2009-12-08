@@ -237,9 +237,10 @@ namespace MonoWorks.Modeling
 			yMax = Math.Ceiling(yMax / Grid.Step) * Grid.Step;
 
 			// draw the grid
-			gl.glBegin(gl.GL_LINES);
+			viewport.RenderManager.Lighting.Disable();
 			gl.glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			gl.glLineWidth(1f);
+			gl.glBegin(gl.GL_LINES);
 			for (double x = xMin; x < xMax; x += Grid.Step)
 			{
 				LocalToWorld(new Coord(x, yMin)).glVertex();

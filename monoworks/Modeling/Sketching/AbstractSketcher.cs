@@ -90,7 +90,6 @@ namespace MonoWorks.Modeling.Sketching
 			gl.glBegin(gl.GL_POINTS);
 			point.glVertex();
 			gl.glEnd();
-			viewport.RenderManager.Lighting.Enable();
 		}
 
 #endregion

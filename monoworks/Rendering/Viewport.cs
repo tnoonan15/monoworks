@@ -280,10 +280,10 @@ namespace MonoWorks.Rendering
 
 			OverlayInteractor.OnButtonPress(evt);
 
-			ViewInteractor.OnButtonPress(evt);
-
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnButtonPress(evt);
+
+			ViewInteractor.OnButtonPress(evt);
 		}
 
 		public void OnButtonRelease(MouseButtonEvent evt)
@@ -292,10 +292,10 @@ namespace MonoWorks.Rendering
 
 			OverlayInteractor.OnButtonRelease(evt);
 
-			ViewInteractor.OnButtonRelease(evt);
-
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnButtonRelease(evt);
+
+			ViewInteractor.OnButtonRelease(evt);
 		}
 
 		public void OnMouseMotion(MouseEvent evt)
@@ -303,11 +303,11 @@ namespace MonoWorks.Rendering
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 
 			OverlayInteractor.OnMouseMotion(evt);
-
-			ViewInteractor.OnMouseMotion(evt);
 			
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnMouseMotion(evt);
+
+			ViewInteractor.OnMouseMotion(evt);
 		}
 
 

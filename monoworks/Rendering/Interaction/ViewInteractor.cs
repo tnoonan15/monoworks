@@ -194,6 +194,9 @@ namespace MonoWorks.Rendering.Interaction
 		/// <remarks>If no one handles the event, then OnMouseMotion(MouseEvent, Camera) is called.</remarks>
 		public override void OnMouseMotion(MouseEvent evt)
 		{
+			if (evt.Handled)
+				return;
+			
 			bool blocked = false;
 
 			switch (MouseType)

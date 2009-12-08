@@ -55,7 +55,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\gtkglarea-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cairo" />
+    <Reference Include="Mono.Cairo">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DrawingFrame.cs" />
