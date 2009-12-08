@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench", "Workbench\Work
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modeling", "Modeling\Modeling.csproj", "{857385F0-7861-4D80-9D73-995A24FB8602}"
 EndProject
-Project("{B3672514-7503-4B01-B4B4-B44E87061EA2}") = "Docs", "Docs\Docs.booproj", "{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,12 +44,6 @@ Global
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
-		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -78,14 +70,19 @@ Global
 		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		version = 0.1
-		StartupItem = DemoGtk\DemoGtk.csproj
+		StartupItem = StudioGtk\StudioGtk.csproj
 		Policies = $0
 		$0.VersionControlPolicy = $1
 		$1.CommitMessageStyle = $2
@@ -94,9 +91,9 @@ Global
 		$2.LineAlign = 0
 		$2.InterMessageLines = 0
 		$1.inheritsSet = Mono
-		name = MonoWorks
 		MonoDevelop.ChangeLogAddIn.ChangeLogInfo = $3
 		$3.policy = UpdateNearestChangeLog
+		name = MonoWorks
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

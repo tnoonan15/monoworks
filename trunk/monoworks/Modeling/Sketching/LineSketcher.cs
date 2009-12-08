@@ -1,4 +1,4 @@
-﻿// LineSketcherState.cs - MonoWorks Project
+// LineSketcherState.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -157,6 +157,7 @@ namespace MonoWorks.Modeling.Sketching
 				addingVertex = false;
 				Apply();
 				Sketchable.PointsUpdated();
+				evt.Handle();
 			}
 			else if (addingVertex) // add a vertex
 			{
@@ -167,6 +168,7 @@ namespace MonoWorks.Modeling.Sketching
 				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				point.SetPosition(intersect);
 				Sketchable.PointsUpdated();
+				evt.Handle();
 			}
 			else if (evt.Button == 1) // look for a hit
 			{
@@ -178,6 +180,7 @@ namespace MonoWorks.Modeling.Sketching
 					Apply();
 				else
 					isDragging = true;
+				evt.Handle();
 			}
 			Sketchable.MakeDirty();
 		}
@@ -187,7 +190,11 @@ namespace MonoWorks.Modeling.Sketching
 		{
 			base.OnButtonRelease(evt);
 			closePoint = null;
-			isDragging = false;
+			if (isDragging)
+			{
+				isDragging = false;
+				evt.Handle();
+			}
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
@@ -215,6 +222,7 @@ namespace MonoWorks.Modeling.Sketching
 						closePoint = null;
 				}
 				Sketchable.PointsUpdated();
+				evt.Handle();
 			}
 		}
 
