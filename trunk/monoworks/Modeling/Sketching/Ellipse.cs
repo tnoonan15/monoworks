@@ -1,4 +1,4 @@
-﻿//   Ellipse.cs - MonoWorks Project
+//   Ellipse.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //
@@ -133,12 +133,12 @@ namespace MonoWorks.Modeling.Sketching
 			// rotate the coordinate system to the tilt
 			if (Tilt.Value != 0)
 			{
-				x = x.Rotate((Parent as Sketch).Plane.Plane.Normal, Tilt);
-				y = y.Rotate((Parent as Sketch).Plane.Plane.Normal, Tilt);
+				x = x.Rotate((Parent as Sketch).Plane.Normal, Tilt);
+				y = y.Rotate((Parent as Sketch).Plane.Normal, Tilt);
 			}
 
 			// project the hit onto the plane's coordinate system
-			lastHit = hit.GetIntersection((Parent as Sketch).Plane.Plane);
+			lastHit = hit.GetIntersection((Parent as Sketch).Plane);
 			double hitX = (lastHit - center).Dot(x);
 			double hitY = (lastHit - center).Dot(y);
 

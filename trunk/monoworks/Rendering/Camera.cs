@@ -735,7 +735,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Gets the vector needed to look at a plane.
 		/// </summary>
-		public void GetPlaneVectors(Plane plane, out Vector centerOut, out Vector posOut, out Vector upVecOut)
+		public void GetPlaneVectors(IPlane plane, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
 			viewport.RenderList.ResetBounds();
 			Bounds bounds = viewport.RenderList.Bounds;
@@ -747,7 +747,7 @@ namespace MonoWorks.Rendering
 			else
 				dist = 2 / (fov * 0.5).Tan();
 
-			centerOut = plane.Center.ToVector();
+			centerOut = plane.Origin;
 			posOut = centerOut + plane.Normal.Normalize() * dist * 0.8;
 			if (plane.Normal[1] == 0 && plane.Normal[2] == 0) // the normal is in the Y-Z axis
 				upVecOut = new Vector(0.0, 1.0, 0.0);
@@ -760,7 +760,7 @@ namespace MonoWorks.Rendering
 		/// Forces the camera to look squarely at a plane.
 		/// </summary>
 		/// <param name="plane"></param>
-		public void LookAt(Plane plane)
+		public void LookAt(IPlane plane)
 		{
 			GetPlaneVectors(plane, out center, out pos, out upVec);
 			RecomputeUpVector();
@@ -795,7 +795,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Animates to look at the given plane.
 		/// </summary>
-		public void AnimateTo(Plane plane)
+		public void AnimateTo(IPlane plane)
 		{
 			Vector center, position, upVec;
 			GetPlaneVectors(plane, out center, out position, out upVec);

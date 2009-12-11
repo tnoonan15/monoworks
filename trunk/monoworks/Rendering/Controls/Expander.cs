@@ -1,4 +1,4 @@
-﻿// Expander.cs - MonoWorks Project
+// Expander.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -140,7 +140,7 @@ namespace MonoWorks.Rendering.Controls
 
 			Height = Content.Height + button.Height;
 			Width = button.Width;
-			button.Position = new Coord(0, Content.Height);
+			button.Origin = new Coord(0, Content.Height);
 
 			if (IsExpanded)
 			{

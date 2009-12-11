@@ -20,6 +20,7 @@ using System;
 using System.IO;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
 
 
@@ -107,13 +108,6 @@ namespace MonoWorks.Rendering.Controls
 		}
 
 		
-		
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-		}
-
-
 		protected override void Render(RenderContext context)
 		{
 			base.Render(context);
@@ -126,5 +120,22 @@ namespace MonoWorks.Rendering.Controls
 
 		
 		
-	}
+		#region Convenience Methods
+		
+		
+		/// <summary>
+		/// Gets an icon with the given name and size from the resources.
+		/// </summary>
+		public static Image GetIcon(string name, int size)
+		{
+			return new Image(ResourceHelper.GetStream(String.Format("icons{0}.{1}.png", size, name), "MonoWorks.Resources"));
+		}
+		
+		
+		#endregion
+		
+		
+		}
+		
 }
+	

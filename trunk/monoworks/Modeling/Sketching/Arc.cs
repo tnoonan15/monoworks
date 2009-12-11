@@ -130,7 +130,7 @@ namespace MonoWorks.Modeling.Sketching
 			Vector centerVec = Center.ToVector();
 			Vector radius = (Start-Center).ToVector();
 			Angle dSweep = Sweep / (double)N;
-			Vector normal = Sketch.Plane.Plane.Normal;
+			Vector normal = Sketch.Plane.Normal;
 			solidPoints = new Vector[N+1];
 			directions = new Vector[N+1];
 			for (int i=0; i<=N; i++)
@@ -219,7 +219,7 @@ namespace MonoWorks.Modeling.Sketching
 				return false;
 
 			// set the last hit, even if we didn't hit anything
-			lastHit = hit.GetIntersection((Parent as Sketch).Plane.Plane);
+			lastHit = hit.GetIntersection((Parent as Sketch).Plane);
 
 			// test for hitting the center
 			Coord center = hit.Camera.WorldToScreen(Center.ToVector());

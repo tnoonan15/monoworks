@@ -161,7 +161,7 @@ namespace MonoWorks.Modeling.Sketching
 				};
 				if (line.ShortestDistance(hit) < HitTol * hit.Camera.ViewportToWorldScaling)
 				{
-					lastHit = hit.GetIntersection((Parent as Sketch).Plane.Plane);
+					lastHit = hit.GetIntersection((Parent as Sketch).Plane);
 					return true;
 				}
 			}

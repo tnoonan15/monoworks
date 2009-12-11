@@ -107,7 +107,7 @@ namespace MonoWorks.Rendering.Controls
 		/// </value>
 		/// <remarks>The absolute position if a control will be the combination 
 		/// of all positions through the control hierarchy.</remarks>
-		public Coord Position { get; set; }
+		public Coord Origin { get; set; }
 
 
 		/// <summary>
@@ -239,7 +239,7 @@ namespace MonoWorks.Rendering.Controls
 				ComputeGeometry();
 			
 //			Console.WriteLine("moving context for {0}: {1}", this.GetType(), Position);
-			context.Cairo.RelMoveTo(Position.X, Position.Y);
+			context.Cairo.RelMoveTo(Origin.X, Origin.Y);
 			
 			var point = context.Cairo.CurrentPoint;
 			LastPosition = new Coord(point.X, point.Y);
@@ -249,7 +249,7 @@ namespace MonoWorks.Rendering.Controls
 			
 			Render(context);
 			
-			context.Cairo.RelMoveTo(-Position.X, -Position.Y);
+			context.Cairo.RelMoveTo(-Origin.X, -Origin.Y);
 						
 		}
 
@@ -278,7 +278,7 @@ namespace MonoWorks.Rendering.Controls
 			if (surface == null || surface.Width != IntWidth || surface.Height != IntHeight)
 			{
 				imageData = new byte[IntWidth * IntHeight * 4];
-				surface = new ImageSurface(ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				surface = new ImageSurface( imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface

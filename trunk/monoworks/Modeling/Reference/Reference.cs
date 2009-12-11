@@ -134,7 +134,7 @@ namespace MonoWorks.Modeling
 			double width = refPlane.RenderWidth;
 			double distance = 0.7*width / (camera.FoV * 0.5).Tan();
 			Vector center = refPlane.RenderCenter;
-			camera.AnimateTo(center, center + refPlane.Plane.Normal * distance, refPlane.RenderUpVector);
+			camera.AnimateTo(center, center + refPlane.Normal * distance, refPlane.RenderUpVector);
 		}
 
 	}

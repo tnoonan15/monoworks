@@ -29,7 +29,7 @@ namespace MonoWorks.Modeling
 	/// The RefPlane entity is a reference element that represents
 	/// a plane in 3D space. It is used as the base for 2D sketches.
 	/// </summary>
-	public class RefPlane : Reference
+	public class RefPlane : Reference, IPlane
 	{
 		
 		/// <summary>
@@ -45,12 +45,36 @@ namespace MonoWorks.Modeling
 #region Attributes
 		
 		/// <value>
-		/// The plane geometry.
+		/// The origin of the plane.
 		/// </value>
-		public Plane Plane
+		public Point Position
 		{
-			get {return (Plane)this["plane"];}
-			set { this["plane"] = value;}
+			get {return (Point)this["position"];}
+			set { this["position"] = value;}
+		}
+		
+		public Vector Origin
+		{
+			get {return Position.ToVector();}
+			set {Position = new Point(value);}
+		}
+		
+		/// <summary>
+		/// The normal of the plane.
+		/// </summary>
+		public Vector Normal
+		{
+			get {return (Vector)this["normal"];}
+			set { this["normal"] = value;}
+		}
+		
+		/// <summary>
+		/// The x axis of the plane.
+		/// </summary>
+		public Vector XAxis
+		{
+			get {return (Vector)this["xAxis"];}
+			set { this["xAxis"] = value;}
 		}
 		
 #endregion
@@ -134,7 +158,7 @@ namespace MonoWorks.Modeling
 				radius = 1;
 
 			// find one corner of the plane to draw
-			Vector direction = Plane.Normal;
+			Vector direction = Normal;
 			Vector corner;
 			if (direction[1]==0 && direction[2]==0) // the plane is in the Y-Z axis
 				corner = new Vector(0.0, 1.0, 0.0);
@@ -147,13 +171,13 @@ namespace MonoWorks.Modeling
 			Vector boundsCenter = TheDrawing.Bounds.Center;
 			if (boundsCenter == null)
 				boundsCenter = new Vector();
-			Vector planeCenter = Plane.Center.ToVector();
+			Vector planeCenter = Origin;
 			Vector planeToBounds = planeCenter - boundsCenter;
 			double dist = 0;
 			if (planeToBounds.Magnitude > 0)
-				dist = planeToBounds.Dot(Plane.Normal) 
-					 / Plane.Normal.Magnitude;
-			Vector center = boundsCenter + Plane.Normal * dist;
+				dist = planeToBounds.Dot(Normal) 
+					 / Normal.Magnitude;
+			Vector center = boundsCenter + Normal * dist;
 			
 			// generate the corner points
 			quadCorners = new Vector[4];
@@ -209,7 +233,7 @@ namespace MonoWorks.Modeling
 			double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 			for (int i = 0; i < hits.Length; i++)
 			{
-				Vector vec = hits[i].GetIntersection(Plane);
+				Vector vec = hits[i].GetIntersection(this);
 				Coord coord = WorldToLocal(vec);
 				if (i == 0)
 				{
@@ -283,7 +307,7 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		public Vector LocalToWorld(Coord coord)
 		{
-			return Plane.Center.ToVector() + LocalX * coord.X + LocalY * coord.Y;
+			return Origin + LocalX * coord.X + LocalY * coord.Y;
 		}
 
 
@@ -293,7 +317,7 @@ namespace MonoWorks.Modeling
 		/// <remarks>The vector will be snapped if ModelingOptions.Global.SnapToGrid.</remarks>
 		public Vector GetIntersection(HitLine hit)
 		{
-			Vector vec = hit.GetIntersection(Plane);
+			Vector vec = hit.GetIntersection(this);
 			if (ModelingOptions.Global.SnapToGrid)
 				vec = SnapToGrid(vec);
 			return vec;

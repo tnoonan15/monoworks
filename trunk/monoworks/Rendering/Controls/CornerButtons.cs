@@ -89,10 +89,10 @@ namespace MonoWorks.Rendering.Controls
 				switch (Corner)
 				{
 				case Corner.NE:
-					Image1.Position = new Coord(Width - (shift+1) * Image1.Width, Padding);
+					Image1.Origin = new Coord(Width - (shift+1) * Image1.Width, Padding);
 					break;
 				case Corner.NW:
-					Image1.Position = new Coord(shift * Image1.Width, Padding);
+					Image1.Origin = new Coord(shift * Image1.Width, Padding);
 					break;
 				}
 			}
@@ -101,10 +101,10 @@ namespace MonoWorks.Rendering.Controls
 				switch (Corner)
 				{
 				case Corner.NE:
-					Image2.Position = new Coord(Width - Padding - Image2.Width, shift * Image2.Height);
+					Image2.Origin = new Coord(Width - Padding - Image2.Width, shift * Image2.Height);
 					break;
 				case Corner.NW:
-					Image2.Position = new Coord(Padding, shift * Image2.Height);
+					Image2.Origin = new Coord(Padding, shift * Image2.Height);
 					break;
 				}
 			}

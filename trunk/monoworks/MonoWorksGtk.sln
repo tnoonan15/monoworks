@@ -91,8 +91,11 @@ Global
 		$2.LineAlign = 0
 		$2.InterMessageLines = 0
 		$1.inheritsSet = Mono
-		MonoDevelop.ChangeLogAddIn.ChangeLogInfo = $3
-		$3.policy = UpdateNearestChangeLog
+		$0.ChangeLogPolicy = $3
+		$3.UpdateMode = Nearest
+		$3.MessageStyle = $4
+		$4.LineAlign = 0
+		$3.inheritsSet = Mono
 		name = MonoWorks
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution

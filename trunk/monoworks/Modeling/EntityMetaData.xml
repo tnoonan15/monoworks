@@ -66,8 +66,14 @@
 			</Attribute>
 		</Entity>
 		<Entity name="RefPlane">
-			<Attribute name="plane" type="MonoWorks.Base.Plane">
-				The plane object.
+			<Attribute name="position" type="MonoWorks.Base.Point">
+				The position of the origin of the plane.
+			</Attribute>
+			<Attribute name="normal" type="MonoWorks.Base.Vector">
+				The normal of the plane.
+			</Attribute>
+			<Attribute name="xAxis" type="MonoWorks.Base.Vector">
+				The x axis of the plane's coordinate system.
 			</Attribute>
 		</Entity>
 	</Entity>

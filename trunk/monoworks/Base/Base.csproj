@@ -70,11 +70,11 @@
     <Compile Include="GeneralExtensions.cs" />
     <Compile Include="Length.cs" />
     <Compile Include="Matrix.cs" />
-    <Compile Include="Plane.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Quaternion.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="XmlExtensions.cs" />
+    <Compile Include="IPlane.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

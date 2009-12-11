@@ -21,7 +21,6 @@ using System;
 using System.IO;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Controls;
 using MonoWorks.Rendering.Interaction;
@@ -45,11 +44,11 @@ namespace MonoWorks.DemoGtk
 			
 			// northeast buttons
 			var cornerButtons = new CornerButtons(Corner.NE);
-			cornerButtons.Image1 = new Image(GetIcon("apply", 22));
+			cornerButtons.Image1 = Image.GetIcon("apply", 22);
 			cornerButtons.Action1 += delegate(object sender, EventArgs e) {
 				Console.WriteLine("clicked apply");
 			};
-			cornerButtons.Image2 = new Image(GetIcon("cancel", 22));
+			cornerButtons.Image2 = Image.GetIcon("cancel", 22);
 			cornerButtons.Action2 += delegate(object sender, EventArgs e) {
 				Console.WriteLine("clicked cancel");
 			};
@@ -59,11 +58,11 @@ namespace MonoWorks.DemoGtk
 			
 			// northwest buttons
 			cornerButtons = new CornerButtons(Corner.NW);
-			cornerButtons.Image1 = new Image(GetIcon("zoom-in", 22));
+			cornerButtons.Image1 = Image.GetIcon("zoom-in", 22);
 			cornerButtons.Action1 += delegate(object sender, EventArgs e) {
 				Console.WriteLine("clicked zoom-in");
 			};
-			cornerButtons.Image2 = new Image(GetIcon("zoom-out", 22));
+			cornerButtons.Image2 = Image.GetIcon("zoom-out", 22);
 			cornerButtons.Action2 += delegate(object sender, EventArgs e) {
 				Console.WriteLine("clicked zoom-out");
 			};
@@ -76,14 +75,14 @@ namespace MonoWorks.DemoGtk
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageOverLabel;
 			
-			var image = new Image(GetIcon("apply", 48));
+			var image = Image.GetIcon("apply", 48);
 			var button = new Button("Apply", image);
 			button.Clicked += delegate(object sender, EventArgs e) {
 				Console.WriteLine("clicked apply");
 			};
 			toolbar.Add(button);
 
-			image = new Image(GetIcon("cancel", 48));
+			image = Image.GetIcon("cancel", 48);
 			button = new Button("Cancel", image);
 			button.Clicked += delegate(object sender, EventArgs e) {
 				Console.WriteLine("clicked cancel");
@@ -99,11 +98,11 @@ namespace MonoWorks.DemoGtk
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 
-			image = new Image(GetIcon("edit-undo", 48));
+			image = Image.GetIcon("edit-undo", 48);
 			button = new Button("Undo", image);
 			toolbar.Add(button);
 
-			image = new Image(GetIcon("edit-redo", 48));
+			image = Image.GetIcon("edit-redo", 48);
 			button = new Button("Redo", image);
 			toolbar.Add(button);
 
@@ -124,14 +123,6 @@ namespace MonoWorks.DemoGtk
 			get {return adapter.Viewport;}
 		}
 		
-		
-		/// <summary>
-		/// Gets an icon with the given name and size from the resources.
-		/// </summary>
-		private Stream GetIcon(string name, int size)
-		{
-			return ResourceHelper.GetStream(String.Format("icons{0}.{1}.png", size, name), "MonoWorks.Resources");
-		}
 		
 	}
 }

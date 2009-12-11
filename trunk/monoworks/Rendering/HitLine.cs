@@ -1,4 +1,4 @@
-﻿// HitLine.cs - MonoWorks Project
+// HitLine.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -79,9 +79,9 @@ namespace MonoWorks.Rendering
 		/// <returns></returns>
 		/// <remarks>Uses the formula found in the Wikipedia article 
 		/// (http://en.wikipedia.org/wiki/Line-plane_intersection).</remarks>
-		public Vector GetIntersection(Plane plane)
+		public Vector GetIntersection(IPlane plane)
 		{
-			double d = plane.Center.ToVector().Dot(plane.Normal);
+			double d = plane.Origin.Dot(plane.Normal);
 			double t = (d - Front.Dot(plane.Normal)) / (Back - Front).Dot(plane.Normal);
 			return (Back - Front) * t + Front;
 		}
