@@ -59,6 +59,14 @@ namespace MonoWorks.Base
 		{
 			val = new Length[]{x, y, z};
 		}
+		
+		/// <summary>
+		/// Initialize the point with a unitless vector.
+		/// </summary>
+		public Point(Vector vec)
+		{
+			val = new Length[] {new Length(vec.X), new Length(vec.Y), new Length(vec.Z)};
+		}
 			
 			
 #region Position

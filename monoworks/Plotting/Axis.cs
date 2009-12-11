@@ -1,4 +1,4 @@
-﻿// Axes.cs - MonoWorks Project
+// Axes.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -279,7 +279,7 @@ namespace MonoWorks.Plotting
 			// render the axis label
 			double labelOffset = 70;
 			Coord labelPos = (startCoord + stopCoord) / 2;
-			labelPane.Position = (labelPos + tickAngle.ToCoord() * labelOffset).ToVector();
+			labelPane.Origin = (labelPos + tickAngle.ToCoord() * labelOffset).ToVector();
 //			if (labelPane.Label.Text.Length > 5 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
 //				labelPane.Angle = Angle.Pi() / 2;
 //			else
@@ -301,7 +301,7 @@ namespace MonoWorks.Plotting
 				double labelFactor = 3;
 				if (tickAngle.ToCoord().Orientation == Orientation.Horizontal)
 					labelFactor = 4;
-				tickLabels[i].Position = (startCoord + tickAngle.ToCoord() * labelFactor * tickLength).ToVector();
+				tickLabels[i].Origin = (startCoord + tickAngle.ToCoord() * labelFactor * tickLength).ToVector();
 			}
 
 			gl.glEnd();

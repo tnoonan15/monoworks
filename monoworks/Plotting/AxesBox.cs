@@ -511,7 +511,7 @@ namespace MonoWorks.Plotting
 					right = coord.X;
 			}
 			
-			titlePane.Position = new Vector((left+right)/2, top + 32, 0);
+			titlePane.Origin = new Vector((left+right)/2, top + 32, 0);
 			titlePane.RenderOverlay(viewport);
 		}
 

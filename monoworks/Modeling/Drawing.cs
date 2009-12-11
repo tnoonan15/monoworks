@@ -67,11 +67,9 @@ namespace MonoWorks.Modeling
 				defaultPlanes[i].IsLocked = true;
 				AddReference(defaultPlanes[i]);
 
-				Plane plane = new Plane();
-				plane.Center = new Point();
-				plane.Normal = new Vector();
-				plane.Normal[i] = 1;
-				defaultPlanes[i].Plane = plane;
+				defaultPlanes[i].Position = new Point();
+				defaultPlanes[i].Normal = new Vector();
+				defaultPlanes[i].Normal[i] = 1;
 
 				RefLine line = new RefLine();
 				line.Name = DimensionNames[i] + " Axis";

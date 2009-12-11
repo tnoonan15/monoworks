@@ -72,7 +72,7 @@ namespace MonoWorks.Rendering.Controls
 		/// <value>
 		/// The position of the upper left corner of the pane.
 		/// </value>
-		public Coord Position {get; set;}
+		public Coord Origin {get; set;}
 		
 		
 		private Control2D control;
@@ -101,7 +101,7 @@ namespace MonoWorks.Rendering.Controls
 		/// </summary>
 		private Coord GetControlPoint(Coord screen)
 		{
-			var point = screen - Position;
+			var point = screen - Origin;
 			point.Y = Height-point.Y;
 			return point;
 		}
@@ -219,13 +219,13 @@ namespace MonoWorks.Rendering.Controls
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
 			Gl.glTexCoord2d(0.0,Control.Height);
-			Position.glVertex();
+			Origin.glVertex();
 			Gl.glTexCoord2d(Control.Width, Control.Height);
-			Gl.glVertex2d(Position.X + Width, Position.Y);
+			Gl.glVertex2d(Origin.X + Width, Origin.Y);
 			Gl.glTexCoord2d(Control.Width,0.0);
-			Gl.glVertex2d(Position.X + Width, Position.Y + Height);
+			Gl.glVertex2d(Origin.X + Width, Origin.Y + Height);
 			Gl.glTexCoord2d(0.0,0.0);
-			Gl.glVertex2d(Position.X, Position.Y + Height);
+			Gl.glVertex2d(Origin.X, Origin.Y + Height);
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 //			viewport.Lighting.Enable();

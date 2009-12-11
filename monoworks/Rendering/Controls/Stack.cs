@@ -82,14 +82,14 @@ namespace MonoWorks.Rendering.Controls
 				span += padding;
 				if (orientation == Orientation.Horizontal)
 				{
-					child.Position = new Coord(span, padding);
+					child.Origin = new Coord(span, padding);
 					span += size_.X;
 					if (!UserSize)
 						size.Y = Math.Max(size.Y, size_.Y);
 				}
 				else // vertical
 				{
-					child.Position = new Coord(padding, span);
+					child.Origin = new Coord(padding, span);
 					span += size_.Y;
 					if (!UserSize)
 						size.X = Math.Max(size.X, size_.X);

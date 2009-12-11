@@ -30,12 +30,12 @@ namespace MonoWorks.Rendering.Controls
 	/// <summary>
 	/// The ActorPane is an 3D plane that can be placed directly into the scene.
 	/// </summary>
-	public class ActorPane : Actor, IPane
+	public class ActorPane : Actor, IPane, IPlane
 	{
 		
 		public ActorPane() : base()
 		{
-			Position = new Vector();
+			Origin = new Vector();
 		}
 				
 		public ActorPane(Control2D control) : this()
@@ -68,11 +68,11 @@ namespace MonoWorks.Rendering.Controls
 			get {return Size.Y;}
 		}
 		
-		/// <value>
-		/// The position of the upper left corner of the pane.
-		/// </value>
-		public Vector Position {get; set;}
+		public Vector Origin {get; set;}
 		
+		public Vector Normal {get; set;}
+		
+		public Vector XAxis {get; set;}
 		
 		private Control2D control;
 		
@@ -95,25 +95,47 @@ namespace MonoWorks.Rendering.Controls
 		
 #region Interaction
 		
-		public override void OnButtonPress (MonoWorks.Rendering.Events.MouseButtonEvent evt)
+		/// <summary>
+		/// Gets a point in control-space corresponding to the hit line in 3D space.
+		/// </summary>
+		private Coord GetControlPoint(HitLine hitLine)
+		{
+			var intersection = hitLine.GetIntersection(this);
+			return this.Project(intersection);
+		}
+		
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress (evt);
+			
+			if (Control != null)
+			{
+				var controlEvt = new MouseButtonEvent(GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
+				Control.OnButtonPress(controlEvt);
+			}
 		}
 
-		public override void OnButtonRelease (MonoWorks.Rendering.Events.MouseButtonEvent evt)
+		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease (evt);
+			
+			if (Control != null)
+			{
+				var controlEvt = new MouseButtonEvent(GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
+				Control.OnButtonRelease(controlEvt);
+			}
 		}
 
-		public override void OnMouseMotion (MonoWorks.Rendering.Events.MouseEvent evt)
+		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion (evt);
-		}
-
-		public override void OnMouseWheel (MonoWorks.Rendering.Events.MouseWheelEvent evt)
-		{
-			base.OnMouseWheel (evt);
-		}
+			
+			if (Control != null)
+			{
+				var controlEvt = new MouseEvent(GetControlPoint(evt.HitLine), evt.Modifier);
+				Control.OnMouseMotion(controlEvt);
+			}
+		}			
 
 #endregion
 
@@ -183,13 +205,13 @@ namespace MonoWorks.Rendering.Controls
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
 			Gl.glTexCoord2d(0.0,Control.Height);
-			Position.glVertex();
+			Origin.glVertex();
 			Gl.glTexCoord2d(Control.Width, Control.Height);
-			Gl.glVertex2d(Position.X + width, Position.Y);
+			Gl.glVertex2d(Origin.X + width, Origin.Y);
 			Gl.glTexCoord2d(Control.Width,0.0);
-			Gl.glVertex2d(Position.X + width, Position.Y + height);
+			Gl.glVertex2d(Origin.X + width, Origin.Y + height);
 			Gl.glTexCoord2d(0.0,0.0);
-			Gl.glVertex2d(Position.X, Position.Y + height);
+			Gl.glVertex2d(Origin.X, Origin.Y + height);
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 			viewport.Lighting.Enable();

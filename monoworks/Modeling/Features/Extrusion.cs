@@ -111,7 +111,7 @@ namespace MonoWorks.Modeling
 			if (Path != null)
 				direction = Path.Direction;
 			else
-				direction = Sketch.Plane.Plane.Normal;
+				direction = Sketch.Plane.Normal;
 			
 			// cycle through sketch children
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
@@ -186,7 +186,7 @@ namespace MonoWorks.Modeling
 			if (Path != null)
 				direction = Path.Direction;
 			else
-				direction = Sketch.Plane.Plane.Normal;
+				direction = Sketch.Plane.Normal;
 			
 			// cycle through sketch children
 			foreach (Sketchable sketchable in this.Sketch.Sketchables)
