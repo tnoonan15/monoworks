@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench", "Workbench\Work
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modeling", "Modeling\Modeling.csproj", "{857385F0-7861-4D80-9D73-995A24FB8602}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Controls\Controls.csproj", "{784C93E6-C181-4328-934B-449066348931}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,12 @@ Global
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E44159F-40EE-4318-805B-07BB0A6B9052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
 		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -82,7 +90,7 @@ Global
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = StudioGtk\StudioGtk.csproj
+		StartupItem = DemoGtk\DemoGtk.csproj
 		Policies = $0
 		$0.VersionControlPolicy = $1
 		$1.CommitMessageStyle = $2

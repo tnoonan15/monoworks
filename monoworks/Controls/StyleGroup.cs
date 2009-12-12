@@ -22,9 +22,10 @@ using System.IO;
 using System.Xml;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 using MonoWorks.Framework;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>

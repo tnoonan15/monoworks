@@ -23,9 +23,10 @@ using Cairo;
 
 using MonoWorks.Base;
 using MonoWorks.Framework;
+using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>

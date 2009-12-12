@@ -1,4 +1,4 @@
-// LabelPane.cs - MonoWorks Project
+// AbstractDecorator.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -18,24 +18,37 @@
 
 using System;
 
-namespace MonoWorks.Rendering.Controls
+using Cairo;
+
+using MonoWorks.Base;
+using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
+
+
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>
-	/// A pane that contains a single label.
+	/// Abstract base class for decorators that decorate the controls by
+	/// deciding how render their background and outline.
 	/// </summary>
-	public class LabelPane : ActorPane
+	public abstract class AbstractDecorator
 	{
 		
-		public LabelPane()
+		public AbstractDecorator()
 		{
-			Label = new Label("");
-			this.Control = Label;
 		}
 		
 		/// <value>
-		/// The label.
+		/// The current context to render to.
 		/// </value>
-		public Label Label {get; private set;}
+		public RenderContext Context {get; set;}
+		
+		/// <summary>
+		/// Draws the decorations for the given control.
+		/// </summary>
+		public abstract void Decorate(Control2D control);
+		
+		
 	}
 }

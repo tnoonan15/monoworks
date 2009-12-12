@@ -1,4 +1,4 @@
-// AbstractDecorator.cs - MonoWorks Project
+// DecoratorService.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -17,38 +17,39 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
 
-using Cairo;
-
-using MonoWorks.Base;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Events;
 
-
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
-	
+
 	/// <summary>
-	/// Abstract base class for decorators that decorate the controls by
-	/// deciding how render their background and outline.
+	/// Provides decorators to the controls while they're rendering.
 	/// </summary>
-	public abstract class AbstractDecorator
+	public static class DecoratorService
 	{
-		
-		public AbstractDecorator()
+
+		static DecoratorService()
 		{
+			Default = new BasicDecorator();
 		}
 		
-		/// <value>
-		/// The current context to render to.
-		/// </value>
-		public RenderContext Context {get; set;}
+		public static AbstractDecorator Default {get; set;}
 		
 		/// <summary>
-		/// Draws the decorations for the given control.
+		/// Associates a decorator with each viewport.
 		/// </summary>
-		public abstract void Decorate(Control2D control);
+		private static Dictionary<Viewport,AbstractDecorator> _decorators = 
+			new Dictionary<Viewport, AbstractDecorator>();
 		
+		public static AbstractDecorator Get(Viewport viewport)
+		{
+			AbstractDecorator decorator;
+			if (_decorators.TryGetValue(viewport, out decorator))
+				return decorator;
+			return Default;
+		}
 		
 	}
 }

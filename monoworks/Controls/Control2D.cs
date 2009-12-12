@@ -26,7 +26,7 @@ using MonoWorks.Rendering.Events;
 
 
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>
@@ -291,7 +291,7 @@ namespace MonoWorks.Rendering.Controls
 				cr.Operator = Operator.Over;
 				cr.Color = new Cairo.Color(0, 0, 1, 1);
 				cr.MoveTo(0,0);
-				RenderCairo(new RenderContext(cr, viewport.Decorator));
+				RenderCairo(new RenderContext(cr, DecoratorService.Get(viewport)));
 				
 				surface.Flush();
 			};

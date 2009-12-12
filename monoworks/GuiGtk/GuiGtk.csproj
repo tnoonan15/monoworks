@@ -126,6 +126,10 @@
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
       <Name>Modeling</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{784C93E6-C181-4328-934B-449066348931}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Framework\Dock\icons\SlateDockIcons.svg" />

@@ -39,6 +39,20 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
+		/// A copy of the actor list.
+		/// </summary>
+		/// <remarks>Use this to iterate when the list might be modified.</remarks>
+		public Actor[] ActorCopy
+		{
+			get
+			{
+				var copy = new Actor[ActorCount];
+				actors.CopyTo(copy);
+				return copy;
+			}
+		}
+
+		/// <summary>
 		/// Adds a actor to the rendering list.
 		/// </summary>
 		/// <param name="actor"> A <see cref="Renderable"/>. </param>

@@ -1,4 +1,4 @@
-﻿// DataSet.cs - MonoWorks Project
+// DataSet.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //

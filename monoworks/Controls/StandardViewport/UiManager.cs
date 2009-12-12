@@ -23,9 +23,10 @@ using System.Xml;
 
 using MonoWorks.Base;
 using MonoWorks.Framework;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Rendering;
+using MonoWorks.Controls;
 
-namespace MonoWorks.Rendering.ViewportControls
+namespace MonoWorks.Controls.StandardViewport
 {
     /// <summary>
     /// Provides a UI manager implementation for a viewport using Rendering.Controls.

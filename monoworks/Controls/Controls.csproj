@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{784C93E6-C181-4328-934B-449066348931}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoWorks.Controls</RootNamespace>
+    <AssemblyName>MonoWorks.Controls</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AbstractDecorator.cs" />
+    <Compile Include="ActorPane.cs" />
+    <Compile Include="AnchorPane.cs" />
+    <Compile Include="BasicDecorator.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="ContextLayer.cs" />
+    <Compile Include="Control2D.cs" />
+    <Compile Include="CornerButtons.cs" />
+    <Compile Include="Expander.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="IPane.cs" />
+    <Compile Include="Label.cs" />
+    <Compile Include="LabelPane.cs" />
+    <Compile Include="OverlayPane.cs" />
+    <Compile Include="RenderContext.cs" />
+    <Compile Include="Stack.cs" />
+    <Compile Include="StyleClass.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StyleGroup.cs" />
+    <Compile Include="ToolBar.cs" />
+    <Compile Include="StandardViewport\UiManager.cs" />
+    <Compile Include="StandardViewport\ViewportController.cs" />
+    <Compile Include="DecoratorService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DefaultStyles.xml" />
+    <EmbeddedResource Include="StandardViewport\Viewport.ui" />
+    <EmbeddedResource Include="StandardViewport\icons\2d.png" />
+    <EmbeddedResource Include="StandardViewport\icons\3d-interact.png" />
+    <EmbeddedResource Include="StandardViewport\icons\3d-view.png" />
+    <EmbeddedResource Include="StandardViewport\icons\3d.png" />
+    <EmbeddedResource Include="StandardViewport\icons\apply.png" />
+    <EmbeddedResource Include="StandardViewport\icons\back-view.png" />
+    <EmbeddedResource Include="StandardViewport\icons\bottom-view.png" />
+    <EmbeddedResource Include="StandardViewport\icons\cancel.png" />
+    <EmbeddedResource Include="StandardViewport\icons\contracted.png" />
+    <EmbeddedResource Include="StandardViewport\icons\expanded.png" />
+    <EmbeddedResource Include="StandardViewport\icons\export.png" />
+    <EmbeddedResource Include="StandardViewport\icons\front-view.png" />
+    <EmbeddedResource Include="StandardViewport\icons\left-view.png" />
+    <EmbeddedResource Include="StandardViewport\icons\perspective.png" />
+    <EmbeddedResource Include="StandardViewport\icons\right-view.png" />
+    <EmbeddedResource Include="StandardViewport\icons\standard-view.png" />
+    <EmbeddedResource Include="StandardViewport\icons\top-view.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rendering\Rendering.csproj">
+      <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
+      <Name>Rendering</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

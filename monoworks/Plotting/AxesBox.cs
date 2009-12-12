@@ -26,7 +26,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Events;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Controls;
 
 namespace MonoWorks.Plotting
 {

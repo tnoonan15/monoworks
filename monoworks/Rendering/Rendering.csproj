@@ -77,20 +77,6 @@
     <Compile Include="Color.cs" />
     <Compile Include="ColorManager.cs" />
     <Compile Include="ColorMap.cs" />
-    <Compile Include="Controls\AnchorPane.cs" />
-    <Compile Include="Controls\Button.cs" />
-    <Compile Include="Controls\Container.cs" />
-    <Compile Include="Controls\ContextLayer.cs" />
-    <Compile Include="Controls\Control2D.cs" />
-    <Compile Include="Controls\Expander.cs" />
-    <Compile Include="Controls\StyleClass.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Controls\StyleGroup.cs" />
-    <Compile Include="Controls\Image.cs" />
-    <Compile Include="Controls\Label.cs" />
-    <Compile Include="Controls\Stack.cs" />
-    <Compile Include="Controls\ToolBar.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\KeyEvent.cs" />
     <Compile Include="Events\MouseButtonEvent.cs" />
@@ -116,41 +102,13 @@
     <Compile Include="RenderManager.cs" />
     <Compile Include="RubberBand.cs" />
     <Compile Include="Transform.cs" />
-    <Compile Include="ViewportControls\UiManager.cs" />
     <Compile Include="Viewport.cs" />
-    <Compile Include="ViewportControls\ViewportController.cs" />
-    <Compile Include="Controls\CornerButtons.cs" />
-    <Compile Include="Controls\ActorPane.cs" />
-    <Compile Include="Controls\IPane.cs" />
-    <Compile Include="Controls\LabelPane.cs" />
-    <Compile Include="Controls\OverlayPane.cs" />
-    <Compile Include="Controls\BasicDecorator.cs" />
-    <Compile Include="Controls\RenderContext.cs" />
-    <Compile Include="Controls\AbstractDecorator.cs" />
     <Compile Include="ColorGroup.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Interaction\ActorInteractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />
-    <EmbeddedResource Include="Controls\DefaultStyles.xml" />
-    <EmbeddedResource Include="ViewportControls\Viewport.ui" />
-    <EmbeddedResource Include="ViewportControls\icons\2d.png" />
-    <EmbeddedResource Include="ViewportControls\icons\3d.png" />
-    <EmbeddedResource Include="ViewportControls\icons\back-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\bottom-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\export.png" />
-    <EmbeddedResource Include="ViewportControls\icons\front-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\left-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\perspective.png" />
-    <EmbeddedResource Include="ViewportControls\icons\right-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\standard-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\top-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\3d-interact.png" />
-    <EmbeddedResource Include="ViewportControls\icons\3d-view.png" />
-    <EmbeddedResource Include="ViewportControls\icons\apply.png" />
-    <EmbeddedResource Include="ViewportControls\icons\cancel.png" />
-    <EmbeddedResource Include="ViewportControls\icons\contracted.png" />
-    <EmbeddedResource Include="ViewportControls\icons\expanded.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">

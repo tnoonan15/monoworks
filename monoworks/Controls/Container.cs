@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>
