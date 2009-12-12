@@ -21,10 +21,11 @@ using System;
 using Tao.OpenGl;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>

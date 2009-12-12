@@ -23,7 +23,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>

@@ -21,11 +21,10 @@ using System.Collections.Generic;
 
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Controls;
 using MonoWorks.Rendering.Interaction;
 
-
-namespace MonoWorks.Rendering.ViewportControls
+namespace MonoWorks.Controls.StandardViewport
 {
     /// <summary>
     /// Implements a Framework controller for a viewport.
@@ -42,7 +41,7 @@ namespace MonoWorks.Rendering.ViewportControls
 			this.viewport = viewport;
 			viewport.Camera.ProjectionChanged += ExternalProjectionChanged;
 
-			ResourceManagerBase.LoadAssembly("MonoWorks.Rendering");
+			ResourceManagerBase.LoadAssembly("MonoWorks.Controls");
 
 			UiManager = new UiManager(this);
 			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));

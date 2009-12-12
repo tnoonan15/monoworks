@@ -45,8 +45,6 @@ namespace MonoWorks.Rendering
 			this.adapter = adapter;
 
 			Animator = new Animator(this);
-			
-			Decorator = new Controls.BasicDecorator();
 		}
 
 		protected IViewportAdapter adapter;
@@ -91,11 +89,6 @@ namespace MonoWorks.Rendering
 		/// The animator for this viewport.
 		/// </summary>
 		public Animator Animator { get; private set; }
-
-		/// <value>
-		/// The control decorator. 
-		/// </value>
-		public Controls.AbstractDecorator Decorator {get; set;} 
 
 #region Rendering
 
@@ -200,32 +193,6 @@ namespace MonoWorks.Rendering
 		{
 			adapter.RemotePaintGL();
 		}
-
-#endregion
-
-
-#region Text Renderering
-
-//		/// <summary>
-//		/// Renders text to the viewport.
-//		/// </summary>
-//		protected TextRenderer textRenderer = new TextRenderer();
-//
-//		/// <summary>
-//		/// Renders text to the viewport.
-//		/// </summary>
-//		public void RenderText(TextDef text)
-//		{
-//			textRenderer.Render(text);
-//		}
-//
-//		/// <summary>
-//		/// Renders lots of text to the viewport.
-//		/// </summary>
-//		public void RenderText(TextDef[] text)
-//		{
-//			textRenderer.Render(text);
-//		}
 
 #endregion
 

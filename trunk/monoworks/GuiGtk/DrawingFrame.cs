@@ -18,7 +18,7 @@
 using System;
 
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Controls;
 using MonoWorks.Modeling;
 using MonoWorks.Modeling.ViewportControls;
 using MonoWorks.GuiGtk.Tree;

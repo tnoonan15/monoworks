@@ -1,4 +1,4 @@
-﻿// LegendItem.cs - MonoWorks Project
+// LegendItem.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Controls;
 
 namespace MonoWorks.Plotting
 {

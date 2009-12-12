@@ -1,4 +1,4 @@
-﻿// Legend.cs - MonoWorks Project
+// Legend.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -23,7 +23,7 @@ using Cairo;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Controls;
 
 namespace MonoWorks.Plotting
 {

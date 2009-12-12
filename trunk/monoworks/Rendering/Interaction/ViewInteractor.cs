@@ -47,8 +47,6 @@ namespace MonoWorks.Rendering.Interaction
 		}
 
 
-
-
 #region Mouse Types
 
 		/// <summary>

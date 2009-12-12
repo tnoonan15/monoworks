@@ -22,8 +22,8 @@ using System.Collections.Generic;
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
-using MonoWorks.Rendering.Controls;
-using MonoWorks.Rendering.ViewportControls;
+using MonoWorks.Controls;
+using MonoWorks.Controls.StandardViewport;
 using MonoWorks.Modeling.Sketching;
 
 namespace MonoWorks.Modeling.ViewportControls

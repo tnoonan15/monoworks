@@ -24,7 +24,7 @@ using Cairo;
 using MonoWorks.Rendering;
 
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>

@@ -24,7 +24,7 @@ using MonoWorks.Rendering.Events;
 
 using Tao.OpenGl;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	
 	/// <summary>
@@ -36,6 +36,9 @@ namespace MonoWorks.Rendering.Controls
 		public ActorPane() : base()
 		{
 			Origin = new Vector();
+			XAxis = new Vector(1, 0, 0);
+			Normal = new Vector(0, 0, 1);
+			Scaling = 1;
 		}
 				
 		public ActorPane(Control2D control) : this()
@@ -101,39 +104,47 @@ namespace MonoWorks.Rendering.Controls
 		private Coord GetControlPoint(HitLine hitLine)
 		{
 			var intersection = hitLine.GetIntersection(this);
-			return this.Project(intersection);
+			var point = this.Project(intersection) / Scaling;
+			point.Y = Height - point.Y;
+			return point;
 		}
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			base.OnButtonPress (evt);
+			base.OnButtonPress(evt);
 			
 			if (Control != null)
 			{
 				var controlEvt = new MouseButtonEvent(GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonPress(controlEvt);
+				if (controlEvt.Handled)
+					evt.Handle();
 			}
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
-			base.OnButtonRelease (evt);
+			base.OnButtonRelease(evt);
 			
 			if (Control != null)
 			{
 				var controlEvt = new MouseButtonEvent(GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonRelease(controlEvt);
+				if (controlEvt.Handled)
+					evt.Handle();
 			}
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			base.OnMouseMotion (evt);
+			base.OnMouseMotion(evt);
 			
 			if (Control != null)
 			{
 				var controlEvt = new MouseEvent(GetControlPoint(evt.HitLine), evt.Modifier);
 				Control.OnMouseMotion(controlEvt);
+				if (controlEvt.Handled)
+					evt.Handle();
 			}
 		}			
 
@@ -151,6 +162,11 @@ namespace MonoWorks.Rendering.Controls
 		/// Handle to the OpenGL texture that the control will be rendered to.
 		/// </summary>
 		private uint texture = 0;
+		
+		/// <summary>
+		/// The scaling to go from viewport to world coordinates.
+		/// </summary>
+		public double Scaling { get; private set; }
 		
 		public override void ComputeGeometry()
 		{
@@ -179,7 +195,7 @@ namespace MonoWorks.Rendering.Controls
 			// render the control to the texture
 			if (wasDirty)
 			{
-				Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
+				Gl.glBindTexture(Gl.GL_TEXTURE_RECTANGLE_ARB, texture);
 				Control.RenderImage(viewport);
 				Gl.glTexImage2D(Gl.GL_TEXTURE_RECTANGLE_ARB,
 			                0, 
@@ -194,9 +210,9 @@ namespace MonoWorks.Rendering.Controls
 			}
 			
 			// determine how big the control should be 
-			double scaling = viewport.Camera.ViewportToWorldScaling;
-			double width = Width * scaling;
-			double height = Height * scaling;
+			Scaling = viewport.Camera.ViewportToWorldScaling;
+			double width = Width * Scaling;
+			double height = Height * Scaling;
 						
 			// render the texture
 			viewport.Lighting.Disable();

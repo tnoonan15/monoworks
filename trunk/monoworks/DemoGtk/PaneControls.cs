@@ -22,7 +22,7 @@ using System.IO;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Controls;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.GuiGtk;
 using MonoWorks.GuiGtk.Framework;
@@ -41,6 +41,9 @@ namespace MonoWorks.DemoGtk
 			// add the viewport
 			adapter = new ViewportAdapter();
 			PackEnd(adapter);
+			
+			// add an ActorInteractor to the viewport
+			adapter.Viewport.PrimaryInteractor = new ActorInteractor(adapter.Viewport);
 			
 			// northeast buttons
 			var cornerButtons = new CornerButtons(Corner.NE);
@@ -81,14 +84,14 @@ namespace MonoWorks.DemoGtk
 				Console.WriteLine("clicked apply");
 			};
 			toolbar.Add(button);
-
+			
 			image = Image.GetIcon("cancel", 48);
 			button = new Button("Cancel", image);
 			button.Clicked += delegate(object sender, EventArgs e) {
 				Console.WriteLine("clicked cancel");
 			};
 			toolbar.Add(button);
-
+			
 			var toolAnchor = new AnchorPane(toolbar, AnchorLocation.E);
 			Viewport.RenderList.AddOverlay(toolAnchor);
 			
@@ -97,9 +100,12 @@ namespace MonoWorks.DemoGtk
 			toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
-
+			
 			image = Image.GetIcon("edit-undo", 48);
 			button = new Button("Undo", image);
+			button.Clicked += delegate(object sender, EventArgs e) { 
+				Console.WriteLine("undo"); 
+			};
 			toolbar.Add(button);
 
 			image = Image.GetIcon("edit-redo", 48);

@@ -1,4 +1,4 @@
-﻿// PlotController.cs - MonoWorks Project
+// PlotController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -19,8 +19,8 @@
 
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Controls;
-using MonoWorks.Rendering.ViewportControls;
+using MonoWorks.Controls;
+using MonoWorks.Controls.StandardViewport;
 
 namespace MonoWorks.Plotting
 {

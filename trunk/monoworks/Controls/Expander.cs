@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Base;
 using MonoWorks.Framework;
 
-namespace MonoWorks.Rendering.Controls
+namespace MonoWorks.Controls
 {
 	/// <summary>
 	/// The Expander control is a container that has a button 
