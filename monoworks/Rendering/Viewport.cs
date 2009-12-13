@@ -334,7 +334,24 @@ namespace MonoWorks.Rendering
 #endregion
 
 
-#region Exporting
+		#region Modal Overlay
+		
+		
+		private ModalOverlay _modalOverlay;
+		
+		/// <summary>
+		/// Shows a modal overlay on top of the rest of the renderables. 
+		/// </summary>
+		public void ShowModal(ModalOverlay modalOverlay)
+		{
+			_modalOverlay = modalOverlay;
+			
+		}
+		
+		#endregion
+		
+		
+		#region Exporting
 
 		/// <summary>
 		/// Prompts the user for a file name, then exports to that file.
@@ -348,7 +365,7 @@ namespace MonoWorks.Rendering
 				adapter.Export(dialogDef.FileName);
 		}
 
-#endregion
+		#endregion
 
 	}
 }
