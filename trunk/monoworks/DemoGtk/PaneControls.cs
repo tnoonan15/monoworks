@@ -101,18 +101,15 @@ namespace MonoWorks.DemoGtk
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 			
-			image = Image.GetIcon("edit-undo", 48);
-			button = new Button("Undo", image);
+			image = Image.GetIcon("controls-dialog", 48);
+			button = new Button("Controls Dialog", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
-				Console.WriteLine("undo"); 
+				// create controls dialog
 			};
 			toolbar.Add(button);
 
-			image = Image.GetIcon("edit-redo", 48);
-			button = new Button("Redo", image);
-			toolbar.Add(button);
-
 			var toolActor = new ActorPane(toolbar);
+			toolActor.Normal = new Vector(0, -1, 0);
 			Viewport.RenderList.AddActor(toolActor);
 						
 			

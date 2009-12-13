@@ -69,6 +69,7 @@
     <Compile Include="StandardViewport\UiManager.cs" />
     <Compile Include="StandardViewport\ViewportController.cs" />
     <Compile Include="DecoratorService.cs" />
+    <Compile Include="Dialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultStyles.xml" />

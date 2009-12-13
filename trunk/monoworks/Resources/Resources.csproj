@@ -192,6 +192,7 @@
     <EmbeddedResource Include="icons16\monoworks.ico" />
     <EmbeddedResource Include="icons16\script.png" />
     <EmbeddedResource Include="icons22\script.png" />
+    <EmbeddedResource Include="icons48\controls-dialog.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

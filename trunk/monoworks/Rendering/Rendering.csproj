@@ -106,6 +106,7 @@
     <Compile Include="ColorGroup.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Interaction\ActorInteractor.cs" />
+    <Compile Include="ModalOverlay.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />

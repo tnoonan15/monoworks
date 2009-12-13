@@ -220,14 +220,23 @@ namespace MonoWorks.Controls
 			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
+			
 			Gl.glTexCoord2d(0.0,Control.Height);
-			Origin.glVertex();
-			Gl.glTexCoord2d(Control.Width, Control.Height);
-			Gl.glVertex2d(Origin.X + width, Origin.Y);
-			Gl.glTexCoord2d(Control.Width,0.0);
-			Gl.glVertex2d(Origin.X + width, Origin.Y + height);
-			Gl.glTexCoord2d(0.0,0.0);
-			Gl.glVertex2d(Origin.X, Origin.Y + height);
+			var vert = Origin;
+			vert.glVertex();
+			
+			Gl.glTexCoord2d(Control.Width, Control.Height);			
+			vert += XAxis * width;
+			vert.glVertex();
+			
+			Gl.glTexCoord2d(Control.Width,0.0);			
+			vert += this.YAxis() * height;
+			vert.glVertex();
+			
+			Gl.glTexCoord2d(0.0,0.0);			
+			vert -= XAxis * width;
+			vert.glVertex();
+			
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 			viewport.Lighting.Enable();
