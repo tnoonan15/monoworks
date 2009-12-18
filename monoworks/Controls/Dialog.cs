@@ -23,11 +23,13 @@
 
 using System;
 
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Controls
 {
 
 
-	public class Dialog
+	public class Dialog : ModalOverlay
 	{
 
 		public Dialog ()
