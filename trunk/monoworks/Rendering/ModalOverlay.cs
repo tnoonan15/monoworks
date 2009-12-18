@@ -1,6 +1,6 @@
 // ModalOverlay.cs - MonoWorks Project
 //
-//  Copyright (C) 2008 Andy Selvig
+//  Copyright (C) 2009 Andy Selvig
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,6 +17,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+
+using MonoWorks.Base;
 
 namespace MonoWorks.Rendering
 {
@@ -37,9 +39,21 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Close()
 		{
-			if (Closed)
+			if (Closed != null)
 				Closed(this, new EventArgs());
 		}
+		
+		
+		protected override bool HitTest(Coord pos)
+		{
+			return true;
+		}
+
+		public override void RenderOverlay(Viewport viewport)
+		{
+			base.RenderOverlay(viewport);
+		}
+
 		
 	}
 }

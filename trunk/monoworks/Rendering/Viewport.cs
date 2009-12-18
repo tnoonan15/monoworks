@@ -89,8 +89,9 @@ namespace MonoWorks.Rendering
 		/// The animator for this viewport.
 		/// </summary>
 		public Animator Animator { get; private set; }
+		
 
-#region Rendering
+		#region Rendering
 
 		/// <summary>
 		/// Initialize rendering.
@@ -194,7 +195,7 @@ namespace MonoWorks.Rendering
 			adapter.RemotePaintGL();
 		}
 
-#endregion
+		#endregion
 
 
 #region Interactors
@@ -345,7 +346,19 @@ namespace MonoWorks.Rendering
 		public void ShowModal(ModalOverlay modalOverlay)
 		{
 			_modalOverlay = modalOverlay;
-			
+			_modalOverlay.Closed += OnCloseModalOverlay;
+		}
+
+		/// <summary>
+		/// Handles the Closed event on the current modal overlay.
+		/// </summary>
+		private void OnCloseModalOverlay(object sender, EventArgs e)
+		{
+			if (_modalOverlay != null)
+			{
+				_modalOverlay.Closed -= OnCloseModalOverlay;
+				_modalOverlay = null;
+			}
 		}
 		
 		#endregion
