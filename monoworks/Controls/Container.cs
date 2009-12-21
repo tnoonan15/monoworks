@@ -118,6 +118,14 @@ namespace MonoWorks.Controls
 			children.Clear();
 			MakeDirty();
 		}
+		
+		/// <summary>
+		/// The number of children the container has.
+		/// </summary>
+		public int NumChildren
+		{
+			get {return children.Count;}
+		}
 
 #endregion
 
@@ -158,7 +166,9 @@ namespace MonoWorks.Controls
 			base.Render(context);
 			
 			foreach (Control2D child in children)
+			{
 				child.RenderCairo(context);
+			}
 		}
 
 #endregion

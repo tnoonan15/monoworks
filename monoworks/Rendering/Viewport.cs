@@ -240,7 +240,7 @@ namespace MonoWorks.Rendering
 #endregion
 
 
-#region Mouse Interaction
+		#region Mouse Interaction
 
 		public void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -317,7 +317,7 @@ namespace MonoWorks.Rendering
 			adapter.ClearToolTip();
 		}
 
-#endregion
+		#endregion
 		
 
 #region Keyboard Interaction
@@ -336,17 +336,14 @@ namespace MonoWorks.Rendering
 
 
 		#region Modal Overlay
-		
-		
-		private ModalOverlay _modalOverlay;
-		
+				
 		/// <summary>
 		/// Shows a modal overlay on top of the rest of the renderables. 
 		/// </summary>
 		public void ShowModal(ModalOverlay modalOverlay)
 		{
-			_modalOverlay = modalOverlay;
-			_modalOverlay.Closed += OnCloseModalOverlay;
+			RenderList.PushModal(modalOverlay);
+			modalOverlay.Closed += OnCloseModalOverlay;
 		}
 
 		/// <summary>
@@ -354,11 +351,13 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		private void OnCloseModalOverlay(object sender, EventArgs e)
 		{
-			if (_modalOverlay != null)
-			{
-				_modalOverlay.Closed -= OnCloseModalOverlay;
-				_modalOverlay = null;
-			}
+			ModalOverlay modalOverlay;
+			if (sender is ModalOverlay)
+				modalOverlay = sender as ModalOverlay;
+			else
+				modalOverlay = RenderList.TopModal;
+			modalOverlay.Closed -= OnCloseModalOverlay;
+			RenderList.PopModal();
 		}
 		
 		#endregion

@@ -69,7 +69,7 @@ namespace MonoWorks.Controls
 
 			// compute the size
 			if (!UserSize)
-				size = new Coord();
+				_size = new Coord();
 			double span = 0;
 			Control2D[] children_ = new Control2D[children.Count];
 			children.CopyTo(children_);
@@ -85,41 +85,41 @@ namespace MonoWorks.Controls
 					child.Origin = new Coord(span, padding);
 					span += size_.X;
 					if (!UserSize)
-						size.Y = Math.Max(size.Y, size_.Y);
+						_size.Y = Math.Max(_size.Y, size_.Y);
 				}
 				else // vertical
 				{
 					child.Origin = new Coord(padding, span);
 					span += size_.Y;
 					if (!UserSize)
-						size.X = Math.Max(size.X, size_.X);
+						_size.X = Math.Max(_size.X, size_.X);
 				}
 				span += padding;
 			}
 			
 			// assign the size
 			if (orientation == Orientation.Horizontal)
-				size.X = span;
+				_size.X = span;
 			else 
-				size.Y = span;
+				_size.Y = span;
 			
 			// assign the children size
 			foreach (Control2D child in Children)
 			{
 				child.UserSize = true;
 				if (orientation == Orientation.Horizontal)
-					child.Height = size.Y;
+					child.Height = _size.Y;
 				else
-					child.Width = size.X;
+					child.Width = _size.X;
 
 				//child.MakeDirty();
 			}
 			
 			// add padding to the size
 			if (orientation == Orientation.Horizontal)
-				size.Y += 2*padding;
+				_size.Y += 2*padding;
 			else
-				size.X += 2*padding;
+				_size.X += 2*padding;
 			
 		}
 

@@ -96,6 +96,13 @@ namespace MonoWorks.DemoGtk
 			Viewport.RenderList.AddOverlay(toolAnchor);
 			
 			
+			// the controls dialog
+			_controlsDialog = new Dialog();
+			var stack = new Stack(Orientation.Vertical);
+			_controlsDialog.Control = stack;
+			stack.Add(new Label("Hello Dialog!"));
+			stack.Add(new Label("Another Line"));
+			
 			// floating toolbar
 			toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
@@ -104,7 +111,8 @@ namespace MonoWorks.DemoGtk
 			image = Image.GetIcon("controls-dialog", 48);
 			button = new Button("Controls Dialog", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
-				// create controls dialog
+				// show controls dialog
+				adapter.Viewport.ShowModal(_controlsDialog);
 			};
 			toolbar.Add(button);
 
@@ -126,6 +134,7 @@ namespace MonoWorks.DemoGtk
 			get {return adapter.Viewport;}
 		}
 		
+		private Dialog _controlsDialog;
 		
 	}
 }

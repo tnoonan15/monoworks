@@ -26,8 +26,8 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Overlays that can be displayed in a modal (blocking all other UI) form in the viewport.
 	/// </summary>
-	public class ModalOverlay : Overlay
-	{
+	public abstract class ModalOverlay : Overlay
+	{		
 		
 		/// <summary>
 		/// This event gets raised when the modal overlay whishes to be closed.
