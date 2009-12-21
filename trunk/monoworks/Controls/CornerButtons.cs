@@ -43,7 +43,7 @@ namespace MonoWorks.Controls
 		{
 			Corner = corner;
 			StyleClassName = "corner";
-			size = MinSize;
+			_size = MinSize;
 			IsHoverable = true;
 			IsTogglable = false;
 		}
@@ -136,7 +136,7 @@ namespace MonoWorks.Controls
 			switch (Corner)
 			{
 			case Corner.NW:
-				if (dPos.X > size.X || dPos.Y > size.Y ||
+				if (dPos.X > _size.X || dPos.Y > _size.Y ||
 					dPos.X + dPos.Y > EdgeWidth)
 					return Region.None;
 				else if (dPos.X > dPos.Y)

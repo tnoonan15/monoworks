@@ -51,6 +51,10 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			base.OnButtonPress(evt);
 
+			// don't interact if modal overlays are present
+			if (viewport.RenderList.ModalCount > 0)
+				return;
+			
 			foreach (var actor in viewport.RenderList.ActorCopy)
 				actor.OnButtonPress(evt);
 		}
@@ -59,6 +63,10 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
+
+			// don't interact if modal overlays are present
+			if (viewport.RenderList.ModalCount > 0)
+				return;
 			
 			foreach (var actor in viewport.RenderList.ActorCopy)
 				actor.OnButtonRelease(evt);
@@ -68,6 +76,10 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
+
+			// don't interact if modal overlays are present
+			if (viewport.RenderList.ModalCount > 0)
+				return;
 			
 			foreach (var actor in viewport.RenderList.ActorCopy)
 				actor.OnMouseMotion(evt);

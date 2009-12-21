@@ -1,4 +1,4 @@
-﻿// Coord.cs - MonoWorks Project
+// Coord.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -192,11 +192,19 @@ namespace MonoWorks.Base
 		{
 			return c1.GreaterThanOrEqual(c2);
 		}
+		
+		/// <summary>
+		/// Returns a new coord with the largest of each dimension from c1 and c2. 
+		/// </summary>
+		public static Coord Max(Coord c1, Coord c2)
+		{
+			return new Coord(Math.Max(c1.X, c2.X), Math.Max(c1.Y, c2.Y));
+		}
 
 		#endregion
 
 
-#region Trigonometry and Vector Math
+		#region Trigonometry and Vector Math
 
 		/// <summary>
 		/// Performs the 2D dot product.
@@ -216,7 +224,7 @@ namespace MonoWorks.Base
 			return angle;
 		}
 
-#endregion
+		#endregion
 
 	}
 }

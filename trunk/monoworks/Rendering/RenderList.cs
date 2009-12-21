@@ -159,6 +159,54 @@ namespace MonoWorks.Rendering
 
 		#endregion
 
+		
+		#region Modal Overlays
+		
+		private Stack<ModalOverlay> _modals = new Stack<ModalOverlay>();
+		/// <summary>
+		/// Modal overlays to render.
+		/// </summary>
+		public IEnumerable<ModalOverlay> Modals
+		{
+			get { return _modals; }
+		}
+		
+		/// <summary>
+		/// The top of the modal overlay stack. 
+		/// </summary>
+		public ModalOverlay TopModal
+		{
+			get {return _modals.Peek();}
+		}
+
+		/// <summary>
+		/// Add a modal overlay to the viewport.
+		/// </summary>
+		public void PushModal(ModalOverlay overlay)
+		{
+			_modals.Push(overlay);
+		}
+
+		/// <summary>
+		/// Removes a modal overlay from the viewport.
+		/// </summary>
+		public void PopModal()
+		{
+			_modals.Pop();
+		}
+		
+		/// <value>
+		/// The number of modal overlays.
+		/// </value>
+		public int ModalCount
+		{
+			get {return _modals.Count;}
+		}
+		
+		
+		
+		#endregion
+		
 
 		#region Rendering
 
@@ -193,6 +241,14 @@ namespace MonoWorks.Rendering
 				if (overlay.IsVisible)
 					overlay.RenderOverlay(viewport);
 			}
+			
+			// render the modal overlays
+			foreach (var modal in _modals)
+			{
+				if (modal.IsVisible)
+					modal.RenderOverlay(viewport);
+			}
+			
 		}
 
 		#endregion

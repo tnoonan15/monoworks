@@ -103,7 +103,7 @@ namespace MonoWorks.Controls
 				extents.X += 2*Padding;
 				extents.Y += Padding;
 			};
-			size = extents;
+			_size = extents;
 //			Console.WriteLine("extents for {0}: {1}", text, extents);
 		}
 

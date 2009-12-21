@@ -23,6 +23,9 @@
 
 using System;
 
+using gl=Tao.OpenGl.Gl;
+
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.Controls
@@ -32,8 +35,60 @@ namespace MonoWorks.Controls
 	public class Dialog : ModalOverlay
 	{
 
-		public Dialog ()
+		public Dialog () : base()
 		{
+			_overlayPane = new OverlayPane();
+			_frame = new DialogFrame();
+			_overlayPane.Control = _frame;
 		}
+		
+		
+		private OverlayPane _overlayPane;
+		
+		private DialogFrame _frame;
+		
+		/// <summary>
+		/// The contents of the dialog.
+		/// </summary>
+		public Control2D Control
+		{
+			get {
+				if (_frame.NumChildren > 0)
+					return _frame[0];
+				return null;
+			}
+			set {
+				_frame.SetChild(0, value);
+			}
+		}
+		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			_frame.ComputeGeometry();
+		}
+
+		
+		public override void RenderOverlay(Viewport viewport)
+		{
+			base.RenderOverlay(viewport);
+			
+			// shade out the background
+			gl.glColor4d(0.50, 0.5, 0.5, 0.5);
+			gl.glBegin(gl.GL_POLYGON);
+			gl.glVertex2i(0, 0);
+			gl.glVertex2i(viewport.WidthGL, 0);
+			gl.glVertex2i(viewport.WidthGL, viewport.HeightGL);
+			gl.glVertex2i(0, viewport.HeightGL);
+			gl.glEnd();
+			
+			_overlayPane.Origin = new Coord(viewport.WidthGL/2, viewport.HeightGL/2);
+			
+			
+			_overlayPane.RenderOverlay(viewport);
+		}
+
+		
 	}
 }

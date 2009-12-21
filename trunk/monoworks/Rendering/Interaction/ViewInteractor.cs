@@ -123,6 +123,10 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			base.OnButtonPress(evt);
 
+			// don't interact if modal overlays are present
+			if (viewport.RenderList.ModalCount > 0)
+				return;
+
 			int key = GetKey(evt.Button, evt.Modifier);
 			if (mouseTypes.ContainsKey(key))
 				mouseType = mouseTypes[key];
@@ -155,6 +159,10 @@ namespace MonoWorks.Rendering.Interaction
 		/// <param name="evt"></param>
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
+			// don't interact if modal overlays are present
+			if (viewport.RenderList.ModalCount > 0)
+				return;
+			
 			switch (MouseType)
 			{
 			case InteractionType.Zoom:
@@ -193,6 +201,10 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			if (evt.Handled)
+				return;
+
+			// don't interact if modal overlays are present
+			if (viewport.RenderList.ModalCount > 0)
 				return;
 			
 			bool blocked = false;

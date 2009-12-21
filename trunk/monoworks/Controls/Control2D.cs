@@ -121,14 +121,14 @@ namespace MonoWorks.Controls
 		/// </summary>
 //		private bool wasDirty = true;
 
-		protected Coord size = new Coord();
+		protected Coord _size = new Coord();
 		/// <value>
 		/// The rendering size of the control.
 		/// </value>
 		public Coord Size
 		{
-			get {return size;}
-			set {size = value;}
+			get {return _size;}
+			set {_size = value;}
 		}
 
 		/// <summary>
@@ -136,8 +136,8 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public double Width
 		{
-			get {return size.X;}
-			set {size.X = value;}
+			get {return _size.X;}
+			set {_size.X = value;}
 		}
 
 		/// <summary>
@@ -145,8 +145,8 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public double Height
 		{
-			get {return size.Y;}
-			set {size.Y = value;}
+			get {return _size.Y;}
+			set {_size.Y = value;}
 		}
 
 		/// <value>
@@ -224,7 +224,7 @@ namespace MonoWorks.Controls
 //			wasDirty = true;
 
 			if (!UserSize)
-				size = MinSize;
+				_size = MinSize;
 //			Console.WriteLine("computing geometry for {0}, size: {1}, user size? {2}", this.GetType(), size, UserSize);
 		}
 
@@ -319,7 +319,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected virtual bool HitTest(Coord pos)
 		{
-			return pos >= LastPosition && pos <= (LastPosition + size);
+			return pos >= LastPosition && pos <= (LastPosition + _size);
 		}
 
 #endregion
