@@ -219,11 +219,11 @@ namespace MonoWorks.Controls
 			if (control.Pane != null && control.Pane is AnchorPane) // the control is anchored
 			{
 				if (!(control is Button) || control.HitState != HitState.None)
-					FillRectangle(control.Size, control.HitState, (control.Pane as AnchorPane).Location);
+					FillRectangle(control.RenderSize, control.HitState, (control.Pane as AnchorPane).Location);
 			}
 			else // the control is not anchored
 			{
-				FillRectangle(control.Size, control.HitState, DefaultBackgroundLocation);
+				FillRectangle(control.RenderSize, control.HitState, DefaultBackgroundLocation);
 			}
 		}
 		
@@ -236,8 +236,8 @@ namespace MonoWorks.Controls
 //			                  control.HitState1, control.HitState2);
 			
 			// define the sizes for the horizontal and vertical triangles that make up each button
-			var horiSize = new Coord(control.Width, control.Height/2.0);
-			var vertSize = new Coord(control.Width/2.0, control.Height);
+			var horiSize = new Coord(control.RenderWidth, control.RenderHeight/2.0);
+			var vertSize = new Coord(control.RenderWidth/2.0, control.RenderHeight);
 			
 			// get the colors used to create the gradients
 //			if (control.HitState1 == HitState.None && control.HitState2 == HitState.None) // do everything as one big triangle
@@ -252,7 +252,7 @@ namespace MonoWorks.Controls
 			{
 			case Corner.NE:
 				FillTriangle(horiSize, control.HitState1, AnchorLocation.S, (AnchorLocation)control.Corner);
-				Context.Cairo.RelMoveTo(control.Size.X / 2.0, 0);
+				Context.Cairo.RelMoveTo(control.RenderSize.X / 2.0, 0);
 				FillTriangle(vertSize, control.HitState2, AnchorLocation.W, (AnchorLocation)control.Corner);
 				break;
 			case Corner.NW:

@@ -93,28 +93,28 @@ namespace MonoWorks.Controls
 				switch (location)
 				{
 				case AnchorLocation.N:
-					Origin = new Coord((viewport.WidthGL - Width) / 2.0, viewport.HeightGL - Height);
+					Origin = new Coord((viewport.WidthGL - RenderWidth) / 2.0, viewport.HeightGL - RenderHeight);
 					break;
 				case AnchorLocation.NE:
-					Origin = new Coord(viewport.WidthGL - Width - 2, viewport.HeightGL - Height - 2);
+					Origin = new Coord(viewport.WidthGL - RenderWidth - 2, viewport.HeightGL - RenderHeight - 2);
 					break;
 				case AnchorLocation.E:
-					Origin = new Coord(viewport.WidthGL - Width, (viewport.HeightGL - Height) / 2.0);
+					Origin = new Coord(viewport.WidthGL - RenderWidth, (viewport.HeightGL - RenderHeight) / 2.0);
 					break;
 				case AnchorLocation.SE:
-					Origin = new Coord(viewport.WidthGL - Width, 0);
+					Origin = new Coord(viewport.WidthGL - RenderWidth, 0);
 					break;
 				case AnchorLocation.S:
-					Origin = new Coord((viewport.WidthGL - Width) / 2.0, 0);
+					Origin = new Coord((viewport.WidthGL - RenderWidth) / 2.0, 0);
 					break;
 				case AnchorLocation.SW:
 					Origin = new Coord(0, 0);
 					break;
 				case AnchorLocation.W:
-					Origin = new Coord(0, (viewport.HeightGL - Height) / 2.0);
+					Origin = new Coord(0, (viewport.HeightGL - RenderHeight) / 2.0);
 					break;
 				case AnchorLocation.NW:
-					Origin = new Coord(0, viewport.HeightGL - Height);
+					Origin = new Coord(0, viewport.HeightGL - RenderHeight);
 					break;
 				}
 			}

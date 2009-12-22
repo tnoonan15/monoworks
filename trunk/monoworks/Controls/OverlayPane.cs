@@ -49,25 +49,25 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The size of the pane.
 		/// </value>
-		public Coord Size
+		public Coord RenderSize
 		{
 			get
 			{
 				if (Control != null)
-					return Control.Size;
+					return Control.RenderSize;
 				else
 					return new Coord();
 			}
 		}
 		
-		public double Width
+		public double RenderWidth
 		{
-			get {return Size.X;}
+			get {return RenderSize.X;}
 		}
 		
-		public double Height
+		public double RenderHeight
 		{
-			get {return Size.Y;}
+			get {return RenderSize.Y;}
 		}
 		
 		/// <value>
@@ -103,7 +103,7 @@ namespace MonoWorks.Controls
 		private Coord GetControlPoint(Coord screen)
 		{
 			var point = screen - Origin;
-			point.Y = Height-point.Y;
+			point.Y = RenderHeight-point.Y;
 			return point;
 		}
 		
@@ -219,14 +219,14 @@ namespace MonoWorks.Controls
 			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
-			Gl.glTexCoord2d(0.0,Control.Height);
+			Gl.glTexCoord2d(0.0,Control.RenderHeight);
 			Origin.glVertex();
-			Gl.glTexCoord2d(Control.Width, Control.Height);
-			Gl.glVertex2d(Origin.X + Width, Origin.Y);
-			Gl.glTexCoord2d(Control.Width,0.0);
-			Gl.glVertex2d(Origin.X + Width, Origin.Y + Height);
+			Gl.glTexCoord2d(Control.RenderWidth, Control.RenderHeight);
+			Gl.glVertex2d(Origin.X + RenderWidth, Origin.Y);
+			Gl.glTexCoord2d(Control.RenderWidth,0.0);
+			Gl.glVertex2d(Origin.X + RenderWidth, Origin.Y + RenderHeight);
 			Gl.glTexCoord2d(0.0,0.0);
-			Gl.glVertex2d(Origin.X, Origin.Y + Height);
+			Gl.glVertex2d(Origin.X, Origin.Y + RenderHeight);
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 //			viewport.Lighting.Enable();

@@ -50,25 +50,25 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The size of the pane.
 		/// </value>
-		public Coord Size
+		public Coord RenderSize
 		{
 			get
 			{
 				if (Control != null)
-					return Control.Size;
+					return Control.RenderSize;
 				else
 					return new Coord();
 			}
 		}
 		
-		public double Width
+		public double RenderWidth
 		{
-			get {return Size.X;}
+			get {return RenderSize.X;}
 		}
 		
-		public double Height
+		public double RenderHeight
 		{
-			get {return Size.Y;}
+			get {return RenderSize.Y;}
 		}
 		
 		public Vector Origin {get; set;}
@@ -105,7 +105,7 @@ namespace MonoWorks.Controls
 		{
 			var intersection = hitLine.GetIntersection(this);
 			var point = this.Project(intersection) / Scaling;
-			point.Y = Height - point.Y;
+			point.Y = RenderHeight - point.Y;
 			return point;
 		}
 		
@@ -211,8 +211,8 @@ namespace MonoWorks.Controls
 			
 			// determine how big the control should be 
 			Scaling = viewport.Camera.ViewportToWorldScaling;
-			double width = Width * Scaling;
-			double height = Height * Scaling;
+			double width = RenderWidth * Scaling;
+			double height = RenderHeight * Scaling;
 						
 			// render the texture
 			viewport.Lighting.Disable();
@@ -221,15 +221,15 @@ namespace MonoWorks.Controls
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
 			
-			Gl.glTexCoord2d(0.0,Control.Height);
+			Gl.glTexCoord2d(0.0,Control.RenderHeight);
 			var vert = Origin;
 			vert.glVertex();
 			
-			Gl.glTexCoord2d(Control.Width, Control.Height);			
+			Gl.glTexCoord2d(Control.RenderWidth, Control.RenderHeight);			
 			vert += XAxis * width;
 			vert.glVertex();
 			
-			Gl.glTexCoord2d(Control.Width,0.0);			
+			Gl.glTexCoord2d(Control.RenderWidth,0.0);			
 			vert += this.YAxis() * height;
 			vert.glVertex();
 			

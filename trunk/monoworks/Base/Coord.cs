@@ -39,8 +39,13 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// Stores a pair of coordinates (representing a position on the screen).
 	/// </summary>
-	public struct Coord
+	public class Coord
 	{
+		public Coord() : this(0,0)
+		{
+			
+		}
+		
 		/// <summary>
 		/// Initialization constructor.
 		/// </summary>

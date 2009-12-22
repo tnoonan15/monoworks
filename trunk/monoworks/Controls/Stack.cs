@@ -60,73 +60,62 @@ namespace MonoWorks.Controls
 		}
 		
 
-#region Rendering
-
+		#region Rendering
 
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
 
 			// compute the size
-			if (!UserSize)
-				_size = new Coord();
+			RenderSize = new Coord();
 			double span = 0;
 			Control2D[] children_ = new Control2D[children.Count];
 			children.CopyTo(children_);
 			foreach (Control2D child in children_)
 			{
-				child.UserSize = false;
-				//if (child.IsDirty)
-					child.ComputeGeometry();
-				Coord size_ = child.Size;
+				child.ComputeGeometry();
+				Coord size_ = child.RenderSize;
 				span += padding;
 				if (orientation == Orientation.Horizontal)
 				{
 					child.Origin = new Coord(span, padding);
 					span += size_.X;
-					if (!UserSize)
-						_size.Y = Math.Max(_size.Y, size_.Y);
+					RenderSize.Y = Math.Max(RenderSize.Y, size_.Y);
 				}
 				else // vertical
 				{
 					child.Origin = new Coord(padding, span);
 					span += size_.Y;
-					if (!UserSize)
-						_size.X = Math.Max(_size.X, size_.X);
+					RenderSize.X = Math.Max(RenderSize.X, size_.X);
 				}
 				span += padding;
 			}
 			
 			// assign the size
 			if (orientation == Orientation.Horizontal)
-				_size.X = span;
+				RenderSize.X = span;
 			else 
-				_size.Y = span;
+				RenderSize.Y = span;
 			
 			// assign the children size
 			foreach (Control2D child in Children)
 			{
-				child.UserSize = true;
 				if (orientation == Orientation.Horizontal)
-					child.Height = _size.Y;
+					child.RenderHeight = RenderSize.Y;
 				else
-					child.Width = _size.X;
-
-				//child.MakeDirty();
+					child.RenderWidth = RenderSize.X;
 			}
 			
 			// add padding to the size
 			if (orientation == Orientation.Horizontal)
-				_size.Y += 2*padding;
+				RenderSize.Y += 2*padding;
 			else
-				_size.X += 2*padding;
+				RenderSize.X += 2*padding;
 			
-		}
+		}		
 
-
+		#endregion
 		
-
-#endregion
 		
 	}
 }

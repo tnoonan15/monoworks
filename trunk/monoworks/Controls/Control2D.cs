@@ -39,25 +39,26 @@ namespace MonoWorks.Controls
 		{
 			styleGroup = StyleGroup.Default;
 
-			UserSize = false;
 			ToolTip = "";
+			
+			Origin = new Coord();
 		}
 		
-		private Control2D parent = null;
+		private Control2D _parent = null;
 		/// <value>
 		/// The control's parent.
 		/// </value>
 		public Control2D Parent
 		{
-			get {return parent;}
+			get {return _parent;}
 			set
 			{
-				parent = value;
+				_parent = value;
 			}
 		}
 
 		
-		private IPane pane = null;
+		private IPane _pane = null;
 		/// <value>
 		/// The pane this control belongs to.
 		/// </value>
@@ -65,8 +66,8 @@ namespace MonoWorks.Controls
 		{
 			get
 			{
-				if (pane != null)
-					return pane;
+				if (_pane != null)
+					return _pane;
 				else if (Parent != null)
 					return Parent.Pane;
 				else
@@ -74,14 +75,9 @@ namespace MonoWorks.Controls
 			}
 			set
 			{
-				pane = value;
+				_pane = value;
 			}
 		}
-		
-//		/// <value>
-//		/// The pane this control belongs to.
-//		/// </value>
-//		public IPane Pane {get; set;}
 		
 		
 		/// <summary>
@@ -95,12 +91,12 @@ namespace MonoWorks.Controls
 			base.MakeDirty();
 			
 			if (Parent != null)
-				parent.MakeDirty();
+				_parent.MakeDirty();
 		}
 
 		
 
-#region Size and Position
+		#region Size and Position
 
 		/// <value>
 		/// The relative position of the lower left of the control.
@@ -121,46 +117,38 @@ namespace MonoWorks.Controls
 		/// </summary>
 //		private bool wasDirty = true;
 
-		protected Coord _size = new Coord();
 		/// <value>
-		/// The rendering size of the control.
+		/// The last rendered size of the control.
 		/// </value>
-		public Coord Size
+		public Coord RenderSize { get; protected set; }
+
+		/// <summary>
+		/// The width of the control as it was last rendered.
+		/// </summary>
+		public double RenderWidth
 		{
-			get {return _size;}
-			set {_size = value;}
+			get {return RenderSize.X;}
+			set {RenderSize.X = value;}
 		}
 
 		/// <summary>
-		/// The width of the control.
+		/// The height of the control as it was last rendered.
 		/// </summary>
-		public double Width
+		public double RenderHeight
 		{
-			get {return _size.X;}
-			set {_size.X = value;}
-		}
-
-		/// <summary>
-		/// The height of the control.
-		/// </summary>
-		public double Height
-		{
-			get {return _size.Y;}
-			set {_size.Y = value;}
+			get {return RenderSize.Y;}
+			set {RenderSize.Y = value;}
 		}
 
 		/// <value>
 		/// The minimum size that the control needs to render correctly.
 		/// </value>
-		public virtual Coord MinSize
-		{
-			get {return new Coord();}
-		}
+		public Coord MinSize { get; protected set; }
 
 		/// <summary>
 		/// The minimum width of the control.
 		/// </summary>
-		public virtual double MinWidth
+		public double MinWidth
 		{
 			get {return MinSize.X;}
 		}
@@ -168,16 +156,15 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The minimum height of the control.
 		/// </summary>
-		public virtual double MinHeight
+		public double MinHeight
 		{
 			get {return MinSize.Y;}
 		}
 		
 		/// <value>
-		/// Whether to use the currently set size or overwrite it
-		/// with MinSize when the geometry is computed.
+		/// If not null, the layout system will attempt to use this size over the MinSize when computing RenderSize.
 		/// </value>
-		public bool UserSize {get; set;}
+		public Coord UserSize {get; set;}
 		
 
 		protected double padding = 3;
@@ -195,7 +182,7 @@ namespace MonoWorks.Controls
 		/// </value>
 		public int IntWidth
 		{
-			get {return (int)Math.Ceiling(Width);}
+			get {return (int)Math.Ceiling(RenderWidth);}
 		}
 		
 		/// <value>
@@ -203,10 +190,10 @@ namespace MonoWorks.Controls
 		/// </value>
 		public int IntHeight
 		{
-			get {return (int)Math.Ceiling(Height);}
+			get {return (int)Math.Ceiling(RenderHeight);}
 		}
 
-#endregion
+		#endregion
 
 
 #region Rendering
@@ -220,12 +207,6 @@ namespace MonoWorks.Controls
 			base.ComputeGeometry();
 			
 			styleClass = styleGroup.GetClass(styleClassName);
-
-//			wasDirty = true;
-
-			if (!UserSize)
-				_size = MinSize;
-//			Console.WriteLine("computing geometry for {0}, size: {1}, user size? {2}", this.GetType(), size, UserSize);
 		}
 
 		
@@ -319,7 +300,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected virtual bool HitTest(Coord pos)
 		{
-			return pos >= LastPosition && pos <= (LastPosition + _size);
+			return pos >= LastPosition && pos <= (LastPosition + RenderSize);
 		}
 
 #endregion

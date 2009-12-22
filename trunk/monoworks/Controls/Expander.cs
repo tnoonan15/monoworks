@@ -117,30 +117,21 @@ namespace MonoWorks.Controls
 #endregion
 
 #region Rendering
-
-		public override Coord MinSize
-		{
-			get
-			{
-				return Content.Size + new Coord(0, button.Height);
-			}
-		}
 		
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
 
 			Content.ComputeGeometry();
-			button.UserSize = false;
+			MinSize = Content.RenderSize + new Coord(0, button.RenderHeight);
 			button.ComputeGeometry();
-			button.UserSize = true;
-			button.Width = Math.Max(button.Width, Content.Width);
+			button.RenderWidth = Math.Max(button.RenderWidth, Content.RenderWidth);
 
 			button.StyleClassName = StyleClassName;
 
-			Height = Content.Height + button.Height;
-			Width = button.Width;
-			button.Origin = new Coord(0, Content.Height);
+			RenderHeight = Content.RenderHeight + button.RenderHeight;
+			RenderWidth = button.RenderWidth;
+			button.Origin = new Coord(0, Content.RenderHeight);
 
 			if (IsExpanded)
 			{

@@ -43,14 +43,6 @@ namespace MonoWorks.Plotting
 		}
 
 
-		public override Coord MinSize
-		{
-			get
-			{
-				return new Coord(14, 14);
-			}
-		}
-
 
 #region Attributes
 
@@ -93,6 +85,14 @@ namespace MonoWorks.Plotting
 
 
 #region Rendering
+		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			MinSize = new Coord(14, 14);
+		}
+
 
 		protected override void Render(RenderContext context)
 		{

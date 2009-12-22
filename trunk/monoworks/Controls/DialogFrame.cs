@@ -36,29 +36,24 @@ namespace MonoWorks.Controls
 
 		public DialogFrame() : base()
 		{
-			Size = new Coord(300, 300);
+			RenderSize = new Coord(300, 300);
 			TitleHeight = 16;
 		}
 		
 		
-		public override Coord MinSize {
-			get {
-				var size = new Coord();
-				// determine the size based on the children
-				foreach (var child in Children)
-				{
-					child.ComputeGeometry();
-					size = Coord.Max(size, child.Size);
-				}
-				size.Y += TitleHeight;
-				return size;
-			}
-		}
-
-		
 		public override void ComputeGeometry()
 		{
-			base.ComputeGeometry();	
+			base.ComputeGeometry();
+			
+			RenderSize = new Coord();
+			// determine the size based on the children
+			foreach (var child in Children)
+			{
+				child.ComputeGeometry();
+				RenderSize = Coord.Max(RenderSize, child.RenderSize);
+			}
+			RenderSize.Y += TitleHeight;
+			
 		}
 		
 		/// <summary>
@@ -70,20 +65,18 @@ namespace MonoWorks.Controls
 		{
 			context.Push();
 			
-			var size = Coord.Max(Size, MinSize);
-			
 			// render the background
 			context.Cairo.Color = new Cairo.Color(1.0, 1.0, 1.0);
-			context.Cairo.Rectangle(0, 0, Width, Height);
+			context.Cairo.Rectangle(0, 0, RenderWidth, RenderHeight);
 			context.Cairo.Fill();
 			
 			// render the decorations
 			context.Cairo.Color = new Cairo.Color(0, 0, 1.0);
-			context.Cairo.Rectangle(0, 0, Width, TitleHeight);
+			context.Cairo.Rectangle(0, 0, RenderWidth, TitleHeight);
 			context.Cairo.Fill();
 			
 			context.Pop();
-			Console.WriteLine ("rendering frame with size {0}", Size);
+			Console.WriteLine ("rendering frame with size {0}", RenderSize);
 			
 			context.Cairo.RelMoveTo(0, TitleHeight);
 			context.Push();
