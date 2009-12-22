@@ -93,18 +93,19 @@ namespace MonoWorks.Controls
 		/// </value>
 		protected Cairo.ImageSurface surface;
 
-		/// <value>
-		/// The size of the image.
-		/// </value>
-		public override Coord MinSize
+		public override void ComputeGeometry()
 		{
-			get
-			{
-				if (surface != null)
-					return new Coord(surface.Width, surface.Height);
-				else
-					return new Coord();
-			}
+			base.ComputeGeometry();
+			
+			if (surface != null)
+				MinSize = new Coord(surface.Width, surface.Height);
+			else
+				MinSize = new Coord();
+			
+			if (UserSize != null)
+				RenderSize = Coord.Max(MinSize, UserSize);
+			else
+				RenderSize = MinSize;
 		}
 
 		

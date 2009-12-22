@@ -43,7 +43,7 @@ namespace MonoWorks.Controls
 		{
 			Corner = corner;
 			StyleClassName = "corner";
-			_size = MinSize;
+			RenderSize = MinSize;
 			IsHoverable = true;
 			IsTogglable = false;
 		}
@@ -57,11 +57,6 @@ namespace MonoWorks.Controls
 		/// Width of the control along the edge of the viewport.
 		/// </summary>
 		private const double EdgeWidth = 76;
-		
-		public override Coord MinSize
-		{
-			get {return new Coord(EdgeWidth, EdgeWidth);}
-		}
 
 		/// <value>
 		/// Top image.
@@ -84,28 +79,33 @@ namespace MonoWorks.Controls
 
 			double shift = 1.1; // ratio to shift the images from the corner to put them in the right position
 			
+			MinSize = new Coord(EdgeWidth, EdgeWidth);
+			RenderSize = MinSize;
+			
 			// position the images			
 			if (Image1 != null)
 			{
+				Image1.ComputeGeometry();
 				switch (Corner)
 				{
 				case Corner.NE:
-					Image1.Origin = new Coord(Width - (shift+1) * Image1.Width, Padding);
+					Image1.Origin = new Coord(RenderWidth - (shift+1) * Image1.RenderWidth, Padding);
 					break;
 				case Corner.NW:
-					Image1.Origin = new Coord(shift * Image1.Width, Padding);
+					Image1.Origin = new Coord(shift * Image1.RenderWidth, Padding);
 					break;
 				}
 			}
 			if (Image2 != null)
 			{
+				Image2.ComputeGeometry();
 				switch (Corner)
 				{
 				case Corner.NE:
-					Image2.Origin = new Coord(Width - Padding - Image2.Width, shift * Image2.Height);
+					Image2.Origin = new Coord(RenderWidth - Padding - Image2.RenderWidth, shift * Image2.RenderHeight);
 					break;
 				case Corner.NW:
-					Image2.Origin = new Coord(Padding, shift * Image2.Height);
+					Image2.Origin = new Coord(Padding, shift * Image2.RenderHeight);
 					break;
 				}
 			}
@@ -136,7 +136,7 @@ namespace MonoWorks.Controls
 			switch (Corner)
 			{
 			case Corner.NW:
-				if (dPos.X > _size.X || dPos.Y > _size.Y ||
+				if (dPos.X > RenderSize.X || dPos.Y > RenderSize.Y ||
 					dPos.X + dPos.Y > EdgeWidth)
 					return Region.None;
 				else if (dPos.X > dPos.Y)

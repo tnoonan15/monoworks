@@ -130,17 +130,6 @@ namespace MonoWorks.Controls
 		
 		
 		/// <value>
-		/// Ensures that the label and image geometries have been computed.
-		/// </value>
-		protected void ComputeChildGeometry()
-		{
-			if (image != null && image.IsDirty)
-				image.ComputeGeometry();
-			if (label != null && label.IsDirty)
-				label.ComputeGeometry();
-		}
-		
-		/// <value>
 		/// The button style to use to render.
 		/// </value>
 		/// <remarks>This may be different than the current style
@@ -162,50 +151,6 @@ namespace MonoWorks.Controls
 			}
 		}
 		
-		/// <summary>
-		/// The minimum size needed to fit the image 
-		/// and/or label with the current ButtonStyle.
-		/// </summary>
-		public override Coord MinSize
-		{
-			get
-			{				
-				Coord pad2 = new Coord(padding, padding)*2;
-				
-				// the correct control is not present
-				if ((ButtonStyle == ButtonStyle.Label && label == null) || 
-				    (ButtonStyle == ButtonStyle.Image && image == null) ||
-				    (label == null && image == null))
-					return pad2;
-								
-				ComputeChildGeometry();
-				
-				// once we've gotten here, we're sure that the correct controls are present
-				Coord size_ = pad2;
-				switch (StyleToUse)
-				{
-				case ButtonStyle.Label: // only show the label
-					size_ = label.Size + pad2;
-					break;
-					
-				case ButtonStyle.Image: // only show the image
-					size_ = image.Size + pad2;
-					break;
-					
-				case ButtonStyle.ImageOverLabel: // place the image over the label
-					size_ = new Coord(Math.Max(image.Width, label.Width), 
-					                 image.Height + label.Height + padding) + pad2;
-					break;
-					
-				case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
-					size_ = new Coord(image.Width + label.Width + padding, 
-					                 Math.Max(image.Height, label.Height)) + pad2;
-					break;
-				}
-				return size_;
-			}
-		}
-		
 		
 #endregion
 
@@ -217,8 +162,21 @@ namespace MonoWorks.Controls
 			base.ComputeGeometry();
 
 			Coord pad = new Coord(padding, padding);
+			Coord pad2 = new Coord(padding, padding)*2;
+			
+			// the correct control is not present
+			if ((ButtonStyle == ButtonStyle.Label && label == null) || 
+			    (ButtonStyle == ButtonStyle.Image && image == null) ||
+			    (label == null && image == null))
+			{
+				MinSize = pad2;
+				return;
+			}
 				
-			ComputeChildGeometry();
+			if (image != null && image.IsDirty)
+				image.ComputeGeometry();
+			if (label != null && label.IsDirty)
+				label.ComputeGeometry();
 
 			switch (StyleToUse)
 			{
@@ -226,6 +184,8 @@ namespace MonoWorks.Controls
 				if (image != null)
 					image.IsVisible = false;
 				label.Origin = pad;
+				MinSize = label.RenderSize + pad2;
+				RenderSize = MinSize;
 				break;
 				
 			case ButtonStyle.Image: // only show the image
@@ -233,20 +193,28 @@ namespace MonoWorks.Controls
 					label.IsVisible = false;
 				image.IsVisible = true;
 				image.Origin = pad;
+				MinSize = image.RenderSize + pad2;
+				RenderSize = MinSize;
 				break;
 				
 			case ButtonStyle.ImageOverLabel: // place the image over the label
 				image.IsVisible = true;
 				label.IsVisible = true;
-				image.Origin = pad + new Coord((Width-image.Width)/2.0 - padding, 0);
-				label.Origin = pad + new Coord((Width-label.Width)/2.0 - padding, image.Height + padding);
+				MinSize = new Coord(Math.Max(image.RenderWidth, label.RenderWidth), 
+				                 image.RenderHeight + label.RenderHeight + padding) + pad2;
+				RenderSize = MinSize;
+				image.Origin = pad + new Coord((RenderWidth-image.RenderWidth)/2.0 - padding, 0);
+				label.Origin = pad + new Coord((RenderWidth-label.RenderWidth)/2.0 - padding, image.RenderHeight + padding);
 				break;
 				
 			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
 				image.IsVisible = true;
 				label.IsVisible = true;
+				MinSize = new Coord(image.RenderWidth + label.RenderWidth + padding, 
+				                 Math.Max(image.RenderHeight, label.RenderHeight)) + pad2;
+				RenderSize = MinSize;
 				image.Origin = pad;
-				label.Origin = pad + new Coord(image.Width + padding, (Height-label.Height)/2.0 - padding);
+				label.Origin = pad + new Coord(image.RenderWidth + padding, (RenderHeight-label.RenderHeight)/2.0 - padding);
 				break;
 			}
 		}

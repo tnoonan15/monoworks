@@ -62,12 +62,6 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public double FontSize {get; set;}
 
-		
-		public override Coord MinSize
-		{
-			get	{ return extents;}
-		}
-
 		/// <summary>
 		/// The extents of the text.
 		/// </summary>
@@ -103,8 +97,8 @@ namespace MonoWorks.Controls
 				extents.X += 2*Padding;
 				extents.Y += Padding;
 			};
-			_size = extents;
-//			Console.WriteLine("extents for {0}: {1}", text, extents);
+			RenderSize = extents;
+			MinSize = extents;
 		}
 
 
