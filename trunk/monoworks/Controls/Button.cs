@@ -120,8 +120,8 @@ namespace MonoWorks.Controls
 			set {image = value;}
 		}
 		
-#region Layout
-		
+			
+		#region Layout		
 
 		/// <value>
 		/// The style used to layout the image and label.
@@ -149,13 +149,12 @@ namespace MonoWorks.Controls
 				}
 				return ButtonStyle;
 			}
-		}
+		}		
+		
+		#endregion
 		
 		
-#endregion
-
-
-#region Rendering
+		#region Rendering
 
 		public override void ComputeGeometry()
 		{
@@ -185,7 +184,7 @@ namespace MonoWorks.Controls
 					image.IsVisible = false;
 				label.Origin = pad;
 				MinSize = label.RenderSize + pad2;
-				RenderSize = MinSize;
+				ApplyUserSize();
 				break;
 				
 			case ButtonStyle.Image: // only show the image
@@ -194,7 +193,7 @@ namespace MonoWorks.Controls
 				image.IsVisible = true;
 				image.Origin = pad;
 				MinSize = image.RenderSize + pad2;
-				RenderSize = MinSize;
+				ApplyUserSize();
 				break;
 				
 			case ButtonStyle.ImageOverLabel: // place the image over the label
@@ -202,7 +201,7 @@ namespace MonoWorks.Controls
 				label.IsVisible = true;
 				MinSize = new Coord(Math.Max(image.RenderWidth, label.RenderWidth), 
 				                 image.RenderHeight + label.RenderHeight + padding) + pad2;
-				RenderSize = MinSize;
+				ApplyUserSize();
 				image.Origin = pad + new Coord((RenderWidth-image.RenderWidth)/2.0 - padding, 0);
 				label.Origin = pad + new Coord((RenderWidth-label.RenderWidth)/2.0 - padding, image.RenderHeight + padding);
 				break;
@@ -212,7 +211,7 @@ namespace MonoWorks.Controls
 				label.IsVisible = true;
 				MinSize = new Coord(image.RenderWidth + label.RenderWidth + padding, 
 				                 Math.Max(image.RenderHeight, label.RenderHeight)) + pad2;
-				RenderSize = MinSize;
+				ApplyUserSize();
 				image.Origin = pad;
 				label.Origin = pad + new Coord(image.RenderWidth + padding, (RenderHeight-label.RenderHeight)/2.0 - padding);
 				break;
@@ -230,13 +229,10 @@ namespace MonoWorks.Controls
 				image.RenderCairo(context);
 		}
 
-
-
-#endregion
+		#endregion
+				
 		
-
-
-#region Mouse Interaction
+		#region Mouse Interaction
 
 		protected bool isTogglable = false;
 		/// <summary>
@@ -247,7 +243,6 @@ namespace MonoWorks.Controls
 			get { return isTogglable; }
 			set { isTogglable = value; }
 		}
-
 
 		protected bool justClicked = false;
 
@@ -263,7 +258,6 @@ namespace MonoWorks.Controls
 				MakeDirty();
 			}
 		}
-
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
@@ -283,7 +277,6 @@ namespace MonoWorks.Controls
 
 		}
 
-
 		/// <summary>
 		/// Called when the button is clicked by the user.
 		/// </summary>
@@ -297,8 +290,8 @@ namespace MonoWorks.Controls
 			if (Clicked != null)
 				Clicked(this, new EventArgs());
 		}
-
-#endregion
+		
+		#endregion
 
 
 		

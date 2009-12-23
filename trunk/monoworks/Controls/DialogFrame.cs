@@ -24,6 +24,7 @@ using System;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
@@ -33,57 +34,96 @@ namespace MonoWorks.Controls
 	/// </summary>
 	public class DialogFrame : Container
 	{
+		
+		static DialogFrame()
+		{
+			TitleHeight = 20;
+		}
 
 		public DialogFrame() : base()
 		{
 			RenderSize = new Coord(300, 300);
-			TitleHeight = 16;
+			
+			_closeButton = new Button("x");
+			_closeButton.Clicked += delegate(object sender, EventArgs e) {
+				Console.WriteLine ("close button clicked");
+			};
+			_closeButton.Parent = this;
 		}
 		
+		
+		private Button _closeButton;
 		
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
 			
-			RenderSize = new Coord();
 			// determine the size based on the children
+			MinSize = new Coord();
 			foreach (var child in Children)
 			{
 				child.ComputeGeometry();
-				RenderSize = Coord.Max(RenderSize, child.RenderSize);
+				MinSize = Coord.Max(RenderSize, child.RenderSize);
 			}
-			RenderSize.Y += TitleHeight;
+			MinSize.Y += TitleHeight;
 			
+			ApplyUserSize();
+			
+			// place the close button
+			_closeButton.ComputeGeometry();
+			_closeButton.Origin = new Coord(RenderWidth - padding - _closeButton.RenderWidth, padding);
 		}
 		
 		/// <summary>
 		/// The height of the title bar.
 		/// </summary>
-		public double TitleHeight {	get; private set;}
+		public static double TitleHeight {	get; private set;}
 		
 		protected override void Render(RenderContext context)
 		{
-			context.Push();
-			
-			// render the background
-			context.Cairo.Color = new Cairo.Color(1.0, 1.0, 1.0);
-			context.Cairo.Rectangle(0, 0, RenderWidth, RenderHeight);
-			context.Cairo.Fill();
-			
 			// render the decorations
-			context.Cairo.Color = new Cairo.Color(0, 0, 1.0);
-			context.Cairo.Rectangle(0, 0, RenderWidth, TitleHeight);
-			context.Cairo.Fill();
+			_closeButton.RenderCairo(context);
 			
-			context.Pop();
-			Console.WriteLine ("rendering frame with size {0}", RenderSize);
-			
+			// render the content
 			context.Cairo.RelMoveTo(0, TitleHeight);
 			context.Push();
 			base.Render(context);
 			context.Pop();
 		}
 
+		
+		#region Mouse Interaction
+				
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			_closeButton.OnButtonPress(evt);
+			foreach (var child in Children)
+				child.OnButtonPress(evt);
+			
+			Console.WriteLine ("dialog button press at {0}", evt.Pos);
+		}
+
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+			
+			_closeButton.OnButtonRelease(evt);
+			foreach (var child in Children)
+				child.OnButtonRelease(evt);
+		}
+
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+			
+			_closeButton.OnMouseMotion(evt);
+			foreach (var child in Children)
+				child.OnMouseMotion(evt);
+		}
+		
+		#endregion
 
 		
 	}

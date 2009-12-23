@@ -101,11 +101,7 @@ namespace MonoWorks.Controls
 				MinSize = new Coord(surface.Width, surface.Height);
 			else
 				MinSize = new Coord();
-			
-			if (UserSize != null)
-				RenderSize = Coord.Max(MinSize, UserSize);
-			else
-				RenderSize = MinSize;
+			ApplyUserSize();
 		}
 
 		

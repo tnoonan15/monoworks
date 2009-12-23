@@ -48,7 +48,5 @@ namespace MonoWorks.Controls
 		/// Draws the decorations for the given control.
 		/// </summary>
 		public abstract void Decorate(Control2D control);
-		
-		
 	}
 }

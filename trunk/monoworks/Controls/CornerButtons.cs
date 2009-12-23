@@ -42,7 +42,6 @@ namespace MonoWorks.Controls
 		public CornerButtons(Corner corner)
 		{
 			Corner = corner;
-			StyleClassName = "corner";
 			RenderSize = MinSize;
 			IsHoverable = true;
 			IsTogglable = false;

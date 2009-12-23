@@ -36,7 +36,6 @@ namespace MonoWorks.Plotting
 		public Legend()
 			: base()
 		{
-			StyleClassName = "toolbar";
 			Content = stack;
 			ButtonText = "Legend";
 		}

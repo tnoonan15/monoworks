@@ -36,7 +36,6 @@ namespace MonoWorks.Controls
 		
 		public ToolBar() : base()
 		{
-			StyleClassName = "toolbar";
 			ToolStyle = "tool";
 		}
 		
@@ -44,8 +43,6 @@ namespace MonoWorks.Controls
 		public override void Add(Control2D child)
 		{
 			base.Add(child);
-			
-			child.StyleClassName = toolStyle;
 			
 			if (child is Button)
 				(child as Button).ButtonStyle = buttonStyle;
@@ -62,8 +59,6 @@ namespace MonoWorks.Controls
 			set
 			{
 				toolStyle = value;
-				foreach (Control2D child in Children)
-					child.StyleClassName = value;
 			}
 		}
 

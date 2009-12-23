@@ -61,10 +61,6 @@
     <Compile Include="OverlayPane.cs" />
     <Compile Include="RenderContext.cs" />
     <Compile Include="Stack.cs" />
-    <Compile Include="StyleClass.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="StyleGroup.cs" />
     <Compile Include="ToolBar.cs" />
     <Compile Include="StandardViewport\UiManager.cs" />
     <Compile Include="StandardViewport\ViewportController.cs" />
@@ -73,7 +69,6 @@
     <Compile Include="DialogFrame.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DefaultStyles.xml" />
     <EmbeddedResource Include="StandardViewport\Viewport.ui" />
     <EmbeddedResource Include="StandardViewport\icons\2d.png" />
     <EmbeddedResource Include="StandardViewport\icons\3d-interact.png" />

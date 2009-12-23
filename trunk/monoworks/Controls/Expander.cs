@@ -40,7 +40,6 @@ namespace MonoWorks.Controls
 			button = new Button(label, expandedIcon);
 			button.Clicked += OnButtonClicked;
 			button.ButtonStyle = ButtonStyle.ImageNextToLabel;
-			button.StyleClassName = "tool";
 			IsExpanded = true;
 		}
 
@@ -71,7 +70,7 @@ namespace MonoWorks.Controls
 
 
 
-#region The Button
+		#region The Button
 
 		private Image expandedIcon = new Image(ResourceHelper.GetStream("expanded.png"));
 
@@ -103,34 +102,32 @@ namespace MonoWorks.Controls
 			else
 				Expand();
 		}
-
-#endregion
-
 		
-#region The Content
+		#endregion
+
+				
+		#region The Content
 		
 		/// <value>
 		/// The content of the expander. 
 		/// </value>
 		public Control2D Content {get; set;}
-		
-#endregion
+				
+		#endregion
 
-#region Rendering
+		
+		#region Rendering
 		
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
 
-			Content.ComputeGeometry();
-			MinSize = Content.RenderSize + new Coord(0, button.RenderHeight);
 			button.ComputeGeometry();
+			Content.ComputeGeometry();
 			button.RenderWidth = Math.Max(button.RenderWidth, Content.RenderWidth);
-
-			button.StyleClassName = StyleClassName;
-
-			RenderHeight = Content.RenderHeight + button.RenderHeight;
-			RenderWidth = button.RenderWidth;
+			
+			MinSize = Content.RenderSize + new Coord(0, button.RenderHeight);
+			ApplyUserSize();
 			button.Origin = new Coord(0, Content.RenderHeight);
 
 			if (IsExpanded)
@@ -156,10 +153,10 @@ namespace MonoWorks.Controls
 				Content.RenderCairo(context);
 		}
 
-#endregion
+		#endregion
 
 
-#region Mouse Interaction
+		#region Mouse Interaction
 
 		public override void OnButtonPress(MonoWorks.Rendering.Events.MouseButtonEvent evt)
 		{
@@ -179,7 +176,7 @@ namespace MonoWorks.Controls
 			button.OnMouseMotion(evt);
 		}
 
-#endregion
+		#endregion
 
 	}
 }
