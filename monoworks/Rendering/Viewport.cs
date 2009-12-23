@@ -197,8 +197,8 @@ namespace MonoWorks.Rendering
 
 		#endregion
 
-
-#region Interactors
+		
+		#region Interactors
 
 		private bool use2dInteraction = false;
 		/// <value>
@@ -235,9 +235,8 @@ namespace MonoWorks.Rendering
 		/// The overlay interactor.
 		/// </summary>
 		public OverlayInteractor OverlayInteractor { get; private set; }
-
-
-#endregion
+		
+		#endregion
 
 
 		#region Mouse Interaction
@@ -319,8 +318,8 @@ namespace MonoWorks.Rendering
 
 		#endregion
 		
-
-#region Keyboard Interaction
+		
+		#region Keyboard Interaction
 
 		public void OnKeyPress(KeyEvent evt)
 		{
@@ -331,8 +330,8 @@ namespace MonoWorks.Rendering
 
 			ViewInteractor.OnKeyPress(evt);
 		}
-
-#endregion
+		
+		#endregion
 
 
 		#region Modal Overlay

@@ -27,6 +27,7 @@ using gl=Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
@@ -75,7 +76,7 @@ namespace MonoWorks.Controls
 			base.RenderOverlay(viewport);
 			
 			// shade out the background
-			gl.glColor4d(0.50, 0.5, 0.5, 0.5);
+			gl.glColor4d(0.7, 0.7, 0.7, 0.3);
 			gl.glBegin(gl.GL_POLYGON);
 			gl.glVertex2i(0, 0);
 			gl.glVertex2i(viewport.WidthGL, 0);
@@ -83,11 +84,38 @@ namespace MonoWorks.Controls
 			gl.glVertex2i(0, viewport.HeightGL);
 			gl.glEnd();
 			
-			_overlayPane.Origin = new Coord(viewport.WidthGL/2, viewport.HeightGL/2);
+			_overlayPane.Origin = new Coord((viewport.WidthGL - _frame.RenderWidth)/2, 
+			                                (viewport.HeightGL - _frame.RenderHeight)/2);
 			
 			
 			_overlayPane.RenderOverlay(viewport);
 		}
+
+		
+		#region Mouse Interaction
+				
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			_overlayPane.OnButtonPress(evt);
+		}
+
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+			
+			_overlayPane.OnButtonRelease(evt);
+		}
+
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+			
+			_overlayPane.OnMouseMotion(evt);
+		}
+		
+		#endregion
 
 		
 	}

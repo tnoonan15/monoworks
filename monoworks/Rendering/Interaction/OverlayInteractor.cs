@@ -41,9 +41,13 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			base.OnButtonPress(evt);
 
-			// don't interact if modal overlays are present
+			// let the modals interact first
 			if (viewport.RenderList.ModalCount > 0)
-				return;
+			{
+				foreach (var modal in viewport.RenderList.Modals)
+					modal.OnButtonPress(evt);
+				return; // don't interact with anything else if modal overlays are present
+			}
 
 			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnButtonPress(evt);
@@ -54,9 +58,13 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			base.OnButtonRelease(evt);
 
-			// don't interact if modal overlays are present
+			// let the modals interact first
 			if (viewport.RenderList.ModalCount > 0)
-				return;
+			{
+				foreach (var modal in viewport.RenderList.Modals)
+					modal.OnButtonRelease(evt);
+				return; // don't interact with anything else if modal overlays are present
+			}
 
 			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnButtonRelease(evt);
@@ -67,9 +75,13 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			base.OnMouseMotion(evt);
 
-			// don't interact if modal overlays are present
+			// let the modals interact first
 			if (viewport.RenderList.ModalCount > 0)
-				return;
+			{
+				foreach (var modal in viewport.RenderList.Modals)
+					modal.OnMouseMotion(evt);
+				return; // don't interact with anything else if modal overlays are present
+			}
 
 			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnMouseMotion(evt);

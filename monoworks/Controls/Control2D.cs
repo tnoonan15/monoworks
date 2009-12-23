@@ -37,8 +37,6 @@ namespace MonoWorks.Controls
 		
 		public Control2D() : base()
 		{
-			styleGroup = StyleGroup.Default;
-
 			ToolTip = "";
 			
 			Origin = new Coord();
@@ -166,6 +164,16 @@ namespace MonoWorks.Controls
 		/// </value>
 		public Coord UserSize {get; set;}
 		
+		/// <summary>
+		/// Tries to apply the user size to the render size, otherwise uses the min size.
+		/// </summary>
+		protected void ApplyUserSize()
+		{
+			if (UserSize != null)
+				RenderSize = Coord.Max(MinSize, UserSize);
+			else
+				RenderSize = MinSize;
+		}
 
 		protected double padding = 3;
 		/// <summary>
@@ -195,9 +203,8 @@ namespace MonoWorks.Controls
 
 		#endregion
 
-
-#region Rendering
-
+		
+		#region Rendering
 
 		/// <summary>
 		/// Sets the size to MinSize if UserSize is false.
@@ -205,8 +212,6 @@ namespace MonoWorks.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
-			
-			styleClass = styleGroup.GetClass(styleClassName);
 		}
 
 		
@@ -218,13 +223,10 @@ namespace MonoWorks.Controls
 		{
 			if (IsDirty)
 				ComputeGeometry();
-			
-//			Console.WriteLine("moving context for {0}: {1}", this.GetType(), Position);
 			context.Cairo.RelMoveTo(Origin.X, Origin.Y);
 			
 			var point = context.Cairo.CurrentPoint;
 			LastPosition = new Coord(point.X, point.Y);
-//			Console.WriteLine("last position of {0}: {1}", this.GetType(), LastPosition);
 			
 			context.Decorator.Decorate(this);
 			
@@ -241,11 +243,10 @@ namespace MonoWorks.Controls
 		{
 		}
 
-
-#endregion
-		
-		
-#region Image Data
+		#endregion
+				
+				
+		#region Image Data
 		
 		/// <summary>
 		/// Renders the control to an internal image surface.
@@ -290,23 +291,25 @@ namespace MonoWorks.Controls
 			get {return imageData;}
 		}
 		
-#endregion
-
-
-#region Hit Testing
+		#endregion
+		
+		
+		#region Hit Testing
 
 		/// <summary>
 		/// Performs the hit test on the rectangle defined by position and size.
 		/// </summary>
 		protected virtual bool HitTest(Coord pos)
 		{
+			if (RenderSize == null)
+				return false;
 			return pos >= LastPosition && pos <= (LastPosition + RenderSize);
 		}
 
-#endregion
-
+		#endregion
 		
-#region Interaction
+				
+		#region Interaction
 		
 		private bool isHoverable = false;
 		/// <value>
@@ -386,77 +389,9 @@ namespace MonoWorks.Controls
 			
 		}
 
-
-#endregion
+		#endregion
+				
 		
-
-#region Style
-
-		protected StyleGroup styleGroup;
-		/// <summary>
-		/// The style group this control will use to look up its style class.
-		/// </summary>
-		public StyleGroup StyleGroup
-		{
-			get { return styleGroup; }
-			set
-			{
-				styleGroup = value;
-				MakeDirty();
-			}
-		}
-
-		private string styleClassName = "default";
-		/// <summary>
-		/// Name of the style class to use.
-		/// </summary>
-		public string StyleClassName
-		{
-			get {return styleClassName;}
-			set
-			{
-				styleClassName = value;
-				MakeDirty();
-			}
-		}
-
-		/// <summary>
-		/// The current style class to use to render the control.
-		/// </summary>
-		/// <remarks>This should be cached by ComputeGeometry() so it 
-		/// doesn't need to be looked up every render cycle.</remarks>
-		protected StyleClass styleClass;
-		
-		/// <summary>
-		/// Renders the background with the current style.
-		/// </summary>
-		protected virtual void RenderBackground(RenderContext context)
-		{
-//			IFill bg = styleClass.GetBackground(hitState);
-//			if (bg != null)
-//				bg.DrawRectangle(new Coord(), size);
-		}
-		
-		/// <summary>
-		/// Renders the outline with the current style.
-		/// </summary>
-		protected virtual void RenderOutline(RenderContext context)
-		{
-//			Color fg = styleClass.GetForeground(hitState);
-//			if (fg != null)
-//			{
-//				fg.Setup();
-//				gl.glLineWidth(1f);
-//				gl.glBegin(gl.GL_LINE_LOOP);
-//				gl.glVertex2d(0, 0);
-//				gl.glVertex2d(Width, 0);
-//				gl.glVertex2d(Width, Height);
-//				gl.glVertex2d(0, Height);
-//				gl.glEnd();
-//			}
-		}
-
-#endregion
 
 		
 		

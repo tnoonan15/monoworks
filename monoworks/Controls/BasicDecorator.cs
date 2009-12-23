@@ -52,8 +52,8 @@ namespace MonoWorks.Controls
 		}
 		
 		
-		
-#region Background Rendering
+			
+		#region Background Rendering
 		
 		/// <value>
 		/// The orientation used to render the background if the decorator doesn't override it.
@@ -200,16 +200,21 @@ namespace MonoWorks.Controls
 			Context.Pop();
 		}
 		
-#endregion
-		
-		
-#region Decorating
+		#endregion
+				
+				
+		#region Decorating
 		
 		public override void Decorate(Control2D control)
 		{			
 			if (control is CornerButtons)
 			{
 				Decorate(control as CornerButtons);
+				return;
+			}		
+			if (control is DialogFrame)
+			{
+				Decorate(control as DialogFrame);
 				return;
 			}
 			
@@ -231,21 +236,10 @@ namespace MonoWorks.Controls
 		/// Decorates a corner button.
 		/// </summary>
 		protected void Decorate(CornerButtons control)
-		{
-//			Console.WriteLine("decorating corner buttons with HitState1 {0} and HitState2 {1}", 
-//			                  control.HitState1, control.HitState2);
-			
+		{			
 			// define the sizes for the horizontal and vertical triangles that make up each button
 			var horiSize = new Coord(control.RenderWidth, control.RenderHeight/2.0);
 			var vertSize = new Coord(control.RenderWidth/2.0, control.RenderHeight);
-			
-			// get the colors used to create the gradients
-//			if (control.HitState1 == HitState.None && control.HitState2 == HitState.None) // do everything as one big triangle
-//			{
-//				FillTriangle(control.Size, control.HitState, (AnchorLocation)control.Corner,(AnchorLocation)control.Corner);
-//				return;
-//			}
-			
 			
 			Context.Push();
 			switch (control.Corner)
@@ -263,7 +257,16 @@ namespace MonoWorks.Controls
 			Context.Pop();
 		}
 		
-#endregion
+		/// <summary>
+		/// Decorates a dialog frame.
+		/// </summary>
+		protected void Decorate(DialogFrame dialog)
+		{
+			FillRectangle(dialog.RenderSize, HitState.None, AnchorLocation.SE);
+			FillRectangle(new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), HitState.None, AnchorLocation.S);
+		}
+				
+		#endregion
 		
 	}
 }
