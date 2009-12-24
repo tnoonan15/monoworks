@@ -108,4 +108,7 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="mwx.xsd" />
+  </ItemGroup>
 </Project>
