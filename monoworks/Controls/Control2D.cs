@@ -172,7 +172,7 @@ namespace MonoWorks.Controls
 			if (UserSize != null)
 				RenderSize = Coord.Max(MinSize, UserSize);
 			else
-				RenderSize = MinSize;
+				RenderSize = MinSize.Copy();
 		}
 
 		protected double padding = 3;

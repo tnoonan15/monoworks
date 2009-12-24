@@ -49,12 +49,20 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Initialization constructor.
 		/// </summary>
-		/// <param name="X"></param>
-		/// <param name="Y"></param>
-		public Coord(double X, double Y)
+		public Coord(double x, double y)
 		{
-			this.X = X;
-			this.Y = Y;
+			this.X = x;
+			this.Y = y;
+		}
+		
+		/// <summary>
+		/// Creates a copy of the coordinate. 
+		/// </summary>
+		/// <remarks>It is generally a good idea to use this for assignments 
+		/// as it's usually what is meant by the operation.</remarks>
+		public Coord Copy()
+		{
+			return new Coord(X, Y);
 		}
 
 		/// <summary>

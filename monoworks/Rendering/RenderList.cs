@@ -171,6 +171,17 @@ namespace MonoWorks.Rendering
 			get { return _modals; }
 		}
 		
+		
+		public ModalOverlay[] ModalsCopy
+		{
+			get
+			{
+				var copy = new ModalOverlay[ModalCount];
+				_modals.CopyTo(copy, 0);
+				return copy;
+			}
+		}
+		
 		/// <summary>
 		/// The top of the modal overlay stack. 
 		/// </summary>
@@ -190,9 +201,16 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Removes a modal overlay from the viewport.
 		/// </summary>
-		public void PopModal()
+		public void PopModal(ModalOverlay overlay)
 		{
-			_modals.Pop();
+			while (_modals.Count > 0)
+			{
+				var popped = _modals.Pop();
+				if (popped == overlay)
+					break;
+				if (_modals.Count == 0)
+					throw new Exception("Error popping modal. The render list doesn't contain the given modal overlay");
+			}
 		}
 		
 		/// <value>
