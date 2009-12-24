@@ -1,4 +1,4 @@
-﻿// BaseExtensions.cs - MonoWorks Project
+// BaseExtensions.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -33,7 +33,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Makes an OpenGL vertex at the coordinate.
 		/// </summary>
-		/// <param name="coord"> </param>
 		public static void glVertex(this Coord coord)
 		{
 			gl.glVertex2d(coord.X, coord.Y);
@@ -42,7 +41,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Makes an OpenGL vertex at the vector.
 		/// </summary>
-		/// <param name="vec"> </param>
 		public static void glVertex(this Vector vec)
 		{
 			gl.glVertex3d(vec.X, vec.Y, vec.Z);
@@ -51,7 +49,6 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Makes an OpenGL normal with the vector.
 		/// </summary>
-		/// <param name="vec"> </param>
 		public static void glNormal(this Vector vec)
 		{
 			gl.glNormal3d(vec.X, vec.Y, vec.Z);
@@ -60,12 +57,15 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Makes an OpenGL vertex at the point.
 		/// </summary>
-		/// <param name="point"></param>
 		public static void glVertex(this Point point)
 		{
 			gl.glVertex3d(point[0].Value, point[1].Value, point[2].Value);
 		}
 
+		public static Coord Coord(this Cairo.PointD point)
+		{
+			return new Coord(point.X, point.Y);
+		}
 
 	}
 }

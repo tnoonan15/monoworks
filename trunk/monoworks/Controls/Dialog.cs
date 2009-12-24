@@ -79,7 +79,7 @@ namespace MonoWorks.Controls
 			base.RenderOverlay(viewport);
 			
 			// shade out the background
-			gl.glColor4d(0.7, 0.7, 0.7, 0.7);
+			gl.glColor4d(0.85, 0.85, 0.85, 0.7);
 			gl.glBegin(gl.GL_POLYGON);
 			gl.glVertex2i(0, 0);
 			gl.glVertex2i(viewport.WidthGL, 0);
