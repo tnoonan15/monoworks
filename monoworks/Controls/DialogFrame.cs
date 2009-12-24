@@ -23,6 +23,7 @@
 using System;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
@@ -37,14 +38,15 @@ namespace MonoWorks.Controls
 		
 		static DialogFrame()
 		{
-			TitleHeight = 20;
+			TitleHeight = 24;
 		}
 
 		public DialogFrame() : base()
 		{
 			UserSize = new Coord(300, 300);
 			
-			_closeButton = new Button("x");
+			var closeIcon = new Image(ResourceHelper.GetStream("close.png"));
+			_closeButton = new Button(closeIcon);
 			_closeButton.Clicked += delegate(object sender, EventArgs e) {
 				if (Closed != null)
 					Closed(this, e);

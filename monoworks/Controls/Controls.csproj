@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="icons\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,8 +79,6 @@
     <EmbeddedResource Include="StandardViewport\icons\back-view.png" />
     <EmbeddedResource Include="StandardViewport\icons\bottom-view.png" />
     <EmbeddedResource Include="StandardViewport\icons\cancel.png" />
-    <EmbeddedResource Include="StandardViewport\icons\contracted.png" />
-    <EmbeddedResource Include="StandardViewport\icons\expanded.png" />
     <EmbeddedResource Include="StandardViewport\icons\export.png" />
     <EmbeddedResource Include="StandardViewport\icons\front-view.png" />
     <EmbeddedResource Include="StandardViewport\icons\left-view.png" />
@@ -87,6 +86,12 @@
     <EmbeddedResource Include="StandardViewport\icons\right-view.png" />
     <EmbeddedResource Include="StandardViewport\icons\standard-view.png" />
     <EmbeddedResource Include="StandardViewport\icons\top-view.png" />
+    <EmbeddedResource Include="icons\contracted.png" />
+    <EmbeddedResource Include="icons\expanded.png" />
+    <EmbeddedResource Include="icons\close.png" />
+    <EmbeddedResource Include="icons\dock.png" />
+    <EmbeddedResource Include="icons\float.png" />
+    <EmbeddedResource Include="icons\minimize.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

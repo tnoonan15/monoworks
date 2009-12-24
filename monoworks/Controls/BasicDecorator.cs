@@ -40,15 +40,22 @@ namespace MonoWorks.Controls
 			DefaultBackgroundLocation = AnchorLocation.SE;
 			
 			BackgroundStartColors = new ColorGroup(
-			                  			new Color(1f, 1f, 1f, 0.6f),
-			                  			new Color(1f, 1f, 1f, 0.9f),
-			                  			new Color(0.9f, 0.9f, 0.9f, 0.5f)
-			                        );
+      			new Color(1f, 1f, 1f, 0.6f),
+      			new Color(1f, 1f, 1f, 0.9f),
+      			new Color(0.9f, 0.9f, 0.9f, 0.5f)
+            );
 			BackgroundStopColors = new ColorGroup(
-			                  			new Color(1f, 1f, 1f, 0.9f),
-			                  			new Color(1f, 1f, 1f, 0.6f),
-			                  			new Color(0.9f, 0.9f, 1f, 0.5f)
-			                        );
+      			new Color(1f, 1f, 1f, 0.9f),
+      			new Color(1f, 1f, 1f, 0.6f),
+      			new Color(0.9f, 0.9f, 1f, 0.5f)
+            );
+			
+			StrokeColors = new ColorGroup(
+				new Color(0.5f, 0.5f, 0.5f),
+				new Color(0.5f, 0.5f, 0.5f),
+				new Color(0.5f, 0.5f, 0.5f)
+			);
+			StrokeWidth = 1;
 		}
 		
 		
@@ -63,50 +70,52 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The color group for the start of the background gradient.
 		/// </summary>
-		public ColorGroup BackgroundStartColors;
+		public ColorGroup BackgroundStartColors {get; private set;}
 		
 		/// <summary>
 		/// The color group for the stop of the background gradient.
 		/// </summary>
-		public ColorGroup BackgroundStopColors;
+		public ColorGroup BackgroundStopColors { get; private set; }
 		
 		/// <summary>
 		/// The default background color if none can be found.
 		/// </summary>
-		protected Color defaultBackgroundColor = new Color(0.5f, 0.5f, 0.5f);
+		protected static Color defaultBackgroundColor = new Color(0.5f, 0.5f, 0.5f);
 				
 		/// <summary>
 		/// Creates a gradient for the given position, size, and anchor location.
 		/// </summary>
-		protected Cairo.LinearGradient GenerateGradient(Coord size, AnchorLocation location, 
+		protected Cairo.LinearGradient GenerateGradient(Coord point, Coord size, AnchorLocation location, 
 		                                                Color startColor, Color stopColor)
 		{
 			Cairo.LinearGradient grad = null;
+			var x = point.X;
+			var y = point.Y;
 			switch (location)
 			{
 			case AnchorLocation.E:
-				grad = new Cairo.LinearGradient(size.X, 0, 0, 0);
+				grad = new Cairo.LinearGradient(x + size.X, y, x, y);
 				break;
 			case AnchorLocation.NE:
-				grad = new Cairo.LinearGradient(size.X, 0, 0, size.Y);
+				grad = new Cairo.LinearGradient(x + size.X, y, x, y + size.Y);
 				break;
 			case AnchorLocation.N:
-				grad = new Cairo.LinearGradient(0, 0, 0, size.Y);
+				grad = new Cairo.LinearGradient(x, y, x, y + size.Y);
 				break;
 			case AnchorLocation.NW:
-				grad = new Cairo.LinearGradient(0, 0, size.X, size.Y);
+				grad = new Cairo.LinearGradient(x, y, x + size.X, y + size.Y);
 				break;
 			case AnchorLocation.W:
-				grad = new Cairo.LinearGradient(0, 0, size.X, 0);
+				grad = new Cairo.LinearGradient(x, y, x + size.X, y);
 				break;
 			case AnchorLocation.SW:
-				grad = new Cairo.LinearGradient(0, size.Y, size.X, 0);
+				grad = new Cairo.LinearGradient(x, y + size.Y, x + size.X, y);
 				break;
 			case AnchorLocation.S:
-				grad = new Cairo.LinearGradient(0, size.Y, 0, 0);
+				grad = new Cairo.LinearGradient(x, y + size.Y, x, y);
 				break;
 			case AnchorLocation.SE:
-				grad = new Cairo.LinearGradient(size.X, size.Y, 0, 0);
+				grad = new Cairo.LinearGradient(x + size.X, y + size.Y, x, y);
 				break;
 			}
 			
@@ -129,7 +138,7 @@ namespace MonoWorks.Controls
 			var point = Context.Push();
 			
 			// Create the gradient
-			Cairo.LinearGradient grad = GenerateGradient(size, location, 
+			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size, location, 
 			                                             BackgroundStartColors[hitState],
 			                                             BackgroundStopColors[hitState]);
 			// draw the rectangle
@@ -146,10 +155,10 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected void FillTriangle(Coord size, HitState hitState, AnchorLocation triDirection, AnchorLocation gradDirection)
 		{
-			Context.Push();
+			var point = Context.Push();
 			
 			// Create the gradient
-			Cairo.LinearGradient grad = GenerateGradient(size / 2.0, gradDirection, 
+			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size / 2.0, gradDirection, 
 			                                             BackgroundStartColors[hitState],
 			                                             BackgroundStopColors[hitState]);
 			// draw the triangle
@@ -201,41 +210,92 @@ namespace MonoWorks.Controls
 		}
 		
 		#endregion
+		
+		
+		#region Foreground Rendering
+
+		/// <summary>
+		/// The color group for stroking (drawing lines).
+		/// </summary>
+		public ColorGroup StrokeColors { get; private set; }
+		
+		/// <summary>
+		/// The width of lines drawn using the Stroke* methods.
+		/// </summary>
+		public double StrokeWidth { get; set; }
 				
-				
+		/// <summary>
+		/// Outlines a rectangle with the given size.
+		/// </summary>
+		/// <param name="size">
+		/// The size of the rectangle to outline (assumed to be at 0,0 origin).
+		/// </param>
+		/// <param name="hitState">
+		/// Used to look up which color to use for the stroke.
+		/// </param>
+		protected void StrokeRectangle(Coord size, HitState hitState)
+		{
+			var point = Context.Push();
+			Context.Cairo.Color = StrokeColors.GetColor(hitState).Cairo;
+			Context.Cairo.Rectangle(point, size.X, size.Y);
+			Context.Cairo.Stroke();
+			Context.Pop();
+		}
+		
+		#endregion
+		
+		
 		#region Decorating
 		
 		public override void Decorate(Control2D control)
-		{			
+		{
 			if (control is CornerButtons)
 			{
 				Decorate(control as CornerButtons);
 				return;
-			}		
+			}
 			if (control is DialogFrame)
 			{
 				Decorate(control as DialogFrame);
 				return;
 			}
-			
-			if (!(control is Button || control is ToolBar))
-				return;
-			
-			if (control.Pane != null && control.Pane is AnchorPane) // the control is anchored
+			if (control is Button)
 			{
-				if (!(control is Button) || control.HitState != HitState.None)
-					FillRectangle(control.RenderSize, control.HitState, (control.Pane as AnchorPane).Location);
+				Decorate(control as Button);
 			}
-			else // the control is not anchored
-			{
-				FillRectangle(control.RenderSize, control.HitState, DefaultBackgroundLocation);
+			if (control is ToolBar) {
+				Decorate(control as ToolBar);
 			}
 		}
 		
-		/// <summary>
-		/// Decorates a corner button.
-		/// </summary>
-		protected void Decorate(CornerButtons control)
+		protected virtual void Decorate(Button button)
+		{
+			var parent = button.Parent;
+			if (parent == null)
+				FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
+			else if (parent is ToolBar || parent is DialogFrame)
+			{
+				if (button.HitState != HitState.None)
+					FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
+			}
+			else
+				FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
+		}
+		
+		
+		protected virtual void Decorate(ToolBar toolbar)
+		{			
+			if (toolbar.Pane != null && toolbar.Pane is AnchorPane) // the toolbar is anchored
+			{
+				FillRectangle(toolbar.RenderSize, toolbar.HitState, (toolbar.Pane as AnchorPane).Location);
+			}
+			else // the toolbar is not anchored
+			{
+				FillRectangle(toolbar.RenderSize, toolbar.HitState, DefaultBackgroundLocation);
+			}
+		}
+		
+		protected virtual void Decorate(CornerButtons control)
 		{			
 			// define the sizes for the horizontal and vertical triangles that make up each button
 			var horiSize = new Coord(control.RenderWidth, control.RenderHeight/2.0);
@@ -257,13 +317,11 @@ namespace MonoWorks.Controls
 			Context.Pop();
 		}
 		
-		/// <summary>
-		/// Decorates a dialog frame.
-		/// </summary>
-		protected void Decorate(DialogFrame dialog)
+		protected virtual void Decorate(DialogFrame dialog)
 		{
 			FillRectangle(dialog.RenderSize, HitState.None, AnchorLocation.SE);
 			FillRectangle(new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), HitState.None, AnchorLocation.S);
+			StrokeRectangle(dialog.RenderSize, HitState.None);
 		}
 				
 		#endregion
