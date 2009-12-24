@@ -36,7 +36,7 @@ namespace MonoWorks.Controls
 		
 		public OverlayPane() : base()
 		{
-			
+			Origin = new Coord();
 		}
 		
 		public OverlayPane(Control2D control) : this()

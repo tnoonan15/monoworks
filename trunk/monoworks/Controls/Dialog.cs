@@ -41,6 +41,9 @@ namespace MonoWorks.Controls
 			_overlayPane = new OverlayPane();
 			_frame = new DialogFrame();
 			_overlayPane.Control = _frame;
+			_frame.Closed += delegate(object sender, EventArgs e) {
+				Close();
+			};
 		}
 		
 		
@@ -76,7 +79,7 @@ namespace MonoWorks.Controls
 			base.RenderOverlay(viewport);
 			
 			// shade out the background
-			gl.glColor4d(0.7, 0.7, 0.7, 0.3);
+			gl.glColor4d(0.7, 0.7, 0.7, 0.7);
 			gl.glBegin(gl.GL_POLYGON);
 			gl.glVertex2i(0, 0);
 			gl.glVertex2i(viewport.WidthGL, 0);

@@ -42,11 +42,12 @@ namespace MonoWorks.Controls
 
 		public DialogFrame() : base()
 		{
-			RenderSize = new Coord(300, 300);
+			UserSize = new Coord(300, 300);
 			
 			_closeButton = new Button("x");
 			_closeButton.Clicked += delegate(object sender, EventArgs e) {
-				Console.WriteLine ("close button clicked");
+				if (Closed != null)
+					Closed(this, e);
 			};
 			_closeButton.Parent = this;
 		}
@@ -63,7 +64,7 @@ namespace MonoWorks.Controls
 			foreach (var child in Children)
 			{
 				child.ComputeGeometry();
-				MinSize = Coord.Max(RenderSize, child.RenderSize);
+				MinSize = Coord.Max(MinSize, child.RenderSize);
 			}
 			MinSize.Y += TitleHeight;
 			
@@ -90,6 +91,11 @@ namespace MonoWorks.Controls
 			base.Render(context);
 			context.Pop();
 		}
+		
+		/// <summary>
+		/// This gets raised when the user hits the close button.
+		/// </summary>
+		public event EventHandler Closed;
 
 		
 		#region Mouse Interaction
@@ -101,8 +107,6 @@ namespace MonoWorks.Controls
 			_closeButton.OnButtonPress(evt);
 			foreach (var child in Children)
 				child.OnButtonPress(evt);
-			
-			Console.WriteLine ("dialog button press at {0}", evt.Pos);
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
