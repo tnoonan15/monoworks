@@ -137,8 +137,8 @@ namespace MonoWorks.Plotting
 		public void GenerateTicks(int dim)
 		{
 			dimension = dim;
-			double min = Parent.PlotBounds.Minima[dim];
-			double max = Parent.PlotBounds.Maxima[dim];
+			double min = ParentAxes.PlotBounds.Minima[dim];
+			double max = ParentAxes.PlotBounds.Maxima[dim];
 			
 			// get the tick values
 			tickVals = Bounds.NiceRange(min, max, true);
@@ -169,8 +169,8 @@ namespace MonoWorks.Plotting
 		{
 			get
 			{
-				double step = tickVals[0] - Parent.PlotBounds.Minima[dimension];
-				return Parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+				double step = tickVals[0] - ParentAxes.PlotBounds.Minima[dimension];
+				return ParentAxes.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
 			}
 		}	
 		
@@ -182,7 +182,7 @@ namespace MonoWorks.Plotting
 			get
 			{
 				double step = tickVals[1] - tickVals[0];
-				return Parent.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+				return ParentAxes.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
 			}
 		}		
 

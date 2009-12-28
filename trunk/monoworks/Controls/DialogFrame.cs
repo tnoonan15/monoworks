@@ -51,11 +51,24 @@ namespace MonoWorks.Controls
 				if (Closed != null)
 					Closed(this, e);
 			};
-			_closeButton.Parent = this;
+			_closeButton.ParentControl = this;
+			
+			_titleLabel = new Label();
 		}
 		
 		
 		private Button _closeButton;
+		
+		private Label _titleLabel;
+		
+		/// <summary>
+		/// The title displayed in the title bar.
+		/// </summary>
+		public string Title
+		{
+			get {return _titleLabel.Text;}
+			set {_titleLabel.Text = value;}
+		}
 		
 		public override void ComputeGeometry()
 		{
@@ -75,6 +88,10 @@ namespace MonoWorks.Controls
 			// place the close button
 			_closeButton.ComputeGeometry();
 			_closeButton.Origin = new Coord(RenderWidth - padding - _closeButton.RenderWidth, padding);
+			
+			// place the title label
+			_titleLabel.ComputeGeometry();
+			_titleLabel.Origin = new Coord((RenderWidth - _titleLabel.RenderWidth) / 2, padding);
 		}
 		
 		/// <summary>
@@ -86,6 +103,7 @@ namespace MonoWorks.Controls
 		{
 			// render the decorations
 			_closeButton.RenderCairo(context);
+			_titleLabel.RenderCairo(context);
 			
 			// render the content
 			context.Cairo.RelMoveTo(0, TitleHeight);

@@ -75,6 +75,8 @@
     <Compile Include="Vector.cs" />
     <Compile Include="XmlExtensions.cs" />
     <Compile Include="IPlane.cs" />
+    <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="IStringParsable.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

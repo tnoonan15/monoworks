@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Controls
 {
@@ -49,6 +50,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The orientation of the stack.
 		/// </value>
+		[MwxProperty]
 		public Orientation Orientation
 		{
 			get {return Orientation;}

@@ -270,7 +270,7 @@ namespace MonoWorks.Controls
 		
 		protected virtual void Decorate(Button button)
 		{
-			var parent = button.Parent;
+			var parent = button.ParentControl;
 			if (parent == null)
 				FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
 			else if (parent is ToolBar || parent is DialogFrame)

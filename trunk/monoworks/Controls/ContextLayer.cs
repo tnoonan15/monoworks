@@ -80,7 +80,7 @@ namespace MonoWorks.Controls
 		public void AddToolbar(string context, ToolBar toolBar)
 		{
 			if (HasToolbar(context))
-				toolBars[context].Parent = null;
+				toolBars[context].ParentControl = null;
 			toolBars[context] = toolBar;	
 //			toolBar.Parent = this;
 		}		

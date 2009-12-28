@@ -22,6 +22,7 @@ using System.IO;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Framework;
 using MonoWorks.Controls;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.GuiGtk;
@@ -44,6 +45,11 @@ namespace MonoWorks.DemoGtk
 			
 			// add an ActorInteractor to the viewport
 			adapter.Viewport.PrimaryInteractor = new ActorInteractor(adapter.Viewport);
+			
+			
+			// load the mwx file
+			var mwx = new MwxSource(ResourceHelper.GetStream("demo.mwx"));
+			
 			
 			// northeast buttons
 			var cornerButtons = new CornerButtons(Corner.NE);
@@ -97,11 +103,7 @@ namespace MonoWorks.DemoGtk
 			
 			
 			// the controls dialog
-			_controlsDialog = new Dialog();
-			var stack = new Stack(Orientation.Vertical);
-			_controlsDialog.Control = stack;
-			stack.Add(new Label("Hello Dialog!"));
-			stack.Add(new Label("Another Line"));
+			_controlsDialog = mwx.GetRenderable<Dialog>("controls-dialog");
 			
 			// floating toolbar
 			toolbar = new ToolBar();

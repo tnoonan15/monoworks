@@ -18,6 +18,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace MonoWorks.Base
@@ -83,5 +84,21 @@ namespace MonoWorks.Base
 			return attr;
 		}
 		
+		/// <summary>
+		/// Gets the names of the properties on the current element.
+		/// </summary>
+		public static Dictionary<string, string> GetProperties(this XmlReader reader)
+		{
+			var props = new Dictionary<string, string>();
+			if (reader.HasAttributes)
+			{
+				reader.MoveToFirstAttribute();
+				props[reader.LocalName] = reader.Value;
+				while (reader.MoveToNextAttribute())					
+					props[reader.LocalName] = reader.Value;
+			}
+			reader.MoveToElement();
+			return props;
+		}
 	}
 }

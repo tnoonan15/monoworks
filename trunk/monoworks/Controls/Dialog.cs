@@ -22,6 +22,7 @@
 
 
 using System;
+using System.Xml;
 
 using gl=Tao.OpenGl.Gl;
 
@@ -46,10 +47,29 @@ namespace MonoWorks.Controls
 			};
 		}
 		
-		
 		private OverlayPane _overlayPane;
 		
 		private DialogFrame _frame;
+		
+		
+		public override void AddChild(Renderable child)
+		{
+			if (child is Control2D)
+				Control = child as Control2D;
+			else
+				throw new Exception("Children of Dialog must be a Control2D.");
+		}
+
+		
+		/// <summary>
+		/// The title displayed in the title bar.
+		/// </summary>
+		[MwxProperty]
+		public string Title
+		{
+			get {return _frame.Title;}
+			set {_frame.Title = value;}
+		}		
 		
 		/// <summary>
 		/// The contents of the dialog.

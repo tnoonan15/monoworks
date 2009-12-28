@@ -27,17 +27,24 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// Control containing just text.
 	/// </summary>
-	public class Label : Control2D
+	public class Label : Control2D, IStringParsable
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Label() : base()
+		{
+			Text = "";
+			FontSize = 12;
+		}
+		
 		/// <summary>
 		/// Initialization constructor.
 		/// </summary>
 		/// <param name="text"> The text to display. </param>
-		public Label(string text) : base()
+		public Label(string text) : this()
 		{
 			Text = text;
-
-			FontSize = 12;
 		}
 
 
@@ -51,11 +58,17 @@ namespace MonoWorks.Controls
 			set
 			{
 				text = value;
-//				textDef.Text = text;
 				MakeDirty();
 			}
 		}
 
+		/// <summary>
+		/// Assigns the text.
+		/// </summary>
+		public void Parse(string valString)
+		{
+			Text = valString;
+		}
 
 		/// <summary>
 		/// The font size of the text.

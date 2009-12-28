@@ -70,12 +70,12 @@ namespace MonoWorks.GuiGtk.Tree
 			RemoveEntity(entity);
 			
 			// add it
-			if (entity.Parent == null || entity.Parent is Drawing) // this is the root level entity
+			if (entity.ParentEntity == null || entity.ParentEntity is Drawing) // this is the root level entity
 				AddEntity(entity, null);
 			else // this is a child entity
 			{
 				Gtk.TreeIter iter;
-				if (TryGetIter(entity.Parent, out iter)) // only proceed if the parent is in the model
+				if (TryGetIter(entity.ParentEntity, out iter)) // only proceed if the parent is in the model
 					AddEntity(entity, iter);
 			}
 		}

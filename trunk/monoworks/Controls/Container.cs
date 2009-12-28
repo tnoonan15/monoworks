@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
@@ -36,6 +37,14 @@ namespace MonoWorks.Controls
 
 
 #region Children
+
+		public override void AddChild(Renderable child)
+		{
+			if (child is Control2D)
+				Add(child as Control2D);
+			else
+				throw new NotImplementedException("Children of Containers must be of type Control2D.");
+		}
 
 
 		protected List<Control2D> children = new List<Control2D>();
@@ -80,7 +89,7 @@ namespace MonoWorks.Controls
 		public virtual void Add(Control2D child)
 		{
 			children.Add(child);
-			child.Parent = this;
+			child.ParentControl = this;
 			//child.StyleClassName = StyleClassName;
 			MakeDirty();
 		}
