@@ -17,6 +17,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
+using System.Xml;
 
 using MonoWorks.Base;
 
@@ -50,6 +52,12 @@ namespace MonoWorks.Rendering
 		/// True if the renderable is dirty and needs its geometry recomputed.
 		/// </summary>
 		public bool IsDirty { get; protected set; }
+		
+		/// <summary>
+		/// The name of the renderable.
+		/// </summary>
+		[MwxProperty]
+		public virtual string Name {get;set;}
 
 		/// <summary>
 		/// Makes the renderable dirty.
@@ -64,7 +72,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
 		public virtual void OnViewportResized(Viewport viewport)
-		{			
+		{
 		}
 
 		/// <summary>
@@ -74,7 +82,38 @@ namespace MonoWorks.Rendering
 		public virtual void OnViewDirectionChanged(Viewport viewport)
 		{
 		}
-
+		
+		/// <summary>
+		/// Populates the renderable based on a mwx stream.
+		/// </summary>
+		public void FromMwx(XmlReader reader)
+		{			
+			foreach (var prop in reader.GetProperties())
+			{
+				var propInfo = GetType().GetProperty(prop.Key);
+				if (propInfo == null)
+					throw new Exception(String.Format("No property named {0} for type {1}", prop.Key, GetType()));
+				if (propInfo.GetCustomAttributes<MwxPropertyAttribute>().Length == 0)
+					throw new Exception(String.Format("Property {0} for type {1} is not a MwxProperty", prop.Key, GetType()));
+				propInfo.SetFromString(this, prop.Value);
+			}
+			
+		}
+		
+		/// <summary>
+		/// This must be implemented by subclasses if they plan on being able to support mwx children.
+		/// </summary>
+		/// <remarks>Subclasses should not call this method, as it throws a NotImplementedException.</remarks>
+		public virtual void AddChild(Renderable child)
+		{
+			throw new NotImplementedException(String.Format("Type {0} does not support adding children.", GetType()));
+		}
+		
+		/// <summary>
+		/// The parent renderable to this one.
+		/// </summary>
+		public virtual Renderable Parent {get; set;}
+		
 
 #region Rendering
 

@@ -41,6 +41,14 @@ namespace MonoWorks.Controls
 	{
 
 		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Button() : base()
+		{
+			
+		}
+		
+		/// <summary>
 		/// Create a button with the given text.
 		/// </summary>
 		public Button(string text) : this(new Label(text))
@@ -100,6 +108,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The string of the label.
 		/// </value>
+		[MwxProperty]
 		public string LabelString
 		{
 			get
@@ -107,6 +116,12 @@ namespace MonoWorks.Controls
 				if (label == null)
 					return "";
 				return label.Text;
+			}
+			set
+			{
+				if (label == null)
+					label = new Label();
+				label.Text = value;
 			}
 		}
 		
@@ -126,6 +141,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The style used to layout the image and label.
 		/// </value>
+		[MwxProperty]
 		public ButtonStyle ButtonStyle {get; set;}
 		
 		

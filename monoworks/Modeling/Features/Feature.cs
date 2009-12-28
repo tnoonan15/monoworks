@@ -82,7 +82,7 @@ namespace MonoWorks.Modeling
 //					RemoveChild(Sketch);
 				this["sketch"] = value;
 				// assign the sketch as a child of this feature
-				value.Parent.RemoveChild(value);
+				value.ParentEntity.RemoveChild(value);
 				AddChild(value);
 			}
 		}

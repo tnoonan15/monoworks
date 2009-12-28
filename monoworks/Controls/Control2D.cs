@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Xml;
 
 using Cairo;
 
@@ -42,18 +43,22 @@ namespace MonoWorks.Controls
 			Origin = new Coord();
 		}
 		
-		private Control2D _parent = null;
 		/// <value>
 		/// The control's parent.
 		/// </value>
-		public Control2D Parent
+		public Control2D ParentControl {get; set;}
+		
+		
+		public override Renderable Parent
 		{
-			get {return _parent;}
-			set
-			{
-				_parent = value;
+			get {
+				return ParentControl;
+			}
+			set {
+				ParentControl = value as Control2D;
 			}
 		}
+
 
 		
 		private IPane _pane = null;
@@ -66,8 +71,8 @@ namespace MonoWorks.Controls
 			{
 				if (_pane != null)
 					return _pane;
-				else if (Parent != null)
-					return Parent.Pane;
+				else if (ParentControl != null)
+					return ParentControl.Pane;
 				else
 					return null;
 			}
@@ -88,8 +93,8 @@ namespace MonoWorks.Controls
 		{
 			base.MakeDirty();
 			
-			if (Parent != null)
-				_parent.MakeDirty();
+			if (ParentControl != null)
+				ParentControl.MakeDirty();
 		}
 
 		
@@ -392,7 +397,6 @@ namespace MonoWorks.Controls
 		#endregion
 				
 		
-
 		
 		
 	}

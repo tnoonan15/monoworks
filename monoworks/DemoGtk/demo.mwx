@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mwx:Ui xmlns:mwx="urn:mwx">
-	
+<mwx:Ui xmlns:mwx="http://monoworksproject.org/mwx" 
+		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
+	<mwc:Dialog Name="controls-dialog" Title="MonoWorks Controls">
+		<mwc:Stack Orientation="Vertical">
+			<mwc:Label>First Label</mwc:Label>
+			<mwc:Stack Orientation="Horizontal">
+				<mwc:Label>Buttons</mwc:Label>
+				<mwc:Button ButtonStyle="Label" LabelString="Just a label"></mwc:Button>
+			</mwc:Stack>
+			<mwc:Label>Another Label</mwc:Label>
+		</mwc:Stack>
+	</mwc:Dialog>
 </mwx:Ui>

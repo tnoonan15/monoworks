@@ -72,7 +72,7 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		protected Entity()
 		{
-			Parent = null;
+			ParentEntity = null;
 			IdCounter++;
 			id = IdCounter;
 			IsDirty = false;
@@ -292,10 +292,15 @@ namespace MonoWorks.Modeling
 		/// <value>
 		/// Gets the item name.
 		/// </value>
-		public string Name
+		public override string Name
 		{
-			get {return (string)workingMomento["name"];}
-			set {workingMomento["name"] = value;}
+			get {
+				return (string)workingMomento["name"];
+			}
+			set {
+				base.Name = value;
+				workingMomento["name"] = value;
+			}
 		}
 		
 		
@@ -355,7 +360,17 @@ namespace MonoWorks.Modeling
 		/// <value>
 		/// The parent of this entity.
 		/// </value>
-		public Entity Parent { get; private set; }
+		public Entity ParentEntity { get; private set; }
+		
+		public override Renderable Parent
+		{
+			get {
+				return ParentEntity;
+			}
+			set {
+				ParentEntity = value as Entity;
+			}
+		}
 	
 		/// <summary>
 		/// Add a child.
@@ -481,10 +496,10 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		protected void ParentDirty()
 		{
-			if (Parent != null)
+			if (ParentEntity != null)
 			{
-				Parent.IsDirty = true;
-				Parent.ParentDirty();
+				ParentEntity.IsDirty = true;
+				ParentEntity.ParentDirty();
 			}
 		}
 		

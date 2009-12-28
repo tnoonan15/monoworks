@@ -435,7 +435,7 @@ namespace MonoWorks.Plotting
 							z = dataSet[r, columns[2]];
 							if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(z))
 								continue;
-							Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+							ParentAxes.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 							if (markersVisible)
 								gl.glVertex3d(x, y, z);
 							bounds.Resize(x, y, z);
@@ -457,7 +457,7 @@ namespace MonoWorks.Plotting
 								z = dataSet[r, columns[2]];
 								if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(z))
 									continue;
-								Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+								ParentAxes.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 								gl.glVertex3d(x, y, z);
 							}
 							gl.glEnd();
@@ -475,7 +475,7 @@ namespace MonoWorks.Plotting
 			gl.glEndList();
 
 			// add legend items
-			if (Parent.Legend != null)
+			if (ParentAxes.Legend != null)
 			{
 				// color legend entries
 				if (colors.Length > 1)
@@ -494,7 +494,7 @@ namespace MonoWorks.Plotting
 							item.Icon.MarkerShape = shapes[0];
 						if (sizes.Length == 1) // only one size
 							item.Icon.MarkerSize = markerSize;
-						Parent.Legend.Add(item);
+						ParentAxes.Legend.Add(item);
 					}
 				}
 
@@ -515,7 +515,7 @@ namespace MonoWorks.Plotting
 							item.Icon.Color = colors[0];
 						if (sizes.Length == 1) // only one size
 							item.Icon.MarkerSize = markerSize;
-						Parent.Legend.Add(item);
+						ParentAxes.Legend.Add(item);
 					}
 				}
 
@@ -536,7 +536,7 @@ namespace MonoWorks.Plotting
 							item.Icon.Color = colors[0];
 						if (shapes.Length == 1) // only one shape
 							item.Icon.MarkerShape = shapes[0];
-						Parent.Legend.Add(item);
+						ParentAxes.Legend.Add(item);
 					}
 				}
 
@@ -551,7 +551,7 @@ namespace MonoWorks.Plotting
 					item.Icon.Color = colors[0];
 					item.Icon.MarkerShape = shapes[0];
 					item.Icon.MarkerSize = sizes[0];
-					Parent.Legend.Add(item);
+					ParentAxes.Legend.Add(item);
 				}
 
 			}
@@ -581,7 +581,7 @@ namespace MonoWorks.Plotting
 				x = dataSet[r, columns[0]];
 				y = dataSet[r, columns[1]];
 				z = dataSet[r, columns[2]];
-				Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+				ParentAxes.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 				gl.glVertex3d(x, y, z);
 			}
 			gl.glEnd();
@@ -630,7 +630,7 @@ namespace MonoWorks.Plotting
 				double x = dataSet[r, columns[0]];
 				double y = dataSet[r, columns[1]];
 				double z = dataSet[r, columns[2]];
-				Parent.PlotToWorldSpace.Apply(ref x, ref y, ref z);
+				ParentAxes.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 				Coord coord = hitLine.Camera.WorldToScreen(x, y, z);
 
 				// compute the distance

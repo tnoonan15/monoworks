@@ -88,6 +88,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="demo.mwx" />
+    <EmbeddedResource Include="demo.mwx" />
   </ItemGroup>
 </Project>

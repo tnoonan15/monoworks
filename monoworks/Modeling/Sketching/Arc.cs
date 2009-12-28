@@ -219,7 +219,7 @@ namespace MonoWorks.Modeling.Sketching
 				return false;
 
 			// set the last hit, even if we didn't hit anything
-			lastHit = hit.GetIntersection((Parent as Sketch).Plane);
+			lastHit = hit.GetIntersection((ParentEntity as Sketch).Plane);
 
 			// test for hitting the center
 			Coord center = hit.Camera.WorldToScreen(Center.ToVector());
