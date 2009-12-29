@@ -89,5 +89,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="demo.mwx" />
+    <EmbeddedResource Include="icons\image-loading.png" />
   </ItemGroup>
 </Project>

@@ -71,7 +71,7 @@ namespace MonoWorks.Base
 			{
 				val = Enum.Parse(prop.PropertyType, valString);
 			}
-			else if (prop.PropertyType.IsSubclassOf(typeof(IStringParsable)))
+			else if (prop.PropertyType.Implements(typeof(IStringParsable)))
 			{
 				val = Activator.CreateInstance(prop.PropertyType);
 				(val as IStringParsable).Parse(valString);
@@ -80,6 +80,15 @@ namespace MonoWorks.Base
 				throw new NotImplementedException(String.Format("Don't know what to do with properties of type {0}", prop.PropertyType));
 			
 			prop.SetValue(target, val, null);
+		}
+		
+		
+		/// <summary>
+		/// Returns true if type implements iface.
+		/// </summary>
+		public static bool Implements(this Type type, Type iface)
+		{
+			return type.GetInterface(iface.Name) != null;
 		}
 		
 	}

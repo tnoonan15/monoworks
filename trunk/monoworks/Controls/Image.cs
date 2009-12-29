@@ -28,16 +28,37 @@ namespace MonoWorks.Controls
 {
 	
 	/// <summary>
+	/// Exception for when image.Parse() fails.
+	/// </summary>
+	public class ImageParseException : Exception
+	{
+		public ImageParseException() : 
+			base("Image literals must have one of two forms: " + 
+		         "a comma-separated resource and assembly names, like \"myImage.png,MyAssembly\" or " + 
+				 " an \"icon:\" followed by comma-separated icon name and size, like \"icon:apply,48\"")
+		{
+			
+		}
+	}
+	
+	/// <summary>
 	/// Control containing an image.
 	/// </summary>
-	public class Image : Control2D
+	public class Image : Control2D, IStringParsable
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Image() : base()
+		{			
+		}
+		
 		/// <summary>
 		/// Loads an image from a stream.
 		/// </summary>
 		/// <param name="stream"></param>
 		public Image(Stream stream)
-			: base()
+			: this()
 		{
 
 			LoadStream(stream);
@@ -47,7 +68,7 @@ namespace MonoWorks.Controls
 		/// Loads an image from a file.
 		/// </summary>
 		/// <param name="fileName"> The name of the image file. </param>
-		public Image(string fileName) : base()
+		public Image(string fileName) : this()
 		{
 			
 			LoadFile(fileName);
@@ -86,6 +107,28 @@ namespace MonoWorks.Controls
 		{	
 			surface = new Cairo.ImageSurface(fileName);
 			
+		}
+		
+		/// <summary>
+		/// Parses a string to load an image.
+		/// </summary>
+		/// <remarks>The string can have several forms:
+		///  - comma-separated resource and assembly names, like "myImage.png,MyAssembly"
+		///  - "icon:" followed by comma-separated icon name and size, like "icon:apply,48"
+		/// </remarks>
+		public void Parse(string valString)
+		{
+			if (valString.StartsWith("icon:"))
+			{
+				
+			}
+			else // try to load it from an assembly
+			{
+				var comps = valString.Split(',');
+				if (comps.Length != 2)
+					throw new ImageParseException();
+				LoadStream(ResourceHelper.GetStream(comps[0], comps[1]));
+			}
 		}
 		
 		/// <value>
