@@ -3,13 +3,18 @@
 		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
 	<mwc:Dialog Name="controls-dialog" Title="MonoWorks Controls">
 		<mwc:Stack Orientation="Vertical">
-			<mwc:Label>First Label</mwc:Label>
 			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>Buttons</mwc:Label>
 				<mwc:Button ButtonStyle="Label" LabelString="Just a label"></mwc:Button>
-				<mwc:Button ButtonStyle="Image" Image="image-loading.png,MonoWorks.DemoGtk"></mwc:Button>
+				<mwc:Button ButtonStyle="ImageNextToLabel" LabelString="Image Next To Label" 
+					Image="image-loading.png,MonoWorks.DemoGtk" ></mwc:Button>
 			</mwc:Stack>
-			<mwc:Label>Another Label</mwc:Label>
+			<mwc:Stack Orientation="Horizontal">
+				<mwc:Label>More Buttons</mwc:Label>
+				<mwc:Button ButtonStyle="Image" Image="image-loading.png,MonoWorks.DemoGtk"></mwc:Button>
+				<mwc:Button ButtonStyle="ImageOverLabel" LabelString="Image Over Label" 
+					Image="image-loading.png,MonoWorks.DemoGtk" ></mwc:Button>
+			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
 </mwx:Ui>
