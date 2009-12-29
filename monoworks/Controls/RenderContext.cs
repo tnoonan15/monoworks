@@ -75,7 +75,7 @@ namespace MonoWorks.Controls
 		public void Pop()
 		{
 			if (positionStack.Count < 1)
-				throw new Exception("The position stack is empty. This means you forgot to call RenderContext.Pop() at some point.");
+				throw new Exception("The position stack is empty. This means you forgot to call RenderContext.Push() at some point.");
 			Cairo.Restore();
 			Cairo.MoveTo(positionStack.Pop());
 		}

@@ -26,7 +26,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.GuiWpf;
-using MonoWorks.Rendering.Controls;
+using MonoWorks.Controls;
 
 namespace MonoWorks.DemoWpf
 {
@@ -39,9 +39,10 @@ namespace MonoWorks.DemoWpf
 			: base()
 		{
             ToolBar toolbar = new ToolBar();
-            toolbar.Position = new Coord(400, 400);
+            toolbar.Origin = new Coord(400, 400);
             toolbar.Orientation = Orientation.Vertical;
-            viewport.RenderList.AddOverlay(toolbar);
+			var pane = new OverlayPane(toolbar);
+            viewport.RenderList.AddOverlay(pane);
 
 			Button button1 = new Button("Hello World");
             toolbar.Add(button1);

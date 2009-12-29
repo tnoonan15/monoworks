@@ -91,6 +91,7 @@ namespace MonoWorks.Plotting
 			base.ComputeGeometry();
 			
 			MinSize = new Coord(14, 14);
+			RenderSize = MinSize;
 		}
 
 
