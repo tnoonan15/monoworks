@@ -50,7 +50,6 @@ namespace MonoWorks.DemoWpf
 			viewport.RenderList.AddActor(axesBox);
 			viewport.Camera.Projection = Projection.Parallel;
 			viewport.Camera.SetViewDirection(ViewDirection.Front);
-			viewport.SetInteractionState(InteractionState.Interact2D);
 
 			DockViewport();
 

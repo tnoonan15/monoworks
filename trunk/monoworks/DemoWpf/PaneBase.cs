@@ -23,7 +23,7 @@ using System.Windows;
 using swc = System.Windows.Controls;
 
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.ViewportControls;
+using MonoWorks.Controls.StandardViewport;
 using MonoWorks.Plotting;
 using MonoWorks.GuiWpf;
 using MonoWorks.GuiWpf.PlotControls;

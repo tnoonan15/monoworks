@@ -265,7 +265,7 @@ namespace MonoWorks.Controls
 			if (surface == null || surface.Width != IntWidth || surface.Height != IntHeight)
 			{
 				imageData = new byte[IntWidth * IntHeight * 4];
-				surface = new ImageSurface( imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				surface = new ImageSurface( ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface
@@ -276,7 +276,6 @@ namespace MonoWorks.Controls
 				cr.Paint();
 				
 				cr.Operator = Operator.Over;
-				cr.Color = new Cairo.Color(0, 0, 1, 1);
 				cr.MoveTo(0,0);
 				RenderCairo(new RenderContext(cr, DecoratorService.Get(viewport)));
 				
@@ -306,7 +305,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected virtual bool HitTest(Coord pos)
 		{
-			if (RenderSize == null)
+			if (RenderSize == null || LastPosition == null)
 				return false;
 			return pos >= LastPosition && pos <= (LastPosition + RenderSize);
 		}

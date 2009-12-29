@@ -57,8 +57,8 @@ namespace MonoWorks.GuiWpf.Tree
 		{
 			//Console.WriteLine("tree add entity {0}", entity.Name);
 
-			if (entity.Parent != null && items.ContainsKey(entity.Parent))
-				AddEntity(entity, GetItem(entity.Parent));
+			if (entity.Parent != null && items.ContainsKey(entity.ParentEntity))
+				AddEntity(entity, GetItem(entity.ParentEntity));
 			else
 				AddEntity(entity, null);
 		}
