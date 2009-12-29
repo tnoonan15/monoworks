@@ -129,9 +129,15 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The image on the button.
 		/// </value>
+		[MwxProperty]
 		public Image Image
 		{
-			get {return image;}
+			get
+			{
+				if (image == null)
+					image = new Image();
+				return image;
+			}
 			set {image = value;}
 		}
 		
