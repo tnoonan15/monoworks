@@ -279,7 +279,10 @@ namespace MonoWorks.Controls
 					FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
 			}
 			else
+			{
+				StrokeRectangle(button.RenderSize, button.HitState);
 				FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
+			}
 		}
 		
 		
