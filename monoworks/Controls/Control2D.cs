@@ -24,6 +24,7 @@ using Cairo;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
+using System.Runtime.InteropServices;
 
 
 
@@ -252,6 +253,8 @@ namespace MonoWorks.Controls
 				
 				
 		#region Image Data
+
+		private GCHandle _gch;
 		
 		/// <summary>
 		/// Renders the control to an internal image surface.
@@ -260,12 +263,22 @@ namespace MonoWorks.Controls
 		{
 			if (IsDirty)
 				ComputeGeometry();
+
+			// nothing to see here, folks. move along
+			if (IntWidth == 0 || IntHeight == 0)
+				return;
 			
 			// remake the image surface, if needed
 			if (surface == null || surface.Width != IntWidth || surface.Height != IntHeight)
 			{
+				if (surface != null)
+				{
+					surface.Destroy();
+					_gch.Free();
+				}
 				imageData = new byte[IntWidth * IntHeight * 4];
-				surface = new ImageSurface( imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				_gch = GCHandle.Alloc(imageData, GCHandleType.Pinned);
+				surface = new ImageSurface( ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface
