@@ -278,7 +278,7 @@ namespace MonoWorks.Controls
 				}
 				imageData = new byte[IntWidth * IntHeight * 4];
 				_gch = GCHandle.Alloc(imageData, GCHandleType.Pinned);
-				surface = new ImageSurface( ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				surface = new ImageSurface(imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface
@@ -349,7 +349,7 @@ namespace MonoWorks.Controls
 		}
 		
 		public override void OnMouseMotion(MouseEvent evt)
-		{			
+		{
 			if (isHoverable && !evt.Handled)
 			{
 				if (HitTest(evt.Pos)) // it's hovering now

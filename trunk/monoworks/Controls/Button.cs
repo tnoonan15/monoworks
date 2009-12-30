@@ -45,7 +45,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public Button() : base()
 		{
-			
+			IsHoverable = true;
 		}
 		
 		/// <summary>
@@ -83,12 +83,11 @@ namespace MonoWorks.Controls
 		/// Create a button with the given label and image.
 		/// </summary>
 		public Button(Label label, Image image)
-			: base()
+			: this()
 		{
 			this.label = label;
 			this.image = image;
 			ButtonStyle = ButtonStyle.ImageOverLabel;
-			IsHoverable = true;
 		}
 
 		private Label label;

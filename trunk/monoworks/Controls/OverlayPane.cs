@@ -177,6 +177,8 @@ namespace MonoWorks.Controls
 			
 			if (Control == null)
 				return;
+			
+			Control.ComputeGeometry();
 						
 			if (texture == 0)
 				Gl.glGenTextures(1, out texture);
