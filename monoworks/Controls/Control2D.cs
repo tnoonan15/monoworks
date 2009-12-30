@@ -265,7 +265,7 @@ namespace MonoWorks.Controls
 			if (surface == null || surface.Width != IntWidth || surface.Height != IntHeight)
 			{
 				imageData = new byte[IntWidth * IntHeight * 4];
-				surface = new ImageSurface( ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				surface = new ImageSurface( imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface
