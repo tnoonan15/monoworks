@@ -116,6 +116,7 @@ namespace MonoWorks.Controls
 				children.Add(child);
 			else
 				children[index] = child;
+			child.ParentControl = this;
 			MakeDirty();
 		}
 
@@ -164,6 +165,7 @@ namespace MonoWorks.Controls
 			foreach (Control2D child in ChildrenCopy)
 				child.OnMouseMotion(evt);
 		}
+
 
 #endregion
 

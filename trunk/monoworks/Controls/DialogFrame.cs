@@ -125,8 +125,8 @@ namespace MonoWorks.Controls
 			base.OnButtonPress(evt);
 			
 			_closeButton.OnButtonPress(evt);
-			foreach (var child in Children)
-				child.OnButtonPress(evt);
+//			foreach (var child in Children)
+//				child.OnButtonPress(evt);
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
@@ -134,8 +134,8 @@ namespace MonoWorks.Controls
 			base.OnButtonRelease(evt);
 			
 			_closeButton.OnButtonRelease(evt);
-			foreach (var child in Children)
-				child.OnButtonRelease(evt);
+//			foreach (var child in Children)
+//				child.OnButtonRelease(evt);
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
@@ -143,8 +143,8 @@ namespace MonoWorks.Controls
 			base.OnMouseMotion(evt);
 			
 			_closeButton.OnMouseMotion(evt);
-			foreach (var child in Children)
-				child.OnMouseMotion(evt);
+//			foreach (var child in Children)
+//				child.OnMouseMotion(evt);
 		}
 		
 		#endregion
