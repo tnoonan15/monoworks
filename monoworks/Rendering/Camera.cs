@@ -824,11 +824,12 @@ namespace MonoWorks.Rendering
 
 		public void Animate(double progress)
 		{
-			center = (animStopCenter - animStartCenter) * progress + animStartCenter;
-			double dist = (animStopDist - animStartDist) * progress + animStartDist;
-			Vector dir = (animStopDir - animStartDir) * progress + animStartDir;
+			var f = Ease.InOutFactor(progress, EaseType.Quadratic);
+			center = (animStopCenter - animStartCenter) * f + animStartCenter;
+			double dist = (animStopDist - animStartDist) * f + animStartDist;
+			Vector dir = (animStopDir - animStartDir) * f + animStartDir;
 			pos = center + dir * dist;
-			upVec = (animStopUpVec - animStartUpVec) * progress + animStartUpVec;
+			upVec = (animStopUpVec - animStartUpVec) * f + animStartUpVec;
 			RecomputeUpVector();
 		}
 

@@ -109,6 +109,7 @@
     <Compile Include="ModalOverlay.cs" />
     <Compile Include="MwxSource.cs" />
     <Compile Include="MwxPropertyAttribute.cs" />
+    <Compile Include="Ease.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />
