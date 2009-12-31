@@ -182,31 +182,32 @@ namespace MonoWorks.Controls
 			Cairo.LinearGradient grad = null;
 			var x = point.X;
 			var y = point.Y;
+			var r = (size.X + size.Y) / 2.0;
 			switch (location)
 			{
 			case AnchorLocation.E:
 				grad = new Cairo.LinearGradient(x + size.X, y, x, y);
 				break;
 			case AnchorLocation.NE:
-				grad = new Cairo.LinearGradient(x + size.X, y, x, y + size.Y);
+				grad = new Cairo.LinearGradient(x + r, y, x, y + r);
 				break;
 			case AnchorLocation.N:
 				grad = new Cairo.LinearGradient(x, y, x, y + size.Y);
 				break;
 			case AnchorLocation.NW:
-				grad = new Cairo.LinearGradient(x, y, x + size.X, y + size.Y);
+				grad = new Cairo.LinearGradient(x, y, x + r, y + r);
 				break;
 			case AnchorLocation.W:
 				grad = new Cairo.LinearGradient(x, y, x + size.X, y);
 				break;
 			case AnchorLocation.SW:
-				grad = new Cairo.LinearGradient(x, y + size.Y, x + size.X, y);
+				grad = new Cairo.LinearGradient(x, y + r, x + r, y);
 				break;
 			case AnchorLocation.S:
 				grad = new Cairo.LinearGradient(x, y + size.Y, x, y);
 				break;
 			case AnchorLocation.SE:
-				grad = new Cairo.LinearGradient(x + size.X, y + size.Y, x, y);
+				grad = new Cairo.LinearGradient(x + r, y + r, x, y);
 				break;
 			}
 			
@@ -332,7 +333,7 @@ namespace MonoWorks.Controls
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Color = StrokeColors.GetColor(hitState).Cairo;
 			Context.Cairo.LineWidth = StrokeWidth;
-			RectanglePath(point.Coord().HalfCeiling, size.Floor, rounded);
+			RectanglePath(point.Coord().HalfCeiling, size.Floor-1, rounded);
 			Context.Cairo.Stroke();
 			Context.Pop();
 		}
