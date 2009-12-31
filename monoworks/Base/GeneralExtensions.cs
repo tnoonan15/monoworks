@@ -28,10 +28,6 @@ namespace MonoWorks.Base
 	/// </summary>
 	public static class GeneralExtensions
 	{
-
-
-
-
 		/// <summary>
 		/// Parse a string with an Enum type.
 		/// </summary>
@@ -66,6 +62,6 @@ namespace MonoWorks.Base
 			T enumType = (T)Enum.Parse(t, value, ignoreCase);
 			return enumType;
 		}
-
+		
 	}
 }
