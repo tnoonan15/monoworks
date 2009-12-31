@@ -53,10 +53,25 @@ namespace MonoWorks.Controls
 		[MwxProperty]
 		public Orientation Orientation
 		{
-			get {return Orientation;}
+			get { return Orientation; }
 			set
 			{
 				orientation = value;
+				MakeDirty();
+			}
+		}
+		
+		private bool _forceFill = false;
+		/// <summary>
+		/// If true, the stack forces all children to be the same 
+		/// width for Vertical and height for Horizontal.
+		/// </summary>
+		[MwxProperty]
+		public bool ForceFill 
+		{
+			get { return _forceFill; }
+			set {
+				_forceFill = value;
 				MakeDirty();
 			}
 		}
@@ -99,13 +114,16 @@ namespace MonoWorks.Controls
 			else 
 				RenderSize.Y = span;
 			
-			// assign the children size
-			foreach (Control2D child in Children)
+			// force the children to fill their area
+			if (ForceFill)
 			{
-				if (orientation == Orientation.Horizontal)
-					child.RenderHeight = RenderSize.Y;
-				else
-					child.RenderWidth = RenderSize.X;
+				foreach (Control2D child in Children)
+				{
+					if (orientation == Orientation.Horizontal)
+						child.RenderHeight = RenderSize.Y;
+					else
+						child.RenderWidth = RenderSize.X;
+				}
 			}
 			
 			// add padding to the size
