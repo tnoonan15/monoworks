@@ -187,7 +187,6 @@ namespace MonoWorks.Rendering
 		{
 			// get the type
 			var className = GetElementClassName(reader);
-			Console.WriteLine ("parsing " + className);
 			Type type = null;
 			try
 			{

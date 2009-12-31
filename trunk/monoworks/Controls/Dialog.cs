@@ -107,8 +107,8 @@ namespace MonoWorks.Controls
 			gl.glVertex2i(0, viewport.HeightGL);
 			gl.glEnd();
 			
-			_overlayPane.Origin = new Coord((viewport.WidthGL - _frame.RenderWidth)/2, 
-			                                (viewport.HeightGL - _frame.RenderHeight)/2);
+			_overlayPane.Origin = new Coord((Math.Round(viewport.WidthGL - _frame.RenderWidth)/2), 
+			                                Math.Round((viewport.HeightGL - _frame.RenderHeight)/2));
 			
 			
 			_overlayPane.RenderOverlay(viewport);

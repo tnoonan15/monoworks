@@ -92,11 +92,27 @@ namespace MonoWorks.Base
 		}
 		
 		/// <summary>
+		/// Addition operator with a scalar.
+		/// </summary>
+		public static Coord operator+(Coord lhs, double rhs)
+		{
+			return new Coord(lhs.X + rhs, lhs.Y + rhs);
+		}
+		
+		/// <summary>
 		/// Subtraction operator.
 		/// </summary>
 		public static Coord operator-(Coord lhs, Coord rhs)
 		{
 			return new Coord(lhs.X - rhs.X, lhs.Y - rhs.Y);
+		}
+		
+		/// <summary>
+		/// Subtraction operator with a scalar.
+		/// </summary>
+		public static Coord operator-(Coord lhs, double rhs)
+		{
+			return new Coord(lhs.X - rhs, lhs.Y - rhs);
 		}
 		
 		/// <summary>
@@ -160,6 +176,63 @@ namespace MonoWorks.Base
 		{
 			return new Vector(X, Y, 0);
 		}
+		
+		
+		#region Rounding
+		
+		/// <summary>
+		/// Returns a new coord with each dimension rounded. 
+		/// </summary>
+		public Coord Round
+		{
+			get {
+				return new Coord(Math.Round(X), Math.Round(Y));
+			}
+		}
+		
+		/// <summary>
+		/// Returns a new coord that is the round of each dimension minus 0.5. 
+		/// </summary>
+		/// <remarks>Useful for Cairo rendering on exact pixels.</remarks>
+		public Coord HalfFloor
+		{
+			get {
+				return new Coord(Math.Round(X) - 0.5, Math.Round(Y) - 0.5);
+			}
+		}
+		
+		/// <summary>
+		/// Returns a new coord that is the round of each dimension plus 0.5. 
+		/// </summary>
+		/// <remarks>Useful for Cairo rendering on exact pixels.</remarks>
+		public Coord HalfCeiling
+		{
+			get {
+				return new Coord(Math.Round(X) + 0.5, Math.Round(Y) + 0.5);
+			}
+		}
+		
+		/// <summary>
+		/// Returns a new coord that is the floor of each dimension minus. 
+		/// </summary>
+		public Coord Floor
+		{
+			get {
+				return new Coord(Math.Floor(X), Math.Floor(Y));
+			}
+		}
+		
+		/// <summary>
+		/// Returns a new coord that is the ceiling of each dimension. 
+		/// </summary>
+		public Coord Ceiling
+		{
+			get {
+				return new Coord(Math.Ceiling(X), Math.Ceiling(Y));
+			}
+		}
+		
+		#endregion
 
 
 		#region Comparison Operators

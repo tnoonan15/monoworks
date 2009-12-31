@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace MonoWorks.Base
 	public static class CollectionExtensions
 	{
 		/// <summary>
-		/// Writes a list to a string by concatonating the element string values.
+		/// Writes a list to a string by concatenating the element string values.
 		/// </summary>
 		/// <param name="list"></param>
 		/// <returns></returns>

@@ -56,8 +56,99 @@ namespace MonoWorks.Controls
 				new Color(0.5f, 0.5f, 0.5f)
 			);
 			StrokeWidth = 1;
+			CornerRadius = 6;
 		}
 		
+		
+		/// <summary>
+		/// The radius of rounded corners.
+		/// </summary>
+		public double CornerRadius {get; set;}
+		
+		/// <summary>
+		/// A Corner value specifcying all of the corners.
+		/// </summary>
+		public const Corner AllCorners = Corner.NE | Corner.NW | Corner.SE | Corner.SW;
+		
+		/// <summary>
+		/// Creates a rectangular path with the given corners rounded.
+		/// </summary>
+		protected virtual void RectanglePath(Coord point, Coord size, Corner rounded)
+		{
+			Context.Cairo.NewPath();
+			
+			// NW corner
+			if ((rounded & Corner.NW) == Corner.NW)
+			{
+				Context.Cairo.MoveTo(point.X, point.Y + CornerRadius);
+				Context.Cairo.Arc(point.X + CornerRadius, point.Y + CornerRadius, CornerRadius, Math.PI, -Math.PI / 2);
+				if ((rounded & Corner.NE) == Corner.NE)
+					Context.Cairo.RelLineTo(size.X - 2 * CornerRadius, 0);
+				else
+					Context.Cairo.RelLineTo(size.X - CornerRadius, 0);
+			}
+			else
+			{
+				Context.Cairo.MoveTo(point.X, point.Y);
+				if ((rounded & Corner.NE) == Corner.NE)
+					Context.Cairo.RelLineTo(size.X - CornerRadius, 0);
+				else
+					Context.Cairo.RelLineTo(size.X, 0);
+			}
+			
+			// NE corner
+			if ((rounded & Corner.NE) == Corner.NE)
+			{
+				Context.Cairo.Arc(point.X + size.X - CornerRadius, point.Y + CornerRadius, CornerRadius, -Math.PI / 2, 0);
+				if ((rounded & Corner.SE) == Corner.SE)
+					Context.Cairo.RelLineTo(0, size.Y - 2 * CornerRadius);
+				else
+					Context.Cairo.RelLineTo(0, size.Y - CornerRadius);
+			}
+			else
+			{
+				if ((rounded & Corner.SE) == Corner.SE)
+					Context.Cairo.RelLineTo(0, size.Y - CornerRadius);
+				else
+					Context.Cairo.RelLineTo(0, size.Y);
+			}
+			
+			// SE corner
+			if ((rounded & Corner.SE) == Corner.SE)
+			{
+				Context.Cairo.Arc(point.X + size.X - CornerRadius, point.Y + size.Y - CornerRadius, CornerRadius, 0, Math.PI / 2);
+				if ((rounded & Corner.SW) == Corner.SW)
+					Context.Cairo.RelLineTo(-size.X + 2 * CornerRadius, 0);
+				else
+					Context.Cairo.RelLineTo(-size.X + CornerRadius, 0);
+			}
+			else
+			{
+				if ((rounded & Corner.SW) == Corner.SW)
+					Context.Cairo.RelLineTo(-size.X + CornerRadius, 0);
+				else
+					Context.Cairo.RelLineTo(-size.X, 0);
+			}
+			
+			// SW corner
+			if ((rounded & Corner.SW) == Corner.SW)
+			{
+				Context.Cairo.Arc(point.X + CornerRadius, point.Y + size.Y - CornerRadius, CornerRadius, Math.PI / 2, Math.PI);
+				if ((rounded & Corner.NW) == Corner.NW)
+					Context.Cairo.RelLineTo(0, -size.Y + 2 * CornerRadius);
+				else
+					Context.Cairo.RelLineTo(0, -size.Y + CornerRadius);
+			}
+			else
+			{
+				if ((rounded & Corner.NW) == Corner.NW)
+					Context.Cairo.RelLineTo(0, -size.Y + CornerRadius);
+				else
+					Context.Cairo.RelLineTo(0, -size.Y);
+			}
+			
+			Context.Cairo.ClosePath();
+		}
 		
 			
 		#region Background Rendering
@@ -133,9 +224,9 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Renders a rectangle portion of a control.
 		/// </summary>
-		protected void FillRectangle(Coord size, HitState hitState, AnchorLocation location)
+		protected void FillRectangle(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
 		{			
-			var point = Context.Push();
+			var point = Context.Push();	
 			
 			// Create the gradient
 			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size, location, 
@@ -144,7 +235,7 @@ namespace MonoWorks.Controls
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Pattern = grad;
-			Context.Cairo.Rectangle(point, size.X, size.Y);
+			RectanglePath(point.Coord().Ceiling + 1, size.Floor - 2, rounded);
 			Context.Cairo.Fill();
 			
 			Context.Pop();
@@ -233,11 +324,15 @@ namespace MonoWorks.Controls
 		/// <param name="hitState">
 		/// Used to look up which color to use for the stroke.
 		/// </param>
-		protected void StrokeRectangle(Coord size, HitState hitState)
+		protected void StrokeRectangle(Coord size, Corner rounded, HitState hitState)
 		{
-			var point = Context.Push();
+			var point = Context.Push();			
+			
+			// draw the rectangle
+			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Color = StrokeColors.GetColor(hitState).Cairo;
-			Context.Cairo.Rectangle(point, size.X, size.Y);
+			Context.Cairo.LineWidth = StrokeWidth;
+			RectanglePath(point.Coord().HalfCeiling, size.Floor, rounded);
 			Context.Cairo.Stroke();
 			Context.Pop();
 		}
@@ -263,7 +358,8 @@ namespace MonoWorks.Controls
 			{
 				Decorate(control as Button);
 			}
-			if (control is ToolBar) {
+			if (control is ToolBar) 
+			{
 				Decorate(control as ToolBar);
 			}
 		}
@@ -272,16 +368,16 @@ namespace MonoWorks.Controls
 		{
 			var parent = button.ParentControl;
 			if (parent == null)
-				FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
+				FillRectangle(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
 			else if (parent is ToolBar || parent is DialogFrame)
 			{
 				if (button.HitState != HitState.None)
-					FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
+					FillRectangle(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
 			}
 			else
 			{
-				StrokeRectangle(button.RenderSize, button.HitState);
-				FillRectangle(button.RenderSize, button.HitState, DefaultBackgroundLocation);
+				FillRectangle(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
+				StrokeRectangle(button.RenderSize, AllCorners, button.HitState);
 			}
 		}
 		
@@ -290,11 +386,28 @@ namespace MonoWorks.Controls
 		{			
 			if (toolbar.Pane != null && toolbar.Pane is AnchorPane) // the toolbar is anchored
 			{
-				FillRectangle(toolbar.RenderSize, toolbar.HitState, (toolbar.Pane as AnchorPane).Location);
+				var location = (toolbar.Pane as AnchorPane).Location;
+				Corner corner = AllCorners;
+				switch (location)
+				{
+				case AnchorLocation.N:
+					corner = Corner.SE | Corner.SW;
+					break;
+				case AnchorLocation.E:
+					corner = Corner.NW | Corner.SW;
+					break;
+				case AnchorLocation.S:
+					corner = Corner.NW | Corner.NE;
+					break;
+				case AnchorLocation.W:
+					corner = Corner.NE | Corner.SE;
+					break;					
+				}
+				FillRectangle(toolbar.RenderSize, corner, toolbar.HitState, location);
 			}
 			else // the toolbar is not anchored
 			{
-				FillRectangle(toolbar.RenderSize, toolbar.HitState, DefaultBackgroundLocation);
+				FillRectangle(toolbar.RenderSize, AllCorners, toolbar.HitState, DefaultBackgroundLocation);
 			}
 		}
 		
@@ -322,9 +435,10 @@ namespace MonoWorks.Controls
 		
 		protected virtual void Decorate(DialogFrame dialog)
 		{
-			FillRectangle(dialog.RenderSize, HitState.None, AnchorLocation.SE);
-			FillRectangle(new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), HitState.None, AnchorLocation.S);
-			StrokeRectangle(dialog.RenderSize, HitState.None);
+			FillRectangle(dialog.RenderSize, AllCorners, HitState.None, AnchorLocation.SE);
+			FillRectangle(new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), 
+			              Corner.NE | Corner.NW, HitState.None, AnchorLocation.S);
+			StrokeRectangle(dialog.RenderSize, AllCorners, HitState.None);
 		}
 				
 		#endregion
