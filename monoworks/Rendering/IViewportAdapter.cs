@@ -86,6 +86,11 @@ namespace MonoWorks.Rendering
 		/// Takes a snapshot of the viewport and exports it to the given file.
 		/// </summary>
 		void Export(string fileName);
+		
+		/// <summary>
+		/// Set the current cursor to the given type.
+		/// </summary>
+		void SetCursor(CursorType type);
 
 		/// <summary>
 		/// Creates a file dialog with the given dialog definition.

@@ -114,7 +114,7 @@ namespace MonoWorks.GuiGtk
 			if (args.Event.Type == Gdk.EventType.TwoButtonPress)
 				multiplicity = ClickMultiplicity.Double;
 			
-			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
+			MouseButtonEvent evt = new MouseButtonEvent(Viewport, new Coord(args.Event.X, HeightGL - args.Event.Y), 
 			                                            (int)args.Event.Button, GetModifier(args.Event.State), multiplicity);
 			Viewport.OnButtonPress(evt);
 			
@@ -123,8 +123,8 @@ namespace MonoWorks.GuiGtk
 		}
 		
 		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
-		{			
-			MouseButtonEvent evt = new MouseButtonEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), 
+		{
+			MouseButtonEvent evt = new MouseButtonEvent(Viewport, new Coord(args.Event.X, HeightGL - args.Event.Y), 
 			                                      (int)args.Event.Button, GetModifier(args.Event.State));
 			Viewport.OnButtonRelease(evt);
 			
@@ -132,20 +132,20 @@ namespace MonoWorks.GuiGtk
 		}
 		
 		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
-		{			
-			MouseEvent evt = new MouseEvent(new Coord(args.Event.X, HeightGL - args.Event.Y), GetModifier(args.Event.State));			
+		{
+			MouseEvent evt = new MouseEvent(Viewport, new Coord(args.Event.X, HeightGL - args.Event.Y), GetModifier(args.Event.State));			
 			Viewport.OnMouseMotion(evt);
 			
 			PaintGL();
 		}
 		
 		protected virtual void OnScroll(object sender, Gtk.ScrollEventArgs args)
-		{			
+		{
 			WheelDirection direction = WheelDirection.Up;
 			if (args.Event.Direction == Gdk.ScrollDirection.Down)
 				direction = WheelDirection.Down;
 			
-			MouseWheelEvent evt = new MouseWheelEvent(direction, GetModifier(args.Event.State));
+			MouseWheelEvent evt = new MouseWheelEvent(Viewport, direction, GetModifier(args.Event.State));
 			Viewport.OnMouseWheel(evt);
 			
 			PaintGL();
@@ -165,7 +165,22 @@ namespace MonoWorks.GuiGtk
 		
 		public void ClearToolTip()
 		{
+		}
 				
+		/// <summary>
+		/// Set the current cursor to the given type.
+		/// </summary>
+		public void SetCursor(CursorType type)
+		{
+			switch (type)
+			{
+			case CursorType.Normal:
+				GdkWindow.Cursor = new Gdk.Cursor(Gdk.CursorType.Arrow);
+				break;
+			case CursorType.Beam:
+				GdkWindow.Cursor = new Gdk.Cursor(Gdk.CursorType.Xterm);
+				break;
+			}
 		}
 		
 #endregion

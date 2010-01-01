@@ -82,10 +82,11 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Create a button with the given label and image.
 		/// </summary>
-		public Button(Label label, Image image)
+		public Button(Label label, Image image) 
 			: this()
 		{
 			this.label = label;
+			label.IsHoverable = false;
 			this.image = image;
 			ButtonStyle = ButtonStyle.ImageOverLabel;
 		}
@@ -96,10 +97,11 @@ namespace MonoWorks.Controls
 		/// </value>
 		public Label Label
 		{
-			get {return label;}
+			get { return label; }
 			set
 			{
 				label = value;
+				label.IsHoverable = false;
 				MakeDirty();
 			}
 		}
@@ -114,13 +116,16 @@ namespace MonoWorks.Controls
 			{
 				if (label == null)
 					return "";
-				return label.Text;
+				return label.Body;
 			}
 			set
 			{
 				if (label == null)
+				{
 					label = new Label();
-				label.Text = value;
+					label.IsHoverable = false;
+				}
+				label.Body = value;
 			}
 		}
 		

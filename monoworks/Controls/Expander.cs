@@ -81,8 +81,8 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public string ButtonText
 		{
-			get { return label.Text; }
-			set { label.Text = value; }
+			get { return label.Body; }
+			set { label.Body = value; }
 		}
 
 		private Label label = new Label("");

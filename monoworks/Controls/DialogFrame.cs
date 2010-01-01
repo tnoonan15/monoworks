@@ -46,7 +46,9 @@ namespace MonoWorks.Controls
 			UserSize = new Coord(300, 300);
 			
 			var closeIcon = new Image(ResourceHelper.GetStream("close.png"));
-			_closeButton = new Button(closeIcon);
+			_closeButton = new Button(closeIcon) {
+				Padding = 3
+			};
 			_closeButton.Clicked += delegate(object sender, EventArgs e) {
 				if (Closed != null)
 					Closed(this, e);
@@ -66,8 +68,8 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public string Title
 		{
-			get {return _titleLabel.Text;}
-			set {_titleLabel.Text = value;}
+			get {return _titleLabel.Body;}
+			set {_titleLabel.Body = value;}
 		}
 		
 		public override void ComputeGeometry()
