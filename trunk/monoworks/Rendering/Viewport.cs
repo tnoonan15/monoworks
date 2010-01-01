@@ -27,6 +27,11 @@ using MonoWorks.Framework;
 namespace MonoWorks.Rendering
 {
 	/// <summary>
+	/// The types of cursors that MonoWorks ensures will be available on all platforms. 
+	/// </summary>
+	public enum CursorType {Normal, Beam}
+	
+	/// <summary>
 	/// The Viewport is the interface between the GUI and rendering pipeline.
 	/// </summary>
 	public class Viewport : IMouseHandler, IKeyHandler
@@ -314,6 +319,14 @@ namespace MonoWorks.Rendering
 		public void ClearToolTip()
 		{
 			adapter.ClearToolTip();
+		}
+
+		/// <summary>
+		/// Set the current cursor to the given type.
+		/// </summary>
+		public void SetCursor(CursorType type)
+		{
+			adapter.SetCursor(type);
 		}
 
 		#endregion

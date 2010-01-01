@@ -48,10 +48,10 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public string Text
 		{
-			get { return label.Text; }
+			get { return label.Body; }
 			set
 			{
-				label.Text = value;
+				label.Body = value;
 				MakeDirty();
 			}
 		}

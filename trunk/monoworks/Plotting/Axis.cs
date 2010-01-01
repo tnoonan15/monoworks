@@ -43,7 +43,7 @@ namespace MonoWorks.Plotting
 			tickLength = 8;
 			
 			labelPane = new LabelPane();
-			labelPane.Label.Text = "label";
+			labelPane.Label.Body = "label";
 //			label.HorizontalAlignment = HorizontalAlignment.Center;
 
 			Start = new Vector();
@@ -77,8 +77,8 @@ namespace MonoWorks.Plotting
 		/// </value>
 		public string Label
 		{
-			get {return labelPane.Label.Text;}
-			set {labelPane.Label.Text = value;}
+			get {return labelPane.Label.Body;}
+			set {labelPane.Label.Body = value;}
 		}
 		
 #endregion
@@ -148,7 +148,7 @@ namespace MonoWorks.Plotting
 			for (int i = 0; i < tickVals.Length; i++)
 			{
 				tickLabels[i] = new LabelPane();
-				tickLabels[i].Label.Text = String.Format("{0:0.###}", tickVals[i]);
+				tickLabels[i].Label.Body = String.Format("{0:0.###}", tickVals[i]);
 			}
 		}
 

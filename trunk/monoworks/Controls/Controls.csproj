@@ -68,6 +68,7 @@
     <Compile Include="DecoratorService.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="DialogFrame.cs" />
+    <Compile Include="TextBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="StandardViewport\Viewport.ui" />

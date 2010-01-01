@@ -109,44 +109,44 @@ namespace MonoWorks.Controls
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			base.OnButtonPress (evt);
+			base.OnButtonPress(evt);
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonPress(controlEvt);
 			}
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
-			base.OnButtonRelease (evt);
+			base.OnButtonRelease(evt);
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonRelease(controlEvt);
 			}
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			base.OnMouseMotion (evt);
+			base.OnMouseMotion(evt);
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseEvent(GetControlPoint(evt.Pos), evt.Modifier);
+				var controlEvt = new MouseEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Modifier);
 				Control.OnMouseMotion(controlEvt);
 			}
 		}
 
 		public override void OnMouseWheel(MouseWheelEvent evt)
 		{
-			base.OnMouseWheel (evt);
+			base.OnMouseWheel(evt);
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseWheelEvent(evt.Direction, evt.Modifier);
+				var controlEvt = new MouseWheelEvent(evt.Viewport, evt.Direction, evt.Modifier);
 				Control.OnMouseWheel(controlEvt);
 			}
 		}

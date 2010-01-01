@@ -481,8 +481,8 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public override string Title
 		{
-			get { return titlePane.Label.Text; }
-			set { titlePane.Label.Text = value; }
+			get { return titlePane.Label.Body; }
+			set { titlePane.Label.Body = value; }
 		}
 
 		/// <summary>

@@ -20,6 +20,7 @@ using System;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
@@ -34,8 +35,9 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public Label() : base()
 		{
-			Text = "";
+			Body = "";
 			FontSize = 12;
+			IsHoverable = true;
 		}
 		
 		/// <summary>
@@ -44,20 +46,44 @@ namespace MonoWorks.Controls
 		/// <param name="text"> The text to display. </param>
 		public Label(string text) : this()
 		{
-			Text = text;
+			Body = text;
 		}
 
+		private double _fontSize;
+		/// <summary>
+		/// The font size (in pixels).
+		/// </summary>
+		[MwxProperty]
+		public double FontSize {
+			get { return _fontSize; }
+			set {
+				_fontSize = value;
+				MakeDirty();
+			}
+		}
 
-		private string text;
-		/// <value>
-		/// The text displayed by the label.
-		/// </value>
-		public string Text
-		{
-			get {return text;}
-			set
-			{
-				text = value;
+		private bool _isMultiLine;
+		/// <summary>
+		/// If true, the text box can hold multiple lines of text.
+		/// </summary>
+		[MwxProperty]
+		public bool IsMultiLine {
+			get { return _isMultiLine; }
+			set {
+				_isMultiLine = value;
+				MakeDirty();
+			}
+		}
+
+		private string _body;
+		/// <summary>
+		/// The body of text inside the box.
+		/// </summary>
+		[MwxProperty]
+		public string Body {
+			get { return _body; }
+			set {
+				_body = value;
 				MakeDirty();
 			}
 		}
@@ -67,13 +93,11 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public void Parse(string valString)
 		{
-			Text = valString;
+			Body = valString;
 		}
-
-		/// <summary>
-		/// The font size of the text.
-		/// </summary>
-		public double FontSize {get; set;}
+		
+		
+		#region Rendering
 
 		/// <summary>
 		/// The extents of the text.
@@ -82,11 +106,14 @@ namespace MonoWorks.Controls
 		
 		private static Cairo.ImageSurface dummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
 
+		/// <summary>
+		/// Returns the lines of the body separated out.
+		/// </summary>
 		private string[] Lines
 		{
 			get
 			{
-				return text.Split(new string[]{"\n"}, StringSplitOptions.None);
+				return Body.Split(new string[]{"\n"}, StringSplitOptions.None);
 			}
 		}
 		
@@ -94,7 +121,7 @@ namespace MonoWorks.Controls
 		{
 			base.ComputeGeometry();
 			
-			if (text == null)
+			if (Body == null)
 				return;
 			
 			using (var cr = new Cairo.Context(dummySurface))
@@ -107,11 +134,12 @@ namespace MonoWorks.Controls
 					extents.X = Math.Max(crExtents.Width, extents.X);
 					extents.Y += FontSize + Padding;
 				}
-				extents.X += 2*Padding;
+				extents.X += 2 * Padding;
 				extents.Y += Padding;
-			};
-			RenderSize = extents;
+			}
+			
 			MinSize = extents;
+			ApplyUserSize();
 		}
 
 
@@ -119,7 +147,7 @@ namespace MonoWorks.Controls
 		{
 			base.Render(context);
 
-			if (text != null)
+			if (Body != null)
 			{
 				context.Cairo.Save();
 				context.Cairo.SetFontSize(FontSize);
@@ -127,9 +155,9 @@ namespace MonoWorks.Controls
 				
 				var lines = Lines;
 				var point = context.Cairo.CurrentPoint;
-				for (int i=0; i<lines.Length; i++)
+				for (int i = 0; i < lines.Length; i++)
 				{
-					context.Cairo.MoveTo(point.X + Padding, point.Y + (FontSize + Padding)*(i+1));
+					context.Cairo.MoveTo(point.X + Padding, point.Y + (FontSize + Padding) * (i + 1));
 					context.Cairo.ShowText(lines[i]);
 				}
 				context.Cairo.MoveTo(point);
@@ -137,6 +165,26 @@ namespace MonoWorks.Controls
 			}
 		}
 
+		#endregion		
+		
+		
+		#region Mouse Interaction
+
+		protected override void OnEnter(MouseEvent evt)
+		{
+			base.OnEnter(evt);
+			
+			evt.Viewport.SetCursor(CursorType.Beam);
+		}
+
+		protected override void OnLeave(MouseEvent evt)
+		{
+			base.OnLeave(evt);
+			
+			evt.Viewport.SetCursor(CursorType.Normal);
+		}
+		
+		#endregion
 
 
 		

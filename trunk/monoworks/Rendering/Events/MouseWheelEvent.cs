@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
@@ -18,8 +18,9 @@ namespace MonoWorks.Rendering.Events
 	public class MouseWheelEvent : Event
 	{
 
-		public MouseWheelEvent(WheelDirection direction, InteractionModifier modifier)
+		public MouseWheelEvent(Viewport viewport, WheelDirection direction, InteractionModifier modifier)
 		{
+			Viewport = viewport;
 			Direction = direction;
 			Modifier = modifier;
 		}
@@ -27,6 +28,11 @@ namespace MonoWorks.Rendering.Events
 		public WheelDirection Direction { get; private set; }
 		
 		public InteractionModifier Modifier {get; private set;}
+
+		/// <value>
+		/// The viewport that originated the event.
+		/// </value>
+		public Viewport Viewport { get; private set; }
 
 	}
 }

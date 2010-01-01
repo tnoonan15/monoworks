@@ -31,7 +31,7 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// The types of colors that the basic decorator stores color groups for.
 	/// </summary>
-	public enum ColorType {BackgroundStart, BackgroundStop, Stroke, Text};
+	public enum ColorType {BackgroundStart, BackgroundStop, Stroke, Text, EditableStart, EditableStop};
 	
 	/// <summary>
 	/// Provides a basic decorator that should be good enough for most situations.
@@ -64,6 +64,20 @@ namespace MonoWorks.Controls
 				new Color(0.5f, 0.5f, 0.5f),
 				new Color(0.5f, 0.5f, 0.5f)
 			));
+			
+			SetColorGroup(ColorType.EditableStart,
+				new ColorGroup(
+      			new Color(1f, 1f, 1f, 0.8f),
+      			new Color(0.95f, 0.95f, 0.95f, 0.9f),
+      			new Color(1f, 1f, 1f, 0.9f)
+            ));
+			
+			SetColorGroup(ColorType.EditableStop,
+				new ColorGroup(
+      			new Color(1f, 1f, 1f, 1f),
+      			new Color(1f, 1f, 1f, 1f),
+      			new Color(1f, 1f, 1f, 1f)
+            ));
 			
 			StrokeWidth = 0.5;
 			CornerRadius = 6;
@@ -270,7 +284,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Renders a rectangle portion of a control.
 		/// </summary>
-		protected void FillRectangle(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
+		protected void FillRectangleBackground(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
 		{
 			var point = Context.Push();
 			
@@ -281,7 +295,27 @@ namespace MonoWorks.Controls
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Pattern = grad;
-			RectanglePath(point.Coord().HalfCeiling, size.Floor - 2, rounded);
+			RectanglePath(point.Coord().Round + 1, size.Floor - 2, rounded);
+			Context.Cairo.Fill();
+			
+			Context.Pop();
+		}
+		
+		/// <summary>
+		/// Renders a rectangle portion of a control.
+		/// </summary>
+		protected void FillRectangleEditable(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
+		{
+			var point = Context.Push();
+			
+			// Create the gradient
+			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size, location, 
+			                                             GetColor(ColorType.EditableStart, hitState),
+			                                             GetColor(ColorType.EditableStop, hitState));
+			// draw the rectangle
+			Context.Cairo.Operator = Cairo.Operator.Source;
+			Context.Cairo.Pattern = grad;
+			RectanglePath(point.Coord().Round + 1, size.Floor - 2, rounded);
 			Context.Cairo.Fill();
 			
 			Context.Pop();
@@ -403,21 +437,25 @@ namespace MonoWorks.Controls
 			{
 				Decorate(control as ToolBar);
 			}
+			if (control is TextBox) 
+			{
+				Decorate(control as TextBox);
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
 		{
 			var parent = button.ParentControl;
 			if (parent == null)
-				FillRectangle(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
+				FillRectangleBackground(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
 			else if (parent is ToolBar || parent is DialogFrame)
 			{
 				if (button.HitState != HitState.None)
-					FillRectangle(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
+					FillRectangleBackground(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
 			}
 			else
 			{
-				FillRectangle(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
+				FillRectangleBackground(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
 				StrokeRectangle(button.RenderSize, AllCorners, button.HitState);
 			}
 		}
@@ -444,11 +482,11 @@ namespace MonoWorks.Controls
 					corner = Corner.NE | Corner.SE;
 					break;					
 				}
-				FillRectangle(toolbar.RenderSize, corner, toolbar.HitState, location);
+				FillRectangleBackground(toolbar.RenderSize, corner, toolbar.HitState, location);
 			}
 			else // the toolbar is not anchored
 			{
-				FillRectangle(toolbar.RenderSize, AllCorners, toolbar.HitState, DefaultBackgroundLocation);
+				FillRectangleBackground(toolbar.RenderSize, AllCorners, toolbar.HitState, DefaultBackgroundLocation);
 			}
 		}
 		
@@ -476,10 +514,16 @@ namespace MonoWorks.Controls
 		
 		protected virtual void Decorate(DialogFrame dialog)
 		{
-			FillRectangle(dialog.RenderSize, AllCorners, HitState.None, AnchorLocation.SE);
-			FillRectangle(new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), 
+			FillRectangleBackground(dialog.RenderSize, AllCorners, HitState.None, AnchorLocation.SE);
+			FillRectangleBackground(new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), 
 			              Corner.NE | Corner.NW, HitState.None, AnchorLocation.S);
 			StrokeRectangle(dialog.RenderSize, AllCorners, HitState.None);
+		}
+		
+		protected virtual void Decorate(TextBox textBox)
+		{
+			FillRectangleEditable(textBox.RenderSize, Corner.None, textBox.HitState, AnchorLocation.S);
+			StrokeRectangle(textBox.RenderSize, Corner.None, HitState.None);
 		}
 				
 		#endregion

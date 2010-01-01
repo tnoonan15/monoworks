@@ -15,6 +15,10 @@
 				<mwc:Button ButtonStyle="ImageOverLabel" LabelString="Image Over Label" 
 					Image="image-loading.png,MonoWorks.DemoGtk" ></mwc:Button>
 			</mwc:Stack>
+			<mwc:Stack Orientation="Horizontal">
+				<mwc:Label>Single Line Text Box</mwc:Label>
+				<mwc:TextBox Name="singleLineText">content</mwc:TextBox>
+			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
 </mwx:Ui>

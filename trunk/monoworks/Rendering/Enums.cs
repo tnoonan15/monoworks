@@ -26,13 +26,14 @@ namespace MonoWorks.Rendering
 	/// Locations for an anchor.
 	/// </summary>
 	[Flags]
-	public enum AnchorLocation { N = 1, E = 2, S = 4, W = 8, NE = 32, SE = 64, SW = 128, NW = 256 };
+	public enum AnchorLocation {None = 0, N = 1, E = 2, S = 4, W = 8, NE = 32, SE = 64, SW = 128, NW = 256 };
 	
 	/// <summary>
 	/// A corner of the viewport, subset of AnchorLocation.
 	/// </summary>
 	[Flags]
-	public enum Corner {NE = AnchorLocation.NE,
+	public enum Corner {None = AnchorLocation.None,
+						NE = AnchorLocation.NE,
 						NW = AnchorLocation.NW,
 						SE = AnchorLocation.SE,
 						SW = AnchorLocation.SW};
