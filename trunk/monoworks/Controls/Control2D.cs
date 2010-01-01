@@ -181,7 +181,7 @@ namespace MonoWorks.Controls
 				RenderSize = MinSize.Copy();
 		}
 
-		protected double padding = 3;
+		protected double padding = 4;
 		/// <summary>
 		/// The padding to use on the interior of controls.
 		/// </summary>

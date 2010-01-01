@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 
@@ -27,6 +28,10 @@ using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
+	/// <summary>
+	/// The types of colors that the basic decorator stores color groups for.
+	/// </summary>
+	public enum ColorType {BackgroundStart, BackgroundStop, Stroke, Text};
 	
 	/// <summary>
 	/// Provides a basic decorator that should be good enough for most situations.
@@ -39,23 +44,28 @@ namespace MonoWorks.Controls
 		{
 			DefaultBackgroundLocation = AnchorLocation.SE;
 			
-			BackgroundStartColors = new ColorGroup(
+			SetColorGroup(ColorType.BackgroundStart,
+				new ColorGroup(
       			new Color(1f, 1f, 1f, 0.6f),
       			new Color(1f, 1f, 1f, 0.9f),
       			new Color(0.9f, 0.9f, 0.9f, 0.5f)
-            );
-			BackgroundStopColors = new ColorGroup(
+            ));
+			
+			SetColorGroup(ColorType.BackgroundStop,
+				new ColorGroup(
       			new Color(1f, 1f, 1f, 0.9f),
       			new Color(1f, 1f, 1f, 0.6f),
       			new Color(0.9f, 0.9f, 1f, 0.5f)
-            );
+            ));
 			
-			StrokeColors = new ColorGroup(
+			SetColorGroup(ColorType.Stroke,
+				new ColorGroup(
 				new Color(0.5f, 0.5f, 0.5f),
 				new Color(0.5f, 0.5f, 0.5f),
 				new Color(0.5f, 0.5f, 0.5f)
-			);
-			StrokeWidth = 1;
+			));
+			
+			StrokeWidth = 0.5;
 			CornerRadius = 6;
 		}
 		
@@ -69,6 +79,49 @@ namespace MonoWorks.Controls
 		/// A Corner value specifcying all of the corners.
 		/// </summary>
 		public const Corner AllCorners = Corner.NE | Corner.NW | Corner.SE | Corner.SW;
+		
+		
+		#region Colors
+		
+		/// <summary>
+		/// Associates color types with their groups.
+		/// </summary>
+		private Dictionary<ColorType,ColorGroup> _colorGroups = new Dictionary<ColorType, ColorGroup>();
+		
+		/// <summary>
+		/// Gets the color group that stores colors for the given type.
+		/// </summary>
+		public ColorGroup GetColorGroup(ColorType colorType)
+		{
+			ColorGroup colorGroup = null;
+			if (!_colorGroups.TryGetValue(colorType, out colorGroup))
+			{
+				colorGroup = new ColorGroup();
+				_colorGroups[colorType] = colorGroup;
+			}
+			return colorGroup;
+		}
+		
+		/// <summary>
+		/// Assigns a new color group for the given type.
+		/// </summary>
+		public void SetColorGroup(ColorType colorType, ColorGroup colorGroup)
+		{
+			_colorGroups[colorType] = colorGroup;
+		}
+		
+		/// <summary>
+		/// Returns the color associated with the given type and hit state.
+		/// </summary>
+		public Color GetColor(ColorType colorType, HitState hitState)
+		{
+			return GetColorGroup(colorType).GetColor(hitState);
+		}
+		
+		#endregion
+		
+		
+		#region Paths
 		
 		/// <summary>
 		/// Creates a rectangular path with the given corners rounded.
@@ -150,23 +203,15 @@ namespace MonoWorks.Controls
 			Context.Cairo.ClosePath();
 		}
 		
+		#endregion
+		
 			
-		#region Background Rendering
+		#region Filling
 		
 		/// <value>
 		/// The orientation used to render the background if the decorator doesn't override it.
 		/// </value>
 		public AnchorLocation DefaultBackgroundLocation {get; set;}
-		
-		/// <summary>
-		/// The color group for the start of the background gradient.
-		/// </summary>
-		public ColorGroup BackgroundStartColors {get; private set;}
-		
-		/// <summary>
-		/// The color group for the stop of the background gradient.
-		/// </summary>
-		public ColorGroup BackgroundStopColors { get; private set; }
 		
 		/// <summary>
 		/// The default background color if none can be found.
@@ -226,17 +271,17 @@ namespace MonoWorks.Controls
 		/// Renders a rectangle portion of a control.
 		/// </summary>
 		protected void FillRectangle(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
-		{			
-			var point = Context.Push();	
+		{
+			var point = Context.Push();
 			
 			// Create the gradient
 			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size, location, 
-			                                             BackgroundStartColors[hitState],
-			                                             BackgroundStopColors[hitState]);
+			                                             GetColor(ColorType.BackgroundStart, hitState),
+			                                             GetColor(ColorType.BackgroundStop, hitState));
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Pattern = grad;
-			RectanglePath(point.Coord().Ceiling + 1, size.Floor - 2, rounded);
+			RectanglePath(point.Coord().HalfCeiling, size.Floor - 2, rounded);
 			Context.Cairo.Fill();
 			
 			Context.Pop();
@@ -251,8 +296,8 @@ namespace MonoWorks.Controls
 			
 			// Create the gradient
 			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size / 2.0, gradDirection, 
-			                                             BackgroundStartColors[hitState],
-			                                             BackgroundStopColors[hitState]);
+			                                             GetColor(ColorType.BackgroundStart, hitState),
+			                                             GetColor(ColorType.BackgroundStop, hitState));
 			// draw the triangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Pattern = grad;
@@ -304,12 +349,7 @@ namespace MonoWorks.Controls
 		#endregion
 		
 		
-		#region Foreground Rendering
-
-		/// <summary>
-		/// The color group for stroking (drawing lines).
-		/// </summary>
-		public ColorGroup StrokeColors { get; private set; }
+		#region Stroking
 		
 		/// <summary>
 		/// The width of lines drawn using the Stroke* methods.
@@ -331,7 +371,7 @@ namespace MonoWorks.Controls
 			
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
-			Context.Cairo.Color = StrokeColors.GetColor(hitState).Cairo;
+			Context.Cairo.Color = GetColor(ColorType.Stroke, hitState).Cairo;
 			Context.Cairo.LineWidth = StrokeWidth;
 			RectanglePath(point.Coord().HalfCeiling, size.Floor-1, rounded);
 			Context.Cairo.Stroke();
