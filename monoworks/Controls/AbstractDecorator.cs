@@ -1,3 +1,4 @@
+
 // AbstractDecorator.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
@@ -17,8 +18,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-
-using Cairo;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
@@ -48,5 +47,10 @@ namespace MonoWorks.Controls
 		/// Draws the decorations for the given control.
 		/// </summary>
 		public abstract void Decorate(Control2D control);
+		
+		/// <summary>
+		/// The color used to represent selections.
+		/// </summary>
+		public Color SelectionColor { get; set; }
 	}
 }
