@@ -64,7 +64,7 @@ namespace MonoWorks.Controls
 
 		private bool _isMultiLine;
 		/// <summary>
-		/// If true, the text box can hold multiple lines of text.
+		/// If true, the control can hold multiple lines of text.
 		/// </summary>
 		[MwxProperty]
 		public bool IsMultiLine {
@@ -77,7 +77,7 @@ namespace MonoWorks.Controls
 
 		private string _body;
 		/// <summary>
-		/// The body of text inside the box.
+		/// The body of text inside the control.
 		/// </summary>
 		[MwxProperty]
 		public string Body {
@@ -86,6 +86,14 @@ namespace MonoWorks.Controls
 				_body = value;
 				MakeDirty();
 			}
+		}
+		
+		/// <summary>
+		/// The total height of each line (based on font size and padding).
+		/// </summary>
+		public double LineHeight
+		{
+			get { return FontSize + Padding;}
 		}
 
 		/// <summary>
@@ -104,18 +112,15 @@ namespace MonoWorks.Controls
 		/// </summary>
 		private Coord extents = new Coord();
 		
+		/// <summary>
+		/// A dummy surface used by Cairo to compute the text extents.
+		/// </summary>
 		private static Cairo.ImageSurface dummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
 
 		/// <summary>
-		/// Returns the lines of the body separated out.
+		/// The lines of the body separated out.
 		/// </summary>
-		private string[] Lines
-		{
-			get
-			{
-				return Body.Split(new string[]{"\n"}, StringSplitOptions.None);
-			}
-		}
+		private string[] _lines;
 		
 		public override void ComputeGeometry()
 		{
@@ -128,11 +133,12 @@ namespace MonoWorks.Controls
 			{
 				cr.SetFontSize(FontSize);
 				extents = new Coord();
-				foreach (var line in Lines)
+				_lines = Body.Split(new string[] { "\n" }, StringSplitOptions.None);
+				foreach (var line in _lines)
 				{
 					var crExtents = cr.TextExtents(line);
 					extents.X = Math.Max(crExtents.Width, extents.X);
-					extents.Y += FontSize + Padding;
+					extents.Y += LineHeight;
 				}
 				extents.X += 2 * Padding;
 				extents.Y += Padding;
@@ -151,14 +157,27 @@ namespace MonoWorks.Controls
 			{
 				context.Cairo.Save();
 				context.Cairo.SetFontSize(FontSize);
-				context.Cairo.Color = new Cairo.Color(0, 0, 0);
 				
-				var lines = Lines;
+				// draw the selection box
+				context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
+				if (_anchor != null && _cursor != null)
+				{
+					var currentPos = context.Cairo.CurrentPoint;
+					Console.WriteLine("drawing selection from {0} to {1}", _anchor, _cursor);
+					var absPos = _anchor.Position + LastPosition + Padding;
+					var selectSize = _cursor.Position - _anchor.Position;
+					context.Cairo.Rectangle(absPos.PointD(), selectSize.X, LineHeight);
+					context.Cairo.Fill();
+					context.Cairo.MoveTo(currentPos);
+				}
+				
+				// render the text
+				context.Cairo.Color = new Cairo.Color(0, 0, 0);
 				var point = context.Cairo.CurrentPoint;
-				for (int i = 0; i < lines.Length; i++)
+				for (int i = 0; i < _lines.Length; i++)
 				{
 					context.Cairo.MoveTo(point.X + Padding, point.Y + (FontSize + Padding) * (i + 1));
-					context.Cairo.ShowText(lines[i]);
+					context.Cairo.ShowText(_lines[i]);
 				}
 				context.Cairo.MoveTo(point);
 				context.Cairo.Restore();
@@ -166,6 +185,59 @@ namespace MonoWorks.Controls
 		}
 
 		#endregion		
+		
+		
+		#region Selection
+
+		/// <summary>
+		/// Specifies the position of the cursor in the Body.
+		/// </summary>
+		private TextCursor _cursor;
+		
+		/// <summary>
+		/// Specifies the point where a text selection operation began.
+		/// </summary>
+		private TextCursor _anchor;
+		
+		/// <summary>
+		/// Determines the cursor point in the body corresponding to the given point.
+		/// </summary>
+		protected TextCursor HitCursor(Coord absPos)
+		{
+			var pos = absPos - LastPosition - Padding;
+			var cursor = new TextCursor();
+			cursor.Row = (int)Math.Max(Math.Min(
+					Math.Floor(pos.Y / LineHeight), 
+					_lines.Length - 1),
+					0);
+			var line = _lines[cursor.Row];
+			
+			// determine the column
+			using (var cr = new Cairo.Context(dummySurface)) {
+				cr.SetFontSize(FontSize);
+				var extents = cr.TextExtents("m"); // used to ensure that leading and trailing spaces are counted correctly
+				var mWidth = extents.Width;
+				for (int c=0; c<line.Length; c++)
+				{
+					extents = cr.TextExtents("m" + line.Substring(0, c) + "m");
+					var thisWidth = extents.Width - 2 * mWidth;
+					if (thisWidth > pos.X)
+					{
+						cursor.Column = c;
+						cursor.Position = new Coord(thisWidth, cursor.Row * LineHeight);
+						break;
+					}
+				}
+			}
+			
+			if (cursor.Position == null)
+				cursor.Position = new Coord();
+			
+			Console.WriteLine("hit cursor: {0}", cursor);
+			return cursor;
+		}
+		
+		#endregion
 		
 		
 		#region Mouse Interaction
@@ -183,10 +255,61 @@ namespace MonoWorks.Controls
 			
 			evt.Viewport.SetCursor(CursorType.Normal);
 		}
+				
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			if (!HitTest(evt.Pos))
+				return;
+			_cursor = HitCursor(evt.Pos);
+			_anchor = _cursor;
+		}
+
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+			
+			_cursor = null;
+			_anchor = null;
+			MakeDirty();
+		}
+
+		
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+			
+			if (_anchor == null)
+				return;
+			_cursor = HitCursor(evt.Pos);
+			MakeDirty();
+		}
+
 		
 		#endregion
 
 
 		
 	}
+	
+	
+	/// <summary>
+	/// Stores information about a position inside a body of text.
+	/// </summary>
+	public class TextCursor
+	{
+		public int Row { get; set; }
+		
+		public int Column { get; set; }
+		
+		public Coord Position { get; set; }
+		
+		public override string ToString()
+		{
+			return string.Format("[{0}, {1}] Position={2}", Row, Column, Position);
+		}
+
+	}
+	
 }

@@ -37,6 +37,11 @@ namespace MonoWorks.Rendering
 		}
 		
 		
+		public ColorGroup(Color noneColor) : this()
+		{
+			colors[HitState.None] = noneColor;
+		}
+		
 		public ColorGroup(Color noneColor, Color hoveringColor, Color selectedColor) : this()
 		{
 			colors[HitState.None] = noneColor;

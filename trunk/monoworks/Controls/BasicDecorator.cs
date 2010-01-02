@@ -79,6 +79,8 @@ namespace MonoWorks.Controls
       			new Color(1f, 1f, 1f, 1f)
             ));
 			
+			SelectionColor = new Color(0.2f, 0.2f, 1f, 1f);
+			
 			StrokeWidth = 0.5;
 			CornerRadius = 6;
 		}
@@ -282,7 +284,7 @@ namespace MonoWorks.Controls
 		}
 		
 		/// <summary>
-		/// Renders a rectangle portion of a control.
+		/// Renders a rectangular background portion of a control.
 		/// </summary>
 		protected void FillRectangleBackground(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
 		{
@@ -302,7 +304,7 @@ namespace MonoWorks.Controls
 		}
 		
 		/// <summary>
-		/// Renders a rectangle portion of a control.
+		/// Renders a rectangular editable portion of a control.
 		/// </summary>
 		protected void FillRectangleEditable(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
 		{
