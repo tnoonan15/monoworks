@@ -79,7 +79,7 @@ namespace MonoWorks.Controls
       			new Color(1f, 1f, 1f, 1f)
             ));
 			
-			SelectionColor = new Color(0.2f, 0.2f, 1f, 1f);
+			SelectionColor = new Color(0.2f, 0.4f, 1f, 0.5f);
 			
 			StrokeWidth = 0.5;
 			CornerRadius = 6;
