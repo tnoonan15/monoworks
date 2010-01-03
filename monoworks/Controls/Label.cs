@@ -163,10 +163,9 @@ namespace MonoWorks.Controls
 				if (_anchor != null && _cursor != null)
 				{
 					var currentPos = context.Cairo.CurrentPoint;
-					Console.WriteLine("drawing selection from {0} to {1}", _anchor, _cursor);
 					var absPos = _anchor.Position + LastPosition + Padding;
 					var selectSize = _cursor.Position - _anchor.Position;
-					context.Cairo.Rectangle(absPos.PointD(), selectSize.X, LineHeight);
+					context.Cairo.Rectangle(absPos.X - 2, absPos.Y, selectSize.X, LineHeight);
 					context.Cairo.Fill();
 					context.Cairo.MoveTo(currentPos);
 				}
@@ -210,28 +209,27 @@ namespace MonoWorks.Controls
 					Math.Floor(pos.Y / LineHeight), 
 					_lines.Length - 1),
 					0);
+			cursor.Position = new Coord(0, cursor.Row * LineHeight);
 			var line = _lines[cursor.Row];
 			
 			// determine the column
+			double x = 0;
 			using (var cr = new Cairo.Context(dummySurface)) {
 				cr.SetFontSize(FontSize);
 				var extents = cr.TextExtents("m"); // used to ensure that leading and trailing spaces are counted correctly
 				var mWidth = extents.Width;
-				for (int c=0; c<line.Length; c++)
+				for (int c=0; c<line.Length+1; c++)
 				{
 					extents = cr.TextExtents("m" + line.Substring(0, c) + "m");
-					var thisWidth = extents.Width - 2 * mWidth;
-					if (thisWidth > pos.X)
+					x = extents.Width - 2 * mWidth;
+					if (x > pos.X)
 					{
 						cursor.Column = c;
-						cursor.Position = new Coord(thisWidth, cursor.Row * LineHeight);
 						break;
 					}
 				}
-			}
-			
-			if (cursor.Position == null)
-				cursor.Position = new Coord();
+			}	
+			cursor.Position.X = x;
 			
 			Console.WriteLine("hit cursor: {0}", cursor);
 			return cursor;
