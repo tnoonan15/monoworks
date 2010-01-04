@@ -31,10 +31,16 @@ namespace MonoWorks.Rendering
 	/// Renderable states with respect to mouse interaction.
 	/// </summary>
 	[Flags]
-	public enum HitState {None = 0, 
+	public enum HitState {
+		None = 0, 
 		Hovering = 1, 
-		Selected = 2};
+		Selected = 2
+	};
 
+	/// <summary>
+	/// Delegate for handling generic renderable events.
+	/// </summary>
+	public delegate void RenderableHandler(Renderable sender);
 	
 	/// <summary>
 	/// Base class for renderable objects.
@@ -114,8 +120,8 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual Renderable Parent {get; set;}
 		
-
-#region Rendering
+		
+		#region Rendering
 
 		/// <summary>
 		/// Whether to render the renderable.
@@ -177,13 +183,17 @@ namespace MonoWorks.Rendering
             return false;
 		}
 
-#endregion
-
-
-#region Hit Test and selection
-
+		#endregion
+		
+		
+		#region Hit Test and selection
 
 		protected HitState hitState = HitState.None;
+		
+		/// <summary>
+		/// Gets raised when the hit state of teh renderable changes.
+		/// </summary>
+		public event RenderableHandler HitStateChanged;
 		
 		/// <value>
 		/// The current hit state of the control.
@@ -191,6 +201,16 @@ namespace MonoWorks.Rendering
 		public HitState HitState 
 		{
 			get {return hitState;}
+		}
+		
+		
+		/// <summary>
+		/// Gets called whenever the hit state of the renderable changes.
+		/// </summary>
+		protected virtual void OnHitStateChanged()
+		{
+			if (HitStateChanged != null)
+				HitStateChanged(this);
 		}
 		
 		/// <value>
@@ -205,6 +225,7 @@ namespace MonoWorks.Rendering
 					hitState |= HitState.Selected;
 				else
 					hitState &= ~HitState.Selected;
+				OnHitStateChanged();
 			}
 		}
 		
@@ -236,6 +257,7 @@ namespace MonoWorks.Rendering
 					hitState |= HitState.Hovering;
 				else
 					hitState &= ~HitState.Hovering;
+				OnHitStateChanged();
 			}
 		}
 
@@ -259,10 +281,10 @@ namespace MonoWorks.Rendering
 			}
 		}
 
-#endregion
-		
-		
-#region Interaction
+		#endregion
+				
+				
+		#region Interaction
 				
 		public virtual void OnButtonPress(MouseButtonEvent evt) {}
 		
@@ -273,8 +295,8 @@ namespace MonoWorks.Rendering
 		public virtual void OnMouseWheel(MouseWheelEvent evt) { }
 		
 		public virtual void OnKeyPress(KeyEvent evt) {}
-				
-#endregion
+						
+		#endregion
 
 	}
 	

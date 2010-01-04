@@ -23,5 +23,10 @@ namespace MonoWorks.Controls
 		/// </value>
 		bool IsVisible {get; set;}
 		
+		/// <summary>
+		/// The currently selected control.
+		/// </summary>
+		Control2D Selection {get; set;}
+		
 	}
 }
