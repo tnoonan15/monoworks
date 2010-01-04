@@ -44,10 +44,17 @@ namespace MonoWorks.Controls
 			Origin = new Coord();
 		}
 		
+		private Control2D _parent;
 		/// <value>
 		/// The control's parent.
 		/// </value>
-		public Control2D ParentControl {get; set;}
+		public Control2D ParentControl
+		{
+			get {return _parent;}
+			set {
+				_parent = value;
+			}
+		}
 		
 		
 		public override Renderable Parent
@@ -405,6 +412,16 @@ namespace MonoWorks.Controls
 		{
 			
 		}
+		
+		protected override void OnHitStateChanged()
+		{
+			base.OnHitStateChanged();
+			
+			var pane = Pane;
+			if (IsSelected && pane != null)
+				pane.Selection = this;
+		}
+
 
 		#endregion
 				

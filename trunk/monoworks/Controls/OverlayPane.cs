@@ -97,6 +97,24 @@ namespace MonoWorks.Controls
 		
 #region Interaction
 		
+		private Control2D _selection;
+		/// <summary>
+		/// Sets the currently selected control.
+		/// </summary>
+		public Control2D Selection
+		{
+			get {return _selection;}
+			set {
+				if (_selection == value)
+					return;
+				if (_selection != null)
+					_selection.IsSelected = false;
+				_selection = value;
+				if (!_selection.IsSelected)
+					_selection.IsSelected = true;
+			}
+		}
+		
 		/// <summary>
 		/// Gets a point in control-space corresponding to the screen-space point given.
 		/// </summary>
@@ -148,6 +166,16 @@ namespace MonoWorks.Controls
 			{
 				var controlEvt = new MouseWheelEvent(evt.Viewport, evt.Direction, evt.Modifier);
 				Control.OnMouseWheel(controlEvt);
+			}
+		}
+		
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			if (Selection != null)
+			{
+				Selection.OnKeyPress(evt);
 			}
 		}
 		

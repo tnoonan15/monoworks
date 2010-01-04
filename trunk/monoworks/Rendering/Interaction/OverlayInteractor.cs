@@ -40,17 +40,33 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
+			
+			var wasHandled = evt.Handled;
 
 			// let the modals interact first
 			if (viewport.RenderList.ModalCount > 0)
 			{
 				foreach (var modal in viewport.RenderList.ModalsCopy)
+				{
 					modal.OnButtonPress(evt);
+					if (!wasHandled && evt.Handled)
+					{
+						Current = modal;
+						wasHandled = true;
+					}
+				}
 				return; // don't interact with anything else if modal overlays are present
 			}
 
 			foreach (Overlay overlay in renderList.OverlayCopy)
+			{
 				overlay.OnButtonPress(evt);
+				if (!wasHandled && evt.Handled)
+				{
+					Current = overlay;
+					wasHandled = true;
+				}
+			}
 		}
 
 
@@ -86,6 +102,11 @@ namespace MonoWorks.Rendering.Interaction
 			foreach (Overlay overlay in renderList.OverlayCopy)
 				overlay.OnMouseMotion(evt);
 		}
+		
+		/// <summary>
+		/// The currently hit overlay. 
+		/// </summary>
+		public Overlay Current { get; set; }
 
 	}
 }

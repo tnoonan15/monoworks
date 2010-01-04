@@ -239,6 +239,11 @@ namespace MonoWorks.Controls
 		
 		
 		#region Mouse Interaction
+		
+		/// <summary>
+		/// Whether or not the user is dragging to select text.
+		/// </summary>
+		private bool _isDragging = false;
 
 		protected override void OnEnter(MouseEvent evt)
 		{
@@ -262,15 +267,16 @@ namespace MonoWorks.Controls
 				return;
 			_cursor = HitCursor(evt.Pos);
 			_anchor = _cursor;
+			
+			IsSelected = true;
+			_isDragging = true;
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
 			
-			_cursor = null;
-			_anchor = null;
-			MakeDirty();
+			_isDragging = false;
 		}
 
 		
@@ -278,10 +284,23 @@ namespace MonoWorks.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			if (_anchor == null)
+			if (_anchor == null || !_isDragging)
 				return;
 			_cursor = HitCursor(evt.Pos);
 			MakeDirty();
+		}
+
+		protected override void OnHitStateChanged()
+		{
+			base.OnHitStateChanged();
+			
+			if (!IsSelected && _cursor != null)
+			{
+				_cursor = null;
+				_anchor = null;
+				_isDragging = false;
+				MakeDirty();
+			}
 		}
 
 		
