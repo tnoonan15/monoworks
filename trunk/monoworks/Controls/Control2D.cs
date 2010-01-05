@@ -391,8 +391,6 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected virtual void OnEnter(MouseEvent evt)
 		{
-//			if (ToolTip.Length > 0)
-//				queueSetToolTip = true;
 			MakeDirty();
 		}
 
@@ -401,7 +399,6 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected virtual void OnLeave(MouseEvent evt)
 		{
-//			queueClearToolTip = true;
 			MakeDirty();
 		}
 
@@ -413,20 +410,26 @@ namespace MonoWorks.Controls
 			
 		}
 		
-		protected override void OnHitStateChanged()
+		
+		protected override void OnHitStateChanged(HitState oldVal)
 		{
-			base.OnHitStateChanged();
+			base.OnHitStateChanged(oldVal);
 			
 			var pane = Pane;
-			if (IsSelected && pane != null)
-				pane.Selection = this;
+			if (!oldVal.IsFocused() && IsFocused) // became focused
+			{
+				if (pane != null)
+					pane.InFocus = this;
+			}
+			else if (oldVal.IsFocused() && !IsFocused) // lost focus
+			{
+				if (pane != null)
+					pane.InFocus = null;
+			}
 		}
 
 
 		#endregion
-				
-		
-		
 		
 	}
 }

@@ -98,21 +98,21 @@ namespace MonoWorks.Controls
 		
 #region Interaction
 		
-		private Control2D _selection;
+		private Control2D _inFocus;
 		/// <summary>
-		/// Sets the currently selected control.
+		/// Sets the contro currently in focus.
 		/// </summary>
-		public Control2D Selection
+		public Control2D InFocus
 		{
-			get {return _selection;}
+			get {return _inFocus;}
 			set {
-				if (_selection == value)
+				if (_inFocus == value)
 					return;
-				if (_selection != null)
-					_selection.IsSelected = false;
-				_selection = value;
-				if (!_selection.IsSelected)
-					_selection.IsSelected = true;
+				if (_inFocus != null)
+					_inFocus.IsFocused = false;
+				_inFocus = value;
+				if (!_inFocus.IsFocused)
+					_inFocus.IsFocused = true;
 			}
 		}
 		
@@ -170,9 +170,9 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
-			if (Selection != null)
+			if (InFocus != null)
 			{
-				Selection.OnKeyPress(evt);
+				InFocus.OnKeyPress(evt);
 			}
 		}		
 

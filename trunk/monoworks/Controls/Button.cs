@@ -281,6 +281,7 @@ namespace MonoWorks.Controls
 				evt.Handle();
 				justClicked = true;
 				IsSelected = true;
+				IsFocused = true;
 				MakeDirty();
 			}
 		}
