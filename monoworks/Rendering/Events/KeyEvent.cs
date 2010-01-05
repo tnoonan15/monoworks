@@ -1,4 +1,4 @@
-﻿// KeyEvent.cs - MonoWorks Project
+// KeyEvent.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -25,7 +25,7 @@ using MonoWorks.Framework;
 namespace MonoWorks.Rendering.Events
 {
 	/// <summary>
-	/// Enumerated representatino for special characters.
+	/// Enumerated representation for special characters.
 	/// </summary>
 	/// <remarks>The value are standard ASCII, except for the 
 	/// directions which aren't represented in ascii.</remarks>

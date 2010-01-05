@@ -62,7 +62,7 @@ namespace MonoWorks.Controls
 				new ColorGroup(
 				new Color(0.5f, 0.5f, 0.5f),
 				new Color(0.5f, 0.5f, 0.5f),
-				new Color(0.5f, 0.5f, 0.5f)
+				new Color(0.5f, 0.5f, 0.8f)
 			));
 			
 			SetColorGroup(ColorType.EditableStart,
@@ -76,10 +76,10 @@ namespace MonoWorks.Controls
 				new ColorGroup(
       			new Color(1f, 1f, 1f, 1f),
       			new Color(1f, 1f, 1f, 1f),
-      			new Color(1f, 1f, 1f, 1f)
+      			new Color(0.9f, 0.9f, 1f, 1f)
             ));
 			
-			SelectionColor = new Color(0.2f, 0.4f, 1f, 0.5f);
+			SelectionColor = new Color(0.2f, 0.3f, 1f, 0.5f);
 			
 			StrokeWidth = 0.5;
 			CornerRadius = 6;
@@ -324,6 +324,22 @@ namespace MonoWorks.Controls
 		}
 		
 		/// <summary>
+		/// Fills a rectangle with a solid color.
+		/// </summary>
+		protected void FillSolidRectangle(Coord size, Corner rounded, Color color)
+		{
+			var point = Context.Push();
+			
+			// draw the rectangle
+			Context.Cairo.Operator = Cairo.Operator.Source;
+			Context.Cairo.Color = color.Cairo;
+			RectanglePath(point.Coord().Round + 1, size.Floor - 2, rounded);
+			Context.Cairo.Fill();
+			
+			Context.Pop();
+		}
+		
+		/// <summary>
 		/// Renders a triangle portion of a control.
 		/// </summary>
 		protected void FillTriangle(Coord size, HitState hitState, AnchorLocation triDirection, AnchorLocation gradDirection)
@@ -526,6 +542,10 @@ namespace MonoWorks.Controls
 		{
 			FillRectangleEditable(textBox.RenderSize, Corner.None, textBox.HitState, AnchorLocation.S);
 			StrokeRectangle(textBox.RenderSize, Corner.None, HitState.None);
+			if (textBox.IsFocused)
+			{
+				
+			}
 		}
 				
 		#endregion

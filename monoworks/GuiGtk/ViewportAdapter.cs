@@ -186,6 +186,22 @@ namespace MonoWorks.GuiGtk
 #endregion
 
 		
+		#region Keyboard Interaction
+		
+		protected override bool OnKeyPressEvent(Gdk.EventKey evt)
+		{
+			base.OnKeyPressEvent(evt);
+			
+			var modifier = GetModifier(evt.State);
+			var mwEvt = new KeyEvent((int)evt.KeyValue, modifier);
+			Viewport.OnKeyPress(mwEvt);
+			
+			return mwEvt.Handled;
+		}
+
+		
+		#endregion
+		
 		
 #region OpenGL Methods
 		

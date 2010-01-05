@@ -28,19 +28,10 @@ namespace MonoWorks.Rendering
 {
 
 	/// <summary>
-	/// Renderable states with respect to mouse interaction.
-	/// </summary>
-	[Flags]
-	public enum HitState {
-		None = 0, 
-		Hovering = 1, 
-		Selected = 2
-	};
-
-	/// <summary>
 	/// Delegate for handling generic renderable events.
 	/// </summary>
 	public delegate void RenderableHandler(Renderable sender);
+	
 	
 	/// <summary>
 	/// Base class for renderable objects.
@@ -193,7 +184,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Gets raised when the hit state of teh renderable changes.
 		/// </summary>
-		public event RenderableHandler HitStateChanged;
+		public event HitStateChangedHandler HitStateChanged;
 		
 		/// <value>
 		/// The current hit state of the control.
@@ -201,16 +192,32 @@ namespace MonoWorks.Rendering
 		public HitState HitState 
 		{
 			get {return hitState;}
-		}
-		
+		}		
 		
 		/// <summary>
 		/// Gets called whenever the hit state of the renderable changes.
 		/// </summary>
-		protected virtual void OnHitStateChanged()
+		protected virtual void OnHitStateChanged(HitState oldVal)
 		{
 			if (HitStateChanged != null)
-				HitStateChanged(this);
+				HitStateChanged(this, oldVal);
+		}
+
+		/// <value>
+		/// Whether the cursor is hovering over the renderable.
+		/// </value>
+		public virtual bool IsHovering
+		{
+			get {return hitState.IsHovering();}
+			set
+			{
+				var oldVal = hitState;
+				if (value)
+					hitState |= HitState.Hovering;
+				else
+					hitState &= ~HitState.Hovering;
+				OnHitStateChanged(oldVal);
+			}
 		}
 		
 		/// <value>
@@ -218,14 +225,15 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public bool IsSelected
 		{
-			get {return (hitState & HitState.Selected) > 0;}
+			get {return hitState.IsSelected();}
 			set
 			{
+				var oldVal = hitState;
 				if (value)
 					hitState |= HitState.Selected;
 				else
 					hitState &= ~HitState.Selected;
-				OnHitStateChanged();
+				OnHitStateChanged(oldVal);
 			}
 		}
 		
@@ -245,29 +253,46 @@ namespace MonoWorks.Rendering
 			IsSelected = false;
 		}
 
-		/// <value>
-		/// Whether the cursor is hovering over the renderable.
-		/// </value>
-		public virtual bool IsHovering
-		{
-			get {return (hitState & HitState.Hovering) > 0;}
-			set
-			{
-				if (value)
-					hitState |= HitState.Hovering;
-				else
-					hitState &= ~HitState.Hovering;
-				OnHitStateChanged();
-			}
-		}
-
-
 		/// <summary>
 		/// Makes the selected state opposite of what it was before.
 		/// </summary>
 		public void ToggleSelection()
 		{
 			IsSelected = !IsSelected;
+		}
+		
+		/// <value>
+		/// Whether the renderable is focused.
+		/// </value>
+		/// <remarks>Doesn't generally have much meaning, but it's used for specific things like controls.</remarks>
+		public bool IsFocused
+		{
+			get {return hitState.IsFocused();}
+			set
+			{
+				var oldVal = hitState;
+				if (value)
+					hitState |= HitState.Focused;
+				else
+					hitState &= ~HitState.Focused;
+				OnHitStateChanged(oldVal);
+			}
+		}
+		
+		/// <summary>
+		/// Sets IsFocused to true.
+		/// </summary>
+		public virtual void GrabFocus()
+		{
+			IsFocused = true;
+		}
+		
+		/// <summary>
+		/// Sets IsFocused to false.
+		/// </summary>
+		public virtual void ReleaseFocus()
+		{
+			IsFocused = false;
 		}
 
 		/// <summary>

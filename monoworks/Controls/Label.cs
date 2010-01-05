@@ -268,7 +268,7 @@ namespace MonoWorks.Controls
 			_cursor = HitCursor(evt.Pos);
 			_anchor = _cursor;
 			
-			IsSelected = true;
+			IsFocused = true;
 			_isDragging = true;
 		}
 
@@ -289,12 +289,12 @@ namespace MonoWorks.Controls
 			_cursor = HitCursor(evt.Pos);
 			MakeDirty();
 		}
-
-		protected override void OnHitStateChanged()
+		
+		protected override void OnHitStateChanged (HitState oldVal)
 		{
-			base.OnHitStateChanged();
+			base.OnHitStateChanged(oldVal);
 			
-			if (!IsSelected && _cursor != null)
+			if (oldVal.IsFocused() && !IsFocused) // lost focus
 			{
 				_cursor = null;
 				_anchor = null;
@@ -302,7 +302,6 @@ namespace MonoWorks.Controls
 				MakeDirty();
 			}
 		}
-
 		
 		#endregion
 
