@@ -33,20 +33,31 @@ namespace MonoWorks.Rendering
 	{
 		
 		public ColorGroup()
+			: this(null, null, null, null)
 		{
 		}
-		
-		
-		public ColorGroup(Color noneColor) : this()
-		{
-			colors[HitState.None] = noneColor;
+				
+		public ColorGroup(Color noneColor)
+			: this(noneColor, null, null, null)
+		{			
 		}
 		
-		public ColorGroup(Color noneColor, Color hoveringColor, Color selectedColor) : this()
+		public ColorGroup(Color noneColor, Color hoveringColor)
+			: this(noneColor, hoveringColor, null, null)
+		{			
+		}
+		
+		public ColorGroup(Color noneColor, Color hoveringColor, Color selectedColor)
+			: this(noneColor, hoveringColor, selectedColor, null)
+		{			
+		}
+		
+		public ColorGroup(Color noneColor, Color hoveringColor, Color selectedColor, Color focusedColor)
 		{
-			colors[HitState.None] = noneColor;
-			colors[HitState.Hovering] = hoveringColor;
-			colors[HitState.Selected] = selectedColor;
+			SetColor(HitState.None, noneColor);
+			SetColor(HitState.Hovering, hoveringColor);
+			SetColor(HitState.Selected, selectedColor);
+			SetColor(HitState.Focused, focusedColor);
 		}
 		
 		
@@ -63,7 +74,9 @@ namespace MonoWorks.Rendering
 		{
 			if (colors.ContainsKey(hitState))
 				return colors[hitState];
-			else if ((hitState & HitState.Selected) >0 && colors.ContainsKey(HitState.Selected))
+			else if (hitState.IsFocused() && colors.ContainsKey(HitState.Focused))
+				return colors[HitState.Focused];
+			else if (hitState.IsSelected() && colors.ContainsKey(HitState.Selected))
 				return colors[HitState.Selected];
 			else if (colors.ContainsKey(HitState.None))
 				return colors[HitState.None];
@@ -74,9 +87,14 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Sets the color for the given hit state.
 		/// </summary>
+		/// <remarks>If the color is null, it will ensure that the 
+		/// color currently assigned is removed, if any.</remarks>
 		public void SetColor(HitState hitState, Color color)
 		{
-			colors[hitState] = color;
+			if (color != null)				
+				colors[hitState] = color;
+			else
+				colors.Remove(hitState);
 		}
 		
 		/// <value>

@@ -93,9 +93,8 @@ namespace MonoWorks.Controls
 			}
 		}
 				
-		
-		
-#region Interaction
+						
+		#region Interaction
 		
 		private Control2D _inFocus;
 		/// <summary>
@@ -133,6 +132,8 @@ namespace MonoWorks.Controls
 			{
 				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonPress(controlEvt);
+				if (controlEvt.Handled)
+					evt.Handle();
 			}
 		}
 
@@ -144,6 +145,8 @@ namespace MonoWorks.Controls
 			{
 				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonRelease(controlEvt);
+				if (controlEvt.Handled)
+					evt.Handle();
 			}
 		}
 
@@ -155,6 +158,8 @@ namespace MonoWorks.Controls
 			{
 				var controlEvt = new MouseEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Modifier);
 				Control.OnMouseMotion(controlEvt);
+				if (controlEvt.Handled)
+					evt.Handle();
 			}
 		}
 
@@ -166,6 +171,8 @@ namespace MonoWorks.Controls
 			{
 				var controlEvt = new MouseWheelEvent(evt.Viewport, evt.Direction, evt.Modifier);
 				Control.OnMouseWheel(controlEvt);
+				if (controlEvt.Handled)
+					evt.Handle();
 			}
 		}
 		
@@ -173,6 +180,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
+			Console.WriteLine ("overlay pane key press {0} on in focus {1}", evt, InFocus);
 			if (InFocus != null)
 			{
 				InFocus.OnKeyPress(evt);
@@ -183,8 +191,8 @@ namespace MonoWorks.Controls
 		{
 			throw new System.NotImplementedException ();
 		}
-
-#endregion
+		
+		#endregion
 		
 		
 #region Rendering

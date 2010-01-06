@@ -69,19 +69,23 @@ namespace MonoWorks.GuiGtk
 			// make sure the viewport catches all events
 			AddEvents((int)Gdk.EventMask.AllEventsMask);
 					
-			DeleteEvent += OnWindowDeleteEvent;
 			
 			// mouse interaction signals
 			ButtonPressEvent += OnButtonPress;
 			ButtonReleaseEvent += OnButtonRelease;
 			MotionNotifyEvent += OnMotionNotify;
 			ScrollEvent += OnScroll;
+			KeyPressEvent += OnKeyPress;
 			
 			// Connect some other signals		
+			DeleteEvent += OnWindowDeleteEvent;
 			ExposeEvent += OnExposed;
 			Realized += OnRealized;
 			SizeAllocated += OnSizeAllocated;
 			ConfigureEvent += OnConfigure;	
+			
+			CanFocus = true;
+			GrabFocus();
 		}
 		
 		/// <value>
@@ -90,8 +94,8 @@ namespace MonoWorks.GuiGtk
 		public Viewport Viewport {get; private set;}
 		
 		
-		
-#region Mouse Interaction
+				
+		#region Mouse and Keyboard Interaction
 	
 		/// <summary>
 		/// Converts a Gdk modifier into an InteractionModifier.
@@ -109,6 +113,8 @@ namespace MonoWorks.GuiGtk
 		
 		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
 		{
+			GrabFocus();
+			
 			// get the number of clicks
 			ClickMultiplicity multiplicity = ClickMultiplicity.Single;
 			if (args.Event.Type == Gdk.EventType.TwoButtonPress)
@@ -183,20 +189,13 @@ namespace MonoWorks.GuiGtk
 			}
 		}
 		
-#endregion
-
-		
-		#region Keyboard Interaction
-		
-		protected override bool OnKeyPressEvent(Gdk.EventKey evt)
-		{
-			base.OnKeyPressEvent(evt);
+		protected virtual void OnKeyPress(object sender, Gtk.KeyPressEventArgs args)
+		{			
+			var modifier = GetModifier(args.Event.State);
+			var evt = new KeyEvent((int)args.Event.KeyValue, modifier);
+			Viewport.OnKeyPress(evt);
 			
-			var modifier = GetModifier(evt.State);
-			var mwEvt = new KeyEvent((int)evt.KeyValue, modifier);
-			Viewport.OnKeyPress(mwEvt);
-			
-			return mwEvt.Handled;
+			PaintGL();
 		}
 
 		

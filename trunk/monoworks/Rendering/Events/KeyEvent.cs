@@ -82,6 +82,13 @@ namespace MonoWorks.Rendering.Events
 		/// Key modifier.
 		/// </summary>
 		public InteractionModifier Modifier { get; private set; }
+		
+		
+		public override string ToString()
+		{
+			return string.Format("[KeyEvent: Value={0}, SpecialKey={1}, Modifier={2}]", Value, SpecialKey, Modifier);
+		}
+
 
 	}
 }

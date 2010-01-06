@@ -120,7 +120,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The lines of the body separated out.
 		/// </summary>
-		private string[] _lines;
+		protected string[] Lines;
 		
 		public override void ComputeGeometry()
 		{
@@ -133,8 +133,8 @@ namespace MonoWorks.Controls
 			{
 				cr.SetFontSize(FontSize);
 				extents = new Coord();
-				_lines = Body.Split(new string[] { "\n" }, StringSplitOptions.None);
-				foreach (var line in _lines)
+				Lines = Body.Split(new string[] { "\n" }, StringSplitOptions.None);
+				foreach (var line in Lines)
 				{
 					var crExtents = cr.TextExtents(line);
 					extents.X = Math.Max(crExtents.Width, extents.X);
@@ -160,11 +160,11 @@ namespace MonoWorks.Controls
 				
 				// draw the selection box
 				context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
-				if (_anchor != null && _cursor != null)
+				if (Anchor != null && Cursor != null)
 				{
 					var currentPos = context.Cairo.CurrentPoint;
-					var absPos = _anchor.Position + LastPosition + Padding;
-					var selectSize = _cursor.Position - _anchor.Position;
+					var absPos = Anchor.Position + LastPosition + Padding;
+					var selectSize = Cursor.Position - Anchor.Position;
 					context.Cairo.Rectangle(absPos.X - 2, absPos.Y, selectSize.X, LineHeight);
 					context.Cairo.Fill();
 					context.Cairo.MoveTo(currentPos);
@@ -173,10 +173,10 @@ namespace MonoWorks.Controls
 				// render the text
 				context.Cairo.Color = new Cairo.Color(0, 0, 0);
 				var point = context.Cairo.CurrentPoint;
-				for (int i = 0; i < _lines.Length; i++)
+				for (int i = 0; i < Lines.Length; i++)
 				{
 					context.Cairo.MoveTo(point.X + Padding, point.Y + (FontSize + Padding) * (i + 1));
-					context.Cairo.ShowText(_lines[i]);
+					context.Cairo.ShowText(Lines[i]);
 				}
 				context.Cairo.MoveTo(point);
 				context.Cairo.Restore();
@@ -191,12 +191,12 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Specifies the position of the cursor in the Body.
 		/// </summary>
-		private TextCursor _cursor;
+		protected TextCursor Cursor;
 		
 		/// <summary>
 		/// Specifies the point where a text selection operation began.
 		/// </summary>
-		private TextCursor _anchor;
+		protected TextCursor Anchor;
 		
 		/// <summary>
 		/// Determines the cursor point in the body corresponding to the given point.
@@ -207,10 +207,10 @@ namespace MonoWorks.Controls
 			var cursor = new TextCursor();
 			cursor.Row = (int)Math.Max(Math.Min(
 					Math.Floor(pos.Y / LineHeight), 
-					_lines.Length - 1),
+					Lines.Length - 1),
 					0);
 			cursor.Position = new Coord(0, cursor.Row * LineHeight);
-			var line = _lines[cursor.Row];
+			var line = Lines[cursor.Row];
 			
 			// determine the column
 			double x = 0;
@@ -230,8 +230,6 @@ namespace MonoWorks.Controls
 				}
 			}	
 			cursor.Position.X = x;
-			
-			Console.WriteLine("hit cursor: {0}", cursor);
 			return cursor;
 		}
 		
@@ -265,11 +263,13 @@ namespace MonoWorks.Controls
 			
 			if (!HitTest(evt.Pos))
 				return;
-			_cursor = HitCursor(evt.Pos);
-			_anchor = _cursor;
+			Cursor = HitCursor(evt.Pos);
+			Anchor = Cursor;
 			
 			IsFocused = true;
 			_isDragging = true;
+			
+			evt.Handle();
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
@@ -284,9 +284,9 @@ namespace MonoWorks.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			if (_anchor == null || !_isDragging)
+			if (Anchor == null || !_isDragging)
 				return;
-			_cursor = HitCursor(evt.Pos);
+			Cursor = HitCursor(evt.Pos);
 			MakeDirty();
 		}
 		
@@ -296,8 +296,8 @@ namespace MonoWorks.Controls
 			
 			if (oldVal.IsFocused() && !IsFocused) // lost focus
 			{
-				_cursor = null;
-				_anchor = null;
+				Cursor = null;
+				Anchor = null;
 				_isDragging = false;
 				MakeDirty();
 			}
@@ -320,6 +320,8 @@ namespace MonoWorks.Controls
 		public int Column { get; set; }
 		
 		public Coord Position { get; set; }
+		
+		public bool IsDirty { get; set; }
 		
 		public override string ToString()
 		{
