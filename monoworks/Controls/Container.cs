@@ -35,8 +35,8 @@ namespace MonoWorks.Controls
 		{
 		}
 
-
-#region Children
+		
+		#region Children
 
 		public override void AddChild(Renderable child)
 		{
@@ -137,10 +137,10 @@ namespace MonoWorks.Controls
 			get {return children.Count;}
 		}
 
-#endregion
-
-
-#region Mouse Interaction
+		#endregion
+		
+		
+		#region Interaction
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -166,11 +166,16 @@ namespace MonoWorks.Controls
 				child.OnMouseMotion(evt);
 		}
 
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+		}
 
-#endregion
+		
+		#endregion
 
-
-#region Rendering
+		
+		#region Rendering
 
 		protected override void Render(RenderContext context)
 		{
@@ -181,8 +186,8 @@ namespace MonoWorks.Controls
 				child.RenderCairo(context);
 			}
 		}
-
-#endregion
+		
+		#endregion
 
 
 	}

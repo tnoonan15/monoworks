@@ -115,7 +115,7 @@ namespace MonoWorks.Controls
 		}
 
 		
-		#region Mouse Interaction
+		#region Interaction
 				
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -136,6 +136,13 @@ namespace MonoWorks.Controls
 			base.OnMouseMotion(evt);
 			
 			_overlayPane.OnMouseMotion(evt);
+		}
+		
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			_overlayPane.OnKeyPress(evt);
 		}
 		
 		#endregion

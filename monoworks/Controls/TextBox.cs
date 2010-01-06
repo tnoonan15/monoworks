@@ -62,5 +62,51 @@ namespace MonoWorks.Controls
 		
 		#endregion
 		
+		
+		#region Text Entry
+		
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			var charVal = (char)evt.Value;
+			if (Char.IsLetterOrDigit(charVal) || Char.IsPunctuation(charVal))
+			{
+				Insert(charVal);
+			}
+		}
+
+		/// <summary>
+		/// Inserts the given character at the current cursor position.
+		/// </summary>
+		public void Insert(Char c)
+		{
+			Anchor = null;
+			if (Cursor == null)
+				Body = c.ToString();
+			else if (Cursor.Row == 0 && Cursor.Column == 0)
+			{
+				Body = c.ToString() + Body;
+				Cursor.IsDirty = true;
+			}
+			else if (Cursor.Row == Lines.Length - 1 && 
+			         Cursor.Column == Lines[Lines.Length-1].Length - 1)
+			{
+				Body = Body + c.ToString();
+				Cursor.IsDirty = true;
+			}
+			else // somewhere in the middle
+			{
+				Lines[Cursor.Row] = Lines[Cursor.Row].Insert(Cursor.Column, c.ToString());
+				Cursor.Column++;
+				Body = Lines.Join(c.ToString());
+				Cursor.IsDirty = true;
+			}
+			
+			MakeDirty();
+		}
+		
+		#endregion
+		
 	}
 }

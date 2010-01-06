@@ -62,24 +62,27 @@ namespace MonoWorks.Controls
 				new ColorGroup(
 				new Color(0.5f, 0.5f, 0.5f),
 				new Color(0.5f, 0.5f, 0.5f),
-				new Color(0.5f, 0.5f, 0.8f)
+				new Color(0.6f, 0.6f, 0.6f),
+				new Color(0f, 0.5f, 0f)
 			));
 			
 			SetColorGroup(ColorType.EditableStart,
 				new ColorGroup(
       			new Color(1f, 1f, 1f, 0.8f),
       			new Color(0.95f, 0.95f, 0.95f, 0.9f),
-      			new Color(1f, 1f, 1f, 0.9f)
+      			new Color(1f, 1f, 1f, 0.9f),
+      			new Color(0.5f, 0.8f, 0.5f, 0.9f)
             ));
 			
 			SetColorGroup(ColorType.EditableStop,
 				new ColorGroup(
       			new Color(1f, 1f, 1f, 1f),
       			new Color(1f, 1f, 1f, 1f),
-      			new Color(0.9f, 0.9f, 1f, 1f)
+      			new Color(0.9f, 0.9f, 1f, 1f),
+      			new Color(0.5f, 1f, 0.5f, 0.9f)
             ));
 			
-			SelectionColor = new Color(0.2f, 0.3f, 1f, 0.5f);
+			SelectionColor = new Color(0.2f, 0.4f, 1f, 0.5f);
 			
 			StrokeWidth = 0.5;
 			CornerRadius = 6;
@@ -541,11 +544,7 @@ namespace MonoWorks.Controls
 		protected virtual void Decorate(TextBox textBox)
 		{
 			FillRectangleEditable(textBox.RenderSize, Corner.None, textBox.HitState, AnchorLocation.S);
-			StrokeRectangle(textBox.RenderSize, Corner.None, HitState.None);
-			if (textBox.IsFocused)
-			{
-				
-			}
+			StrokeRectangle(textBox.RenderSize, Corner.None, textBox.HitState);
 		}
 				
 		#endregion

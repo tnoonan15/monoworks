@@ -107,6 +107,13 @@ namespace MonoWorks.Rendering.Interaction
 		/// The currently hit overlay. 
 		/// </summary>
 		public Overlay Current { get; set; }
+			
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			if (Current != null)
+				Current.OnKeyPress(evt);
+		}
+
 
 	}
 }
