@@ -158,18 +158,29 @@ namespace MonoWorks.Controls
 				context.Cairo.Save();
 				context.Cairo.SetFontSize(FontSize);
 				
-				// draw the selection box
-				context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
-				if (Anchor != null && Cursor != null)
+				if (Cursor != null)
 				{
 					var currentPos = context.Cairo.CurrentPoint;
-					var absPos = Anchor.Position + LastPosition + Padding;
-					var selectSize = Cursor.Position - Anchor.Position;
-					context.Cairo.Rectangle(absPos.X - 2, absPos.Y, selectSize.X, LineHeight);
-					context.Cairo.Fill();
+					var absPos = Cursor.Position + LastPosition + Padding;
+					
+					// draw the cursor
+					context.Cairo.Color = new Cairo.Color(0, 0, 0);
+					context.Cairo.LineWidth = 2;
+					context.Cairo.MoveTo(absPos.X - 2, absPos.Y);
+					context.Cairo.RelLineTo(0, LineHeight);
+					context.Cairo.Stroke();
+					
+					// draw the selection box
+					if (Anchor != null)
+					{
+						context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
+						var selectSize = Anchor.Position - Cursor.Position;
+						context.Cairo.Rectangle(absPos.X - 2, absPos.Y, selectSize.X, LineHeight);
+						context.Cairo.Fill();
+					}
 					context.Cairo.MoveTo(currentPos);
 				}
-				
+								
 				// render the text
 				context.Cairo.Color = new Cairo.Color(0, 0, 0);
 				var point = context.Cairo.CurrentPoint;
