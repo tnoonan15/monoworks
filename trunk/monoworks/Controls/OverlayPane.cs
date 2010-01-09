@@ -180,7 +180,6 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
-			Console.WriteLine ("overlay pane key press {0} on in focus {1}", evt, InFocus);
 			if (InFocus != null)
 			{
 				InFocus.OnKeyPress(evt);
@@ -194,8 +193,8 @@ namespace MonoWorks.Controls
 		
 		#endregion
 		
-		
-#region Rendering
+				
+		#region Rendering
 		
 		/// <summary>
 		/// This is set true if the pane was dirty last render cycle.
@@ -269,8 +268,8 @@ namespace MonoWorks.Controls
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 //			viewport.Lighting.Enable();
 		}
-
-#endregion
+		
+		#endregion
 
 		
 	}

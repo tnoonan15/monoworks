@@ -91,8 +91,14 @@ namespace MonoWorks.GuiGtk
 		/// <value>
 		/// The viewport used by this adapter.
 		/// </value>
-		public Viewport Viewport {get; private set;}
+		public Viewport Viewport { get; private set; }
 		
+		
+		private void OnWindowDeleteEvent(object sender, Gtk.DeleteEventArgs a) 
+		{
+			Gtk.Application.Quit ();
+			a.RetVal = true;
+		}
 		
 				
 		#region Mouse and Keyboard Interaction
@@ -190,9 +196,37 @@ namespace MonoWorks.GuiGtk
 		}
 		
 		protected virtual void OnKeyPress(object sender, Gtk.KeyPressEventArgs args)
-		{			
+		{
 			var modifier = GetModifier(args.Event.State);
-			var evt = new KeyEvent((int)args.Event.KeyValue, modifier);
+			
+			// look for special keys
+			var val = (int)args.Event.KeyValue;
+			switch (args.Event.Key)
+			{
+			case Gdk.Key.Right:
+				val = (int)SpecialKey.Right;
+				break;
+			case Gdk.Key.Left:
+				val = (int)SpecialKey.Left;
+				break;
+			case Gdk.Key.Up:
+				val = (int)SpecialKey.Up;
+				break;
+			case Gdk.Key.Down:
+				val = (int)SpecialKey.Down;
+				break;
+			case Gdk.Key.Delete:
+				val = (int)SpecialKey.Delete;
+				break;
+			case Gdk.Key.BackSpace:
+				val = (int)SpecialKey.Backspace;
+				break;
+			case Gdk.Key.Return:
+				val = (int)SpecialKey.Enter;
+				break;
+			}
+			
+			var evt = new KeyEvent(val, modifier);
 			Viewport.OnKeyPress(evt);
 			
 			PaintGL();
@@ -201,8 +235,8 @@ namespace MonoWorks.GuiGtk
 		
 		#endregion
 		
-		
-#region OpenGL Methods
+				
+		#region OpenGL Methods
 		
 		/// <summary>
 		/// Initialize the OpenGL rendering.
@@ -316,18 +350,10 @@ namespace MonoWorks.GuiGtk
 			get {return Allocation.Height;}
 		}
 		
-#endregion
-		
+		#endregion
 
 		
-		private void OnWindowDeleteEvent(object sender, Gtk.DeleteEventArgs a) 
-		{
-			Gtk.Application.Quit ();
-			a.RetVal = true;
-		}
-
-
-#region File Dialog Stuff
+		#region File Dialog Stuff
 		
 		/// <summary>
 		/// Exports the contents of the viewport to the given file.
@@ -347,8 +373,8 @@ namespace MonoWorks.GuiGtk
 		{
 			throw new System.NotImplementedException();
 		}
-		
-#endregion
+				
+		#endregion
 		
 		
 

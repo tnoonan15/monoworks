@@ -25,6 +25,7 @@ using System.Collections.Generic;
 
 using Cairo;
 
+using MonoWorks.Framework;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
@@ -78,40 +79,58 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
+			MakeDirty();
+			
+			// look for special keys
+			switch (evt.SpecialKey)
+			{
+			case SpecialKey.Right:
+				CursorRight();
+				return;
+			case SpecialKey.Left:
+				CursorLeft();
+				return;
+			case SpecialKey.Backspace:
+				Backspace(evt.Modifier);
+				return;
+			}
+			
 			var charVal = (char)evt.Value;
 			if (Char.IsLetterOrDigit(charVal) || Char.IsPunctuation(charVal))
 			{
-				Insert(charVal);
+				Insert(charVal.ToString());
 			}
 		}
 
 		/// <summary>
-		/// Inserts the given character at the current cursor position.
+		/// Inserts the given string at the current cursor position.
 		/// </summary>
-		public void Insert(Char c)
+		public void Insert(string val)
 		{
 			DeleteSelection();
 			if (Cursor == null)
-				Body = c.ToString();
+			{
+				Body = val;
+				Cursor.Column = val.Length;
+			}
 			else if (Cursor.Row == 0 && Cursor.Column == 0)
 			{
-				Body = c.ToString() + Body;
+				Body = val + Body;
+				Cursor.Column = val.Length;
 				Cursor.IsDirty = true;
 			}
 			else if (Cursor.Row == Lines.Length - 1 && 
-			         Cursor.Column == Lines[Lines.Length-1].Length - 1)
+			         Cursor.Column == Lines[Lines.Length - 1].Length - 1)
 			{
-				Body = Body + c.ToString();
+				Body = Body + val;
 				Cursor.IsDirty = true;
 			}
 			else // somewhere in the middle
 			{
-				Lines[Cursor.Row] = Lines[Cursor.Row].Insert(Cursor.Column, c.ToString());
+				Lines[Cursor.Row] = Lines[Cursor.Row].Insert(Cursor.Column, val);
 				Cursor.Column++;
 				SetBodyFromLines();
 			}
-			
-			MakeDirty();
 		}
 		
 		/// <summary>
@@ -140,6 +159,108 @@ namespace MonoWorks.Controls
 			}
 			
 			Anchor = null;
+		}
+		
+		/// <summary>
+		/// Deletes one or more characters to the left depending on the modifier.
+		/// </summary>
+		public void Backspace(InteractionModifier modifier)
+		{
+			if (Cursor == null)
+				return;
+			
+			if (Anchor != null)
+			{
+				DeleteSelection();
+				return;
+			}
+			
+			if (modifier == InteractionModifier.None)
+			{
+				if (Cursor.Column == 0)
+				{
+					if (Cursor.Row > 0) // there's a line break to delete
+					{
+						throw new NotImplementedException();
+					}
+				}
+				else
+				{
+					Lines[Cursor.Row] = Lines[Cursor.Row].Remove(Cursor.Column-1, 1);
+					SetBodyFromLines();
+					Cursor.Column--;
+				}
+			}
+			else // another modifier
+			{
+				throw new NotImplementedException();
+			}
+		}
+		
+		/// <summary>
+		/// Moves the cursor one character to the left.
+		/// </summary>
+		public void CursorLeft()
+		{
+			if (Anchor != null)
+				Anchor = null;
+			
+			// make sure there is a cursor
+			if (Cursor == null)
+			{
+				Cursor = new TextCursor() {
+					Column = 0,
+					Row = 0,
+					IsDirty = true
+				};
+			}
+			else
+			{
+				if (Cursor.Column > 0)
+				{
+					Cursor.Column--;
+					Cursor.IsDirty = true;
+				}
+				else if (Cursor.Row > 0)
+				{
+					Cursor.Row--;
+					Cursor.Column = Lines[Cursor.Row].Length - 1;
+					Cursor.IsDirty = true;
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Moves the cursor one character to the right.
+		/// </summary>
+		public void CursorRight()
+		{
+			if (Anchor != null)
+				Anchor = null;
+			
+			// make sure there is a cursor
+			if (Cursor == null)
+			{
+				Cursor = new TextCursor() {
+					Column = 0,
+					Row = 0,
+					IsDirty = true
+				};
+			}
+			else
+			{
+				if (Cursor.Column < Lines[Cursor.Row].Length )
+				{
+					Cursor.Column++;
+					Cursor.IsDirty = true;
+				}
+				else if (Cursor.Row < Lines.Length - 1)
+				{
+					Cursor.Row++;
+					Cursor.Column = 0;
+					Cursor.IsDirty = true;
+				}
+			}
 		}
 		
 		#endregion

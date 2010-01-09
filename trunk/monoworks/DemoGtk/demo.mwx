@@ -17,7 +17,7 @@
 			</mwc:Stack>
 			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>Single Line Text Box</mwc:Label>
-				<mwc:TextBox Name="singleLineText">content</mwc:TextBox>
+				<mwc:TextBox Name="singleLineText">Editable Content</mwc:TextBox>
 			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
