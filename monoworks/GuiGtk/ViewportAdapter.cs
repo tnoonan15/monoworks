@@ -224,10 +224,17 @@ namespace MonoWorks.GuiGtk
 			case Gdk.Key.Return:
 				val = (int)SpecialKey.Enter;
 				break;
+			case Gdk.Key.Home:
+				val = (int)SpecialKey.Home;
+				break;
+			case Gdk.Key.End:
+				val = (int)SpecialKey.End;
+				break;
 			}
 			
 			var evt = new KeyEvent(val, modifier);
 			Viewport.OnKeyPress(evt);
+			args.RetVal = false;
 			
 			PaintGL();
 		}
