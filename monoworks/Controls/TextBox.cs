@@ -65,6 +65,15 @@ namespace MonoWorks.Controls
 		
 		#region Text Entry
 		
+		/// <summary>
+		/// Remakes the body based on the current Lines array.
+		/// </summary>
+		protected void SetBodyFromLines()
+		{
+			Body = Lines.Join(Label.LineBreak);
+			Cursor.IsDirty = true;
+		}
+		
 		public override void OnKeyPress(KeyEvent evt)
 		{
 			base.OnKeyPress(evt);
@@ -81,7 +90,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public void Insert(Char c)
 		{
-			Anchor = null;
+			DeleteSelection();
 			if (Cursor == null)
 				Body = c.ToString();
 			else if (Cursor.Row == 0 && Cursor.Column == 0)
@@ -99,11 +108,38 @@ namespace MonoWorks.Controls
 			{
 				Lines[Cursor.Row] = Lines[Cursor.Row].Insert(Cursor.Column, c.ToString());
 				Cursor.Column++;
-				Body = Lines.Join(c.ToString());
-				Cursor.IsDirty = true;
+				SetBodyFromLines();
 			}
 			
 			MakeDirty();
+		}
+		
+		/// <summary>
+		/// Deletes the currently selected text.
+		/// </summary>
+		public void DeleteSelection()
+		{
+			if (Anchor == null)	// nothing selected
+				return;
+			
+			if (Anchor.Row == Cursor.Row) // single row selection
+			{
+				var firstColumn = Math.Min(Anchor.Column, Cursor.Column);
+				var numColumns = Math.Abs(Anchor.Column - Cursor.Column);
+				Lines[Cursor.Row] = Lines[Cursor.Row].Remove(firstColumn, numColumns);
+				SetBodyFromLines();
+				Cursor.Column = firstColumn;
+			}
+			else if (Anchor.Row < Cursor.Row)
+			{
+				throw new NotImplementedException();
+			}
+			else // Anchor.Row > Cursor.Row
+			{
+				throw new NotImplementedException();
+			}
+			
+			Anchor = null;
 		}
 		
 		#endregion

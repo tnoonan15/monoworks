@@ -31,6 +31,11 @@ namespace MonoWorks.Controls
 	public class Label : Control2D, IStringParsable
 	{
 		/// <summary>
+		/// Character used to delineate lines in labels and its subclasses.
+		/// </summary>
+		public const char LineBreak = '\n';
+		
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public Label() : base()
@@ -133,10 +138,10 @@ namespace MonoWorks.Controls
 			{
 				cr.SetFontSize(FontSize);
 				extents = new Coord();
-				Lines = Body.Split(new string[] { "\n" }, StringSplitOptions.None);
-				foreach (var line in Lines)
+				Lines = Body.Split(LineBreak);
+				for (int i = 0; i < Lines.Length; i++)
 				{
-					var crExtents = cr.TextExtents(line);
+					var crExtents = cr.TextExtents(Lines[i]);
 					extents.X = Math.Max(crExtents.Width, extents.X);
 					extents.Y += LineHeight;
 				}
@@ -146,6 +151,12 @@ namespace MonoWorks.Controls
 			
 			MinSize = extents;
 			ApplyUserSize();
+			
+			// make sure the cursors are up to date
+			if (Cursor != null && Cursor.IsDirty)
+				UpdateCursorPosition(Cursor);
+			if (Anchor != null && Anchor.IsDirty)
+				UpdateCursorPosition(Anchor);
 		}
 
 
@@ -225,7 +236,8 @@ namespace MonoWorks.Controls
 			
 			// determine the column
 			double x = 0;
-			using (var cr = new Cairo.Context(dummySurface)) {
+			using (var cr = new Cairo.Context(dummySurface))
+			{
 				cr.SetFontSize(FontSize);
 				var extents = cr.TextExtents("m"); // used to ensure that leading and trailing spaces are counted correctly
 				var mWidth = extents.Width;
@@ -241,7 +253,29 @@ namespace MonoWorks.Controls
 				}
 			}	
 			cursor.Position.X = x;
+			cursor.IsDirty = false;
 			return cursor;
+		}
+		
+		/// <summary>
+		/// Updates the position of the cursor based on its row and column.
+		/// </summary>
+		protected void UpdateCursorPosition(TextCursor cursor)
+		{
+			cursor.Position.Y = cursor.Row * LineHeight;
+			
+			var line = Lines[cursor.Row];
+			using (var cr = new Cairo.Context(dummySurface))
+			{
+				cr.SetFontSize(FontSize);
+				var extents = cr.TextExtents("m");
+				// used to ensure that leading and trailing spaces are counted correctly
+				var mWidth = extents.Width;
+				extents = cr.TextExtents("m" + line.Substring(0, cursor.Column) + "m");
+				cursor.Position.X = extents.Width - 2 * mWidth;
+			}
+			cursor.IsDirty = false;
+			Console.WriteLine("updating cursor: {0}", cursor);
 		}
 		
 		#endregion
@@ -281,6 +315,9 @@ namespace MonoWorks.Controls
 			_isDragging = true;
 			
 			evt.Handle();
+			
+			
+			MakeDirty();
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)

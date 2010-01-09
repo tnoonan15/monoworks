@@ -35,13 +35,21 @@ namespace MonoWorks.Base
 		public static string Join(this string[] list, string sep)
 		{
 			var builder = new StringBuilder();
-			for (int i=0; i<list.Length; i++)
+			for (int i = 0; i < list.Length; i++)
 			{
 				builder.Append(list[i]);
 				if (i < list.Length - 1)
 					builder.Append(sep);
 			}
 			return builder.ToString();
+		}
+		
+		/// <summary>
+		/// Joins an array of strings together with a separator. 
+		/// </summary>
+		public static string Join(this string[] list, char sep)
+		{
+			return list.Join(sep.ToString());
 		}
 
 		/// <summary>
