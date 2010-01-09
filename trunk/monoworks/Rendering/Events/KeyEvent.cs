@@ -38,7 +38,9 @@ namespace MonoWorks.Rendering.Events
 		Backspace = 8,
 		Enter = 13,
 		Delete = 46,
-		Escape = 27
+		Escape = 27,
+		Home,
+		End
 	};
 
 	/// <summary>

@@ -79,19 +79,35 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
+			evt.Handle();
 			MakeDirty();
 			
 			// look for special keys
 			switch (evt.SpecialKey)
 			{
 			case SpecialKey.Right:
-				CursorRight();
+				CursorRight(evt.Modifier);
 				return;
 			case SpecialKey.Left:
-				CursorLeft();
+				CursorLeft(evt.Modifier);
+				return;
+			case SpecialKey.Up:
+				CursorUp(evt.Modifier);
+				return;
+			case SpecialKey.Down:
+				CursorDown(evt.Modifier);
 				return;
 			case SpecialKey.Backspace:
-				Backspace(evt.Modifier);
+				CursorBackspace(evt.Modifier);
+				return;
+			case SpecialKey.Delete:
+				CursorDelete(evt.Modifier);
+				return;
+			case SpecialKey.Home:
+				CursorHome();
+				return;
+			case SpecialKey.End:
+				CursorEnd();
 				return;
 			}
 			
@@ -105,7 +121,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Inserts the given string at the current cursor position.
 		/// </summary>
-		public void Insert(string val)
+		public virtual void Insert(string val)
 		{
 			DeleteSelection();
 			if (Cursor == null)
@@ -127,7 +143,7 @@ namespace MonoWorks.Controls
 			}
 			else // somewhere in the middle
 			{
-				Lines[Cursor.Row] = Lines[Cursor.Row].Insert(Cursor.Column, val);
+				CurrentLine = CurrentLine.Insert(Cursor.Column, val);
 				Cursor.Column++;
 				SetBodyFromLines();
 			}
@@ -136,7 +152,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Deletes the currently selected text.
 		/// </summary>
-		public void DeleteSelection()
+		public virtual void DeleteSelection()
 		{
 			if (Anchor == null)	// nothing selected
 				return;
@@ -145,7 +161,7 @@ namespace MonoWorks.Controls
 			{
 				var firstColumn = Math.Min(Anchor.Column, Cursor.Column);
 				var numColumns = Math.Abs(Anchor.Column - Cursor.Column);
-				Lines[Cursor.Row] = Lines[Cursor.Row].Remove(firstColumn, numColumns);
+				CurrentLine = CurrentLine.Remove(firstColumn, numColumns);
 				SetBodyFromLines();
 				Cursor.Column = firstColumn;
 			}
@@ -164,7 +180,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Deletes one or more characters to the left depending on the modifier.
 		/// </summary>
-		public void Backspace(InteractionModifier modifier)
+		public virtual void CursorBackspace(InteractionModifier modifier)
 		{
 			if (Cursor == null)
 				return;
@@ -186,7 +202,7 @@ namespace MonoWorks.Controls
 				}
 				else
 				{
-					Lines[Cursor.Row] = Lines[Cursor.Row].Remove(Cursor.Column-1, 1);
+					CurrentLine = CurrentLine.Remove(Cursor.Column-1, 1);
 					SetBodyFromLines();
 					Cursor.Column--;
 				}
@@ -198,9 +214,44 @@ namespace MonoWorks.Controls
 		}
 		
 		/// <summary>
-		/// Moves the cursor one character to the left.
+		/// Deletes one or more characters to the right depending on the modifier.
 		/// </summary>
-		public void CursorLeft()
+		public virtual void CursorDelete(InteractionModifier modifier)
+		{
+			if (Cursor == null)
+				return;
+			
+			if (Anchor != null)
+			{
+				DeleteSelection();
+				return;
+			}
+			
+			if (modifier == InteractionModifier.None)
+			{
+				if (Cursor.Column == CurrentLine.Length)
+				{
+					if (Cursor.Row < NumLines - 1) // there's a line break to delete
+					{
+						throw new NotImplementedException();
+					}
+				}
+				else
+				{
+					CurrentLine = CurrentLine.Remove(Cursor.Column, 1);
+					SetBodyFromLines();
+				}
+			}
+			else // another modifier
+			{
+				throw new NotImplementedException();
+			}
+		}
+		
+		/// <summary>
+		/// Moves the cursor one or more characters to the left, depending on the modifier.
+		/// </summary>
+		public virtual void CursorLeft(InteractionModifier modifier)
 		{
 			if (Anchor != null)
 				Anchor = null;
@@ -224,21 +275,20 @@ namespace MonoWorks.Controls
 				else if (Cursor.Row > 0)
 				{
 					Cursor.Row--;
-					Cursor.Column = Lines[Cursor.Row].Length - 1;
+					Cursor.Column = CurrentLine.Length;
 					Cursor.IsDirty = true;
 				}
 			}
 		}
 		
 		/// <summary>
-		/// Moves the cursor one character to the right.
+		/// Moves the cursor one or more characters to the right, depending on the modifier.
 		/// </summary>
-		public void CursorRight()
+		public virtual void CursorRight(InteractionModifier modifier)
 		{
 			if (Anchor != null)
 				Anchor = null;
 			
-			// make sure there is a cursor
 			if (Cursor == null)
 			{
 				Cursor = new TextCursor() {
@@ -249,7 +299,7 @@ namespace MonoWorks.Controls
 			}
 			else
 			{
-				if (Cursor.Column < Lines[Cursor.Row].Length )
+				if (Cursor.Column < CurrentLine.Length )
 				{
 					Cursor.Column++;
 					Cursor.IsDirty = true;
@@ -260,6 +310,98 @@ namespace MonoWorks.Controls
 					Cursor.Column = 0;
 					Cursor.IsDirty = true;
 				}
+			}
+		}
+		
+		/// <summary>
+		/// Moves the cursor one or more lines up, depending on the modifier.
+		/// </summary>
+		public virtual void CursorUp(InteractionModifier modifier)
+		{
+			if (Anchor != null)
+				Anchor = null;
+			
+			if (Cursor == null)
+			{
+				Cursor = new TextCursor() {
+					Column = 0,
+					Row = 0,
+					IsDirty = true
+				};
+			}
+			else if (Cursor.Row > 0 )
+			{
+				Cursor.Row--;
+				Cursor.IsDirty = true;
+			}
+		}
+		
+		/// <summary>
+		/// Moves the cursor down or more lines up, depending on the modifier.
+		/// </summary>
+		public virtual void CursorDown(InteractionModifier modifier)
+		{
+			if (Anchor != null)
+				Anchor = null;
+			
+			if (Cursor == null)
+			{
+				Cursor = new TextCursor() {
+					Column = 0,
+					Row = NumLines - 1,
+					IsDirty = true
+				};
+			}
+			else if (Cursor.Row < NumLines - 1 )
+			{
+				Cursor.Row++;
+				Cursor.IsDirty = true;
+			}
+		}
+		
+		/// <summary>
+		/// Moves the cursor to the beginning of the current line.
+		/// </summary>
+		public virtual void CursorHome()
+		{
+			if (Anchor != null)
+				Anchor = null;
+			
+			if (Cursor == null)
+			{
+				Cursor = new TextCursor() {
+					Column = 0,
+					Row = 0,
+					IsDirty = true
+				};
+			}
+			else
+			{
+				Cursor.Column = 0;
+				Cursor.IsDirty = true;
+			}
+		}
+		
+		/// <summary>
+		/// Moves the cursor to the end of the current line.
+		/// </summary>
+		public virtual void CursorEnd()
+		{
+			if (Anchor != null)
+				Anchor = null;
+			
+			if (Cursor == null)
+			{
+				Cursor = new TextCursor() {
+					Column = 0,
+					Row = 0,
+					IsDirty = true
+				};
+			}
+			else
+			{
+				Cursor.Column = CurrentLine.Length;
+				Cursor.IsDirty = true;
 			}
 		}
 		

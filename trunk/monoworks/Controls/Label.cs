@@ -126,6 +126,25 @@ namespace MonoWorks.Controls
 		/// The lines of the body separated out.
 		/// </summary>
 		protected string[] Lines;
+
+		/// <summary>
+		/// The current line (where the cursor is).
+		/// </summary>
+		public string CurrentLine
+		{
+			get { return Lines[Cursor.Row]; }
+			protected set {
+				Lines[Cursor.Row] = value;
+			}
+		}
+		
+		/// <summary>
+		/// The number of lines in the body (separated by Label.NewLine).
+		/// </summary>
+		public int NumLines
+		{
+			get { return Lines.Length;}
+		}
 		
 		public override void ComputeGeometry()
 		{
@@ -177,7 +196,7 @@ namespace MonoWorks.Controls
 					// draw the cursor
 					context.Cairo.Color = new Cairo.Color(0, 0, 0);
 					context.Cairo.LineWidth = 2;
-					context.Cairo.MoveTo(absPos.X - 2, absPos.Y);
+					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 2); // I don't know why we need to subtract 2
 					context.Cairo.RelLineTo(0, LineHeight);
 					context.Cairo.Stroke();
 					
@@ -275,7 +294,6 @@ namespace MonoWorks.Controls
 				cursor.Position.X = extents.Width - 2 * mWidth;
 			}
 			cursor.IsDirty = false;
-			Console.WriteLine("updating cursor: {0}", cursor);
 		}
 		
 		#endregion
