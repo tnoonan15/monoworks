@@ -253,8 +253,10 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public virtual void CursorLeft(InteractionModifier modifier)
 		{
-			if (Anchor != null)
+			if (Anchor != null && modifier != InteractionModifier.Shift)
 				Anchor = null;
+			else if (Anchor == null && modifier == InteractionModifier.Shift)
+				Anchor = Cursor.Copy();
 			
 			// make sure there is a cursor
 			if (Cursor == null)
@@ -286,8 +288,11 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public virtual void CursorRight(InteractionModifier modifier)
 		{
-			if (Anchor != null)
+			Console.WriteLine ("right with modifier {0}", modifier);
+			if (Anchor != null && modifier != InteractionModifier.Shift)
 				Anchor = null;
+			else if (Anchor == null && modifier == InteractionModifier.Shift)
+				Anchor = Cursor.Copy();
 			
 			if (Cursor == null)
 			{

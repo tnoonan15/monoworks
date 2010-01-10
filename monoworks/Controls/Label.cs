@@ -132,7 +132,11 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public string CurrentLine
 		{
-			get { return Lines[Cursor.Row]; }
+			get { 
+				if (Cursor != null)
+					return Lines[Cursor.Row]; 
+				return Body;
+			}
 			protected set {
 				Lines[Cursor.Row] = value;
 			}
@@ -196,7 +200,7 @@ namespace MonoWorks.Controls
 					// draw the cursor
 					context.Cairo.Color = new Cairo.Color(0, 0, 0);
 					context.Cairo.LineWidth = 2;
-					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 2); // I don't know why we need to subtract 2
+					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 1); // I don't know why we need to subtract 
 					context.Cairo.RelLineTo(0, LineHeight);
 					context.Cairo.Stroke();
 					
@@ -205,7 +209,7 @@ namespace MonoWorks.Controls
 					{
 						context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
 						var selectSize = Anchor.Position - Cursor.Position;
-						context.Cairo.Rectangle(absPos.X - 2, absPos.Y, selectSize.X, LineHeight);
+						context.Cairo.Rectangle(absPos.X - 2, absPos.Y - 1, selectSize.X, LineHeight);
 						context.Cairo.Fill();
 					}
 					context.Cairo.MoveTo(currentPos);
@@ -251,7 +255,7 @@ namespace MonoWorks.Controls
 					Lines.Length - 1),
 					0);
 			cursor.Position = new Coord(0, cursor.Row * LineHeight);
-			var line = Lines[cursor.Row];
+			var line = CurrentLine;
 			
 			// determine the column
 			double x = 0;
@@ -281,9 +285,11 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected void UpdateCursorPosition(TextCursor cursor)
 		{
+			if (cursor.Position ==  null)
+				cursor.Position = new Coord();
 			cursor.Position.Y = cursor.Row * LineHeight;
 			
-			var line = Lines[cursor.Row];
+			var line = CurrentLine;
 			using (var cr = new Cairo.Context(dummySurface))
 			{
 				cr.SetFontSize(FontSize);
@@ -294,6 +300,23 @@ namespace MonoWorks.Controls
 				cursor.Position.X = extents.Width - 2 * mWidth;
 			}
 			cursor.IsDirty = false;
+		}
+		
+		/// <summary>
+		/// Selects all the tet in the body.
+		/// </summary>
+		public void SelectAll()
+		{
+			Anchor = new TextCursor() {
+				Row = 0,
+				Column = 0,
+				IsDirty = true
+			};
+			Cursor = new TextCursor() {
+				Row = NumLines - 1,
+				Column = Lines[Lines.Length - 1].Length,
+				IsDirty = true
+			};
 		}
 		
 		#endregion
@@ -326,6 +349,13 @@ namespace MonoWorks.Controls
 			
 			if (!HitTest(evt.Pos))
 				return;
+			
+			if (evt.Multiplicity == ClickMultiplicity.Double)
+			{
+				SelectAll();
+				return;
+			}
+			
 			Cursor = HitCursor(evt.Pos);
 			Anchor = Cursor;
 			
@@ -389,11 +419,25 @@ namespace MonoWorks.Controls
 		
 		public bool IsDirty { get; set; }
 		
+		/// <summary>
+		/// Creates a new, dirty cursor with the same row and column.
+		/// </summary>
+		public TextCursor Copy()
+		{
+			return new TextCursor() {
+				Row = Row,
+				Column = Column,
+				Position = Position.Copy(),
+				IsDirty = true
+			};
+		}
+		
 		public override string ToString()
 		{
 			return string.Format("[{0}, {1}] Position={2}", Row, Column, Position);
 		}
 
+		
 	}
 	
 }
