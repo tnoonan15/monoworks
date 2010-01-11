@@ -33,7 +33,7 @@ namespace MonoWorks.Controls
 	public class RenderContext
 	{
 		
-		public RenderContext(Context cr, AbstractDecorator decorator) 
+		public RenderContext(Context cr, DecoratorBase decorator) 
 		{
 			this.Cairo = cr;
 			this.Decorator = decorator;
@@ -48,7 +48,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The decorator used to decorate the controls.
 		/// </value>
-		public AbstractDecorator Decorator {get; private set;}
+		public DecoratorBase Decorator {get; private set;}
 		
 		/// <summary>
 		/// Stack to keep track of the current position that rendering operations should use in the context.

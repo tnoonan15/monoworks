@@ -63,5 +63,13 @@ namespace MonoWorks.Base
 			return enumType;
 		}
 		
+		/// <summary>
+		/// Limits a double to the given min and max values.
+		/// </summary>
+		public static double MinMax(this double val, double min, double max)
+		{
+			return Math.Min(Math.Max(val, min), max);
+		}
+		
 	}
 }

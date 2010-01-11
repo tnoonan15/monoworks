@@ -19,6 +19,10 @@
 				<mwc:Label>Single Line Text Box</mwc:Label>
 				<mwc:TextBox Name="singleLineText">Editable Content</mwc:TextBox>
 			</mwc:Stack>
+			<mwc:Stack Orientation="Horizontal">
+				<mwc:Label>Slider</mwc:Label>
+				<mwc:Slider Name="slider1" Orientation="Horizontal" Value="3"/>
+			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
 </mwx:Ui>

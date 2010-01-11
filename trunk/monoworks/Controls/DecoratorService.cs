@@ -35,17 +35,17 @@ namespace MonoWorks.Controls
 			Default = new BasicDecorator();
 		}
 		
-		public static AbstractDecorator Default {get; set;}
+		public static DecoratorBase Default {get; set;}
 		
 		/// <summary>
 		/// Associates a decorator with each viewport.
 		/// </summary>
-		private static Dictionary<Viewport,AbstractDecorator> _decorators = 
-			new Dictionary<Viewport, AbstractDecorator>();
+		private static Dictionary<Viewport,DecoratorBase> _decorators = 
+			new Dictionary<Viewport, DecoratorBase>();
 		
-		public static AbstractDecorator Get(Viewport viewport)
+		public static DecoratorBase Get(Viewport viewport)
 		{
-			AbstractDecorator decorator;
+			DecoratorBase decorator;
 			if (_decorators.TryGetValue(viewport, out decorator))
 				return decorator;
 			return Default;
