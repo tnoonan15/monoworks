@@ -24,6 +24,22 @@ using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
+	/// <summary>
+	/// Event for some text changing.
+	/// </summary>
+	public class TextChangedEvent : ValueChangedEvent<string>
+	{
+		public TextChangedEvent(string oldVal, string newVal)
+			: base(oldVal, newVal)
+		{
+			
+		}
+	}
+	
+	/// <summary>
+	/// Delegate for handling text changed events.
+	/// </summary>
+	public delegate void TextChangedHandler(object sender, TextChangedEvent evt);
 	
 	/// <summary>
 	/// Control containing just text.
@@ -88,10 +104,15 @@ namespace MonoWorks.Controls
 		public string Body {
 			get { return _body; }
 			set {
+				var oldVal = _body;
 				_body = value;
 				MakeDirty();
+				if (BodyChanged != null)
+					BodyChanged(this, new TextChangedEvent(oldVal, value));
 			}
 		}
+		
+		public event TextChangedHandler BodyChanged;
 		
 		/// <summary>
 		/// The total height of each line (based on font size and padding).

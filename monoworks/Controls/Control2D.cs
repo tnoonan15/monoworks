@@ -30,6 +30,28 @@ using System.Runtime.InteropServices;
 
 namespace MonoWorks.Controls
 {
+
+	/// <summary>
+	/// An event that's used for a value changing.
+	/// </summary>
+	public class ValueChangedEvent<T> : EventArgs
+	{
+		public ValueChangedEvent(T oldVal, T newVal)
+		{
+			OldValue = oldVal;
+			NewValue = newVal;
+		}
+		
+		/// <summary>
+		/// The old value.
+		/// </summary>
+		public T OldValue { get; private set; }
+		
+		/// <summary>
+		/// The new value.
+		/// </summary>
+		public T NewValue { get; private set; }
+	}
 	
 	/// <summary>
 	/// Base class for all renderable controls.

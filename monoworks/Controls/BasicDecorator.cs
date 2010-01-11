@@ -28,64 +28,25 @@ using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
+	
 	/// <summary>
-	/// The types of colors that the basic decorator stores color groups for.
+	/// Maps to individual or sets of color types for filling.
 	/// </summary>
-	public enum ColorType {BackgroundStart, BackgroundStop, Stroke, Text, EditableStart, EditableStop};
+	public enum FillType {Background, Editable, Selection};
 	
 	/// <summary>
 	/// Provides a basic decorator that should be good enough for most situations.
 	/// </summary>
 	[XmlRoot]
-	public class BasicDecorator : AbstractDecorator
+	public class BasicDecorator : DecoratorBase
 	{
 		
 		public BasicDecorator() : base()
 		{
+			CornerRadius = 6;
 			DefaultBackgroundLocation = AnchorLocation.SE;
 			
-			SetColorGroup(ColorType.BackgroundStart,
-				new ColorGroup(
-      			new Color(1f, 1f, 1f, 0.6f),
-      			new Color(1f, 1f, 1f, 0.9f),
-      			new Color(0.9f, 0.9f, 0.9f, 0.5f)
-            ));
-			
-			SetColorGroup(ColorType.BackgroundStop,
-				new ColorGroup(
-      			new Color(1f, 1f, 1f, 0.9f),
-      			new Color(1f, 1f, 1f, 0.6f),
-      			new Color(0.9f, 0.9f, 1f, 0.5f)
-            ));
-			
-			SetColorGroup(ColorType.Stroke,
-				new ColorGroup(
-				new Color(0.5f, 0.5f, 0.5f),
-				new Color(0.5f, 0.5f, 0.5f),
-				new Color(0.6f, 0.6f, 0.6f),
-				new Color(0f, 0.5f, 0f)
-			));
-			
-			SetColorGroup(ColorType.EditableStart,
-				new ColorGroup(
-      			new Color(1f, 1f, 1f, 0.8f),
-      			new Color(0.95f, 0.95f, 0.95f, 0.9f),
-      			new Color(1f, 1f, 1f, 0.9f),
-      			new Color(0.5f, 0.8f, 0.5f, 0.9f)
-            ));
-			
-			SetColorGroup(ColorType.EditableStop,
-				new ColorGroup(
-      			new Color(1f, 1f, 1f, 1f),
-      			new Color(1f, 1f, 1f, 1f),
-      			new Color(0.9f, 0.9f, 1f, 1f),
-      			new Color(0.5f, 1f, 0.5f, 0.9f)
-            ));
-			
-			SelectionColor = new Color(0.2f, 0.4f, 1f, 0.5f);
-			
 			StrokeWidth = 0.5;
-			CornerRadius = 6;
 		}
 		
 		
@@ -100,44 +61,6 @@ namespace MonoWorks.Controls
 		public const Corner AllCorners = Corner.NE | Corner.NW | Corner.SE | Corner.SW;
 		
 		
-		#region Colors
-		
-		/// <summary>
-		/// Associates color types with their groups.
-		/// </summary>
-		private Dictionary<ColorType,ColorGroup> _colorGroups = new Dictionary<ColorType, ColorGroup>();
-		
-		/// <summary>
-		/// Gets the color group that stores colors for the given type.
-		/// </summary>
-		public ColorGroup GetColorGroup(ColorType colorType)
-		{
-			ColorGroup colorGroup = null;
-			if (!_colorGroups.TryGetValue(colorType, out colorGroup))
-			{
-				colorGroup = new ColorGroup();
-				_colorGroups[colorType] = colorGroup;
-			}
-			return colorGroup;
-		}
-		
-		/// <summary>
-		/// Assigns a new color group for the given type.
-		/// </summary>
-		public void SetColorGroup(ColorType colorType, ColorGroup colorGroup)
-		{
-			_colorGroups[colorType] = colorGroup;
-		}
-		
-		/// <summary>
-		/// Returns the color associated with the given type and hit state.
-		/// </summary>
-		public Color GetColor(ColorType colorType, HitState hitState)
-		{
-			return GetColorGroup(colorType).GetColor(hitState);
-		}
-		
-		#endregion
 		
 		
 		#region Paths
@@ -289,54 +212,31 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Renders a rectangular background portion of a control.
 		/// </summary>
-		protected void FillRectangleBackground(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
+		protected void FillRectangle(Coord relPos, Coord size, Corner rounded, FillType fillType, HitState hitState, AnchorLocation location)
 		{
 			var point = Context.Push();
+			var coord = new Coord(point.X + relPos.X, point.Y + relPos.Y);
 			
-			// Create the gradient
-			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size, location, 
-			                                             GetColor(ColorType.BackgroundStart, hitState),
-			                                             GetColor(ColorType.BackgroundStop, hitState));
-			// draw the rectangle
-			Context.Cairo.Operator = Cairo.Operator.Source;
-			Context.Cairo.Pattern = grad;
-			RectanglePath(point.Coord().Round + 1, size.Floor - 2, rounded);
-			Context.Cairo.Fill();
-			
-			Context.Pop();
-		}
-		
-		/// <summary>
-		/// Renders a rectangular editable portion of a control.
-		/// </summary>
-		protected void FillRectangleEditable(Coord size, Corner rounded, HitState hitState, AnchorLocation location)
-		{
-			var point = Context.Push();
-			
-			// Create the gradient
-			Cairo.LinearGradient grad = GenerateGradient(point.Coord(), size, location, 
-			                                             GetColor(ColorType.EditableStart, hitState),
-			                                             GetColor(ColorType.EditableStop, hitState));
-			// draw the rectangle
-			Context.Cairo.Operator = Cairo.Operator.Source;
-			Context.Cairo.Pattern = grad;
-			RectanglePath(point.Coord().Round + 1, size.Floor - 2, rounded);
-			Context.Cairo.Fill();
-			
-			Context.Pop();
-		}
-		
-		/// <summary>
-		/// Fills a rectangle with a solid color.
-		/// </summary>
-		protected void FillSolidRectangle(Coord size, Corner rounded, Color color)
-		{
-			var point = Context.Push();
+			switch (fillType)
+			{
+			case FillType.Background:
+				Context.Cairo.Pattern = GenerateGradient(coord, size, location, 
+                                             GetColor(ColorType.BackgroundStart, hitState),
+                                             GetColor(ColorType.BackgroundStop, hitState));
+				break;
+			case FillType.Editable:
+				Context.Cairo.Pattern = GenerateGradient(coord, size, location, 
+                                             GetColor(ColorType.EditableStart, hitState),
+                                             GetColor(ColorType.EditableStop, hitState));
+				break;
+			case FillType.Selection:
+				Context.Cairo.Color = SelectionColor.Cairo;
+				break;
+			}
 			
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
-			Context.Cairo.Color = color.Cairo;
-			RectanglePath(point.Coord().Round + 1, size.Floor - 2, rounded);
+			RectanglePath(coord.Round + 1, size.Floor - 2, rounded);
 			Context.Cairo.Fill();
 			
 			Context.Pop();
@@ -414,21 +314,25 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Outlines a rectangle with the given size.
 		/// </summary>
+		/// <param name="relPos">
+		/// The relative position of the rectangle.
+		/// </para>
 		/// <param name="size">
 		/// The size of the rectangle to outline (assumed to be at 0,0 origin).
 		/// </param>
 		/// <param name="hitState">
 		/// Used to look up which color to use for the stroke.
 		/// </param>
-		protected void StrokeRectangle(Coord size, Corner rounded, HitState hitState)
+		protected void StrokeRectangle(Coord relPos, Coord size, Corner rounded, HitState hitState)
 		{
-			var point = Context.Push();			
+			var point = Context.Push();
+			var coord = new Coord(point.X + relPos.X, point.Y + relPos.Y).HalfCeiling;
 			
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Color = GetColor(ColorType.Stroke, hitState).Cairo;
 			Context.Cairo.LineWidth = StrokeWidth;
-			RectanglePath(point.Coord().HalfCeiling, size.Floor-1, rounded);
+			RectanglePath(coord, size.Floor-1, rounded);
 			Context.Cairo.Stroke();
 			Context.Pop();
 		}
@@ -453,14 +357,22 @@ namespace MonoWorks.Controls
 			if (control is Button)
 			{
 				Decorate(control as Button);
+				return;
 			}
 			if (control is ToolBar) 
 			{
 				Decorate(control as ToolBar);
+				return;
 			}
 			if (control is TextBox) 
 			{
 				Decorate(control as TextBox);
+				return;
+			}
+			if (control is Slider) 
+			{
+				Decorate(control as Slider);
+				return;
 			}
 		}
 		
@@ -468,16 +380,16 @@ namespace MonoWorks.Controls
 		{
 			var parent = button.ParentControl;
 			if (parent == null)
-				FillRectangleBackground(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
+				FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
 			else if (parent is ToolBar || parent is DialogFrame)
 			{
 				if (button.HitState != HitState.None)
-					FillRectangleBackground(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
+					FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
 			}
 			else
 			{
-				FillRectangleBackground(button.RenderSize, AllCorners, button.HitState, DefaultBackgroundLocation);
-				StrokeRectangle(button.RenderSize, AllCorners, button.HitState);
+				FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
+				StrokeRectangle(Coord.Zeros, button.RenderSize, AllCorners, button.HitState);
 			}
 		}
 		
@@ -503,11 +415,11 @@ namespace MonoWorks.Controls
 					corner = Corner.NE | Corner.SE;
 					break;					
 				}
-				FillRectangleBackground(toolbar.RenderSize, corner, toolbar.HitState, location);
+				FillRectangle(Coord.Zeros, toolbar.RenderSize, corner, FillType.Background, toolbar.HitState, location);
 			}
 			else // the toolbar is not anchored
 			{
-				FillRectangleBackground(toolbar.RenderSize, AllCorners, toolbar.HitState, DefaultBackgroundLocation);
+				FillRectangle(Coord.Zeros, toolbar.RenderSize, AllCorners, FillType.Background, toolbar.HitState, DefaultBackgroundLocation);
 			}
 		}
 		
@@ -535,16 +447,32 @@ namespace MonoWorks.Controls
 		
 		protected virtual void Decorate(DialogFrame dialog)
 		{
-			FillRectangleBackground(dialog.RenderSize, AllCorners, HitState.None, AnchorLocation.SE);
-			FillRectangleBackground(new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), 
-			              Corner.NE | Corner.NW, HitState.None, AnchorLocation.S);
-			StrokeRectangle(dialog.RenderSize, AllCorners, HitState.None);
+			FillRectangle(Coord.Zeros, dialog.RenderSize, AllCorners, FillType.Background, HitState.None, AnchorLocation.SE);
+			FillRectangle(Coord.Zeros, new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), 
+			              Corner.NE | Corner.NW, FillType.Background, HitState.None, AnchorLocation.S);
+			StrokeRectangle(Coord.Zeros, dialog.RenderSize, AllCorners, HitState.None);
 		}
 		
 		protected virtual void Decorate(TextBox textBox)
 		{
-			FillRectangleEditable(textBox.RenderSize, Corner.None, textBox.HitState, AnchorLocation.S);
-			StrokeRectangle(textBox.RenderSize, Corner.None, textBox.HitState);
+			FillRectangle(Coord.Zeros, textBox.RenderSize, Corner.None, FillType.Editable, textBox.HitState, AnchorLocation.S);
+			StrokeRectangle(Coord.Zeros, textBox.RenderSize, Corner.None, textBox.HitState);
+		}
+		
+		protected virtual void Decorate(Slider slider)
+		{			
+			// draw the line
+			var pos = Context.Push();
+			Context.Cairo.Color = GetColor(ColorType.Stroke, slider.HitState).Cairo;
+			Context.Cairo.LineWidth = 3;
+			Context.Cairo.MoveTo(pos.X + slider.LineStart.X, pos.Y + slider.LineStart.Y);
+			Context.Cairo.LineTo(pos.X + slider.LineStop.X, pos.Y + slider.LineStop.Y);
+			Context.Cairo.Stroke();
+			Context.Pop();
+			
+			// draw the indicator
+			FillRectangle(slider.IndicatorPosition, slider.IndicatorSize, Corner.None, FillType.Editable, slider.HitState, AnchorLocation.SE);
+			StrokeRectangle(slider.IndicatorPosition, slider.IndicatorSize, Corner.None, slider.HitState);
 		}
 				
 		#endregion

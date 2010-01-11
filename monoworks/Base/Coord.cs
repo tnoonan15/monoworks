@@ -84,6 +84,13 @@ namespace MonoWorks.Base
 		}
 		
 		/// <summary>
+		/// An always accessible coord that is all zeros. 
+		/// </summary>
+		/// <remarks>Use this to reduce allocations if you 
+		/// need this sort of thing a lot.</remarks>
+		public static readonly Coord Zeros = new Coord();
+		
+		/// <summary>
 		/// Addition operator.
 		/// </summary>
 		public static Coord operator+(Coord lhs, Coord rhs)

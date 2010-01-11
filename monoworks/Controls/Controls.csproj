@@ -69,6 +69,7 @@
     <Compile Include="Dialog.cs" />
     <Compile Include="DialogFrame.cs" />
     <Compile Include="TextBox.cs" />
+    <Compile Include="Slider.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="StandardViewport\Viewport.ui" />

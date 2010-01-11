@@ -32,7 +32,7 @@ using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
-
+	
 	/// <summary>
 	/// A control that allows the user to enter text.
 	/// </summary>
