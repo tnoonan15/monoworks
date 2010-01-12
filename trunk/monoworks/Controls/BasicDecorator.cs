@@ -374,6 +374,11 @@ namespace MonoWorks.Controls
 				Decorate(control as Slider);
 				return;
 			}
+			if (control is CheckBox) 
+			{
+				Decorate(control as CheckBox);
+				return;
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -460,7 +465,7 @@ namespace MonoWorks.Controls
 		}
 		
 		protected virtual void Decorate(Slider slider)
-		{			
+		{
 			// draw the line
 			var pos = Context.Push();
 			Context.Cairo.Color = GetColor(ColorType.Stroke, slider.HitState).Cairo;
@@ -473,6 +478,30 @@ namespace MonoWorks.Controls
 			// draw the indicator
 			FillRectangle(slider.IndicatorPosition, slider.IndicatorSize, Corner.None, FillType.Editable, slider.HitState, AnchorLocation.SE);
 			StrokeRectangle(slider.IndicatorPosition, slider.IndicatorSize, Corner.None, slider.HitState);
+		}
+		
+		protected virtual void Decorate(CheckBox checkBox)
+		{
+			// draw the box
+			var pos = new Coord(checkBox.Padding, checkBox.Padding);
+			var size = new Coord(CheckBox.BoxSize, CheckBox.BoxSize);
+			FillRectangle(pos, size, Corner.None, FillType.Editable, checkBox.HitState, AnchorLocation.SE);
+			StrokeRectangle(pos, size, Corner.None, checkBox.HitState);
+			
+			// draw the check
+			if (checkBox.IsSelected)
+			{
+				var absPos = Context.Push();
+				Context.Cairo.Color = GetColor(ColorType.Stroke, checkBox.HitState).Cairo;
+				Context.Cairo.LineWidth = StrokeWidth;
+				Context.Cairo.MoveTo(absPos.X + pos.X + 1, absPos.Y + pos.Y + 1);
+				Context.Cairo.RelLineTo(CheckBox.BoxSize - 2, CheckBox.BoxSize - 2);
+				Context.Cairo.Stroke();
+				Context.Cairo.MoveTo(absPos.X + pos.X + 1, absPos.Y + pos.Y + size.Y - 1);
+				Context.Cairo.RelLineTo(CheckBox.BoxSize - 2, -CheckBox.BoxSize + 2);
+				Context.Cairo.Stroke();
+				Context.Pop();
+			}
 		}
 				
 		#endregion

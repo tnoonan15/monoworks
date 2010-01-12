@@ -70,6 +70,7 @@
     <Compile Include="TextBox.cs" />
     <Compile Include="DecoratorBase.cs" />
     <Compile Include="Slider.cs" />
+    <Compile Include="CheckBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="StandardViewport\Viewport.ui" />

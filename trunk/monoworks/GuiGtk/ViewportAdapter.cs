@@ -192,6 +192,9 @@ namespace MonoWorks.GuiGtk
 			case CursorType.Beam:
 				GdkWindow.Cursor = new Gdk.Cursor(Gdk.CursorType.Xterm);
 				break;
+			case CursorType.Hand:
+				GdkWindow.Cursor = new Gdk.Cursor(Gdk.CursorType.Hand2);
+				break;
 			}
 		}
 		

@@ -29,7 +29,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// The types of cursors that MonoWorks ensures will be available on all platforms. 
 	/// </summary>
-	public enum CursorType {Normal, Beam}
+	public enum CursorType {Normal, Beam, Hand}
 	
 	/// <summary>
 	/// The Viewport is the interface between the GUI and rendering pipeline.
