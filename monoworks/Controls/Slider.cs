@@ -307,12 +307,13 @@ namespace MonoWorks.Controls
 			if (relPos >= IndicatorPosition && relPos <= IndicatorPosition + IndicatorSize)
 			{
 				_isDragging = true;
+				evt.Handle();
 			}
-			else
+			else if (HitTest(evt.Pos))
 			{
 				SetClosestValue(evt.Pos);
+				evt.Handle();
 			}
-			evt.Handle();
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
