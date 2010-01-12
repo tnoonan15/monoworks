@@ -77,6 +77,10 @@ namespace MonoWorks.Base
 			{
 				val = int.Parse(valString);
 			}
+			else if (prop.PropertyType == typeof(bool))
+			{
+				val = bool.Parse(valString);
+			}
 			else if (prop.PropertyType.IsEnum)
 			{
 				val = Enum.Parse(prop.PropertyType, valString);

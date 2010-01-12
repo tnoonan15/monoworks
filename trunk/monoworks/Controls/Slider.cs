@@ -59,7 +59,7 @@ namespace MonoWorks.Controls
 			IsHoverable = true;
 			
 			Max = 10;
-			Step = 1;
+			Step = 2;
 			
 			MinSize = new Coord();
 			IndicatorPosition = new Coord();
@@ -82,10 +82,19 @@ namespace MonoWorks.Controls
 			get {return _value;}
 			set {
 				var oldVal = _value;
-				_value = value;
+				var newVal = value.MinMax(Min, Max);
+				
+				// perform step interpolation
+				if (ForceStep)
+				{
+					_value = Math.Round((newVal - Min)/Step) * Step + Min;
+				}
+				else
+					_value = newVal;
+				
 				MakeDirty();
 				if (ValueChanged != null)
-					ValueChanged(this, new DoubleChangedEvent(oldVal, value));
+					ValueChanged(this, new DoubleChangedEvent(oldVal, _value));
 			}
 		}
 				
@@ -151,7 +160,7 @@ namespace MonoWorks.Controls
 				MakeDirty();
 			}
 		}
-				
+		
 		private bool _showTicks;
 		/// <summary>
 		/// If true, ticks will be drawn at all Step increments between Min and Max.
@@ -298,8 +307,12 @@ namespace MonoWorks.Controls
 			if (relPos >= IndicatorPosition && relPos <= IndicatorPosition + IndicatorSize)
 			{
 				_isDragging = true;
-				evt.Handle();
 			}
+			else
+			{
+				SetClosestValue(evt.Pos);
+			}
+			evt.Handle();
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
@@ -320,7 +333,15 @@ namespace MonoWorks.Controls
 			if (!_isDragging)
 				return;
 			
-			var relPos = evt.Pos - LastPosition;
+			SetClosestValue(evt.Pos);
+		}
+
+		/// <summary>
+		/// Sets the closest value to the given hit coord.
+		/// </summary>
+		protected void SetClosestValue(Coord pos)
+		{			
+			var relPos = pos - LastPosition;
 			double ratio;
 			if (Orientation == Orientation.Horizontal)
 			{
@@ -332,7 +353,6 @@ namespace MonoWorks.Controls
 			}
 			Value = ratio.MinMax(0,1) * Range + Min;
 		}
-
 		
 		#endregion
 		

@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AbstractDecorator.cs" />
     <Compile Include="ActorPane.cs" />
     <Compile Include="AnchorPane.cs" />
     <Compile Include="BasicDecorator.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Dialog.cs" />
     <Compile Include="DialogFrame.cs" />
     <Compile Include="TextBox.cs" />
+    <Compile Include="DecoratorBase.cs" />
     <Compile Include="Slider.cs" />
   </ItemGroup>
   <ItemGroup>
