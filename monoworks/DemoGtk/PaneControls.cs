@@ -105,6 +105,15 @@ namespace MonoWorks.DemoGtk
 			// the controls dialog
 			_controlsDialog = mwx.GetRenderable<Dialog>("controls-dialog");
 			
+			// attach the slider to its value label
+			var slider = mwx.GetRenderable<Slider>("slider");
+			var sliderValue = mwx.GetRenderable<Label>("sliderValue");
+			sliderValue.Body = slider.Value.ToString();
+			slider.ValueChanged += delegate(object sender, DoubleChangedEvent evt)
+			{
+				sliderValue.Body = evt.NewValue.ToString();
+			};
+			
 			// floating toolbar
 			toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
