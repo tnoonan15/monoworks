@@ -25,7 +25,7 @@ using swc = System.Windows.Controls;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 
-namespace MonoWorks.GuiWpf.PlotControls
+namespace MonoWorks.WpfBackend.PlotControls
 {
 	/// <summary>
 	/// Contains controls for an AxesBox.

@@ -24,7 +24,7 @@ using System.Windows.Controls;
 
 using MonoWorks.Modeling;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.WpfBackend.AttributeControls
 {
 	/// <summary>
 	/// Control for attributes that store references to other entities.

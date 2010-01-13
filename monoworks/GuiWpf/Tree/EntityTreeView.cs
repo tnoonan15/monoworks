@@ -5,7 +5,7 @@ using System.Linq;
 
 using MonoWorks.Modeling;
 
-namespace MonoWorks.GuiWpf.Tree
+namespace MonoWorks.WpfBackend.Tree
 {
 	/// <summary>
 	/// Tree view.

@@ -23,9 +23,9 @@ using System.Windows;
 using System.Windows.Controls;
 
 using MonoWorks.Modeling;
-using MonoWorks.GuiWpf.Utilities;
+using MonoWorks.WpfBackend.Utilities;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.WpfBackend.AttributeControls
 {
 	/// <summary>
 	/// Attribute control for numeric (double) values.

@@ -20,8 +20,8 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Modeling;
-using MonoWorks.GuiWpf;
-using MonoWorks.GuiWpf.Framework;
+using MonoWorks.WpfBackend;
+using MonoWorks.WpfBackend.Framework;
 
 namespace MonoWorks.StudioWpf
 {

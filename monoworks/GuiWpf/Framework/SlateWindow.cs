@@ -10,7 +10,7 @@ using AvalonDock;
 using MonoWorks.Framework;
 using MonoWorks.Rendering.Interaction;
 
-namespace MonoWorks.GuiWpf.Framework
+namespace MonoWorks.WpfBackend.Framework
 {
 	/// <summary>
 	/// Base class for a Slate main window.

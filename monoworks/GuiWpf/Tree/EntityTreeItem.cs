@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 
 using MonoWorks.Modeling;
-using MonoWorks.GuiWpf;
-using MonoWorks.GuiWpf.Framework;
+using MonoWorks.WpfBackend;
+using MonoWorks.WpfBackend.Framework;
 
-namespace MonoWorks.GuiWpf.Tree
+namespace MonoWorks.WpfBackend.Tree
 {
 	/// <summary>
 	/// Tree view item representing an entity.

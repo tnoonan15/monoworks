@@ -25,7 +25,7 @@ using System.Windows.Media;
 
 using MonoWorks.Modeling;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.WpfBackend.AttributeControls
 {
 	/// <summary>
 	/// Attribute control for attributes that have no control defined.

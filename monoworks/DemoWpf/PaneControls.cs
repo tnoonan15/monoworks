@@ -25,7 +25,7 @@ using swc = System.Windows.Controls;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
-using MonoWorks.GuiWpf;
+using MonoWorks.WpfBackend;
 using MonoWorks.Controls;
 
 namespace MonoWorks.DemoWpf

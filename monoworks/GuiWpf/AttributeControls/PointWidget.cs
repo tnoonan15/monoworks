@@ -22,9 +22,9 @@ using System.Windows.Controls;
 
 using MonoWorks.Base;
 using MonoWorks.Modeling;
-using MonoWorks.GuiWpf.Utilities;
+using MonoWorks.WpfBackend.Utilities;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.WpfBackend.AttributeControls
 {
 	/// <summary>
 	/// Widget for controlling a point.

@@ -23,9 +23,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-using MonoWorks.GuiWpf;
+using MonoWorks.WpfBackend;
 
-namespace MonoWorks.GuiWpf.Utilities
+namespace MonoWorks.WpfBackend.Utilities
 {
 	/// <summary>
 	/// Since WPF is ridiculous and doesn't have 

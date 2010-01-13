@@ -17,8 +17,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-using System.Xml;
-
 using Cairo;
 
 using MonoWorks.Base;
@@ -307,7 +305,7 @@ namespace MonoWorks.Controls
 				}
 				imageData = new byte[IntWidth * IntHeight * 4];
 				_gch = GCHandle.Alloc(imageData, GCHandleType.Pinned);
-				surface = new ImageSurface(imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				surface = new ImageSurface(ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface

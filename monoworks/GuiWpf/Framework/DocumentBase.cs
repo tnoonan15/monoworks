@@ -5,7 +5,7 @@ using AvalonDock;
 
 using MonoWorks.Framework;
 
-namespace MonoWorks.GuiWpf.Framework
+namespace MonoWorks.WpfBackend.Framework
 {
     /// <summary>
     /// Base class for document types.

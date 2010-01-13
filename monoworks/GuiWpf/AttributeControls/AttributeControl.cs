@@ -25,7 +25,7 @@ using System.Windows.Controls;
 using MonoWorks.Modeling;
 using MonoWorks.Modeling.ViewportControls;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.WpfBackend.AttributeControls
 {
 	/// <summary>
 	/// Base class for attribute controls.

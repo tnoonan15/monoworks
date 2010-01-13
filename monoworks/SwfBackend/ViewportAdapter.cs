@@ -16,30 +16,26 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
-using System;
-using System.Collections.Generic;
-using swf = System.Windows.Forms;
-using sd = System.Drawing;
+
+using System.Windows.Forms;
 
 using Tao.Platform.Windows;
 
-
 using MonoWorks.Base;
 using MonoWorks.Rendering;
-
 using MonoWorks.Rendering.Events;
-using MonoWorks.Rendering.Interaction;
 using MonoWorks.Framework;
 
-namespace MonoWorks.GuiWpf
+
+namespace MonoWorks.SwfBackend
 {
 
 	/// <summary>
 	/// Viewport for WPF.
 	/// </summary>
-	public class SwfViewportAdapter : SimpleOpenGlControl, IViewportAdapter
+	public class ViewportAdapter : SimpleOpenGlControl, IViewportAdapter
 	{
-		public SwfViewportAdapter()
+		public ViewportAdapter()
 			: base()
 		{
 			InitializeContexts();
@@ -47,8 +43,8 @@ namespace MonoWorks.GuiWpf
 			this.DoubleBuffered = false;
 
 			// create the tooltip
-			toolTip = new swf.ToolTip();
-			toolTip.SetToolTip(this, "");
+			_toolTip = new ToolTip();
+			_toolTip.SetToolTip(this, "");
 
 			Viewport = new Viewport(this);
 
@@ -67,7 +63,7 @@ namespace MonoWorks.GuiWpf
 		/// <returns></returns>
 		public int WidthGL
 		{
-			get { return this.Size.Width; }
+			get { return Size.Width; }
 		}
 
 		/// <summary>
@@ -81,7 +77,7 @@ namespace MonoWorks.GuiWpf
 
 
 
-		private swf.ToolTip toolTip;
+		private readonly ToolTip _toolTip;
 
 		/// <summary>
 		/// The tooltip on the viewport.
@@ -91,9 +87,9 @@ namespace MonoWorks.GuiWpf
 			set
 			{
 				if (value.Length > 0)
-					toolTip.Show(value, this);
+					_toolTip.Show(value, this);
 				else
-					toolTip.Hide(this);
+					_toolTip.Hide(this);
 			}
 		}
 
@@ -102,7 +98,7 @@ namespace MonoWorks.GuiWpf
 		/// </summary>
 		public void ClearToolTip()
 		{
-			toolTip.Hide(this);
+			_toolTip.Hide(this);
 		}
 
 		/// <summary>
@@ -111,15 +107,15 @@ namespace MonoWorks.GuiWpf
 		/// <param name="fileName"></param>
 		public void Export(string fileName)
 		{
-			sd.Bitmap bmp = new sd.Bitmap(this.ClientSize.Width, this.ClientSize.Height);
-			sd.Imaging.BitmapData data =
-			bmp.LockBits(this.ClientRectangle, sd.Imaging.ImageLockMode.WriteOnly,
-			sd.Imaging.PixelFormat.Format24bppRgb);
-			Tao.OpenGl.Gl.glReadPixels(0, 0, this.ClientSize.Width, this.ClientSize.Height, Tao.OpenGl.Gl.GL_BGR, Tao.OpenGl.Gl.GL_UNSIGNED_BYTE,
-			data.Scan0);
-			bmp.UnlockBits(data);
-			bmp.RotateFlip(sd.RotateFlipType.RotateNoneFlipY);
-			bmp.Save(fileName);
+			//var bmp = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
+			//Imaging.BitmapData data =
+			//    bmp.LockBits(this.ClientRectangle, Imaging.ImageLockMode.WriteOnly,
+			//                 Imaging.PixelFormat.Format24bppRgb);
+			//Tao.OpenGl.Gl.glReadPixels(0, 0, this.ClientSize.Width, this.ClientSize.Height, Tao.OpenGl.Gl.GL_BGR, Tao.OpenGl.Gl.GL_UNSIGNED_BYTE,
+			//                           data.Scan0);
+			//bmp.UnlockBits(data);
+			//bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+			//bmp.Save(fileName);
 		}
 
 		/// <summary>
@@ -127,35 +123,34 @@ namespace MonoWorks.GuiWpf
 		/// </summary>
 		public bool FileDialog(FileDialogDef dialogDef)
 		{
-			Microsoft.Win32.FileDialog dialog = null;
+			//Microsoft.Win32.FileDialog dialog = null;
 
-			// create the dialog
-			if (dialogDef.Type == FileDialogType.Open)
-				dialog = new Microsoft.Win32.OpenFileDialog();
-			else if (dialogDef.Type == FileDialogType.SaveAs)
-				dialog = new Microsoft.Win32.SaveFileDialog();
+			//// create the dialog
+			//if (dialogDef.Type == FileDialogType.Open)
+			//    dialog = new Microsoft.Win32.OpenFileDialog();
+			//else if (dialogDef.Type == FileDialogType.SaveAs)
+			//    dialog = new Microsoft.Win32.SaveFileDialog();
 
-			// set the options from the def
-			if (dialogDef.FileName != null)
-				dialog.FileName = "Document"; // Default file name
-			foreach (var ext in dialogDef.Extensions)
-			{
-				dialog.Filter = String.Format("{0} (.{1})|*.{1}", dialogDef.GetDescription(ext), ext);
-			}
-			if (dialogDef.Extensions.Count > 0)
-				dialog.DefaultExt = "." + dialogDef.Extensions[0]; // Default file extension
+			//// set the options from the def
+			//if (dialogDef.FileName != null)
+			//    dialog.FileName = "Document"; // Default file name
+			//foreach (var ext in dialogDef.Extensions)
+			//{
+			//    dialog.Filter = String.Format("{0} (.{1})|*.{1}", dialogDef.GetDescription(ext), ext);
+			//}
+			//if (dialogDef.Extensions.Count > 0)
+			//    dialog.DefaultExt = "." + dialogDef.Extensions[0]; // Default file extension
 
-			// Show the dialog
-			Nullable<bool> result = dialog.ShowDialog();
-			dialogDef.Success = result != null && (bool)result;
-			if (dialogDef.Success == true)
-				dialogDef.FileName = dialog.FileName;
-			return dialogDef.Success;
+			//// Show the dialog
+			//Nullable<bool> result = dialog.ShowDialog();
+			//dialogDef.Success = result != null && (bool)result;
+			//if (dialogDef.Success == true)
+			//    dialogDef.FileName = dialog.FileName;
+			//return dialogDef.Success;
+			return false;
 		}
 
-
-
-#region Mouse Interaction
+		#region Mouse Interaction
 
 
 
@@ -166,88 +161,104 @@ namespace MonoWorks.GuiWpf
 		/// <returns></returns>
 		protected Coord MouseToViewport(System.Drawing.Point point)
 		{
-			return new Coord((double)point.X, (double)(HeightGL - point.Y));
-			//return new Coord((double)point.X, (double)point.Y);
+			return new Coord(point.X, HeightGL - point.Y);
 		}
 
 		/// <summary>
 		/// This is true when the last button down event was handled.
 		/// </summary>
-		private bool lastClickHandled = false;
+		private bool _lastClickHandled;
 
-		protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs args)
+		protected override void OnMouseDown(MouseEventArgs args)
 		{
 			base.OnMouseDown(args);
 
-			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
-									SwfExtensions.ButtonNumber(args.Button),
-									SwfExtensions.GetModifier(ModifierKeys));
+			var evt = new MouseButtonEvent(Viewport, 
+			                               MouseToViewport(args.Location),
+			                               Extensions.ButtonNumber(args.Button),
+			                               Extensions.GetModifier(ModifierKeys));
 			Viewport.OnButtonPress(evt);
 
-			lastClickHandled = evt.Handled;
+			_lastClickHandled = evt.Handled;
 
 			PaintGL();
 		}
 
-		protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs args)
+		protected override void OnMouseUp(MouseEventArgs args)
 		{
 			base.OnMouseUp(args);
 
-            MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
-									SwfExtensions.ButtonNumber(args.Button),
-									SwfExtensions.GetModifier(ModifierKeys));
+			var evt = new MouseButtonEvent(Viewport, 
+			                               MouseToViewport(args.Location),
+			                               Extensions.ButtonNumber(args.Button),
+			                               Extensions.GetModifier(ModifierKeys));
 			Viewport.OnButtonRelease(evt);
 
 			PaintGL();
 		}
 
-		protected override void OnMouseMove(swf.MouseEventArgs args)
+		protected override void OnMouseMove(MouseEventArgs args)
 		{
 			base.OnMouseMove(args);
 
-			MouseEvent evt = new MouseEvent(MouseToViewport(args.Location),
-									SwfExtensions.GetModifier(ModifierKeys));
+			var evt = new MouseEvent(Viewport, MouseToViewport(args.Location),
+			                         Extensions.GetModifier(ModifierKeys));
 			Viewport.OnMouseMotion(evt);
 
 			PaintGL();
 		}
 
 
-		protected override void OnMouseWheel(swf.MouseEventArgs args)
+		protected override void OnMouseWheel(MouseEventArgs args)
 		{
 			base.OnMouseWheel(args);
 
-			WheelDirection direction = WheelDirection.Up;
+			var direction = WheelDirection.Up;
 			if (args.Delta < 0)
 				direction = WheelDirection.Down;
-			MouseWheelEvent evt = new MouseWheelEvent(direction, InteractionModifier.None);
+			var evt = new MouseWheelEvent(Viewport, direction, InteractionModifier.None);
 			Viewport.OnMouseWheel(evt);
 
 			PaintGL();
 		}
 
-		protected override void OnMouseDoubleClick(swf.MouseEventArgs args)
+		protected override void OnMouseDoubleClick(MouseEventArgs args)
 		{
 			base.OnMouseDoubleClick(args);
 
-			if (lastClickHandled)
+			if (_lastClickHandled)
 				return;
 
-			MouseButtonEvent evt = new MouseButtonEvent(MouseToViewport(args.Location),
-									SwfExtensions.ButtonNumber(args.Button),
-									InteractionModifier.None, ClickMultiplicity.Double);
+			var evt = new MouseButtonEvent(Viewport, MouseToViewport(args.Location),
+			                               Extensions.ButtonNumber(args.Button),
+			                               InteractionModifier.None, ClickMultiplicity.Double);
 			Viewport.OnButtonPress(evt);
 
 			PaintGL();
 		}
 
+		public void SetCursor(CursorType cursorType)
+		{
+			switch(cursorType)
+			{
+				case CursorType.Normal:
+					Cursor = Cursors.Arrow;
+					break;
+				case CursorType.Beam:
+					Cursor = Cursors.IBeam;
+					break;
+				case CursorType.Hand:
+					Cursor = Cursors.Hand;
+					break;
+			}
+		}
 
-#endregion
+		#endregion
 
 
-#region Keyboard Interaction
+		#region Keyboard Interaction
 
-		protected override void OnKeyDown(System.Windows.Forms.KeyEventArgs e)
+		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			base.OnKeyDown(e);
 			
@@ -264,7 +275,7 @@ namespace MonoWorks.GuiWpf
 
 			int val = e.KeyValue;
 
-			KeyEvent evt = new KeyEvent(val, (InteractionModifier)mod);
+			var evt = new KeyEvent(val, (InteractionModifier)mod);
 			//Console.WriteLine("viewport key press {0} ({1}, {2})", evt.Value, evt.SpecialKey, evt.Modifier);
 
 			Viewport.OnKeyPress(evt);
@@ -275,10 +286,10 @@ namespace MonoWorks.GuiWpf
 		}
 
 
-#endregion
+		#endregion
 
 
-#region GL Stuff
+		#region GL Stuff
 
 		/// <summary>
 		/// Initialize the OpenGL context.
@@ -304,12 +315,12 @@ namespace MonoWorks.GuiWpf
 			PaintGL();
 		}
 
-		protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			//base.OnPaintBackground(e);
 		}
 
-		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+		protected override void OnPaint(PaintEventArgs e)
 		{
 			
 			if (e.ClipRectangle.Width == 0)
@@ -333,21 +344,8 @@ namespace MonoWorks.GuiWpf
 		}
 
 
-#endregion
-
-		private void InitializeComponent()
-		{
-			this.SuspendLayout();
-			// 
-			// Viewport
-			// 
-			this.AutoSize = true;
-			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.Name = "Viewport";
-			this.Size = new System.Drawing.Size(0, 0);
-			this.ResumeLayout(false);
-
-		}
-
+		#endregion
 	}
 }
+
+
