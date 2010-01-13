@@ -24,74 +24,9 @@ using System.Windows.Controls;
 using sd = System.Drawing;
 using swf = System.Windows.Forms;
 
-using MonoWorks.Base;
-using MonoWorks.Rendering;
-using MonoWorks.Rendering.Interaction;
-using MonoWorks.Framework;
 
-namespace MonoWorks.GuiWpf
+namespace MonoWorks.WpfBackend
 {
-
-	/// <summary>
-	/// Extensions for the System.Windows.Forms.
-	/// </summary>
-	public static class SwfExtensions
-	{
-		/// <summary>
-		/// Generates a coord from the point.
-		/// </summary>
-		/// <param name="point"></param>
-		/// <returns></returns>
-		public static Coord Coord(this sd.Point point)
-		{
-			return new Coord(point.X, point.Y);
-		}
-
-
-		/// <summary>
-		/// Returns the button number of the MouseButtons enum.
-		/// </summary>
-		/// <param name="buttons"></param>
-		/// <returns></returns>
-		public static int ButtonNumber(swf.MouseButtons buttons)
-		{
-			switch (buttons)
-			{
-			case swf.MouseButtons.Left:
-				return 1;
-			case swf.MouseButtons.Middle:
-				return 2;
-			case swf.MouseButtons.Right:
-				return 3;
-			}
-			return 0;
-		}
-
-		/// <summary>
-		/// Gets the interaction modifier associated with the swf keys.
-		/// </summary>
-		/// <param name="keys"></param>
-		/// <returns></returns>
-		public static InteractionModifier GetModifier(swf.Keys keys)
-		{
-			switch (keys)
-			{
-				case swf.Keys.Control:
-					return InteractionModifier.Control;
-				case swf.Keys.Shift:
-					return InteractionModifier.Shift;
-				case swf.Keys.Alt:
-					return InteractionModifier.Alt;
-				default:
-					return InteractionModifier.None;
-			}
-		}
-
-
-	}
-
-
-
 	/// <summary>
 	/// Extensions for the combo box control.
 	/// </summary>

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Windows.Forms.Integration;
+﻿using System.Windows.Forms.Integration;
 
 using MonoWorks.Rendering;
 using System.Windows;
 
-namespace MonoWorks.GuiWpf
+using MonoWorks.SwfBackend;
+
+namespace MonoWorks.WpfBackend
 {
 	/// <summary>
 	/// Wraps the SWF viewport into WPF.
@@ -15,27 +14,26 @@ namespace MonoWorks.GuiWpf
 	{
 
 		public ViewportWrapper()
-			: base()
 		{
-			adapter = new SwfViewportAdapter();
-			Child = adapter;
+			_adapter = new ViewportAdapter();
+			Child = _adapter;
 		}
 
 
-		private SwfViewportAdapter adapter;
+		private readonly ViewportAdapter _adapter;
 		/// <summary>
 		/// The underlying viewport.
 		/// </summary>
 		public Viewport Viewport
 		{
-			get { return adapter.Viewport; }
+			get { return _adapter.Viewport; }
 		}
 
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
 		{
 			base.OnRenderSizeChanged(sizeInfo);
 
-			adapter.ResizeGL();
+			_adapter.ResizeGL();
 		}
 
 	}

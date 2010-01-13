@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 using MonoWorks.Framework;
 
-namespace MonoWorks.GuiWpf.Framework
+namespace MonoWorks.WpfBackend.Framework
 {
 	/// <summary>
 	/// The tool shelf belongs to a tool box and stores a list of action icons.

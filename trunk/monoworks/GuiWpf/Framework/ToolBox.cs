@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 
 
-namespace MonoWorks.GuiWpf.Framework
+namespace MonoWorks.WpfBackend.Framework
 {
 	/// <summary>
 	/// The toolbox is a tool control that stores shelves of action icons.

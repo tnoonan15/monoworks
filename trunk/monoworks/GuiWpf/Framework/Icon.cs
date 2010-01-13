@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
 
-namespace MonoWorks.GuiWpf.Framework
+namespace MonoWorks.WpfBackend.Framework
 {
 	/// <summary>
 	/// Represents an icon that can have various sizes that are loaded from PNG's.

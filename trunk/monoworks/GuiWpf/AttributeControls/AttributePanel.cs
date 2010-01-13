@@ -24,9 +24,9 @@ using System.Windows.Controls;
 
 using MonoWorks.Modeling;
 using MonoWorks.Modeling.ViewportControls;
-using fw=MonoWorks.GuiWpf.Framework;
+using fw=MonoWorks.WpfBackend.Framework;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.WpfBackend.AttributeControls
 {
 	/// <summary>
 	/// Panel containing attribute controls for an entity.

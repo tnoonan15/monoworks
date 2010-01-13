@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.GuiWpf.Framework;
+using MonoWorks.WpfBackend.Framework;
 
 namespace MonoWorks.StudioWpf
 {

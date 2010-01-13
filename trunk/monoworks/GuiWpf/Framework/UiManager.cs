@@ -11,7 +11,7 @@ using MonoWorks.Framework;
 
 using AvalonDock;
 
-namespace MonoWorks.GuiWpf.Framework
+namespace MonoWorks.WpfBackend.Framework
 {
 	/// <summary>
 	/// The UI manager for WPF applications.

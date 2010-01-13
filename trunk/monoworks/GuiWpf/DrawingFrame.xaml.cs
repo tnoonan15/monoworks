@@ -10,7 +10,7 @@ using MonoWorks.Modeling;
 using MonoWorks.Modeling.ViewportControls;
 using MonoWorks.Rendering;
 
-namespace MonoWorks.GuiWpf
+namespace MonoWorks.WpfBackend
 {
 	/// <summary>
 	/// Interaction logic for DrawingFrame.xaml
@@ -21,7 +21,7 @@ namespace MonoWorks.GuiWpf
 		{
 			InitializeComponent();
 
-			MonoWorks.GuiWpf.Framework.ResourceManager.LoadAssembly("MonoWorks.Resources");
+			MonoWorks.WpfBackend.Framework.ResourceManager.LoadAssembly("MonoWorks.Resources");
 
 			Controller = new DrawingController(Viewport, attributePanel);
 

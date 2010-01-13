@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="MonoWorks.GuiWpf.DrawingFrame"
+﻿<UserControl x:Class="MonoWorks.WpfBackend.DrawingFrame"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:t="clr-namespace:MonoWorks.GuiWpf.Tree"
-    xmlns:mwg="clr-namespace:MonoWorks.GuiWpf"
-	xmlns:attr="clr-namespace:MonoWorks.GuiWpf.AttributeControls"
+    xmlns:t="clr-namespace:MonoWorks.WpfBackend.Tree"
+    xmlns:mwg="clr-namespace:MonoWorks.WpfBackend"
+	xmlns:attr="clr-namespace:MonoWorks.WpfBackend.AttributeControls"
     Height="300" Width="300">
 
     <DockPanel LastChildFill="True">

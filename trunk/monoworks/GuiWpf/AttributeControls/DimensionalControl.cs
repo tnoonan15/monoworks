@@ -25,7 +25,7 @@ using System.Windows.Controls;
 using MonoWorks.Base;
 using MonoWorks.Modeling;
 
-namespace MonoWorks.GuiWpf.AttributeControls
+namespace MonoWorks.WpfBackend.AttributeControls
 {
 	/// <summary>
 	/// Control for dimensional attributes.

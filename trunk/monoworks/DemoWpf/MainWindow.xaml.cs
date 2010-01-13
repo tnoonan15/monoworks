@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-using MonoWorks.GuiWpf;
+using MonoWorks.WpfBackend;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.Modeling;

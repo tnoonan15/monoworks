@@ -26,7 +26,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 
 
-namespace MonoWorks.GuiWpf.PlotControls
+namespace MonoWorks.WpfBackend.PlotControls
 {
 	/// <summary>
 	/// Controls for a specific axis.

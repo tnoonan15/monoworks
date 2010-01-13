@@ -24,8 +24,8 @@ using System.Windows.Controls;
 
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
-using MonoWorks.GuiWpf;
-using MonoWorks.GuiWpf.PlotControls;
+using MonoWorks.WpfBackend;
+using MonoWorks.WpfBackend.PlotControls;
 
 namespace MonoWorks.DemoWpf
 {

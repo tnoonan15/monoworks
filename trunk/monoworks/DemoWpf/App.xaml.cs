@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-using MonoWorks.GuiWpf.Framework;
+using MonoWorks.WpfBackend.Framework;
 
 namespace DemoWpf
 {

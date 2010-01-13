@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Reflection;
 
-namespace MonoWorks.GuiWpf.Framework
+namespace MonoWorks.WpfBackend.Framework
 {
 	/// <summary>
 	/// Resource manager for WPF applications.
