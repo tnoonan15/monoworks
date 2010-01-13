@@ -108,10 +108,17 @@ namespace MonoWorks.DemoGtk
 			// attach the slider to its value label
 			var slider = mwx.GetRenderable<Slider>("slider");
 			var sliderValue = mwx.GetRenderable<Label>("sliderValue");
-			sliderValue.Body = slider.Value.ToString();
+			sliderValue.Body = slider.Value.ToString("##.##");
 			slider.ValueChanged += delegate(object sender, DoubleChangedEvent evt)
 			{
-				sliderValue.Body = evt.NewValue.ToString();
+				sliderValue.Body = evt.NewValue.ToString("##.##");
+			};
+			
+			// attach the ForceStep checkbox to the slider
+			var forceStepCheck = mwx.GetRenderable<CheckBox>("forceStepCheck");
+			forceStepCheck.CheckChanged += delegate(object sender, BoolChangedEvent evt)
+			{
+				slider.ForceStep = evt.NewValue;
 			};
 			
 			// floating toolbar

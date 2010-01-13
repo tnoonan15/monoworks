@@ -22,7 +22,7 @@
 			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>Slider</mwc:Label>
 				<mwc:CheckBox Name="forceStepCheck">Force Step</mwc:CheckBox>
-				<mwc:Slider Name="slider" Orientation="Horizontal" ForceStep="true" Value="3"/>
+				<mwc:Slider Name="slider" Orientation="Horizontal" Value="3"/>
 				<mwc:Label Name="sliderValue"></mwc:Label>
 			</mwc:Stack>
 		</mwc:Stack>
