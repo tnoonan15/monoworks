@@ -28,7 +28,22 @@ using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
-
+	/// <summary>
+	/// Event containing information about a bool value changing.
+	/// </summary>
+	public class BoolChangedEvent : ValueChangedEvent<bool>
+	{
+		public BoolChangedEvent(bool oldVal, bool newVal)
+			: base(oldVal, newVal)
+		{			
+		}
+	}
+	
+	/// <summary>
+	/// Delegate for handling bool changed events.
+	/// </summary>
+	public delegate void BoolChangedHandler(object sender, BoolChangedEvent evt);
+	
 	/// <summary>
 	/// A button that represents its state with a checked box.
 	/// </summary>
@@ -65,6 +80,46 @@ namespace MonoWorks.Controls
 		public void Parse(string valString)
 		{
 			Text = valString;
+		}
+		
+		/// <summary>
+		/// Gets thrown when the value of IsChecked changes.
+		/// </summary>
+		public event BoolChangedHandler CheckChanged;
+		
+		/// <summary>
+		/// Whether or not the check box is currently checked.
+		/// </summary>
+		public bool IsChecked
+		{
+			get { return IsSelected; }
+			set
+			{
+				var oldVal = IsSelected;
+				if (oldVal != value)
+				{
+					IsSelected = value;
+					MakeDirty();
+					if (CheckChanged != null)
+						CheckChanged(this, new BoolChangedEvent(oldVal, value));
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Checks the box.
+		/// </summary>
+		public void Check()
+		{
+			IsChecked = true;
+		}
+
+		/// <summary>
+		/// Unchecks the box.
+		/// </summary>
+		public void Uncheck()
+		{
+			IsChecked = false;
 		}
 		
 		
@@ -106,9 +161,8 @@ namespace MonoWorks.Controls
 			
 			if (HitTest(evt.Pos))
 			{
-				ToggleSelection();
 				GrabFocus();
-				MakeDirty();
+				IsChecked = !IsChecked;
 			}
 		}
 		

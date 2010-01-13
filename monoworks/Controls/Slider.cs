@@ -308,11 +308,13 @@ namespace MonoWorks.Controls
 			{
 				_isDragging = true;
 				evt.Handle();
+				GrabFocus();
 			}
 			else if (HitTest(evt.Pos))
 			{
 				SetClosestValue(evt.Pos);
 				evt.Handle();
+				GrabFocus();
 			}
 		}
 
