@@ -9,13 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rendering", "Rendering\Rend
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", "{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWpf", "DemoWpf\DemoWpf.csproj", "{9B52CB99-58BF-4F59-8754-19F5F187D23E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWpf", "WpfDemo\DemoWpf.csproj", "{9B52CB99-58BF-4F59-8754-19F5F187D23E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfBackend", "GuiWpf\WpfBackend.csproj", "{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfBackend", "WpfBackend\WpfBackend.csproj", "{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{88CBD331-92E5-4424-BC71-8AE23596C4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudio", "StudioWpf\WpfStudio.csproj", "{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudio", "WpfStudio\WpfStudio.csproj", "{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}"
 EndProject
