@@ -113,6 +113,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mwx.xsd" />
-    <None Include="mwx.rng" />
   </ItemGroup>
 </Project>
