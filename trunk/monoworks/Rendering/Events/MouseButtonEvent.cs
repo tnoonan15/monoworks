@@ -36,18 +36,18 @@ namespace MonoWorks.Rendering.Events
 	public class MouseButtonEvent : MouseEvent
 	{
 		
-		public MouseButtonEvent(Viewport viewport, Coord pos, int button) 
-			: this(viewport, pos, button, InteractionModifier.None)
+		public MouseButtonEvent(Scene scene, Coord pos, int button) 
+			: this(scene, pos, button, InteractionModifier.None)
 		{
 		}
 		
-		public MouseButtonEvent(Viewport viewport, Coord pos, int button, InteractionModifier modifier) 
-			: this(viewport, pos, button, modifier, ClickMultiplicity.Single)
+		public MouseButtonEvent(Scene scene, Coord pos, int button, InteractionModifier modifier) 
+			: this(scene, pos, button, modifier, ClickMultiplicity.Single)
 		{
 		}
 
-		public MouseButtonEvent(Viewport viewport, Coord pos, int button, InteractionModifier modifier, ClickMultiplicity multiplicity)
-			: base(viewport, pos, modifier)
+		public MouseButtonEvent(Scene scene, Coord pos, int button, InteractionModifier modifier, ClickMultiplicity multiplicity)
+			: base(scene, pos, modifier)
 		{
 			Button = button;
 			Multiplicity = multiplicity;

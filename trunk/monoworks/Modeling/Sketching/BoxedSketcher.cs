@@ -1,4 +1,4 @@
-﻿// RectangleSketcher.cs - MonoWorks Project
+// RectangleSketcher.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -144,14 +144,14 @@ namespace MonoWorks.Modeling.Sketching
 
 #region Rendering
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 
 			if (dragPoint != null)
 			{
 				Color highlightColor = ModelingOptions.Global.GetColor("sketchable", HitState.Hovering);
-				HighlightPoint(viewport, dragPoint, highlightColor, 8);
+				HighlightPoint(scene, dragPoint, highlightColor, 8);
 			}
 		}
 

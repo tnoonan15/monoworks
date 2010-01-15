@@ -26,7 +26,7 @@ using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
 
-namespace MonoWorks.Controls.StandardViewport
+namespace MonoWorks.Controls.StandardScene
 {
     /// <summary>
     /// Provides a UI manager implementation for a viewport using Rendering.Controls.
@@ -34,7 +34,7 @@ namespace MonoWorks.Controls.StandardViewport
     public class UiManager : UiManagerBase
     {
 
-        public UiManager(ViewportController controller)
+        public UiManager(SceneController controller)
             : base(controller)
         {	
 			this.controller = controller;
@@ -42,7 +42,7 @@ namespace MonoWorks.Controls.StandardViewport
 			ContextLayer = new ContextLayer();
         }
 
-		protected ViewportController controller;
+		protected SceneController controller;
 
         protected override UiMode Mode
         {

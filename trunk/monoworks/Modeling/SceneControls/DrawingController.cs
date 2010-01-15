@@ -23,18 +23,18 @@ using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Controls;
-using MonoWorks.Controls.StandardViewport;
+using MonoWorks.Controls.StandardScene;
 using MonoWorks.Modeling.Sketching;
 
-namespace MonoWorks.Modeling.ViewportControls
+namespace MonoWorks.Modeling.SceneControls
 {
 	/// <summary>
-	/// Controller for a Model viewport.
+	/// Controller for a Model scene.
 	/// </summary>
-	public class DrawingController : ViewportController
+	public class DrawingController : SceneController
 	{
-		public DrawingController(Viewport viewport, IAttributePanel attributePanel)
-			: base(viewport)
+		public DrawingController(Scene scene, IAttributePanel attributePanel)
+			: base(scene)
 		{
 			this.attributePanel = attributePanel;
 
@@ -55,18 +55,18 @@ namespace MonoWorks.Modeling.ViewportControls
 			sketchApplyCancel.Image1 = new Image(ResourceHelper.GetStream("apply.png", "MonoWorks.Rendering"));
 			sketchApplyCancel.Image2 = new Image(ResourceHelper.GetStream("cancel.png", "MonoWorks.Rendering"));
 			sketchAnchor.Control = sketchApplyCancel;
-			viewport.RenderList.AddOverlay(sketchAnchor);
+			scene.RenderList.AddOverlay(sketchAnchor);
 			
 		}
 
 
 
 		/// <summary>
-		/// The drawing interactor attached to the viewport.
+		/// The drawing interactor attached to the scene.
 		/// </summary>
 		protected DrawingInteractor DrawingInteractor
 		{
-			get { return viewport.PrimaryInteractor as DrawingInteractor; }
+			get { return scene.PrimaryInteractor as DrawingInteractor; }
 		}
 
 
@@ -84,28 +84,28 @@ namespace MonoWorks.Modeling.ViewportControls
 			if (UiManager.HasToolbar("Shading"))
 			{
 				ToolBar toolbar = UiManager.GetToolbar("Shading");
-				viewport.RenderManager.ShowWireframe = toolbar.GetButton("Wireframe").IsSelected;
+				scene.RenderManager.ShowWireframe = toolbar.GetButton("Wireframe").IsSelected;
 			}
 		}
 
 		[Action("No Solid")]
 		public void OnNoSolid()
 		{
-			viewport.RenderManager.SolidMode = SolidMode.None;
+			scene.RenderManager.SolidMode = SolidMode.None;
 			OnSolidModeChanged();
 		}
 
 		[Action("Flat Shaded")]
 		public void OnFlatShaded()
 		{
-			viewport.RenderManager.SolidMode = SolidMode.Flat;
+			scene.RenderManager.SolidMode = SolidMode.Flat;
 			OnSolidModeChanged();
 		}
 
 		[Action("Smooth Shaded")]
 		public void OnSmoothShaded()
 		{
-			viewport.RenderManager.SolidMode = SolidMode.Smooth;
+			scene.RenderManager.SolidMode = SolidMode.Smooth;
 			OnSolidModeChanged();
 		}
 
@@ -117,7 +117,7 @@ namespace MonoWorks.Modeling.ViewportControls
 			if (UiManager.HasToolbar("Shading"))
 			{
 				ToolBar toolbar = UiManager.GetToolbar("Shading");
-				string solidString = solidModeNames[viewport.RenderManager.SolidMode];
+				string solidString = solidModeNames[scene.RenderManager.SolidMode];
 				foreach (Button button in toolbar)
 				{
 					if (button.LabelString == solidString)
@@ -148,7 +148,7 @@ namespace MonoWorks.Modeling.ViewportControls
 		}
 
 		/// <summary>
-		/// The last drawing to be used on the viewport.
+		/// The last drawing to be used on the scene.
 		/// </summary>
 		protected Drawing drawing = null;
 
@@ -164,7 +164,7 @@ namespace MonoWorks.Modeling.ViewportControls
 		public void OnSelectionChanged(Drawing drawing)
 		{
 			this.drawing = drawing;
-			(viewport.PrimaryInteractor as DrawingInteractor).SketchableChanged += OnSketchableChanged;
+			(scene.PrimaryInteractor as DrawingInteractor).SketchableChanged += OnSketchableChanged;
 			OnContextChanged();
 		}
 		
@@ -214,7 +214,7 @@ namespace MonoWorks.Modeling.ViewportControls
 
 			}
 
-			viewport.PaintGL();
+			scene.Paint();
 		}
 
 #endregion
@@ -268,7 +268,7 @@ namespace MonoWorks.Modeling.ViewportControls
 		/// <param name="attrControl"></param>
 		public void OnAttributeChanged(IAttributeControl attrControl)
 		{
-			viewport.PaintGL();
+			scene.Paint();
 		}
 
 		/// <summary>
@@ -277,7 +277,7 @@ namespace MonoWorks.Modeling.ViewportControls
 		/// <param name="panel"></param>
 		public void OnAttributePanelHidden(IAttributePanel panel)
 		{
-			viewport.PaintGL();
+			scene.Paint();
 		}
 
 		[Action()]
@@ -314,9 +314,9 @@ namespace MonoWorks.Modeling.ViewportControls
 			{
 				Sketch sketch = new Sketch(entity as RefPlane);
 				drawing.AddSketch(sketch);
-				viewport.Camera.AnimateTo(entity as RefPlane);
+				scene.Camera.AnimateTo(entity as RefPlane);
 				DrawingInteractor.BeginSketching(sketch);
-//				viewport.UsePrimaryInteractor = true;
+//				scene.UsePrimaryInteractor = true;
 
 				drawing.EntityManager.DeselectAll(null);
 
@@ -337,9 +337,9 @@ namespace MonoWorks.Modeling.ViewportControls
 			if (entity is Sketch)
 			{
 				Sketch sketch = entity as Sketch;
-				viewport.Camera.AnimateTo(sketch.Plane);
+				scene.Camera.AnimateTo(sketch.Plane);
 				DrawingInteractor.BeginSketching(sketch);
-//				viewport.UsePrimaryInteractor = true;
+//				scene.UsePrimaryInteractor = true;
 
 				drawing.EntityManager.DeselectAll(null);
 
@@ -454,7 +454,7 @@ namespace MonoWorks.Modeling.ViewportControls
 			entity = extrusion;
 			Edit(); // edit the extrusion
 
-			viewport.Camera.AnimateTo(ViewDirection.Standard);
+			scene.Camera.AnimateTo(ViewDirection.Standard);
 		}
 
 		/// <summary>
@@ -474,7 +474,7 @@ namespace MonoWorks.Modeling.ViewportControls
 			drawing.EntityManager.Select(null, revolution);
 			entity = revolution;
 
-			viewport.Camera.AnimateTo(ViewDirection.Standard);
+			scene.Camera.AnimateTo(ViewDirection.Standard);
 			Edit(); // edit the extrusion
 		}
 

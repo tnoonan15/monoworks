@@ -90,11 +90,11 @@ namespace MonoWorks.Modeling.Sketching
 		}
 		
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			viewport.RenderManager.EnableAntialiasing();
-			base.RenderOpaque(viewport);
-			viewport.RenderManager.DisableAntialiasing();
+			scene.RenderManager.EnableAntialiasing();
+			base.RenderOpaque(scene);
+			scene.RenderManager.DisableAntialiasing();
 		}
 		
 		

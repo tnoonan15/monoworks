@@ -27,7 +27,7 @@ namespace MonoWorks.Controls
 {
 	
 	/// <summary>
-	/// Single control container that anchors its Control to a particular side of the viewport.
+	/// Single control container that anchors its Control to a particular side of the scene.
 	/// </summary>
 	public class AnchorPane : OverlayPane
 	{
@@ -49,7 +49,7 @@ namespace MonoWorks.Controls
 		
 		private AnchorLocation location = AnchorLocation.N;
 		/// <value>
-		/// The location on the edge of the viewport.
+		/// The location on the edge of the scene.
 		/// </value>
 		public AnchorLocation Location
 		{
@@ -62,29 +62,29 @@ namespace MonoWorks.Controls
 		}
 		
 		
-		public override void OnViewportResized(Viewport viewport)
+		public override void OnSceneResized(Scene scene)
 		{
-			base.OnViewportResized(viewport);
+			base.OnSceneResized(scene);
 
-			UpdatePosition(viewport);
+			UpdatePosition(scene);
 		}
 		
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
 			// if we're dirty, we need to update the position, but this can't be done 
-			// in ComputeGeometry() since we don't know the viewport
+			// in ComputeGeometry() since we don't know the scene
 			if (IsDirty)
-				UpdatePosition(viewport);
+				UpdatePosition(scene);
 			
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 		}
 
 
 
 		/// <summary>
-		/// Updates the position of the anchor based on the viewport.
+		/// Updates the position of the anchor based on the scene.
 		/// </summary>
-		private void UpdatePosition(Viewport viewport)
+		private void UpdatePosition(Scene scene)
 		{
 			if (Control != null)
 			{
@@ -93,28 +93,28 @@ namespace MonoWorks.Controls
 				switch (location)
 				{
 				case AnchorLocation.N:
-					Origin = new Coord((viewport.WidthGL - RenderWidth) / 2.0, viewport.HeightGL - RenderHeight);
+					Origin = new Coord((scene.Width - RenderWidth) / 2.0, scene.Height - RenderHeight);
 					break;
 				case AnchorLocation.NE:
-					Origin = new Coord(viewport.WidthGL - RenderWidth - 2, viewport.HeightGL - RenderHeight - 2);
+					Origin = new Coord(scene.Width - RenderWidth - 2, scene.Height - RenderHeight - 2);
 					break;
 				case AnchorLocation.E:
-					Origin = new Coord(viewport.WidthGL - RenderWidth, (viewport.HeightGL - RenderHeight) / 2.0);
+					Origin = new Coord(scene.Width - RenderWidth, (scene.Height - RenderHeight) / 2.0);
 					break;
 				case AnchorLocation.SE:
-					Origin = new Coord(viewport.WidthGL - RenderWidth, 0);
+					Origin = new Coord(scene.Width - RenderWidth, 0);
 					break;
 				case AnchorLocation.S:
-					Origin = new Coord((viewport.WidthGL - RenderWidth) / 2.0, 0);
+					Origin = new Coord((scene.Width - RenderWidth) / 2.0, 0);
 					break;
 				case AnchorLocation.SW:
 					Origin = new Coord(0, 0);
 					break;
 				case AnchorLocation.W:
-					Origin = new Coord(0, (viewport.HeightGL - RenderHeight) / 2.0);
+					Origin = new Coord(0, (scene.Height - RenderHeight) / 2.0);
 					break;
 				case AnchorLocation.NW:
-					Origin = new Coord(0, viewport.HeightGL - RenderHeight);
+					Origin = new Coord(0, scene.Height - RenderHeight);
 					break;
 				}
 			}

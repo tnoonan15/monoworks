@@ -40,7 +40,7 @@ namespace MonoWorks.Modeling
 		
 		protected Drawing drawing;
 
-		protected Viewport viewport;
+		protected Scene scene;
 		
 		
 #region Entity Registry

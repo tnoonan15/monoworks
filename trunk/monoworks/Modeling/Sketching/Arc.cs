@@ -162,7 +162,7 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// Draw the arc-specific decorations.
 		/// </summary>
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
 			if ((IsHovering || IsSelected) && Center != null)
 			{
@@ -193,7 +193,7 @@ namespace MonoWorks.Modeling.Sketching
 				}
 			}
 
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 		}
 
 

@@ -69,7 +69,7 @@ namespace MonoWorks.Rendering
 		public void RemoveActor(Actor actor)
 		{
 			if (!actors.Contains(actor))
-				throw new Exception("The actor is not a part of this viewport's rendering list.");
+				throw new Exception("The actor is not a part of this scene's rendering list.");
 			actors.Remove(actor);
 		}
 		
@@ -134,7 +134,7 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Add an overlay to the viewport.
+		/// Add an overlay to the scene.
 		/// </summary>
 		public void AddOverlay(Overlay overlay)
 		{
@@ -142,7 +142,7 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Remove an overlay from the viewport.
+		/// Remove an overlay from the scene.
 		/// </summary>
 		public void RemoveOverlay(Overlay overlay)
 		{
@@ -191,7 +191,7 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Add a modal overlay to the viewport.
+		/// Add a modal overlay to the scene.
 		/// </summary>
 		public void PushModal(ModalOverlay overlay)
 		{
@@ -199,7 +199,7 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Removes a modal overlay from the viewport.
+		/// Removes a modal overlay from the scene.
 		/// </summary>
 		public void PopModal(ModalOverlay overlay)
 		{
@@ -228,43 +228,43 @@ namespace MonoWorks.Rendering
 
 		#region Rendering
 
-		public void Render(Viewport viewport)
+		public void Render(Scene scene)
 		{
-			viewport.RenderManager.BeginSolids();
-			viewport.Camera.Place(); // place the camera for 3D rendering
+			scene.RenderManager.BeginSolids();
+			scene.Camera.Place(); // place the camera for 3D rendering
 
 			foreach (Actor actor in actors)
 			{
 				if (actor.IsVisible)
-					actor.RenderOpaque(viewport);
+					actor.RenderOpaque(scene);
 			}
 
 			foreach (Actor actor in actors)
 			{
 				if (actor.IsVisible)
-					actor.RenderTransparent(viewport);
+					actor.RenderTransparent(scene);
 			}
 
-			viewport.Camera.PlaceOverlay(); // place the camera for overlay rendering
+			scene.Camera.PlaceOverlay(); // place the camera for overlay rendering
 			foreach (Actor actor in actors)
 			{
 				if (actor.IsVisible)
-					actor.RenderOverlay(viewport);
+					actor.RenderOverlay(scene);
 			}
 
 			// render the overlays
-			viewport.RenderManager.BeginOverlays();
+			scene.RenderManager.BeginOverlays();
 			foreach (Overlay overlay in overlays)
 			{
 				if (overlay.IsVisible)
-					overlay.RenderOverlay(viewport);
+					overlay.RenderOverlay(scene);
 			}
 			
 			// render the modal overlays
 			foreach (var modal in _modals)
 			{
 				if (modal.IsVisible)
-					modal.RenderOverlay(viewport);
+					modal.RenderOverlay(scene);
 			}
 			
 		}
@@ -273,16 +273,16 @@ namespace MonoWorks.Rendering
 
 
 		/// <summary>
-		/// The viewport should call this when it's resized.
+		/// The scene should call this when it's resized.
 		/// </summary>
-		/// <param name="viewport"> </param>
-		public void OnViewportResized(Viewport viewport)
+		/// <param name="scene"> </param>
+		public void OnSceneResized(Scene scene)
 		{
 			foreach (Actor actor in Actors)
-				actor.OnViewportResized(viewport);
+				actor.OnSceneResized(scene);
 			
 			foreach (Overlay overlay in Overlays)
-				overlay.OnViewportResized(viewport);
+				overlay.OnSceneResized(scene);
 		}
 
 	}

@@ -30,8 +30,8 @@ namespace MonoWorks.Rendering.Interaction
 	public class OverlayInteractor : AbstractInteractor
 	{
 
-		public OverlayInteractor(Viewport viewport)
-			: base(viewport)
+		public OverlayInteractor(Scene scene)
+			: base(scene)
 		{
 
 		}
@@ -44,9 +44,9 @@ namespace MonoWorks.Rendering.Interaction
 			var wasHandled = evt.Handled;
 
 			// let the modals interact first
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 			{
-				foreach (var modal in viewport.RenderList.ModalsCopy)
+				foreach (var modal in _scene.RenderList.ModalsCopy)
 				{
 					modal.OnButtonPress(evt);
 					if (!wasHandled && evt.Handled)
@@ -75,9 +75,9 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnButtonRelease(evt);
 
 			// let the modals interact first
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 			{
-				foreach (var modal in viewport.RenderList.ModalsCopy)
+				foreach (var modal in _scene.RenderList.ModalsCopy)
 					modal.OnButtonRelease(evt);
 				return; // don't interact with anything else if modal overlays are present
 			}
@@ -92,9 +92,9 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnMouseMotion(evt);
 
 			// let the modals interact first
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 			{
-				foreach (var modal in viewport.RenderList.ModalsCopy)
+				foreach (var modal in _scene.RenderList.ModalsCopy)
 					modal.OnMouseMotion(evt);
 				return; // don't interact with anything else if modal overlays are present
 			}

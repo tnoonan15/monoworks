@@ -213,16 +213,16 @@ namespace MonoWorks.Plotting
 
 
 
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 
 			if (!IsVisible)
 				return;
 
 			// get the screen coordinates of the axis
-			Coord startCoord = viewport.Camera.WorldToScreen(Start);
-			Coord stopCoord = viewport.Camera.WorldToScreen(Stop);
+			Coord startCoord = scene.Camera.WorldToScreen(Start);
+			Coord stopCoord = scene.Camera.WorldToScreen(Stop);
 
 			// flip the coordinates around if they aren't in x order (this helps with drawing ticks)
 			if (startCoord.X > stopCoord.X)
@@ -245,7 +245,7 @@ namespace MonoWorks.Plotting
 			if (startCoord.X == stopCoord.X) // the axis is vertical
 			{
 				isVertical = true;
-				if (startCoord.X < viewport.WidthGL / 2) // it's on the left side
+				if (startCoord.X < scene.Width / 2) // it's on the left side
 					tickAngle = Angle.Pi();
 				else
 					tickAngle = new Angle();
@@ -253,7 +253,7 @@ namespace MonoWorks.Plotting
 			if (startCoord.Y == stopCoord.Y) // the axis is horizontal
 			{
 				ishorizontal = true;
-				if (startCoord.Y < viewport.HeightGL / 2) // it's on the bottom side
+				if (startCoord.Y < scene.Height / 2) // it's on the bottom side
 					tickAngle = Angle.Pi() * 1.5;
 				else
 					tickAngle = Angle.Pi() * 0.5;
@@ -284,7 +284,7 @@ namespace MonoWorks.Plotting
 //				labelPane.Angle = Angle.Pi() / 2;
 //			else
 //				label.Angle = new Angle();
-			labelPane.RenderOverlay(viewport);
+			labelPane.RenderOverlay(scene);
 
 			// update tick alignment
 //			HorizontalAlignment newAlignment = HorizontalAlignment.Center;
@@ -293,7 +293,7 @@ namespace MonoWorks.Plotting
 			// render the ticks
 			for (int i = 0; i < tickPositions.Length; i++)
 			{
-				startCoord = viewport.Camera.WorldToScreen(tickPositions[i]);
+				startCoord = scene.Camera.WorldToScreen(tickPositions[i]);
 				gl.glVertex2d(startCoord.X, startCoord.Y); // the point where the tick intersects the axis
 				gl.glVertex2d(startCoord.X + tickLength * tickAngle.Cos(), startCoord.Y + tickLength * tickAngle.Sin()); //the other point 
 
@@ -310,7 +310,7 @@ namespace MonoWorks.Plotting
 			for (int i = 0; i < tickPositions.Length; i++)
 			{
 //				tickLabels[i].HorizontalAlignment = newAlignment;
-				tickLabels[i].RenderOverlay(viewport);
+				tickLabels[i].RenderOverlay(scene);
 			}
 			
 			

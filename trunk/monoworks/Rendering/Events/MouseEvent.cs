@@ -30,22 +30,22 @@ namespace MonoWorks.Rendering.Events
 	/// </summary>
 	public class MouseEvent : Event
 	{
-		public MouseEvent(Viewport viewport, Coord pos)
-			: this(viewport, pos, InteractionModifier.None)
+		public MouseEvent(Scene scene, Coord pos)
+			: this(scene, pos, InteractionModifier.None)
 		{
 		}
 		
-		public MouseEvent(Viewport viewport, Coord pos, InteractionModifier modifier) : base()
+		public MouseEvent(Scene scene, Coord pos, InteractionModifier modifier) : base()
 		{
-			Viewport = viewport;
+			Scene = scene;
 			Pos = pos;
 			Modifier = modifier;
 		}
 
 		/// <value>
-		/// The viewport that originated the event.
+		/// The scene that originated the event.
 		/// </value>
-		public Viewport Viewport { get; private set; }
+		public Scene Scene { get; private set; }
 		
 		/// <value>
 		/// The position of the event.

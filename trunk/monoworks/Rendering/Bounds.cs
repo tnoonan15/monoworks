@@ -281,15 +281,14 @@ namespace MonoWorks.Rendering
 #region Outside Edges
 
 		/// <summary>
-		/// Gets the most outside edges from the viewpoint of a camera.
+		/// Gets the most outside edges from the scene of a camera.
 		/// </summary>
-		/// <param name="viewport"> The viewport containing the camera.</param>
 		/// <returns> The low and high end of each edge (6 elements).</returns>
-		public Vector[] GetOutsideEdges(Viewport viewport)
+		public Vector[] GetOutsideEdges(Scene scene)
 		{
 			Vector[] edges = new Vector[6];
-			Vector camPos = viewport.Camera.Position;
-			Vector camCenter = viewport.Camera.Center;
+			Vector camPos = scene.Camera.Position;
+			Vector camCenter = scene.Camera.Center;
 
 			double zVal = minima[2]; // z value of the x and y axes
 			if (camPos[2] + 0.01 < camCenter[2]) // z position of the camera is negative
@@ -388,10 +387,10 @@ namespace MonoWorks.Rendering
 #region Rendering
 
 		/// <summary>
-		/// Renders the bounding box to the given viewport.
+		/// Renders the bounding box to the given scene.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public virtual void Render(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public virtual void Render(Scene scene)
 		{
 			if (isSet && minima != null)
 			{

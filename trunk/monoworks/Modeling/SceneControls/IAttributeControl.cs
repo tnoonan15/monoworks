@@ -1,4 +1,4 @@
-﻿// IAttributeControl.cs - MonoWorks Project
+// IAttributeControl.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 using MonoWorks.Modeling;
 
-namespace MonoWorks.Modeling.ViewportControls
+namespace MonoWorks.Modeling.SceneControls
 {
 	/// <summary>
 	/// Delegate for handling an attribute being changed by a control.

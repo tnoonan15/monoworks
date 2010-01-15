@@ -44,9 +44,9 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Camera(Viewport theViewport)
+		public Camera(Scene scene)
 		{
-			viewport = theViewport;
+			_scene = scene;
 			
 			// set default positioning
 			pos = new Vector(0.0, 0.0, 9.0);
@@ -69,14 +69,14 @@ namespace MonoWorks.Rendering
 
 #region Attributes
 		
-		protected Viewport viewport;	
+		protected Scene _scene;	
 		
 		/// <value>
 		/// The height of the viewport.
 		/// </value>
 		protected double Height
 		{
-			get {return (double)viewport.HeightGL;}
+			get {return _scene.Height;}
 		}
 		
 		/// <value>
@@ -84,7 +84,7 @@ namespace MonoWorks.Rendering
 		/// </value>
 		protected double Width
 		{
-			get {return (double)viewport.WidthGL;}
+			get {return _scene.Width;}
 		}
 		
 		protected Angle fov;
@@ -181,17 +181,17 @@ namespace MonoWorks.Rendering
 		/// Configures the viewport based on its width and height.
 		/// </summary>
 		public virtual void Configure()
-		{						
+		{
 			// get the width and height
-			int width = viewport.WidthGL;
-			int height = viewport.HeightGL;
-			double ar = (double)width/(double)height;
+			var width = _scene.Width;
+			var height = _scene.Height;
+			double ar = width / height;
 			
 			// prevent divide by zero
-			if (height==0)	
-				height=1;	
+			if (height == 0)
+				height = 1;
 			
-			gl.glViewport(0, 0, width, height);
+			gl.glViewport(0, 0, (int)width, (int)height);
 			
 			// initialize the projection matrix
 			gl.glMatrixMode(gl.GL_PROJECTION);
@@ -217,7 +217,7 @@ namespace MonoWorks.Rendering
 
 			// store the viewport size
 			//gl.glGetIntegerv(gl.GL_VIEWPORT, viewportSize);
-			viewportSize = new int[] {0, 0, width, height};
+			viewportSize = new int[] {0, 0, (int)width, (int)height};
 		}
 
 		/// <summary>
@@ -323,14 +323,14 @@ namespace MonoWorks.Rendering
 			{
 				// translate the camera so that something drawn in the
 				// x-y plane maps directly to the screen
-				float ar = (float)viewport.WidthGL / (float)viewport.HeightGL; // viewport aspect ratio
+				float ar = (float)_scene.Width / (float)_scene.Height; // viewport aspect ratio
 				float dz = 0.5f / (float)((fov * 0.5).Tan()); // amount to translate in the z dimension to counteract perspective
 				gl.glTranslatef(-0.5f * ar, -0.5f, -dz);
-				gl.glScalef(1f / (float)viewport.HeightGL, 1f / (float)viewport.HeightGL, 1.0f);
+				gl.glScalef(1f / (float)_scene.Height, 1f / (float)_scene.Height, 1.0f);
 			}
 			else // parallel
 			{
-				double ar = (float)viewport.WidthGL / (float)viewport.HeightGL; // viewport aspect ratio
+				double ar = (float)_scene.Width / (float)_scene.Height; // viewport aspect ratio
 				double h = (fov*0.5).Tan() * Distance;
 				gl.glTranslated(-ar * h, -h, -1);
 				gl.glScaled(2 * h / Height, 2 * h / Height, 1.0);
@@ -358,7 +358,7 @@ namespace MonoWorks.Rendering
 		/// <value>
 		/// The scaling from the viewport to world coordinates.
 		/// </value>
-		public double ViewportToWorldScaling
+		public double SceneToWorldScaling
 		{
 			get	{return 2 * (fov / 2).Tan() * Math.Abs(Distance)/ Height;}
 		}
@@ -526,7 +526,7 @@ namespace MonoWorks.Rendering
 		public void Pan(double dx, double dy)
 		{
 			// determine the scaling from view to world coordinates
-			double scaling = ViewportToWorldScaling;
+			double scaling = SceneToWorldScaling;
 			
 			// compute the view up (y) component of the tranformation
 			Vector yPan = upVec * -dy * scaling;
@@ -593,7 +593,7 @@ namespace MonoWorks.Rendering
 		public void Rotate(double dx, double dy)
 		{			
 			// determine the scaling from view to world coordinates
-			double scaling = ViewportToWorldScaling * 6;
+			double scaling = SceneToWorldScaling * 6;
 			
 			// compute the lateral (x) compoment of the transformation
 			Vector xRotate = RightVec * dx * scaling;
@@ -666,12 +666,12 @@ namespace MonoWorks.Rendering
 		/// <param name="upVecOut"> The up vector. </param>
 		public void GetDirectionVectors(ViewDirection direction, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
-			viewport.RenderList.ResetBounds();
-			Bounds bounds = viewport.RenderList.Bounds;
+			_scene.RenderList.ResetBounds();
+			Bounds bounds = _scene.RenderList.Bounds;
 			
 			// determine the distance needed to view all renderables
 			double dist = 0;
-			if (viewport.RenderList.ActorCount > 0 && bounds.IsSet)
+			if (_scene.RenderList.ActorCount > 0 && bounds.IsSet)
 			{
 				dist = bounds.MaxWidth / (fov * 0.5).Tan();				
 				centerOut = bounds.Center;
@@ -716,8 +716,7 @@ namespace MonoWorks.Rendering
 				upVecOut = new Vector(0, 0, 1);
 				break;
 			}
-			//posOut = (travel * dist * 0.8) + centerOut; // HACK for filling more of the viewport
-			posOut = (travel * dist) + centerOut; // HACK for filling more of the viewport
+			posOut = (travel * dist) + centerOut;
 		}
 		
 		/// <summary>
@@ -728,8 +727,8 @@ namespace MonoWorks.Rendering
 			lastDirection = direction;
 			GetDirectionVectors(direction, out center, out pos, out upVec);
 			RecomputeUpVector();
-			viewport.Resize();
-			viewport.OnDirectionChanged();
+//			_scene.Resize();
+			_scene.OnDirectionChanged();
 		}
 
 		/// <summary>
@@ -737,12 +736,12 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void GetPlaneVectors(IPlane plane, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
-			viewport.RenderList.ResetBounds();
-			Bounds bounds = viewport.RenderList.Bounds;
+			_scene.RenderList.ResetBounds();
+			Bounds bounds = _scene.RenderList.Bounds;
 
 			// determine the distance needed to view all renderables
 			double dist = 0;
-			if (viewport.RenderList.ActorCount > 0 && bounds.IsSet)
+			if (_scene.RenderList.ActorCount > 0 && bounds.IsSet)
 				dist = bounds.MaxWidth / (fov * 0.5).Tan();
 			else
 				dist = 2 / (fov * 0.5).Tan();
@@ -764,8 +763,8 @@ namespace MonoWorks.Rendering
 		{
 			GetPlaneVectors(plane, out center, out pos, out upVec);
 			RecomputeUpVector();
-			viewport.Resize();
-			viewport.OnDirectionChanged();
+//			_scene.Resize();
+			_scene.OnDirectionChanged();
 		}
 
 #endregion
@@ -819,7 +818,7 @@ namespace MonoWorks.Rendering
 			animStopDist = animStopDir.Magnitude;
 			animStopDir = animStopDir.Normalize();
 
-			viewport.Animator.RegisterAnimation(this, 3);
+			_scene.Animator.RegisterAnimation(this, 3);
 		}
 
 		public void Animate(double progress)
@@ -835,7 +834,7 @@ namespace MonoWorks.Rendering
 
 		public void EndAnimation()
 		{
-			viewport.QueueResize();
+//			_scene.QueueResize();
 		}	
 		
 		

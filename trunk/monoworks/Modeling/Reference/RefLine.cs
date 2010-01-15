@@ -104,13 +104,13 @@ namespace MonoWorks.Modeling
 			bounds.Resize(stop);
 		}
 
-		public override void RenderFill(Viewport viewport)
+		public override void RenderFill(Scene scene)
 		{
 		}
 
-		public override void RenderEdge(Viewport viewport)
+		public override void RenderEdge(Scene scene)
 		{
-			base.RenderTransparent(viewport);
+			base.RenderTransparent(scene);
 
 			gl.glBegin(gl.GL_LINES);
 			start.glVertex();
@@ -131,7 +131,7 @@ namespace MonoWorks.Modeling
 			line.Back = stop;
 			double dist = line.ShortestDistance(hitLine);
 			lastHit = (start + stop) / 2; // HACK: need actual hit position
-			return dist < Reference.HitTol * hitLine.Camera.ViewportToWorldScaling;
+			return dist < Reference.HitTol * hitLine.Camera.SceneToWorldScaling;
 		}
 
 #endregion

@@ -159,7 +159,7 @@ namespace MonoWorks.Modeling.Sketching
 					Back = Points[i+1].ToVector(),
 					Camera = hit.Camera
 				};
-				if (line.ShortestDistance(hit) < HitTol * hit.Camera.ViewportToWorldScaling)
+				if (line.ShortestDistance(hit) < HitTol * hit.Camera.SceneToWorldScaling)
 				{
 					lastHit = hit.GetIntersection((ParentEntity as Sketch).Plane);
 					return true;

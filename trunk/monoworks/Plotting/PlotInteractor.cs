@@ -31,8 +31,8 @@ namespace MonoWorks.Plotting
 	public class PlotInteractor : AbstractInteractor
 	{
 
-		public PlotInteractor(Viewport viewport)
-			: base(viewport)
+		public PlotInteractor(Scene scene)
+			: base(scene)
 		{
 
 		}
@@ -41,14 +41,14 @@ namespace MonoWorks.Plotting
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
-
+	
 			// handle double click
-			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
+			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double) 
 			{
-				if (viewport.Use2dInteraction)
+				if (_scene.Use2dInteraction) 
 				{
-					viewport.RenderList.ResetBounds();
-					viewport.Resize();
+					_scene.RenderList.ResetBounds();
+					_scene.Resize();
 					evt.Handle();
 				}
 			}
@@ -58,31 +58,31 @@ namespace MonoWorks.Plotting
 		{
 			if (evt.Handled)
 				return;
-
+	
 			base.OnButtonRelease(evt);
+	
 
-
-			if (evt.Button == 1)
+			if (evt.Button == 1) 
 			{
 				// TODO: handle multiple hits with depth checking
 				Actor hitRend = null;
-				foreach (Actor rend in renderList.Actors)
+				foreach (Actor rend in renderList.Actors) 
 				{
 					rend.OnButtonRelease(evt);
 					if (evt.Handled)
 						hitRend = rend;
 				}
-
+				
 				// show the selection tooltip
-				if (hitRend != null)
+				if (hitRend != null) 
 				{
 					string description = hitRend.SelectionDescription;
 					if (description.Length > 0)
-						viewport.ToolTip = description;
+						_scene.ToolTip = description;
 					evt.Handle();
-				}
+				} 
 				else
-					viewport.ClearToolTip();
+					_scene.ClearToolTip();
 			} // button 1
 		}
 

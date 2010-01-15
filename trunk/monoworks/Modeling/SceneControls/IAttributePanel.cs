@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using MonoWorks.Modeling;
 
-namespace MonoWorks.Modeling.ViewportControls
+namespace MonoWorks.Modeling.SceneControls
 {
 
 	public delegate void AttributePanelHandler(IAttributePanel panel);

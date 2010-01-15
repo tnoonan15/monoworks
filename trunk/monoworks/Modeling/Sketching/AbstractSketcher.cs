@@ -1,4 +1,4 @@
-﻿// AbstractSketcher.cs - MonoWorks Project
+// AbstractSketcher.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -82,9 +82,9 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// Highlights the given point.
 		/// </summary>
-		protected void HighlightPoint(Viewport viewport, Point point, Color color, float size)
+		protected void HighlightPoint(Scene scene, Point point, Color color, float size)
 		{
-			viewport.RenderManager.Lighting.Disable();
+			scene.RenderManager.Lighting.Disable();
 			gl.glPointSize(size);
 			color.Setup();
 			gl.glBegin(gl.GL_POINTS);

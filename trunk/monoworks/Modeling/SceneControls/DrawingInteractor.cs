@@ -25,7 +25,7 @@ using MonoWorks.Rendering.Interaction;
 using MonoWorks.Framework;
 using MonoWorks.Modeling.Sketching;
 
-namespace MonoWorks.Modeling.ViewportControls
+namespace MonoWorks.Modeling.SceneControls
 {
 	
 	/// <summary>
@@ -34,7 +34,7 @@ namespace MonoWorks.Modeling.ViewportControls
 	public class DrawingInteractor : AbstractInteractor
 	{
 		
-		public DrawingInteractor(Viewport viewport, Drawing drawing) : base(viewport)
+		public DrawingInteractor(Scene scene, Drawing drawing) : base(scene)
 		{
 			this.drawing = drawing;
 		}
@@ -184,8 +184,8 @@ namespace MonoWorks.Modeling.ViewportControls
 			double frontDist = 0;
 			foreach (T entity in hits)
 			{
-				double dist_ = viewport.Camera.GetDistance(entity.LastHit);
-				//double dist_ = viewport.Camera.GetDistance(entity.Bounds.Center);
+				double dist_ = _scene.Camera.GetDistance(entity.LastHit);
+				//double dist_ = scene.Camera.GetDistance(entity.Bounds.Center);
 				if (front == null || dist_ < frontDist)
 				{
 					front = entity;
@@ -309,33 +309,33 @@ namespace MonoWorks.Modeling.ViewportControls
 		/// <summary>
 		/// Pass the rendering to the sketcher, if there is one.
 		/// </summary>
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 			if (sketcher != null)
-				sketcher.RenderOpaque(viewport);
+				sketcher.RenderOpaque(scene);
 		}
 
 		/// <summary>
 		/// Pass the rendering to the sketcher, if there is one.
 		/// </summary>
-		public override void RenderTransparent(Viewport viewport)
+		public override void RenderTransparent(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 			if (IsSketching)
-				Sketch.Plane.RenderGrid(viewport);
+				Sketch.Plane.RenderGrid(scene);
 			if (sketcher != null)
-				sketcher.RenderTransparent(viewport);
+				sketcher.RenderTransparent(scene);
 		}
 
 		/// <summary>
 		/// Pass the rendering to the sketcher, if there is one.
 		/// </summary>
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 			if (sketcher != null)
-				sketcher.RenderOverlay(viewport);
+				sketcher.RenderOverlay(scene);
 		}
 
 #endregion

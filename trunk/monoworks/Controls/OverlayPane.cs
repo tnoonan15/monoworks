@@ -127,7 +127,7 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonPress(controlEvt);
 				if (controlEvt.Handled)
 					evt.Handle();
@@ -140,7 +140,7 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonRelease(controlEvt);
 				if (controlEvt.Handled)
 					evt.Handle();
@@ -153,7 +153,7 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseEvent(evt.Viewport, GetControlPoint(evt.Pos), evt.Modifier);
+				var controlEvt = new MouseEvent(evt.Scene, GetControlPoint(evt.Pos), evt.Modifier);
 				Control.OnMouseMotion(controlEvt);
 				if (controlEvt.Handled)
 					evt.Handle();
@@ -166,7 +166,7 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseWheelEvent(evt.Viewport, evt.Direction, evt.Modifier);
+				var controlEvt = new MouseWheelEvent(evt.Scene, evt.Direction, evt.Modifier);
 				Control.OnMouseWheel(controlEvt);
 				if (controlEvt.Handled)
 					evt.Handle();
@@ -219,12 +219,12 @@ namespace MonoWorks.Controls
 						
 		}
 		
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
 			if (Control == null || !Control.IsVisible)
 				return;
 			
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 			
 			if (Control.IsDirty)
 				ComputeGeometry();
@@ -233,7 +233,7 @@ namespace MonoWorks.Controls
 			if (wasDirty)
 			{
 				Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
-				Control.RenderImage(viewport);
+				Control.RenderImage(scene);
 				Gl.glTexImage2D(Gl.GL_TEXTURE_RECTANGLE_ARB,
 			                0, 
 			                Gl.GL_RGBA, 
@@ -248,7 +248,7 @@ namespace MonoWorks.Controls
 			
 			
 			// render the texture
-//			viewport.Lighting.Disable();
+//			scene.Lighting.Disable();
 			Gl.glEnable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
 			Gl.glBegin(Gl.GL_QUADS);
@@ -263,7 +263,7 @@ namespace MonoWorks.Controls
 			Gl.glVertex2d(Origin.X, Origin.Y + RenderHeight);
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
-//			viewport.Lighting.Enable();
+//			scene.Lighting.Enable();
 		}
 		
 		#endregion

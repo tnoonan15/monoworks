@@ -1,4 +1,4 @@
-﻿// StudioController.cs - MonoWorks Project
+// StudioController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
