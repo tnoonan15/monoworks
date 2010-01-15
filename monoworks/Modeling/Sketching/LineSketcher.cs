@@ -123,7 +123,7 @@ namespace MonoWorks.Modeling.Sketching
 					Front = Sketchable.Points[i].ToVector(),
 					Back = Sketchable.Points[i+1].ToVector()
 				};
-				if (line.ShortestDistance(hit) < Line.HitTol * hit.Camera.ViewportToWorldScaling)
+				if (line.ShortestDistance(hit) < Line.HitTol * hit.Camera.SceneToWorldScaling)
 				{
 					selection.Add(Sketchable.Points[i]);
 					selection.Add(Sketchable.Points[i+1]);
@@ -232,17 +232,17 @@ namespace MonoWorks.Modeling.Sketching
 #region Rendering
 
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 
 			if (closePoint != null)
-				HighlightPoint(viewport, closePoint, ColorManager.Global["Red"], 10);
+				HighlightPoint(scene, closePoint, ColorManager.Global["Red"], 10);
 
 			// highlight the selection
 			Color highlightColor = ModelingOptions.Global.GetColor("sketchable", HitState.Hovering);
 			foreach (Point point in selection)
-				HighlightPoint(viewport, point, highlightColor, 8);
+				HighlightPoint(scene, point, highlightColor, 8);
 			if (selection.Count > 1)
 			{
 				gl.glBegin(gl.GL_LINE_STRIP);

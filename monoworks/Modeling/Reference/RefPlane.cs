@@ -195,7 +195,7 @@ namespace MonoWorks.Modeling
 			
 		}				
 
-		public override void RenderFill(Viewport viewport)
+		public override void RenderFill(Scene scene)
 		{			
 			gl.glBegin(gl.GL_POLYGON);
 			foreach (Vector corner in quadCorners)
@@ -204,7 +204,7 @@ namespace MonoWorks.Modeling
 			
 		}
 
-		public override void RenderEdge(Viewport viewport)
+		public override void RenderEdge(Scene scene)
 		{
 			gl.glBegin(gl.GL_LINE_LOOP);
 			foreach (Vector corner in quadCorners)
@@ -226,10 +226,10 @@ namespace MonoWorks.Modeling
 		/// <summary>
 		/// Renders the grid on the plane.
 		/// </summary>
-		public void RenderGrid(Viewport viewport)
+		public void RenderGrid(Scene scene)
 		{
 			// project the edges of the view frustum to the plane
-			HitLine[] hits = viewport.Camera.FrustumEdges;
+			HitLine[] hits = scene.Camera.FrustumEdges;
 			double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 			for (int i = 0; i < hits.Length; i++)
 			{
@@ -261,7 +261,7 @@ namespace MonoWorks.Modeling
 			yMax = Math.Ceiling(yMax / Grid.Step) * Grid.Step;
 
 			// draw the grid
-			viewport.RenderManager.Lighting.Disable();
+			scene.RenderManager.Lighting.Disable();
 			gl.glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			gl.glLineWidth(1f);
 			gl.glBegin(gl.GL_LINES);

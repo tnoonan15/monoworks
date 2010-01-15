@@ -133,7 +133,7 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonPress(controlEvt);
 				if (controlEvt.Handled)
 					evt.Handle();
@@ -146,7 +146,7 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Viewport, GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
 				Control.OnButtonRelease(controlEvt);
 				if (controlEvt.Handled)
 					evt.Handle();
@@ -159,7 +159,7 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseEvent(evt.Viewport, GetControlPoint(evt.HitLine), evt.Modifier);
+				var controlEvt = new MouseEvent(evt.Scene, GetControlPoint(evt.HitLine), evt.Modifier);
 				Control.OnMouseMotion(controlEvt);
 				if (controlEvt.Handled)
 					evt.Handle();
@@ -192,7 +192,7 @@ namespace MonoWorks.Controls
 		private uint texture = 0;
 		
 		/// <summary>
-		/// The scaling to go from viewport to world coordinates.
+		/// The scaling to go from scene to world coordinates.
 		/// </summary>
 		public double Scaling { get; private set; }
 		
@@ -210,12 +210,12 @@ namespace MonoWorks.Controls
 			
 		}
 		
-		public override void RenderTransparent(Viewport viewport)
+		public override void RenderTransparent(Scene scene)
 		{
 			if (Control == null)
 				return;
 			
-			base.RenderTransparent(viewport);
+			base.RenderTransparent(scene);
 			
 			if (Control.IsDirty)
 				ComputeGeometry();
@@ -224,7 +224,7 @@ namespace MonoWorks.Controls
 			if (wasDirty)
 			{
 				Gl.glBindTexture(Gl.GL_TEXTURE_RECTANGLE_ARB, texture);
-				Control.RenderImage(viewport);
+				Control.RenderImage(scene);
 				Gl.glTexImage2D(Gl.GL_TEXTURE_RECTANGLE_ARB,
 			                0, 
 			                Gl.GL_RGBA, 
@@ -238,12 +238,12 @@ namespace MonoWorks.Controls
 			}
 			
 			// determine how big the control should be 
-			Scaling = viewport.Camera.ViewportToWorldScaling;
+			Scaling = scene.Camera.SceneToWorldScaling;
 			double width = RenderWidth * Scaling;
 			double height = RenderHeight * Scaling;
 						
 			// render the texture
-			viewport.Lighting.Disable();
+			scene.Lighting.Disable();
 			Gl.glEnable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
 			Gl.glBegin(Gl.GL_QUADS);
@@ -267,7 +267,7 @@ namespace MonoWorks.Controls
 			
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
-			viewport.Lighting.Enable();
+			scene.Lighting.Enable();
 		}
 
 #endregion

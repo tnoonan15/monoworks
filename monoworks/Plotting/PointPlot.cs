@@ -559,14 +559,14 @@ namespace MonoWorks.Plotting
 		}
 
 
-		public override void RenderOpaque(MonoWorks.Rendering.Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 
 			if (!IsVisible)
 				return;
 
-			viewport.RenderManager.Lighting.Disable();
+			scene.RenderManager.Lighting.Disable();
 
 			CallDisplayList();
 
@@ -586,13 +586,13 @@ namespace MonoWorks.Plotting
 			}
 			gl.glEnd();
 
-			viewport.RenderManager.Lighting.Enable();
+			scene.RenderManager.Lighting.Enable();
 		}
 
 
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 		}
 
 #endregion

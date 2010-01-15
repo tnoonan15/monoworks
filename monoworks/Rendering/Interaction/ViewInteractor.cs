@@ -35,7 +35,7 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public ViewInteractor(Viewport viewport) : base(viewport)
+		public ViewInteractor(Scene scene) : base(scene)
 		{
 			mouseType = InteractionType.None;
 
@@ -102,7 +102,7 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			get
 			{
-                if (viewport.Use2dInteraction
+                if (_scene.Use2dInteraction
 					&& mouseType == InteractionType.Dolly)
                     return InteractionType.Zoom;
                 else
@@ -124,7 +124,7 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnButtonPress(evt);
 
 			// don't interact if modal overlays are present
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 				return;
 
 			int key = GetKey(evt.Button, evt.Modifier);
@@ -144,10 +144,10 @@ namespace MonoWorks.Rendering.Interaction
 			// handle double click
 			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
 			{
-				if (viewport.Use2dInteraction)
-					viewport.Camera.AnimateTo(ViewDirection.Front);
+				if (_scene.Use2dInteraction)
+					_scene.Camera.AnimateTo(ViewDirection.Front);
 				else
-					viewport.Camera.AnimateTo(ViewDirection.Standard);
+					_scene.Camera.AnimateTo(ViewDirection.Standard);
 				evt.Handle();
 			}
 
@@ -160,7 +160,7 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			// don't interact if modal overlays are present
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 				return;
 			
 			switch (MouseType)
@@ -169,7 +169,7 @@ namespace MonoWorks.Rendering.Interaction
 				bool blocked = false;
 				foreach (Actor actor in renderList.Actors)
 				{
-					if (actor.HandleZoom(viewport, RubberBand))
+					if (actor.HandleZoom(_scene, RubberBand))
 						blocked = true;
 				}
 				if (!blocked)
@@ -204,7 +204,7 @@ namespace MonoWorks.Rendering.Interaction
 				return;
 
 			// don't interact if modal overlays are present
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 				return;
 			
 			bool blocked = false;
@@ -222,18 +222,18 @@ namespace MonoWorks.Rendering.Interaction
 				// allow the renderables to deal with the interaction
 				foreach (Actor renderable in renderList.Actors)
 				{
-					if (renderable.HandlePan(viewport, diff.X, diff.Y))
+					if (renderable.HandlePan(_scene, diff.X, diff.Y))
 						blocked = true;
 				}
 				break;
 
 			case InteractionType.Dolly:
-				double factor = (evt.Pos.Y - lastPos.Y) / (double)viewport.HeightGL;
+				double factor = (evt.Pos.Y - lastPos.Y) / _scene.Height;
 
 				// allow the renderables to deal with the interaction
 				foreach (Renderable renderable in renderList.Actors)
 				{
-					if (renderable.HandleDolly(viewport, factor))
+					if (renderable.HandleDolly(_scene, factor))
 						blocked = true;
 				}
 				break;
@@ -244,7 +244,7 @@ namespace MonoWorks.Rendering.Interaction
 				interactionPerformed = true;
 
 			if (!blocked)
-				OnMouseMotion(evt, viewport.Camera);
+				OnMouseMotion(evt, _scene.Camera);
 
 			base.OnMouseMotion(evt);
 		}
@@ -259,16 +259,16 @@ namespace MonoWorks.Rendering.Interaction
 			switch (MouseType)
 			{
 			case InteractionType.Rotate:
-				viewport.Camera.Rotate(evt.Pos - lastPos);
+				_scene.Camera.Rotate(evt.Pos - lastPos);
 				break;
 
 			case InteractionType.Pan:
-				viewport.Camera.Pan(evt.Pos - lastPos);
+				_scene.Camera.Pan(evt.Pos - lastPos);
 				break;
 
 			case InteractionType.Dolly:
 				double factor = (evt.Pos.Y - lastPos.Y) / (double)camera.ViewportHeight;
-				viewport.Camera.Dolly(factor);
+				_scene.Camera.Dolly(factor);
 				break;
 			}
 		}

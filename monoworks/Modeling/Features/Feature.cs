@@ -152,48 +152,48 @@ namespace MonoWorks.Modeling
 		/// <summary>
 		/// If the feature is transparent, renders it.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderTransparent(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public override void RenderTransparent(Scene scene)
 		{
-			base.RenderTransparent(viewport);
+			base.RenderTransparent(scene);
 		}
 		
 		/// <summary>
 		/// Renders the feature, recomputing geometry if necessary.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderOpaque(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
-			viewport.RenderManager.EnableAntialiasing();
-			viewport.RenderManager.Lighting.Enable();
+			base.RenderOpaque(scene);
+			scene.RenderManager.EnableAntialiasing();
+			scene.RenderManager.Lighting.Enable();
 
 			// render the highlights
 			if (IsHovering)
 			{
 				gl.glLineWidth(1.0f);
 				ColorManager.Global["Blue"].Setup();
-				bounds.Render(viewport);
+				bounds.Render(scene);
 			}
 			else if (IsSelected)
 			{
 				gl.glLineWidth(1.0f);
 				ColorManager.Global["Red"].Setup();
-				bounds.Render(viewport);
+				bounds.Render(scene);
 			}
 			
 			// render solid geometry
-			if (viewport.RenderManager.SolidMode != SolidMode.None)
+			if (scene.RenderManager.SolidMode != SolidMode.None)
 			{
 				ColorManager.Global["Gray"].Setup();
 				gl.glCallList(displayLists+SolidListOffset);
 			}
 			
 			// render the wireframe
-			if (viewport.RenderManager.ShowWireframe)
+			if (scene.RenderManager.ShowWireframe)
 			{
-				gl.glLineWidth( viewport.RenderManager.WireframeWidth);
-				viewport.RenderManager.WireframeColor.Setup();
+				gl.glLineWidth( scene.RenderManager.WireframeWidth);
+				scene.RenderManager.WireframeColor.Setup();
 				gl.glCallList(displayLists+WireframeListOffset);
 			}
 		}

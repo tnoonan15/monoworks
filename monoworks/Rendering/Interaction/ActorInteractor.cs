@@ -26,7 +26,7 @@ namespace MonoWorks.Rendering.Interaction
 
 	/// <summary>
 	/// Provides a simple implementation of AbstractInteractor that passes 
-	/// interaction events to all actors in the viewport.
+	/// interaction events to all actors in the scene.
 	/// </summary>
 	/// <remarks>
 	/// For most usages of the MonoWorks rendering library, it will likely
@@ -37,9 +37,9 @@ namespace MonoWorks.Rendering.Interaction
 	public class ActorInteractor : AbstractInteractor
 	{
 		/// <summary>
-		/// Default constructor that takes the viewport.
+		/// Default constructor that takes the scene.
 		/// </summary>
-		public ActorInteractor(Viewport viewport) : base(viewport)
+		public ActorInteractor(Scene scene) : base(scene)
 		{
 			
 		}
@@ -52,10 +52,10 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnButtonPress(evt);
 
 			// don't interact if modal overlays are present
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 				return;
 			
-			foreach (var actor in viewport.RenderList.ActorCopy)
+			foreach (var actor in _scene.RenderList.ActorCopy)
 				actor.OnButtonPress(evt);
 		}
 
@@ -65,10 +65,10 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnButtonRelease(evt);
 
 			// don't interact if modal overlays are present
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 				return;
 			
-			foreach (var actor in viewport.RenderList.ActorCopy)
+			foreach (var actor in _scene.RenderList.ActorCopy)
 				actor.OnButtonRelease(evt);
 		}
 
@@ -78,10 +78,10 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnMouseMotion(evt);
 
 			// don't interact if modal overlays are present
-			if (viewport.RenderList.ModalCount > 0)
+			if (_scene.RenderList.ModalCount > 0)
 				return;
 			
-			foreach (var actor in viewport.RenderList.ActorCopy)
+			foreach (var actor in _scene.RenderList.ActorCopy)
 				actor.OnMouseMotion(evt);
 		}
 		

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using MonoWorks.Framework;
@@ -16,7 +16,7 @@ namespace MonoWorks.Modeling
 		Drawing Drawing { get; set; }
 
 		/// <summary>
-		/// Repaints the viewport.
+		/// Repaints the scene.
 		/// </summary>
 		void Repaint();
 

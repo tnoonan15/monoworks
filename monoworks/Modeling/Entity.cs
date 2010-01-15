@@ -559,34 +559,34 @@ namespace MonoWorks.Modeling
 		/// <summary>
 		/// Renders the opaque portion of the entity.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderOpaque(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 			foreach (Entity child in children)
-				child.RenderOpaque(viewport);
+				child.RenderOpaque(scene);
 		}
 		
 		/// <summary>
 		/// Renders the transparent portion of the entity, 
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderTransparent(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public override void RenderTransparent(Scene scene)
 		{
-			base.RenderTransparent(viewport);
+			base.RenderTransparent(scene);
 			foreach (Entity child in children)
-				child.RenderTransparent(viewport);
+				child.RenderTransparent(scene);
 		}
 		
 		/// <summary>
 		/// Renders the overlay portion of the entity.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderOverlay(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 			foreach (Entity child in children)
-				child.RenderOverlay(viewport);
+				child.RenderOverlay(scene);
 		}
 
 		

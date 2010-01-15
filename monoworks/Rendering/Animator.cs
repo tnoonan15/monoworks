@@ -1,4 +1,4 @@
-﻿// Animator.cs - MonoWorks Project
+// Animator.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -24,17 +24,17 @@ using System.Timers;
 namespace MonoWorks.Rendering
 {
 	/// <summary>
-	/// Provides animation functionality to a viewport.
+	/// Provides animation functionality to a scene.
 	/// </summary>
 	public class Animator
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		/// <param name="viewport">The viewport to animate on.</param>
-		public Animator(Viewport viewport)
+		/// <param name="scene">The scene to animate on.</param>
+		public Animator(Scene scene)
 		{
-			this.viewport = viewport;
+			this.scene = scene;
 
 			interval = 0.1;
 			timer = new Timer(1/interval);
@@ -43,7 +43,7 @@ namespace MonoWorks.Rendering
 
 		protected double interval;
 
-		protected Viewport viewport;
+		protected Scene scene;
 
 		protected Timer timer;
 
@@ -96,7 +96,7 @@ namespace MonoWorks.Rendering
 				if (times[animatable] >= durations[animatable])
 					RemoveAnimation(animatable);
 			}
-			viewport.RemotePaintGL();
+			scene.RemotePaint();
 		}
 
 	}

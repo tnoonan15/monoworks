@@ -38,15 +38,15 @@ namespace MonoWorks.Controls
 		public static DecoratorBase Default {get; set;}
 		
 		/// <summary>
-		/// Associates a decorator with each viewport.
+		/// Associates a decorator with each scene.
 		/// </summary>
-		private static Dictionary<Viewport,DecoratorBase> _decorators = 
-			new Dictionary<Viewport, DecoratorBase>();
+		private static Dictionary<Scene,DecoratorBase> _decorators = 
+			new Dictionary<Scene, DecoratorBase>();
 		
-		public static DecoratorBase Get(Viewport viewport)
+		public static DecoratorBase Get(Scene scene)
 		{
 			DecoratorBase decorator;
-			if (_decorators.TryGetValue(viewport, out decorator))
+			if (_decorators.TryGetValue(scene, out decorator))
 				return decorator;
 			return Default;
 		}

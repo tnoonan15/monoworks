@@ -1,4 +1,4 @@
-﻿// BaseSketcher.cs - MonoWorks Project
+// BaseSketcher.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //

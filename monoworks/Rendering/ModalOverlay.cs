@@ -49,9 +49,9 @@ namespace MonoWorks.Rendering
 			return true;
 		}
 
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 		}
 
 		

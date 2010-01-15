@@ -39,7 +39,7 @@ namespace MonoWorks.Controls
 
 	
 	/// <summary>
-	/// A control layer that contains anchors on all edges of the viewport.
+	/// A control layer that contains anchors on all edges of the scene.
 	/// It also contains a collection of toolbars that can be dynamically added
 	/// and removed to the anchors by use of string keywords called contexts.
 	/// </summary>	
@@ -205,21 +205,21 @@ namespace MonoWorks.Controls
 #region Rendering
 
 		
-		public override void OnViewportResized(Viewport viewport)
+		public override void OnSceneResized(Scene scene)
 		{
-			base.OnViewportResized(viewport);
+			base.OnSceneResized(scene);
 			
 			foreach (AnchorPane anchor in anchors.Values)
-				anchor.OnViewportResized(viewport);
+				anchor.OnSceneResized(scene);
 		}
 
-		public override void RenderOverlay (Viewport viewport)
+		public override void RenderOverlay (Scene scene)
 		{
-			base.RenderOverlay (viewport);
+			base.RenderOverlay (scene);
 			
 			foreach (var anchor in anchors.Values)
 			{
-				anchor.RenderOverlay(viewport);
+				anchor.RenderOverlay(scene);
 			}
 		}
 

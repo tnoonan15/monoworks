@@ -157,17 +157,17 @@ namespace MonoWorks.Plotting
 #region Rendering
 
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 
 			color.Setup();
 		}
 
 
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 
 			color.Setup();
 		}

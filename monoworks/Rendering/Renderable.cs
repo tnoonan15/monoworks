@@ -65,18 +65,18 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Called when the viewport changes size.
+		/// Called when the scene changes size.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
-		public virtual void OnViewportResized(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/>. </param>
+		public virtual void OnSceneResized(Scene scene)
 		{
 		}
 
 		/// <summary>
-		/// Called when the viewport changes view direction.
+		/// Called when the scene changes view direction.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
-		public virtual void OnViewDirectionChanged(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/>. </param>
+		public virtual void OnViewDirectionChanged(Scene scene)
 		{
 		}
 		
@@ -132,8 +132,8 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders the overlay portion of the renderable, 
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public virtual void RenderOverlay(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public virtual void RenderOverlay(Scene scene)
 		{			
 			if (IsDirty)
 				ComputeGeometry();
@@ -143,11 +143,11 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Allows the renderable to directly handle a pan event.
 		/// </summary>
-		/// <param name="viewport"> The <see cref="Viewport"/> on which the interaction was performed. </param>
+		/// <param name="scene"> The <see cref="Scene"/> on which the interaction was performed. </param>
 		/// <param name="dx"> The travel in the x screen dimension.</param>
 		/// <param name="dy"> The travel in the y screen dimension.</param>
-		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
-		public virtual bool HandlePan(Viewport viewport, double dx, double dy)
+		/// <returns> True to block the scene from dealing with the interaction itself. </returns>
+		public virtual bool HandlePan(Scene scene, double dx, double dy)
 		{
 			return false;
 		}		
@@ -155,10 +155,10 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Allows the renderable to directly handle a dolly event.
 		/// </summary>
-		/// <param name="viewport"> The <see cref="Viewport"/> on which the interaction was performed. </param>
+		/// <param name="scene"> The <see cref="Scene"/> on which the interaction was performed. </param>
 		/// <param name="factor"> The dolly factor.</param>
-		/// <returns> True to block the viewport from dealing with the interaction itself. </returns>
-		public virtual bool HandleDolly(Viewport viewport, double factor)
+		/// <returns> True to block the scene from dealing with the interaction itself. </returns>
+		public virtual bool HandleDolly(Scene scene, double factor)
 		{
 			return false;
 		}
@@ -166,10 +166,10 @@ namespace MonoWorks.Rendering
         /// <summary>
         /// Allows the renderable to directly handle a zoom event.
         /// </summary>
-        /// <param name="viewport"> The <see cref="Viewport"/> on which the interaction was performed. </param>
+        /// <param name="scene"> The <see cref="Scene"/> on which the interaction was performed. </param>
         /// <param name="rubberBand"> The rubber band encompassing the zoom.</param>
-        /// <returns> True to block the viewport from dealing with the interaction itself. </returns>
-        public virtual bool HandleZoom(Viewport viewport, RubberBand rubberBand)
+        /// <returns> True to block the scene from dealing with the interaction itself. </returns>
+        public virtual bool HandleZoom(Scene scene, RubberBand rubberBand)
         {
             return false;
 		}

@@ -1,4 +1,4 @@
-﻿// Spline.cs - MonoWorks Project
+// Spline.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //

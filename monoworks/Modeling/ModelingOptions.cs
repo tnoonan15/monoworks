@@ -1,4 +1,4 @@
-﻿// ModelingOptions.cs - MonoWorks Project
+// ModelingOptions.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //

@@ -92,11 +92,11 @@ namespace MonoWorks.Modeling.Sketching
 		
 #region Rendering
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 
-			viewport.RenderManager.Lighting.Disable();
+			scene.RenderManager.Lighting.Disable();
 
 			// edges
 			ModelingOptions.Global.GetColor("sketchable", hitState).Setup();

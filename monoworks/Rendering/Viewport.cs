@@ -39,62 +39,18 @@ namespace MonoWorks.Rendering
 
 		public Viewport(IViewportAdapter adapter)
 		{
-			Camera = new Camera(this);
-
-			RenderManager = new RenderManager();
-
-			// initialize the interactors
-			ViewInteractor = new ViewInteractor(this);
-			OverlayInteractor = new OverlayInteractor(this);
 
 			this.adapter = adapter;
-
-			Animator = new Animator(this);
 		}
 
 		protected IViewportAdapter adapter;
-
-		private RenderList renderList = new RenderList();
-		/// <summary>
-		/// The rendering list for this viewport.
-		/// </summary>
-		public RenderList RenderList
-		{
-			get { return renderList; }
-		}
-
-		/// <summary>
-		/// The camera.
-		/// </summary>
-		public Camera Camera { get; private set; }
-
-		/// <summary>
-		/// The render manager.
-		/// </summary>
-		public RenderManager RenderManager {get; private set;}
-
-		/// <summary>
-		/// The lighting.
-		/// </summary>
-		public Lighting Lighting
-		{
-			get {return RenderManager.Lighting;}
-		}
-
-		/// <summary>
-		/// Callback for the view direction changing.
-		/// </summary>
-		public void OnDirectionChanged()
-		{
-			foreach (Actor renderable in renderList.Actors)
-				renderable.OnViewDirectionChanged(this);
-		}
-
-		/// <summary>
-		/// The animator for this viewport.
-		/// </summary>
-		public Animator Animator { get; private set; }
 		
+		
+		public Scene RootScene
+		{
+			get;
+			set;
+			}
 
 		#region Rendering
 
@@ -103,9 +59,6 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Initialize()
 		{
-			RenderManager.Initialize();
-
-			Camera.Configure();
 		}
 
 		/// <summary>
@@ -113,20 +66,6 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Resize()
 		{
-
-			Camera.Configure();
-
-			renderList.OnViewportResized(this);
-		}
-
-		private bool queueResize = false;
-		/// <summary>
-		/// Tells the viewport to resize the next render cycle.
-		/// </summary>
-		/// <remarks>This is safe to call from non-GUI threads.</remarks>
-		public void QueueResize()
-		{
-			queueResize = true;
 		}
 		
 		/// <summary>
@@ -135,37 +74,6 @@ namespace MonoWorks.Rendering
 		public void Render()
 		{
 			adapter.MakeCurrent();
-
-			RenderManager.ClearScene();
-
-			// resize if needed
-			if (queueResize)
-			{
-				Resize();
-				queueResize = false;
-			}
-
-			// render the rendering list
-			renderList.Render(this);
-
-			// let the interactors render themselves
-			Camera.Place();
-			ViewInteractor.RenderOpaque(this);
-			ViewInteractor.RenderTransparent(this);
-			OverlayInteractor.RenderOpaque(this);
-			OverlayInteractor.RenderTransparent(this);
-			if (PrimaryInteractor != null)
-			{
-				PrimaryInteractor.RenderOpaque(this);
-				PrimaryInteractor.RenderTransparent(this);
-			}
-			Camera.PlaceOverlay();
-			ViewInteractor.RenderOverlay(this);
-			OverlayInteractor.RenderOverlay(this);
-			if (PrimaryInteractor != null)
-				PrimaryInteractor.RenderOverlay(this);
-
-			//SwapBuffers();
 		}
 
 		/// <summary>
@@ -202,123 +110,24 @@ namespace MonoWorks.Rendering
 
 		#endregion
 
-		
-		#region Interactors
-
-		private bool use2dInteraction = false;
-		/// <value>
-		/// Whether or not the user interaction should be 2-dimensional. 
-		/// </value>
-		public bool Use2dInteraction
-		{
-			get {return use2dInteraction;}
-			set
-			{
-				use2dInteraction = value;
-				if (InteractionStateChanged != null)
-					InteractionStateChanged(this, new EventArgs());
-				Resize();
-			}
-		}
-
-		/// <summary>
-		/// Raised when the interaction state changes.
-		/// </summary>
-		public EventHandler InteractionStateChanged;
-
-		/// <summary>
-		/// The primary interactor, generally specific to the content of the viewport.
-		/// </summary>
-		public AbstractInteractor PrimaryInteractor { get; set; }
-
-		/// <summary>
-		/// The renderable interactor.
-		/// </summary>
-		public ViewInteractor ViewInteractor { get; private set; }
-
-		/// <summary>
-		/// The overlay interactor.
-		/// </summary>
-		public OverlayInteractor OverlayInteractor { get; private set; }
-		
-		#endregion
-
 
 		#region Mouse Interaction
 
 		public void OnButtonPress(MouseButtonEvent evt)
 		{
-			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
-
-			OverlayInteractor.OnButtonPress(evt);
-
-			if (PrimaryInteractor != null)
-				PrimaryInteractor.OnButtonPress(evt);
-
-			ViewInteractor.OnButtonPress(evt);
 		}
 
 		public void OnButtonRelease(MouseButtonEvent evt)
 		{
-			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
-
-			OverlayInteractor.OnButtonRelease(evt);
-
-			if (PrimaryInteractor != null)
-				PrimaryInteractor.OnButtonRelease(evt);
-
-			ViewInteractor.OnButtonRelease(evt);
 		}
 
 		public void OnMouseMotion(MouseEvent evt)
 		{
-			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
-
-			OverlayInteractor.OnMouseMotion(evt);
-			
-			if (PrimaryInteractor != null)
-				PrimaryInteractor.OnMouseMotion(evt);
-
-			ViewInteractor.OnMouseMotion(evt);
 		}
 
 
 		public void OnMouseWheel(MouseWheelEvent evt)
 		{
-			bool blocked = false;
-
-			// use the default dolly factor
-			double factor;
-			if (evt.Direction == WheelDirection.Up)
-				factor = Camera.DollyFactor;
-			else
-				factor = -Camera.DollyFactor;
-
-			// allow the renderables to deal with the interaction
-			foreach (Actor renderable in renderList.Actors)
-			{
-				if (renderable.HandleDolly(this, factor))
-					blocked = true;
-			}
-
-			if (!blocked)
-				Camera.Dolly(factor);
-		}
-
-		/// <summary>
-		/// Sets the tooltip on the viewport.
-		/// </summary>
-		public string ToolTip
-		{
-			set { adapter.ToolTip = value; }
-		}
-
-		/// <summary>
-		/// Clears the tooltip on the viewport.
-		/// </summary>
-		public void ClearToolTip()
-		{
-			adapter.ClearToolTip();
 		}
 
 		/// <summary>
@@ -336,40 +145,12 @@ namespace MonoWorks.Rendering
 
 		public void OnKeyPress(KeyEvent evt)
 		{
-			OverlayInteractor.OnKeyPress(evt);
-
-			if (PrimaryInteractor != null)
-				PrimaryInteractor.OnKeyPress(evt);
-
-			ViewInteractor.OnKeyPress(evt);
-		}
-		
-		#endregion
-
-
-		#region Modal Overlay
-				
-		/// <summary>
-		/// Shows a modal overlay on top of the rest of the renderables. 
-		/// </summary>
-		public void ShowModal(ModalOverlay modalOverlay)
-		{
-			RenderList.PushModal(modalOverlay);
-			modalOverlay.Closed += OnCloseModalOverlay;
-		}
-
-		/// <summary>
-		/// Handles the Closed event on the current modal overlay.
-		/// </summary>
-		private void OnCloseModalOverlay(object sender, EventArgs e)
-		{
-			ModalOverlay modalOverlay;
-			if (sender is ModalOverlay)
-				modalOverlay = sender as ModalOverlay;
-			else
-				modalOverlay = RenderList.TopModal;
-			RenderList.PopModal(modalOverlay);
-			modalOverlay.Closed -= OnCloseModalOverlay;
+//			OverlayInteractor.OnKeyPress(evt);
+//
+//			if (PrimaryInteractor != null)
+//				PrimaryInteractor.OnKeyPress(evt);
+//
+//			ViewInteractor.OnKeyPress(evt);
 		}
 		
 		#endregion

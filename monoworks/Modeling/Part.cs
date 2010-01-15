@@ -49,11 +49,11 @@ namespace MonoWorks.Modeling
 			set { this["cartoonColor"] = value; }
 		}
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 
-			switch (viewport.RenderManager.ColorMode)
+			switch (scene.RenderManager.ColorMode)
 			{
 			case ColorMode.Cartoon:
 				CartoonColor.Setup();

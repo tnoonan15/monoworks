@@ -47,18 +47,18 @@ namespace MonoWorks.Modeling
 		/// <summary>
 		/// If the reference color is transparent, renders it.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderTransparent(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public override void RenderTransparent(Scene scene)
 		{
-			viewport.RenderManager.EnableAntialiasing();
-			viewport.RenderManager.Lighting.Disable();
-			base.RenderTransparent(viewport);
+			scene.RenderManager.EnableAntialiasing();
+			scene.RenderManager.Lighting.Disable();
+			base.RenderTransparent(scene);
 
 			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
 			if (!fill.IsOpaque)
 			{
 				fill.Setup();
-				RenderFill(viewport);
+				RenderFill(scene);
 			}
 
 			Color edge = ModelingOptions.Global.GetColor("ref-edge", hitState);
@@ -69,26 +69,26 @@ namespace MonoWorks.Modeling
 					gl.glLineWidth(1f);
 				else
 					gl.glLineWidth(2f);
-				RenderEdge(viewport);
+				RenderEdge(scene);
 			}
-			viewport.RenderManager.DisableAntialiasing();
+			scene.RenderManager.DisableAntialiasing();
 		}
 		
 		/// <summary>
 		/// Render the reference item.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/> to render to. </param>
-		public override void RenderOpaque(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/> to render to. </param>
+		public override void RenderOpaque(Scene scene)
 		{
-			viewport.RenderManager.EnableAntialiasing();
-			viewport.RenderManager.Lighting.Disable();
-			base.RenderOpaque(viewport);
+			scene.RenderManager.EnableAntialiasing();
+			scene.RenderManager.Lighting.Disable();
+			base.RenderOpaque(scene);
 
 			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
 			if (fill.IsOpaque)
 			{
 				fill.Setup();
-				RenderFill(viewport);
+				RenderFill(scene);
 			}
 
 			Color edge = ModelingOptions.Global.GetColor("ref-edge", hitState);
@@ -99,20 +99,20 @@ namespace MonoWorks.Modeling
 					gl.glLineWidth(1f);
 				else
 					gl.glLineWidth(2f);
-				RenderEdge(viewport);
+				RenderEdge(scene);
 			}
-			viewport.RenderManager.DisableAntialiasing();
+			scene.RenderManager.DisableAntialiasing();
 		}
 
 		/// <summary>
 		/// Subclasses must override to render the filled part of the reference.
 		/// </summary>
-		public abstract void RenderFill(Viewport viewport);
+		public abstract void RenderFill(Scene scene);
 
 		/// <summary>
 		/// Subclasses must override to render the edge part of the reference.
 		/// </summary>
-		public abstract void RenderEdge(Viewport viewport);
+		public abstract void RenderEdge(Scene scene);
 
 	}
 

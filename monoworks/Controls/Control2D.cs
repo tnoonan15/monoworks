@@ -286,7 +286,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Renders the control to an internal image surface.
 		/// </summary>
-		public void RenderImage(Viewport viewport)
+		public void RenderImage(Scene scene)
 		{
 			if (IsDirty)
 				ComputeGeometry();
@@ -317,7 +317,7 @@ namespace MonoWorks.Controls
 				
 				cr.Operator = Operator.Over;
 				cr.MoveTo(0,0);
-				RenderCairo(new RenderContext(cr, DecoratorService.Get(viewport)));
+				RenderCairo(new RenderContext(cr, DecoratorService.Get(scene)));
 				
 				surface.Flush();
 			};

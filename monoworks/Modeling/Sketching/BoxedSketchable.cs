@@ -1,4 +1,4 @@
-﻿//   BoxedSketchable.cs - MonoWorks Project
+//   BoxedSketchable.cs - MonoWorks Project
 //
 //    Copyright Andy Selvig 2008
 //

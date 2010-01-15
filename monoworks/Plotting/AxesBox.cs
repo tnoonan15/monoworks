@@ -143,37 +143,37 @@ namespace MonoWorks.Plotting
 		}
 
 		
-		public override void OnViewportResized(Viewport viewport)
+		public override void OnSceneResized(Scene scene)
 		{
-			base.OnViewportResized(viewport);
+			base.OnSceneResized(scene);
 			
-			if (viewport.Use2dInteraction)
+			if (scene.Use2dInteraction)
 			{
-				double edgeFactor = 0.35 * viewport.Camera.ViewportToWorldScaling;
-				Vector center = viewport.Camera.Center;
-//				Console.WriteLine("edge scaling: {0}, center: {1}, width: {2}, height: {3}", edgeFactor, center, viewport.WidthGL, viewport.HeightGL);
-				switch (viewport.Camera.LastDirection)
+				double edgeFactor = 0.35 * scene.Camera.SceneToWorldScaling;
+				Vector center = scene.Camera.Center;
+//				Console.WriteLine("edge scaling: {0}, center: {1}, width: {2}, height: {3}", edgeFactor, center, scene.Width, scene.Height);
+				switch (scene.Camera.LastDirection)
 				{
 				case ViewDirection.Front:
 				case ViewDirection.Back:
-					bounds.Minima[0] = center[0] - edgeFactor * viewport.WidthGL;
-					bounds.Maxima[0] = center[0] + edgeFactor * viewport.WidthGL;
-					bounds.Minima[2] = center[2] - edgeFactor * viewport.HeightGL;
-					bounds.Maxima[2] = center[2] + edgeFactor * viewport.HeightGL;
+					bounds.Minima[0] = center[0] - edgeFactor * scene.Width;
+					bounds.Maxima[0] = center[0] + edgeFactor * scene.Width;
+					bounds.Minima[2] = center[2] - edgeFactor * scene.Height;
+					bounds.Maxima[2] = center[2] + edgeFactor * scene.Height;
 					break;
 				case ViewDirection.Left:
 				case ViewDirection.Right:
-					bounds.Minima[1] = center[1] - edgeFactor * viewport.WidthGL;
-					bounds.Maxima[1] = center[1] + edgeFactor * viewport.WidthGL;
-					bounds.Minima[2] = center[2] - edgeFactor * viewport.HeightGL;
-					bounds.Maxima[2] = center[2] + edgeFactor * viewport.HeightGL;
+					bounds.Minima[1] = center[1] - edgeFactor * scene.Width;
+					bounds.Maxima[1] = center[1] + edgeFactor * scene.Width;
+					bounds.Minima[2] = center[2] - edgeFactor * scene.Height;
+					bounds.Maxima[2] = center[2] + edgeFactor * scene.Height;
 					break;
 				case ViewDirection.Top:
 				case ViewDirection.Bottom:
-					bounds.Minima[0] = center[0] - edgeFactor * viewport.WidthGL;
-					bounds.Maxima[0] = center[0] + edgeFactor * viewport.WidthGL;
-					bounds.Minima[1] = center[1] - edgeFactor * viewport.HeightGL;
-					bounds.Maxima[1] = center[1] + edgeFactor * viewport.HeightGL;
+					bounds.Minima[0] = center[0] - edgeFactor * scene.Width;
+					bounds.Maxima[0] = center[0] + edgeFactor * scene.Width;
+					bounds.Minima[1] = center[1] - edgeFactor * scene.Height;
+					bounds.Maxima[1] = center[1] + edgeFactor * scene.Height;
 					break;
 				}
 			}
@@ -184,14 +184,14 @@ namespace MonoWorks.Plotting
 		}
 
 		
-		public override void OnViewDirectionChanged(Viewport viewport)
+		public override void OnViewDirectionChanged(Scene scene)
 		{
-			base.OnViewDirectionChanged(viewport);
+			base.OnViewDirectionChanged(scene);
 			
 			// reset the resizing mode
 			resizeMode = ResizeMode.Auto;
 			
-			OnViewportResized(viewport);
+			OnSceneResized(scene);
 		}
 
 		
@@ -287,13 +287,13 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Updates the axes based on the camera position and arrangement, then renders them.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
-		protected void RenderAxes(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/>. </param>
+		protected void RenderAxes(Scene scene)
 		{
 
 			// perform the rendering
 			foreach (Axis axis in axes)
-				axis.RenderOverlay(viewport);
+				axis.RenderOverlay(scene);
 		}
 
 #endregion
@@ -327,7 +327,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Render the grids.
 		/// </summary>
-		protected void RenderGrids(Viewport viewport)
+		protected void RenderGrids(Scene scene)
 		{
 			// update axes the positions
 			Vector corner = null;
@@ -350,7 +350,7 @@ namespace MonoWorks.Plotting
 				break;
 
 			case AxesArrangement.Outside: // the axes should be placed along the oustide of the viewable area
-				Vector[] edges = bounds.GetOutsideEdges(viewport);
+				Vector[] edges = bounds.GetOutsideEdges(scene);
 				for (int i = 0; i < 3; i++)
 				{
 					axes[i].Start = edges[2 * i];
@@ -384,10 +384,10 @@ namespace MonoWorks.Plotting
 
 			// render them
 			foreach (Grid grid in grids)
-				grid.RenderOpaque(viewport);
+				grid.RenderOpaque(scene);
 
 			// tell the axes about the corner
-			Coord center = viewport.Camera.WorldToScreen(corner);
+			Coord center = scene.Camera.WorldToScreen(corner);
 			foreach (var axis in axes)
 				axis.AxesCenter = center;
 		}
@@ -488,7 +488,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Renders the title.
 		/// </summary>
-		protected void RenderTitle(Viewport viewport)
+		protected void RenderTitle(Scene scene)
 		{
 			// determine the top and center of the bounds
 			double top = 0;
@@ -496,7 +496,7 @@ namespace MonoWorks.Plotting
 			double right = 0;
 			foreach (Vector corner in bounds.Corners)
 			{
-				Coord coord = viewport.Camera.WorldToScreen(corner);
+				Coord coord = scene.Camera.WorldToScreen(corner);
 				if (Array.IndexOf(bounds.Corners, corner)==0) // the first one
 				{
 					top = coord.Y;
@@ -512,7 +512,7 @@ namespace MonoWorks.Plotting
 			}
 			
 			titlePane.Origin = new Vector((left+right)/2, top + 32, 0);
-			titlePane.RenderOverlay(viewport);
+			titlePane.RenderOverlay(scene);
 		}
 
 #endregion
@@ -523,8 +523,8 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Enables clipping for the content rendering.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
-		protected void EnableClipping(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/>. </param>
+		protected void EnableClipping(Scene scene)
 		{			
 			// define the clip planes
 			double[] eq = new double[]{1, 0, 0, bounds.Maxima[0]};
@@ -544,9 +544,9 @@ namespace MonoWorks.Plotting
 				gl.glEnable(gl.GL_CLIP_PLANE0 + i);
 			
 			// disable clipping for planes orthagonal to view direction
-			if (viewport.Use2dInteraction)
+			if (scene.Use2dInteraction)
 			{
-				switch (viewport.Camera.LastDirection)
+				switch (scene.Camera.LastDirection)
 				{
 				case ViewDirection.Front:
 				case ViewDirection.Back:
@@ -570,16 +570,16 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Disables clipping for the content rendering.
 		/// </summary>
-		/// <param name="viewport"> A <see cref="Viewport"/>. </param>
-		protected void DisableClipping(Viewport viewport)
+		/// <param name="scene"> A <see cref="Scene"/>. </param>
+		protected void DisableClipping(Scene scene)
 		{
 			for (int i=0; i<6; i++)
 				gl.glDisable(gl.GL_CLIP_PLANE0 + i);
 		}
 
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 
 			if (!IsVisible)
 				return;
@@ -587,35 +587,35 @@ namespace MonoWorks.Plotting
 			gl.glColor3b(0, 0, 0);
 			
 			// render the grids
-			RenderGrids(viewport);
+			RenderGrids(scene);
 			
 			// enable clipping
-			EnableClipping(viewport);
+			EnableClipping(scene);
 			
 			// render the children
 			foreach (var child in GetChildren<AbstractPlot>())
-				child.RenderOpaque(viewport);
+				child.RenderOpaque(scene);
 			
 			// disable clipping
-			DisableClipping(viewport);
+			DisableClipping(scene);
 		}
 
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 
 			if (!IsVisible)
 				return;
 
 			// render the axes
-			RenderAxes(viewport);
+			RenderAxes(scene);
 
 			// render the title
-			RenderTitle(viewport);
+			RenderTitle(scene);
 
 			// render the child overlays
 			foreach (var child in GetChildren<AbstractPlot>())
-				child.RenderOverlay(viewport);
+				child.RenderOverlay(scene);
 		}
 
 #endregion
@@ -624,15 +624,15 @@ namespace MonoWorks.Plotting
 #region Mouse Interaction
 		
 		/// <summary>
-		/// If in 2D mode, translate the axes limits and prevent the viewport from handling the interaction.
+		/// If in 2D mode, translate the axes limits and prevent the scene from handling the interaction.
 		/// </summary>
-		public override bool HandlePan(Viewport viewport, double dx, double dy)
+		public override bool HandlePan(Scene scene, double dx, double dy)
 		{			
-			if (viewport.Use2dInteraction)
+			if (scene.Use2dInteraction)
 			{
 				resizeMode = ResizeMode.Manual;
 				// determine the difference to apply to the axes ranges
-				Vector diff = (viewport.Camera.RightVec * dx - viewport.Camera.UpVector * dy) * viewport.Camera.ViewportToWorldScaling; 
+				Vector diff = (scene.Camera.RightVec * dx - scene.Camera.UpVector * dy) * scene.Camera.SceneToWorldScaling; 
 				plotBounds.Translate(diff / plotToWorldSpace.Scaling);
 				MakeDirty();
 				return true;
@@ -641,9 +641,9 @@ namespace MonoWorks.Plotting
 				return false;
 		}
 		
-		public override bool HandleDolly(Viewport viewport, double factor)
+		public override bool HandleDolly(Scene scene, double factor)
 		{
-			if (viewport.Use2dInteraction)
+			if (scene.Use2dInteraction)
 			{
 				resizeMode = ResizeMode.Manual;
 				plotBounds.Expand(1 - factor);
@@ -655,16 +655,16 @@ namespace MonoWorks.Plotting
 		}
 
 
-        public override bool HandleZoom(Viewport viewport, RubberBand rubberBand)
+        public override bool HandleZoom(Scene scene, RubberBand rubberBand)
         {
-            if (viewport.Use2dInteraction)
+            if (scene.Use2dInteraction)
 			{
 				ResizeMode = ResizeMode.Manual;
-				Vector min = viewport.Camera.ScreenToWorld(rubberBand.Min, false);
-				Vector max = viewport.Camera.ScreenToWorld(rubberBand.Max, false);
+				Vector min = scene.Camera.ScreenToWorld(rubberBand.Min, false);
+				Vector max = scene.Camera.ScreenToWorld(rubberBand.Max, false);
 				min = plotToWorldSpace.InverseApply(min);
 				max = plotToWorldSpace.InverseApply(max);
-				switch (viewport.Camera.LastDirection)
+				switch (scene.Camera.LastDirection)
 				{
 				case ViewDirection.Front:
 				case ViewDirection.Back:

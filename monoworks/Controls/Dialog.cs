@@ -94,24 +94,24 @@ namespace MonoWorks.Controls
 		}
 
 		
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 			
 			// shade out the background
 			gl.glColor4d(0.85, 0.85, 0.85, 0.7);
 			gl.glBegin(gl.GL_POLYGON);
 			gl.glVertex2i(0, 0);
-			gl.glVertex2i(viewport.WidthGL, 0);
-			gl.glVertex2i(viewport.WidthGL, viewport.HeightGL);
-			gl.glVertex2i(0, viewport.HeightGL);
+			gl.glVertex2d(scene.Width, 0);
+			gl.glVertex2d(scene.Width, scene.Height);
+			gl.glVertex2d(0, scene.Height);
 			gl.glEnd();
 			
-			_overlayPane.Origin = new Coord((Math.Round(viewport.WidthGL - _frame.RenderWidth)/2), 
-			                                Math.Round((viewport.HeightGL - _frame.RenderHeight)/2));
+			_overlayPane.Origin = new Coord((Math.Round(scene.Width - _frame.RenderWidth)/2), 
+			                                Math.Round((scene.Height - _frame.RenderHeight)/2));
 			
 			
-			_overlayPane.RenderOverlay(viewport);
+			_overlayPane.RenderOverlay(scene);
 		}
 
 		

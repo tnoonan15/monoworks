@@ -1,4 +1,4 @@
-// ViewportController.cs - MonoWorks Project
+// SceneController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -24,32 +24,32 @@ using MonoWorks.Rendering;
 using MonoWorks.Controls;
 using MonoWorks.Rendering.Interaction;
 
-namespace MonoWorks.Controls.StandardViewport
+namespace MonoWorks.Controls.StandardScene
 {
     /// <summary>
-    /// Implements a Framework controller for a viewport.
+    /// Implements a Framework controller for a scene.
     /// </summary>
-    public class ViewportController : AbstractController
+    public class SceneController : AbstractController
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
-        /// <param name="viewport">The viewport that this controller controls.</param>
-        public ViewportController(Viewport viewport)
+        /// <param name="scene">The scene that this controller controls.</param>
+        public SceneController(Scene scene)
             : base()
         {
-			this.viewport = viewport;
-			viewport.Camera.ProjectionChanged += ExternalProjectionChanged;
+			this.scene = scene;
+			scene.Camera.ProjectionChanged += ExternalProjectionChanged;
 
 			ResourceManagerBase.LoadAssembly("MonoWorks.Controls");
 
 			UiManager = new UiManager(this);
-			UiManager.LoadStream(ResourceHelper.GetStream("Viewport.ui"));
+			UiManager.LoadStream(ResourceHelper.GetStream("Scene.ui"));
 
-			viewport.RenderList.AddOverlay(UiManager.ContextLayer);
+			scene.RenderList.AddOverlay(UiManager.ContextLayer);
         }
 
-        protected Viewport viewport;
+        protected Scene scene;
 
 		/// <summary>
 		/// The UiManager used by this controller.
@@ -82,50 +82,50 @@ namespace MonoWorks.Controls.StandardViewport
 		[Action("Standard View")]
 		public void OnStandardView()
 		{
-			viewport.RenderList.ResetBounds();
-			viewport.Camera.AnimateTo(ViewDirection.Standard);
+			scene.RenderList.ResetBounds();
+			scene.Camera.AnimateTo(ViewDirection.Standard);
 		}
 		
 		[Action("Front View")]
 		public void OnFrontView()
 		{
-			viewport.RenderList.ResetBounds();
-			viewport.Camera.AnimateTo(ViewDirection.Front);
+			scene.RenderList.ResetBounds();
+			scene.Camera.AnimateTo(ViewDirection.Front);
 		}
 		
 		[Action("Back View")]
 		public void OnBackView()
 		{
-			viewport.RenderList.ResetBounds();
-			viewport.Camera.AnimateTo(ViewDirection.Back);
+			scene.RenderList.ResetBounds();
+			scene.Camera.AnimateTo(ViewDirection.Back);
 		}
 		
 		[Action("Left View")]
 		public void OnLeftView()
 		{
-			viewport.RenderList.ResetBounds();
-			viewport.Camera.AnimateTo(ViewDirection.Left);
+			scene.RenderList.ResetBounds();
+			scene.Camera.AnimateTo(ViewDirection.Left);
 		}
 		
 		[Action("Right View")]
 		public void OnRightView()
 		{
-			viewport.RenderList.ResetBounds();
-			viewport.Camera.AnimateTo(ViewDirection.Right);
+			scene.RenderList.ResetBounds();
+			scene.Camera.AnimateTo(ViewDirection.Right);
 		}
 		
 		[Action("Top View")]
 		public void OnTopView()
 		{
-			viewport.RenderList.ResetBounds();
-			viewport.Camera.AnimateTo(ViewDirection.Top);
+			scene.RenderList.ResetBounds();
+			scene.Camera.AnimateTo(ViewDirection.Top);
 		}
 		
 		[Action("Bottom View")]
 		public void OnBottomView()
 		{
-			viewport.RenderList.ResetBounds();
-			viewport.Camera.AnimateTo(ViewDirection.Bottom);
+			scene.RenderList.ResetBounds();
+			scene.Camera.AnimateTo(ViewDirection.Bottom);
 		}
 		
 #endregion
@@ -137,7 +137,7 @@ namespace MonoWorks.Controls.StandardViewport
 		[Action("Projection")]
 		public void OnChangeProjection()
 		{
-			viewport.Camera.ToggleProjection();
+			scene.Camera.ToggleProjection();
 			OnProjectionChanged();
 		}
 
@@ -150,7 +150,7 @@ namespace MonoWorks.Controls.StandardViewport
 			if (toolbar != null)
 			{
 				Button projButton = toolbar.GetButton("Projection");
-				projButton.IsSelected = viewport.Camera.Projection == Projection.Perspective;
+				projButton.IsSelected = scene.Camera.Projection == Projection.Perspective;
 			}
 		}
 
@@ -168,12 +168,12 @@ namespace MonoWorks.Controls.StandardViewport
 #region Exporting
 
 		/// <summary>
-		/// Exports the viewport to a file, prompting the user for the file location.
+		/// Exports the scene to a file, prompting the user for the file location.
 		/// </summary>
 		[Action("Export")]
 		public void OnExport()
 		{
-			viewport.Export();
+//			scene.Export();
 		}
 
 #endregion

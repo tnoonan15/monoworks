@@ -68,7 +68,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Renders the rubber band to the viewport.
 		/// </summary>
-		public virtual void Render(Viewport viewport)
+		public virtual void Render(Scene scene)
 		{
 			if (Enabled) // only render if it's enabled
 			{									

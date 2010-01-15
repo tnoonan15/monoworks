@@ -62,8 +62,6 @@
     <Compile Include="RenderContext.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="ToolBar.cs" />
-    <Compile Include="StandardViewport\UiManager.cs" />
-    <Compile Include="StandardViewport\ViewportController.cs" />
     <Compile Include="DecoratorService.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="DialogFrame.cs" />
@@ -71,30 +69,32 @@
     <Compile Include="DecoratorBase.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="CheckBox.cs" />
+    <Compile Include="StandardScene\UiManager.cs" />
+    <Compile Include="StandardScene\SceneController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="StandardViewport\Viewport.ui" />
-    <EmbeddedResource Include="StandardViewport\icons\2d.png" />
-    <EmbeddedResource Include="StandardViewport\icons\3d-interact.png" />
-    <EmbeddedResource Include="StandardViewport\icons\3d-view.png" />
-    <EmbeddedResource Include="StandardViewport\icons\3d.png" />
-    <EmbeddedResource Include="StandardViewport\icons\apply.png" />
-    <EmbeddedResource Include="StandardViewport\icons\back-view.png" />
-    <EmbeddedResource Include="StandardViewport\icons\bottom-view.png" />
-    <EmbeddedResource Include="StandardViewport\icons\cancel.png" />
-    <EmbeddedResource Include="StandardViewport\icons\export.png" />
-    <EmbeddedResource Include="StandardViewport\icons\front-view.png" />
-    <EmbeddedResource Include="StandardViewport\icons\left-view.png" />
-    <EmbeddedResource Include="StandardViewport\icons\perspective.png" />
-    <EmbeddedResource Include="StandardViewport\icons\right-view.png" />
-    <EmbeddedResource Include="StandardViewport\icons\standard-view.png" />
-    <EmbeddedResource Include="StandardViewport\icons\top-view.png" />
     <EmbeddedResource Include="icons\contracted.png" />
     <EmbeddedResource Include="icons\expanded.png" />
     <EmbeddedResource Include="icons\close.png" />
     <EmbeddedResource Include="icons\dock.png" />
     <EmbeddedResource Include="icons\float.png" />
     <EmbeddedResource Include="icons\minimize.png" />
+    <EmbeddedResource Include="StandardScene\Scene.ui" />
+    <EmbeddedResource Include="StandardScene\icons\2d.png" />
+    <EmbeddedResource Include="StandardScene\icons\3d-interact.png" />
+    <EmbeddedResource Include="StandardScene\icons\3d-view.png" />
+    <EmbeddedResource Include="StandardScene\icons\3d.png" />
+    <EmbeddedResource Include="StandardScene\icons\apply.png" />
+    <EmbeddedResource Include="StandardScene\icons\back-view.png" />
+    <EmbeddedResource Include="StandardScene\icons\bottom-view.png" />
+    <EmbeddedResource Include="StandardScene\icons\cancel.png" />
+    <EmbeddedResource Include="StandardScene\icons\export.png" />
+    <EmbeddedResource Include="StandardScene\icons\front-view.png" />
+    <EmbeddedResource Include="StandardScene\icons\left-view.png" />
+    <EmbeddedResource Include="StandardScene\icons\perspective.png" />
+    <EmbeddedResource Include="StandardScene\icons\right-view.png" />
+    <EmbeddedResource Include="StandardScene\icons\standard-view.png" />
+    <EmbeddedResource Include="StandardScene\icons\top-view.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -84,7 +84,6 @@
     <Compile Include="Sketching\Ellipse.cs" />
     <Compile Include="Sketching\Rectangle.cs" />
     <Compile Include="Sketching\BoxedSketcher.cs" />
-    <Compile Include="ViewportControls\DrawingInteractor.cs" />
     <Compile Include="ISelectionListener.cs" />
     <Compile Include="Momento.cs" />
     <Compile Include="Part.cs" />
@@ -99,34 +98,35 @@
     <Compile Include="Sketching\Sketchable.cs" />
     <Compile Include="Sketching\Spline.cs" />
     <Compile Include="TestPart.cs" />
-    <Compile Include="ViewportControls\DrawingController.cs" />
-    <Compile Include="ViewportControls\IAttributeControl.cs" />
-    <Compile Include="ViewportControls\IAttributePanel.cs" />
     <Compile Include="Sketching\SplineSketcher.cs" />
+    <Compile Include="SceneControls\DrawingInteractor.cs" />
+    <Compile Include="SceneControls\DrawingController.cs" />
+    <Compile Include="SceneControls\IAttributeControl.cs" />
+    <Compile Include="SceneControls\IAttributePanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EntityMetaData.xml" />
-    <EmbeddedResource Include="ViewportControls\icons\edit.png" />
-    <EmbeddedResource Include="ViewportControls\icons\arc.png" />
-    <EmbeddedResource Include="ViewportControls\icons\delete.png" />
-    <EmbeddedResource Include="ViewportControls\icons\extrusion.png" />
-    <EmbeddedResource Include="ViewportControls\icons\line.png" />
-    <EmbeddedResource Include="ViewportControls\icons\refline.png" />
-    <EmbeddedResource Include="ViewportControls\icons\refplane.png" />
-    <EmbeddedResource Include="ViewportControls\icons\refpoint.png" />
-    <EmbeddedResource Include="ViewportControls\icons\revolution.png" />
-    <EmbeddedResource Include="ViewportControls\icons\sketch.png" />
-    <EmbeddedResource Include="ViewportControls\icons\spline.png" />
-    <EmbeddedResource Include="ViewportControls\icons\sweep.png" />
-    <EmbeddedResource Include="ViewportControls\icons\nosolid.png" />
-    <EmbeddedResource Include="ViewportControls\icons\flat.png" />
-    <EmbeddedResource Include="ViewportControls\icons\smooth.png" />
-    <EmbeddedResource Include="ViewportControls\icons\wireframe.png" />
-    <EmbeddedResource Include="ViewportControls\drawing.ui" />
     <EmbeddedResource Include="DefaultModelingOptions.xml" />
-    <EmbeddedResource Include="ViewportControls\icons\ellipse.png" />
-    <EmbeddedResource Include="ViewportControls\icons\rectangle.png" />
     <EmbeddedResource Include="DefaultColors.xml" />
+    <EmbeddedResource Include="SceneControls\icons\edit.png" />
+    <EmbeddedResource Include="SceneControls\icons\arc.png" />
+    <EmbeddedResource Include="SceneControls\icons\delete.png" />
+    <EmbeddedResource Include="SceneControls\icons\extrusion.png" />
+    <EmbeddedResource Include="SceneControls\icons\line.png" />
+    <EmbeddedResource Include="SceneControls\icons\refline.png" />
+    <EmbeddedResource Include="SceneControls\icons\refplane.png" />
+    <EmbeddedResource Include="SceneControls\icons\refpoint.png" />
+    <EmbeddedResource Include="SceneControls\icons\revolution.png" />
+    <EmbeddedResource Include="SceneControls\icons\sketch.png" />
+    <EmbeddedResource Include="SceneControls\icons\spline.png" />
+    <EmbeddedResource Include="SceneControls\icons\sweep.png" />
+    <EmbeddedResource Include="SceneControls\icons\nosolid.png" />
+    <EmbeddedResource Include="SceneControls\icons\flat.png" />
+    <EmbeddedResource Include="SceneControls\icons\smooth.png" />
+    <EmbeddedResource Include="SceneControls\icons\wireframe.png" />
+    <EmbeddedResource Include="SceneControls\drawing.ui" />
+    <EmbeddedResource Include="SceneControls\icons\ellipse.png" />
+    <EmbeddedResource Include="SceneControls\icons\rectangle.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">

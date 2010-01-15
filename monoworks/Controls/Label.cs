@@ -354,14 +354,14 @@ namespace MonoWorks.Controls
 		{
 			base.OnEnter(evt);
 			
-			evt.Viewport.SetCursor(CursorType.Beam);
+			evt.Scene.SetCursor(CursorType.Beam);
 		}
 
 		protected override void OnLeave(MouseEvent evt)
 		{
 			base.OnLeave(evt);
 			
-			evt.Viewport.SetCursor(CursorType.Normal);
+			evt.Scene.SetCursor(CursorType.Normal);
 		}
 				
 		public override void OnButtonPress(MouseButtonEvent evt)

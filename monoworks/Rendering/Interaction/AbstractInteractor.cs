@@ -44,11 +44,11 @@ namespace MonoWorks.Rendering.Interaction
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		/// <param name="viewport">The viewport to interact with.</param>
-		public AbstractInteractor(Viewport viewport)
+		/// <param name="scene">The scene to interact with.</param>
+		public AbstractInteractor(Scene scene)
 		{
-			this.renderList = viewport.RenderList;
-			this.viewport = viewport;
+			this.renderList = scene.RenderList;
+			_scene = scene;
 
 			RubberBand = new RubberBand();
 		}
@@ -56,7 +56,7 @@ namespace MonoWorks.Rendering.Interaction
 
 		protected RenderList renderList;
 
-		protected Viewport viewport;
+		protected Scene _scene;
 
 
 		protected Coord anchor;
@@ -120,12 +120,12 @@ namespace MonoWorks.Rendering.Interaction
 		}
 
 
-		public override void RenderOverlay(Viewport viewport)
+		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(viewport);
+			base.RenderOverlay(scene);
 
 			// render the rubberband
-			RubberBand.Render(viewport);
+			RubberBand.Render(scene);
 		}
 
 	}

@@ -20,15 +20,15 @@
 using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
-using MonoWorks.Controls.StandardViewport;
+using MonoWorks.Controls.StandardScene;
 
 namespace MonoWorks.Plotting
 {
-	public class PlotController : ViewportController
+	public class PlotController : SceneController
 	{
 
-		public PlotController(Viewport viewport)
-			: base(viewport)
+		public PlotController(Scene scene)
+			: base(scene)
 		{
 			UiManager.LoadStream(ResourceHelper.GetStream("plotting.ui"));
 

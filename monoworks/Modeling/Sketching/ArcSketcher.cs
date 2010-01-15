@@ -1,4 +1,4 @@
-﻿// ArcSketcher.cs - MonoWorks Project
+// ArcSketcher.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -193,19 +193,19 @@ namespace MonoWorks.Modeling.Sketching
 
 #region Rendering
 		
-		public override void RenderOpaque(Viewport viewport)
+		public override void RenderOpaque(Scene scene)
 		{
-			base.RenderOpaque(viewport);
+			base.RenderOpaque(scene);
 			
 			Color highlightColor = ModelingOptions.Global.GetColor("sketchable", HitState.Hovering);
 
 			if (Sketchable.Center != null)
 			{
-				HighlightPoint(viewport, Sketchable.Center, highlightColor, 6);
+				HighlightPoint(scene, Sketchable.Center, highlightColor, 6);
 			}
 
 			//if (currentPoint != null)
-			//    HighlightPoint(viewport, currentPoint, highlightColor, 6);
+			//    HighlightPoint(scene, currentPoint, highlightColor, 6);
 
 		}
 

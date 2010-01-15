@@ -111,6 +111,7 @@
     <Compile Include="MwxPropertyAttribute.cs" />
     <Compile Include="Ease.cs" />
     <Compile Include="HitState.cs" />
+    <Compile Include="Scene.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />

@@ -1,4 +1,4 @@
-﻿// SplineSketcher.cs - MonoWorks Project
+// SplineSketcher.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
