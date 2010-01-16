@@ -33,15 +33,15 @@ namespace MonoWorks.GtkDemo
 	{
 		
 		public Pane3D()
-		{			
+		{
 			// 
 			adapter = new ViewportAdapter();
 			PackEnd(adapter);
 			TestAxes3D axes = new TestAxes3D();
-			Viewport.RenderList.AddActor(axes);
+			Scene.RenderList.AddActor(axes);
 			
-			Viewport.Camera.SetViewDirection(ViewDirection.Standard);
-			new PlotController(Viewport);
+			Scene.Camera.SetViewDirection(ViewDirection.Standard);
+			new PlotController(Scene);
 			
 			
 			// add the control pane
@@ -52,13 +52,12 @@ namespace MonoWorks.GtkDemo
 		
 		
 		protected ViewportAdapter adapter;
-		
+
 		/// <summary>
-		/// The viewport.
+		/// The scene.
 		/// </summary>
-		protected Viewport Viewport
-		{
-			get {return adapter.Viewport;}
+		protected Scene Scene {
+			get { return adapter.Viewport.RootScene; }
 		}
 		
 		/// <summary>
@@ -66,7 +65,7 @@ namespace MonoWorks.GtkDemo
 		/// </summary>
 		protected void OnControlChanged()
 		{
-			Viewport.PaintGL();
+			Scene.Paint();
 		}
 	}
 	

@@ -41,6 +41,7 @@ namespace MonoWorks.Rendering
 		{
 
 			this.adapter = adapter;
+			RootScene = new Scene(this);
 		}
 
 		protected IViewportAdapter adapter;
@@ -59,6 +60,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Initialize()
 		{
+			RootScene.Initialize();
 		}
 
 		/// <summary>
@@ -66,6 +68,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Resize()
 		{
+			RootScene.Resize(Width, Height);
 		}
 		
 		/// <summary>
@@ -74,12 +77,14 @@ namespace MonoWorks.Rendering
 		public void Render()
 		{
 			adapter.MakeCurrent();
+			
+			RootScene.Render();
 		}
 
 		/// <summary>
 		/// Height of the rendered area.
 		/// </summary>
-		public int HeightGL
+		public int Height
 		{
 			get { return adapter.HeightGL; }
 		}
@@ -87,7 +92,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Width of the rendered area.
 		/// </summary>
-		public int WidthGL
+		public int Width
 		{
 			get { return adapter.WidthGL; }
 		}
@@ -95,7 +100,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Passes the paint command to the viewport adapter.
 		/// </summary>
-		public void PaintGL()
+		public void Paint()
 		{
 			adapter.PaintGL();
 		}
@@ -103,7 +108,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Passes the remote paint command to the viewport adapter.
 		/// </summary>
-		public void RemotePaintGL()
+		public void RemotePaint()
 		{
 			adapter.RemotePaintGL();
 		}
@@ -115,19 +120,23 @@ namespace MonoWorks.Rendering
 
 		public void OnButtonPress(MouseButtonEvent evt)
 		{
+			RootScene.OnButtonPress(evt);
 		}
 
 		public void OnButtonRelease(MouseButtonEvent evt)
 		{
+			RootScene.OnButtonRelease(evt);
 		}
 
 		public void OnMouseMotion(MouseEvent evt)
 		{
+			RootScene.OnMouseMotion(evt);
 		}
 
 
 		public void OnMouseWheel(MouseWheelEvent evt)
 		{
+			RootScene.OnMouseWheel(evt);
 		}
 
 		/// <summary>

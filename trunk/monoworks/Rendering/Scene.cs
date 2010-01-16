@@ -123,7 +123,7 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Callback for the viewport being resized.
+		/// Callback for the scene being resized.
 		/// </summary>
 		public void Resize()
 		{
@@ -132,10 +132,20 @@ namespace MonoWorks.Rendering
 			
 			renderList.OnSceneResized(this);
 		}
+		
+		/// <summary>
+		/// Resize the scene.
+		/// </summary>
+		public void Resize(double width, double height)
+		{
+			Width = width;
+			Height = height;
+			Resize();
+		}
 
 		private bool queueResize = false;
 		/// <summary>
-		/// Tells the viewport to resize the next render cycle.
+		/// Tells the scene to resize the next render cycle.
 		/// </summary>
 		/// <remarks>This is safe to call from non-GUI threads.</remarks>
 		public void QueueResize()
@@ -146,17 +156,17 @@ namespace MonoWorks.Rendering
 		
 		public void RemotePaint()
 		{
-			Viewport.RemotePaintGL();
+			Viewport.RemotePaint();
 		}
 		
 		
 		public void Paint()
 		{
-			Viewport.PaintGL();
+			Viewport.Paint();
 		}
 
 		/// <summary>
-		/// Render the viewport.
+		/// Render the scene.
 		/// </summary>
 		public void Render()
 		{
@@ -217,7 +227,7 @@ namespace MonoWorks.Rendering
 		public EventHandler InteractionStateChanged;
 
 		/// <summary>
-		/// The primary interactor, generally specific to the content of the viewport.
+		/// The primary interactor, generally specific to the content of the scene.
 		/// </summary>
 		public AbstractInteractor PrimaryInteractor
 		{

@@ -103,14 +103,16 @@ namespace MonoWorks.Controls
 		/// Sets the contro currently in focus.
 		/// </summary>
 		public Control2D InFocus
-		{
-			get {return _inFocus;}
+		   {
+			get { return _inFocus; }
 			set {
 				if (_inFocus == value)
 					return;
 				if (_inFocus != null)
 					_inFocus.IsFocused = false;
 				_inFocus = value;
+				if (_inFocus == null)
+					return;
 				if (!_inFocus.IsFocused)
 					_inFocus.IsFocused = true;
 			}

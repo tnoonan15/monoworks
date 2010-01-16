@@ -50,7 +50,7 @@ namespace MonoWorks.GtkStudio
 		
 		public void Repaint()
 		{
-			drawingFrame.Viewport.PaintGL();
+			drawingFrame.Scene.Paint();
 		}
 		
 		
