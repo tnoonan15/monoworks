@@ -78,25 +78,15 @@
       <Project>{93981ADD-F7E7-45F1-934F-13B2EB7088DC}</Project>
       <Name>GtkBackend</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Demo\Demo.csproj">
+      <Project>{A1C2EA7B-F619-44DE-830A-114140AD3C03}</Project>
+      <Name>Demo</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="MainWindow.cs" />
-    <Compile Include="Pane2D.cs" />
     <Compile Include="Pane3D.cs" />
-    <Compile Include="PaneControls.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <EmbeddedResource Include="demo.mwx" />
-    <EmbeddedResource Include="icons\image-loading.png">
-      <Gettext-ScanForTranslations>false</Gettext-ScanForTranslations>
-    </EmbeddedResource>
-    <EmbeddedResource Include="icons\plugin.png">
-      <Gettext-ScanForTranslations>false</Gettext-ScanForTranslations>
-    </EmbeddedResource>
-    <EmbeddedResource Include="icons\rating.png" />
-    <EmbeddedResource Include="icons\linear-progress.png" />
-    <EmbeddedResource Include="icons\radial-progress.png" />
-  </ItemGroup>
 </Project>

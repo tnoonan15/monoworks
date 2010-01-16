@@ -31,7 +31,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// Represents a 3D scene where renderables can be rendered.
 	/// </summary>
-	public class Scene
+	public class Scene : IMouseHandler, IKeyHandler
 	{
 
 		public Scene(Viewport viewport)
@@ -48,6 +48,12 @@ namespace MonoWorks.Rendering
 			
 			Animator = new Animator(this);
 		}
+		
+		/// <summary>
+		/// Used to identify the scene.
+		/// </summary>
+		/// <remarks>Must be unique.</remarks>
+		public string Name { get; set; }
 
 		private RenderList renderList = new RenderList();
 		/// <summary>
@@ -115,7 +121,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Initialize rendering.
 		/// </summary>
-		public void Initialize()
+		public virtual void Initialize()
 		{
 			RenderManager.Initialize();
 			
@@ -125,7 +131,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Callback for the scene being resized.
 		/// </summary>
-		public void Resize()
+		public virtual void Resize()
 		{
 			
 			Camera.Configure();
@@ -160,7 +166,7 @@ namespace MonoWorks.Rendering
 		}
 		
 		
-		public void Paint()
+		public virtual void Paint()
 		{
 			Viewport.Paint();
 		}
@@ -168,10 +174,9 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Render the scene.
 		/// </summary>
-		public void Render()
+		public virtual void Render()
 		{
-			
-			RenderManager.ClearScene();
+			Camera.Setup();
 			
 			// resize if needed
 			if (queueResize) {
@@ -256,9 +261,9 @@ namespace MonoWorks.Rendering
 		#endregion
 
 
-		#region Mouse Interaction
+		#region Interaction
 
-		public void OnButtonPress(MouseButtonEvent evt)
+		public virtual void OnButtonPress(MouseButtonEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			
@@ -270,7 +275,7 @@ namespace MonoWorks.Rendering
 			ViewInteractor.OnButtonPress(evt);
 		}
 
-		public void OnButtonRelease(MouseButtonEvent evt)
+		public virtual void OnButtonRelease(MouseButtonEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			
@@ -282,7 +287,7 @@ namespace MonoWorks.Rendering
 			ViewInteractor.OnButtonRelease(evt);
 		}
 
-		public void OnMouseMotion(MouseEvent evt)
+		public virtual void OnMouseMotion(MouseEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			
@@ -295,7 +300,7 @@ namespace MonoWorks.Rendering
 		}
 
 
-		public void OnMouseWheel(MouseWheelEvent evt)
+		public virtual void OnMouseWheel(MouseWheelEvent evt)
 		{
 			bool blocked = false;
 			
@@ -339,12 +344,7 @@ namespace MonoWorks.Rendering
 			Viewport.SetCursor(type);
 		}
 
-		#endregion
-
-
-		#region Keyboard Interaction
-
-		public void OnKeyPress(KeyEvent evt)
+		public virtual void OnKeyPress(KeyEvent evt)
 		{
 			OverlayInteractor.OnKeyPress(evt);
 			

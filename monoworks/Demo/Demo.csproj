@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ControlsScene.cs" />
+    <Compile Include="Plot2dScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -85,4 +87,16 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <EmbeddedResource Include="demo.mwx" />
+    <EmbeddedResource Include="icons\image-loading.png">
+      <Gettext-ScanForTranslations>false</Gettext-ScanForTranslations>
+    </EmbeddedResource>
+    <EmbeddedResource Include="icons\linear-progress.png" />
+    <EmbeddedResource Include="icons\plugin.png">
+      <Gettext-ScanForTranslations>false</Gettext-ScanForTranslations>
+    </EmbeddedResource>
+    <EmbeddedResource Include="icons\radial-progress.png" />
+    <EmbeddedResource Include="icons\rating.png" />
+  </ItemGroup>
 </Project>

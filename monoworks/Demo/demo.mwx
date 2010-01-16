@@ -7,13 +7,13 @@
 				<mwc:Label>Buttons</mwc:Label>
 				<mwc:Button ButtonStyle="Label" LabelString="Just a label"></mwc:Button>
 				<mwc:Button ButtonStyle="ImageNextToLabel" LabelString="Image Next To Label" 
-					Image="image-loading.png,MonoWorks.GtkDemo" ></mwc:Button>
+					Image="image-loading.png,MonoWorks.Demo" ></mwc:Button>
 			</mwc:Stack>
 			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>More Buttons</mwc:Label>
-				<mwc:Button ButtonStyle="Image" Image="rating.png,MonoWorks.GtkDemo"></mwc:Button>
+				<mwc:Button ButtonStyle="Image" Image="rating.png,MonoWorks.Demo"></mwc:Button>
 				<mwc:Button ButtonStyle="ImageOverLabel" LabelString="Image Over Label" 
-					Image="plugin.png,MonoWorks.GtkDemo" ></mwc:Button>
+					Image="plugin.png,MonoWorks.Demo" ></mwc:Button>
 			</mwc:Stack>
 			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>Single Line Text Box</mwc:Label>

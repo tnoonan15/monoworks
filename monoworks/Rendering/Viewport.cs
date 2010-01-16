@@ -51,7 +51,7 @@ namespace MonoWorks.Rendering
 		{
 			get;
 			set;
-			}
+		}
 
 		#region Rendering
 
@@ -78,6 +78,7 @@ namespace MonoWorks.Rendering
 		{
 			adapter.MakeCurrent();
 			
+			RootScene.RenderManager.ClearScene();			
 			RootScene.Render();
 		}
 
@@ -147,21 +148,11 @@ namespace MonoWorks.Rendering
 			adapter.SetCursor(type);
 		}
 
-		#endregion
-		
-		
-		#region Keyboard Interaction
-
 		public void OnKeyPress(KeyEvent evt)
 		{
-//			OverlayInteractor.OnKeyPress(evt);
-//
-//			if (PrimaryInteractor != null)
-//				PrimaryInteractor.OnKeyPress(evt);
-//
-//			ViewInteractor.OnKeyPress(evt);
+			RootScene.OnKeyPress(evt);
 		}
-		
+
 		#endregion
 		
 		
