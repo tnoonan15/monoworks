@@ -33,18 +33,17 @@ namespace MonoWorks.GtkDemo
 	{
 		
 		public Pane2D()
-		{			
+		{
 			// add the viewport
 			adapter = new ViewportAdapter();
 			PackEnd(adapter);
 			TestAxes2D axes = new TestAxes2D();
-			Viewport.RenderList.AddActor(axes);
+			Scene.RenderList.AddActor(axes);
 			
-			Viewport.Camera.Projection = Projection.Parallel;
-			Viewport.Use2dInteraction = true;
-//			Viewport.UsePrimaryInteractor = true;
-			Viewport.Camera.SetViewDirection(ViewDirection.Front);
-			new PlotController(Viewport);
+			Scene.Camera.Projection = Projection.Parallel;
+			Scene.Use2dInteraction = true;
+			Scene.Camera.SetViewDirection(ViewDirection.Front);
+			new PlotController(Scene);
 			
 			
 			// add the control pane
@@ -56,19 +55,20 @@ namespace MonoWorks.GtkDemo
 		protected ViewportAdapter adapter;
 		
 		/// <summary>
-		/// The viewport.
+		/// The scene.
 		/// </summary>
-		protected Viewport Viewport
-		{
-			get {return adapter.Viewport;}
+		protected Scene Scene
+		 {
+			get { return adapter.Viewport.RootScene; }
 		}
+			
 		
 		/// <summary>
 		/// Handler for state changed events from the control pane.
 		/// </summary>
 		protected void OnControlChanged()
 		{
-			Viewport.PaintGL();
+			Scene.Paint();
 		}
 	}
 }

@@ -90,7 +90,10 @@ namespace MonoWorks.GtkBackend
 		/// <value>
 		/// The scene.
 		/// </value>
-		public Scene Scene {get; set;}
+		public Scene Scene 
+		{
+			get { return adapter.Viewport.RootScene;}
+		}
 		
 		public DrawingController Controller {get; private set;}
 		
