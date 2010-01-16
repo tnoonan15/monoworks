@@ -184,13 +184,11 @@ namespace MonoWorks.Rendering
 		{
 			// get the width and height
 			var width = _scene.Width;
-			var height = _scene.Height;
-			double ar = width / height;
-			
-			// prevent divide by zero
-			if (height == 0)
+			var height = _scene.Height;			
+			if (height == 0) // prevent divide by zero
 				height = 1;
-			
+			double ar = width / height;
+						
 			gl.glViewport(0, 0, (int)width, (int)height);
 			
 			// initialize the projection matrix
@@ -212,7 +210,7 @@ namespace MonoWorks.Rendering
 				gl.glOrtho(-ar*h, ar*h, -h, h, 0.001*Distance, 100*Distance);
 			}
 
-			//  store the projection matrix
+			//  store the projection matrix for later setup
 			gl.glGetDoublev(gl.GL_PROJECTION_MATRIX, projectionMatrix);
 
 			// store the viewport size
@@ -289,6 +287,16 @@ namespace MonoWorks.Rendering
 		public int ViewportHeight
 		{
 			get { return viewportSize[3]; }
+		}
+		
+		/// <summary>
+		/// Gets the context ready for rendering with this camera.
+		/// </summary>
+		public void Setup()
+		{
+			// setup the projection matrix
+			gl.glMatrixMode(gl.GL_PROJECTION);
+			gl.glLoadMatrixd(projectionMatrix);
 		}
 
 		/// <summary>

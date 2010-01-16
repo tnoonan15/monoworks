@@ -19,10 +19,10 @@
 using System;
 
 using MonoWorks.Rendering;
-using MonoWorks.Plotting;
 using MonoWorks.GtkBackend;
 using MonoWorks.GtkBackend.Framework;
-using MonoWorks.Modeling;
+using MonoWorks.Controls;
+using MonoWorks.Demo;
 
 namespace MonoWorks.GtkDemo
 {
@@ -44,43 +44,31 @@ namespace MonoWorks.GtkDemo
 			// initialize the Gtk Resource Manager
 			ResourceManager.Initialize();
 			
-			// create the notebook
-			book = new Gtk.Notebook();
-			Add(book);
-			book.ChangeCurrentPage += OnPageChanged;
+			// create the viewport adapter
+			var adapter = new ViewportAdapter();
+			Add(adapter);
 			
-			// create the controls page
-			PaneControls paneControls = new PaneControls();
-			book.AppendPage(paneControls, new Gtk.Label("Controls"));
+			// create the scene space
+			var sceneSpace = new SceneSpace(adapter.Viewport);
+			adapter.Viewport.RootScene = sceneSpace;
+			var book = new SceneBook(adapter.Viewport);
+			sceneSpace.Root = book;
 			
-			// create model page		
-//			DrawingFrame drawingFrame = new DrawingFrame();
-//			book.AppendPage(drawingFrame, new Gtk.Label("Model"));
-//			drawingFrame.Drawing = new TestPart();	
-//			drawingFrame.Viewport.Camera.SetViewDirection(ViewDirection.Standard);
+			// create the controls scene
+			var controls = new ControlsScene(adapter.Viewport);
+			book.Add(controls);
 			
-//			// create the 2D page
-//			Pane2D pane2D = new Pane2D();
-//			book.AppendPage(pane2D, new Gtk.Label("Basic 2D"));
-			
-			// create the 3D page
-			Pane3D pane3D = new Pane3D();
-			book.AppendPage(pane3D, new Gtk.Label("Basic 3D"));
+			// create the 2D plotting scene
+			var plot2d = new Plot2dScene(adapter.Viewport);
+			book.Add(plot2d);
 			
 			ShowAll();
 		}
-		
-		Gtk.Notebook book;
-		
+				
 		protected void OnDeleteEvent(object sender, Gtk.DeleteEventArgs args)
 		{
 			args.RetVal = true;
 			Gtk.Application.Quit();
-		}
-		
-		protected void OnPageChanged(object sender, Gtk.ChangeCurrentPageArgs args)
-		{
-			book.CurrentPageWidget.QueueDraw();
 		}
 		
 	}

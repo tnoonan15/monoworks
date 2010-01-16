@@ -1,50 +1,46 @@
-// PaneControls.cs - MonoWorks Project
-//
-//  Copyright (C) 2008 Andy Selvig
-//
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-// Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+// 
+//  Controlscs
+//  
+//  Author:
+//       Andy Selvig <ajselvig@gmail.com>
+// 
+//  Copyright (c) 2010 Andy Selvig
+// 
+//  This library is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as
+//  published by the Free Software Foundation; either version 2.1 of the
+//  License, or (at your option) any later version.
+// 
+//  This library is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//  Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
 
-using System.IO;
-
 using MonoWorks.Base;
-using MonoWorks.Rendering;
 using MonoWorks.Framework;
-using MonoWorks.Controls;
+using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
-using MonoWorks.GtkBackend;
-using MonoWorks.GtkBackend.Framework;
+using MonoWorks.Controls;
 
-namespace MonoWorks.GtkDemo
+namespace MonoWorks.Demo
 {
-	
 	/// <summary>
-	/// Contains the rendering controls demo.
+	/// Demo scene containing a bunch of controls.
 	/// </summary>
-	public class PaneControls : Gtk.HBox
+	public class ControlsScene : Scene
 	{
-		
-		public PaneControls() : base()
+		public ControlsScene(Viewport viewport) : base(viewport)
 		{
-			// add the viewport
-			adapter = new ViewportAdapter();
-			PackEnd(adapter);
+			Name = "Controls";
 			
 			// add an ActorInteractor to the viewport
-			Scene.PrimaryInteractor = new ActorInteractor(Scene);
+			PrimaryInteractor = new ActorInteractor(this);
 			
 			
 			// load the mwx file
@@ -62,7 +58,7 @@ namespace MonoWorks.GtkDemo
 				   Console.WriteLine("clicked cancel");
 			   };
 			var cornerAnchor = new AnchorPane(cornerButtons, AnchorLocation.NE);
-			Scene.RenderList.AddOverlay(cornerAnchor);
+			RenderList.AddOverlay(cornerAnchor);
 			
 			
 			// northwest buttons
@@ -76,7 +72,7 @@ namespace MonoWorks.GtkDemo
 				  Console.WriteLine("clicked zoom-out");
 			  };
 			cornerAnchor = new AnchorPane(cornerButtons, AnchorLocation.NW);
-			Scene.RenderList.AddOverlay(cornerAnchor);
+			RenderList.AddOverlay(cornerAnchor);
 			
 			
 			// east toolbar
@@ -99,11 +95,11 @@ namespace MonoWorks.GtkDemo
 			toolbar.Add(button);
 			
 			var toolAnchor = new AnchorPane(toolbar, AnchorLocation.E);
-			Scene.RenderList.AddOverlay(toolAnchor);
+			RenderList.AddOverlay(toolAnchor);
 			
 			
 			// the controls dialog
-			_controlsDialog = mwx.GetRenderable<Dialog>("controls-dialog");
+			var controlsDialog = mwx.GetRenderable<Dialog>("controls-dialog");
 			
 			// attach the slider to its value label
 			var slider = mwx.GetRenderable<Slider>("slider");
@@ -130,42 +126,31 @@ namespace MonoWorks.GtkDemo
 			button = new Button("Controls Dialog", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
 				// show controls dialog
-				Scene.ShowModal(_controlsDialog);
+				ShowModal(controlsDialog);
 			};
 			toolbar.Add(button);
 			
 			image = new Image(ResourceHelper.GetStream("linear-progress.png"));
 			button = new Button("Linear Progress Bar", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
-				Scene.ShowModal(_controlsDialog);
+				ShowModal(controlsDialog);
 			};
 			toolbar.Add(button);
 			
 			image = new Image(ResourceHelper.GetStream("radial-progress.png"));
 			button = new Button("Radial Progress Bar", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
-				Scene.ShowModal(_controlsDialog);
+				ShowModal(controlsDialog);
 			};
 			toolbar.Add(button);
 
 			var toolActor = new ActorPane(toolbar);
 			toolActor.Normal = new Vector(0, -1, 0);
-			Scene.RenderList.AddActor(toolActor);
+			RenderList.AddActor(toolActor);
 						
 			
-			Scene.Camera.SetViewDirection(ViewDirection.Standard);
+			Camera.SetViewDirection(ViewDirection.Standard);
 		}
-		
-		protected ViewportAdapter adapter;
-
-		/// <summary>
-		/// The scene.
-		/// </summary>
-		protected Scene Scene {
-			get { return adapter.Viewport.RootScene; }
-		}
-		
-		private Dialog _controlsDialog;
-		
 	}
 }
+
