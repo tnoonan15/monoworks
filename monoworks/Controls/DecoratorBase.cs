@@ -46,14 +46,14 @@ namespace MonoWorks.Controls
 				new ColorGroup(
       			new Color(1f, 1f, 1f, 0.6f),
       			new Color(1f, 1f, 1f, 0.9f),
-      			new Color(0.9f, 0.9f, 0.9f, 0.5f)
+      			new Color(0.6f, 0.6f, 0.6f, 0.9f)
             ));
 			
 			SetColorGroup(ColorType.BackgroundStop,
 				new ColorGroup(
       			new Color(1f, 1f, 1f, 0.9f),
       			new Color(1f, 1f, 1f, 0.6f),
-      			new Color(0.9f, 0.9f, 1f, 0.5f)
+      			new Color(0.9f, 1f, 1f, 0.9f)
             ));
 			
 			SetColorGroup(ColorType.Stroke,

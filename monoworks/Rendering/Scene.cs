@@ -22,6 +22,7 @@
 
 using System;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Events;
 
@@ -29,7 +30,7 @@ namespace MonoWorks.Rendering
 {
 
 	/// <summary>
-	/// Represents a 3D scene where renderables can be rendered.
+	/// Represents a 3D scene containing its own list of renderables and camera.
 	/// </summary>
 	public class Scene : IMouseHandler, IKeyHandler
 	{
@@ -47,6 +48,8 @@ namespace MonoWorks.Rendering
 			OverlayInteractor = new OverlayInteractor(this);
 			
 			Animator = new Animator(this);
+			
+			ViewportOffset = new Coord();
 		}
 		
 		/// <summary>
@@ -104,6 +107,13 @@ namespace MonoWorks.Rendering
 			get;
 			private set;
 		}
+		
+		/// <summary>
+		/// The offset of the scene's coordinate system from the parent viewport.
+		/// </summary>
+		/// <remarks>This is either left at zero if the scene takes up the whole viewport
+		/// or set by a SceneContainer to control scene layout.</remarks>
+		public Coord ViewportOffset {get; private set;}
 
 		/// <summary>
 		/// The renderable width of the scene.

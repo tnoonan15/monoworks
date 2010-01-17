@@ -178,22 +178,36 @@ namespace MonoWorks.Rendering
 #region Configuration and Placement
 		
 		/// <summary>
+		/// Resets the viewport size of the OpenGL context to the scene's size.
+		/// </summary>
+		/// <remarks>This should only be called by the top level scene when it is resized.</remarks>
+		public void Resize()
+		{
+			var width = _scene.Width;
+			var height = _scene.Height;			
+			gl.glViewport(0, 0, (int)width, (int)height);
+		}
+		
+		/// <summary>
 		/// Configures the viewport based on its width and height.
 		/// </summary>
 		public virtual void Configure()
 		{
-			// get the width and height
-			var width = _scene.Width;
-			var height = _scene.Height;			
-			if (height == 0) // prevent divide by zero
-				height = 1;
-			double ar = width / height;
-						
-			gl.glViewport(0, 0, (int)width, (int)height);
-			
 			// initialize the projection matrix
 			gl.glMatrixMode(gl.GL_PROJECTION);
 			gl.glLoadIdentity();
+			
+			// set the viewport
+			var width = _scene.Width;
+			var height = _scene.Height;
+			if (height == 0)
+				// prevent divide by zero
+				height = 1;
+			double ar = width / height;
+//			var offset = _scene.ViewportOffset;
+			//			gl.glViewport((int)offset.X, (int)offset.Y, (int)width, (int)height);
+			
+//			gl.glTranslated(-offset.X, -offset.Y, 0);
 			
 			if (projection == Projection.Perspective)
 			{								
@@ -297,6 +311,8 @@ namespace MonoWorks.Rendering
 			// setup the projection matrix
 			gl.glMatrixMode(gl.GL_PROJECTION);
 			gl.glLoadMatrixd(projectionMatrix);
+			
+			gl.glViewport((int)_scene.ViewportOffset.X, (int)_scene.ViewportOffset.Y, (int)_scene.Width, (int)_scene.Height);
 		}
 
 		/// <summary>

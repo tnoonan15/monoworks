@@ -36,11 +36,11 @@ namespace MonoWorks.Controls
 		{
 		}
 		
-		private SceneCollection _root;
+		private SceneContainer _root;
 		/// <summary>
 		/// The root of the scene tree.
 		/// </summary>
-		public SceneCollection Root {
+		public SceneContainer Root {
 			get { return _root; }
 			set {
 				_root = value;
@@ -51,7 +51,6 @@ namespace MonoWorks.Controls
 		public override void Resize()
 		{
 			base.Resize();
-			
 			if (Root != null)
 				Root.Resize(Width, Height);
 		}		

@@ -69,6 +69,7 @@ namespace MonoWorks.Rendering
 		public void Resize()
 		{
 			RootScene.Resize(Width, Height);
+			RootScene.Camera.Resize();
 		}
 		
 		/// <summary>
