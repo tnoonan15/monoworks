@@ -1,5 +1,5 @@
 // 
-//  SceneCollection.cs - MonoWorks Project
+//  SceneContainer.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -29,11 +29,11 @@ using MonoWorks.Rendering.Events;
 namespace MonoWorks.Controls
 {
 	/// <summary>
-	/// Base class for collections of scenes like SceneBook and SceneStack.
+	/// Base class for containers of scenes like SceneBook and SceneStack.
 	/// </summary>
-	public class SceneCollection : Scene
+	public class SceneContainer : Scene
 	{
-		public SceneCollection(Viewport viewport) : base(viewport)
+		public SceneContainer(Viewport viewport) : base(viewport)
 		{
 		}
 		
@@ -90,6 +90,33 @@ namespace MonoWorks.Controls
 				
 			}
 		}
+		
+	}
+
+
+	/// <summary>
+	/// A button representing a scene in a SceneContainer.
+	/// </summary>
+	public class SceneButton : Button
+	{
+		internal SceneButton(Scene scene)
+		{
+			Scene = scene;
+			LabelString = scene.Name;
+			ButtonStyle = ButtonStyle.Label;
+			IsTogglable = true;
+			IsHoverable = true;
+		}
+
+		/// <summary>
+		/// The scene represented by this button.
+		/// </summary>
+		public Scene Scene
+		{
+			get;
+			private set;
+		}
+		
 		
 	}
 }

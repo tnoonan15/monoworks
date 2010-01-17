@@ -32,7 +32,7 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// A scene collection that arranges the scenes into a tab book.
 	/// </summary>
-	public class SceneBook : SceneCollection
+	public class SceneBook : SceneContainer
 	{
 		public SceneBook(Viewport viewport) : base(viewport)
 		{
@@ -71,7 +71,7 @@ namespace MonoWorks.Controls
 			_selector.UserSize.X = Width;
 			_pane.ComputeGeometry();
 			_pane.Origin.X = 0;
-			_pane.Origin.Y = Height - _pane.RenderHeight/2.0;
+			_pane.Origin.Y = Height - _pane.RenderHeight;
 			
 			foreach (var scene in Children)
 			{
@@ -82,9 +82,11 @@ namespace MonoWorks.Controls
 		public override void Render()
 		{
 			base.Render();
+			
+			
+			
 			if (Current != null)
-				Current.Render();
-		
+				Current.Render();		
 		}
 		
 		
@@ -96,7 +98,7 @@ namespace MonoWorks.Controls
 			
 			_selector.OnButtonPress(evt);
 			
-			if (!evt.Handled && Current != null)
+			if (Current != null)
 				Current.OnButtonPress(evt);
 		}
 
@@ -106,7 +108,7 @@ namespace MonoWorks.Controls
 			
 			_selector.OnButtonRelease(evt);
 			
-			if (!evt.Handled && Current != null)
+			if (Current != null)
 				Current.OnButtonRelease(evt);
 		}
 
@@ -116,7 +118,7 @@ namespace MonoWorks.Controls
 			
 			_selector.OnMouseMotion(evt);
 			
-			if (!evt.Handled && Current != null)
+			if (Current != null)
 				Current.OnMouseMotion(evt);
 		}
 
@@ -126,7 +128,7 @@ namespace MonoWorks.Controls
 			
 			_selector.OnMouseWheel(evt);
 			
-			if (!evt.Handled && Current != null)
+			if (Current != null)
 				Current.OnMouseWheel(evt);
 		}
 
@@ -138,30 +140,9 @@ namespace MonoWorks.Controls
 	
 	
 	/// <summary>
-	/// A button in a SceneBookSelector.
-	/// </summary>
-	internal class SceneBookButton : Button
-	{
-		internal SceneBookButton(Scene scene)
-		{
-			Scene = scene;
-			LabelString = scene.Name;
-			ButtonStyle = ButtonStyle.Label;
-		}
-		
-		/// <summary>
-		/// The scene represented by this button.
-		/// </summary>
-		internal Scene Scene { get; private set; }
-		
-		
-	}
-	
-	
-	/// <summary>
 	/// The buttons that allow the user to select scenes from a scene book.
 	/// </summary>
-	internal class SceneBookSelector : Stack
+	public class SceneBookSelector : Stack
 	{
 		
 		internal SceneBookSelector(SceneBook book)
@@ -182,8 +163,29 @@ namespace MonoWorks.Controls
 			Clear();
 			foreach (var scene in _book.Children)
 			{
-				var button = new SceneBookButton(scene);
+				var button = new SceneButton(scene);
 				Add(button);
+				var sceneRef = scene;
+				button.Clicked += delegate(object sender, EventArgs e) {
+					_book.Current = sceneRef;
+					UpdateButtons();
+				};
+			}
+			UpdateButtons();
+		}
+		
+		/// <summary>
+		/// Updates the selection state of the buttons.
+		/// </summary>
+		public void UpdateButtons()
+		{
+			foreach (var child in Children)
+			{
+				var button = child as SceneButton;
+				if (_book.Current != null && button.Scene == _book.Current)
+					button.IsSelected = true;
+				else
+					button.IsSelected = false;
 			}
 		}
 		
@@ -198,6 +200,11 @@ namespace MonoWorks.Controls
 		{
 			base.Render(context);
 			
+			context.Cairo.Color = context.Decorator.GetColor(ColorType.BackgroundStart, HitState.Selected).Cairo;
+			context.Cairo.LineWidth = 2;
+			context.Cairo.MoveTo(0, RenderHeight - 1);
+			context.Cairo.RelLineTo(RenderWidth, 0);
+			context.Cairo.Stroke();
 		}
 	}
 	

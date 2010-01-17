@@ -354,6 +354,16 @@ namespace MonoWorks.Controls
 				Decorate(control as DialogFrame);
 				return;
 			}
+			if (control is SceneButton)
+			{
+				Decorate(control as SceneButton);
+				return;
+			}
+			if (control is SceneBookSelector)
+			{
+				Decorate(control as SceneBookSelector);
+				return;
+			}
 			if (control is Button)
 			{
 				Decorate(control as Button);
@@ -398,6 +408,22 @@ namespace MonoWorks.Controls
 			}
 		}
 		
+		protected virtual void Decorate(SceneButton button)
+		{
+			var parent = button.ParentControl;
+			if (parent == null)
+				FillRectangle(Coord.Zeros, button.RenderSize, Corner.None, FillType.Background, button.HitState, AnchorLocation.S);
+			else
+			{
+				FillRectangle(Coord.Zeros, button.RenderSize, Corner.None, FillType.Background, button.HitState, AnchorLocation.S);
+				StrokeRectangle(Coord.Zeros, button.RenderSize, Corner.None, button.HitState);
+			}
+		}
+		
+		protected virtual void Decorate(SceneBookSelector selector)
+		{
+			FillRectangle(Coord.Zeros, selector.RenderSize, Corner.None, FillType.Editable, selector.HitState, AnchorLocation.S);
+		}
 		
 		protected virtual void Decorate(ToolBar toolbar)
 		{			
