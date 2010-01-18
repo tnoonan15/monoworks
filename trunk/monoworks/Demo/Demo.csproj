@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControlsScene.cs" />
     <Compile Include="Plot2dScene.cs" />
+    <Compile Include="Plot3dScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">

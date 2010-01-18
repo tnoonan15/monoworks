@@ -72,9 +72,10 @@
     <Compile Include="StandardScene\UiManager.cs" />
     <Compile Include="StandardScene\SceneController.cs" />
     <Compile Include="SceneSpace.cs" />
-    <Compile Include="SceneCollection.cs" />
     <Compile Include="SceneBook.cs" />
     <Compile Include="SceneStack.cs" />
+    <Compile Include="SceneContainer.cs" />
+    <Compile Include="MenuBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />

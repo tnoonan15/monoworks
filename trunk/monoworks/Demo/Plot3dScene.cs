@@ -1,5 +1,5 @@
 // 
-//  Plot2dScene.cs
+//  Plot3dScene.cs
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -20,23 +20,31 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+using System;
+
+using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Interaction;
 using MonoWorks.Plotting;
 
 namespace MonoWorks.Demo
 {
-	public class Plot2dScene : Scene
+
+	/// <summary>
+	/// Demo scene containing a 3D test plot.
+	/// </summary>
+	public class Plot3dScene : Scene
 	{
-		public Plot2dScene(Viewport viewport) : base(viewport)
+
+		public Plot3dScene(Viewport viewport) : base(viewport)
 		{
-			Name = "Plot 2D";
+			Name = "Plot 3D";
 			
-			TestAxes2D axes = new TestAxes2D();
+			TestAxes3D axes = new TestAxes3D();
 			RenderList.AddActor(axes);
 			
-			Camera.Projection = Projection.Parallel;
-			Use2dInteraction = true;
-			Camera.SetViewDirection(ViewDirection.Front);
+			Camera.SetViewDirection(ViewDirection.Standard);
 			new PlotController(this);
 		}
 	}

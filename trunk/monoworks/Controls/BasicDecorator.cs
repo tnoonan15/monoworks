@@ -59,9 +59,7 @@ namespace MonoWorks.Controls
 		/// A Corner value specifcying all of the corners.
 		/// </summary>
 		public const Corner AllCorners = Corner.NE | Corner.NW | Corner.SE | Corner.SW;
-		
-		
-		
+				
 		
 		#region Paths
 		
@@ -399,7 +397,10 @@ namespace MonoWorks.Controls
 			else if (parent is ToolBar || parent is DialogFrame)
 			{
 				if (button.HitState != HitState.None)
+				{
 					FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
+					StrokeRectangle(Coord.Zeros, button.RenderSize, AllCorners, button.HitState);
+				}
 			}
 			else
 			{
