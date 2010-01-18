@@ -1,5 +1,5 @@
 // 
-//  Plot2dScene.cs
+//  MenuBox.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -20,25 +20,44 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-using MonoWorks.Rendering;
-using MonoWorks.Plotting;
+using System;
 
-namespace MonoWorks.Demo
+using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
+
+namespace MonoWorks.Controls
 {
-	public class Plot2dScene : Scene
+
+	/// <summary>
+	/// Displays a list of items with one selected at a time.
+	/// </summary>
+	public class MenuBox : Control2D
 	{
-		public Plot2dScene(Viewport viewport) : base(viewport)
+
+		public MenuBox()
 		{
-			Name = "Plot 2D";
-			
-			TestAxes2D axes = new TestAxes2D();
-			RenderList.AddActor(axes);
-			
-			Camera.Projection = Projection.Parallel;
-			Use2dInteraction = true;
-			Camera.SetViewDirection(ViewDirection.Front);
-			new PlotController(this);
 		}
+		
+		
+		#region Rendering
+		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			
+		}
+
+		protected override void Render(RenderContext context)
+		{
+			base.Render(context);
+			
+		}
+		
+		#endregion
+		
+		
+		
 	}
 }
 

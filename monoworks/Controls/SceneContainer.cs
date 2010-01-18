@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
@@ -116,6 +117,24 @@ namespace MonoWorks.Controls
 			get;
 			private set;
 		}
+		
+		
+		#region Interaction
+		
+		/// <summary>
+		/// The relative point of the last button press.
+		/// </summary>
+		private Coord _anchor;
+		
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			_anchor = evt.Pos - Origin;
+		}
+		
+		#endregion
+
 		
 		
 	}

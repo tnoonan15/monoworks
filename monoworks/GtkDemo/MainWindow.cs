@@ -62,6 +62,10 @@ namespace MonoWorks.GtkDemo
 			var plot2d = new Plot2dScene(adapter.Viewport);
 			book.Add(plot2d);
 			
+			// create the 3D plotting scene
+			var plot3d = new Plot3dScene(adapter.Viewport);
+			book.Add(plot3d);
+			
 			ShowAll();
 		}
 				
