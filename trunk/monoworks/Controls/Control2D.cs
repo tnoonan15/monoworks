@@ -56,27 +56,19 @@ namespace MonoWorks.Controls
 	/// </summary>
 	public abstract class Control2D : Renderable
 	{
-		
-		public Control2D() : base()
+		protected Control2D()
 		{
 			ToolTip = "";
 			
 			Origin = new Coord();
 		}
-		
-		private Control2D _parent;
+
 		/// <value>
 		/// The control's parent.
 		/// </value>
-		public Control2D ParentControl
-		{
-			get {return _parent;}
-			set {
-				_parent = value;
-			}
-		}
-		
-		
+		public Control2D ParentControl { get; set; }
+
+
 		public override Renderable Parent
 		{
 			get {
@@ -89,7 +81,7 @@ namespace MonoWorks.Controls
 
 
 		
-		private IPane _pane = null;
+		private IPane _pane;
 		/// <value>
 		/// The pane this control belongs to.
 		/// </value>
@@ -99,10 +91,7 @@ namespace MonoWorks.Controls
 			{
 				if (_pane != null)
 					return _pane;
-				else if (ParentControl != null)
-					return ParentControl.Pane;
-				else
-					return null;
+				return ParentControl != null ? ParentControl.Pane : null;
 			}
 			set
 			{
@@ -200,22 +189,18 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Tries to apply the user size to the render size, otherwise uses the min size.
 		/// </summary>
-		protected void ApplyUserSize()
-		{
-			if (UserSize != null)
-				RenderSize = Coord.Max(MinSize, UserSize);
-			else
-				RenderSize = MinSize.Copy();
+		protected void ApplyUserSize()		{
+			RenderSize = UserSize != null ? Coord.Max(MinSize, UserSize) : MinSize.Copy();
 		}
 
-		protected double padding = 4;
+		private double _padding = 4;
 		/// <summary>
 		/// The padding to use on the interior of controls.
 		/// </summary>
 		public double Padding
 		{
-			get { return padding; }
-			set { padding = value; }
+			get { return _padding; }
+			set { _padding = value; }
 		}
 		
 		/// <value>
@@ -299,20 +284,20 @@ namespace MonoWorks.Controls
 				return;
 			
 			// remake the image surface, if needed
-			if (surface == null || surface.Width != IntWidth || surface.Height != IntHeight)
+			if (_surface == null || _surface.Width != IntWidth || _surface.Height != IntHeight)
 			{
-				if (surface != null)
+				if (_surface != null)
 				{
-					surface.Destroy();
+					_surface.Destroy();
 					_gch.Free();
 				}
-				imageData = new byte[IntWidth * IntHeight * 4];
-				_gch = GCHandle.Alloc(imageData, GCHandleType.Pinned);
-				surface = new ImageSurface(ref imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				_imageData = new byte[IntWidth * IntHeight * 4];
+				_gch = GCHandle.Alloc(_imageData, GCHandleType.Pinned);
+				_surface = new ImageSurface(ref _imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface
-			using (Context cr = new Context(surface))
+			using (var cr = new Context(_surface))
 			{
 				cr.Operator = Operator.Source;
 				cr.Color = new Cairo.Color(1, 1, 1, 0);
@@ -322,20 +307,20 @@ namespace MonoWorks.Controls
 				cr.MoveTo(0,0);
 				RenderCairo(new RenderContext(cr, DecoratorService.Get(scene)));
 				
-				surface.Flush();
+				_surface.Flush();
 			};
 			
 		}
 		
-		private ImageSurface surface;
+		private ImageSurface _surface;
 		
-		private byte[] imageData;
+		private byte[] _imageData;
 		/// <value>
 		/// The image data.
 		/// </value>
 		public byte[] ImageData
 		{
-			get {return imageData;}
+			get {return _imageData;}
 		}
 		
 		#endregion
@@ -358,14 +343,14 @@ namespace MonoWorks.Controls
 				
 		#region Interaction
 		
-		private bool isHoverable = false;
+		private bool _isHoverable;
 		/// <value>
 		/// Whether the control responds to mouse motion over it by going into the hovering state.
 		/// </value>
 		public bool IsHoverable
 		{
-			get {return isHoverable;}
-			set {isHoverable = value;}
+			get {return _isHoverable;}
+			set {_isHoverable = value;}
 		}
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
@@ -380,7 +365,7 @@ namespace MonoWorks.Controls
 		
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			if (isHoverable && !evt.Handled)
+			if (_isHoverable && !evt.Handled)
 			{
 				if (HitTest(evt.Pos)) // it's hovering now
 				{

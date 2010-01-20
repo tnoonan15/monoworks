@@ -22,8 +22,6 @@
 
 
 using System;
-using System.Xml;
-
 using gl=Tao.OpenGl.Gl;
 
 using MonoWorks.Base;

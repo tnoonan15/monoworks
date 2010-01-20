@@ -31,14 +31,14 @@ namespace MonoWorks.Controls
 	public class OverlayPane : Overlay, IPane
 	{
 		
-		public OverlayPane() : base()
+		public OverlayPane()
 		{
 			Origin = new Coord();
 		}
 		
 		public OverlayPane(Control2D control) : this()
 		{
-			this.Control = control;
+			Control = control;
 		}
 		
 		
@@ -52,8 +52,7 @@ namespace MonoWorks.Controls
 			{
 				if (Control != null)
 					return Control.RenderSize;
-				else
-					return new Coord();
+				return new Coord();
 			}
 		}
 		
