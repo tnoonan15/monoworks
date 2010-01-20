@@ -123,6 +123,8 @@ namespace MonoWorks.Controls
 		/// </summary>
 		private Coord GetControlPoint(HitLine hitLine)
 		{
+			if (RenderSize == null)
+				return new Coord();
 			var intersection = hitLine.GetIntersection(this);
 			var point = this.Project(intersection) / Scaling;
 			point.Y = RenderHeight - point.Y;

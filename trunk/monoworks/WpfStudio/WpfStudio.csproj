@@ -8,7 +8,7 @@
     <ProjectGuid>{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonoWorks.StudioWpf</RootNamespace>
+    <RootNamespace>MonoWorks.WpfStudio</RootNamespace>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -17,7 +17,7 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
-    <AssemblyName>MonoWorks.StudioWpf</AssemblyName>
+    <AssemblyName>MonoWorks.WpfStudio</AssemblyName>
     <ApplicationIcon>monoworks.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -94,11 +94,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AssemblyView.cs" />
-    <Compile Include="DrawingView.cs" />
-    <Compile Include="StudioControllerWpf.cs" />
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs" />
-    <Compile Include="PartView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -113,9 +119,11 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +135,7 @@
       <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
       <Name>Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GuiWpf\WpfBackend.csproj">
+    <ProjectReference Include="..\WpfBackend\WpfBackend.csproj">
       <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
       <Name>WpfBackend</Name>
     </ProjectReference>

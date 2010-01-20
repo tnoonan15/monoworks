@@ -173,7 +173,7 @@ namespace MonoWorks.SwfBackend
 		{
 			base.OnMouseDown(args);
 
-			var evt = new MouseButtonEvent(Viewport, 
+			var evt = new MouseButtonEvent(Viewport.RootScene, 
 			                               MouseToViewport(args.Location),
 			                               Extensions.ButtonNumber(args.Button),
 			                               Extensions.GetModifier(ModifierKeys));
@@ -188,7 +188,7 @@ namespace MonoWorks.SwfBackend
 		{
 			base.OnMouseUp(args);
 
-			var evt = new MouseButtonEvent(Viewport, 
+			var evt = new MouseButtonEvent(Viewport.RootScene, 
 			                               MouseToViewport(args.Location),
 			                               Extensions.ButtonNumber(args.Button),
 			                               Extensions.GetModifier(ModifierKeys));
@@ -201,7 +201,7 @@ namespace MonoWorks.SwfBackend
 		{
 			base.OnMouseMove(args);
 
-			var evt = new MouseEvent(Viewport, MouseToViewport(args.Location),
+			var evt = new MouseEvent(Viewport.RootScene, MouseToViewport(args.Location),
 			                         Extensions.GetModifier(ModifierKeys));
 			Viewport.OnMouseMotion(evt);
 
@@ -216,7 +216,7 @@ namespace MonoWorks.SwfBackend
 			var direction = WheelDirection.Up;
 			if (args.Delta < 0)
 				direction = WheelDirection.Down;
-			var evt = new MouseWheelEvent(Viewport, direction, InteractionModifier.None);
+			var evt = new MouseWheelEvent(Viewport.RootScene, direction, InteractionModifier.None);
 			Viewport.OnMouseWheel(evt);
 
 			PaintGL();
@@ -229,7 +229,7 @@ namespace MonoWorks.SwfBackend
 			if (_lastClickHandled)
 				return;
 
-			var evt = new MouseButtonEvent(Viewport, MouseToViewport(args.Location),
+			var evt = new MouseButtonEvent(Viewport.RootScene, MouseToViewport(args.Location),
 			                               Extensions.ButtonNumber(args.Button),
 			                               InteractionModifier.None, ClickMultiplicity.Double);
 			Viewport.OnButtonPress(evt);

@@ -116,6 +116,8 @@ namespace MonoWorks.Controls
 		/// </summary>
 		private Coord GetControlPoint(Coord screen)
 		{
+			if (RenderSize == null)
+				return new Coord();
 			var point = screen - Origin;
 			point.Y = RenderHeight-point.Y;
 			return point;

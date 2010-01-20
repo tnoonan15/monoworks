@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-
+using MonoWorks.Controls;
+using MonoWorks.Demo;
 using MonoWorks.WpfBackend;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
@@ -19,49 +20,23 @@ namespace MonoWorks.DemoWpf
 		{
 			InitializeComponent();
 
-			book = new TabControl();
-			dockPanel.Children.Add(book);
+			// create the scene book
+			var sceneSpace = new SceneSpace(viewportWrapper.Viewport);
+			viewportWrapper.Viewport.RootScene = sceneSpace;
+			var book = new SceneBook(viewportWrapper.Viewport);
+			sceneSpace.Root = book;
 
-			// create the model tab
-			//DrawingFrame docFrame = new DrawingFrame();
-			//docFrame.Height = Double.NaN;
-			//docFrame.Width = Double.NaN;
-			//docFrame.Drawing = new TestPart();
-			//TabItem itemModel = new TabItem();
-			//itemModel.Header = "Model";
-			//itemModel.Content = docFrame;
-			//book.Items.Add(itemModel);
+			// create the controls scene
+			var controls = new ControlsScene(viewportWrapper.Viewport);
+			book.Add(controls);
 
-			// create the basic 3D tab
-			Pane3D pane3d = new Pane3D();
-			TabItem item3d = new TabItem();
-			item3d.Header = "Basic 3D";
-			item3d.Content = pane3d;
-			book.Items.Add(item3d);
+			// create the 2D plotting scene
+			var plot2D = new Plot2dScene(viewportWrapper.Viewport);
+			book.Add(plot2D);
 
-			// create the basic 2D tab
-			Pane2D pane2d = new Pane2D();
-			TabItem item2d = new TabItem();
-			item2d.Header = "Basic 2D";
-			item2d.Content = pane2d;
-			book.Items.Add(item2d);
-
-			// create the controls tab
-			PaneControls paneControls = new	PaneControls();
-			TabItem itemControls = new TabItem();
-			itemControls.Header = "Controls";
-			itemControls.Content = paneControls;
-			book.Items.Add(itemControls);
-
-			book.SelectionChanged += OnPageChanged;
-		}
-
-		TabControl book;
-
-		void OnPageChanged(object sender, SelectionChangedEventArgs e)
-		{
-			//((book.SelectedItem as TabItem).Content as PaneBase).OnUpdated();
-			Console.WriteLine("page changed");
+			// create the 3D plotting scene
+			var plot3D = new Plot3dScene(viewportWrapper.Viewport);
+			book.Add(plot3D);
 		}
 
 
