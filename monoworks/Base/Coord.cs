@@ -17,8 +17,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-using System.Collections.Generic;
-
 
 namespace MonoWorks.Base
 {
@@ -51,8 +49,8 @@ namespace MonoWorks.Base
 		/// </summary>
 		public Coord(double x, double y)
 		{
-			this.X = x;
-			this.Y = y;
+			X = x;
+			Y = y;
 		}
 		
 		/// <summary>

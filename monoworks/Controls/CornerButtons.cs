@@ -28,7 +28,7 @@ using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
-	
+
 	/// <summary>
 	/// A control that contains two buttons and sits in the corner of the viewport.
 	/// </summary>
@@ -50,7 +50,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The corner on which to put the control.
 		/// </value>
-		public Corner Corner {get; set;}
+		public Corner Corner { get; set; }
 
 		/// <summary>
 		/// Width of the control along the edge of the viewport.
@@ -60,27 +60,27 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// Top image.
 		/// </value>
-		public Image Image1 {get; set;}
+		public Image Image1 { get; set; }
 
 		/// <value>
 		/// Bottom image.
 		/// </value>
-		public Image Image2 {get; set;}
-		
+		public Image Image2 { get; set; }
+
 		/// <value>
 		/// Whether or not the buttons will toggle when clicked.
 		/// </value>
-		public bool IsTogglable {get; set;}
+		public bool IsTogglable { get; set; }
 
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
 
 			double shift = 1.1; // ratio to shift the images from the corner to put them in the right position
-			
+
 			MinSize = new Coord(EdgeWidth, EdgeWidth);
 			RenderSize = MinSize;
-			
+
 			// position the images			
 			if (Image1 != null)
 			{
@@ -88,7 +88,7 @@ namespace MonoWorks.Controls
 				switch (Corner)
 				{
 				case Corner.NE:
-					Image1.Origin = new Coord(RenderWidth - (shift+1) * Image1.RenderWidth, Padding);
+					Image1.Origin = new Coord(RenderWidth - (shift + 1) * Image1.RenderWidth, Padding);
 					break;
 				case Corner.NW:
 					Image1.Origin = new Coord(shift * Image1.RenderWidth, Padding);
@@ -113,16 +113,16 @@ namespace MonoWorks.Controls
 		protected override void Render(RenderContext context)
 		{
 			base.Render(context);
-			
+
 			if (Image1 != null)
 				Image1.RenderCairo(context);
 			if (Image2 != null)
 				Image2.RenderCairo(context);
-			
+
 		}
 
 
-#region Mouse Interaction
+		#region Mouse Interaction
 
 		/// <summary>
 		/// Tells which region the mouse is in.
@@ -138,18 +138,16 @@ namespace MonoWorks.Controls
 			{
 			case Corner.NW:
 				if (dPos.X > RenderSize.X || dPos.Y > RenderSize.Y ||
-					dPos.X + dPos.Y > EdgeWidth)
+					dPos.X + dPos.Y > EdgeWidth || dPos.X < 0 || dPos.Y < 0)
 					return Region.None;
-				else if (dPos.X > dPos.Y)
-					return Region.Button1;
-				return Region.Button2;
+				return dPos.X > dPos.Y ? Region.Button1 : Region.Button2;
 			case Corner.NE:
 				if (dPos.Y / dPos.X > 1 || dPos.X < 0 || dPos.Y < 0)
 					return Region.None;
 				else if (dPos.X + dPos.Y < EdgeWidth)
 					return Region.Button1;
 				return Region.Button2;
-			default: 
+			default:
 				throw new NotImplementedException();
 			}
 		}
@@ -159,13 +157,13 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The hit state of Region1.
 		/// </value>
-		public HitState HitState1 {get; set;}
+		public HitState HitState1 { get; set; }
 
 		/// <value>
 		/// The hit state of Region2.
 		/// </value>
-		public HitState HitState2 {get; set;}
-		
+		public HitState HitState2 { get; set; }
+
 		/// <summary>
 		/// Selects the given region (and deselects the other one).
 		/// </summary>
@@ -188,7 +186,7 @@ namespace MonoWorks.Controls
 				HitState2 &= ~HitState.Selected;
 			}
 		}
-		
+
 		/// <summary>
 		/// Sets the hovering state on a region (and unsets it on the other one).
 		/// </summary>
@@ -211,14 +209,14 @@ namespace MonoWorks.Controls
 			else // nothing is hovering
 			{
 				HitState1 &= ~HitState.Hovering;
-				HitState2 &= ~HitState.Hovering;				
+				HitState2 &= ~HitState.Hovering;
 			}
 		}
-		
-		public override void Deselect ()
+
+		public override void Deselect()
 		{
 			base.Deselect();
-			
+
 			HitState1 &= ~HitState.Selected;
 			HitState2 &= ~HitState.Selected;
 		}
@@ -237,25 +235,25 @@ namespace MonoWorks.Controls
 
 			if (evt.Handled)
 				return;
-			
+
 			hitRegion = HitRegion(evt.Pos);
 
 			if (hitRegion != Region.None)
-			{				
+			{
 				if (IsTogglable)
 				{
 					if (IsSelected)
 						Deselect();
 				}
-				
+
 				Select(hitRegion);
-							
+
 				evt.Handle();
 				if (hitRegion == Region.Button1)
 					RaiseAction1();
 				else
 					RaiseAction2();
-				
+
 				MakeDirty();
 			}
 		}
@@ -277,7 +275,7 @@ namespace MonoWorks.Controls
 				evt.Handle();
 				MakeDirty();
 			}
-			
+
 		}
 
 
@@ -309,6 +307,6 @@ namespace MonoWorks.Controls
 				Action2(this, new EventArgs());
 		}
 
-#endregion
+		#endregion
 	}
 }

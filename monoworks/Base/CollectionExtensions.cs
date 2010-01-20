@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace MonoWorks.Base
 		/// <returns></returns>
 		public static string ListString(this IList list)
 		{
-			StringBuilder builder = new StringBuilder("[");
+			var builder = new StringBuilder("[");
 			foreach (object item in list)
 			{
 				builder.Append(item.ToString());
