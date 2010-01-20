@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rendering", "Rendering\Rend
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", "{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWpf", "WpfDemo\DemoWpf.csproj", "{9B52CB99-58BF-4F59-8754-19F5F187D23E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDemo", "WpfDemo\WpfDemo.csproj", "{9B52CB99-58BF-4F59-8754-19F5F187D23E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfBackend", "WpfBackend\WpfBackend.csproj", "{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}"
 EndProject

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
+using MonoWorks.WpfStudio;
 
 namespace MonoWorks.StudioWpf
 {

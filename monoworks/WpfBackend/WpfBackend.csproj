@@ -128,20 +128,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeControls\AttributeControl.cs" />
-    <Compile Include="AttributeControls\AttributePanel.cs" />
-    <Compile Include="AttributeControls\DimensionalControl.cs" />
-    <Compile Include="AttributeControls\EntityControl.cs" />
-    <Compile Include="AttributeControls\PointListControl.cs" />
-    <Compile Include="AttributeControls\NumericControl.cs" />
-    <Compile Include="AttributeControls\NullControl.cs" />
-    <Compile Include="AttributeControls\PointControl.cs" />
-    <Compile Include="AttributeControls\PointWidget.cs" />
-    <Compile Include="AttributeControls\StringControl.cs" />
     <Compile Include="ControlExtensions.cs" />
-    <Compile Include="DrawingFrame.xaml.cs">
-      <DependentUpon>DrawingFrame.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Framework\DockableBase.cs" />
     <Compile Include="Framework\DocumentBase.cs" />
     <Compile Include="Framework\Icon.cs" />
@@ -150,19 +137,8 @@
     <Compile Include="Framework\ToolBox.cs" />
     <Compile Include="Framework\ToolShelf.cs" />
     <Compile Include="Framework\UiManager.cs" />
-    <Compile Include="PlotControls\AxesControl.cs" />
-    <Compile Include="PlotControls\AxisControl.cs" />
-    <Compile Include="PlotControls\PointPlotControl.cs" />
-    <Compile Include="Tree\EntityTreeItem.cs" />
-    <Compile Include="Tree\EntityTreeView.cs" />
     <Compile Include="Utilities\SpinControl.cs" />
     <Compile Include="ViewportWrapper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="DrawingFrame.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>

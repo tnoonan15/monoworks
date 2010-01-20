@@ -131,6 +131,8 @@ namespace MonoWorks.Controls
 		/// <returns></returns>
 		protected Region HitRegion(Coord pos)
 		{
+			if (LastPosition == null)
+				return Region.None;
 			Coord dPos = pos - LastPosition;
 			switch (Corner)
 			{
