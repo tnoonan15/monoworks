@@ -387,6 +387,11 @@ namespace MonoWorks.Controls
 				Decorate(control as CheckBox);
 				return;
 			}
+			if (control is MenuBox) 
+			{
+				Decorate(control as MenuBox);
+				return;
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -529,6 +534,12 @@ namespace MonoWorks.Controls
 				Context.Cairo.Stroke();
 				Context.Pop();
 			}
+		}
+		
+		protected virtual void Decorate(MenuBox menuBox)
+		{
+//			FillRectangle(Coord.Zeros, menuBox.RenderSize, Corner.None, FillType.Editable, menuBox.HitState, AnchorLocation.S);
+//			StrokeRectangle(Coord.Zeros, menuBox.RenderSize, Corner.None, menuBox.HitState);
 		}
 				
 		#endregion

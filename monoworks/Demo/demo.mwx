@@ -25,6 +25,10 @@
 				<mwc:Slider Name="slider" Orientation="Horizontal" Value="3"/>
 				<mwc:Label Name="sliderValue"></mwc:Label>
 			</mwc:Stack>
+			<mwc:Stack Orientation="Horizontal">
+				<mwc:Label>Menu Box</mwc:Label>
+				<mwc:MenuBox Name="menuBox">Apples,Oranges,Bananas,Grapes</mwc:MenuBox>				
+			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
 </mwx:Ui>
