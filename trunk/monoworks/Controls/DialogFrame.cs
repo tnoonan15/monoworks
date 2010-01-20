@@ -55,7 +55,9 @@ namespace MonoWorks.Controls
 			};
 			_closeButton.ParentControl = this;
 			
-			_titleLabel = new Label();
+			_titleLabel = new Label() {
+				Padding = 3
+			};
 		}
 		
 		

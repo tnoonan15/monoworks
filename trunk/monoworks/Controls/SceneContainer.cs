@@ -124,13 +124,13 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The relative point of the last button press.
 		/// </summary>
-		private Coord _anchor;
+//		private Coord _anchor;
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
 			
-			_anchor = evt.Pos - Origin;
+//			_anchor = evt.Pos - Origin;
 		}
 		
 		#endregion

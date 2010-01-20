@@ -245,6 +245,9 @@ namespace MonoWorks.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
+			
+			if (RenderSize == null)
+				RenderSize = new Coord();
 		}
 
 		

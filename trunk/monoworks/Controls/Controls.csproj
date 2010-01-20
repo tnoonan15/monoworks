@@ -35,9 +35,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Cairo" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -76,6 +76,8 @@
     <Compile Include="SceneStack.cs" />
     <Compile Include="SceneContainer.cs" />
     <Compile Include="MenuBox.cs" />
+    <Compile Include="IMenu.cs" />
+    <Compile Include="MenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
