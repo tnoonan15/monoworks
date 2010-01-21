@@ -66,8 +66,8 @@ namespace MonoWorks.Controls
 			using (var cr = new Cairo.Context(DummySurface))
 			{
 				var extents = cr.TextExtents(Text);
-				MinSize.X = extents.Width;
-				MinSize.Y = extents.Height;
+				MinSize.X = extents.Width + 2 * Padding;
+				MinSize.Y = extents.Height + 2 * Padding;
 			}
 			RenderSize = MinSize;
 		}

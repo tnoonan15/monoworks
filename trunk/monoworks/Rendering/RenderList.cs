@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace MonoWorks.Rendering
@@ -29,13 +30,13 @@ namespace MonoWorks.Rendering
 
 		#region Actors
 
-		protected List<Actor> actors = new List<Actor>();
+		private readonly List<Actor> _actors = new List<Actor>();
 		/// <summary>
 		/// Actors to render.
 		/// </summary>
 		public IEnumerable<Actor> Actors
 		{
-			get { return actors; }
+			get { return _actors; }
 		}
 
 		/// <summary>
@@ -47,7 +48,7 @@ namespace MonoWorks.Rendering
 			get
 			{
 				var copy = new Actor[ActorCount];
-				actors.CopyTo(copy);
+				_actors.CopyTo(copy);
 				return copy;
 			}
 		}
@@ -58,8 +59,8 @@ namespace MonoWorks.Rendering
 		/// <param name="actor"> A <see cref="Renderable"/>. </param>
 		public void AddActor(Actor actor)
 		{
-			if (!actors.Contains(actor))
-				actors.Add(actor);
+			if (!_actors.Contains(actor))
+				_actors.Add(actor);
 		}
 
 		/// <summary>
@@ -68,9 +69,9 @@ namespace MonoWorks.Rendering
 		/// <param name="actor"> A <see cref="Renderable"/>. </param>
 		public void RemoveActor(Actor actor)
 		{
-			if (!actors.Contains(actor))
+			if (!_actors.Contains(actor))
 				throw new Exception("The actor is not a part of this scene's rendering list.");
-			actors.Remove(actor);
+			_actors.Remove(actor);
 		}
 		
 		/// <value>
@@ -78,7 +79,7 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public int ActorCount
 		{
-			get {return actors.Count;}
+			get {return _actors.Count;}
 		}
 
 		/// <value>
@@ -88,8 +89,8 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-				Bounds bounds = new Bounds();
-				foreach (Actor actor in actors)
+				var bounds = new Bounds();
+				foreach (Actor actor in _actors)
 					bounds.Resize(actor.Bounds);
 				return bounds;
 			}
@@ -100,7 +101,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void ResetBounds()
 		{
-			foreach (Actor actor in actors)
+			foreach (Actor actor in _actors)
 				actor.ResetBounds();
 		}
 
@@ -109,14 +110,14 @@ namespace MonoWorks.Rendering
 
 		#region Overlays
 
-		protected List<Overlay> overlays = new List<Overlay>();
+		private readonly List<Overlay> _overlays = new List<Overlay>();
 		/// <summary>
 		/// Overlays to render.
 		/// </summary>
 		/// <remarks>If the overlay list might be modified during iteration, use OverlayCopy instead.</remarks>
 		public IEnumerable<Overlay> Overlays
 		{
-			get { return overlays; }
+			get { return _overlays; }
 		}
 
 		/// <summary>
@@ -127,8 +128,8 @@ namespace MonoWorks.Rendering
 		{
 			get
 			{
-				Overlay[] overlayCopy = new Overlay[OverlayCount];
-				overlays.CopyTo(overlayCopy);
+				var overlayCopy = new Overlay[OverlayCount];
+				_overlays.CopyTo(overlayCopy);
 				return overlayCopy;
 			}
 		}
@@ -138,7 +139,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void AddOverlay(Overlay overlay)
 		{
-			overlays.Add(overlay);
+			_overlays.Add(overlay);
 		}
 
 		/// <summary>
@@ -146,7 +147,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void RemoveOverlay(Overlay overlay)
 		{
-			overlays.Remove(overlay);
+			_overlays.Remove(overlay);
 		}
 		
 		/// <value>
@@ -154,7 +155,7 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public int OverlayCount
 		{
-			get {return overlays.Count;}
+			get {return _overlays.Count;}
 		}
 
 		#endregion
@@ -162,7 +163,7 @@ namespace MonoWorks.Rendering
 		
 		#region Modal Overlays
 		
-		private Stack<ModalOverlay> _modals = new Stack<ModalOverlay>();
+		private readonly Stack<ModalOverlay> _modals = new Stack<ModalOverlay>();
 		/// <summary>
 		/// Modal overlays to render.
 		/// </summary>
@@ -233,20 +234,20 @@ namespace MonoWorks.Rendering
 			scene.RenderManager.BeginSolids();
 			scene.Camera.Place(); // place the camera for 3D rendering
 
-			foreach (Actor actor in actors)
+			foreach (var actor in _actors)
 			{
 				if (actor.IsVisible)
 					actor.RenderOpaque(scene);
 			}
 
-			foreach (Actor actor in actors)
+			foreach (var actor in _actors)
 			{
 				if (actor.IsVisible)
 					actor.RenderTransparent(scene);
 			}
 
 			scene.Camera.PlaceOverlay(); // place the camera for overlay rendering
-			foreach (Actor actor in actors)
+			foreach (var actor in _actors)
 			{
 				if (actor.IsVisible)
 					actor.RenderOverlay(scene);
@@ -254,14 +255,14 @@ namespace MonoWorks.Rendering
 
 			// render the overlays
 			scene.RenderManager.BeginOverlays();
-			foreach (Overlay overlay in overlays)
+			foreach (var overlay in _overlays)
 			{
 				if (overlay.IsVisible)
 					overlay.RenderOverlay(scene);
 			}
 			
 			// render the modal overlays
-			foreach (var modal in _modals)
+			foreach (var modal in _modals.Reverse())
 			{
 				if (modal.IsVisible)
 					modal.RenderOverlay(scene);

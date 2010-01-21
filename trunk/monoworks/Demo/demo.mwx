@@ -27,7 +27,7 @@
 			</mwc:Stack>
 			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>Menu Box</mwc:Label>
-				<mwc:MenuBox Name="menuBox">Apples,Oranges,Bananas,Grapes</mwc:MenuBox>				
+				<mwc:MenuBox Name="menuBox">Apples,Oranges,Bananas,Grapes,Strawberries,Cherries</mwc:MenuBox>				
 			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
