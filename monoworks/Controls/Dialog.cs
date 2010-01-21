@@ -22,32 +22,23 @@
 
 
 using System;
-using gl=Tao.OpenGl.Gl;
-
-using MonoWorks.Base;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Events;
-
 namespace MonoWorks.Controls
 {
 
 
-	public class Dialog : ModalOverlay
+	public class Dialog : ModalControlOverlay
 	{
 
-		public Dialog () : base()
+		public Dialog ()
 		{
-			_overlayPane = new OverlayPane();
 			_frame = new DialogFrame();
-			_overlayPane.Control = _frame;
-			_frame.Closed += delegate(object sender, EventArgs e) {
-				Close();
-			};
+			base.Control = _frame;
+			_frame.Closed += (sender, e) => Close();
+			GrayScene = true;                 
 		}
 		
-		private OverlayPane _overlayPane;
-		
-		private DialogFrame _frame;
+		private readonly DialogFrame _frame;
 		
 		
 		public override void AddChild(Renderable child)
@@ -72,7 +63,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The contents of the dialog.
 		/// </summary>
-		public Control2D Control
+		public override Control2D Control
 		{
 			get {
 				if (_frame.NumChildren > 0)
@@ -83,67 +74,6 @@ namespace MonoWorks.Controls
 				_frame.SetChild(0, value);
 			}
 		}
-		
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-			
-			_frame.ComputeGeometry();
-		}
-
-		
-		public override void RenderOverlay(Scene scene)
-		{
-			base.RenderOverlay(scene);
-			
-			// shade out the background
-			gl.glColor4d(0.85, 0.85, 0.85, 0.7);
-			gl.glBegin(gl.GL_POLYGON);
-			gl.glVertex2i(0, 0);
-			gl.glVertex2d(scene.Width, 0);
-			gl.glVertex2d(scene.Width, scene.Height);
-			gl.glVertex2d(0, scene.Height);
-			gl.glEnd();
-			
-			_overlayPane.Origin = new Coord((Math.Round(scene.Width - _frame.RenderWidth)/2), 
-			                                Math.Round((scene.Height - _frame.RenderHeight)/2));
-			
-			
-			_overlayPane.RenderOverlay(scene);
-		}
-
-		
-		#region Interaction
-				
-		public override void OnButtonPress(MouseButtonEvent evt)
-		{
-			base.OnButtonPress(evt);
-			
-			_overlayPane.OnButtonPress(evt);
-		}
-
-		public override void OnButtonRelease(MouseButtonEvent evt)
-		{
-			base.OnButtonRelease(evt);
-			
-			_overlayPane.OnButtonRelease(evt);
-		}
-
-		public override void OnMouseMotion(MouseEvent evt)
-		{
-			base.OnMouseMotion(evt);
-			
-			_overlayPane.OnMouseMotion(evt);
-		}
-		
-		public override void OnKeyPress(KeyEvent evt)
-		{
-			base.OnKeyPress(evt);
-			
-			_overlayPane.OnKeyPress(evt);
-		}
-		
-		#endregion
 
 		
 	}

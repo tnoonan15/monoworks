@@ -173,7 +173,7 @@ namespace MonoWorks.Controls
 			ToolBar toolbar = GetToolbar(context);
 			toolbar.Orientation = ContextOrientation(loc);
 			toolbar.ToolStyle = "tool-" + loc.ToString().ToLower();
-			stacks[loc].Add(toolbar);
+			stacks[loc].AddChild(toolbar);
 			anchors[(AnchorLocation)loc].MakeDirty();
 		}
 

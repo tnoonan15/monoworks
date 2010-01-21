@@ -186,7 +186,7 @@ namespace MonoWorks.WpfBackend.Framework
 		protected Dictionary<DocumentType, int> documentCounters = new Dictionary<DocumentType, int>();
 
 		/// <summary>
-		/// Add a document.
+		/// AddChild a document.
 		/// </summary>
 		/// <param name="documentType"> Type of the document to create.</param>
 		public virtual void AddDocument(DocumentType documentType)

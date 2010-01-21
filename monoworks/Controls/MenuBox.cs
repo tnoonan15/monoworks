@@ -20,9 +20,7 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-using System;
 using System.Collections.Generic;
-
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
@@ -33,33 +31,26 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// Displays a list of items with one selected at a time.
 	/// </summary>
-	public class MenuBox : Control2D, IMenu, IStringParsable
+	public class MenuBox : Control2D, IStringParsable
 	{
 
 		public MenuBox()
 		{
-			FontSize = 12;
-			
-			_itemView = new MenuItemView(this);
+			_menu = new Menu {ParentControl = this};
+			_overlay = new ModalControlOverlay {Control = _menu};
 		}
 		
-		
-		private MenuItemView _itemView;
-		
 		/// <summary>
-		/// The items to display in the menu.
+		/// The root menu containing the items.
 		/// </summary>
-		private List<MenuItem> _items = new List<MenuItem>();
+		private readonly Menu _menu;
 		
 		/// <summary>
-		/// Add an item to the menu.
+		/// AddChild an item to the menu.
 		/// </summary>
 		public void Add(MenuItem item)
 		{
-			_items.Add(item);
-			if (CurrentItem == null)
-				CurrentItem = item;
-			MakeDirty();
+			_menu.AddChild(item);
 		}
 
 		/// <summary>
@@ -67,10 +58,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public void Remove(MenuItem item)
 		{
-			_items.Remove(item);
-			if (CurrentItem == item)
-				CurrentItem = null;
-			MakeDirty();
+			_menu.RemoveChild(item);
 		}
 		
 		/// <summary>
@@ -78,24 +66,16 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public IEnumerable<MenuItem> Items
 		{
-			get { return _items; }
+			get { return _menu; }
 		}
 		
-		
-		private MenuItem _current;
 		/// <summary>
 		/// The current menu item.
 		/// </summary>
 		public MenuItem CurrentItem
 		{
-			get {return _current;}
-			set
-			{
-				if (!_items.Contains(value))
-					throw new Exception("The menu doesn't contain the item " + value.ToString());
-				_current = value;
-				MakeDirty();
-			}
+			get {return _menu.CurrentItem;}
+			set {_menu.CurrentItem = value;}
 		}
 		
 		/// <summary>
@@ -103,35 +83,14 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public int CurrentIndex
 		{
-			get {
-				if (_current == null)
-					return -1;
-				return _items.IndexOf(_current);
-			}
-			set {
-				if (value < 0 || value >= _items.Count)
-					throw new Exception("Index " + value.ToString() + " is out of bounds");
-			}
-		}
-
-		private double _fontSize;
-		/// <summary>
-		/// The font size (in pixels).
-		/// </summary>
-		[MwxProperty]
-		public double FontSize
-		{
-			get { return _fontSize; }
-			set {
-				_fontSize = value;
-				MakeDirty();
-			}
+			get { return _menu.CurrentIndex; }
+			set { _menu.CurrentIndex = value; }
 		}
 		
 		/// <summary>
 		/// The text box to show the current item.
 		/// </summary>
-		private TextBox _textBox = new TextBox();
+		private readonly TextBox _textBox = new TextBox();
 		
 		/// <summary>
 		/// Parses the menu items from a comma-delimited string.
@@ -152,9 +111,9 @@ namespace MonoWorks.Controls
 		{
 			base.ComputeGeometry();
 			
-			_itemView.ComputeGeometry();
-			
-			RenderSize.X = _itemView.RenderSize.X;
+			_menu.ComputeGeometry();
+
+			RenderSize.X = _menu.RenderSize.X;
 			
 			if (CurrentItem != null)
 				_textBox.Body = CurrentItem.Text;
@@ -172,63 +131,49 @@ namespace MonoWorks.Controls
 		}
 		
 		#endregion
-		
-		
-		
-	}
-	
-	
-	/// <summary>
-	/// Displays the items in a menu.
-	/// </summary>
-	internal class MenuItemView : Control2D
-	{
-		
-		internal MenuItemView(IMenu menu)
-		{
-			_menu = menu;
-		}
-		
-		/// <summary>
-		/// The menu that this view renders items from.
-		/// </summary>
-		private IMenu _menu;
-		
-		
-		#region Rendering
+
+
+		#region Interaction
 
 		/// <summary>
-		/// A dummy surface used by Cairo to compute the text extents.
+		/// If true, the user can manually edit the current value.
 		/// </summary>
-		private static Cairo.ImageSurface dummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
-		
-		public override void ComputeGeometry()
+		[MwxProperty]
+		public bool IsCurrentEditable { get; set; }
+
+		private readonly ModalControlOverlay _overlay;
+
+		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			base.ComputeGeometry();
-			
-			double width = 0;
-			double height = 0;
-			using (var cr = new Cairo.Context(dummySurface))
+			base.OnButtonPress(evt);
+
+			if (!HitTest(evt.Pos))
+				return;
+
+			if (IsCurrentEditable)
 			{
-				foreach (var item in _menu.Items) 
-				{
-					var extents = cr.TextExtents(item.Text);
-					width = Math.Max(width, extents.Width);
-					height += _menu.FontSize + Padding;
-				}
+				_textBox.OnButtonPress(evt);
 			}
-			RenderSize.X = width + 2 * Padding;
-			RenderSize.Y = height + Padding;
+			else
+			{
+				evt.Scene.ShowModal(_overlay);
+			}
 		}
 
-		protected override void Render(RenderContext context)
+		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
-			base.Render(context);
-			
+			base.OnButtonRelease(evt);
 		}
-		
+
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+		}
+
 		#endregion
+
 	}
+	
 	
 }
 

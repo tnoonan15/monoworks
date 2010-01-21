@@ -17,9 +17,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-
-using Cairo;
-
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
@@ -186,8 +183,8 @@ namespace MonoWorks.Controls
 		{
 			base.ComputeGeometry();
 
-			Coord pad = new Coord(padding, padding);
-			Coord pad2 = new Coord(padding, padding)*2;
+			Coord pad = new Coord(Padding, Padding);
+			Coord pad2 = new Coord(Padding, Padding) * 2;
 			
 			// the correct control is not present
 			if ((ButtonStyle == ButtonStyle.Label && label == null) || 
@@ -225,21 +222,21 @@ namespace MonoWorks.Controls
 			case ButtonStyle.ImageOverLabel: // place the image over the label
 				image.IsVisible = true;
 				label.IsVisible = true;
-				MinSize = new Coord(Math.Max(image.RenderWidth, label.RenderWidth), 
-				                 image.RenderHeight + label.RenderHeight + padding) + pad2;
+				MinSize = new Coord(Math.Max(image.RenderWidth, label.RenderWidth),
+								 image.RenderHeight + label.RenderHeight + Padding) + pad2;
 				ApplyUserSize();
-				image.Origin = pad + new Coord((RenderWidth-image.RenderWidth)/2.0 - padding, 0);
-				label.Origin = pad + new Coord((RenderWidth-label.RenderWidth)/2.0 - padding, image.RenderHeight + padding);
+				image.Origin = pad + new Coord((RenderWidth - image.RenderWidth) / 2.0 - Padding, 0);
+				label.Origin = pad + new Coord((RenderWidth - label.RenderWidth) / 2.0 - Padding, image.RenderHeight + Padding);
 				break;
 				
 			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
 				image.IsVisible = true;
 				label.IsVisible = true;
-				MinSize = new Coord(image.RenderWidth + label.RenderWidth + padding, 
+				MinSize = new Coord(image.RenderWidth + label.RenderWidth + Padding, 
 				                 Math.Max(image.RenderHeight, label.RenderHeight)) + pad2;
 				ApplyUserSize();
 				image.Origin = pad;
-				label.Origin = pad + new Coord(image.RenderWidth + padding, (RenderHeight-label.RenderHeight)/2.0 - padding);
+				label.Origin = pad + new Coord(image.RenderWidth + Padding, (RenderHeight - label.RenderHeight) / 2.0 - Padding);
 				break;
 			}
 		}

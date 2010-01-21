@@ -23,13 +23,14 @@
 using System;
 
 using MonoWorks.Base;
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Controls
 {
 	/// <summary>
-	/// An item in an IMenu.
+	/// An item in an Menu.
 	/// </summary>
-	public class MenuItem : IStringParsable
+	public class MenuItem : Control2D, IStringParsable
 	{
 		public MenuItem()
 		{
@@ -38,6 +39,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The text portion of the item.
 		/// </summary>
+		[MwxProperty]
 		public string Text {
 			get;
 			set;
@@ -49,6 +51,38 @@ namespace MonoWorks.Controls
 		public void Parse(string valString)
 		{
 			Text = valString;
+		}
+
+
+		/// <summary>
+		/// A dummy surface used by Cairo to compute the text extents.
+		/// </summary>
+		private static readonly Cairo.ImageSurface DummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
+
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+
+			using (var cr = new Cairo.Context(DummySurface))
+			{
+				var extents = cr.TextExtents(Text);
+				MinSize.X = extents.Width;
+				MinSize.Y = extents.Height;
+			}
+			RenderSize = MinSize;
+		}
+
+		protected override void Render(RenderContext context)
+		{
+			base.Render(context);
+
+			// render the text (assume the font size is set by the parent menu
+			context.Cairo.Color = new Cairo.Color(0, 0, 0);
+			var point = context.Cairo.CurrentPoint;
+			context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
+			context.Cairo.MoveTo(point.X + Padding, point.Y + Padding);
+			context.Cairo.ShowText(Text);
+			context.Cairo.MoveTo(point);
 		}
 		
 	}

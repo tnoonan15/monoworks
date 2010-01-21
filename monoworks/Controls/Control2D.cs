@@ -233,6 +233,9 @@ namespace MonoWorks.Controls
 			
 			if (RenderSize == null)
 				RenderSize = new Coord();
+
+			if (MinSize == null)
+				MinSize = new Coord();
 		}
 
 		

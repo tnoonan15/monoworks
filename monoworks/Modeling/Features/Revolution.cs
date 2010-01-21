@@ -165,27 +165,27 @@ namespace MonoWorks.Modeling
 						Vector relPos = verts[i] - axisCenter;
 						Vector pos = relPos.Rotate(Axis.Direction, dTravel * n) + axisCenter;
 						bounds.Resize(pos);
-//						poses.Add(pos);
+//						poses.AddChild(pos);
 						
 						// add the first normal
 						Vector direction_ = directions[i].Rotate(Axis.Direction, dTravel * n);
 						Vector travel = (pos-axisCenter).Cross(Axis.Direction);
 						Vector normal = direction_.Cross(travel).Normalize();
 						normal.glNormal();
-//						normals.Add(normal);
+//						normals.AddChild(normal);
 						pos.glVertex();
 						
 						relPos = verts[i+1] - axisCenter;
 						pos = relPos.Rotate(Axis.Direction, dTravel * n) + axisCenter;			
 						bounds.Resize(pos);
-//						poses.Add(pos);
+//						poses.AddChild(pos);
 						
 						// add the second normal
 //						direction_ = directions[i].Rotate(Axis.Direction, dTravel * n);
 //						travel = (pos-axisCenter).Cross(Axis.Direction);
 //						normal = direction_.Cross(travel).Normalize();
 						normal.glNormal();
-//						normals.Add(normal);			
+//						normals.AddChild(normal);			
 						pos.glVertex();
 					}
 					gl.glEnd();

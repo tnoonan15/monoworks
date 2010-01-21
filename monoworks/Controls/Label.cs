@@ -54,7 +54,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Label() : base()
+		public Label()
 		{
 			Body = "";
 			FontSize = 12;
@@ -136,12 +136,12 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The extents of the text.
 		/// </summary>
-		private Coord extents = new Coord();
+		private Coord _extents = new Coord();
 		
 		/// <summary>
 		/// A dummy surface used by Cairo to compute the text extents.
 		/// </summary>
-		private static Cairo.ImageSurface dummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
+		private static readonly Cairo.ImageSurface DummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
 
 		/// <summary>
 		/// The lines of the body separated out.
@@ -178,22 +178,22 @@ namespace MonoWorks.Controls
 			if (Body == null)
 				return;
 			
-			using (var cr = new Cairo.Context(dummySurface))
+			using (var cr = new Cairo.Context(DummySurface))
 			{
 				cr.SetFontSize(FontSize);
-				extents = new Coord();
+				_extents = new Coord();
 				Lines = Body.Split(LineBreak);
 				for (int i = 0; i < Lines.Length; i++)
 				{
 					var crExtents = cr.TextExtents(Lines[i]);
-					extents.X = Math.Max(crExtents.Width, extents.X);
-					extents.Y += LineHeight;
+					_extents.X = Math.Max(crExtents.Width, _extents.X);
+					_extents.Y += LineHeight;
 				}
-				extents.X += 2 * Padding;
-				extents.Y += Padding;
+				_extents.X += 2 * Padding;
+				_extents.Y += Padding;
 			}
 			
-			MinSize = extents;
+			MinSize = _extents;
 			ApplyUserSize();
 			
 			// make sure the cursors are up to date
@@ -237,7 +237,7 @@ namespace MonoWorks.Controls
 				}
 								
 				// render the text
-				context.Cairo.Color = new Cairo.Color(0, 0, 0);
+				context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
 				var point = context.Cairo.CurrentPoint;
 				for (int i = 0; i < Lines.Length; i++)
 				{
@@ -280,7 +280,7 @@ namespace MonoWorks.Controls
 			
 			// determine the column
 			double x = 0;
-			using (var cr = new Cairo.Context(dummySurface))
+			using (var cr = new Cairo.Context(DummySurface))
 			{
 				cr.SetFontSize(FontSize);
 				var extents = cr.TextExtents("m"); // used to ensure that leading and trailing spaces are counted correctly
@@ -311,7 +311,7 @@ namespace MonoWorks.Controls
 			cursor.Position.Y = cursor.Row * LineHeight;
 			
 			var line = CurrentLine;
-			using (var cr = new Cairo.Context(dummySurface))
+			using (var cr = new Cairo.Context(DummySurface))
 			{
 				cr.SetFontSize(FontSize);
 				var extents = cr.TextExtents("m");

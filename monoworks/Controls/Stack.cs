@@ -17,8 +17,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
-using System.Collections.Generic;
-
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 
@@ -26,27 +24,27 @@ namespace MonoWorks.Controls
 {
 
 	/// <summary>
-	/// Container that stacks it children together.
+	/// A generic container that stacks its children together.
 	/// </summary>
-	public class Stack : Container
+	public class GenericStack<T> : GenericContainer<T> where T : Control2D
 	{
 		/// <summary>
 		/// Default (horizontal) constructor.
 		/// </summary>
-		public Stack() : this(Orientation.Horizontal)
+		public GenericStack() : this(Orientation.Horizontal)
 		{
 		}
 
 		/// <summary>
 		/// Constructor with orientation initialization.
 		/// </summary>
-		public Stack(Orientation orientation) : base()
+		public GenericStack(Orientation orientation)
 		{
-			this.orientation = orientation;
+			_orientation = orientation;
 		}
 
 
-		private Orientation orientation;
+		private Orientation _orientation;
 		/// <value>
 		/// The orientation of the stack.
 		/// </value>
@@ -56,12 +54,12 @@ namespace MonoWorks.Controls
 			get { return Orientation; }
 			set
 			{
-				orientation = value;
+				_orientation = value;
 				MakeDirty();
 			}
 		}
 		
-		private bool _forceFill = false;
+		private bool _forceFill;
 		/// <summary>
 		/// If true, the stack forces all children to be the same 
 		/// width for Vertical and height for Horizontal.
@@ -86,30 +84,28 @@ namespace MonoWorks.Controls
 			// compute the size
 			RenderSize = new Coord();
 			double span = 0;
-			Control2D[] children_ = new Control2D[children.Count];
-			children.CopyTo(children_);
-			foreach (Control2D child in children_)
+			foreach (var child in ChildrenCopy)
 			{
 				child.ComputeGeometry();
 				Coord size_ = child.RenderSize;
-				span += padding;
-				if (orientation == Orientation.Horizontal)
+				span += Padding;
+				if (_orientation == Orientation.Horizontal)
 				{
-					child.Origin = new Coord(span, padding);
+					child.Origin = new Coord(span, Padding);
 					span += size_.X;
 					RenderSize.Y = Math.Max(RenderSize.Y, size_.Y);
 				}
 				else // vertical
 				{
-					child.Origin = new Coord(padding, span);
+					child.Origin = new Coord(Padding, span);
 					span += size_.Y;
 					RenderSize.X = Math.Max(RenderSize.X, size_.X);
 				}
-				span += padding;
+				span += Padding;
 			}
 			
 			// assign the size
-			if (orientation == Orientation.Horizontal)
+			if (_orientation == Orientation.Horizontal)
 				RenderSize.X = span;
 			else 
 				RenderSize.Y = span;
@@ -119,7 +115,7 @@ namespace MonoWorks.Controls
 			{
 				foreach (Control2D child in Children)
 				{
-					if (orientation == Orientation.Horizontal)
+					if (_orientation == Orientation.Horizontal)
 						child.RenderHeight = RenderSize.Y;
 					else
 						child.RenderWidth = RenderSize.X;
@@ -127,10 +123,10 @@ namespace MonoWorks.Controls
 			}
 			
 			// add padding to the size
-			if (orientation == Orientation.Horizontal)
-				RenderSize.Y += 2*padding;
+			if (_orientation == Orientation.Horizontal)
+				RenderSize.Y += 2 * Padding;
 			else
-				RenderSize.X += 2*padding;
+				RenderSize.X += 2 * Padding;
 			
 		}		
 
@@ -138,4 +134,22 @@ namespace MonoWorks.Controls
 		
 		
 	}
+
+
+	/// <summary>
+	/// A non-generic stack that can contain any type of control.
+	/// </summary>
+	public class Stack : GenericStack<Control2D>
+	{
+		public Stack()
+		{
+			
+		}
+
+		public Stack(Orientation orientation) : base(orientation)
+		{
+			
+		}
+	}
+
 }

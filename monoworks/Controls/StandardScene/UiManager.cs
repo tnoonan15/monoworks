@@ -138,7 +138,7 @@ namespace MonoWorks.Controls.StandardScene
 
 			if (action.Tooltip != null)
 				button.ToolTip = action.Tooltip;
-			currentToolbar.Add(button);
+			currentToolbar.AddChild(button);
 			button.Clicked += delegate(object sender, EventArgs args)
 			{
 				action.MethodInfo.Invoke(controller, null);

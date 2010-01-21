@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using MonoWorks.Rendering;
@@ -28,32 +29,26 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// Base class for control container.
 	/// </summary>
-	public abstract class Container : Control2D
+	public abstract class GenericContainer<T> : Control2D, IEnumerable<T> where T : Control2D
 	{
-		
-		public Container() : base()
-		{
-		}
-
-		
 		#region Children
 
 		public override void AddChild(Renderable child)
 		{
-			if (child is Control2D)
-				Add(child as Control2D);
+			if (child is T)
+				AddChild(child as T);
 			else
-				throw new NotImplementedException("Children of Containers must be of type Control2D.");
+				throw new NotImplementedException(@"Children of Containers must be of type Control2D.");
 		}
 
 
-		protected List<Control2D> children = new List<Control2D>();
+		private readonly List<T> _children = new List<T>();
 		/// <value>
 		/// The container's children.
 		/// </value>
-		public IEnumerable<Control2D> Children
+		public IEnumerable<T> Children
 		{
-			get {return children;}
+			get {return _children;}
 		}
 
 		/// <value>
@@ -61,12 +56,12 @@ namespace MonoWorks.Controls
 		/// </value>
 		/// <remarks>Only use this if there's a possibility the children 
 		/// will be edited during iteration.</remarks>
-		protected Control2D[] ChildrenCopy
+		protected T[] ChildrenCopy
 		{
 			get
 			{
-				Control2D[] copy = new Control2D[children.Count];
-				children.CopyTo(copy);
+				var copy = new T[_children.Count];
+				_children.CopyTo(copy);
 				return copy;
 			}
 		}
@@ -74,7 +69,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// Access the children by index.
 		/// </value>
-		public Control2D this[int index]
+		public T this[int index]
 		{
 			get {return GetChild(index);}
 			set {SetChild(index, value);}
@@ -83,39 +78,42 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Appends a child control on to the end of the stack.
 		/// </summary>
-		/// <param name="child">
-		/// A <see cref="Control"/>
-		/// </param>
-		public virtual void Add(Control2D child)
+		public virtual void AddChild(T child)
 		{
-			children.Add(child);
+			_children.Add(child);
 			child.ParentControl = this;
-			//child.StyleClassName = StyleClassName;
 			MakeDirty();
+		}
+
+		/// <summary>
+		/// Removes the given child from the children collection.
+		/// </summary>
+		public virtual void RemoveChild(T child)        {
+			_children.Remove(child);
 		}
 
 		/// <summary>
 		/// Get a child by index.
 		/// </summary>
-		public Control2D GetChild(int index)
+		public T GetChild(int index)
 		{
-			if (index < 0 || index >= children.Count)
-				throw new IndexOutOfRangeException("Invalid container child index: " + index.ToString());
-			return children[index];
+			if (index < 0 || index >= _children.Count)
+				throw new IndexOutOfRangeException("Invalid container child index: " + index);
+			return _children[index];
 		}
 
 		/// <summary>
 		/// Set a child by index.
 		/// </summary>
 		/// <remarks>If index is equal to NumChildren, it will be appended to the end.</remarks>
-		public void SetChild(int index, Control2D child)
+		public void SetChild(int index, T child)
 		{
-			if (index < 0 || index > children.Count)
-				throw new IndexOutOfRangeException("Invalid container child index: " + index.ToString());
-			if (index == children.Count)
-				children.Add(child);
+			if (index < 0 || index > _children.Count)
+				throw new IndexOutOfRangeException("Invalid container child index: " + index);
+			if (index == _children.Count)
+				_children.Add(child);
 			else
-				children[index] = child;
+				_children[index] = child;
 			child.ParentControl = this;
 			MakeDirty();
 		}
@@ -125,7 +123,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public void Clear()
 		{
-			children.Clear();
+			_children.Clear();
 			MakeDirty();
 		}
 		
@@ -134,7 +132,33 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public int NumChildren
 		{
-			get {return children.Count;}
+			get {return _children.Count;}
+		}
+
+		/// <summary>
+		/// Returns the index of the given child in the children list.
+		/// </summary>
+		public int IndexOfChild(T child)
+		{
+			return _children.IndexOf(child);
+		}
+
+		/// <summary>
+		/// True if the children collection contains the given child.
+		/// </summary>
+		public bool ContainsChild(T child)
+		{
+			return _children.Contains(child);
+		}
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			return Children.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 
 		#endregion
@@ -146,7 +170,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonPress(evt);
 			
-			foreach (Control2D child in ChildrenCopy)
+			foreach (var child in ChildrenCopy)
 				child.OnButtonPress(evt);
 		}
 
@@ -154,7 +178,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonRelease(evt);
 			
-			foreach (Control2D child in ChildrenCopy)
+			foreach (var child in ChildrenCopy)
 				child.OnButtonRelease(evt);
 		}
 
@@ -162,16 +186,10 @@ namespace MonoWorks.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			foreach (Control2D child in ChildrenCopy)
+			foreach (var child in ChildrenCopy)
 				child.OnMouseMotion(evt);
 		}
 
-		public override void OnKeyPress(KeyEvent evt)
-		{
-			base.OnKeyPress(evt);
-		}
-
-		
 		#endregion
 
 		
@@ -181,7 +199,7 @@ namespace MonoWorks.Controls
 		{
 			base.Render(context);
 			
-			foreach (Control2D child in children)
+			foreach (var child in _children)
 			{
 				child.RenderCairo(context);
 			}
@@ -191,4 +209,13 @@ namespace MonoWorks.Controls
 
 
 	}
+
+	/// <summary>
+	/// A non-generic container that can contain any type of control.
+	/// </summary>
+	public class Container : GenericContainer<Control2D>
+	{
+		
+	}
+
 }

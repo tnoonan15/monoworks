@@ -17,12 +17,8 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
-using System;
 using System.Collections.Generic;
-
-using MonoWorks.Base;
 using MonoWorks.Rendering;
-using MonoWorks.Rendering.Events;
 
 
 namespace MonoWorks.Controls
@@ -79,6 +75,10 @@ namespace MonoWorks.Controls
       			new Color(1f, 1f, 1f, 1f),
       			new Color(0.9f, 1f, 0.9f, 0.9f)
             ));
+
+			SetColorGroup(ColorType.Text,
+				new ColorGroup(new Color(0, 0, 0))
+			);
 			
 			SelectionColor = new Color(0.4f, 0.6f, 1f, 0.5f);
 		}
