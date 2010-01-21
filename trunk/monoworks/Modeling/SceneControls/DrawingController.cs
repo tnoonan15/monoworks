@@ -307,7 +307,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Creates a sketch.
 		/// </summary>
-		[Action("Add Sketch")]
+		[Action("AddChild Sketch")]
 		public void OnAddSketch()
 		{
 			if (entity is RefPlane)

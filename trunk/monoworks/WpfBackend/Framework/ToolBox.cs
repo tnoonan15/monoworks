@@ -50,7 +50,7 @@ namespace MonoWorks.WpfBackend.Framework
 		protected Dictionary<string, ToolShelf> shelves = new Dictionary<string,ToolShelf>();
 
         /// <summary>
-        /// Add a shelf to the tool box.
+        /// AddChild a shelf to the tool box.
         /// </summary>
         /// <param name="name"> The name of the shelf.</param>
         /// <returns> The new shelf.</returns>

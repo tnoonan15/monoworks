@@ -45,7 +45,7 @@ namespace MonoWorks.Rendering.Events
 		/// <value>
 		/// The scene that originated the event.
 		/// </value>
-		public Scene Scene { get; private set; }
+		public Scene Scene { get; internal set; }
 		
 		/// <value>
 		/// The position of the event.

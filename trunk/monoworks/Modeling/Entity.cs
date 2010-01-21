@@ -373,7 +373,7 @@ namespace MonoWorks.Modeling
 		}
 	
 		/// <summary>
-		/// Add a child.
+		/// AddChild a child.
 		/// </summary>
 		/// <param name="child"> An <see cref="Entity"/> to add as a child. </param>
 		protected virtual void AddChild(Entity child)
@@ -442,7 +442,7 @@ namespace MonoWorks.Modeling
 		protected EntityList dependencies;			
 	
 		/// <summary>
-		/// Add a dependency.
+		/// AddChild a dependency.
 		/// </summary>
 		/// <param name="child"> An <see cref="Entity"/> to add as a dependency. </param>
 		protected virtual void AddDependency(Entity child)

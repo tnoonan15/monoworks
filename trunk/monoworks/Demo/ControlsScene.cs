@@ -85,14 +85,14 @@ namespace MonoWorks.Demo
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked apply");
 			 };
-			toolbar.Add(button);
+			toolbar.AddChild(button);
 			
 			image = Image.GetIcon("cancel", 48);
 			button = new Button("Cancel", image);
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked cancel");
 			 };
-			toolbar.Add(button);
+			toolbar.AddChild(button);
 			
 			var toolAnchor = new AnchorPane(toolbar, AnchorLocation.E);
 			RenderList.AddOverlay(toolAnchor);
@@ -128,21 +128,21 @@ namespace MonoWorks.Demo
 				// show controls dialog
 				ShowModal(controlsDialog);
 			};
-			toolbar.Add(button);
+			toolbar.AddChild(button);
 			
 			image = new Image(ResourceHelper.GetStream("linear-progress.png"));
 			button = new Button("Linear Progress Bar", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
 				ShowModal(controlsDialog);
 			};
-			toolbar.Add(button);
+			toolbar.AddChild(button);
 			
 			image = new Image(ResourceHelper.GetStream("radial-progress.png"));
 			button = new Button("Radial Progress Bar", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
 				ShowModal(controlsDialog);
 			};
-			toolbar.Add(button);
+			toolbar.AddChild(button);
 
 			var toolActor = new ActorPane(toolbar);
 			toolActor.Normal = new Vector(0, -1, 0);

@@ -209,16 +209,16 @@ namespace MonoWorks.Modeling
 						
 						// add the first vertex
 						bounds.Resize(vert);
-//						poses.Add(vert);
+//						poses.AddChild(vert);
 						normal.glNormal();
-//						normals.Add(normal);
+//						normals.AddChild(normal);
 						vert.glVertex();
 						
 						Vector otherVert = vert + direction * dTravel;
 						bounds.Resize(otherVert);
-//						poses.Add(otherVert);
+//						poses.AddChild(otherVert);
 						normal.glNormal();
-//						normals.Add(normal);
+//						normals.AddChild(normal);
 						otherVert.glVertex();
 						
 					}

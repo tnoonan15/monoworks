@@ -392,6 +392,11 @@ namespace MonoWorks.Controls
 				Decorate(control as MenuBox);
 				return;
 			}
+			if (control is Menu)
+			{
+				Decorate(control as Menu);
+				return;
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -403,13 +408,15 @@ namespace MonoWorks.Controls
 			{
 				if (button.HitState != HitState.None)
 				{
-					FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
+					if (button.HitState != HitState.Focused) // don't draw the background on focused toolbar buttons
+						FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
 					StrokeRectangle(Coord.Zeros, button.RenderSize, AllCorners, button.HitState);
 				}
 			}
 			else
 			{
-				FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
+				if (button.HitState != HitState.Focused) // don't draw the background on focused toolbar buttons
+					FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
 				StrokeRectangle(Coord.Zeros, button.RenderSize, AllCorners, button.HitState);
 			}
 		}
@@ -540,6 +547,12 @@ namespace MonoWorks.Controls
 		{
 //			FillRectangle(Coord.Zeros, menuBox.RenderSize, Corner.None, FillType.Editable, menuBox.HitState, AnchorLocation.S);
 //			StrokeRectangle(Coord.Zeros, menuBox.RenderSize, Corner.None, menuBox.HitState);
+		}
+
+		protected virtual void Decorate(Menu menu)
+		{
+			FillRectangle(Coord.Zeros, menu.RenderSize, Corner.None, FillType.Background, menu.HitState, AnchorLocation.SE);
+			StrokeRectangle(Coord.Zeros, menu.RenderSize, Corner.None, menu.HitState);
 		}
 				
 		#endregion

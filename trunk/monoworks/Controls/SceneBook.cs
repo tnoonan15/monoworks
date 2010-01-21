@@ -164,7 +164,7 @@ namespace MonoWorks.Controls
 			foreach (var scene in _book.Children)
 			{
 				var button = new SceneButton(scene);
-				Add(button);
+				AddChild(button);
 				var sceneRef = scene;
 				button.Clicked += delegate(object sender, EventArgs e) {
 					_book.Current = sceneRef;

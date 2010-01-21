@@ -91,11 +91,11 @@ namespace MonoWorks.Controls
 			
 			// place the close button
 			_closeButton.ComputeGeometry();
-			_closeButton.Origin = new Coord(RenderWidth - padding - _closeButton.RenderWidth, padding);
+			_closeButton.Origin = new Coord(RenderWidth - Padding - _closeButton.RenderWidth, Padding);
 			
 			// place the title label
 			_titleLabel.ComputeGeometry();
-			_titleLabel.Origin = new Coord((RenderWidth - _titleLabel.RenderWidth) / 2, padding);
+			_titleLabel.Origin = new Coord((RenderWidth - _titleLabel.RenderWidth) / 2, Padding);
 		}
 		
 		/// <summary>

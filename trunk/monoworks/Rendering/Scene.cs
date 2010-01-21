@@ -276,43 +276,54 @@ namespace MonoWorks.Rendering
 		public virtual void OnButtonPress(MouseButtonEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
-			
+			var parentScene = evt.Scene;
+			evt.Scene = this;
+
 			OverlayInteractor.OnButtonPress(evt);
 			
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnButtonPress(evt);
 			
 			ViewInteractor.OnButtonPress(evt);
+			evt.Scene = parentScene;
 		}
 
 		public virtual void OnButtonRelease(MouseButtonEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
+			var parentScene = evt.Scene;
+			evt.Scene = this;
 			
 			OverlayInteractor.OnButtonRelease(evt);
 			
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnButtonRelease(evt);
-			
+
 			ViewInteractor.OnButtonRelease(evt);
+			evt.Scene = parentScene;
 		}
 
 		public virtual void OnMouseMotion(MouseEvent evt)
 		{
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
+			var parentScene = evt.Scene;
+			evt.Scene = this;
 			
 			OverlayInteractor.OnMouseMotion(evt);
 			
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnMouseMotion(evt);
-			
+
 			ViewInteractor.OnMouseMotion(evt);
+			evt.Scene = parentScene;
 		}
 
 
 		public virtual void OnMouseWheel(MouseWheelEvent evt)
 		{
 			bool blocked = false;
+			var parentScene = evt.Scene;
+			evt.Scene = this;
 			
 			// use the default dolly factor
 			double factor;
@@ -329,6 +340,7 @@ namespace MonoWorks.Rendering
 			
 			if (!blocked)
 				Camera.Dolly(factor);
+			evt.Scene = parentScene;
 		}
 
 		/// <summary>

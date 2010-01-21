@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{784C93E6-C181-4328-934B-449066348931}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
@@ -40,10 +41,7 @@
     <Reference Include="Mono.Cairo" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="icons\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="ModalControlOverlay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActorPane.cs" />
     <Compile Include="AnchorPane.cs" />
@@ -76,7 +74,7 @@
     <Compile Include="SceneStack.cs" />
     <Compile Include="SceneContainer.cs" />
     <Compile Include="MenuBox.cs" />
-    <Compile Include="IMenu.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,5 +127,6 @@
         </Policies>
       </Properties>
     </MonoDevelop>
+    <VisualStudio />
   </ProjectExtensions>
 </Project>

@@ -16,49 +16,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using Cairo;
-
-using MonoWorks.Base;
-using MonoWorks.Rendering;
-
 namespace MonoWorks.Controls
 {
 	
 	/// <summary>
 	/// A stack of buttons.
 	/// </summary>
-	public class ToolBar : Stack, IEnumerable<Button>
+	public class ToolBar : GenericStack<Button>
 	{
 		
-		public ToolBar() : base()
+		public ToolBar()
 		{
 			ToolStyle = "tool";
 		}
-		
-		
-		public override void Add(Control2D child)
+
+
+		public override void AddChild(Button child)
 		{
-			base.Add(child);
+			base.AddChild(child);
 			
-			if (child is Button)
-				(child as Button).ButtonStyle = buttonStyle;
+			child.ButtonStyle = buttonStyle;
 		}
 
 		
-		private string toolStyle = "tool";
+		private string _toolStyle = "tool";
 		/// <value>
 		/// The style class to use for the child controls.
 		/// </value>
 		public string ToolStyle
 		{
-			get {return toolStyle;}
+			get {return _toolStyle;}
 			set
 			{
-				toolStyle = value;
+				_toolStyle = value;
 			}
 		}
 
@@ -79,25 +69,7 @@ namespace MonoWorks.Controls
 			}
 			get {return buttonStyle;}
 		}
-
 		
-#region Button Enumeration
-		
-		
-		public IEnumerator<Button> GetEnumerator()
-		{
-			foreach(Control2D child in children)
-			{
-				if (child is Button)
-					yield return (child as Button);
-        	}
-		}
-
-		
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
 				
 		/// <summary>
 		/// Get a child button by it label.
@@ -105,15 +77,13 @@ namespace MonoWorks.Controls
 		/// <returns> The button, or null if there isn't one present. </returns>
 		public Button GetButton(string label)
 		{
-			foreach(Control2D child in children)
+			foreach(var child in Children)
 			{
 				if (child is Button && (child as Button).LabelString == label)
 					return (child as Button);
         	}
 			return null;
 		}
-		
-#endregion
 
 
 #region Mouse Interaction

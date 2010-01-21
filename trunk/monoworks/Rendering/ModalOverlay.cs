@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
 
@@ -42,7 +43,11 @@ namespace MonoWorks.Rendering
 			if (Closed != null)
 				Closed(this, new EventArgs());
 		}
-		
+
+		/// <summary>
+		/// If true, the rest of the scene will be grayed out when the overlay is shown.
+		/// </summary>
+		public bool	GrayScene { get; set; }
 		
 		protected override bool HitTest(Coord pos)
 		{
@@ -52,6 +57,18 @@ namespace MonoWorks.Rendering
 		public override void RenderOverlay(Scene scene)
 		{
 			base.RenderOverlay(scene);
+
+			if (GrayScene)
+			{
+				// shade out the background
+				gl.glColor4d(0.85, 0.85, 0.85, 0.7);
+				gl.glBegin(gl.GL_POLYGON);
+				gl.glVertex2i(0, 0);
+				gl.glVertex2d(scene.Width, 0);
+				gl.glVertex2d(scene.Width, scene.Height);
+				gl.glVertex2d(0, scene.Height);
+				gl.glEnd();
+			}
 		}
 
 		

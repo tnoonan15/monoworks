@@ -50,7 +50,7 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public void Add(LegendItem item)
 		{
-			stack.Add(item);
+			stack.AddChild(item);
 			MakeDirty();
 		}
 
