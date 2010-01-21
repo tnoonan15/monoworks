@@ -53,14 +53,8 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public virtual Control2D Control
 		{
-			get
-			{
-				return _overlayPane.Control;
-			}
-			set
-			{
-				_overlayPane.Control = value;
-			}
+			get { return _overlayPane.Control; }
+			set { _overlayPane.Control = value;}
 		}
 
 		public override void ComputeGeometry()

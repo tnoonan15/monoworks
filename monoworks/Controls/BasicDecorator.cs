@@ -408,14 +408,14 @@ namespace MonoWorks.Controls
 			{
 				if (button.HitState != HitState.None)
 				{
-					if (button.HitState != HitState.Focused) // don't draw the background on focused toolbar buttons
+					if (!button.HitState.IsFocused()) // don't draw the background on focused toolbar buttons
 						FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
 					StrokeRectangle(Coord.Zeros, button.RenderSize, AllCorners, button.HitState);
 				}
 			}
 			else
 			{
-				if (button.HitState != HitState.Focused) // don't draw the background on focused toolbar buttons
+				if (!button.HitState.IsFocused()) // don't draw the background on focused toolbar buttons
 					FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
 				StrokeRectangle(Coord.Zeros, button.RenderSize, AllCorners, button.HitState);
 			}

@@ -46,15 +46,9 @@ namespace MonoWorks.Rendering.Interaction
 			// let the modals interact first
 			if (_scene.RenderList.ModalCount > 0)
 			{
-				foreach (var modal in _scene.RenderList.ModalsCopy)
-				{
-					modal.OnButtonPress(evt);
-					if (!wasHandled && evt.Handled)
-					{
-						Current = modal;
-						wasHandled = true;
-					}
-				}
+				_scene.RenderList.TopModal.OnButtonPress(evt);
+				if (!wasHandled && evt.Handled)
+					Current = _scene.RenderList.TopModal;
 				return; // don't interact with anything else if modal overlays are present
 			}
 
@@ -77,8 +71,7 @@ namespace MonoWorks.Rendering.Interaction
 			// let the modals interact first
 			if (_scene.RenderList.ModalCount > 0)
 			{
-				foreach (var modal in _scene.RenderList.ModalsCopy)
-					modal.OnButtonRelease(evt);
+					_scene.RenderList.TopModal.OnButtonRelease(evt);
 				return; // don't interact with anything else if modal overlays are present
 			}
 
@@ -94,8 +87,7 @@ namespace MonoWorks.Rendering.Interaction
 			// let the modals interact first
 			if (_scene.RenderList.ModalCount > 0)
 			{
-				foreach (var modal in _scene.RenderList.ModalsCopy)
-					modal.OnMouseMotion(evt);
+				_scene.RenderList.TopModal.OnMouseMotion(evt);
 				return; // don't interact with anything else if modal overlays are present
 			}
 

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,8 +13,6 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Writes a list to a string by concatenating the element string values.
 		/// </summary>
-		/// <param name="list"></param>
-		/// <returns></returns>
 		public static string ListString(this IList list)
 		{
 			var builder = new StringBuilder("[");
