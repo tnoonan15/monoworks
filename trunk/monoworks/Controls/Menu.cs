@@ -37,60 +37,6 @@ namespace MonoWorks.Controls
 			FontSize = 12;
 		}
 
-		/// <summary>
-		/// Add an item to the menu.
-		/// </summary>
-		public override void AddChild(MenuItem item)
-		{
-			base.AddChild(item);
-			if (CurrentItem == null)
-				CurrentItem = item;
-		}
-
-		/// <summary>
-		/// Remove an item to the menu.
-		/// </summary>
-		public override void RemoveChild(MenuItem item)
-		{
-			base.RemoveChild(item);
-			if (CurrentItem == item)
-				CurrentItem = null;
-		}
-
-		private MenuItem _current;
-		/// <summary>
-		/// The current menu item.
-		/// </summary>
-		public MenuItem CurrentItem
-		{
-			get { return _current; }
-			set
-			{
-				if (!ContainsChild(value))
-					throw new Exception("The menu doesn't contain the item " + value);
-				_current = value;
-				MakeDirty();
-			}
-		}
-
-		/// <summary>
-		/// The index of the current item.
-		/// </summary>
-		public int CurrentIndex
-		{
-			get
-			{
-				if (_current == null)
-					return -1;
-				return IndexOfChild(_current);
-			}
-			set
-			{
-				if (value < 0 || value >= NumChildren)
-					throw new Exception("Index " + value + " is out of bounds");
-			}
-		}
-
 
 		#region Rendering
         

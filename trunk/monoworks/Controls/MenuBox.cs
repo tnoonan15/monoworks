@@ -20,7 +20,9 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+using System;
 using System.Collections.Generic;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
@@ -68,23 +70,39 @@ namespace MonoWorks.Controls
 		{
 			get { return _menu; }
 		}
-		
+
+		private MenuItem _current;
 		/// <summary>
 		/// The current menu item.
 		/// </summary>
 		public MenuItem CurrentItem
 		{
-			get {return _menu.CurrentItem;}
-			set {_menu.CurrentItem = value;}
+			get { return _current; }
+			set
+			{
+				if (!_menu.ContainsChild(value))
+					throw new Exception("The menu doesn't contain the item " + value);
+				_current = value;
+				MakeDirty();
+			}
 		}
-		
+
 		/// <summary>
 		/// The index of the current item.
 		/// </summary>
 		public int CurrentIndex
 		{
-			get { return _menu.CurrentIndex; }
-			set { _menu.CurrentIndex = value; }
+			get
+			{
+				if (_current == null)
+					return -1;
+				return _menu.IndexOfChild(_current);
+			}
+			set
+			{
+				if (value < 0 || value >= _menu.NumChildren)
+					throw new Exception("Index " + value + " is out of bounds");
+			}
 		}
 		
 		/// <summary>

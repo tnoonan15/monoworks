@@ -296,7 +296,7 @@ namespace MonoWorks.Controls
 				}
 				_imageData = new byte[IntWidth * IntHeight * 4];
 				_gch = GCHandle.Alloc(_imageData, GCHandleType.Pinned);
-				_surface = new ImageSurface(ref _imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				_surface = new ImageSurface(_imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
 			}
 			
 			// render the control to the surface

@@ -397,6 +397,11 @@ namespace MonoWorks.Controls
 				Decorate(control as Menu);
 				return;
 			}
+			if (control is MenuItem)
+			{
+				Decorate(control as MenuItem);
+				return;
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -553,6 +558,12 @@ namespace MonoWorks.Controls
 		{
 			FillRectangle(Coord.Zeros, menu.RenderSize, Corner.None, FillType.Background, menu.HitState, AnchorLocation.SE);
 			StrokeRectangle(Coord.Zeros, menu.RenderSize, Corner.None, menu.HitState);
+		}
+
+		protected virtual void Decorate(MenuItem menuItem)
+		{
+			if (menuItem.HitState.IsHovering())
+				FillRectangle(Coord.Zeros, menuItem.RenderSize, Corner.None, FillType.Background, menuItem.HitState, AnchorLocation.SE);
 		}
 				
 		#endregion
