@@ -75,26 +75,29 @@ namespace MonoWorks.Demo
 			RenderList.AddOverlay(cornerAnchor);
 			
 			
-			// east toolbar
-			ToolBar toolbar = new ToolBar();
-			toolbar.Orientation = Orientation.Vertical;
-			toolbar.ButtonStyle = ButtonStyle.ImageOverLabel;
+			// east control stack
+			var stack = new Stack();
+			stack.Orientation = Orientation.Vertical;
 			
 			var image = Image.GetIcon("apply", 48);
-			var button = new Button("Apply", image);
+			var button = new Button("Apply", image) {ButtonStyle = ButtonStyle.ImageOverLabel};
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked apply");
 			 };
-			toolbar.AddChild(button);
+			stack.AddChild(button);
 			
 			image = Image.GetIcon("cancel", 48);
-			button = new Button("Cancel", image);
+			button = new Button("Cancel", image) {ButtonStyle = ButtonStyle.ImageOverLabel};
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked cancel");
 			 };
-			toolbar.AddChild(button);
+			stack.AddChild(button);
 			
-			var toolAnchor = new AnchorPane(toolbar, AnchorLocation.E);
+			var menuBox = new MenuBox();
+			menuBox.Parse("One,Two,Three,Four");
+			stack.AddChild(menuBox);
+			
+			var toolAnchor = new AnchorPane(stack, AnchorLocation.E);
 			RenderList.AddOverlay(toolAnchor);
 			
 			
@@ -118,7 +121,7 @@ namespace MonoWorks.Demo
 			};
 			
 			// floating toolbar
-			toolbar = new ToolBar();
+			var toolbar = new ToolBar();
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 			

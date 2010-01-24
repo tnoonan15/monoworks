@@ -255,7 +255,15 @@ namespace MonoWorks.Controls
 		#endregion
 				
 		
-		#region Mouse Interaction
+		#region Interaction
+		
+		protected override void OnEnter(MouseEvent evt)
+		{
+			base.OnEnter(evt);
+			
+			evt.Scene.SetCursor(CursorType.Normal);
+		}
+
 
 		protected bool isTogglable = false;
 		/// <summary>
@@ -272,6 +280,9 @@ namespace MonoWorks.Controls
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
+			
+			if (evt.Handled)
+				return;
 
 			if (HitTest(evt.Pos) && !justClicked)
 			{

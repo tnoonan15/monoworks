@@ -334,7 +334,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Performs the hit test on the rectangle defined by position and size.
 		/// </summary>
-		protected virtual bool HitTest(Coord pos)
+		public virtual bool HitTest(Coord pos)
 		{
 			if (RenderSize == null || LastPosition == null)
 				return false;

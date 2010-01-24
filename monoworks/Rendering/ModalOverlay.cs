@@ -70,6 +70,14 @@ namespace MonoWorks.Rendering
 				gl.glEnd();
 			}
 		}
+		
+		
+		/// <summary>
+		/// Gets called by the scene when the modal overlay is shown in it.
+		/// </summary>
+		public virtual void OnShown(Scene scene)
+		{			
+		}
 
 		
 	}

@@ -34,6 +34,8 @@ namespace MonoWorks.Controls
 	{
 		public MenuItem()
 		{
+			IsHoverable = true;
+			Padding = 6;
 		}
 		
 		/// <summary>
@@ -60,16 +62,16 @@ namespace MonoWorks.Controls
 		/// The default font size if there is no parent menu.
 		/// </summary>
 		private const double DefaultFontSize = 12;
-
-		/// <summary>
-		/// A dummy surface used by Cairo to compute the text extents.
-		/// </summary>
-		private static readonly Cairo.ImageSurface DummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
 		
 		/// <summary>
 		/// The font size used during the last geometry computation.
 		/// </summary>
 		private double _lastFontSize;
+		
+		/// <summary>
+		/// A dummy surface used by Cairo to compute the text extents.
+		/// </summary>
+		private static readonly Cairo.ImageSurface DummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
 
 		public override void ComputeGeometry()
 		{
@@ -96,16 +98,33 @@ namespace MonoWorks.Controls
 		{
 			base.Render(context);
 
-			// render the text (assume the font size is set by the parent menu
 			context.Cairo.SetFontSize(_lastFontSize);
 			context.Cairo.Color = new Cairo.Color(0, 0, 0);
 			var point = context.Cairo.CurrentPoint;
 			context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
-			context.Cairo.MoveTo(point.X + Padding, point.Y + Padding + _lastFontSize);
+			context.Cairo.MoveTo(point.X + Padding, point.Y + Padding + _lastFontSize - 2);
 			context.Cairo.ShowText(Text);
 			context.Cairo.MoveTo(point);
 		}
 		
+		#endregion
+		
+		
+		#region Interaction
+		
+		public override void OnButtonPress(MonoWorks.Rendering.Events.MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			if (!HitTest(evt.Pos))
+				return;
+			
+			evt.Handle();
+			
+			if (ParentControl != null && ParentControl is Menu)
+				(ParentControl as Menu).ActivateItem(this);
+		}
+
 		#endregion
 		
 	}

@@ -38,8 +38,13 @@ namespace MonoWorks.Controls
 
 		public MenuBox()
 		{
-			_menu = new Menu {ParentControl = this};
+//			_menu = new Menu {ParentControl = this};
+			_menu = new Menu();
 			_overlay = new ModalControlOverlay {Control = _menu};
+			_menu.ItemActivated += delegate(object sender, MenuItem item) {
+				_overlay.Close();
+				CurrentItem = item;
+			};
 		}
 		
 		/// <summary>
@@ -123,6 +128,7 @@ namespace MonoWorks.Controls
 			}
 		}
 		
+		
 		#region Rendering
 		
 		public override void ComputeGeometry()
@@ -160,6 +166,8 @@ namespace MonoWorks.Controls
 		public bool IsCurrentEditable { get; set; }
 
 		private readonly ModalControlOverlay _overlay;
+		
+		private bool _justHit;
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -168,24 +176,56 @@ namespace MonoWorks.Controls
 			if (!HitTest(evt.Pos))
 				return;
 
+			_justHit = true;
+			
 			if (IsCurrentEditable)
 			{
 				_textBox.OnButtonPress(evt);
 			}
 			else
 			{
-				evt.Scene.ShowModal(_overlay);
+				ShowMenu(evt.Scene);
 			}
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
+			
+			if (_justHit)
+			{
+				_justHit = false;
+				evt.Handle();
+			}
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
+		}
+		
+		/// <summary>
+		/// Shows the list of menu items on the given scene.
+		/// </summary>
+		public void ShowMenu(Scene scene)
+		{
+			scene.ShowModal(_overlay);
+			
+			// get the offset at the selected item
+			double dy = 0;
+			if (CurrentItem != null)
+				dy = CurrentItem.Origin.Y;
+			
+			// get the overall scene location of the menu box
+			if (Pane == null || LastPosition == null)
+				return;
+			if (Pane is OverlayPane)
+			{
+				var pane = Pane as OverlayPane;
+				var pos = pane.Origin + new Coord(LastPosition.X, 
+				          -LastPosition.Y + pane.RenderHeight + dy - _menu.RenderHeight);
+				_overlay.Origin = pos;
+			}
 		}
 
 		#endregion
