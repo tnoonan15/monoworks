@@ -221,7 +221,7 @@ namespace MonoWorks.Controls
 					// draw the cursor
 					context.Cairo.Color = new Cairo.Color(0, 0, 0);
 					context.Cairo.LineWidth = 2;
-					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 1); // I don't know why we need to subtract 
+					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 2); // I don't know why we need to subtract 
 					context.Cairo.RelLineTo(0, LineHeight);
 					context.Cairo.Stroke();
 					
@@ -241,7 +241,7 @@ namespace MonoWorks.Controls
 				var point = context.Cairo.CurrentPoint;
 				for (int i = 0; i < Lines.Length; i++)
 				{
-					context.Cairo.MoveTo(point.X + Padding, point.Y + (FontSize + Padding) * (i + 1));
+					context.Cairo.MoveTo(point.X + Padding, point.Y + (FontSize + Padding) * (i + 1) - 1);
 					context.Cairo.ShowText(Lines[i]);
 				}
 				context.Cairo.MoveTo(point);

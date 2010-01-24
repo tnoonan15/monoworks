@@ -33,31 +33,25 @@ namespace MonoWorks.Rendering
 	{
 		
 		public ColorGroup()
-			: this(null, null, null, null)
+			: this(null, null, null)
 		{
 		}
 				
 		public ColorGroup(Color noneColor)
-			: this(noneColor, null, null, null)
+			: this(noneColor, null, null)
 		{			
 		}
 		
 		public ColorGroup(Color noneColor, Color hoveringColor)
-			: this(noneColor, hoveringColor, null, null)
+			: this(noneColor, hoveringColor, null)
 		{			
 		}
 		
 		public ColorGroup(Color noneColor, Color hoveringColor, Color selectedColor)
-			: this(noneColor, hoveringColor, selectedColor, null)
-		{			
-		}
-		
-		public ColorGroup(Color noneColor, Color hoveringColor, Color selectedColor, Color focusedColor)
 		{
 			SetColor(HitState.None, noneColor);
 			SetColor(HitState.Hovering, hoveringColor);
 			SetColor(HitState.Selected, selectedColor);
-			SetColor(HitState.Focused, focusedColor);
 		}
 		
 		
@@ -74,10 +68,10 @@ namespace MonoWorks.Rendering
 		{
 			if (colors.ContainsKey(hitState))
 				return colors[hitState];
-			else if (hitState.IsFocused() && colors.ContainsKey(HitState.Focused))
-				return colors[HitState.Focused];
 			else if (hitState.IsSelected() && colors.ContainsKey(HitState.Selected))
 				return colors[HitState.Selected];
+			else if (hitState.IsHovering() && colors.ContainsKey(HitState.Hovering))
+				return colors[HitState.Hovering];
 			else if (colors.ContainsKey(HitState.None))
 				return colors[HitState.None];
 			else

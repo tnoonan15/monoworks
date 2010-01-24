@@ -222,7 +222,7 @@ namespace MonoWorks.Controls
 		}
 
 
-		protected override bool HitTest(Coord pos)
+		public override bool HitTest(Coord pos)
 		{
 			hitRegion = HitRegion(pos);
 			Hover(hitRegion);

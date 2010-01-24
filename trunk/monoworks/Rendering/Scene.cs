@@ -388,6 +388,7 @@ namespace MonoWorks.Rendering
 		{
 			RenderList.PushModal(modalOverlay);
 			modalOverlay.Closed += OnCloseModalOverlay;
+			modalOverlay.OnShown(this);
 		}
 
 		/// <summary>

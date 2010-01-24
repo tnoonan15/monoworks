@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  ModalControlOverlay.cs - MonoWorks Project
 //  
 //  Author:
@@ -35,6 +35,7 @@ namespace MonoWorks.Controls
 		public ModalControlOverlay()
 		{
 			_overlayPane = new OverlayPane();
+			CloseOnOutsideClick = true;
 		}
 
 		private readonly OverlayPane _overlayPane;
@@ -45,7 +46,7 @@ namespace MonoWorks.Controls
 			if (child is Control2D)
 				Control = child as Control2D;
 			else
-				throw new Exception("Children of Dialog must be a Control2D.");
+				throw new Exception("Children of ModalControlOverlay must be a Control2D.");
 		}
 
 		/// <summary>
@@ -54,7 +55,10 @@ namespace MonoWorks.Controls
 		public virtual Control2D Control
 		{
 			get { return _overlayPane.Control; }
-			set { _overlayPane.Control = value;}
+			set {
+				_overlayPane.Control = value;
+				MakeDirty();
+			}
 		}
 
 		public override void ComputeGeometry()
@@ -69,21 +73,51 @@ namespace MonoWorks.Controls
 		{
 			base.RenderOverlay(scene);
 
-			_overlayPane.Origin = new Coord((Math.Round(scene.Width - _overlayPane.RenderWidth) / 2),
-											Math.Round((scene.Height - _overlayPane.RenderHeight) / 2));
-
-
 			_overlayPane.RenderOverlay(scene);
+		}
+		
+		/// <summary>
+		/// The origin of the control being rendered. 
+		/// </summary>
+		public Coord Origin
+		{
+			get {return _overlayPane.Origin;}
+			set {_overlayPane.Origin = value;}
+		}
+		
+		/// <summary>
+		/// Centers the control in the scene. 
+		/// </summary>
+		public void Center(Scene scene)
+		{
+			if (_overlayPane.IsDirty)
+				_overlayPane.ComputeGeometry();
+			Origin.X = Math.Round(scene.Width - _overlayPane.RenderWidth) / 2;
+			Origin.Y = Math.Round(scene.Height - _overlayPane.RenderHeight) / 2;
+		}
+		
+		public override void OnSceneResized(Scene scene)
+		{
+			base.OnSceneResized(scene);
 		}
 
 
 		#region Interaction
+		
+		/// <summary>
+		/// If true, the modal overlay will be closed when the user clicks outside of the control. 
+		/// </summary>
+		[MwxProperty]
+		public bool CloseOnOutsideClick { get;	set; }
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
 
 			_overlayPane.OnButtonPress(evt);
+			
+			if (CloseOnOutsideClick && !evt.Handled && !_overlayPane.Control.HitTest(evt.Pos))
+				Close();
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)

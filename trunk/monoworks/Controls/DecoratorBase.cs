@@ -56,24 +56,21 @@ namespace MonoWorks.Controls
 				new ColorGroup(
 				new Color(0.5f, 0.5f, 0.5f),
 				new Color(0.5f, 0.5f, 0.5f),
-				new Color(0.6f, 0.6f, 0.6f),
-				new Color(0.3f, 0.5f, 0.3f)
+				new Color(0.6f, 0.6f, 0.6f)
 			));
 			
 			SetColorGroup(ColorType.EditableStart,
 				new ColorGroup(
       			new Color(1f, 1f, 1f, 0.8f),
       			new Color(0.95f, 0.95f, 0.95f, 0.9f),
-      			new Color(0.9f, 1f, 0.9f, 0.9f),
-      			new Color(0.6f, 0.8f, 0.6f, 0.9f)
+      			new Color(0.9f, 1f, 0.9f, 0.9f)
             ));
 			
 			SetColorGroup(ColorType.EditableStop,
 				new ColorGroup(
       			new Color(1f, 1f, 1f, 1f),
       			new Color(1f, 1f, 1f, 1f),
-      			new Color(1f, 1f, 1f, 1f),
-      			new Color(0.9f, 1f, 0.9f, 0.9f)
+      			new Color(1f, 1f, 1f, 1f)
             ));
 
 			SetColorGroup(ColorType.Text,

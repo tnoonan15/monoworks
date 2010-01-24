@@ -46,9 +46,10 @@ namespace MonoWorks.Rendering.Interaction
 			// let the modals interact first
 			if (_scene.RenderList.ModalCount > 0)
 			{
-				_scene.RenderList.TopModal.OnButtonPress(evt);
+				var top = _scene.RenderList.TopModal;
+				top.OnButtonPress(evt);
 				if (!wasHandled && evt.Handled)
-					Current = _scene.RenderList.TopModal;
+					Current = top;
 				return; // don't interact with anything else if modal overlays are present
 			}
 

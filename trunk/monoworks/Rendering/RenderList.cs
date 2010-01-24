@@ -276,14 +276,16 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// The scene should call this when it's resized.
 		/// </summary>
-		/// <param name="scene"> </param>
 		public void OnSceneResized(Scene scene)
 		{
-			foreach (Actor actor in Actors)
+			foreach (var actor in Actors)
 				actor.OnSceneResized(scene);
 			
-			foreach (Overlay overlay in Overlays)
+			foreach (var overlay in Overlays)
 				overlay.OnSceneResized(scene);
+			
+			foreach (var modal in Modals)
+				modal.OnSceneResized(scene);
 		}
 
 	}

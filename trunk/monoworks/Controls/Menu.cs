@@ -27,6 +27,12 @@ using MonoWorks.Rendering;
 namespace MonoWorks.Controls
 {
 	/// <summary>
+	/// Handler for the Menu.ItemActivated event.
+	/// </summary>
+	public delegate void MenuItemActivatedHandler(object sender, MenuItem item);
+	
+	
+	/// <summary>
 	/// Menu that displays a list of menu items for the user to select.
 	/// </summary>
 	public class Menu : GenericStack<MenuItem>
@@ -35,8 +41,26 @@ namespace MonoWorks.Controls
 		{
 			Orientation = Orientation.Vertical;
 			FontSize = 12;
+			ForceFill = true;
+			Padding = 0;
 		}
 
+		/// <summary>
+		/// Gets raised when one of the items is clicked.
+		/// </summary>
+		public event MenuItemActivatedHandler ItemActivated;
+		
+		/// <summary>
+		/// Activates an item.
+		/// </summary>
+		public void ActivateItem(MenuItem item)
+		{
+			if (!ContainsChild(item))
+				throw new Exception("Menu doesn't contain item " + item);
+			if (ItemActivated != null)
+				ItemActivated(this, item);
+		}
+		
 
 		#region Rendering
         
@@ -64,7 +88,7 @@ namespace MonoWorks.Controls
 		}
 
 		#endregion
-
+		
 	}
 }
 

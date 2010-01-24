@@ -36,6 +36,7 @@ namespace MonoWorks.Controls
 			base.Control = _frame;
 			_frame.Closed += (sender, e) => Close();
 			GrayScene = true;                 
+			CloseOnOutsideClick = false;
 		}
 		
 		private readonly DialogFrame _frame;
@@ -73,6 +74,12 @@ namespace MonoWorks.Controls
 			set {
 				_frame.SetChild(0, value);
 			}
+		}
+
+		public override void OnShown(Scene scene)
+		{
+			base.OnShown(scene);
+			Center(scene);
 		}
 
 		
