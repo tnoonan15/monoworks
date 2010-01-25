@@ -98,12 +98,22 @@ namespace MonoWorks.Controls
 		{
 			base.Render(context);
 
+			// render the text
 			context.Cairo.SetFontSize(_lastFontSize);
 			context.Cairo.Color = new Cairo.Color(0, 0, 0);
 			var point = context.Cairo.CurrentPoint;
 			context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
 			context.Cairo.MoveTo(point.X + Padding, point.Y + Padding + _lastFontSize - 2);
 			context.Cairo.ShowText(Text);
+			
+			// highlight if the user is hovering
+			if (IsHovering)
+			{
+				context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
+				context.Cairo.Rectangle(point, RenderWidth, RenderHeight);
+				context.Cairo.Fill();
+			}
+			
 			context.Cairo.MoveTo(point);
 		}
 		

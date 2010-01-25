@@ -81,10 +81,8 @@ namespace MonoWorks.Controls
 
 		protected override void Render(RenderContext context)
 		{
-			context.Cairo.Save();
 			context.Cairo.SetFontSize(FontSize);
 			base.Render(context);
-			context.Cairo.Restore();
 		}
 
 		#endregion

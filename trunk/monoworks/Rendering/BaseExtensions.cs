@@ -62,21 +62,5 @@ namespace MonoWorks.Rendering
 			gl.glVertex3d(point[0].Value, point[1].Value, point[2].Value);
 		}
 
-		/// <summary>
-		/// Converts a Cairo point to a Coord. 
-		/// </summary>
-		public static Coord Coord(this Cairo.PointD point)
-		{
-			return new Coord(point.X, point.Y);
-		}
-		
-		/// <summary>
-		/// Converts a coord to a Cairo point. 
-		/// </summary>
-		public static Cairo.PointD PointD(this Coord coord)
-		{
-			return new Cairo.PointD(coord.X, coord.Y);
-		}
-
 	}
 }

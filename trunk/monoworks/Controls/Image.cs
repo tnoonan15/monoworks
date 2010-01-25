@@ -85,19 +85,7 @@ namespace MonoWorks.Controls
 		/// load it directly from the stream.</remarks>
 		public void LoadStream(Stream stream)
 		{
-			// read the data
-			int N = (int)stream.Length;
-			byte[] data = new byte[N];
-			stream.Read(data, 0, N);
-
-			// write to a file
-			string fileName = System.IO.Path.GetTempPath() + "temp.png";
-			FileStream fileStream = new FileStream(fileName, FileMode.Create);
-			fileStream.Write(data, 0, N);
-			fileStream.Close();
-
-			// load the file
-			LoadFile(fileName);
+			surface = CairoHelper.ImageSurfaceFromStream(stream);
 		}
 
 		/// <summary>
@@ -120,7 +108,7 @@ namespace MonoWorks.Controls
 		{
 			if (valString.StartsWith("icon:"))
 			{
-				
+				// TODO: parse icon names into images
 			}
 			else // try to load it from an assembly
 			{
