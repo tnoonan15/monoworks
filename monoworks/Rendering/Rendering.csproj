@@ -112,6 +112,7 @@
     <Compile Include="Ease.cs" />
     <Compile Include="HitState.cs" />
     <Compile Include="Scene.cs" />
+    <Compile Include="CairoHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />

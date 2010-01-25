@@ -24,8 +24,10 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
+using System.IO;
 
 namespace MonoWorks.Controls
 {
@@ -38,13 +40,24 @@ namespace MonoWorks.Controls
 
 		public MenuBox()
 		{
-//			_menu = new Menu {ParentControl = this};
 			_menu = new Menu();
-			_overlay = new ModalControlOverlay {Control = _menu};
+			_overlay = new ModalControlOverlay { Control = _menu };
 			_menu.ItemActivated += delegate(object sender, MenuItem item) {
 				_overlay.Close();
 				CurrentItem = item;
 			};
+			
+			ButtonOrigin = new Coord();
+			ButtonSize = new Coord();
+			
+			IsHoverable = true;
+		}
+		
+		static MenuBox()
+		{
+			// read the data
+			var stream = ResourceHelper.GetStream("expand.png");
+			_iconSurface = CairoHelper.ImageSurfaceFromStream(stream);
 		}
 		
 		/// <summary>
@@ -130,6 +143,23 @@ namespace MonoWorks.Controls
 		
 		
 		#region Rendering
+				
+		/// <value>
+		/// The surface containing the expand icon.
+		/// </value>
+		private static Cairo.ImageSurface _iconSurface;
+		
+		/// <summary>
+		/// The relative origin of the expand button.
+		/// </summary>
+		public Coord ButtonOrigin { get; private set; }
+
+		/// <summary>
+		/// The size of the expand button.
+		/// </summary>
+		public Coord ButtonSize { get; private set; }
+		
+		private double _buttonPadding;
 		
 		public override void ComputeGeometry()
 		{
@@ -137,13 +167,19 @@ namespace MonoWorks.Controls
 			
 			_menu.ComputeGeometry();
 
-			RenderSize.X = _menu.RenderSize.X;
 			
 			if (CurrentItem != null)
 				_textBox.Body = CurrentItem.Text;
-			_textBox.UserSize = RenderSize;
+			_textBox.UserSize.X = _menu.RenderSize.X;
 			_textBox.ComputeGeometry();
 			
+			// place and size the button
+			ButtonOrigin.X = _textBox.RenderSize.X - 1;
+			ButtonSize.X = _textBox.RenderSize.Y;
+			ButtonSize.Y = _textBox.RenderSize.Y;
+			_buttonPadding = (ButtonSize.Y - 12) / 2;
+			
+			RenderSize.X = ButtonOrigin.X + ButtonSize.X;			
 			RenderSize.Y = _textBox.RenderSize.Y;
 		}
 
@@ -152,6 +188,13 @@ namespace MonoWorks.Controls
 			base.Render(context);
 			
 			_textBox.RenderCairo(context);
+			
+			// render the expand icon
+			context.Cairo.Save();
+			context.Cairo.SetSourceSurface(_iconSurface, 
+				(int)(LastPosition.X + ButtonOrigin.X + _buttonPadding), (int)(LastPosition.Y + _buttonPadding));
+			context.Cairo.Paint();
+			context.Cairo.Restore();
 		}
 		
 		#endregion
@@ -181,6 +224,7 @@ namespace MonoWorks.Controls
 			if (IsCurrentEditable)
 			{
 				_textBox.OnButtonPress(evt);
+				// TODO: Implement MenuBox.IsCurrentEditable=true functionality
 			}
 			else
 			{
@@ -225,6 +269,8 @@ namespace MonoWorks.Controls
 				var pos = pane.Origin + new Coord(LastPosition.X, 
 				          -LastPosition.Y + pane.RenderHeight + dy - _menu.RenderHeight);
 				_overlay.Origin = pos;
+				
+				// TODO: improve menu placement at edges of the scene
 			}
 		}
 

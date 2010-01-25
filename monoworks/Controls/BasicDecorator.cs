@@ -397,11 +397,6 @@ namespace MonoWorks.Controls
 				Decorate(control as Menu);
 				return;
 			}
-			if (control is MenuItem)
-			{
-				Decorate(control as MenuItem);
-				return;
-			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -548,20 +543,14 @@ namespace MonoWorks.Controls
 		
 		protected virtual void Decorate(MenuBox menuBox)
 		{
-//			FillRectangle(Coord.Zeros, menuBox.RenderSize, Corner.None, FillType.Editable, menuBox.HitState, AnchorLocation.S);
-//			StrokeRectangle(Coord.Zeros, menuBox.RenderSize, Corner.None, menuBox.HitState);
+			FillRectangle(menuBox.ButtonOrigin, menuBox.ButtonSize, Corner.None, FillType.Background, menuBox.HitState, AnchorLocation.SE);
+			StrokeRectangle(menuBox.ButtonOrigin, menuBox.ButtonSize, Corner.None, menuBox.HitState);
 		}
 
 		protected virtual void Decorate(Menu menu)
 		{
 			FillRectangle(Coord.Zeros, menu.RenderSize, Corner.None, FillType.Background, menu.HitState, AnchorLocation.SE);
 			StrokeRectangle(Coord.Zeros, menu.RenderSize, Corner.None, menu.HitState);
-		}
-
-		protected virtual void Decorate(MenuItem menuItem)
-		{
-			if (menuItem.HitState.IsHovering())
-				FillRectangle(Coord.Zeros, menuItem.RenderSize, Corner.None, FillType.Selection, menuItem.HitState, AnchorLocation.SE);
 		}
 				
 		#endregion
