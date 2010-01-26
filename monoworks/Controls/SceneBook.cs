@@ -132,6 +132,14 @@ namespace MonoWorks.Controls
 				Current.OnMouseWheel(evt);
 		}
 
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			if (Current != null)
+				Current.OnKeyPress(evt);
+		}
+
 		
 		#endregion
 

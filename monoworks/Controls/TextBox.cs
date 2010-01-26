@@ -31,7 +31,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
-{
+{	
 	
 	/// <summary>
 	/// A control that allows the user to enter text.
@@ -112,7 +112,7 @@ namespace MonoWorks.Controls
 			}
 			
 			var charVal = (char)evt.Value;
-			if (Char.IsLetterOrDigit(charVal) || Char.IsPunctuation(charVal))
+			if (Char.IsLetterOrDigit(charVal) || Char.IsPunctuation(charVal) || charVal == ' ')
 			{
 				Insert(charVal.ToString());
 			}
@@ -288,7 +288,6 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public virtual void CursorRight(InteractionModifier modifier)
 		{
-			Console.WriteLine ("right with modifier {0}", modifier);
 			if (Anchor != null && modifier != InteractionModifier.Shift)
 				Anchor = null;
 			else if (Anchor == null && modifier == InteractionModifier.Shift)
