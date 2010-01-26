@@ -221,7 +221,7 @@ namespace MonoWorks.Controls
 					// draw the cursor
 					context.Cairo.Color = new Cairo.Color(0, 0, 0);
 					context.Cairo.LineWidth = 2;
-					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 2); // I don't know why we need to subtract 
+					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 3); // I don't know why we need to subtract 
 					context.Cairo.RelLineTo(0, LineHeight);
 					context.Cairo.Stroke();
 					
@@ -230,7 +230,7 @@ namespace MonoWorks.Controls
 					{
 						context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
 						var selectSize = Anchor.Position - Cursor.Position;
-						context.Cairo.Rectangle(absPos.X - 2, absPos.Y - 1, selectSize.X, LineHeight);
+						context.Cairo.Rectangle(absPos.X - 2, absPos.Y - 3, selectSize.X, LineHeight);
 						context.Cairo.Fill();
 					}
 					context.Cairo.MoveTo(currentPos);

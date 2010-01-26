@@ -98,6 +98,14 @@ namespace MonoWorks.Controls
 				Root.OnMouseWheel(evt);
 		}
 		
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			if (Root != null)
+				Root.OnKeyPress(evt);
+		}
+
 		
 		#endregion
 		

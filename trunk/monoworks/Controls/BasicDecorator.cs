@@ -47,6 +47,8 @@ namespace MonoWorks.Controls
 			DefaultBackgroundLocation = AnchorLocation.SE;
 			
 			StrokeWidth = 0.5;
+			
+			FocusColor = new Color(0, 0.8f, 0, 0.1f);
 		}
 		
 		
@@ -210,7 +212,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Renders a rectangular background portion of a control.
 		/// </summary>
-		protected void FillRectangle(Coord relPos, Coord size, Corner rounded, FillType fillType, HitState hitState, AnchorLocation location)
+		protected virtual void FillRectangle(Coord relPos, Coord size, Corner rounded, FillType fillType, HitState hitState, AnchorLocation location)
 		{
 			var point = Context.Push();
 			var coord = new Coord(point.X + relPos.X, point.Y + relPos.Y);
@@ -243,7 +245,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Renders a triangle portion of a control.
 		/// </summary>
-		protected void FillTriangle(Coord size, HitState hitState, AnchorLocation triDirection, AnchorLocation gradDirection)
+		protected virtual void FillTriangle(Coord size, HitState hitState, AnchorLocation triDirection, AnchorLocation gradDirection)
 		{
 			var point = Context.Push();
 			
@@ -302,6 +304,68 @@ namespace MonoWorks.Controls
 		#endregion
 		
 		
+		#region Focus Highlighting
+		
+		/// <summary>
+		/// The color used to highlight controls in focus.
+		/// </summary>
+		public Color FocusColor { get; set; }
+		
+		/// <summary>
+		/// Highlights inside a rectangle defined by the position and size.
+		/// </summary>
+		protected virtual void InnerHighlightRectangle(Coord relPos, Coord size, Corner rounded)
+		{
+			var point = Context.Push();
+			
+			// create the gradient
+			var radius = Math.Sqrt(size.X * size.X / 4 + size.Y * size.Y / 4);
+			var cx = point.X + relPos.X + size.X / 2;
+			var cy = point.Y + relPos.Y + size.Y / 2;
+			var grad = new Cairo.RadialGradient(cx, cy, radius / 4.0, cx, cy, radius);
+			grad.AddColorStop(0, new Cairo.Color(1, 1, 1, 0));
+			grad.AddColorStop(1, FocusColor.Cairo);
+			Context.Cairo.Pattern = grad;
+			
+			// draw the rectangle path
+			RectanglePath(point.Coord() + relPos, size, rounded);
+		//			var ar = size.Y / size.X;
+		//			Context.Cairo.Scale(1, ar);
+			Context.Cairo.Fill();
+			
+			Context.Pop();
+		}
+		
+		/// <summary>
+		/// Highlights outside a rectangle defined by the position and size.
+		/// </summary>
+		protected virtual void OuterHighlightRectangle(Coord relPos, Coord size, Corner rounded)
+		{
+			// TODO: make outer highlight not suck
+			var point = Context.Push();
+			
+			// create the gradient
+			var radius = Math.Min(size.X, size.Y);
+			var cx = point.X + relPos.X + size.X / 2;
+			var cy = point.Y + relPos.Y + size.Y / 2;
+			var grad = new Cairo.RadialGradient(cx, cy, radius, cx, cy, radius * 1.5);
+			grad.AddColorStop(0, FocusColor.Cairo);
+			grad.AddColorStop(1, new Cairo.Color(1, 1, 1, 0));
+			Context.Cairo.Pattern = grad;
+			
+			// draw the rectangle path
+			Context.Cairo.Arc(cx, cy, radius * 1.5, 0, 2 * Math.PI);
+//			RectanglePath(point.Coord() + relPos, size, rounded);
+//			var ar = size.Y / size.X;
+//			Context.Cairo.Scale(1, ar);
+			Context.Cairo.Fill();
+			
+			Context.Pop();
+		}
+		
+		#endregion
+		
+		
 		#region Stroking
 		
 		/// <summary>
@@ -321,7 +385,7 @@ namespace MonoWorks.Controls
 		/// <param name="hitState">
 		/// Used to look up which color to use for the stroke.
 		/// </param>
-		protected void StrokeRectangle(Coord relPos, Coord size, Corner rounded, HitState hitState)
+		protected virtual void StrokeRectangle(Coord relPos, Coord size, Corner rounded, HitState hitState)
 		{
 			var point = Context.Push();
 			var coord = new Coord(point.X + relPos.X, point.Y + relPos.Y).HalfCeiling;
@@ -400,7 +464,7 @@ namespace MonoWorks.Controls
 		}
 		
 		protected virtual void Decorate(Button button)
-		{
+		{			
 			var parent = button.ParentControl;
 			if (parent == null)
 				FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
@@ -417,6 +481,9 @@ namespace MonoWorks.Controls
 				FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
 				StrokeRectangle(Coord.Zeros, button.RenderSize, AllCorners, button.HitState);
 			}
+			
+			if (button.IsFocused)
+				InnerHighlightRectangle(Coord.Zeros, button.RenderSize, AllCorners);
 		}
 		
 		protected virtual void Decorate(SceneButton button)
