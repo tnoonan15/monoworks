@@ -65,6 +65,13 @@ namespace MonoWorks.Controls
 		
 		
 		#region Text Entry
+				
+		protected override void OnFocusEnter()
+		{
+			base.OnFocusEnter();
+			
+			SelectAll();
+		}
 		
 		/// <summary>
 		/// Remakes the body based on the current Lines array.
@@ -127,6 +134,7 @@ namespace MonoWorks.Controls
 			if (Cursor == null)
 			{
 				Body = val;
+				Cursor = new TextCursor();
 				Cursor.Column = val.Length;
 			}
 			else if (Cursor.Row == 0 && Cursor.Column == 0)

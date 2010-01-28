@@ -194,6 +194,7 @@ namespace MonoWorks.Rendering
 			get {return hitState;}
 		}		
 		
+		
 		/// <summary>
 		/// Gets called whenever the hit state of the renderable changes.
 		/// </summary>
