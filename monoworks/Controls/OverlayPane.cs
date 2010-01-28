@@ -18,6 +18,7 @@
 using Tao.OpenGl;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
@@ -178,8 +179,30 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
-			if (InFocus != null)
+			if (Control == null)
+				return;
+			
+			if (evt.SpecialKey == SpecialKey.Tab)
 			{
+				MakeDirty();
+				if (evt.Modifier == InteractionModifier.Shift)
+				{
+					if (InFocus != null)
+						InFocus = InFocus.GetPreviousFocus();
+					else
+						InFocus = Control.GetLastFocus();
+				}
+				else
+				{
+					if (InFocus != null)
+						InFocus = InFocus.GetNextFocus();
+					else
+						InFocus = Control.GetFirstFocus();
+				}
+			}			
+			else if (InFocus != null)
+			{
+				
 				InFocus.OnKeyPress(evt);
 			}
 		}

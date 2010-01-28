@@ -233,6 +233,13 @@ namespace MonoWorks.GtkBackend
 			case Gdk.Key.End:
 				val = (int)SpecialKey.End;
 				break;
+			case Gdk.Key.Tab:
+				val = (int)SpecialKey.Tab;
+				break;
+			case Gdk.Key.ISO_Left_Tab:
+				val = (int)SpecialKey.Tab;
+				modifier = InteractionModifier.Shift;
+				break;
 			}
 			
 			var evt = new KeyEvent(val, modifier);

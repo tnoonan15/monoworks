@@ -51,6 +51,13 @@ namespace MonoWorks.Controls
 		public T NewValue { get; private set; }
 	}
 	
+	
+	/// <summary>
+	/// Handler for simple control events.
+	/// </summary>
+	public delegate void ControlEventHandler(Control2D control);
+	
+	
 	/// <summary>
 	/// Base class for all renderable controls.
 	/// </summary>
@@ -431,15 +438,90 @@ namespace MonoWorks.Controls
 			{
 				if (pane != null)
 					pane.InFocus = this;
+				OnFocusEnter();
 			}
 			else if (oldVal.IsFocused() && !IsFocused) // lost focus
 			{
 				if (pane != null)
 					pane.InFocus = null;
+				OnFocusLeave();
 			}
 		}
 
 
+		#endregion
+		
+		
+		#region Focus
+		
+		/// <summary>
+		/// Gets called when the control enters focus.
+		/// </summary>
+		protected virtual void OnFocusEnter()
+		{
+		}
+		
+		/// <summary>
+		/// Gets called when the control leaves focus.
+		/// </summary>
+		protected virtual void OnFocusLeave()
+		{
+		}
+		
+		/// <summary>
+		/// Gets the next control in the focus chain.
+		/// </summary>
+		public virtual Control2D GetNextFocus()
+		{
+			if (ParentControl == null)
+				return this;
+			else
+				return ParentControl.GetNextFocus(this);
+		}
+		
+		/// <summary>
+		/// Gets the next control in the focus chain after the given child.
+		/// </summary>
+		public virtual Control2D GetNextFocus(Control2D child)
+		{
+			throw new Exception("This method has no meaning on controls which aren't containers.");
+		}
+		
+		/// <summary>
+		/// Gets the first control in this control's focus chain.
+		/// </summary>
+		public virtual Control2D GetFirstFocus()
+		{
+			return this;
+		}
+		
+		/// <summary>
+		/// Gets the last control in this control's focus chain.
+		/// </summary>
+		public virtual Control2D GetLastFocus()
+		{
+			return this;
+		}
+		
+		/// <summary>
+		/// Gets the previous control in the focus chain.
+		/// </summary>
+		public virtual Control2D GetPreviousFocus()
+		{
+			if (ParentControl == null)
+				return this;
+			else
+				return ParentControl.GetPreviousFocus(this);
+		}
+		
+		/// <summary>
+		/// Gets the previous control in the focus chain from the given child.
+		/// </summary>
+		public virtual Control2D GetPreviousFocus(Control2D child)
+		{
+			throw new Exception("This method has no meaning on controls which aren't containers.");
+		}
+		
 		#endregion
 		
 	}

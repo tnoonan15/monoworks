@@ -393,7 +393,10 @@ namespace MonoWorks.Controls
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.Color = GetColor(ColorType.Stroke, hitState).Cairo;
-			Context.Cairo.LineWidth = StrokeWidth;
+			if (hitState.IsFocused())
+				Context.Cairo.LineWidth = 2 * StrokeWidth;
+			else
+				Context.Cairo.LineWidth = StrokeWidth;
 			RectanglePath(coord, size.Floor-1, rounded);
 			Context.Cairo.Stroke();
 			Context.Pop();

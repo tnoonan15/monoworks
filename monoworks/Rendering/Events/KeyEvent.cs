@@ -29,8 +29,7 @@ namespace MonoWorks.Rendering.Events
 	/// </summary>
 	/// <remarks>The value are standard ASCII, except for the 
 	/// directions which aren't represented in ascii.</remarks>
-	public enum SpecialKey { 
-		None = -1,
+	public enum SpecialKey {
 		Up = 38,
 		Right = 39,
 		Down = 40,
@@ -40,7 +39,9 @@ namespace MonoWorks.Rendering.Events
 		Delete = 46,
 		Escape = 27,
 		Home,
-		End
+		End,
+		Tab = 9,
+		None = -1
 	};
 
 	/// <summary>

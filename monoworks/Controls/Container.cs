@@ -20,6 +20,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
@@ -208,6 +209,73 @@ namespace MonoWorks.Controls
 		#endregion
 
 
+		#region Focus
+		
+		public override Control2D GetNextFocus(Control2D child)
+		{			
+			var kid = child as T;
+			if (kid == null)
+				throw new Exception("Child has the wrong type for this container.");
+			if (!ContainsChild(kid))
+				throw new Exception("child must be a child of this container.");
+			
+			var index = IndexOfChild(kid);
+			if (index == NumChildren - 1) // the last child
+			{
+				if (ParentControl == null)
+					return _children[0].GetFirstFocus();
+				else
+					return ParentControl.GetNextFocus(this);
+			}
+			return _children[index + 1].GetFirstFocus();
+		}
+		
+		public override Control2D GetPreviousFocus(Control2D child)
+		{
+			var kid = child as T;
+			if (kid == null)
+				throw new Exception("Child has the wrong type for this container.");
+			if (!ContainsChild(kid))
+				throw new Exception("child must be a child of this container.");
+			
+			var index = IndexOfChild(kid);
+			if (index == 0) // the first child
+			{
+				if (ParentControl == null)
+					return _children.Last<T>().GetLastFocus();
+				else
+					return ParentControl.GetPreviousFocus(this);
+			}
+			return _children[index - 1].GetLastFocus();
+		}
+
+		public override Control2D GetFirstFocus()
+		{
+			if (NumChildren == 0)
+			{
+				if (ParentControl != null)
+					return ParentControl.GetNextFocus(this);
+				else
+					return null;
+			}
+			return _children[0].GetFirstFocus();
+		}
+		
+		public override Control2D GetLastFocus()
+		{
+			if (NumChildren == 0)
+			{
+				if (ParentControl != null)
+					return ParentControl.GetPreviousFocus(this);
+				else
+					return null;
+			}
+			return _children.Last<T>().GetLastFocus();
+		}
+
+		
+		#endregion
+		
 	}
 
 	/// <summary>
