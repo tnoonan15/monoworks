@@ -26,7 +26,7 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// The types of colors that the basic decorator stores color groups for.
 	/// </summary>
-	public enum ColorType {BackgroundStart, BackgroundStop, Stroke, Text, EditableStart, EditableStop};
+	public enum ColorType {BackgroundStart, BackgroundStop, Stroke, Text, EditableStart, EditableStop, HighlightStart, HighlightStop};
 	
 	/// <summary>
 	/// Abstract base class for decorators that decorate the controls by
@@ -71,6 +71,20 @@ namespace MonoWorks.Controls
       			new Color(1f, 1f, 1f, 1f),
       			new Color(1f, 1f, 1f, 1f),
       			new Color(1f, 1f, 1f, 1f)
+            ));
+			
+			SetColorGroup(ColorType.HighlightStart,
+				new ColorGroup(
+      			new Color(0.1f, 0.7f, 0.1f, 0.8f),
+      			new Color(0.1f, 0.7f, 0.1f, 0.8f),
+      			new Color(0.1f, 0.7f, 0.1f, 0.8f)
+            ));
+			
+			SetColorGroup(ColorType.HighlightStop,
+				new ColorGroup(
+      			new Color(0.3f, 1f, 0.3f, 0.8f),
+      			new Color(0.3f, 1f, 0.3f, 0.8f),
+      			new Color(0.3f, 1f, 0.3f, 0.8f)
             ));
 
 			SetColorGroup(ColorType.Text,

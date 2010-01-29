@@ -178,6 +178,7 @@ namespace MonoWorks.Controls
 		public double MinWidth
 		{
 			get {return MinSize.X;}
+			protected set {MinSize.X = value;}
 		}
 
 		/// <summary>
@@ -186,6 +187,7 @@ namespace MonoWorks.Controls
 		public double MinHeight
 		{
 			get {return MinSize.Y;}
+			protected set {MinSize.Y = value;}
 		}
 		
 		/// <value>

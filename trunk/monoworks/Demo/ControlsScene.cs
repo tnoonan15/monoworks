@@ -133,17 +133,23 @@ namespace MonoWorks.Demo
 			};
 			toolbar.AddChild(button);
 			
-			image = new Image(ResourceHelper.GetStream("linear-progress.png"));
-			button = new Button("Linear Progress Bar", image);
-			button.Clicked += delegate(object sender, EventArgs e) { 
-				ShowModal(controlsDialog);
+			
+			// the progress dialog
+			var progressDialog = mwx.GetRenderable<Dialog>("progress-dialog");
+			
+			// attach the slider to the progress bars
+			slider = mwx.GetRenderable<Slider>("progressSlider");
+			var progressBar = mwx.GetRenderable<ProgressBar>("progressBar");
+			progressBar.Value = slider.Value;
+			slider.ValueChanged += delegate(object sender, DoubleChangedEvent evt)
+			{
+				progressBar.Value = slider.Value;
 			};
-			toolbar.AddChild(button);
 			
 			image = new Image(ResourceHelper.GetStream("radial-progress.png"));
-			button = new Button("Radial Progress Bar", image);
+			button = new Button("Progress Indicators", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
-				ShowModal(controlsDialog);
+				ShowModal(progressDialog);
 			};
 			toolbar.AddChild(button);
 

@@ -76,6 +76,9 @@
     <Compile Include="MenuBox.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
+    <Compile Include="ProgressIndicator.cs" />
+    <Compile Include="ProgressBar.cs" />
+    <Compile Include="ProgressDial.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
