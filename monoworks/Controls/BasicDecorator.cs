@@ -32,7 +32,7 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// Maps to individual or sets of color types for filling.
 	/// </summary>
-	public enum FillType {Background, Editable, Selection};
+	public enum FillType {Background, Editable, Selection, Highlight};
 	
 	/// <summary>
 	/// Provides a basic decorator that should be good enough for most situations.
@@ -228,6 +228,11 @@ namespace MonoWorks.Controls
 				Context.Cairo.Pattern = GenerateGradient(coord, size, location, 
                                              GetColor(ColorType.EditableStart, hitState),
                                              GetColor(ColorType.EditableStop, hitState));
+				break;
+			case FillType.Highlight:
+				Context.Cairo.Pattern = GenerateGradient(coord, size, location, 
+                                             GetColor(ColorType.HighlightStart, hitState),
+                                             GetColor(ColorType.HighlightStop, hitState));
 				break;
 			case FillType.Selection:
 				Context.Cairo.Color = SelectionColor.Cairo;
@@ -464,6 +469,11 @@ namespace MonoWorks.Controls
 				Decorate(control as Menu);
 				return;
 			}
+			if (control is ProgressBar)
+			{
+				Decorate(control as ProgressBar);
+				return;
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -621,6 +631,16 @@ namespace MonoWorks.Controls
 		{
 			FillRectangle(Coord.Zeros, menu.RenderSize, Corner.None, FillType.Background, menu.HitState, AnchorLocation.SE);
 			StrokeRectangle(Coord.Zeros, menu.RenderSize, Corner.None, menu.HitState);
+		}
+
+		protected virtual void Decorate(ProgressBar bar)
+		{
+			FillRectangle(Coord.Zeros, bar.RenderSize, Corner.None, FillType.Background, bar.HitState, AnchorLocation.N);
+			
+			var progressSize = bar.RenderSize.Copy();
+			progressSize.X = progressSize.X * bar.Value;
+			FillRectangle(Coord.Zeros, progressSize, Corner.None, FillType.Highlight, bar.HitState, AnchorLocation.S);
+			StrokeRectangle(Coord.Zeros, bar.RenderSize, Corner.None, bar.HitState);
 		}
 				
 		#endregion

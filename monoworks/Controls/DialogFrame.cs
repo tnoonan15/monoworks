@@ -43,7 +43,7 @@ namespace MonoWorks.Controls
 
 		public DialogFrame() : base()
 		{
-			UserSize = new Coord(300, 300);
+			UserSize = new Coord(200, 200);
 			
 			var closeIcon = new Image(ResourceHelper.GetStream("close.png"));
 			_closeButton = new Button(closeIcon) {
