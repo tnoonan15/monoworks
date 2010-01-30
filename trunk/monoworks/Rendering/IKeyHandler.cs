@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using MonoWorks.Rendering.Events;
@@ -12,6 +12,8 @@ namespace MonoWorks.Rendering
 	{
 
 		void OnKeyPress(KeyEvent evt);
+		
+		void OnKeyRelease(KeyEvent evt);
 
 	}
 }

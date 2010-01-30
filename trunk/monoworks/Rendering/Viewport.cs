@@ -118,7 +118,7 @@ namespace MonoWorks.Rendering
 		#endregion
 
 
-		#region Mouse Interaction
+		#region Interaction
 
 		public void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -134,7 +134,6 @@ namespace MonoWorks.Rendering
 		{
 			RootScene.OnMouseMotion(evt);
 		}
-
 
 		public void OnMouseWheel(MouseWheelEvent evt)
 		{
@@ -152,6 +151,11 @@ namespace MonoWorks.Rendering
 		public void OnKeyPress(KeyEvent evt)
 		{
 			RootScene.OnKeyPress(evt);
+		}
+
+		public void OnKeyRelease(KeyEvent evt)
+		{
+			RootScene.OnKeyRelease(evt);
 		}
 
 		#endregion

@@ -250,6 +250,13 @@ namespace MonoWorks.Controls
 			
 			if (image != null && image.IsVisible)
 				image.RenderCairo(context);
+			
+			if (IsSelected && !IsTogglable && _justKeyActivated)
+			{
+				_justKeyActivated = false;
+				IsSelected = false;
+				MakeDirty();
+			}
 		}
 
 		#endregion
@@ -325,6 +332,24 @@ namespace MonoWorks.Controls
 			if (Clicked != null)
 				Clicked(this, new EventArgs());
 		}
+		
+		private bool _justKeyActivated;
+		
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			if (evt.SpecialKey == SpecialKey.Enter || evt.SpecialKey == SpecialKey.Space)
+			{				
+				evt.Handle();
+				_justKeyActivated = true;
+				IsSelected = true;
+				IsFocused = true;
+				MakeDirty();
+				Click();
+			}
+		}
+
 		
 		#endregion
 

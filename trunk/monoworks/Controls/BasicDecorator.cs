@@ -654,7 +654,7 @@ namespace MonoWorks.Controls
 				progressSize.Y = progressSize.Y * bar.Value;
 				backLoc = AnchorLocation.W;
 				foreLoc = AnchorLocation.E;
-				foreOrigin = new Coord(0, bar.RenderHeight - progressSize.Y);
+				foreOrigin = new Coord(0, bar.RenderHeight - progressSize.Y).Ceiling;
 			}
 			FillRectangle(Coord.Zeros, bar.RenderSize, Corner.None, FillType.Background, bar.HitState, backLoc);
 			FillRectangle(foreOrigin, progressSize, Corner.None, FillType.Highlight, bar.HitState, foreLoc);

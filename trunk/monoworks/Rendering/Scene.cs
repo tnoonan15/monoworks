@@ -376,6 +376,16 @@ namespace MonoWorks.Rendering
 			ViewInteractor.OnKeyPress(evt);
 		}
 
+		public virtual void OnKeyRelease(KeyEvent evt)
+		{
+			OverlayInteractor.OnKeyRelease(evt);
+			
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.OnKeyRelease(evt);
+			
+			ViewInteractor.OnKeyRelease(evt);
+		}
+
 		#endregion
 
 
