@@ -32,13 +32,16 @@
 		</mwc:Stack>
 	</mwc:Dialog>
 	<mwc:Dialog Name="progress-dialog" Title="Progress Indicators">
-		<mwc:Stack Orientation="Vertical">
+		<mwc:Stack Orientation="Vertical" ForceFill="true">
 			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>Progress</mwc:Label>
 				<mwc:Slider Name="progressSlider" Orientation="Horizontal" Value="0.3" Max="1"/>
 			</mwc:Stack>
-			<mwc:ProgressBar Name="progressBar"></mwc:ProgressBar>
-			<mwc:ProgressDial Name="progressDial"></mwc:ProgressDial>
+			<mwc:ProgressBar Name="progressBarH"></mwc:ProgressBar>
+			<mwc:Stack Orientation="Horizontal" ForceFill="true">
+				<mwc:ProgressBar Name="progressBarV" Orientation="Vertical"></mwc:ProgressBar>
+				<mwc:ProgressDial Name="progressDial"></mwc:ProgressDial>
+			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
 </mwx:Ui>
