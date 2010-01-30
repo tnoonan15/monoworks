@@ -439,27 +439,27 @@ namespace MonoWorks.Controls
 				Decorate(control as Button);
 				return;
 			}
-			if (control is ToolBar) 
+			if (control is ToolBar)
 			{
 				Decorate(control as ToolBar);
 				return;
 			}
-			if (control is TextBox) 
+			if (control is TextBox)
 			{
 				Decorate(control as TextBox);
 				return;
 			}
-			if (control is Slider) 
+			if (control is Slider)
 			{
 				Decorate(control as Slider);
 				return;
 			}
-			if (control is CheckBox) 
+			if (control is CheckBox)
 			{
 				Decorate(control as CheckBox);
 				return;
 			}
-			if (control is MenuBox) 
+			if (control is MenuBox)
 			{
 				Decorate(control as MenuBox);
 				return;
@@ -472,6 +472,11 @@ namespace MonoWorks.Controls
 			if (control is ProgressBar)
 			{
 				Decorate(control as ProgressBar);
+				return;
+			}
+			if (control is ProgressDial)
+			{
+				Decorate(control as ProgressDial);
 				return;
 			}
 		}
@@ -635,12 +640,54 @@ namespace MonoWorks.Controls
 
 		protected virtual void Decorate(ProgressBar bar)
 		{
-			FillRectangle(Coord.Zeros, bar.RenderSize, Corner.None, FillType.Background, bar.HitState, AnchorLocation.N);
-			
+			AnchorLocation backLoc, foreLoc;
 			var progressSize = bar.RenderSize.Copy();
-			progressSize.X = progressSize.X * bar.Value;
-			FillRectangle(Coord.Zeros, progressSize, Corner.None, FillType.Highlight, bar.HitState, AnchorLocation.S);
+			var foreOrigin = Coord.Zeros;
+			if (bar.Orientation == Orientation.Horizontal)
+			{
+				progressSize.X = progressSize.X * bar.Value;
+				backLoc = AnchorLocation.N;
+				foreLoc = AnchorLocation.S;
+			}
+			else // vertical
+			{
+				progressSize.Y = progressSize.Y * bar.Value;
+				backLoc = AnchorLocation.W;
+				foreLoc = AnchorLocation.E;
+				foreOrigin = new Coord(0, bar.RenderHeight - progressSize.Y);
+			}
+			FillRectangle(Coord.Zeros, bar.RenderSize, Corner.None, FillType.Background, bar.HitState, backLoc);
+			FillRectangle(foreOrigin, progressSize, Corner.None, FillType.Highlight, bar.HitState, foreLoc);
 			StrokeRectangle(Coord.Zeros, bar.RenderSize, Corner.None, bar.HitState);
+		}
+
+		protected virtual void Decorate(ProgressDial dial)
+		{
+			var pos = Context.Push();
+			Context.Cairo.LineWidth = StrokeWidth;
+			Context.Cairo.Color = GetColor(ColorType.Stroke, dial.HitState).Cairo;
+			var cx = dial.RenderWidth / 2.0 + pos.X;
+			var cy = dial.RenderHeight / 2.0 + pos.Y;
+			
+//			Context.Cairo.MoveTo(pos);
+			Context.Cairo.Arc(cx, cy, dial.RenderWidth / 2.0, 0, dial.Value * 2 * Math.PI);
+			Context.Cairo.Stroke();
+						
+			// draw the inner circle
+			Context.Cairo.Pattern = GenerateGradient(new Coord(pos.X + dial.RenderWidth/2.0 - dial.InnerRadius, 
+														pos.Y + dial.RenderHeight/2.0 - dial.InnerRadius),
+														new Coord(dial.InnerRadius * 2, dial.InnerRadius * 2), 
+														AnchorLocation.SE, 
+			                                            GetColor(ColorType.BackgroundStart, dial.HitState),
+			                                            GetColor(ColorType.BackgroundStop, dial.HitState));
+			Context.Cairo.Arc(cx, cy, dial.InnerRadius, 0, 2 * Math.PI);
+			Context.Cairo.Fill();
+			Context.Cairo.Color = GetColor(ColorType.Stroke, dial.HitState).Cairo;
+			Context.Cairo.Arc(cx, cy, dial.InnerRadius, 0, 2 * Math.PI);
+			Context.Cairo.Stroke();
+			
+			
+			Context.Pop();
 		}
 				
 		#endregion

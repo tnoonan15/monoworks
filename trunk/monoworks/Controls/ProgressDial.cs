@@ -22,6 +22,7 @@
 
 using System;
 
+using MonoWorks.Rendering;
 
 namespace MonoWorks.Controls
 {
@@ -32,6 +33,45 @@ namespace MonoWorks.Controls
 	{
 		public ProgressDial()
 		{
+		}
+
+		
+		/// <summary>
+		/// Default inner radius.
+		/// </summary>
+		private const double DefaultInnerRadius = 10;
+				
+		private double _innerRadius = DefaultInnerRadius;
+		/// <summary>
+		/// The radius of the center part of the dial.
+		/// </summary>
+		[MwxProperty]
+		public double InnerRadius
+		{
+			get { return _innerRadius; }
+			set {
+				_innerRadius = value;
+				MakeDirty();
+			}
+		}
+		
+		/// <summary>
+		/// Minimum radius if the user doesn't define one.
+		/// </summary>
+		private double _minRadius = 32;
+
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			// try to make the dial a circle
+			double radius = _minRadius;
+			if (UserSize != null)
+				radius = Math.Min(UserSize.X / 2.0, UserSize.Y / 2.0);
+			
+			RenderSize.X = radius * 2;
+			RenderSize.Y = radius * 2;
+			
 		}
 	}
 }
