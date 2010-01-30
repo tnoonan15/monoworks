@@ -664,13 +664,35 @@ namespace MonoWorks.Controls
 		protected virtual void Decorate(ProgressDial dial)
 		{
 			var pos = Context.Push();
+			var coord = pos.Coord();
+			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.LineWidth = StrokeWidth;
-			Context.Cairo.Color = GetColor(ColorType.Stroke, dial.HitState).Cairo;
+			var strokeColor = GetColor(ColorType.Stroke, dial.HitState).Cairo;
 			var cx = dial.RenderWidth / 2.0 + pos.X;
 			var cy = dial.RenderHeight / 2.0 + pos.Y;
+			var outerRadius = dial.RenderWidth/2;
 			
-//			Context.Cairo.MoveTo(pos);
-			Context.Cairo.Arc(cx, cy, dial.RenderWidth / 2.0, 0, dial.Value * 2 * Math.PI);
+			// draw the outer background circle
+			Context.Cairo.Pattern = GenerateGradient(coord, dial.RenderSize, AnchorLocation.NW, 
+			                                        GetColor(ColorType.BackgroundStart, dial.HitState), 
+													GetColor(ColorType.BackgroundStop, dial.HitState));
+			Context.Cairo.Arc(cx, cy, outerRadius, 0, 2 * Math.PI);
+			Context.Cairo.Fill();
+			Context.Cairo.Color = strokeColor;
+			Context.Cairo.Arc(cx, cy, outerRadius, 0, 2 * Math.PI);
+			Context.Cairo.Stroke();
+			
+			// draw the outer highlighted circle
+			var grad = new Cairo.RadialGradient(cx, cy, dial.InnerRadius, cx, cy, outerRadius);
+			grad.AddColorStop(1, GetColor(ColorType.HighlightStart, dial.HitState).Cairo);
+			grad.AddColorStop(0, GetColor(ColorType.HighlightStop, dial.HitState).Cairo);
+			Context.Cairo.Pattern = grad;
+			Context.Cairo.Arc(cx, cy, outerRadius, -Math.PI/2.0, dial.Value * 2 * Math.PI - Math.PI/2.0);
+			Context.Cairo.LineTo(cx, cy);
+			Context.Cairo.Fill();
+			Context.Cairo.Color = strokeColor;
+			Context.Cairo.MoveTo(cx, cy);
+			Context.Cairo.RelLineTo(0, -outerRadius);
 			Context.Cairo.Stroke();
 						
 			// draw the inner circle
@@ -682,7 +704,7 @@ namespace MonoWorks.Controls
 			                                            GetColor(ColorType.BackgroundStop, dial.HitState));
 			Context.Cairo.Arc(cx, cy, dial.InnerRadius, 0, 2 * Math.PI);
 			Context.Cairo.Fill();
-			Context.Cairo.Color = GetColor(ColorType.Stroke, dial.HitState).Cairo;
+			Context.Cairo.Color = strokeColor;
 			Context.Cairo.Arc(cx, cy, dial.InnerRadius, 0, 2 * Math.PI);
 			Context.Cairo.Stroke();
 			
