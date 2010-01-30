@@ -76,6 +76,7 @@ namespace MonoWorks.GtkBackend
 			MotionNotifyEvent += OnMotionNotify;
 			ScrollEvent += OnScroll;
 			KeyPressEvent += OnKeyPress;
+			KeyReleaseEvent += OnKeyRelease;
 			
 			// Connect some other signals		
 			DeleteEvent += OnWindowDeleteEvent;
@@ -198,13 +199,13 @@ namespace MonoWorks.GtkBackend
 			}
 		}
 		
-		protected virtual void OnKeyPress(object sender, Gtk.KeyPressEventArgs args)
+		protected KeyEvent GetKeyEvent(Gdk.EventKey evt)
 		{
-			var modifier = GetModifier(args.Event.State);
+			var modifier = GetModifier(evt.State);
 			
 			// look for special keys
-			var val = (int)args.Event.KeyValue;
-			switch (args.Event.Key)
+			var val = (int)evt.KeyValue;
+			switch (evt.Key)
 			{
 			case Gdk.Key.Right:
 				val = (int)SpecialKey.Right;
@@ -242,8 +243,22 @@ namespace MonoWorks.GtkBackend
 				break;
 			}
 			
-			var evt = new KeyEvent(val, modifier);
+			return new KeyEvent(val, modifier);
+		}
+		
+		protected virtual void OnKeyPress(object sender, Gtk.KeyPressEventArgs args)
+		{
+			var evt = GetKeyEvent(args.Event);
 			Viewport.OnKeyPress(evt);
+			args.RetVal = false;
+			
+			PaintGL();
+		}
+
+		protected virtual void OnKeyRelease(object sender, Gtk.KeyReleaseEventArgs args)
+		{
+			var evt = GetKeyEvent(args.Event);
+			Viewport.OnKeyRelease(evt);
 			args.RetVal = false;
 			
 			PaintGL();

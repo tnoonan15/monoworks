@@ -38,6 +38,7 @@ namespace MonoWorks.Rendering.Events
 		Enter = 13,
 		Delete = 46,
 		Escape = 27,
+		Space = 32,
 		Home,
 		End,
 		Tab = 9,

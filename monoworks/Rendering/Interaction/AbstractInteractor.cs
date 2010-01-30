@@ -119,6 +119,11 @@ namespace MonoWorks.Rendering.Interaction
 
 		}
 
+		public override void OnKeyRelease(KeyEvent evt)
+		{
+
+		}
+
 
 		public override void RenderOverlay(Scene scene)
 		{

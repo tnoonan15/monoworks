@@ -321,6 +321,8 @@ namespace MonoWorks.Rendering
 		public virtual void OnMouseWheel(MouseWheelEvent evt) { }
 		
 		public virtual void OnKeyPress(KeyEvent evt) {}
+		
+		public virtual void OnKeyRelease(KeyEvent evt) {}
 						
 		#endregion
 
