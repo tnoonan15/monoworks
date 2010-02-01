@@ -200,6 +200,22 @@ namespace MonoWorks.Controls
 			}
 		}
 		
+		/// <summary>
+		/// Increase the value by one step.
+		/// </summary>
+		public void StepUp()
+		{
+			Value = Math.Min(Value + Step, Max);
+		}
+		
+		/// <summary>
+		/// Decrease the value by one step.
+		/// </summary>
+		public void StepDown()
+		{
+			Value = Math.Max(Value - Step, Min);
+		}
+		
 		
 		#region Rendering
 		
@@ -356,6 +372,25 @@ namespace MonoWorks.Controls
 			}
 			Value = ratio.MinMax(0,1) * Range + Min;
 		}
+		
+		
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			if (IsFocused)
+			{
+				if (evt.SpecialKey == SpecialKey.Right || evt.SpecialKey == SpecialKey.Up)
+				{
+					StepUp();
+				}
+				else if (evt.SpecialKey == SpecialKey.Left || evt.SpecialKey == SpecialKey.Down)
+				{
+					StepDown();
+				}
+			}
+		}
+
 		
 		#endregion
 		

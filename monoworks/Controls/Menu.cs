@@ -61,6 +61,50 @@ namespace MonoWorks.Controls
 				ItemActivated(this, item);
 		}
 		
+		/// <summary>
+		/// Activates and returns the next item from the given one.
+		/// </summary>
+		public MenuItem NextItem(MenuItem item)
+		{
+			if (item == null)
+			{
+				item = GetChild(0);
+				ActivateItem(item);
+				return item;
+			}
+			var index = IndexOfChild(item);
+			if (index == NumChildren - 1)
+			{
+				ActivateItem(item);
+				return item;
+			}
+			var other = GetChild(index + 1);
+			ActivateItem(other);
+			return other;
+		}
+		
+		/// <summary>
+		/// Activates and returns the previous item from the given one.
+		/// </summary>
+		public MenuItem PreviousItem(MenuItem item)
+		{
+			if (item == null)
+			{
+				item = GetChild(NumChildren - 1);
+				ActivateItem(item);
+				return item;
+			}
+			var index = IndexOfChild(item);
+			if (index == 0)
+			{
+				ActivateItem(item);
+				return item;
+			}
+			var other = GetChild(index - 1);
+			ActivateItem(other);
+			return other;
+		}
+		
 
 		#region Rendering
         

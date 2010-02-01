@@ -138,18 +138,18 @@ namespace MonoWorks.Demo
 			var progressDialog = mwx.GetRenderable<Dialog>("progress-dialog");
 			
 			// attach the slider to the progress bars
-			slider = mwx.GetRenderable<Slider>("progressSlider");
+			var progressSlider = mwx.GetRenderable<Slider>("progressSlider");
 			var progressBarH = mwx.GetRenderable<ProgressBar>("progressBarH");
 			var progressBarV = mwx.GetRenderable<ProgressBar>("progressBarV");
 			var progressDial = mwx.GetRenderable<ProgressDial>("progressDial");
-			progressBarH.Value = slider.Value;
-			progressBarV.Value = slider.Value;
-			progressDial.Value = slider.Value;
-			slider.ValueChanged += delegate(object sender, DoubleChangedEvent evt)
+			progressBarH.Value = progressSlider.Value;
+			progressBarV.Value = progressSlider.Value;
+			progressDial.Value = progressSlider.Value;
+			progressSlider.ValueChanged += delegate(object sender, DoubleChangedEvent evt)
 			{
-				progressBarH.Value = slider.Value;
-				progressBarV.Value = slider.Value;
-				progressDial.Value = slider.Value;
+				progressBarH.Value = progressSlider.Value;
+				progressBarV.Value = progressSlider.Value;
+				progressDial.Value = progressSlider.Value;
 			};
 			
 			image = new Image(ResourceHelper.GetStream("radial-progress.png"));

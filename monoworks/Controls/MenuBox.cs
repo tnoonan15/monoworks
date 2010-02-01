@@ -101,6 +101,7 @@ namespace MonoWorks.Controls
 				if (!_menu.ContainsChild(value))
 					throw new Exception("The menu doesn't contain the item " + value);
 				_current = value;
+				GrabFocus();
 				MakeDirty();
 			}
 		}
@@ -120,7 +121,24 @@ namespace MonoWorks.Controls
 			{
 				if (value < 0 || value >= _menu.NumChildren)
 					throw new Exception("Index " + value + " is out of bounds");
+				_current = _menu[value];
 			}
+		}
+		
+		/// <summary>
+		/// Move to the next higher menu item.
+		/// </summary>
+		public void NextCurrent()
+		{
+			CurrentItem = _menu.NextItem(CurrentItem);
+		}
+		
+		/// <summary>
+		/// Move to the next lower menu item.
+		/// </summary>
+		public void PreviousCurrent()
+		{
+			CurrentItem = _menu.PreviousItem(CurrentItem);
 		}
 		
 		/// <summary>
@@ -220,6 +238,8 @@ namespace MonoWorks.Controls
 				return;
 
 			_justHit = true;
+			evt.Handle();
+			GrabFocus();
 			
 			if (IsCurrentEditable)
 			{
@@ -273,6 +293,22 @@ namespace MonoWorks.Controls
 				// TODO: improve menu placement at edges of the scene
 			}
 		}
+				
+		public override void OnKeyPress(KeyEvent evt)
+		{
+			base.OnKeyPress(evt);
+			
+			if (IsFocused)
+			{
+				if (evt.SpecialKey == SpecialKey.Up)
+					NextCurrent();
+				else if (evt.SpecialKey == SpecialKey.Down)
+					PreviousCurrent();
+				else if (evt.SpecialKey == SpecialKey.Space)
+					ShowMenu(evt.Scene);
+			}
+		}
+
 
 		#endregion
 

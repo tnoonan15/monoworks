@@ -53,9 +53,7 @@ namespace MonoWorks.Rendering.Events
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		/// <param name="keyVal"></param>
-		/// <param name="modifier"></param>
-		public KeyEvent(int keyVal, InteractionModifier modifier)
+		public KeyEvent(Scene scene, int keyVal, InteractionModifier modifier) : base(scene)
 		{
 			Value = keyVal;
 			Modifier = modifier;

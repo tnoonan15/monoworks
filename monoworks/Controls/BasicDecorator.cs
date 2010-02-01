@@ -615,7 +615,7 @@ namespace MonoWorks.Controls
 			{
 				var absPos = Context.Push();
 				Context.Cairo.Color = GetColor(ColorType.Stroke, checkBox.HitState).Cairo;
-				Context.Cairo.LineWidth = StrokeWidth;
+				Context.Cairo.LineWidth = 2 *StrokeWidth;
 				Context.Cairo.MoveTo(absPos.X + pos.X + 1, absPos.Y + pos.Y + 1);
 				Context.Cairo.RelLineTo(CheckBox.BoxSize - 2, CheckBox.BoxSize - 2);
 				Context.Cairo.Stroke();
