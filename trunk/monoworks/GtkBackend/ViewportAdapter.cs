@@ -243,7 +243,7 @@ namespace MonoWorks.GtkBackend
 				break;
 			}
 			
-			return new KeyEvent(val, modifier);
+			return new KeyEvent(null, val, modifier);
 		}
 		
 		protected virtual void OnKeyPress(object sender, Gtk.KeyPressEventArgs args)

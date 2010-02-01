@@ -368,6 +368,8 @@ namespace MonoWorks.Rendering
 
 		public virtual void OnKeyPress(KeyEvent evt)
 		{
+			evt.Scene = this;
+			
 			OverlayInteractor.OnKeyPress(evt);
 			
 			if (PrimaryInteractor != null)
@@ -378,6 +380,8 @@ namespace MonoWorks.Rendering
 
 		public virtual void OnKeyRelease(KeyEvent evt)
 		{
+			evt.Scene = this;
+			
 			OverlayInteractor.OnKeyRelease(evt);
 			
 			if (PrimaryInteractor != null)
@@ -413,6 +417,7 @@ namespace MonoWorks.Rendering
 				modalOverlay = RenderList.TopModal;
 			RenderList.PopModal(modalOverlay);
 			modalOverlay.Closed -= OnCloseModalOverlay;
+			Console.WriteLine ("close modal overlay {0}", modalOverlay);
 		}
 		
 		#endregion

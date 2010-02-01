@@ -27,9 +27,15 @@ namespace MonoWorks.Rendering.Events
 	public abstract class Event
 	{
 		
-		public Event()
+		public Event(Scene scene)
 		{
+			Scene = scene;
 		}
+		
+		/// <summary>
+		/// The scene associated with this event.
+		/// </summary>
+		public Scene Scene { get; set; }
 		
 		private bool handled = false;
 		/// <value>

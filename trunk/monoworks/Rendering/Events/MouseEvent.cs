@@ -35,17 +35,11 @@ namespace MonoWorks.Rendering.Events
 		{
 		}
 		
-		public MouseEvent(Scene scene, Coord pos, InteractionModifier modifier) : base()
+		public MouseEvent(Scene scene, Coord pos, InteractionModifier modifier) : base(scene)
 		{
-			Scene = scene;
 			Pos = pos;
 			Modifier = modifier;
 		}
-
-		/// <value>
-		/// The scene that originated the event.
-		/// </value>
-		public Scene Scene { get; internal set; }
 		
 		/// <value>
 		/// The position of the event.

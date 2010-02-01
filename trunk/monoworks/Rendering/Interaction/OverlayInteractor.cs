@@ -103,6 +103,13 @@ namespace MonoWorks.Rendering.Interaction
 			
 		public override void OnKeyPress(KeyEvent evt)
 		{
+			// let the modals interact first
+			if (_scene.RenderList.ModalCount > 0)
+			{
+				_scene.RenderList.TopModal.OnKeyPress(evt);
+				return; // don't interact with anything else if modal overlays are present
+			}
+			
 			if (Current != null)
 				Current.OnKeyPress(evt);
 		}
