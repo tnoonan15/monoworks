@@ -107,8 +107,6 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Interaction\ActorInteractor.cs" />
     <Compile Include="ModalOverlay.cs" />
-    <Compile Include="MwxSource.cs" />
-    <Compile Include="MwxPropertyAttribute.cs" />
     <Compile Include="Ease.cs" />
     <Compile Include="HitState.cs" />
     <Compile Include="Scene.cs" />

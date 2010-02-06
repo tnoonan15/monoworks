@@ -77,6 +77,9 @@
     <Compile Include="IPlane.cs" />
     <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="IStringParsable.cs" />
+    <Compile Include="MwxPropertyAttribute.cs" />
+    <Compile Include="MwxSource.cs" />
+    <Compile Include="IMwxObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

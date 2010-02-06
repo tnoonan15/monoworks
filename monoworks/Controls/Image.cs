@@ -33,9 +33,7 @@ namespace MonoWorks.Controls
 	public class ImageParseException : Exception
 	{
 		public ImageParseException() : 
-			base("Image literals must have one of two forms: " + 
-		         "a comma-separated resource and assembly names, like \"myImage.png,MyAssembly\" or " + 
-				 " an \"icon:\" followed by comma-separated icon name and size, like \"icon:apply,48\"")
+			base("Image literals must be a comma-separated resource and assembly names, like \"myImage.png,MyAssembly\" ")
 		{
 			
 		}
@@ -100,23 +98,15 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Parses a string to load an image.
 		/// </summary>
-		/// <remarks>The string can have several forms:
-		///  - comma-separated resource and assembly names, like "myImage.png,MyAssembly"
-		///  - "icon:" followed by comma-separated icon name and size, like "icon:apply,48"
+		/// <remarks>The string shoud be a comma-separated resource and assembly name,
+		/// like "myImage.png,MyAssembly".
 		/// </remarks>
 		public void Parse(string valString)
 		{
-			if (valString.StartsWith("icon:"))
-			{
-				// TODO: parse icon names into images
-			}
-			else // try to load it from an assembly
-			{
-				var comps = valString.Split(',');
-				if (comps.Length != 2)
-					throw new ImageParseException();
-				LoadStream(ResourceHelper.GetStream(comps[0], comps[1]));
-			}
+			var comps = valString.Split(',');
+			if (comps.Length != 2)
+				throw new ImageParseException();
+			LoadStream(ResourceHelper.GetStream(comps[0], comps[1]));
 		}
 		
 		/// <value>
@@ -146,6 +136,18 @@ namespace MonoWorks.Controls
 			context.Cairo.Restore();
 		}
 
+		
+		/// <summary>
+		/// Renders the image at the current position in the context.
+		/// </summary>
+		public void RenderHere(RenderContext context)
+		{
+			var pos = context.Cairo.CurrentPoint;
+			context.Cairo.Save();
+			context.Cairo.SetSourceSurface(surface, (int)pos.X, (int)pos.Y);
+			context.Cairo.Paint();
+			context.Cairo.Restore();
+		}
 		
 		
 		#region Convenience Methods

@@ -75,10 +75,6 @@
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Resources\Resources.csproj">
-      <Project>{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}</Project>
-      <Name>Resources</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -99,5 +95,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="icons\radial-progress.png" />
     <EmbeddedResource Include="icons\rating.png" />
+    <EmbeddedResource Include="icons\folder-blue.png" />
+    <EmbeddedResource Include="icons\folder-green.png" />
+    <EmbeddedResource Include="icons\folder-yellow.png" />
+    <EmbeddedResource Include="icons\view-tree.png" />
   </ItemGroup>
 </Project>

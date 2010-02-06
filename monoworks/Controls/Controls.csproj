@@ -79,6 +79,9 @@
     <Compile Include="ProgressIndicator.cs" />
     <Compile Include="ProgressBar.cs" />
     <Compile Include="ProgressDial.cs" />
+    <Compile Include="TreeView.cs" />
+    <Compile Include="TreeItem.cs" />
+    <Compile Include="IconList.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />

@@ -1,0 +1,192 @@
+// 
+//  TreeItem.cs - MonoWorks Project
+//  
+//  Author:
+//       Andy Selvig <ajselvig@gmail.com>
+// 
+//  Copyright (c) 2010 Andy Selvig
+// 
+//  This library is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as
+//  published by the Free Software Foundation; either version 2.1 of the
+//  License, or (at your option) any later version.
+// 
+//  This library is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//  Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+using System;
+using System.Collections.Generic;
+
+using MonoWorks.Base;
+using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
+
+namespace MonoWorks.Controls
+{
+	/// <summary>
+	/// An item in a TreeView.
+	/// </summary>
+	public class TreeItem : GenericContainer<TreeItem>, IStringParsable
+	{
+		public TreeItem()
+		{
+			IsExpanded = true;
+		}
+		
+		private string _text;
+		/// <summary>
+		/// The text displayed in the item.
+		/// </summary>
+		[MwxProperty]
+		public string Text {
+			get {return _text;}
+			set {
+				_text = value;
+				MakeDirty();
+			}
+		}	
+		
+		public void Parse(string valString)
+		{
+			Text = valString;
+		}
+		
+		private string _iconName;
+		/// <summary>
+		/// The name of the icon in the icon list to use.
+		/// </summary>
+		[MwxProperty]
+		public string IconName
+		{
+			get { return _iconName; }
+			set {
+				_iconName = value;
+				MakeDirty();
+			}
+		}
+		
+		private bool _isExpanded;
+		/// <summary>
+		/// Whether or not the item is expanded to show its children.
+		/// </summary>
+		[MwxProperty]
+		public bool IsExpanded
+		{
+			get { return _isExpanded; }
+			set {
+				_isExpanded = value;
+				MakeDirty();
+			}
+		}
+		
+		/// <summary>
+		/// The tree view this item belongs to.
+		/// </summary>
+		public TreeView TreeView
+		{
+			get {
+				if (Parent != null)
+				{
+					if (Parent is TreeItem)
+						return (Parent as TreeItem).TreeView;
+					else if (Parent is TreeView)
+						return Parent as TreeView;
+					else
+						throw new Exception("Tree items should only be children of other tree items and tree views.");
+				}
+				return null;
+			}
+		}
+
+		
+		#region Rendering
+
+		/// <summary>
+		/// A dummy surface used by Cairo to compute the text extents.
+		/// </summary>
+		private static readonly Cairo.ImageSurface DummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
+		
+		private Image _icon;
+		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			if (TreeView == null)
+				return;
+		
+			var treeView = TreeView;
+			
+			// get the icon
+			if (IconName != null)
+				_icon = treeView.IconList[IconName];
+			if (_icon != null)
+			{
+				if (_icon.IsDirty)
+					_icon.ComputeGeometry();
+				MinSize.X = _icon.RenderWidth + Padding;
+				MinSize.Y = _icon.RenderHeight;
+			}
+			else
+			{
+				MinSize.X = 0;
+				MinSize.Y = 0;
+			}
+			
+			// compute the text extents
+			using (var cr = new Cairo.Context(DummySurface)) {
+				cr.SetFontSize(treeView.FontSize);
+				var extents = cr.TextExtents(Text);
+				MinSize.X = Math.Max(MinSize.X, extents.Width + 2 * Padding);
+				MinSize.Y = Math.Max(MinSize.Y, extents.Height + 2 * Padding);
+			}
+			
+			// compute size of children
+			var indent = treeView.Indent;
+			foreach (var child in Children)
+			{
+				child.Origin.X = indent;
+				child.Origin.Y = MinSize.Y;
+				MinSize.Y += child.RenderHeight;
+				MinSize.X = Math.Max(MinSize.X, child.RenderWidth);
+			}
+			
+			RenderSize = MinSize;
+		}
+		
+		
+		protected override void Render(RenderContext context)
+		{
+			base.Render(context);
+			
+			// render the text
+			var point = context.Cairo.CurrentPoint;
+			//			context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
+			context.Cairo.MoveTo(point.X + Padding, point.Y + Padding + context.Cairo.FontExtents.Height - 2);
+			if (_icon != null)
+			{
+				context.Cairo.RelMoveTo(_icon.RenderWidth + Padding, context.Cairo.FontExtents.Height - _icon.RenderHeight);
+			}
+			context.Cairo.ShowText(Text);
+			context.Cairo.MoveTo(point);
+			
+			// render the icon
+			if (_icon != null)
+			{
+				_icon.RenderHere(context);
+			}
+			context.Cairo.MoveTo(point);
+			
+		}
+			
+		#endregion
+		
+	}
+}
+

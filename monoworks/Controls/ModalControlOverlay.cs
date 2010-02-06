@@ -41,7 +41,7 @@ namespace MonoWorks.Controls
 		private readonly OverlayPane _overlayPane;
 
 
-		public override void AddChild(Renderable child)
+		public override void AddChild(IMwxObject child)
 		{
 			if (child is Control2D)
 				Control = child as Control2D;

@@ -22,7 +22,7 @@
 
 using System;
 
-namespace MonoWorks.Rendering
+namespace MonoWorks.Base
 {
 
 	/// <summary>

@@ -361,7 +361,7 @@ namespace MonoWorks.Modeling
 		/// </value>
 		public Entity ParentEntity { get; private set; }
 		
-		public override Renderable Parent
+		public override IMwxObject Parent
 		{
 			get {
 				return ParentEntity;

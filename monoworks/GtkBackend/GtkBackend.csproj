@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrawingFrame.cs" />
     <Compile Include="ViewportAdapter.cs" />
     <Compile Include="AttributeControls\AttributePanel.cs" />
     <Compile Include="Framework\Dock\BookNode.cs" />
@@ -102,10 +101,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Resources\Resources.csproj">
-      <Project>{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}</Project>
-      <Name>Resources</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
