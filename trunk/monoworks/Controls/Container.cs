@@ -34,7 +34,7 @@ namespace MonoWorks.Controls
 	{
 		#region Children
 
-		public override void AddChild(Renderable child)
+		public override void AddChild(IMwxObject child)
 		{
 			if (child is T)
 				AddChild(child as T);
@@ -195,6 +195,19 @@ namespace MonoWorks.Controls
 
 		
 		#region Rendering
+		
+		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			foreach (var child in _children)
+			{
+				if (child.IsDirty)
+					child.ComputeGeometry();
+			}
+		}
+
 
 		protected override void Render(RenderContext context)
 		{

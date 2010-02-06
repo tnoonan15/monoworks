@@ -31,6 +31,7 @@
 			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
+	
 	<mwc:Dialog Name="progress-dialog" Title="Progress Indicators">
 		<mwc:Stack Orientation="Vertical" ForceFill="true">
 			<mwc:Stack Orientation="Horizontal">
@@ -44,4 +45,26 @@
 			</mwc:Stack>
 		</mwc:Stack>
 	</mwc:Dialog>
+	
+	<mwc:Dialog Name="tree-dialog" Title="Tree View">
+		<mwc:TreeView>
+			<mwc:IconList>
+				<mwc:IconListEntry Name="green">folder-green.png,MonoWorks.Demo</mwc:IconListEntry>
+				<mwc:IconListEntry Name="blue">folder-blue.png,MonoWorks.Demo</mwc:IconListEntry>
+				<mwc:IconListEntry Name="yellow">folder-yellow.png,MonoWorks.Demo</mwc:IconListEntry>
+			</mwc:IconList>
+			<mwc:TreeItem IconName="green">Item 1</mwc:TreeItem>
+			<mwc:TreeItem IconName="blue" Text="Item 2">
+				<mwc:TreeItem IconName="yellow">Subitem 1</mwc:TreeItem>
+				<mwc:TreeItem IconName="green">Subitem 2</mwc:TreeItem>
+				<mwc:TreeItem IconName="blue">Subitem 3</mwc:TreeItem>
+			</mwc:TreeItem>
+			<mwc:TreeItem IconName="yellow" Text="Item 3">
+				<mwc:TreeItem IconName="yellow">Subitem 4</mwc:TreeItem>
+				<mwc:TreeItem IconName="green">Subitem 5</mwc:TreeItem>
+				<mwc:TreeItem IconName="blue">Subitem 6</mwc:TreeItem>
+			</mwc:TreeItem>
+		</mwc:TreeView>
+	</mwc:Dialog>
+	
 </mwx:Ui>

@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{88CBD331-92E5-4424-BC71-8AE23596C4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkBackend", "GtkBackend\GtkBackend.csproj", "{93981ADD-F7E7-45F1-934F-13B2EB7088DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkDemo", "GtkDemo\GtkDemo.csproj", "{03901B82-65B6-4112-B3CF-CE4E9DFC363B}"
@@ -56,10 +54,6 @@ Global
 		{784C93E6-C181-4328-934B-449066348931}.Release|Any CPU.Build.0 = Release|Any CPU
 		{784C93E6-C181-4328-934B-449066348931}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
 		{784C93E6-C181-4328-934B-449066348931}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
-		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{857385F0-7861-4D80-9D73-995A24FB8602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{857385F0-7861-4D80-9D73-995A24FB8602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{857385F0-7861-4D80-9D73-995A24FB8602}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -115,6 +109,19 @@ Global
 		$0.StandardHeader = $5
 		$5.Text = @\n ${FileName} - MonoWorks Project\n \n Author:\n      ${AuthorName} <${AuthorEmail}>\n\n Copyright (c) ${Year} ${CopyrightHolder}\n\n This library is free software; you can redistribute it and/or modify\n it under the terms of the GNU Lesser General Public License as\n published by the Free Software Foundation; either version 2.1 of the\n License, or (at your option) any later version.\n\n This library is distributed in the hope that it will be useful, but\n WITHOUT ANY WARRANTY; without even the implied warranty of\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU\n Lesser General Public License for more details.\n\n You should have received a copy of the GNU Lesser General Public\n License along with this library; if not, write to the Free Software\n Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 		$5.inheritsSet = MITX11License
+		$0.TextStylePolicy = $6
+		$6.inheritsSet = null
+		$6.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $7
+		$7.EventBraceStyle = NextLine
+		$7.BeforeMethodCallParentheses = False
+		$7.BeforeMethodDeclarationParentheses = False
+		$7.BeforeConstructorDeclarationParentheses = False
+		$7.BeforeDelegateDeclarationParentheses = False
+		$7.NewParentheses = False
+		$7.inheritsSet = Mono
+		$7.inheritsScope = text/x-csharp
+		$7.scope = text/x-csharp
 		name = MonoWorks
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution

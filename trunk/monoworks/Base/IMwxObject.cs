@@ -1,5 +1,5 @@
 // 
-//  ProgressDial.cs - MonoWorks Project
+//  MwxBase.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -21,59 +21,48 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Xml;
 
-using MonoWorks.Base;
-using MonoWorks.Rendering;
-
-namespace MonoWorks.Controls
+namespace MonoWorks.Base
 {
 	/// <summary>
-	/// Progress indicator that represents progress as an angle.
+	/// Base class for objects that can be serialized into MWX files.
 	/// </summary>
-	public class ProgressDial : ProgressIndicator
+	public interface IMwxObject
 	{
-		public ProgressDial()
-		{
-		}
-
+		/// <summary>
+		/// The name of the object.
+		/// </summary>
+		string Name {get; set;}
 		
 		/// <summary>
-		/// Default inner radius.
+		/// The parent object to this one.
 		/// </summary>
-		private const double DefaultInnerRadius = 10;
-				
-		private double _innerRadius = DefaultInnerRadius;
-		/// <summary>
-		/// The radius of the center part of the dial.
-		/// </summary>
-		[MwxProperty]
-		public double InnerRadius
-		{
-			get { return _innerRadius; }
-			set {
-				_innerRadius = value;
-				MakeDirty();
-			}
-		}
+		IMwxObject Parent {get; set;}
 		
 		/// <summary>
-		/// Minimum radius if the user doesn't define one.
+		/// Adds a child to this object.
 		/// </summary>
-		private double _minRadius = 32;
-
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-			
-			// try to make the dial a circle
-			double radius = _minRadius;
-			if (UserSize != null)
-				radius = Math.Min(UserSize.X / 2.0, UserSize.Y / 2.0);
-			
-			RenderSize.X = radius * 2;
-			RenderSize.Y = radius * 2;
-			
-		}
+		void AddChild(IMwxObject child);
 	}
+	
+	
+	/// <summary>
+	/// Provides a naive default implementation for an MWX object.
+	/// </summary>
+	public class MwxDummyObject : IMwxObject
+	{
+		/// <exception cref="NotImplementedException"></exception>
+		public void AddChild(IMwxObject child)
+		{
+			throw new System.NotImplementedException();
+		}
+		
+		[MwxProperty]
+		public string Name {get; set;}
+				
+		public IMwxObject Parent {get; set;}
+	}
+	
 }
 

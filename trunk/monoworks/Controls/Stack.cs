@@ -86,7 +86,6 @@ namespace MonoWorks.Controls
 			double span = 0;
 			foreach (var child in ChildrenCopy)
 			{
-				child.ComputeGeometry();
 				Coord size_ = child.RenderSize;
 				span += Padding;
 				if (_orientation == Orientation.Horizontal)

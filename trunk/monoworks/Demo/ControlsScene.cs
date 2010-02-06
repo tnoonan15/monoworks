@@ -102,11 +102,11 @@ namespace MonoWorks.Demo
 			
 			
 			// the controls dialog
-			var controlsDialog = mwx.GetRenderable<Dialog>("controls-dialog");
+			var controlsDialog = mwx.Get<Dialog>("controls-dialog");
 			
 			// attach the slider to its value label
-			var slider = mwx.GetRenderable<Slider>("slider");
-			var sliderValue = mwx.GetRenderable<Label>("sliderValue");
+			var slider = mwx.Get<Slider>("slider");
+			var sliderValue = mwx.Get<Label>("sliderValue");
 			sliderValue.Body = slider.Value.ToString("##.##");
 			slider.ValueChanged += delegate(object sender, DoubleChangedEvent evt)
 			{
@@ -114,7 +114,7 @@ namespace MonoWorks.Demo
 			};
 			
 			// attach the ForceStep checkbox to the slider
-			var forceStepCheck = mwx.GetRenderable<CheckBox>("forceStepCheck");
+			var forceStepCheck = mwx.Get<CheckBox>("forceStepCheck");
 			forceStepCheck.CheckChanged += delegate(object sender, BoolChangedEvent evt)
 			{
 				slider.ForceStep = evt.NewValue;
@@ -126,22 +126,21 @@ namespace MonoWorks.Demo
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 			
 			image = Image.GetIcon("controls-dialog", 48);
-			button = new Button("Controls Dialog", image);
+			button = new Button("General Controls", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
-				// show controls dialog
 				ShowModal(controlsDialog);
 			};
 			toolbar.AddChild(button);
 			
 			
 			// the progress dialog
-			var progressDialog = mwx.GetRenderable<Dialog>("progress-dialog");
+			var progressDialog = mwx.Get<Dialog>("progress-dialog");
 			
 			// attach the slider to the progress bars
-			var progressSlider = mwx.GetRenderable<Slider>("progressSlider");
-			var progressBarH = mwx.GetRenderable<ProgressBar>("progressBarH");
-			var progressBarV = mwx.GetRenderable<ProgressBar>("progressBarV");
-			var progressDial = mwx.GetRenderable<ProgressDial>("progressDial");
+			var progressSlider = mwx.Get<Slider>("progressSlider");
+			var progressBarH = mwx.Get<ProgressBar>("progressBarH");
+			var progressBarV = mwx.Get<ProgressBar>("progressBarV");
+			var progressDial = mwx.Get<ProgressDial>("progressDial");
 			progressBarH.Value = progressSlider.Value;
 			progressBarV.Value = progressSlider.Value;
 			progressDial.Value = progressSlider.Value;
@@ -156,6 +155,17 @@ namespace MonoWorks.Demo
 			button = new Button("Progress Indicators", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
 				ShowModal(progressDialog);
+			};
+			toolbar.AddChild(button);
+			
+			
+			// the tree view dialog
+			var treeDialog = mwx.Get<Dialog>("tree-dialog");
+			
+			image = new Image(ResourceHelper.GetStream("view-tree.png"));
+			button = new Button("Tree View", image);
+			button.Clicked += delegate(object sender, EventArgs e) { 
+				ShowModal(treeDialog);
 			};
 			toolbar.AddChild(button);
 

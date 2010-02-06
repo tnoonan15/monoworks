@@ -76,7 +76,7 @@ namespace MonoWorks.Controls
 		public Control2D ParentControl { get; set; }
 
 
-		public override Renderable Parent
+		public override IMwxObject Parent
 		{
 			get {
 				return ParentControl;

@@ -26,9 +26,7 @@ using System.Xml;
 using System.IO;
 using System.Reflection;
 
-using MonoWorks.Base;
-
-namespace MonoWorks.Rendering
+namespace MonoWorks.Base
 {
 	/// <summary>
 	/// The exception that gets thrown when a MwxSource can't figure out how to instantiate an element.
@@ -36,15 +34,15 @@ namespace MonoWorks.Rendering
 	public class InvalidMwxElementException : Exception
 	{
 		public InvalidMwxElementException(XmlReader reader, string details)
-			: base(String.Format("Unable to resolve element {0} into a concrete renderable instance. {1}", reader.Name, details))
+			: base(String.Format("Unable to resolve element {0} into a concrete object instance. {1}", reader.Name, details))
 		{			
 		}
 	}
 	
-	public class UnknownRenderableException : Exception
+	public class UnknownObjectException : Exception
 	{
-		public UnknownRenderableException(string name) 
-			: base(String.Format("There is no renderable named {0} in the mwx source.", name))
+		public UnknownObjectException(string name) 
+			: base(String.Format("There is no object named {0} in the mwx source.", name))
 		{
 			
 		}
@@ -85,34 +83,34 @@ namespace MonoWorks.Rendering
 		}
 		
 		
-		private Dictionary<string, Renderable> _renderables = new Dictionary<string, Renderable>();
+		private Dictionary<string, IMwxObject> _objects = new Dictionary<string, IMwxObject>();
 		
 		/// <summary>
-		/// Gets a renderable by name.
+		/// Gets an object by name.
 		/// </summary>
-		/// <remarks>This isn't type safe and you should generally use GetRenderable<T> instead.</remarks>
-		public Renderable GetRenderable(string name)
+		/// <remarks>This isn't type safe and you should generally use Get<T> instead.</remarks>
+		public IMwxObject Get(string name)
 		{
-			Renderable ren = null;
-			if (_renderables.TryGetValue(name, out ren))
-				return ren;
-			throw new UnknownRenderableException(name);
+			IMwxObject obj = null;
+			if (_objects.TryGetValue(name, out obj))
+				return obj;
+			throw new UnknownObjectException(name);
 		}
 		
 		/// <summary>
-		/// Gets a renderable by name and performs type checking.
+		/// Gets an object by name and performs type checking.
 		/// </summary>
-		public T GetRenderable<T>(string name) where T : Renderable
+		public T Get<T>(string name) where T : IMwxObject
 		{
-			Renderable ren = null;
-			if (_renderables.TryGetValue(name, out ren))
+			IMwxObject obj = null;
+			if (_objects.TryGetValue(name, out obj))
 			{
-				if (ren is T)
-					return ren as T;
-				throw new Exception(String.Format("Renderable {0} is of type {1}, not {2}", 
-				                                  name, ren.GetType(), typeof(T)));
+				if (obj is T)
+					return (T)obj;
+				throw new Exception(String.Format("MwxBase {0} is of type {1}, not {2}", 
+				                                  name, obj.GetType(), typeof(T)));
 			}
-			throw new UnknownRenderableException(name);
+			throw new UnknownObjectException(name);
 		}
 		
 		/// <summary>
@@ -120,7 +118,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		private void Parse(XmlReader reader)
 		{
-			Renderable parent = null;
+			IMwxObject parent = null;
 			while (!reader.EOF)
 			{
 				reader.Read();
@@ -131,10 +129,10 @@ namespace MonoWorks.Rendering
 					// create the renderable
 					if (reader.LocalName == "Ui")
 						continue;
-					var renderable = CreateRenderable(reader);
+					var renderable = CreateMwxBase(reader);
 					var name = renderable.Name;
 					if (name != null)
-						_renderables[name] = renderable;
+						_objects[name] = renderable;
 					
 					// add it to the current parent
 					if (parent != null)
@@ -181,9 +179,9 @@ namespace MonoWorks.Rendering
 		}
 		
 		/// <summary>
-		/// Creates a renderable based on the current mwx element.
+		/// Creates an object based on the current mwx element.
 		/// </summary>
-		private Renderable CreateRenderable(XmlReader reader)
+		private IMwxObject CreateMwxBase(XmlReader reader)
 		{
 			// get the type
 			var className = GetElementClassName(reader);
@@ -197,17 +195,34 @@ namespace MonoWorks.Rendering
 				throw new InvalidMwxElementException(reader, ex.Message);
 			}
 			
-			// verify it's a renderable
-			if (!type.IsSubclassOf(typeof(Renderable)))
-				throw new InvalidMwxElementException(reader, "Type is not a subclass of MonoWorks.Rendering.Renderable.");
+			// verify it's an object
+			if (!type.Implements(typeof(IMwxObject)))
+				throw new InvalidMwxElementException(reader, "Type does not implement MonoWorks.Base.IMwxObject.");
 			
 			// instantiate the renderable
-			var renderable = Activator.CreateInstance(type) as Renderable;
+			var renderable = Activator.CreateInstance(type) as IMwxObject;
 			
 			// populate the renderable
-			renderable.FromMwx(reader);
+			AssignProperties(renderable, reader);
 			
 			return renderable;
+		}
+		
+		/// <summary>
+		/// Populates the renderable based on a mwx stream.
+		/// </summary>
+		private static void AssignProperties(IMwxObject obj, XmlReader reader)
+		{			
+			foreach (var prop in reader.GetProperties())
+			{
+				var propInfo = obj.GetType().GetProperty(prop.Key);
+				if (propInfo == null)
+					throw new Exception(String.Format("No property named {0} for type {1}", prop.Key, obj.GetType()));
+				if (propInfo.GetCustomAttributes<MwxPropertyAttribute>().Length == 0)
+					throw new Exception(String.Format("Property {0} for type {1} is not a MwxProperty", prop.Key, obj.GetType()));
+				propInfo.SetFromString(obj, prop.Value);
+			}
+			
 		}
 		
 		
