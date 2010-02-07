@@ -107,6 +107,8 @@
     <EmbeddedResource Include="StandardScene\icons\standard-view.png" />
     <EmbeddedResource Include="StandardScene\icons\top-view.png" />
     <EmbeddedResource Include="icons\expand.png" />
+    <EmbeddedResource Include="icons\tree-expanded.png" />
+    <EmbeddedResource Include="icons\tree-hidden.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

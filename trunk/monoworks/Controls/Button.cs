@@ -297,7 +297,7 @@ namespace MonoWorks.Controls
 				justClicked = true;
 				IsSelected = true;
 				IsFocused = true;
-				MakeDirty();
+				QueuePaneRender();
 			}
 		}
 
@@ -313,7 +313,7 @@ namespace MonoWorks.Controls
 			{
 				justClicked = false;
 				evt.Handle();
-				MakeDirty();
+				QueuePaneRender();
 				Click();
 			}
 
@@ -340,12 +340,12 @@ namespace MonoWorks.Controls
 			base.OnKeyPress(evt);
 			
 			if (evt.SpecialKey == SpecialKey.Enter || evt.SpecialKey == SpecialKey.Space)
-			{				
+			{
 				evt.Handle();
 				_justKeyActivated = true;
 				IsSelected = true;
 				IsFocused = true;
-				MakeDirty();
+				QueuePaneRender();
 				Click();
 			}
 		}

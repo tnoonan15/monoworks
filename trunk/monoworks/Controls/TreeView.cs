@@ -111,7 +111,7 @@ namespace MonoWorks.Controls
 		protected override void Render(RenderContext context)
 		{
 			context.Cairo.SetFontSize(_fontSize);
-			context.Cairo.Color = new Cairo.Color(0, 0, 0);
+			context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
 			
 			base.Render(context);
 		}

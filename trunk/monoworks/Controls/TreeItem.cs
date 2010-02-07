@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
+using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
@@ -37,6 +38,14 @@ namespace MonoWorks.Controls
 		public TreeItem()
 		{
 			IsExpanded = true;
+		}
+		
+		
+		static TreeItem()
+		{
+			
+			_hiddenIcon = new Image(ResourceHelper.GetStream("tree-hidden.png"));
+			_expandedIcon = new Image(ResourceHelper.GetStream("tree-expanded.png"));
 		}
 		
 		private string _text;
@@ -105,6 +114,19 @@ namespace MonoWorks.Controls
 		}
 
 		
+		#region Expand Icons
+
+		/// <summary>
+		/// The width of the expand icons.
+		/// </summary>
+		private const double _expandIconWidth = 16;
+		
+		private static readonly Image _expandedIcon;
+
+		private static readonly Image _hiddenIcon;
+		
+		#endregion
+		
 		#region Rendering
 
 		/// <summary>
@@ -113,6 +135,11 @@ namespace MonoWorks.Controls
 		private static readonly Cairo.ImageSurface DummySurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, 128, 128);
 		
 		private Image _icon;
+		
+		/// <summary>
+		/// The height taken up by just this item (not its children) during the last render.
+		/// </summary>
+		private double _myHeight;
 		
 		public override void ComputeGeometry()
 		{
@@ -130,12 +157,12 @@ namespace MonoWorks.Controls
 			{
 				if (_icon.IsDirty)
 					_icon.ComputeGeometry();
-				MinSize.X = _icon.RenderWidth + Padding;
+				MinSize.X = _icon.RenderWidth + Padding + _expandIconWidth;
 				MinSize.Y = _icon.RenderHeight;
 			}
 			else
 			{
-				MinSize.X = 0;
+				MinSize.X = _expandIconWidth;
 				MinSize.Y = 0;
 			}
 			
@@ -143,18 +170,24 @@ namespace MonoWorks.Controls
 			using (var cr = new Cairo.Context(DummySurface)) {
 				cr.SetFontSize(treeView.FontSize);
 				var extents = cr.TextExtents(Text);
-				MinSize.X = Math.Max(MinSize.X, extents.Width + 2 * Padding);
+				MinSize.X += extents.Width + 2 * Padding;
 				MinSize.Y = Math.Max(MinSize.Y, extents.Height + 2 * Padding);
 			}
 			
+			// store my height
+			_myHeight = MinSize.Y;
+			
 			// compute size of children
-			var indent = treeView.Indent;
-			foreach (var child in Children)
+			if (IsExpanded)
 			{
-				child.Origin.X = indent;
-				child.Origin.Y = MinSize.Y;
-				MinSize.Y += child.RenderHeight;
-				MinSize.X = Math.Max(MinSize.X, child.RenderWidth);
+				var indent = treeView.Indent;
+				foreach (var child in Children)
+				{
+					child.Origin.X = indent;
+					child.Origin.Y = MinSize.Y;
+					MinSize.Y += child.RenderHeight;
+					MinSize.X = Math.Max(MinSize.X, indent + child.RenderWidth);
+				}
 			}
 			
 			RenderSize = MinSize;
@@ -163,28 +196,104 @@ namespace MonoWorks.Controls
 		
 		protected override void Render(RenderContext context)
 		{
+			if (Parent != null && Parent is TreeItem && !(Parent as TreeItem).IsExpanded)
+				return;
+			
 			base.Render(context);
 			
-			// render the text
 			var point = context.Cairo.CurrentPoint;
-			//			context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
-			context.Cairo.MoveTo(point.X + Padding, point.Y + Padding + context.Cairo.FontExtents.Height - 2);
-			if (_icon != null)
+			
+			// highlighting
+			if (IsHovering || IsSelected)
 			{
+				context.Cairo.Save();
+				context.Cairo.Color = context.Decorator.GetColor(ColorType.HighlightStart, HitState).Cairo;
+				context.Cairo.Rectangle(point, RenderWidth, _myHeight);
+				context.Cairo.Fill();
+				context.Cairo.MoveTo(point);
+				context.Cairo.Restore();
+			}
+			
+			// render the text
+			context.Cairo.MoveTo(point.X + Padding + _expandIconWidth, point.Y + Padding + context.Cairo.FontExtents.Height - 2);
+			if (_icon != null) {
 				context.Cairo.RelMoveTo(_icon.RenderWidth + Padding, context.Cairo.FontExtents.Height - _icon.RenderHeight);
 			}
 			context.Cairo.ShowText(Text);
 			context.Cairo.MoveTo(point);
 			
+			// render the expand icon, if applicable
+			if (NumChildren > 0)
+			{
+				if (IsExpanded)
+					_expandedIcon.RenderHere(context);
+				else
+					_hiddenIcon.RenderHere(context);
+			}
+			
 			// render the icon
 			if (_icon != null)
 			{
+				context.Cairo.RelMoveTo(_expandIconWidth, 0);
 				_icon.RenderHere(context);
 			}
 			context.Cairo.MoveTo(point);
 			
 		}
 			
+		#endregion
+		
+		
+		#region Interaction
+		
+		/// <summary>
+		/// Toggles the IsExpanded property.
+		/// </summary>
+		public void ToggleExpanded()
+		{
+			IsExpanded = !IsExpanded;
+		}
+		
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			if (!HitTest(evt.Pos))
+				return;
+			
+			// whether it hit me and not my children
+			var hitMe = evt.Pos.Y - LastPosition.Y <= _myHeight;
+			
+			if (evt.Button == 1)
+			{
+				if (hitMe)
+				{
+					ToggleSelection();
+					QueuePaneRender();
+				}
+				
+				if (evt.Pos.X - LastPosition.X <= _expandIconWidth)
+					ToggleExpanded();
+				else if (evt.Multiplicity == ClickMultiplicity.Double && hitMe)
+					ToggleExpanded();
+			}
+		}
+		
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+		}
+
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+			
+			IsHovering = evt.Pos >= LastPosition && evt.Pos.X <= (LastPosition.X + RenderWidth) && 
+				evt.Pos.Y - LastPosition.Y <= _myHeight;
+			QueuePaneRender();
+		}
+
+		
 		#endregion
 		
 	}

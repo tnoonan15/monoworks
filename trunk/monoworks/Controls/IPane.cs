@@ -50,5 +50,10 @@ namespace MonoWorks.Controls
 		/// </summary>
 		Control2D InFocus {get; set;}
 		
+		/// <summary>
+		/// Queues the pane to redraw its control during the next render cycle.
+		/// </summary>
+		void QueueRender();
+		
 	}
 }
