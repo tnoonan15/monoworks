@@ -275,6 +275,17 @@ namespace MonoWorks.Controls
 		protected virtual void Render(RenderContext context)
 		{
 		}
+		
+		/// <summary>
+		/// Tells the parent pane to redraw its control during the next render cycle, even if it isn't dirty.
+		/// </summary>
+		/// <remarks>This is useful when you want the control to be redrawn but don't 
+		/// need to bother computing geometry.</remarks>
+		public void QueuePaneRender()
+		{
+			if (Pane != null)
+				Pane.QueueRender();
+		}
 
 		#endregion
 				

@@ -76,8 +76,8 @@ namespace MonoWorks.Controls
 			SetColorGroup(ColorType.HighlightStart,
 				new ColorGroup(
       			new Color(0.1f, 0.7f, 0.1f, 0.8f),
-      			new Color(0.1f, 0.7f, 0.1f, 0.8f),
-      			new Color(0.1f, 0.7f, 0.1f, 0.8f)
+      			new Color(0.1f, 1f, 0.1f, 0.4f),
+      			new Color(0.1f, 0.8f, 0.1f, 0.8f)
             ));
 			
 			SetColorGroup(ColorType.HighlightStop,

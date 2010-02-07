@@ -82,7 +82,8 @@ namespace MonoWorks.Controls
 			MinSize = new Coord();
 			foreach (var child in Children)
 			{
-				child.ComputeGeometry();
+				if (child.IsDirty)
+					child.ComputeGeometry();
 				MinSize = Coord.Max(MinSize, child.RenderSize);
 			}
 			MinSize.Y += TitleHeight;
@@ -90,11 +91,13 @@ namespace MonoWorks.Controls
 			ApplyUserSize();
 			
 			// place the close button
-			_closeButton.ComputeGeometry();
+			if (_closeButton.IsDirty)
+				_closeButton.ComputeGeometry();
 			_closeButton.Origin = new Coord(RenderWidth - Padding - _closeButton.RenderWidth, Padding);
 			
 			// place the title label
-			_titleLabel.ComputeGeometry();
+			if (_titleLabel.IsDirty)
+				_titleLabel.ComputeGeometry();
 			_titleLabel.Origin = new Coord((RenderWidth - _titleLabel.RenderWidth) / 2, Padding);
 		}
 		

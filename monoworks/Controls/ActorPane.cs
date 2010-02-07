@@ -195,6 +195,11 @@ namespace MonoWorks.Controls
 		/// This is set true if the pane was dirty last render cycle.
 		/// </summary>
 		private bool wasDirty = false;
+
+		public void QueueRender()
+		{
+			wasDirty = true;
+		}
 		
 		/// <summary>
 		/// Handle to the OpenGL texture that the control will be rendered to.
