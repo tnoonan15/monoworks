@@ -64,5 +64,13 @@ namespace MonoWorks.Rendering.Events
 		/// </value>
 		public ClickMultiplicity Multiplicity { get; private set; }
 		
+		
+		public override string ToString()
+		{
+			return string.Format("[MouseButtonEvent: Button={0}, Multiplicity={1}, Modifier={2}, Handled={3}]", 
+				Button, Multiplicity, Modifier, Handled);
+		}
+
+		
 	}
 }

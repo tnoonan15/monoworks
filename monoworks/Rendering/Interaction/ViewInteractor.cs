@@ -148,7 +148,6 @@ namespace MonoWorks.Rendering.Interaction
 					_scene.Camera.AnimateTo(ViewDirection.Front);
 				else
 					_scene.Camera.AnimateTo(ViewDirection.Standard);
-				evt.Handle();
 			}
 
 		}
