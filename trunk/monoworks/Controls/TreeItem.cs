@@ -127,6 +127,7 @@ namespace MonoWorks.Controls
 		
 		#endregion
 		
+		
 		#region Rendering
 
 		/// <summary>
@@ -268,7 +269,7 @@ namespace MonoWorks.Controls
 			{
 				if (hitMe)
 				{
-					ToggleSelection();
+					Select();
 					QueuePaneRender();
 				}
 				
@@ -293,6 +294,43 @@ namespace MonoWorks.Controls
 			QueuePaneRender();
 		}
 
+		
+		#endregion
+		
+		
+		#region Selection
+		
+		public override void Select()
+		{
+			base.Select();
+		
+			if (TreeView != null)
+				TreeView.Select(this, this);
+		}
+		
+		/// <summary>
+		/// Deselects the item and all of its children.
+		/// </summary>
+		public void DeselectAll(object sender)
+		{
+			IsSelected = false;
+			foreach (var child in Children)
+			{
+				child.DeselectAll(sender);
+			}
+		}
+
+		/// <summary>
+		/// Selects the item and all of its children.
+		/// </summary>
+		public void SelectAll(object sender)
+		{
+			IsSelected = true;
+			foreach (var child in Children)
+			{
+				child.SelectAll(sender);
+			}
+		}
 		
 		#endregion
 		

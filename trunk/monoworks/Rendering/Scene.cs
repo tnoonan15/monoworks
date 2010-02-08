@@ -417,7 +417,6 @@ namespace MonoWorks.Rendering
 				modalOverlay = RenderList.TopModal;
 			RenderList.PopModal(modalOverlay);
 			modalOverlay.Closed -= OnCloseModalOverlay;
-			Console.WriteLine ("close modal overlay {0}", modalOverlay);
 		}
 		
 		#endregion

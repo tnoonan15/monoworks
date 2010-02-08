@@ -69,6 +69,7 @@ namespace MonoWorks.Controls
 			base.Resize();
 			
 			_selector.UserSize.X = Width;
+			_selector.MakeDirty();
 			_pane.ComputeGeometry();
 			_pane.Origin.X = 0;
 			_pane.Origin.Y = Height - _pane.RenderHeight;
