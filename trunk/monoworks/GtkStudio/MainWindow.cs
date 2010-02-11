@@ -18,14 +18,16 @@
 
 using System;
 
+using MonoWorks.GtkBackend;
 using MonoWorks.GtkBackend.Framework;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.GtkStudio
 {	
 	/// <summary>
 	/// Main application window for the Studio.
 	/// </summary>
-	public class MainWindow : SlateWindow
+	public class MainWindow : Gtk.Window
 	{
 
 		/// <summary>
@@ -40,12 +42,27 @@ namespace MonoWorks.GtkStudio
 			Gtk.Application.Run();
 		}
 		
-		public MainWindow() : base("MonoWorks Studio")
+		public MainWindow() : base(Gtk.WindowType.Toplevel)
 		{
-
-			new MainControllerGtk(this);
-
+			Title = "MonoWorks Studio";
+			
+			_adapter = new ViewportAdapter();
+			_scene = new StudioScene(_adapter.Viewport);
+			
+			Add(_adapter);
+			_adapter.Viewport.RootScene = _scene;
+			
+			DeleteEvent += delegate {
+				Gtk.Application.Quit();
+			};
+			
+			
+			_scene.AddDrawing(new Part() {Name="Part"});
 		}
+		
+		private readonly ViewportAdapter _adapter;
+		
+		private readonly StudioScene _scene;
 
 	}
 }

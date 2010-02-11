@@ -157,6 +157,7 @@ namespace MonoWorks.Controls
 		internal SceneBookSelector(SceneBook book)
 		{
 			RenderSize = new Coord();
+			MinSize = new Coord(0, 20);
 			Padding = 0;
 			_book = book;
 			Orientation = Orientation.Horizontal;
@@ -200,9 +201,8 @@ namespace MonoWorks.Controls
 		
 		public override void ComputeGeometry()
 		{
-			base.ComputeGeometry();			
-			if (UserSize != null)
-				RenderSize.X = UserSize.X;
+			base.ComputeGeometry();
+			ApplyUserSize();
 		}
 				
 		protected override void Render(RenderContext context)

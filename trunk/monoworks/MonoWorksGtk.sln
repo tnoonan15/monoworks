@@ -92,7 +92,7 @@ Global
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = GtkDemo\GtkDemo.csproj
+		StartupItem = GtkStudio\GtkStudio.csproj
 		Policies = $0
 		$0.VersionControlPolicy = $1
 		$1.CommitMessageStyle = $2
