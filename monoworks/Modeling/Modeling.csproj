@@ -103,6 +103,8 @@
     <Compile Include="SceneControls\DrawingController.cs" />
     <Compile Include="SceneControls\IAttributeControl.cs" />
     <Compile Include="SceneControls\IAttributePanel.cs" />
+    <Compile Include="DrawingScene.cs" />
+    <Compile Include="StudioScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EntityMetaData.xml" />
