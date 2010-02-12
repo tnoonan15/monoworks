@@ -29,7 +29,7 @@ namespace MonoWorks.Rendering
 	public enum AnchorLocation {None = 0, N = 1, E = 2, S = 4, W = 8, NE = 32, SE = 64, SW = 128, NW = 256 };
 	
 	/// <summary>
-	/// A corner of the viewport, subset of AnchorLocation.
+	/// The locations in a corner of a rectangle, subset of AnchorLocation.
 	/// </summary>
 	[Flags]
 	public enum Corner {None = AnchorLocation.None,
@@ -39,9 +39,10 @@ namespace MonoWorks.Rendering
 						SW = AnchorLocation.SW};
 	
 	/// <summary>
-	/// The anchor locations available for contexts, subset of AnchorLocation.
+	/// The locations along the sides of a rectangle, subset of AnchorLocation.
 	/// </summary>
-	public enum ContextLocation { N = AnchorLocation.N, 
+	[Flags]
+	public enum Side { N = AnchorLocation.N, 
 								E = AnchorLocation.E, 
 								S = AnchorLocation.S, 
 								W = AnchorLocation.W};

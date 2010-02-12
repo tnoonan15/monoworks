@@ -202,6 +202,7 @@ namespace MonoWorks.Controls
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
+			MinSize = RenderSize;
 			ApplyUserSize();
 		}
 				

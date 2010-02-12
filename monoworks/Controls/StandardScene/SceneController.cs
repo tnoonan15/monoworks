@@ -69,9 +69,9 @@ namespace MonoWorks.Controls.StandardScene
 		/// </summary>
 		protected void LoadStandardToolbars()
 		{
-			ContextLayer.AddContext(ContextLocation.N, "View");
-//			ContextLayer.AddContext(ContextLocation.N, "Interaction");
-			ContextLayer.AddContext(ContextLocation.N, "Export");
+			ContextLayer.AddContext(Side.N, "View");
+//			ContextLayer.AddContext(Side.N, "Interaction");
+			ContextLayer.AddContext(Side.N, "Export");
 			OnProjectionChanged();
 //			OnInteractionStateChanged();
 		}

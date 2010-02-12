@@ -21,7 +21,9 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Collections.Generic;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
@@ -34,6 +36,17 @@ namespace MonoWorks.Controls
 	{
 		public SceneSpace(Viewport viewport) : base(viewport)
 		{
+			foreach (var side in Enum.GetValues(typeof(Side)))
+				_gutterOverlays[(Side)side] = new OverlayPane();
+			
+			// create the gutters
+			_gutters[Side.E] = new Stack(Orientation.Vertical) { Padding = 0 };
+			_gutters[Side.S] = new Stack(Orientation.Horizontal) { Padding = 0 };
+			_gutters[Side.W] = new Stack(Orientation.Vertical) { Padding = 0 };
+			_gutters[Side.N] = new Stack(Orientation.Horizontal) { Padding = 0 };
+			
+			foreach (var side in Enum.GetValues(typeof(Side)))
+				_gutterOverlays[(Side)side].Control = _gutters[(Side)side];
 		}
 		
 		private SceneContainer _root;
@@ -53,15 +66,73 @@ namespace MonoWorks.Controls
 			base.Resize();
 			if (Root != null)
 				Root.Resize(Width, Height);
-		}		
+			
+			_relayout = true;
+		}
+		
+		private bool _relayout;
 		
 		public override void Render()
 		{
 			base.Render();
 			
+			// see if the gutters need their geometry computed
+			foreach (var side in _gutters.Keys)
+			{
+				if (_gutters[side].IsDirty)
+				{
+					_relayout = true;
+					_gutters[side].ComputeGeometry();
+				}
+				_gutterOverlays[side].RenderOverlay(this);
+			}
+			
+			// relayout the gutters
+			if (_relayout)
+			{
+				_gutterOverlays[Side.W].Origin.Y = Height - _gutterOverlays[Side.N].RenderHeight;
+				_gutterOverlays[Side.N].Origin.Y = Height - _gutterOverlays[Side.N].RenderHeight;
+				// TODO: implement SceneSpace layout for east and south gutters
+				
+				var rootOrigin = new Coord(_gutters[Side.W].RenderWidth, _gutters[Side.S].RenderHeight);
+				Root.ViewportOffset = rootOrigin;
+				Root.Resize(Width - rootOrigin.X - _gutters[Side.E].RenderWidth, 
+					Height - rootOrigin.Y - _gutters[Side.N].RenderHeight);
+				_relayout = false;
+			}
+			
 			if (Root != null)
 				Root.Render();
 		}
+		
+		
+		#region Gutters
+
+		private readonly Dictionary<Side,Stack> _gutters = new Dictionary<Side, Stack>();
+
+		private readonly Dictionary<Side, OverlayPane> _gutterOverlays = new Dictionary<Side, OverlayPane>();
+		
+		/// <summary>
+		/// Adds a control to one of the gutters.
+		/// </summary>
+		public void AddToGutter(Side side, Control2D control)
+		{
+			_gutters[side].AddChild(control);
+		}
+
+		/// <summary>
+		/// Removes a control to one of the gutters.
+		/// </summary>
+		public void RemoveFromGutter(Control2D control)
+		{
+			foreach (var gutter in _gutters.Values)
+			{
+				if (gutter.ContainsChild(control))
+					gutter.RemoveChild(control);
+			}
+		}
+		
+		#endregion
 		
 		
 		#region Interaction

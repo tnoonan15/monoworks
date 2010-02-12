@@ -57,7 +57,7 @@ namespace MonoWorks.Controls
 			}
 
 			// create the stacks
-			foreach (ContextLocation loc in Enum.GetValues(typeof(ContextLocation)))
+			foreach (Side loc in Enum.GetValues(typeof(Side)))
 			{
 				Stack stack = new Stack();
 				stack.Orientation = ContextOrientation(loc);
@@ -134,9 +134,9 @@ namespace MonoWorks.Controls
 		/// </summary>
 		/// <param name="loc"></param>
 		/// <returns></returns>
-		public static Orientation ContextOrientation(ContextLocation loc)
+		public static Orientation ContextOrientation(Side loc)
 		{
-			if (loc == ContextLocation.N || loc == ContextLocation.S)
+			if (loc == Side.N || loc == Side.S)
 				return Orientation.Horizontal;
 			else
 				return Orientation.Vertical;
@@ -144,7 +144,7 @@ namespace MonoWorks.Controls
 
 		Dictionary<AnchorLocation, AnchorPane> anchors = new Dictionary<AnchorLocation, AnchorPane>();
 
-		Dictionary<ContextLocation, Stack> stacks = new Dictionary<ContextLocation, Stack>();
+		Dictionary<Side, Stack> stacks = new Dictionary<Side, Stack>();
 
 
 		/// <summary>
@@ -168,7 +168,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		/// <param name="loc"></param>
 		/// <param name="context"></param>
-		public void AddContext(ContextLocation loc, string context)
+		public void AddContext(Side loc, string context)
 		{
 			ToolBar toolbar = GetToolbar(context);
 			toolbar.Orientation = ContextOrientation(loc);
@@ -181,7 +181,7 @@ namespace MonoWorks.Controls
 		/// Clears all contexts from the location.
 		/// </summary>
 		/// <param name="loc"></param>
-		public void ClearContexts(ContextLocation loc)
+		public void ClearContexts(Side loc)
 		{
 			stacks[loc].Clear();
 		}
@@ -191,7 +191,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public void ClearAllContexts()
 		{
-			foreach (ContextLocation loc in Enum.GetValues(typeof(ContextLocation)))
+			foreach (Side loc in Enum.GetValues(typeof(Side)))
 			{
 				stacks[loc].Clear();
 			}

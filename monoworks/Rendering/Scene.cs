@@ -113,7 +113,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		/// <remarks>This is either left at zero if the scene takes up the whole viewport
 		/// or set by a SceneContainer to control scene layout.</remarks>
-		public Coord ViewportOffset {get; private set;}
+		public Coord ViewportOffset {get; set;}
 
 		/// <summary>
 		/// The renderable width of the scene.

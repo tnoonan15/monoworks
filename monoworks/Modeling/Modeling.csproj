@@ -169,4 +169,7 @@
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="Studio.mwx" />
+  </ItemGroup>
 </Project>

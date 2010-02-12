@@ -44,7 +44,7 @@ namespace MonoWorks.Modeling.SceneControls
 			OnSolidModeChanged();
 
 			LoadStandardToolbars();
-			ContextLayer.AddContext(ContextLocation.N, "Shading");
+			ContextLayer.AddContext(Side.N, "Shading");
 
 			// get ready for sketching
 			AnchorPane sketchAnchor = new AnchorPane(AnchorLocation.NE);
@@ -136,7 +136,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// The location of the primary toolbar.
 		/// </summary>
-		protected ContextLocation primaryLoc = ContextLocation.E;
+		protected Side primaryLoc = Side.E;
 
 		/// <summary>
 		/// Convenience method to add a context to the primary context location.
