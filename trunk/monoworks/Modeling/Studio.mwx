@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mwx:Ui xmlns:mwx="http://monoworksproject.org/mwx" 
 		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
+	
+	
 	<mwc:Toolbar>
 		
 	</mwc:Toolbar>
