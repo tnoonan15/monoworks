@@ -36,6 +36,8 @@ namespace MonoWorks.Modeling
 		{
 			_drawingBook = new SceneBook(viewport);
 			Root = _drawingBook;
+			
+			AddToGutter(Side.N, new Button("Hellow Gutter"));
 		}
 		
 		private readonly SceneBook _drawingBook;
