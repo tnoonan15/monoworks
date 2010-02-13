@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.Framework;
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Controls;
@@ -37,10 +37,7 @@ namespace MonoWorks.Modeling.SceneControls
 			: base(scene)
 		{
 			this.attributePanel = attributePanel;
-
-			ResourceManagerBase.LoadAssembly("MonoWorks.Modeling");
-
-			UiManager.LoadStream(ResourceHelper.GetStream("drawing.ui"));
+			
 			OnSolidModeChanged();
 
 			LoadStandardToolbars();
@@ -81,11 +78,11 @@ namespace MonoWorks.Modeling.SceneControls
 		[Action("Wireframe")]
 		public void OnWireframe()
 		{
-			if (UiManager.HasToolbar("Shading"))
-			{
-				ToolBar toolbar = UiManager.GetToolbar("Shading");
-				scene.RenderManager.ShowWireframe = toolbar.GetButton("Wireframe").IsSelected;
-			}
+//			if (UiManager.HasToolbar("Shading"))
+//			{
+//				ToolBar toolbar = UiManager.GetToolbar("Shading");
+//				scene.RenderManager.ShowWireframe = toolbar.GetButton("Wireframe").IsSelected;
+//			}
 		}
 
 		[Action("No Solid")]
@@ -114,18 +111,18 @@ namespace MonoWorks.Modeling.SceneControls
 		/// </summary>
 		public void OnSolidModeChanged()
 		{
-			if (UiManager.HasToolbar("Shading"))
-			{
-				ToolBar toolbar = UiManager.GetToolbar("Shading");
-				string solidString = solidModeNames[scene.RenderManager.SolidMode];
-				foreach (Button button in toolbar)
-				{
-					if (button.LabelString == solidString)
-						button.IsSelected = true;
-					else if (button.LabelString != "Wireframe") // don't touch the wireframe button
-						button.IsSelected = false;
-				}
-			}
+//			if (UiManager.HasToolbar("Shading"))
+//			{
+//				ToolBar toolbar = UiManager.GetToolbar("Shading");
+//				string solidString = solidModeNames[scene.RenderManager.SolidMode];
+//				foreach (Button button in toolbar)
+//				{
+//					if (button.LabelString == solidString)
+//						button.IsSelected = true;
+//					else if (button.LabelString != "Wireframe") // don't touch the wireframe button
+//						button.IsSelected = false;
+//				}
+//			}
 		}
 
 #endregion

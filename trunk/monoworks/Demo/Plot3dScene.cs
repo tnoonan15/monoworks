@@ -23,7 +23,6 @@
 using System;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Plotting;

@@ -22,7 +22,6 @@ using System.IO;
 using System.Xml;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
 
 namespace MonoWorks.Modeling
 {

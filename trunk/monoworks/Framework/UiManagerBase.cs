@@ -35,18 +35,6 @@ namespace MonoWorks.Framework
 	public enum UiMode { None, Actions, Action, Menu, Tools, Toolbar, ToolBox, ToolShelf, DockableArea, DockableSizer, DockableBook};
 
 
-	/// <summary>
-	/// Possible interactoin modifiers.
-	/// </summary>
-	[Flags()]
-	public enum InteractionModifier
-	{
-		None = 256,
-		Shift = 512,
-		Control = 1024,
-		Alt = 2048
-	};
-
 
 	/// <summary>
 	/// Base class for UI managers.

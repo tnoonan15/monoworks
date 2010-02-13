@@ -80,6 +80,7 @@
     <Compile Include="MwxPropertyAttribute.cs" />
     <Compile Include="MwxSource.cs" />
     <Compile Include="IMwxObject.cs" />
+    <Compile Include="ResourceHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

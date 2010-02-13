@@ -22,7 +22,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-using MonoWorks.Framework;
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.Modeling

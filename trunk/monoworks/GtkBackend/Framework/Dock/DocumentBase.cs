@@ -18,7 +18,6 @@
 
 using System;
 
-using MonoWorks.Framework;
 
 namespace MonoWorks.GtkBackend.Framework.Dock
 {

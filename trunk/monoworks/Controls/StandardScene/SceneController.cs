@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.Framework;
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
 using MonoWorks.Rendering.Interaction;
@@ -38,30 +38,27 @@ namespace MonoWorks.Controls.StandardScene
         public SceneController(Scene scene)
             : base()
         {
-			this.scene = scene;
-			scene.Camera.ProjectionChanged += ExternalProjectionChanged;
+        	this.scene = scene;
+        	scene.Camera.ProjectionChanged += ExternalProjectionChanged;
 
-			ResourceManagerBase.LoadAssembly("MonoWorks.Controls");
+			Mwx = new MwxSource(ResourceHelper.GetStream("Scene.ui"));
 
-			UiManager = new UiManager(this);
-			UiManager.LoadStream(ResourceHelper.GetStream("Scene.ui"));
-
-			scene.RenderList.AddOverlay(UiManager.ContextLayer);
+//			scene.RenderList.AddOverlay(UiManager.ContextLayer);
         }
 
         protected Scene scene;
-
+		
 		/// <summary>
-		/// The UiManager used by this controller.
+		/// The MWX soource for the controller. 
 		/// </summary>
-		public UiManager UiManager { get; set; }
+		public MwxSource Mwx {get; private set;}
 
 		/// <summary>
 		/// The context layer containing all of the toolbars.
 		/// </summary>
 		public ContextLayer ContextLayer
 		{
-			get { return UiManager.ContextLayer; }
+			get { return null; }
 		}
 
 		/// <summary>
@@ -146,12 +143,12 @@ namespace MonoWorks.Controls.StandardScene
 		/// </summary>
 		public void OnProjectionChanged()
 		{
-			ToolBar toolbar = UiManager.GetToolbar("View");
-			if (toolbar != null)
-			{
-				Button projButton = toolbar.GetButton("Projection");
-				projButton.IsSelected = scene.Camera.Projection == Projection.Perspective;
-			}
+//			ToolBar toolbar = UiManager.GetToolbar("View");
+//			if (toolbar != null)
+//			{
+//				Button projButton = toolbar.GetButton("Projection");
+//				projButton.IsSelected = scene.Camera.Projection == Projection.Perspective;
+//			}
 		}
 
 		/// <summary>

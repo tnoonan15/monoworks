@@ -67,7 +67,6 @@
     <Compile Include="DecoratorBase.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="CheckBox.cs" />
-    <Compile Include="StandardScene\UiManager.cs" />
     <Compile Include="StandardScene\SceneController.cs" />
     <Compile Include="SceneSpace.cs" />
     <Compile Include="SceneBook.cs" />
@@ -82,6 +81,8 @@
     <Compile Include="TreeView.cs" />
     <Compile Include="TreeItem.cs" />
     <Compile Include="IconList.cs" />
+    <Compile Include="AbstractController.cs" />
+    <Compile Include="ActionAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
@@ -119,10 +120,6 @@
     <ProjectReference Include="..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Framework\Framework.csproj">
-      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
-      <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

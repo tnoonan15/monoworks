@@ -111,6 +111,7 @@
     <Compile Include="HitState.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="CairoHelper.cs" />
+    <Compile Include="FileDialogDef.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />
@@ -119,10 +120,6 @@
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Framework\Framework.csproj">
-      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
-      <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

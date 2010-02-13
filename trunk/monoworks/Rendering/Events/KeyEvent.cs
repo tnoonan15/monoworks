@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Rendering;
-using MonoWorks.Framework;
 
 namespace MonoWorks.Rendering.Events
 {

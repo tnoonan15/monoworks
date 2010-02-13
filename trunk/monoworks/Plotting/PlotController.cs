@@ -17,7 +17,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 
-using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
 using MonoWorks.Controls.StandardScene;
@@ -30,7 +29,7 @@ namespace MonoWorks.Plotting
 		public PlotController(Scene scene)
 			: base(scene)
 		{
-			UiManager.LoadStream(ResourceHelper.GetStream("plotting.ui"));
+//			UiManager.LoadStream(ResourceHelper.GetStream("plotting.ui"));
 
 			LoadStandardToolbars();
 
