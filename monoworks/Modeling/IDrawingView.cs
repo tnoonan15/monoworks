@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-using MonoWorks.Framework;
 
 namespace MonoWorks.Modeling
 {
 	/// <summary>
 	/// Interface for documents containing drawings.
 	/// </summary>
-	public interface IDrawingView : IDocument
+	public interface IDrawingView
 	{
 		/// <summary>
 		/// The drawing.

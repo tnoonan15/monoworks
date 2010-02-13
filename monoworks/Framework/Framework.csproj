@@ -58,14 +58,12 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="AbstractController.cs" />
     <Compile Include="ActionAttribute.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="DocumentType.cs" />
     <Compile Include="FileDialogDef.cs" />
     <Compile Include="IDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceHelper.cs" />
     <Compile Include="ResourceManagerBase.cs" />
     <Compile Include="UiManagerBase.cs" />
   </ItemGroup>

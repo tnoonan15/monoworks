@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
 
 namespace MonoWorks.Controls
 {

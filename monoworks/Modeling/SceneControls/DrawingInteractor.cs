@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering.Interaction;
-using MonoWorks.Framework;
 using MonoWorks.Modeling.Sketching;
 
 namespace MonoWorks.Modeling.SceneControls

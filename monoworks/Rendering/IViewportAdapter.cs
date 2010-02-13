@@ -17,8 +17,6 @@
 
 using System;
 
-using MonoWorks.Framework;
-
 namespace MonoWorks.Rendering
 {
 	/// <summary>

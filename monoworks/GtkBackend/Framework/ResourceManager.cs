@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-using MonoWorks.Framework;
 
 namespace MonoWorks.GtkBackend.Framework
 {

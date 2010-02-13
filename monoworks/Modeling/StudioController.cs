@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 
-using MonoWorks.Framework;
+using MonoWorks.Controls;
 
 namespace MonoWorks.Modeling
 {
@@ -37,19 +37,7 @@ namespace MonoWorks.Modeling
 		}
 
 
-		private UiManagerBase uiManager;
-
-		/// <summary>
-		/// Set the ui manager.
-		/// </summary>
-		/// <param name="uiManager"></param>
-		protected void SetUiManager(UiManagerBase uiManager)
-		{
-			this.uiManager = uiManager;
-			NewPart();
-		}
-
-		protected DocumentManager<IDrawingView> drawingManager = new DocumentManager<IDrawingView>();
+//		protected DocumentManager<IDrawingView> drawingManager = new DocumentManager<IDrawingView>();
 
 
 
@@ -59,7 +47,7 @@ namespace MonoWorks.Modeling
 		{
 			base.OnKeyPress(key);
 
-			uiManager.HandleKeyPress(key);
+//			uiManager.HandleKeyPress(key);
 		}
 
 #endregion
@@ -70,15 +58,15 @@ namespace MonoWorks.Modeling
 		[Action("New Part")]
 		public void NewPart()
 		{
-			IDrawingView view = uiManager.CreateDocumentByName("PartView") as IDrawingView;
-			drawingManager.Add(view);
+//			IDrawingView view = uiManager.CreateDocumentByName("PartView") as IDrawingView;
+//			drawingManager.Add(view);
 		}
 
 		[Action("New Assembly")]
 		public void NewAssembly()
 		{
-			IDrawingView view = uiManager.CreateDocumentByName("AssemblyView") as IDrawingView;
-			drawingManager.Add(view);
+//			IDrawingView view = uiManager.CreateDocumentByName("AssemblyView") as IDrawingView;
+//			drawingManager.Add(view);
 		}
 
 		[Action()]
@@ -111,23 +99,23 @@ namespace MonoWorks.Modeling
 		[Action()]
 		public void Undo()
 		{
-			if (drawingManager.Count > 0)
-			{
-				Console.WriteLine("undo {0}", drawingManager.Current.Title);
-				drawingManager.Current.Drawing.Undo();
-				drawingManager.Current.Repaint();
-			}
+//			if (drawingManager.Count > 0)
+//			{
+//				Console.WriteLine("undo {0}", drawingManager.Current.Title);
+//				drawingManager.Current.Drawing.Undo();
+//				drawingManager.Current.Repaint();
+//			}
 		}
 
 		[Action()]
 		public void Redo()
 		{
-			if (drawingManager.Count > 0)
-			{
-				Console.WriteLine("redo {0}", drawingManager.Current.Title);
-				drawingManager.Current.Drawing.Redo();
-				drawingManager.Current.Repaint();
-			}
+//			if (drawingManager.Count > 0)
+//			{
+//				Console.WriteLine("redo {0}", drawingManager.Current.Title);
+//				drawingManager.Current.Drawing.Redo();
+//				drawingManager.Current.Repaint();
+//			}
 		}
 
 		[Action()]

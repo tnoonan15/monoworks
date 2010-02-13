@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 

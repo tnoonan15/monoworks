@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using Cairo;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 

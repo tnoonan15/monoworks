@@ -1,4 +1,4 @@
-﻿// ResourceHelper.cs - MonoWorks Project
+// ResourceHelper.cs - MonoWorks Project
 //
 //  Copyright (C) 2008 Andy Selvig
 //
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
 
-namespace MonoWorks.Framework
+namespace MonoWorks.Base
 {
 	/// <summary>
 	/// Exception for invalid resource names.

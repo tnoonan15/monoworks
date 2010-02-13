@@ -25,7 +25,6 @@ using glu=Tao.OpenGl.Glu;
 using GtkGL;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering.Interaction;

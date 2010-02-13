@@ -20,6 +20,18 @@ using System;
 
 namespace MonoWorks.Rendering.Events
 {
+
+	/// <summary>
+	/// Possible interaction modifiers.
+	/// </summary>
+	[Flags()]
+	public enum InteractionModifier
+	{
+		None = 256,
+		Shift = 512,
+		Control = 1024,
+		Alt = 2048
+	};
 	
 	/// <summary>
 	/// Base class for all rendering events.
