@@ -129,6 +129,7 @@
     <EmbeddedResource Include="SceneControls\drawing.ui" />
     <EmbeddedResource Include="SceneControls\icons\ellipse.png" />
     <EmbeddedResource Include="SceneControls\icons\rectangle.png" />
+    <EmbeddedResource Include="Studio.mwx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -165,7 +166,4 @@
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <None Include="Studio.mwx" />
-  </ItemGroup>
 </Project>

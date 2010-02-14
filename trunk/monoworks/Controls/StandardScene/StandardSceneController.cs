@@ -27,31 +27,23 @@ using MonoWorks.Rendering.Interaction;
 namespace MonoWorks.Controls.StandardScene
 {
     /// <summary>
-    /// Implements a Framework controller for a scene.
+    /// Implements a controller for a "standard" scene.
     /// </summary>
-    public class SceneController : AbstractController
+    public class StandardSceneController : AbstractController<Scene>
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="scene">The scene that this controller controls.</param>
-        public SceneController(Scene scene)
-            : base()
+        public StandardSceneController(Scene scene)
+            : base(scene)
         {
-        	this.scene = scene;
-        	scene.Camera.ProjectionChanged += ExternalProjectionChanged;
+        	Scene.Camera.ProjectionChanged += ExternalProjectionChanged;
 
-			Mwx = new MwxSource(ResourceHelper.GetStream("Scene.ui"));
+			Mwx.Parse(ResourceHelper.GetStream("Scene.ui"));
 
-//			scene.RenderList.AddOverlay(UiManager.ContextLayer);
+//			Scene.RenderList.AddOverlay(UiManager.ContextLayer);
         }
-
-        protected Scene scene;
-		
-		/// <summary>
-		/// The MWX soource for the controller. 
-		/// </summary>
-		public MwxSource Mwx {get; private set;}
 
 		/// <summary>
 		/// The context layer containing all of the toolbars.
@@ -79,50 +71,50 @@ namespace MonoWorks.Controls.StandardScene
 		[Action("Standard View")]
 		public void OnStandardView()
 		{
-			scene.RenderList.ResetBounds();
-			scene.Camera.AnimateTo(ViewDirection.Standard);
+			Scene.RenderList.ResetBounds();
+			Scene.Camera.AnimateTo(ViewDirection.Standard);
 		}
 		
 		[Action("Front View")]
 		public void OnFrontView()
 		{
-			scene.RenderList.ResetBounds();
-			scene.Camera.AnimateTo(ViewDirection.Front);
+			Scene.RenderList.ResetBounds();
+			Scene.Camera.AnimateTo(ViewDirection.Front);
 		}
 		
 		[Action("Back View")]
 		public void OnBackView()
 		{
-			scene.RenderList.ResetBounds();
-			scene.Camera.AnimateTo(ViewDirection.Back);
+			Scene.RenderList.ResetBounds();
+			Scene.Camera.AnimateTo(ViewDirection.Back);
 		}
 		
 		[Action("Left View")]
 		public void OnLeftView()
 		{
-			scene.RenderList.ResetBounds();
-			scene.Camera.AnimateTo(ViewDirection.Left);
+			Scene.RenderList.ResetBounds();
+			Scene.Camera.AnimateTo(ViewDirection.Left);
 		}
 		
 		[Action("Right View")]
 		public void OnRightView()
 		{
-			scene.RenderList.ResetBounds();
-			scene.Camera.AnimateTo(ViewDirection.Right);
+			Scene.RenderList.ResetBounds();
+			Scene.Camera.AnimateTo(ViewDirection.Right);
 		}
 		
 		[Action("Top View")]
 		public void OnTopView()
 		{
-			scene.RenderList.ResetBounds();
-			scene.Camera.AnimateTo(ViewDirection.Top);
+			Scene.RenderList.ResetBounds();
+			Scene.Camera.AnimateTo(ViewDirection.Top);
 		}
 		
 		[Action("Bottom View")]
 		public void OnBottomView()
 		{
-			scene.RenderList.ResetBounds();
-			scene.Camera.AnimateTo(ViewDirection.Bottom);
+			Scene.RenderList.ResetBounds();
+			Scene.Camera.AnimateTo(ViewDirection.Bottom);
 		}
 		
 #endregion
@@ -134,7 +126,7 @@ namespace MonoWorks.Controls.StandardScene
 		[Action("Projection")]
 		public void OnChangeProjection()
 		{
-			scene.Camera.ToggleProjection();
+			Scene.Camera.ToggleProjection();
 			OnProjectionChanged();
 		}
 
@@ -147,7 +139,7 @@ namespace MonoWorks.Controls.StandardScene
 //			if (toolbar != null)
 //			{
 //				Button projButton = toolbar.GetButton("Projection");
-//				projButton.IsSelected = scene.Camera.Projection == Projection.Perspective;
+//				projButton.IsSelected = Scene.Camera.Projection == Projection.Perspective;
 //			}
 		}
 
@@ -170,7 +162,7 @@ namespace MonoWorks.Controls.StandardScene
 		[Action("Export")]
 		public void OnExport()
 		{
-//			scene.Export();
+//			Scene.Export();
 		}
 
 #endregion

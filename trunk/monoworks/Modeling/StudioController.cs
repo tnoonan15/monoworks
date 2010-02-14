@@ -20,20 +20,24 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 
+using MonoWorks.Base;
+using MonoWorks.Rendering;
 using MonoWorks.Controls;
 
 namespace MonoWorks.Modeling
 {
 	/// <summary>
-	/// Base controller class for MonoWorks Studio.
+	/// Controller for drawings.
 	/// </summary>
-	public abstract class StudioController : AbstractController
+	public class StudioController : AbstractController<StudioScene>
 	{
 
-		public StudioController()
-			: base()
+		public StudioController(StudioScene scene)
+			: base(scene)
 		{
-
+			Mwx.Parse(ResourceHelper.GetStream("Studio.mwx"));
+						
+			Scene.AddToGutter(Side.N, new Button("Hellow Gutter"));
 		}
 
 
@@ -70,13 +74,22 @@ namespace MonoWorks.Modeling
 		}
 
 		[Action()]
-		public abstract void Open();
+		public void Open()
+		{
+			Console.WriteLine("open");
+		}
 
 		[Action()]
-		public abstract void Save();
+		public void Save()
+		{
+			Console.WriteLine("save");
+		}
 
 		[Action("Save As")]
-		public abstract void SaveAs();
+		public void SaveAs()
+		{
+			Console.WriteLine("save as");
+		}
 
 		[Action()]
 		public void Close()
