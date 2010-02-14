@@ -23,7 +23,7 @@ using MonoWorks.Controls.StandardScene;
 
 namespace MonoWorks.Plotting
 {
-	public class PlotController : SceneController
+	public class PlotController : StandardSceneController
 	{
 
 		public PlotController(Scene scene)

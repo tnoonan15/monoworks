@@ -21,6 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+using MonoWorks.Base;
+using MonoWorks.Rendering;
+
 namespace MonoWorks.Controls
 {
 
@@ -32,13 +35,16 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// Base class for Framework controllers.
 	/// </summary>
-    public abstract class AbstractController
+    public abstract class AbstractController<T> where T : Scene
     {
 		/// <summary>
-		/// Default constructor.
+		/// Default constructor (sets the scene).
 		/// </summary>
-        public AbstractController()
-		{
+        public AbstractController(T scene)
+        {
+        	Scene = scene;
+        	Mwx = new MwxSource();
+			
 			// get the actions
 			MethodInfo[] methods = GetType().GetMethods();
 			foreach (MethodInfo method in methods)
@@ -60,8 +66,17 @@ namespace MonoWorks.Controls
 				}
 			}
         }
+		
+		/// <summary>
+		/// The scene this controller controls.
+		/// </summary>
+		public T Scene { get; private set; }
 
-
+		/// <summary>
+		/// The MWX source for the controller. 
+		/// </summary>
+		public MwxSource Mwx { get; private set; }
+		
 		/// <summary>
 		/// The actions for this controller.
 		/// </summary>

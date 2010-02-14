@@ -37,7 +37,11 @@ namespace MonoWorks.Controls
 		public SceneSpace(Viewport viewport) : base(viewport)
 		{
 			foreach (var side in Enum.GetValues(typeof(Side)))
-				_gutterOverlays[(Side)side] = new OverlayPane();
+			{
+				var overlay = new OverlayPane();
+				_gutterOverlays[(Side)side] = overlay;
+				RenderList.AddOverlay(overlay);
+			}
 			
 			// create the gutters
 			_gutters[Side.E] = new Stack(Orientation.Vertical) { Padding = 0 };
@@ -74,18 +78,17 @@ namespace MonoWorks.Controls
 		
 		public override void Render()
 		{
-			base.Render();
-			
 			// see if the gutters need their geometry computed
 			foreach (var side in _gutters.Keys)
 			{
 				if (_gutters[side].IsDirty)
 				{
 					_relayout = true;
-					_gutters[side].ComputeGeometry();
+					break;
 				}
-				_gutterOverlays[side].RenderOverlay(this);
 			}
+			
+			base.Render();
 			
 			// relayout the gutters
 			if (_relayout)

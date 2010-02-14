@@ -2,8 +2,9 @@
 <mwx:Ui xmlns:mwx="http://monoworksproject.org/mwx" 
 		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
 	
+	<mwc:Action Name="New Part" />
 	
-	<mwc:Toolbar>
-		
-	</mwc:Toolbar>
+	<mwc:ToolBar Name="FileToolbar">
+		<mwc:Button Action="New Part"/>
+	</mwc:ToolBar>
 </mwx:Ui>

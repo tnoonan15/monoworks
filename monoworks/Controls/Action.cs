@@ -1,5 +1,5 @@
 // 
-//  StudioScene.cs - MonoWorks Project
+//  Action.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -22,36 +22,30 @@
 
 using System;
 
-using MonoWorks.Rendering;
-using MonoWorks.Controls;
+using MonoWorks.Base;
 
-namespace MonoWorks.Modeling
+namespace MonoWorks.Controls
 {
-	/// <summary>
-	/// The top level scene for Studio.
-	/// </summary>
-	public class StudioScene : SceneSpace
+	public class Action : IMwxObject
 	{
-		public StudioScene(Viewport viewport) : base(viewport)
+		public Action()
 		{
-			_drawingBook = new SceneBook(viewport);
-			Root = _drawingBook;
-			
-			new StudioController(this);
 		}
 		
-		private readonly SceneBook _drawingBook;
 		
+		public void AddChild (IMwxObject child)
+		{
+			throw new System.NotImplementedException();
+		}
 		
 		/// <summary>
-		/// Adds a drawing to the main document book.
+		/// The name of the action.
 		/// </summary>
-		public void AddDrawing(Drawing drawing)
-		{
-			var scene = new DrawingScene(Viewport);
-			scene.Drawing = drawing;
-			_drawingBook.Add(scene);
-		}
+		[MwxProperty]
+		public string Name {get; set;}
+		
+		
+		public IMwxObject Parent { get; set; }
 		
 	}
 }

@@ -83,6 +83,7 @@
     <Compile Include="IconList.cs" />
     <Compile Include="AbstractController.cs" />
     <Compile Include="ActionAttribute.cs" />
+    <Compile Include="Action.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />

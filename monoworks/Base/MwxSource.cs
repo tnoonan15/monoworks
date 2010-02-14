@@ -114,9 +114,19 @@ namespace MonoWorks.Base
 		}
 		
 		/// <summary>
+		/// Parses the mwx in a stream.
+		/// </summary>
+		public void Parse(Stream stream)
+		{
+			var reader = new XmlTextReader(stream);
+			Parse(reader);
+			reader.Close();
+		}
+		
+		/// <summary>
 		/// Parses a mwx source through a xml reader.
 		/// </summary>
-		private void Parse(XmlReader reader)
+		public void Parse(XmlReader reader)
 		{
 			IMwxObject parent = null;
 			while (!reader.EOF)
