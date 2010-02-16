@@ -17,10 +17,10 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
-
 
 namespace MonoWorks.Controls
 {
@@ -34,7 +34,7 @@ namespace MonoWorks.Controls
 	/// Control that can be clicked by the user.
 	/// </summary>
 	/// <remarks> Buttons can contain an image and/or label.</remarks>
-	public class Button : Control2D
+	public class Button : Control2D, IActionPopulatable
 	{
 
 		/// <summary>
@@ -350,6 +350,24 @@ namespace MonoWorks.Controls
 			}
 		}
 
+		
+		#endregion
+		
+		
+		#region Action Population
+		
+		/// <summary>
+		/// Populates the button from an action.
+		/// </summary>
+		public void Populate(MonoWorks.Base.Action action)
+		{
+			LabelString = action.Name;
+			if (action.IconName != null)
+			{
+				Image = new Image();
+				Image.Parse(action.IconName);
+			}
+		}
 		
 		#endregion
 

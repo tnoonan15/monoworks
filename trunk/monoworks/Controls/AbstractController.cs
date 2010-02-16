@@ -49,12 +49,12 @@ namespace MonoWorks.Controls
 			MethodInfo[] methods = GetType().GetMethods();
 			foreach (MethodInfo method in methods)
 			{
-				object[] attributes = method.GetCustomAttributes(typeof(ActionAttribute), true);
+				object[] attributes = method.GetCustomAttributes(typeof(ActionHandlerAttribute), true);
 
 				if (attributes.Length > 0)
 				{
                     // TODO: Make this work if Action() is not the first attribute
-					ActionAttribute action = attributes[0] as ActionAttribute;
+					ActionHandlerAttribute action = attributes[0] as ActionHandlerAttribute;
 
 					// assign the method name as the name if one wasn't assigned in the attribute
 					if (action.Name.Length == 0)
@@ -80,7 +80,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The actions for this controller.
 		/// </summary>
-		protected Dictionary<string, ActionAttribute> actions = new Dictionary<string, ActionAttribute>();
+		protected Dictionary<string, ActionHandlerAttribute> actions = new Dictionary<string, ActionHandlerAttribute>();
 
 		/// <summary>
 		/// Returns true if the controller has the action of the given name.
@@ -97,7 +97,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public ActionAttribute GetAction(string name)
+		public ActionHandlerAttribute GetAction(string name)
 		{
 			return actions[name];
 		}

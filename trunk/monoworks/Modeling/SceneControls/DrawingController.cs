@@ -75,7 +75,7 @@ namespace MonoWorks.Modeling.SceneControls
 		{{SolidMode.None,"No Solid"}, {SolidMode.Flat,"Flat Shaded"}, {SolidMode.Smooth,"Smooth Shaded"}};
 		
 		
-		[Action("Wireframe")]
+		[ActionHandler("Wireframe")]
 		public void OnWireframe()
 		{
 //			if (UiManager.HasToolbar("Shading"))
@@ -85,21 +85,21 @@ namespace MonoWorks.Modeling.SceneControls
 //			}
 		}
 
-		[Action("No Solid")]
+		[ActionHandler("No Solid")]
 		public void OnNoSolid()
 		{
 			Scene.RenderManager.SolidMode = SolidMode.None;
 			OnSolidModeChanged();
 		}
 
-		[Action("Flat Shaded")]
+		[ActionHandler("Flat Shaded")]
 		public void OnFlatShaded()
 		{
 			Scene.RenderManager.SolidMode = SolidMode.Flat;
 			OnSolidModeChanged();
 		}
 
-		[Action("Smooth Shaded")]
+		[ActionHandler("Smooth Shaded")]
 		public void OnSmoothShaded()
 		{
 			Scene.RenderManager.SolidMode = SolidMode.Smooth;
@@ -219,25 +219,25 @@ namespace MonoWorks.Modeling.SceneControls
 
 #region References
 
-		[Action("Sketch")]
+		[ActionHandler("Sketch")]
 		public void AddSketch()
 		{
 			Console.WriteLine("add sketch");
 		}
 
-		[Action("Ref Point")]
+		[ActionHandler("Ref Point")]
 		public void AddRefPoint()
 		{
 			Console.WriteLine("add ref point");
 		}
 
-		[Action("Ref Line")]
+		[ActionHandler("Ref Line")]
 		public void AddRefLine()
 		{
 			Console.WriteLine("add ref line");
 		}
 
-		[Action("Ref Plane")]
+		[ActionHandler("Ref Plane")]
 		public void AddRefPlane()
 		{
 			Console.WriteLine("add ref plane");
@@ -250,7 +250,7 @@ namespace MonoWorks.Modeling.SceneControls
 
 		protected IAttributePanel attributePanel;
 
-		[Action()]
+		[ActionHandler()]
 		public void Edit()
 		{
 			if (entity == null)
@@ -277,7 +277,7 @@ namespace MonoWorks.Modeling.SceneControls
 			Scene.Paint();
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Delete()
 		{
 			Console.WriteLine("delete");
@@ -304,7 +304,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Creates a sketch.
 		/// </summary>
-		[Action("AddChild Sketch")]
+		[ActionHandler("AddChild Sketch")]
 		public void OnAddSketch()
 		{
 			if (entity is RefPlane)
@@ -328,7 +328,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Edits a sketch.
 		/// </summary>
-		[Action("Edit Sketch")]
+		[ActionHandler("Edit Sketch")]
 		public void OnEditSketch()
 		{
 			if (entity is Sketch)
@@ -386,7 +386,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds a line to the current sketch.
 		/// </summary>
-		[Action("Line")]
+		[ActionHandler("Line")]
 		public void OnSketchLine()
 		{
 			DrawingInteractor.AddSketchable(new Line(DrawingInteractor.Sketch));
@@ -395,7 +395,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds a rectangle to the current sketch.
 		/// </summary>
-		[Action("Rectangle")]
+		[ActionHandler("Rectangle")]
 		public void OnSketchRectangle()
 		{
 			DrawingInteractor.AddSketchable(new Rectangle(DrawingInteractor.Sketch));
@@ -404,7 +404,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds a arc to the current sketch.
 		/// </summary>
-		[Action("Arc")]
+		[ActionHandler("Arc")]
 		public void OnSketchArc()
 		{
 			DrawingInteractor.AddSketchable(new Arc(DrawingInteractor.Sketch));
@@ -413,7 +413,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds a ellipse to the current sketch.
 		/// </summary>
-		[Action("Ellipse")]
+		[ActionHandler("Ellipse")]
 		public void OnSketchEllipse()
 		{
 			DrawingInteractor.AddSketchable(new Ellipse(DrawingInteractor.Sketch));
@@ -422,7 +422,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds a spline to the current sketch.
 		/// </summary>
-		[Action("Spline")]
+		[ActionHandler("Spline")]
 		public void OnSketchSpline()
 		{
 			DrawingInteractor.AddSketchable(new Spline(DrawingInteractor.Sketch));
@@ -436,7 +436,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds an extrusion based on a selected sketch.
 		/// </summary>
-		[Action("Extrusion")]
+		[ActionHandler("Extrusion")]
 		public void OnAddExtrusion()
 		{
 			if (drawing.EntityManager.NumSelected != 1 ||
@@ -457,7 +457,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds a revolution based on a selected sketch.
 		/// </summary>
-		[Action("Revolution")]
+		[ActionHandler("Revolution")]
 		public void OnAddRevolution()
 		{
 			if (drawing.EntityManager.NumSelected != 1 ||
@@ -478,7 +478,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Adds a sweep based on a selected sketch.
 		/// </summary>
-		[Action("Sweep")]
+		[ActionHandler("Sweep")]
 		public void OnAddSweep()
 		{
 

@@ -37,7 +37,7 @@ namespace MonoWorks.Modeling
 		{
 			Mwx.Parse(ResourceHelper.GetStream("Studio.mwx"));
 						
-			Scene.AddToGutter(Side.N, new Button("Hellow Gutter"));
+			Scene.AddToGutter(Side.N, Mwx.Get<ToolBar>("FileToolbar"));
 		}
 
 
@@ -59,45 +59,45 @@ namespace MonoWorks.Modeling
 
 #region File Actions
 
-		[Action("New Part")]
+		[ActionHandler("New Part")]
 		public void NewPart()
 		{
 //			IDrawingView view = uiManager.CreateDocumentByName("PartView") as IDrawingView;
 //			drawingManager.Add(view);
 		}
 
-		[Action("New Assembly")]
+		[ActionHandler("New Assembly")]
 		public void NewAssembly()
 		{
 //			IDrawingView view = uiManager.CreateDocumentByName("AssemblyView") as IDrawingView;
 //			drawingManager.Add(view);
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Open()
 		{
 			Console.WriteLine("open");
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Save()
 		{
 			Console.WriteLine("save");
 		}
 
-		[Action("Save As")]
+		[ActionHandler("Save As")]
 		public void SaveAs()
 		{
 			Console.WriteLine("save as");
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Close()
 		{
 			Console.WriteLine("close");
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Quit()
 		{
 			Console.WriteLine("quit");
@@ -109,7 +109,7 @@ namespace MonoWorks.Modeling
 
 #region Edit Actions
 
-		[Action()]
+		[ActionHandler()]
 		public void Undo()
 		{
 //			if (drawingManager.Count > 0)
@@ -120,7 +120,7 @@ namespace MonoWorks.Modeling
 //			}
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Redo()
 		{
 //			if (drawingManager.Count > 0)
@@ -131,19 +131,19 @@ namespace MonoWorks.Modeling
 //			}
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Cut()
 		{
 			Console.WriteLine("cut");
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Copy()
 		{
 			Console.WriteLine("copy");
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Paste()
 		{
 			Console.WriteLine("paste");

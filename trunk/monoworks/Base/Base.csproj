@@ -81,6 +81,8 @@
     <Compile Include="MwxSource.cs" />
     <Compile Include="IMwxObject.cs" />
     <Compile Include="ResourceHelper.cs" />
+    <Compile Include="Action.cs" />
+    <Compile Include="IActionPopulatable.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />
