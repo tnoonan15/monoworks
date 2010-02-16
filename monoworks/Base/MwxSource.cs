@@ -49,7 +49,7 @@ namespace MonoWorks.Base
 	}
 
 	/// <summary>
-	/// Parses a mwx file and provides access to the renderables declared inside of it.
+	/// Parses a mwx file and provides access to the objs declared inside of it.
 	/// </summary>
 	public class MwxSource
 	{
@@ -76,7 +76,7 @@ namespace MonoWorks.Base
 		/// Parses a mwx stream.
 		/// </summary>
 		public MwxSource(Stream stream) : this()
-		{			
+		{
 			var reader = new XmlTextReader(stream);
 			Parse(reader);
 			reader.Close();
@@ -136,23 +136,23 @@ namespace MonoWorks.Base
 				{
 					var isEmpty = reader.IsEmptyElement;
 					
-					// create the renderable
+					// create the obj
 					if (reader.LocalName == "Ui")
 						continue;
-					var renderable = CreateMwxBase(reader);
-					var name = renderable.Name;
+					var obj = CreateMwxBase(reader);
+					var name = obj.Name;
 					if (name != null)
-						_objects[name] = renderable;
+						_objects[name] = obj;
 					
 					// add it to the current parent
 					if (parent != null)
 					{
-						parent.AddChild(renderable);
+						parent.AddChild(obj);
 					}
 					
 					// make this the current parent
 					if (!isEmpty)
-						parent = renderable;
+						parent = obj;
 				}
 				else if (reader.NodeType == XmlNodeType.EndElement && parent != null)
 				{
@@ -209,22 +209,33 @@ namespace MonoWorks.Base
 			if (!type.Implements(typeof(IMwxObject)))
 				throw new InvalidMwxElementException(reader, "Type does not implement MonoWorks.Base.IMwxObject.");
 			
-			// instantiate the renderable
-			var renderable = Activator.CreateInstance(type) as IMwxObject;
+			// instantiate the object
+			var obj = Activator.CreateInstance(type) as IMwxObject;
 			
-			// populate the renderable
-			AssignProperties(renderable, reader);
+			// populate the obj
+			AssignProperties(obj, reader);
 			
-			return renderable;
+			return obj;
 		}
 		
 		/// <summary>
-		/// Populates the renderable based on a mwx stream.
+		/// Populates the obj based on a mwx stream.
 		/// </summary>
-		private static void AssignProperties(IMwxObject obj, XmlReader reader)
-		{			
+		private void AssignProperties(IMwxObject obj, XmlReader reader)
+		{
 			foreach (var prop in reader.GetProperties())
 			{
+				// handle Action assignment separately
+				if (prop.Key == "Action")
+				{
+					if (!obj.GetType().Implements(typeof(IActionPopulatable)))
+						throw new Exception(obj.GetType() + " does not implement IActionPopulatable");
+					var action = Get<Action>(prop.Value);
+					((IActionPopulatable)obj).Populate(action);
+					return;
+				}
+				
+				// handle it as a property
 				var propInfo = obj.GetType().GetProperty(prop.Key);
 				if (propInfo == null)
 					throw new Exception(String.Format("No property named {0} for type {1}", prop.Key, obj.GetType()));
@@ -234,6 +245,9 @@ namespace MonoWorks.Base
 			}
 			
 		}
+		
+		
+		
 		
 		
 	}

@@ -26,15 +26,15 @@ namespace MonoWorks.Controls
 	/// This attributes mark methods that can be executed as actions in a Slate application.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
-	public class ActionAttribute : Attribute
+	public class ActionHandlerAttribute : Attribute
 	{
 
-		public ActionAttribute()
+		public ActionHandlerAttribute()
 			: this("")
 		{
 		}
 
-		public ActionAttribute(string name)
+		public ActionHandlerAttribute(string name)
 			: base()
 		{
 			this.name = name;

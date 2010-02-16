@@ -68,49 +68,49 @@ namespace MonoWorks.Controls.StandardScene
 #region View Direction Actions
 		
 		
-		[Action("Standard View")]
+		[ActionHandler("Standard View")]
 		public void OnStandardView()
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Standard);
 		}
 		
-		[Action("Front View")]
+		[ActionHandler("Front View")]
 		public void OnFrontView()
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Front);
 		}
 		
-		[Action("Back View")]
+		[ActionHandler("Back View")]
 		public void OnBackView()
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Back);
 		}
 		
-		[Action("Left View")]
+		[ActionHandler("Left View")]
 		public void OnLeftView()
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Left);
 		}
 		
-		[Action("Right View")]
+		[ActionHandler("Right View")]
 		public void OnRightView()
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Right);
 		}
 		
-		[Action("Top View")]
+		[ActionHandler("Top View")]
 		public void OnTopView()
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Top);
 		}
 		
-		[Action("Bottom View")]
+		[ActionHandler("Bottom View")]
 		public void OnBottomView()
 		{
 			Scene.RenderList.ResetBounds();
@@ -123,7 +123,7 @@ namespace MonoWorks.Controls.StandardScene
 #region Projection Actions
 
 
-		[Action("Projection")]
+		[ActionHandler("Projection")]
 		public void OnChangeProjection()
 		{
 			Scene.Camera.ToggleProjection();
@@ -159,7 +159,7 @@ namespace MonoWorks.Controls.StandardScene
 		/// <summary>
 		/// Exports the scene to a file, prompting the user for the file location.
 		/// </summary>
-		[Action("Export")]
+		[ActionHandler("Export")]
 		public void OnExport()
 		{
 //			Scene.Export();

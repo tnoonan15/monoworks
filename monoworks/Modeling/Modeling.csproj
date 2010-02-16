@@ -166,4 +166,7 @@
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Icons\" />
+  </ItemGroup>
 </Project>

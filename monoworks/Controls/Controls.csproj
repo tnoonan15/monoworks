@@ -67,7 +67,6 @@
     <Compile Include="DecoratorBase.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="CheckBox.cs" />
-    <Compile Include="StandardScene\SceneController.cs" />
     <Compile Include="SceneSpace.cs" />
     <Compile Include="SceneBook.cs" />
     <Compile Include="SceneStack.cs" />
@@ -83,7 +82,7 @@
     <Compile Include="IconList.cs" />
     <Compile Include="AbstractController.cs" />
     <Compile Include="ActionAttribute.cs" />
-    <Compile Include="Action.cs" />
+    <Compile Include="StandardScene\StandardSceneController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />

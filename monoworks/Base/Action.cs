@@ -22,9 +22,9 @@
 
 using System;
 
-using MonoWorks.Base;
 
-namespace MonoWorks.Controls
+
+namespace MonoWorks.Base
 {
 	public class Action : IMwxObject
 	{
@@ -43,6 +43,13 @@ namespace MonoWorks.Controls
 		/// </summary>
 		[MwxProperty]
 		public string Name {get; set;}
+
+		
+		/// <value>
+		/// The name of the icon to use for the action.
+		/// </value>
+		[MwxProperty]
+		public string IconName {get; set;}
 		
 		
 		public IMwxObject Parent { get; set; }

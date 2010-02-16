@@ -16,6 +16,8 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Controls
 {
 	
@@ -27,7 +29,6 @@ namespace MonoWorks.Controls
 		
 		public ToolBar()
 		{
-			ToolStyle = "tool";
 		}
 
 
@@ -38,24 +39,11 @@ namespace MonoWorks.Controls
 			child.ButtonStyle = buttonStyle;
 		}
 
-		
-		private string _toolStyle = "tool";
-		/// <value>
-		/// The style class to use for the child controls.
-		/// </value>
-		public string ToolStyle
-		{
-			get {return _toolStyle;}
-			set
-			{
-				_toolStyle = value;
-			}
-		}
-
 		protected ButtonStyle buttonStyle = ButtonStyle.ImageOverLabel;
 		/// <value>
 		/// Set the button style of all buttons in the toolbar.
 		/// </value>
+		[MwxProperty]
 		public ButtonStyle ButtonStyle
 		{
 			set

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mwx:Ui xmlns:mwx="http://monoworksproject.org/mwx" 
+		xmlns:mwb="http://monoworksproject.org/mwx/Base"
 		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
 	
-	<mwc:Action Name="New Part" />
+	<mwb:Action Name="New Part" IconName="" />
 	
-	<mwc:ToolBar Name="FileToolbar">
+	<mwc:ToolBar Name="FileToolbar" ButtonStyle="Image">
 		<mwc:Button Action="New Part"/>
 	</mwc:ToolBar>
 </mwx:Ui>
