@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Controls\Contro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{A1C2EA7B-F619-44DE-830A-114140AD3C03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Studio", "Studio\Studio.csproj", "{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,12 @@ Global
 		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
 		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU

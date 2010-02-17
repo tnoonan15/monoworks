@@ -29,7 +29,7 @@ namespace MonoWorks.Base
 	public interface IActionPopulatable
 	{
 		
-		void Populate(Action action);
+		void Populate(UiAction action);
 		
 	}
 }

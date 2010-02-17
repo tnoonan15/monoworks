@@ -69,7 +69,6 @@
     <Compile Include="AttributeMetaData.cs" />
     <Compile Include="IDrawingView.cs" />
     <Compile Include="Sketching\BoxedSketchable.cs" />
-    <Compile Include="StudioController.cs" />
     <Compile Include="Drawing.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityManager.cs" />
@@ -104,7 +103,6 @@
     <Compile Include="SceneControls\IAttributeControl.cs" />
     <Compile Include="SceneControls\IAttributePanel.cs" />
     <Compile Include="DrawingScene.cs" />
-    <Compile Include="StudioScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EntityMetaData.xml" />
@@ -129,7 +127,6 @@
     <EmbeddedResource Include="SceneControls\drawing.ui" />
     <EmbeddedResource Include="SceneControls\icons\ellipse.png" />
     <EmbeddedResource Include="SceneControls\icons\rectangle.png" />
-    <EmbeddedResource Include="Studio.mwx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -166,7 +163,4 @@
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Icons\" />
-  </ItemGroup>
 </Project>

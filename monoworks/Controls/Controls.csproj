@@ -81,8 +81,8 @@
     <Compile Include="TreeItem.cs" />
     <Compile Include="IconList.cs" />
     <Compile Include="AbstractController.cs" />
-    <Compile Include="ActionAttribute.cs" />
     <Compile Include="StandardScene\StandardSceneController.cs" />
+    <Compile Include="ActionHandlerAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />

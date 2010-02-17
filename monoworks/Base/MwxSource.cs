@@ -21,6 +21,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
@@ -113,6 +114,22 @@ namespace MonoWorks.Base
 			throw new UnknownObjectException(name);
 		}
 		
+		
+		/// <summary>
+		/// Gets all objects of the given type.
+		/// </summary>
+		public IEnumerable<T> GetAll<T>() where T : IMwxObject
+		{
+			return from o in _objects.Values
+				where o is T
+				select (T)o;
+		}
+		
+		/// <summary>
+		/// Gets raised whenever something is parsed by the mwx source.
+		/// </summary>
+		public event EventHandler ParseCompleted;
+		
 		/// <summary>
 		/// Parses the mwx in a stream.
 		/// </summary>
@@ -159,7 +176,7 @@ namespace MonoWorks.Base
 					parent = parent.Parent;
 				}
 				else if (reader.NodeType == XmlNodeType.Text)
-				{					
+				{
 					// parse the element value, if possible
 					var val = reader.Value.Trim();
 					if (val != null && val.Length > 0)
@@ -172,6 +189,9 @@ namespace MonoWorks.Base
 					}
 				}
 			}
+			
+			if (ParseCompleted != null)
+				ParseCompleted(this, new EventArgs());
 		}
 				
 		/// <summary>
@@ -230,7 +250,7 @@ namespace MonoWorks.Base
 				{
 					if (!obj.GetType().Implements(typeof(IActionPopulatable)))
 						throw new Exception(obj.GetType() + " does not implement IActionPopulatable");
-					var action = Get<Action>(prop.Value);
+					var action = Get<UiAction>(prop.Value);
 					((IActionPopulatable)obj).Populate(action);
 					return;
 				}
@@ -245,8 +265,6 @@ namespace MonoWorks.Base
 			}
 			
 		}
-		
-		
 		
 		
 		

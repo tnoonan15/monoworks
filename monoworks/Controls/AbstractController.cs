@@ -16,7 +16,6 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -44,6 +43,7 @@ namespace MonoWorks.Controls
         {
         	Scene = scene;
         	Mwx = new MwxSource();
+        	Mwx.ParseCompleted += OnMwxParseCompleted;
 			
 			// get the actions
 			MethodInfo[] methods = GetType().GetMethods();
@@ -54,15 +54,32 @@ namespace MonoWorks.Controls
 				if (attributes.Length > 0)
 				{
                     // TODO: Make this work if Action() is not the first attribute
-					ActionHandlerAttribute action = attributes[0] as ActionHandlerAttribute;
+					var handler = attributes[0] as ActionHandlerAttribute;
 
 					// assign the method name as the name if one wasn't assigned in the attribute
-					if (action.Name.Length == 0)
-						action.Name = method.Name;
+					if (handler.Name.Length == 0)
+						handler.Name = method.Name;
 
 					// store the action
-					action.MethodInfo = method;
-					actions[action.Name] = action;
+					handler.MethodInfo = method;
+					_handlers[handler.Name] = handler;
+				}
+			}
+        }
+
+		/// <summary>
+		/// Gets called after the mwx source is done parsing something.
+		/// </summary>
+        private void OnMwxParseCompleted(object sender, System.EventArgs e)
+        {
+        	foreach (var action in Mwx.GetAll<UiAction>())
+			{
+        		if (HasHandler(action.Name)) 
+				{
+					var methodInfo = GetHandler(action.Name).MethodInfo;
+        			action.Activated += delegate(object s, EventArgs args) {
+						methodInfo.Invoke(this, new object[] { s, args });
+					};
 				}
 			}
         }
@@ -76,30 +93,26 @@ namespace MonoWorks.Controls
 		/// The MWX source for the controller. 
 		/// </summary>
 		public MwxSource Mwx { get; private set; }
-		
+	
 		/// <summary>
-		/// The actions for this controller.
+		/// The action handlers for this controller.
 		/// </summary>
-		protected Dictionary<string, ActionHandlerAttribute> actions = new Dictionary<string, ActionHandlerAttribute>();
+		protected Dictionary<string, ActionHandlerAttribute> _handlers = new Dictionary<string, ActionHandlerAttribute>();
 
 		/// <summary>
-		/// Returns true if the controller has the action of the given name.
+		/// Returns true if the controller has an action handler of the given name.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public bool HasMethod(string name)
+		public bool HasHandler(string name)
 		{
-			return actions.ContainsKey(name);
+			return _handlers.ContainsKey(name);
 		}
 
 		/// <summary>
 		/// Gets the action of the given name.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public ActionHandlerAttribute GetAction(string name)
+		public ActionHandlerAttribute GetHandler(string name)
 		{
-			return actions[name];
+			return _handlers[name];
 		}
 
 		/// <summary>
