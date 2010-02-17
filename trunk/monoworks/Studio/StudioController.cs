@@ -24,7 +24,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
 
-namespace MonoWorks.Modeling
+namespace MonoWorks.Studio
 {
 	/// <summary>
 	/// Controller for drawings.
@@ -60,45 +60,46 @@ namespace MonoWorks.Modeling
 #region File Actions
 
 		[ActionHandler("New Part")]
-		public void NewPart()
+		public void NewPart(object sender, EventArgs args)
 		{
+			Console.WriteLine("new part");
 //			IDrawingView view = uiManager.CreateDocumentByName("PartView") as IDrawingView;
 //			drawingManager.Add(view);
 		}
 
 		[ActionHandler("New Assembly")]
-		public void NewAssembly()
+		public void NewAssembly(object sender, EventArgs args)
 		{
 //			IDrawingView view = uiManager.CreateDocumentByName("AssemblyView") as IDrawingView;
 //			drawingManager.Add(view);
 		}
 
 		[ActionHandler()]
-		public void Open()
+		public void Open(object sender, EventArgs args)
 		{
 			Console.WriteLine("open");
 		}
 
 		[ActionHandler()]
-		public void Save()
+		public void Save(object sender, EventArgs args)
 		{
 			Console.WriteLine("save");
 		}
 
 		[ActionHandler("Save As")]
-		public void SaveAs()
+		public void SaveAs(object sender, EventArgs args)
 		{
 			Console.WriteLine("save as");
 		}
 
 		[ActionHandler()]
-		public void Close()
+		public void Close(object sender, EventArgs args)
 		{
 			Console.WriteLine("close");
 		}
 
 		[ActionHandler()]
-		public void Quit()
+		public void Quit(object sender, EventArgs args)
 		{
 			Console.WriteLine("quit");
 		}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mwx:Ui xmlns:mwx="http://monoworksproject.org/mwx" 
+		xmlns:mwb="http://monoworksproject.org/mwx/Base"
+		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
+	
+	<mwb:UiAction Name="New Part" IconName="document-new.png,MonoWorks.Studio" />
+	<mwb:UiAction Name="Open" IconName="document-open.png,MonoWorks.Studio" />
+	<mwb:UiAction Name="Save" IconName="document-save.png,MonoWorks.Studio" />
+	<mwb:UiAction Name="Save As" IconName="document-save-as.png,MonoWorks.Studio" />
+	<mwb:UiAction Name="Save All" IconName="document-save-all.png,MonoWorks.Studio" />
+	
+	<mwc:ToolBar Name="FileToolbar" ButtonStyle="Image">
+		<mwc:Button Action="New Part"/>
+		<mwc:Button Action="Open"/>
+		<mwc:Button Action="Save"/>
+		<mwc:Button Action="Save As"/>
+		<mwc:Button Action="Save All"/>
+	</mwc:ToolBar>
+</mwx:Ui>

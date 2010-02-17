@@ -56,6 +56,7 @@
     <Reference Include="Mono.Cairo">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -77,6 +78,10 @@
     <ProjectReference Include="..\GtkBackend\GtkBackend.csproj">
       <Project>{93981ADD-F7E7-45F1-934F-13B2EB7088DC}</Project>
       <Name>GtkBackend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Studio\Studio.csproj">
+      <Project>{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}</Project>
+      <Name>Studio</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

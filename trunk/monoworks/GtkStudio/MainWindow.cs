@@ -18,6 +18,7 @@
 
 using MonoWorks.GtkBackend;
 using MonoWorks.Modeling;
+using MonoWorks.Studio;
 
 namespace MonoWorks.GtkStudio
 {	

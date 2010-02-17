@@ -43,7 +43,7 @@ namespace MonoWorks.Modeling
 		/// Default constructor.
 		/// </summary>
 		public Drawing() : base()
-		{			
+		{
 			EntityManager = new EntityManager(this);
 			
 			RegisterEntity(this);

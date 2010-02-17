@@ -333,6 +333,15 @@ namespace MonoWorks.Controls
 				Clicked(this, new EventArgs());
 		}
 		
+		/// <summary>
+		/// Activates the button clicked event with the given args.
+		/// </summary>
+		public void Click(object sender, EventArgs args)
+		{
+			if (Clicked != null)
+				Clicked(sender, args);
+		}
+		
 		private bool _justKeyActivated;
 		
 		public override void OnKeyPress(KeyEvent evt)
@@ -359,7 +368,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Populates the button from an action.
 		/// </summary>
-		public void Populate(MonoWorks.Base.Action action)
+		public void Populate(MonoWorks.Base.UiAction action)
 		{
 			LabelString = action.Name;
 			if (action.IconName != null)
@@ -367,6 +376,8 @@ namespace MonoWorks.Controls
 				Image = new Image();
 				Image.Parse(action.IconName);
 			}
+			
+			Clicked += action.Activate;
 		}
 		
 		#endregion

@@ -1,5 +1,5 @@
 // 
-//  StudioScene.cs - MonoWorks Project
+//  Action.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -20,37 +20,51 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-using System;
 
-using MonoWorks.Rendering;
-using MonoWorks.Controls;
-
-namespace MonoWorks.Modeling
+namespace MonoWorks.Base
 {
-	/// <summary>
-	/// The top level scene for Studio.
-	/// </summary>
-	public class StudioScene : SceneSpace
+	
+	
+	public class UiAction : IMwxObject
 	{
-		public StudioScene(Viewport viewport) : base(viewport)
+		public UiAction()
 		{
-			_drawingBook = new SceneBook(viewport);
-			Root = _drawingBook;
-			
-			new StudioController(this);
 		}
 		
-		private readonly SceneBook _drawingBook;
 		
+		public void AddChild (IMwxObject child)
+		{
+			throw new System.NotImplementedException();
+		}
 		
 		/// <summary>
-		/// Adds a drawing to the main document book.
+		/// The name of the action.
 		/// </summary>
-		public void AddDrawing(Drawing drawing)
+		[MwxProperty]
+		public string Name {get; set;}
+
+		
+		/// <value>
+		/// The name of the icon to use for the action.
+		/// </value>
+		[MwxProperty]
+		public string IconName {get; set;}
+		
+		
+		public IMwxObject Parent { get; set; }
+		
+		/// <summary>
+		/// Gets called when the event is activated.
+		/// </summary>
+		public event System.EventHandler Activated;
+		
+		/// <summary>
+		/// Activates the action.
+		/// </summary>
+		public void Activate(object sender, System.EventArgs args)
 		{
-			var scene = new DrawingScene(Viewport);
-			scene.Drawing = drawing;
-			_drawingBook.Add(scene);
+			if (Activated != null)
+				Activated(sender, args);
 		}
 		
 	}
