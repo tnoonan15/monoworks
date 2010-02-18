@@ -66,10 +66,6 @@
       <Project>{784C93E6-C181-4328-934B-449066348931}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Framework\Framework.csproj">
-      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
-      <Name>Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Modeling\Modeling.csproj">
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
       <Name>Modeling</Name>
@@ -129,15 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlExtensions.cs" />
-    <Compile Include="Framework\DockableBase.cs" />
-    <Compile Include="Framework\DocumentBase.cs" />
-    <Compile Include="Framework\Icon.cs" />
-    <Compile Include="Framework\ResourceManager.cs" />
-    <Compile Include="Framework\SlateWindow.cs" />
-    <Compile Include="Framework\ToolBox.cs" />
-    <Compile Include="Framework\ToolShelf.cs" />
-    <Compile Include="Framework\UiManager.cs" />
-    <Compile Include="Utilities\SpinControl.cs" />
     <Compile Include="ViewportWrapper.cs" />
   </ItemGroup>
   <PropertyGroup>
@@ -153,7 +140,4 @@
   <ProjectExtensions>
     <VisualStudio />
   </ProjectExtensions>
-  <ItemGroup>
-    <Folder Include="Editor\" />
-  </ItemGroup>
 </Project>

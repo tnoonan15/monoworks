@@ -24,7 +24,6 @@ using Tao.Platform.Windows;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
-using MonoWorks.Framework;
 
 
 namespace MonoWorks.SwfBackend
@@ -275,7 +274,7 @@ namespace MonoWorks.SwfBackend
 
 			int val = e.KeyValue;
 
-			var evt = new KeyEvent(val, (InteractionModifier)mod);
+			var evt = new KeyEvent(Viewport.RootScene, val, (InteractionModifier)mod);
 			//Console.WriteLine("viewport key press {0} ({1}, {2})", evt.Value, evt.SpecialKey, evt.Modifier);
 
 			Viewport.OnKeyPress(evt);

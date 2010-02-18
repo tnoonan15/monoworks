@@ -84,6 +84,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -131,9 +134,13 @@
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Framework\Framework.csproj">
-      <Project>{88CBD331-92E5-4424-BC71-8AE23596C4EB}</Project>
-      <Name>Framework</Name>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{784C93E6-C181-4328-934B-449066348931}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Studio\Studio.csproj">
+      <Project>{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}</Project>
+      <Name>Studio</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfBackend\WpfBackend.csproj">
       <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
@@ -146,10 +153,6 @@
     <ProjectReference Include="..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Resources\Resources.csproj">
-      <Project>{7CAFE758-2D16-4AE8-8A53-D74C13433AAC}</Project>
-      <Name>Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
