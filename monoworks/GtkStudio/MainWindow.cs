@@ -54,9 +54,6 @@ namespace MonoWorks.GtkStudio
 				Gtk.Application.Quit();
 			};
 			
-			
-			_scene.AddDrawing(new Part() {Name="Part1"});
-			_scene.AddDrawing(new Part() {Name="Part2"});
 		}
 		
 		private readonly ViewportAdapter _adapter;

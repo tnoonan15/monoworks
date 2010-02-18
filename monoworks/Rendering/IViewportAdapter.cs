@@ -94,7 +94,7 @@ namespace MonoWorks.Rendering
 		/// Creates a file dialog with the given dialog definition.
 		/// </summary>
 		/// <param name="dialog">Contains information about the dialog.</param>
-		/// <returns>True if the action was applied by the user.</returns>
+		/// <returns>True if the user clicked Ok.</returns>
 		bool FileDialog(FileDialogDef dialog);
 	}
 }

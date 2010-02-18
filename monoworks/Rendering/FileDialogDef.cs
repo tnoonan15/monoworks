@@ -32,6 +32,11 @@ namespace MonoWorks.Rendering
 	public enum FileDialogType { Open, SaveAs };
 
 	/// <summary>
+	/// Possible return values from a file dialog operation. 
+	/// </summary>
+	public enum FileDialogReturn {Ok, Cancel};
+	
+	/// <summary>
 	/// Contains the definition of a file dialog.
 	/// </summary>
 	public class FileDialogDef
@@ -39,7 +44,6 @@ namespace MonoWorks.Rendering
 
 		public FileDialogDef()
 		{
-			Success = false;
 			Extensions = new List<string>();
 		}
 
@@ -47,11 +51,11 @@ namespace MonoWorks.Rendering
 		/// The type of dialog to create.
 		/// </summary>
 		public FileDialogType Type { get; set; }
-
+		
 		/// <summary>
-		/// Whether or not the dialog closed in success.
+		/// Title of the dialog. 
 		/// </summary>
-		public bool Success {get; set;}
+		public string Title { get; set; }
 
 		/// <summary>
 		/// The file name selected (this could be null often).
@@ -70,7 +74,9 @@ namespace MonoWorks.Rendering
 		/// Maps extensions to descriptions.
 		/// </summary>
 		protected static Dictionary<string, string> extensionDesc = new Dictionary<string, string>() {
-			{"png", "Portable Network Graphics image file"}
+			{"png", "Portable Network Graphics image file"},
+			{"mwp", "MonoWorks Part"},
+			{"mwa", "MonoWorks Assembly"}
 		};
 
 		/// <summary>

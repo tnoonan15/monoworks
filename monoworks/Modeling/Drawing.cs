@@ -51,13 +51,13 @@ namespace MonoWorks.Modeling
 			ColorManager = new ColorManager();
 			
 			DocCounter++;
-			Name = String.Format("drawing{0}", DocCounter);
+//			Name = String.Format("{0}-{1}", ClassName, DocCounter);
 			
 			// initialize actions
 			currentAction = -1;
 			actionList = new List<Action>();
 
-			Modified = false;
+			IsModified = false;
 
 			// create the default reference geometry
 			for (int i = 0; i < defaultPlanes.Length; i++)
@@ -100,8 +100,8 @@ namespace MonoWorks.Modeling
 		public EntityManager EntityManager {get; private set; }
 
 
-
-#region File I/O
+		
+		#region File I/O
 				
 		/// <summary> 
 		/// Loads a drawing from a file.
@@ -122,7 +122,7 @@ namespace MonoWorks.Modeling
 		/// <param name="fileName">The file name.</param>
 		public void SaveAs(string fileName)
 		{
-			Modified = false;
+			IsModified = false;
 
 			XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.ASCII);
 			writer.Formatting = Formatting.Indented;
@@ -143,8 +143,8 @@ namespace MonoWorks.Modeling
 		/// The file name of the drawing.
 		/// </summary>
 		public string FileName { get; private set; }
-
-#endregion
+		
+		#endregion
 
 
 #region Undo and Redo
@@ -171,7 +171,7 @@ namespace MonoWorks.Modeling
 			actionList.Add(action);
 			currentAction = actionList.Count - 1;
 
-			Modified = true;
+			IsModified = true;
 		}
 		
 		/// <summary>
@@ -201,7 +201,7 @@ namespace MonoWorks.Modeling
 		/// <summary>
 		/// Whether the document has been modified and needs saving.
 		/// </summary>
-		public bool Modified { get; protected set; }
+		public bool IsModified { get; protected set; }
 		
 #endregion
 		

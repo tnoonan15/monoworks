@@ -28,10 +28,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Modeling.Sketching;
 
 namespace MonoWorks.Modeling
-{
-		
-	using EntityList = List<Entity>;
-	
+{	
 
 	/// <summary>
 	/// The Entity class is the base class for all MonoWorks model objects.
@@ -77,8 +74,8 @@ namespace MonoWorks.Modeling
 			id = IdCounter;
 			IsDirty = false;
 			bounds = new Bounds();
-			children = new EntityList();
-			dependencies = new EntityList();
+			children = new List<Entity>();
+			dependencies = new List<Entity>();
 			
 			// initialize momentos
 			momentos = new List<Momento>();
@@ -318,7 +315,7 @@ namespace MonoWorks.Modeling
 
 #region Children
 		
-		protected EntityList children;	
+		protected List<Entity> children;	
 		
 		/// <value>
 		/// Read-only access to the children.
@@ -438,7 +435,7 @@ namespace MonoWorks.Modeling
 
 #region Dependencies
 		
-		protected EntityList dependencies;			
+		protected List<Entity> dependencies;			
 	
 		/// <summary>
 		/// AddChild a dependency.

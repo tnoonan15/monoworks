@@ -169,9 +169,16 @@ namespace MonoWorks.Rendering
 		{
 			FileDialogDef dialogDef = new FileDialogDef() {Type = FileDialogType.SaveAs};
 			dialogDef.Extensions.Add("png");
-			adapter.FileDialog(dialogDef);
-			if (dialogDef.Success)
+			if (FileDialog(dialogDef))
 				adapter.Export(dialogDef.FileName);
+		}
+		
+		/// <summary>
+		/// Has the adapater open a new file dialog based on the given definition. 
+		/// </summary>
+		public bool FileDialog(FileDialogDef def)
+		{
+			return adapter.FileDialog(def);
 		}
 
 		#endregion

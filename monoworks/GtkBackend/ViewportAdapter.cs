@@ -397,12 +397,43 @@ namespace MonoWorks.GtkBackend
 		/// <summary>
 		/// Opens a file dialog with the given settings.
 		/// </summary>
-		/// <returns>
-		/// True if the user didn't cancel.
-		/// </returns>
-		public bool FileDialog (FileDialogDef dialog)
+		public bool FileDialog(FileDialogDef def)
 		{
-			throw new System.NotImplementedException();
+			// decide which action to use
+			Gtk.FileChooserAction action = Gtk.FileChooserAction.Save;
+			string accept = "";
+			if (def.Type == FileDialogType.Open)
+			{
+				action = Gtk.FileChooserAction.Open;
+				accept = "Open";
+			}
+			else if (def.Type == FileDialogType.SaveAs)
+			{
+				action = Gtk.FileChooserAction.Save;
+				accept = "Save";
+			}
+			
+			var dialog = new Gtk.FileChooserDialog(def.Title, 
+							this.Toplevel as Gtk.Window, action,
+							"Cancel", Gtk.ResponseType.Cancel,
+                            accept, Gtk.ResponseType.Accept);
+			if (def.FileName != null)
+				dialog.SetFilename(def.FileName);
+			
+			// assemble the filters
+			foreach (var ext in def.Extensions)
+			{
+				var filter = new Gtk.FileFilter();
+				var pattern = "*." + ext;
+				filter.AddPattern(pattern);
+				filter.Name = def.GetDescription(ext) + " (" + pattern + ")";
+				dialog.AddFilter(filter);
+			}
+			
+			var ret = dialog.Run() == (int)Gtk.ResponseType.Accept;
+			def.FileName = dialog.Filename;
+			dialog.Destroy();
+			return ret;
 		}
 				
 		#endregion

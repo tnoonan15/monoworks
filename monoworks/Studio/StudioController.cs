@@ -23,6 +23,7 @@ using System.Xml;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
+using MonoWorks.Modeling;
 
 namespace MonoWorks.Studio
 {
@@ -62,22 +63,26 @@ namespace MonoWorks.Studio
 		[ActionHandler("New Part")]
 		public void NewPart(object sender, EventArgs args)
 		{
-			Console.WriteLine("new part");
-//			IDrawingView view = uiManager.CreateDocumentByName("PartView") as IDrawingView;
-//			drawingManager.Add(view);
+			Scene.AddDrawing(new Part());
 		}
 
 		[ActionHandler("New Assembly")]
 		public void NewAssembly(object sender, EventArgs args)
 		{
-//			IDrawingView view = uiManager.CreateDocumentByName("AssemblyView") as IDrawingView;
-//			drawingManager.Add(view);
+			Scene.AddDrawing(new Assembly());
 		}
 
 		[ActionHandler()]
 		public void Open(object sender, EventArgs args)
 		{
-			Console.WriteLine("open");
+			var def = new FileDialogDef() {
+				Type = FileDialogType.Open,
+				Title = "Select drawing to open"
+			};
+			def.Extensions.Add("mwp");
+			def.Extensions.Add("mwa");
+			if (Scene.Viewport.FileDialog(def))
+				Console.WriteLine("open");
 		}
 
 		[ActionHandler()]
@@ -89,7 +94,20 @@ namespace MonoWorks.Studio
 		[ActionHandler("Save As")]
 		public void SaveAs(object sender, EventArgs args)
 		{
-			Console.WriteLine("save as");
+			var def = new FileDialogDef() {
+				Type = FileDialogType.SaveAs,
+				Title = "Select file name for drawing"
+			};
+			def.Extensions.Add("mwp");
+			def.Extensions.Add("mwa");
+			if (Scene.Viewport.FileDialog(def))
+				Console.WriteLine("save as " + def.FileName);
+		}
+
+		[ActionHandler("Save All")]
+		public void SaveAll(object sender, EventArgs args)
+		{
+			Console.WriteLine("save all");
 		}
 
 		[ActionHandler()]

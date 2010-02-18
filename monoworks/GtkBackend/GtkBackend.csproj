@@ -61,10 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewportAdapter.cs" />
-    <Compile Include="PlotControls\PlotPane.cs" />
-    <Compile Include="PlotControls\PointPlotPane.cs" />
-    <Compile Include="Tree\TreeModel.cs" />
-    <Compile Include="Tree\TreeView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

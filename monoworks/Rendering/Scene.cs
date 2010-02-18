@@ -275,6 +275,8 @@ namespace MonoWorks.Rendering
 
 		public virtual void OnButtonPress(MouseButtonEvent evt)
 		{
+			GrabFocus();
+			
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			var parentScene = evt.Scene;
 			evt.Scene = this;
