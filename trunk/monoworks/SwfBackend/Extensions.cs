@@ -20,7 +20,7 @@ using System.Windows.Forms;
 using Point = System.Drawing.Point;
 
 using MonoWorks.Base;
-using MonoWorks.Framework;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.SwfBackend
 {

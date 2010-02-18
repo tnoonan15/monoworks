@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-
-using MonoWorks.WpfBackend.Framework;
-
 namespace DemoWpf
 {
 	/// <summary>
@@ -15,9 +12,6 @@ namespace DemoWpf
 		public App()
 			: base()
 		{
-
-			ResourceManager.Initialize();
-
 		}
 
 	}

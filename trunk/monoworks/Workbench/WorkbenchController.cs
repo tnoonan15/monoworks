@@ -55,29 +55,29 @@ namespace MonoWorks.Workbench
 
 #region File Actions
 
-		[Action]
+		[ActionHandler]
 		public void New()
 		{
 			ISourceDocument view = uiManager.CreateDocumentByName("BooDocument") as ISourceDocument;
 			documentManager.Add(view);
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public abstract void Open();
 
-		[Action()]
+		[ActionHandler()]
 		public abstract void Save();
 
-		[Action("Save As")]
+		[ActionHandler("Save As")]
 		public abstract void SaveAs();
 
-		[Action()]
+		[ActionHandler()]
 		public void Close()
 		{
 			Console.WriteLine("close");
 		}
 
-		[Action()]
+		[ActionHandler()]
 		public void Quit()
 		{
 			Console.WriteLine("quit");
