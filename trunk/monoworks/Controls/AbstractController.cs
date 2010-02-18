@@ -27,11 +27,6 @@ namespace MonoWorks.Controls
 {
 
 	/// <summary>
-	/// Key event delegate.
-	/// </summary>
-	public delegate void KeyHandler(int key);
-
-	/// <summary>
 	/// Base class for Framework controllers.
 	/// </summary>
     public abstract class AbstractController<T> where T : Scene

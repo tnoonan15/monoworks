@@ -34,12 +34,18 @@ namespace MonoWorks.Modeling
 		public DrawingScene(Viewport viewport)
 			: base(viewport)
 		{
-			Name = "Drawing Scene";
 			Camera.SetViewDirection(ViewDirection.Standard);
+		}
+				
+		public DrawingScene(Viewport viewport, Drawing drawing) : this(viewport)
+		{
+			Drawing = drawing;
 		}
 		
 		private Drawing _drawing;
-		
+		/// <summary>
+		/// The drawing in this scene.
+		/// </summary>
 		public Drawing Drawing
 		{
 			get { return _drawing; }
@@ -48,7 +54,26 @@ namespace MonoWorks.Modeling
 					RenderList.RemoveActor(_drawing);
 				_drawing = value;
 				RenderList.AddActor(_drawing);
+				
+				_drawing.AttributeUpdated += OnDrawingAttributeUpdated;
+				UpdateName();
 			}
+		}
+
+		/// <summary>
+		/// Handles attribute updated events from the drawing.
+		/// </summary>
+		private void OnDrawingAttributeUpdated(Entity entity, string attrName)
+		{
+			UpdateName();
+		}
+		
+		/// <summary>
+		/// Updates the scene name based on the drawing's name and save state.
+		/// </summary>
+		private void UpdateName()
+		{
+			Name = _drawing.Name + (_drawing.IsModified ? "*" : "");
 		}
 		
 		
