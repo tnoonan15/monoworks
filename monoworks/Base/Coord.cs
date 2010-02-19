@@ -20,19 +20,6 @@ using System;
 
 namespace MonoWorks.Base
 {
-	/// <summary>
-	/// Your standard orientation enumeration.
-	/// </summary>
-	public enum Orientation {
-		/// <summary>
-		/// Horizontal.
-		/// </summary>
-		Horizontal, 
-		/// <summary>
-		/// Vertical.
-		/// </summary>
-		Vertical
-	};
 
 	/// <summary>
 	/// Stores a pair of coordinates (representing a position on the screen).

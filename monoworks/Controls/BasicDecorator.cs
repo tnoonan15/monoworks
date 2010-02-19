@@ -523,10 +523,10 @@ namespace MonoWorks.Controls
 		
 		protected virtual void Decorate(ToolBar toolbar)
 		{			
+			Corner corner = AllCorners;
 			if (toolbar.Pane != null && toolbar.Pane is AnchorPane) // the toolbar is anchored
 			{
 				var location = (toolbar.Pane as AnchorPane).Location;
-				Corner corner = AllCorners;
 				switch (location)
 				{
 				case AnchorLocation.N:
@@ -543,6 +543,13 @@ namespace MonoWorks.Controls
 					break;					
 				}
 				FillRectangle(Coord.Zeros, toolbar.RenderSize, corner, FillType.Background, toolbar.HitState, location);
+			}
+			else if (toolbar.ParentControl != null && toolbar.ParentControl is IOrientable) // it belongs to something that has an orientation, like a stack
+			{
+				AnchorLocation location = AnchorLocation.E;
+				if ((toolbar.ParentControl as IOrientable).Orientation == Orientation.Horizontal)
+					location = AnchorLocation.S;			
+				FillRectangle(Coord.Zeros, toolbar.RenderSize, Corner.None, FillType.Background, toolbar.HitState, location);
 			}
 			else // the toolbar is not anchored
 			{

@@ -88,7 +88,8 @@ namespace MonoWorks.Studio
 		[ActionHandler()]
 		public void Save(object sender, EventArgs args)
 		{
-			Console.WriteLine("save");
+			var current = Scene.GetCurrent();
+			Console.WriteLine("save " + current.Name);
 		}
 
 		[ActionHandler("Save As")]
