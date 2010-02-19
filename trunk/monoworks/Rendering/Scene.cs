@@ -275,7 +275,7 @@ namespace MonoWorks.Rendering
 
 		public virtual void OnButtonPress(MouseButtonEvent evt)
 		{
-			//GrabFocus();
+			MakeCurrent();
 			
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			var parentScene = evt.Scene;
@@ -394,6 +394,44 @@ namespace MonoWorks.Rendering
 
 		#endregion
 
+		
+		#region Scene Hierarchy
+		
+		/// <summary>
+		/// This scene's parent scene.
+		/// </summary>
+		public Scene Parent { get; set; }
+		
+		/// <summary>
+		/// Gets the current scene.
+		/// </summary>
+		/// <remarks>Subclasses that are scene containers should override 
+		/// this and return what they think the current one is.</remarks>
+		public virtual Scene GetCurrent()
+		{
+			return this;
+		}
+		
+		/// <summary>
+		/// Makes this scene the current one according to it's parent.
+		/// </summary>
+		public virtual void MakeCurrent()
+		{
+			if (Parent != null)
+				Parent.MakeChildCurrent(this);
+		}
+		
+		/// <summary>
+		/// Makes the child the current one.
+		/// </summary>
+		/// <remarks>Recursively propogates through the hierarchy.</remarks>
+		protected virtual void MakeChildCurrent(Scene child)
+		{
+			MakeCurrent();
+		}
+
+		#endregion
+		
 
 		#region Modal Overlay
 

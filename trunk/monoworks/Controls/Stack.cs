@@ -26,7 +26,7 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// A generic container that stacks its children together.
 	/// </summary>
-	public class GenericStack<T> : GenericContainer<T> where T : Control2D
+	public class GenericStack<T> : GenericContainer<T>, IOrientable where T : Control2D
 	{
 		/// <summary>
 		/// Default (horizontal) constructor.
@@ -51,7 +51,7 @@ namespace MonoWorks.Controls
 		[MwxProperty]
 		public Orientation Orientation
 		{
-			get { return Orientation; }
+			get { return _orientation; }
 			set
 			{
 				_orientation = value;

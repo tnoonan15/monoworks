@@ -65,6 +65,13 @@ namespace MonoWorks.Controls
 			}
 		}
 		
+		
+		public override Scene GetCurrent()
+		{
+			return _root.GetCurrent();
+		}
+
+		
 		public override void Resize()
 		{
 			base.Resize();

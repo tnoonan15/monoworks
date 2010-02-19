@@ -39,12 +39,6 @@ namespace MonoWorks.Controls
 		}
 		
 		
-		
-		/// <summary>
-		/// The parent scene.
-		/// </summary>
-		public Scene Parent { get; set; }
-		
 		private readonly List<Scene> _scenes = new List<Scene>();
 		/// <summary>
 		/// All Scenes in the collection.
@@ -60,6 +54,7 @@ namespace MonoWorks.Controls
 		public virtual void Add(Scene scene)
 		{
 			_scenes.Add(scene);
+			scene.Parent = this;
 		}
 
 		/// <summary>
@@ -68,6 +63,9 @@ namespace MonoWorks.Controls
 		public virtual void Remove(Scene scene)
 		{
 			_scenes.Remove(scene);
+			scene.Parent = null;
+			if (_current == scene)
+				_current = null;
 		}
 		
 		/// <summary>
@@ -91,6 +89,20 @@ namespace MonoWorks.Controls
 				
 			}
 		}
+		
+		public override Scene GetCurrent()
+		{
+			return _current.GetCurrent();
+		}
+
+		
+		protected override void MakeChildCurrent(Scene child)
+		{
+			base.MakeCurrent();
+			
+			_current = child;
+		}
+
 		
 	}
 

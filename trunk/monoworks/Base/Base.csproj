@@ -83,6 +83,7 @@
     <Compile Include="ResourceHelper.cs" />
     <Compile Include="IActionPopulatable.cs" />
     <Compile Include="UiAction.cs" />
+    <Compile Include="IOrientable.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />
