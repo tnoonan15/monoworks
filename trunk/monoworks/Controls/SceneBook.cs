@@ -97,8 +97,6 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonPress(evt);
 			
-			_selector.OnButtonPress(evt);
-			
 			if (Current != null)
 				Current.OnButtonPress(evt);
 		}
@@ -106,8 +104,6 @@ namespace MonoWorks.Controls
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
-			
-			_selector.OnButtonRelease(evt);
 			
 			if (Current != null)
 				Current.OnButtonRelease(evt);
@@ -117,8 +113,6 @@ namespace MonoWorks.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			_selector.OnMouseMotion(evt);
-			
 			if (Current != null)
 				Current.OnMouseMotion(evt);
 		}
@@ -126,8 +120,6 @@ namespace MonoWorks.Controls
 		public override void OnMouseWheel(MouseWheelEvent evt)
 		{
 			base.OnMouseWheel(evt);
-			
-			_selector.OnMouseWheel(evt);
 			
 			if (Current != null)
 				Current.OnMouseWheel(evt);
@@ -141,6 +133,14 @@ namespace MonoWorks.Controls
 				Current.OnKeyPress(evt);
 		}
 
+		public override void OnKeyRelease(KeyEvent evt)
+		{
+			base.OnKeyRelease(evt);
+			
+			if (Current != null)
+				Current.OnKeyRelease(evt);
+		}
+
 		
 		#endregion
 
@@ -151,7 +151,7 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// The buttons that allow the user to select scenes from a scene book.
 	/// </summary>
-	public class SceneBookSelector : Stack
+	public class SceneBookSelector : GenericStack<SceneButton>
 	{
 		
 		internal SceneBookSelector(SceneBook book)

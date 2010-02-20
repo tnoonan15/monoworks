@@ -83,6 +83,7 @@
     <Compile Include="AbstractController.cs" />
     <Compile Include="StandardScene\StandardSceneController.cs" />
     <Compile Include="ActionHandlerAttribute.cs" />
+    <Compile Include="SceneButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />

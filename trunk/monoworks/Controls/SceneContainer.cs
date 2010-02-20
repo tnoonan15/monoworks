@@ -105,50 +105,5 @@ namespace MonoWorks.Controls
 
 		
 	}
-
-
-	/// <summary>
-	/// A button representing a scene in a SceneContainer.
-	/// </summary>
-	public class SceneButton : Button
-	{
-		internal SceneButton(Scene scene)
-		{
-			Scene = scene;
-			LabelString = scene.Name;
-			ButtonStyle = ButtonStyle.Label;
-			IsTogglable = true;
-			IsHoverable = true;
-		}
-
-		/// <summary>
-		/// The scene represented by this button.
-		/// </summary>
-		public Scene Scene
-		{
-			get;
-			private set;
-		}
-		
-		
-		#region Interaction
-		
-		/// <summary>
-		/// The relative point of the last button press.
-		/// </summary>
-//		private Coord _anchor;
-		
-		public override void OnButtonPress(MouseButtonEvent evt)
-		{
-			base.OnButtonPress(evt);
-			
-//			_anchor = evt.Pos - Origin;
-		}
-		
-		#endregion
-
-		
-		
-	}
 }
 
