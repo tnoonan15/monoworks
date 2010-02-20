@@ -371,6 +371,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// Whether the control responds to mouse motion over it by going into the hovering state.
 		/// </value>
+		[MwxProperty]
 		public bool IsHoverable
 		{
 			get {return _isHoverable;}
@@ -379,12 +380,12 @@ namespace MonoWorks.Controls
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			
+			QueuePaneRender();
 		}
 		
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
-			
+			QueuePaneRender();
 		}
 		
 		public override void OnMouseMotion(MouseEvent evt)
@@ -404,10 +405,11 @@ namespace MonoWorks.Controls
 						OnLeave(evt);
 					IsHovering = false;
 				}
+				QueuePaneRender();
 			}
 			else
 				IsHovering = false;
-				
+			
 		}
 		
 		/// <summary>

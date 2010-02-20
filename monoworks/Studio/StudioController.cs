@@ -63,7 +63,7 @@ namespace MonoWorks.Studio
 		[ActionHandler("New Part")]
 		public void NewPart(object sender, EventArgs args)
 		{
-			Scene.AddDrawing(new Part());
+			Scene.AddDrawing(new TestPart());
 		}
 
 		[ActionHandler("New Assembly")]

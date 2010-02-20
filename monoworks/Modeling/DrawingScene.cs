@@ -23,6 +23,7 @@
 using System;
 
 using MonoWorks.Rendering;
+using MonoWorks.Modeling.SceneControls;
 
 namespace MonoWorks.Modeling
 {
@@ -56,6 +57,7 @@ namespace MonoWorks.Modeling
 				RenderList.AddActor(_drawing);
 				
 				_drawing.AttributeUpdated += OnDrawingAttributeUpdated;
+				PrimaryInteractor = new DrawingInteractor(this, Drawing);
 				UpdateName();
 			}
 		}

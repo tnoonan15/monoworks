@@ -52,6 +52,7 @@ namespace MonoWorks.Studio
 			var scene = new DrawingScene(Viewport);
 			scene.Drawing = drawing;
 			_drawingBook.Add(scene);
+			scene.MakeCurrent();
 		}
 		
 	}
