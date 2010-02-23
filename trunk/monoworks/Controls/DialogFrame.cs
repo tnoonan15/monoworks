@@ -45,14 +45,14 @@ namespace MonoWorks.Controls
 			UserSize = new Coord(200, 200);
 			
 			var closeIcon = new Image(ResourceHelper.GetStream("close.png"));
-			_closeButton = new Button(closeIcon) {
+			CloseButton = new Button(closeIcon) {
 				Padding = 3
 			};
-			_closeButton.Clicked += delegate(object sender, EventArgs e) {
+			CloseButton.Clicked += delegate(object sender, EventArgs e) {
 				if (Closed != null)
 					Closed(this, e);
 			};
-			_closeButton.ParentControl = this;
+			CloseButton.ParentControl = this;
 			
 			_titleLabel = new Label() {
 				Padding = 3
@@ -60,7 +60,7 @@ namespace MonoWorks.Controls
 		}
 		
 		
-		private Button _closeButton;
+		private Button CloseButton;
 		
 		private Label _titleLabel;
 		
@@ -90,9 +90,9 @@ namespace MonoWorks.Controls
 			ApplyUserSize();
 			
 			// place the close button
-			if (_closeButton.IsDirty)
-				_closeButton.ComputeGeometry();
-			_closeButton.Origin = new Coord(RenderWidth - Padding - _closeButton.RenderWidth, Padding);
+			if (CloseButton.IsDirty)
+				CloseButton.ComputeGeometry();
+			CloseButton.Origin = new Coord(RenderWidth - Padding - CloseButton.RenderWidth, Padding);
 			
 			// place the title label
 			if (_titleLabel.IsDirty)
@@ -108,7 +108,7 @@ namespace MonoWorks.Controls
 		protected override void Render(RenderContext context)
 		{
 			// render the decorations
-			_closeButton.RenderCairo(context);
+			CloseButton.RenderCairo(context);
 			_titleLabel.RenderCairo(context);
 			
 			// render the content
@@ -130,7 +130,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonPress(evt);
 			
-			_closeButton.OnButtonPress(evt);
+			CloseButton.OnButtonPress(evt);
 //			foreach (var child in Children)
 //				child.OnButtonPress(evt);
 		}
@@ -139,7 +139,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonRelease(evt);
 			
-			_closeButton.OnButtonRelease(evt);
+			CloseButton.OnButtonRelease(evt);
 //			foreach (var child in Children)
 //				child.OnButtonRelease(evt);
 		}
@@ -148,7 +148,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnMouseMotion(evt);
 			
-			_closeButton.OnMouseMotion(evt);
+			CloseButton.OnMouseMotion(evt);
 //			foreach (var child in Children)
 //				child.OnMouseMotion(evt);
 		}

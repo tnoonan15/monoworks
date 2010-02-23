@@ -29,12 +29,12 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// Base class for Framework controllers.
 	/// </summary>
-    public abstract class AbstractController<T> where T : Scene
+    public abstract class AbstractController<SceneType> where SceneType : Scene
     {
 		/// <summary>
 		/// Default constructor (sets the scene).
 		/// </summary>
-        public AbstractController(T scene)
+        public AbstractController(SceneType scene)
         {
         	Scene = scene;
         	Mwx = new MwxSource();
@@ -82,7 +82,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The scene this controller controls.
 		/// </summary>
-		public T Scene { get; private set; }
+		public SceneType Scene { get; private set; }
 
 		/// <summary>
 		/// The MWX source for the controller. 

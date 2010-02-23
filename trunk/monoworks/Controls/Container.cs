@@ -30,24 +30,24 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// Base class for control container.
 	/// </summary>
-	public abstract class GenericContainer<T> : Control2D, IEnumerable<T> where T : Control2D
+	public abstract class GenericContainer<SceneType> : Control2D, IEnumerable<SceneType> where SceneType : Control2D
 	{
 		#region Children
 
 		public override void AddChild(IMwxObject child)
 		{
-			if (child is T)
-				AddChild(child as T);
+			if (child is SceneType)
+				AddChild(child as SceneType);
 			else
 				throw new NotImplementedException(@"Children of Containers must be of type Control2D.");
 		}
 
 
-		private readonly List<T> _children = new List<T>();
+		private readonly List<SceneType> _children = new List<SceneType>();
 		/// <value>
 		/// The container's children.
 		/// </value>
-		public IEnumerable<T> Children
+		public IEnumerable<SceneType> Children
 		{
 			get {return _children;}
 		}
@@ -57,11 +57,11 @@ namespace MonoWorks.Controls
 		/// </value>
 		/// <remarks>Only use this if there's a possibility the children 
 		/// will be edited during iteration.</remarks>
-		protected T[] ChildrenCopy
+		protected SceneType[] ChildrenCopy
 		{
 			get
 			{
-				var copy = new T[_children.Count];
+				var copy = new SceneType[_children.Count];
 				_children.CopyTo(copy);
 				return copy;
 			}
@@ -70,7 +70,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// Access the children by index.
 		/// </value>
-		public T this[int index]
+		public SceneType this[int index]
 		{
 			get {return GetChild(index);}
 			set {SetChild(index, value);}
@@ -79,7 +79,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Appends a child control on to the end of the stack.
 		/// </summary>
-		public virtual void AddChild(T child)
+		public virtual void AddChild(SceneType child)
 		{
 			_children.Add(child);
 			child.ParentControl = this;
@@ -89,14 +89,14 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Removes the given child from the children collection.
 		/// </summary>
-		public virtual void RemoveChild(T child)        {
+		public virtual void RemoveChild(SceneType child)        {
 			_children.Remove(child);
 		}
 
 		/// <summary>
 		/// Get a child by index.
 		/// </summary>
-		public T GetChild(int index)
+		public SceneType GetChild(int index)
 		{
 			if (index < 0 || index >= _children.Count)
 				throw new IndexOutOfRangeException("Invalid container child index: " + index);
@@ -107,7 +107,7 @@ namespace MonoWorks.Controls
 		/// Set a child by index.
 		/// </summary>
 		/// <remarks>If index is equal to NumChildren, it will be appended to the end.</remarks>
-		public void SetChild(int index, T child)
+		public void SetChild(int index, SceneType child)
 		{
 			if (index < 0 || index > _children.Count)
 				throw new IndexOutOfRangeException("Invalid container child index: " + index);
@@ -139,7 +139,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Returns the index of the given child in the children list.
 		/// </summary>
-		public int IndexOfChild(T child)
+		public int IndexOfChild(SceneType child)
 		{
 			return _children.IndexOf(child);
 		}
@@ -147,12 +147,12 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// True if the children collection contains the given child.
 		/// </summary>
-		public bool ContainsChild(T child)
+		public bool ContainsChild(SceneType child)
 		{
 			return _children.Contains(child);
 		}
 
-		public IEnumerator<T> GetEnumerator()
+		public IEnumerator<SceneType> GetEnumerator()
 		{
 			return Children.GetEnumerator();
 		}
@@ -226,7 +226,7 @@ namespace MonoWorks.Controls
 		
 		public override Control2D GetNextFocus(Control2D child)
 		{			
-			var kid = child as T;
+			var kid = child as SceneType;
 			if (kid == null)
 				throw new Exception("Child has the wrong type for this container.");
 			if (!ContainsChild(kid))
@@ -245,7 +245,7 @@ namespace MonoWorks.Controls
 		
 		public override Control2D GetPreviousFocus(Control2D child)
 		{
-			var kid = child as T;
+			var kid = child as SceneType;
 			if (kid == null)
 				throw new Exception("Child has the wrong type for this container.");
 			if (!ContainsChild(kid))
@@ -255,7 +255,7 @@ namespace MonoWorks.Controls
 			if (index == 0) // the first child
 			{
 				if (ParentControl == null)
-					return _children.Last<T>().GetLastFocus();
+					return _children.Last<SceneType>().GetLastFocus();
 				else
 					return ParentControl.GetPreviousFocus(this);
 			}
@@ -283,7 +283,7 @@ namespace MonoWorks.Controls
 				else
 					return null;
 			}
-			return _children.Last<T>().GetLastFocus();
+			return _children.Last<SceneType>().GetLastFocus();
 		}
 
 		

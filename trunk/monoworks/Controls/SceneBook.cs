@@ -62,6 +62,14 @@ namespace MonoWorks.Controls
 			
 			_selector.RemakeButtons();
 		}
+		
+		public override Scene Current {
+			get { return base.Current; }
+			set {
+				base.Current = value;
+				_selector.RefreshButtons();
+			}
+		}
 
 		
 		public override void Resize()
@@ -182,6 +190,20 @@ namespace MonoWorks.Controls
 				};
 			}
 			UpdateButtons();
+		}
+		
+		/// <summary>
+		/// Refreshes the state of the buttons.
+		/// </summary>
+		internal void RefreshButtons()
+		{
+			foreach (var button in Children)
+			{
+				if (button.Scene == _book.Current && !button.IsSelected)
+					button.Select();
+				else if (button.Scene != _book.Current && button.IsSelected)
+					button.Deselect();
+			}
 		}
 		
 		/// <summary>

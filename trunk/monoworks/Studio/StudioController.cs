@@ -45,31 +45,44 @@ namespace MonoWorks.Studio
 //		protected DocumentManager<IDrawingView> drawingManager = new DocumentManager<IDrawingView>();
 
 
-
-#region Key Press Handling
-
-		public override void OnKeyPress(int key)
-		{
-			base.OnKeyPress(key);
-
-//			uiManager.HandleKeyPress(key);
-		}
-
-#endregion
-
+		
 
 #region File Actions
 
 		[ActionHandler("New Part")]
 		public void NewPart(object sender, EventArgs args)
 		{
-			Scene.AddDrawing(new TestPart());
+			var scene = Scene.AddDrawing(new TestPart());
+			scene.Closing += OnSceneClosing;
+		}
+
+		/// <summary>
+		/// The user is trying to close one of the scenes. 
+		/// </summary>
+		private void OnSceneClosing(object sender, SceneClosingEvent evt)
+		{
+			if (evt.Scene is DrawingScene) // don't know what to do for other scenes
+			{
+				var drawing = (evt.Scene as DrawingScene).Drawing;
+				if (drawing.IsModified) // unsaved changes
+				{
+					evt.Cancel();
+					var mb = MessageBox.Show(Scene, MessageBoxIcon.Info, 
+						String.Format("Are you sure you want to close {0} without saving it?", drawing.Name),
+						MessageBoxResponse.Cancel | MessageBoxResponse.CloseWithoutSaving);
+					mb.Closed += delegate {
+						if (mb.CurrentResponse == MessageBoxResponse.CloseWithoutSaving)
+							evt.Scene.ForceClose();
+					};
+				}
+			}
 		}
 
 		[ActionHandler("New Assembly")]
 		public void NewAssembly(object sender, EventArgs args)
 		{
-			Scene.AddDrawing(new Assembly());
+			var scene = Scene.AddDrawing(new Assembly());
+			scene.Closing += OnSceneClosing;
 		}
 
 		[ActionHandler()]
@@ -94,6 +107,14 @@ namespace MonoWorks.Studio
 
 		[ActionHandler("Save As")]
 		public void SaveAs(object sender, EventArgs args)
+		{
+			SaveAs(Scene.GetCurrent());
+		}
+		
+		/// <summary>
+		/// Performs the "save as" operation on the given scene. 
+		/// </summary>
+		public void SaveAs(Scene scene)
 		{
 			var def = new FileDialogDef() {
 				Type = FileDialogType.SaveAs,

@@ -84,6 +84,7 @@
     <Compile Include="IActionPopulatable.cs" />
     <Compile Include="UiAction.cs" />
     <Compile Include="IOrientable.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

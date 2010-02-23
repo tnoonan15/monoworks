@@ -27,7 +27,36 @@ using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Rendering
-{
+{	
+	
+	/// <summary>
+	/// Gets sent with a scene closing event. Lets the handler cancel the operation.
+	/// </summary>
+	public class SceneClosingEvent : Event
+	{
+		public SceneClosingEvent(Scene scene) : base(scene)
+		{
+		}
+		
+		/// <summary>
+		/// Stops the scene from being closed.
+		/// </summary>
+		public void Cancel()
+		{
+			IsCanceled = true;
+		}
+		
+		/// <summary>
+		/// If true, the scene shouldn't be closed.
+		/// </summary>
+		public bool IsCanceled { get; private set; }
+	}
+	
+	/// <summary>
+	/// Handler for scene closing events.
+	/// </summary>
+	public delegate void SceneClosingEventHandler(object sender, SceneClosingEvent evt);
+	
 
 	/// <summary>
 	/// Represents a 3D scene containing its own list of renderables and camera.
@@ -113,18 +142,52 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		/// <remarks>This is either left at zero if the scene takes up the whole viewport
 		/// or set by a SceneContainer to control scene layout.</remarks>
-		public Coord ViewportOffset {get; set;}
+		public Coord ViewportOffset { get; set; }
 
 		/// <summary>
 		/// The renderable width of the scene.
 		/// </summary>
-		public double Width { get; set;}
+		public double Width { get; set; }
 
 		/// <summary>
 		/// The renderable height of the scene.
 		/// </summary>
-		public double Height { get; set;	}
+		public double Height { get; set; }
+		
+		/// <summary>
+		/// Raises the Closing event to see if anyone objects to closing the scene.
+		/// </summary>
+		public void AttemptClosing(object sender, EventArgs args)
+		{
+			// let everyone decide to cancel
+			var evt = new SceneClosingEvent(this);
+			if (Closing != null)
+				Closing(sender, evt);
+			
+			// if not canceled, close it
+			if (!evt.IsCanceled)
+			{
+				ForceClose();
+			}
+		}
+		
+		/// <summary>
+		/// Closes the scene with complete disregard for any handlers of the Closing event.
+		/// </summary>
+		public void ForceClose()
+		{
+			if (Parent != null && Parent is SceneContainer)
+			{
+				(Parent as SceneContainer).Remove(this);
+			}
+		}
 
+		/// <summary>
+		/// Gets raised when someone calls AttemptClosing().
+		/// </summary>
+		/// <remarks>Lets handlers cancel the closing.</remarks>
+		public event SceneClosingEventHandler Closing;
+		
 
 		#region Rendering
 
@@ -460,5 +523,8 @@ namespace MonoWorks.Rendering
 		}
 		
 		#endregion
+		
+		
+		
 	}
 }
