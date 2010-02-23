@@ -70,7 +70,6 @@
     <Compile Include="SceneSpace.cs" />
     <Compile Include="SceneBook.cs" />
     <Compile Include="SceneStack.cs" />
-    <Compile Include="SceneContainer.cs" />
     <Compile Include="MenuBox.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="StandardScene\StandardSceneController.cs" />
     <Compile Include="ActionHandlerAttribute.cs" />
     <Compile Include="SceneButton.cs" />
+    <Compile Include="MessageBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
@@ -111,6 +111,9 @@
     <EmbeddedResource Include="icons\expand.png" />
     <EmbeddedResource Include="icons\tree-expanded.png" />
     <EmbeddedResource Include="icons\tree-hidden.png" />
+    <EmbeddedResource Include="icons\dialog-error.png" />
+    <EmbeddedResource Include="icons\dialog-information.png" />
+    <EmbeddedResource Include="icons\dialog-warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

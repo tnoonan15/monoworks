@@ -57,7 +57,7 @@ namespace MonoWorks.Modeling
 			currentAction = -1;
 			actionList = new List<Action>();
 
-			IsModified = false;
+			IsModified = true;
 
 			// create the default reference geometry
 			for (int i = 0; i < defaultPlanes.Length; i++)

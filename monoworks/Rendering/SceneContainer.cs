@@ -24,10 +24,9 @@ using System;
 using System.Collections.Generic;
 
 using MonoWorks.Base;
-using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Controls
+namespace MonoWorks.Rendering
 {
 	/// <summary>
 	/// Base class for containers of scenes like SceneBook and SceneStack.
@@ -62,10 +61,21 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public virtual void Remove(Scene scene)
 		{
+			var index = _scenes.IndexOf(scene);
 			_scenes.Remove(scene);
 			scene.Parent = null;
-			if (_current == scene)
-				_current = null;
+			if (Current == scene)
+			{
+				if (NumScenes > 0)
+				{
+					if (index > 0)
+						Current = _scenes[index - 1];
+					else
+						Current = _scenes[0];
+				}
+				else
+					Current = null;
+			}
 		}
 		
 		/// <summary>
@@ -80,7 +90,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The current scene in the collection.
 		/// </summary>
-		public Scene Current
+		public virtual Scene Current
 		{
 			get { return _current; }
 			set 
@@ -100,7 +110,7 @@ namespace MonoWorks.Controls
 		{
 			base.MakeCurrent();
 			
-			_current = child;
+			Current = child;
 		}
 
 		

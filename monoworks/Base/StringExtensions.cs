@@ -1,5 +1,5 @@
 // 
-//  StudioScene.cs - MonoWorks Project
+//  StringExtensions.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -21,39 +21,34 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Text;
+using System.Collections.Generic;
 
-using MonoWorks.Rendering;
-using MonoWorks.Modeling;
-using MonoWorks.Controls;
-
-namespace MonoWorks.Studio
+namespace MonoWorks.Base
 {
 	/// <summary>
-	/// The top level scene for Studio.
+	/// Extension methods for strings.
 	/// </summary>
-	public class StudioScene : SceneSpace
+	public static class StringExtensions
 	{
-		public StudioScene(Viewport viewport) : base(viewport)
-		{
-			_drawingBook = new SceneBook(viewport);
-			Root = _drawingBook;
-			
-			new StudioController(this);
-		}
-		
-		private readonly SceneBook _drawingBook;
-		
-		
 		/// <summary>
-		/// Adds a drawing to the main document book.
+		/// Inserts spaces between the words in a camel-case string.
 		/// </summary>
-		public DrawingScene AddDrawing(Drawing drawing)
+		public static string InsertCamelSpaces(this string s)
 		{
-			var scene = new DrawingScene(Viewport);
-			scene.Drawing = drawing;
-			_drawingBook.Add(scene);
-			scene.MakeCurrent();
-			return scene;
+			var builder = new StringBuilder();
+			int lastWord = 0;
+			for (int i = 1; i < s.Length; i++)
+			{
+				if (char.IsUpper(s[i])) // a new word
+				{
+					builder.Append(s.Substring(lastWord, i-lastWord));
+					builder.Append(' ');
+					lastWord = i;
+				}
+			}			
+			builder.Append(s.Substring(lastWord));
+			return builder.ToString();
 		}
 		
 	}
