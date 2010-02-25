@@ -87,15 +87,29 @@ namespace MonoWorks.Controls
 				scene.Resize(Width, Height - _pane.RenderHeight);
 			}
 		}
-		
-		public override void Render()
+
+		public override void RenderOpaque()
 		{
-			base.Render();
-			
-			
+			base.RenderOpaque();
 			
 			if (Current != null)
-				Current.Render();		
+				Current.RenderOpaque();
+		}
+
+		public override void RenderOverlay()
+		{
+			base.RenderOverlay();
+			
+			if (Current != null)
+				Current.RenderOverlay();
+		}
+
+		public override void RenderTransparent()
+		{
+			base.RenderTransparent();
+			
+			if (Current != null)
+				Current.RenderTransparent();
 		}
 		
 		

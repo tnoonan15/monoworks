@@ -83,7 +83,7 @@ namespace MonoWorks.Controls
 		
 		private bool _relayout;
 		
-		public override void Render()
+		public override void RenderOverlay()
 		{
 			// see if the gutters need their geometry computed
 			foreach (var side in _gutters.Keys)
@@ -95,7 +95,7 @@ namespace MonoWorks.Controls
 				}
 			}
 			
-			base.Render();
+			base.RenderOverlay();
 			
 			// relayout the gutters
 			if (_relayout)
@@ -112,7 +112,23 @@ namespace MonoWorks.Controls
 			}
 			
 			if (Root != null)
-				Root.Render();
+				Root.RenderOverlay();
+		}
+
+		public override void RenderOpaque()
+		{
+			base.RenderOpaque();
+			
+			if (Root != null)
+				Root.RenderOpaque();
+		}
+
+		public override void RenderTransparent()
+		{
+			base.RenderTransparent();
+			
+			if (Root != null)
+				Root.RenderTransparent();
 		}
 		
 		

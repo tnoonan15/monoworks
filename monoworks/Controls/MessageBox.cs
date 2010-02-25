@@ -40,10 +40,24 @@ namespace MonoWorks.Controls
 		CloseWithoutSaving = 16,
 	};
 	
+	
 	/// <summary>
 	/// Possible icons in a message box.
 	/// </summary>
 	public enum MessageBoxIcon {None, Info, Warning, Error};
+	
+	
+	/// <summary>
+	/// Control that has the contents of the message box.
+	/// </summary>
+	public class MessageBoxFrame : Stack
+	{
+		public MessageBoxFrame(Orientation orientation) : base(orientation)
+		{
+			
+		}
+	}
+	
 	
 	/// <summary>
 	/// Displays a simple modal dialog to the user with some text and an optional icon.
@@ -53,16 +67,16 @@ namespace MonoWorks.Controls
 		
 		public MessageBox() : base()
 		{
-			_mainStack = new Stack(Orientation.Vertical);
-			Control = _mainStack;
+			_frame = new MessageBoxFrame(Orientation.Vertical);
+			Control = _frame;
 			
 			_bodyStack = new Stack(Orientation.Horizontal);
-			_mainStack.AddChild(_bodyStack);
+			_frame.AddChild(_bodyStack);
 			_messageLabel = new Label();
 			_bodyStack.AddChild(_messageLabel);
 			
 			_buttonStack = new GenericStack<Button>(Orientation.Horizontal);
-			_mainStack.AddChild(_buttonStack);
+			_frame.AddChild(_buttonStack);
 			
 			GrayScene = true;
 			CloseOnOutsideClick = false;
@@ -76,7 +90,7 @@ namespace MonoWorks.Controls
 		
 		#region Body
 		
-		private Stack _mainStack;
+		private MessageBoxFrame _frame;
 		
 		private Stack _bodyStack;
 		
@@ -88,6 +102,34 @@ namespace MonoWorks.Controls
 		public string Message {
 			get { return _messageLabel.Body; }
 			set { _messageLabel.Body = value;}
+		}
+		
+		#endregion
+		
+		
+		#region Icons
+		
+		private static Dictionary<MessageBoxIcon, string> _iconNames = new Dictionary<MessageBoxIcon, string>() {
+			{MessageBoxIcon.Info, "dialog-information.png"},
+			{MessageBoxIcon.Warning, "dialog-warning.png"},
+			{MessageBoxIcon.Error, "dialog-error.png"}
+		};
+		
+		private Image _icon;
+		
+		/// <summary>
+		/// Sets the icon displayed next to the message.
+		/// </summary>
+		public MessageBoxIcon Icon {
+			set {
+				if (_icon != null)
+					_bodyStack.RemoveChild(_icon);
+				if (value != MessageBoxIcon.None)
+				{
+					_icon = new Image(ResourceHelper.GetStream(_iconNames[value]));
+					_bodyStack.InsertChild(_icon, 0);
+				}
+			}
 		}
 		
 		#endregion
@@ -134,7 +176,9 @@ namespace MonoWorks.Controls
 		public static MessageBox Show(Scene scene, MessageBoxIcon icon, 
 			string message, MessageBoxResponse responses)
 		{
-			var box = new MessageBox();
+			var box = new MessageBox() {
+				Icon = icon
+			};
 			
 			// add the buttons
 			foreach (var val in Enum.GetValues(typeof(MessageBoxResponse)))

@@ -51,6 +51,7 @@ namespace MonoWorks.Rendering
 			get;
 			set;
 		}
+		
 
 		#region Rendering
 
@@ -78,8 +79,10 @@ namespace MonoWorks.Rendering
 		{
 			adapter.MakeCurrent();
 			
-			RootScene.RenderManager.ClearScene();			
-			RootScene.Render();
+			RootScene.RenderManager.ClearScene();
+			RootScene.RenderOpaque();
+			RootScene.RenderTransparent();
+			RootScene.RenderOverlay();
 		}
 
 		/// <summary>

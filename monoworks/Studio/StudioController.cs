@@ -37,14 +37,9 @@ namespace MonoWorks.Studio
 			: base(scene)
 		{
 			Mwx.Parse(ResourceHelper.GetStream("Studio.mwx"));
-						
+			
 			Scene.AddToGutter(Side.N, Mwx.Get<ToolBar>("FileToolbar"));
 		}
-
-
-//		protected DocumentManager<IDrawingView> drawingManager = new DocumentManager<IDrawingView>();
-
-
 		
 
 #region File Actions
@@ -67,8 +62,8 @@ namespace MonoWorks.Studio
 				if (drawing.IsModified) // unsaved changes
 				{
 					evt.Cancel();
-					var mb = MessageBox.Show(Scene, MessageBoxIcon.Info, 
-						String.Format("Are you sure you want to close {0} without saving it?", drawing.Name),
+					var mb = MessageBox.Show(Scene, MessageBoxIcon.Warning, 
+						String.Format("Are you sure you want to close\n {0} without saving it?", drawing.Name),
 						MessageBoxResponse.Cancel | MessageBoxResponse.CloseWithoutSaving);
 					mb.Closed += delegate {
 						if (mb.CurrentResponse == MessageBoxResponse.CloseWithoutSaving)

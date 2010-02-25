@@ -245,9 +245,45 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Render the scene.
+		/// Render the overlays.
 		/// </summary>
-		public virtual void Render()
+		public virtual void RenderOverlay()
+		{
+			Camera.Setup();
+			Camera.PlaceOverlay();
+			
+			// render the rendering list
+			renderList.RenderOverlay(this);
+			
+			// let the interactors render themselves
+			ViewInteractor.RenderOverlay(this);
+			OverlayInteractor.RenderOverlay(this);
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.RenderOverlay(this);
+		}
+
+		/// <summary>
+		/// Render the transparent renderables.
+		/// </summary>
+		public virtual void RenderTransparent()
+		{
+			Camera.Setup();
+			Camera.Place();
+			
+			// render the rendering list
+			renderList.RenderTransparent(this);
+			
+			// let the interactors render themselves
+			ViewInteractor.RenderTransparent(this);
+			OverlayInteractor.RenderTransparent(this);
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.RenderTransparent(this);
+		}
+
+		/// <summary>
+		/// Render the opaque renderables.
+		/// </summary>
+		public virtual void RenderOpaque()
 		{
 			Camera.Setup();
 			
@@ -257,26 +293,16 @@ namespace MonoWorks.Rendering
 				queueResize = false;
 			}
 			
+			Camera.Place();
+			
 			// render the rendering list
-			renderList.Render(this);
+			renderList.RenderOpaque(this);
 			
 			// let the interactors render themselves
-			Camera.Place();
 			ViewInteractor.RenderOpaque(this);
-			ViewInteractor.RenderTransparent(this);
 			OverlayInteractor.RenderOpaque(this);
-			OverlayInteractor.RenderTransparent(this);
-			if (PrimaryInteractor != null) {
-				PrimaryInteractor.RenderOpaque(this);
-				PrimaryInteractor.RenderTransparent(this);
-			}
-			Camera.PlaceOverlay();
-			ViewInteractor.RenderOverlay(this);
-			OverlayInteractor.RenderOverlay(this);
 			if (PrimaryInteractor != null)
-				PrimaryInteractor.RenderOverlay(this);
-			
-			//SwapBuffers();
+				PrimaryInteractor.RenderOpaque(this);
 		}
 		
 		#endregion
