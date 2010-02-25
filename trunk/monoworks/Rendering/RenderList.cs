@@ -229,23 +229,8 @@ namespace MonoWorks.Rendering
 
 		#region Rendering
 
-		public void Render(Scene scene)
+		public void RenderOverlay(Scene scene)
 		{
-			scene.RenderManager.BeginSolids();
-			scene.Camera.Place(); // place the camera for 3D rendering
-
-			foreach (var actor in _actors)
-			{
-				if (actor.IsVisible)
-					actor.RenderOpaque(scene);
-			}
-
-			foreach (var actor in _actors)
-			{
-				if (actor.IsVisible)
-					actor.RenderTransparent(scene);
-			}
-
 			scene.Camera.PlaceOverlay(); // place the camera for overlay rendering
 			foreach (var actor in _actors)
 			{
@@ -266,8 +251,27 @@ namespace MonoWorks.Rendering
 			{
 				if (modal.IsVisible)
 					modal.RenderOverlay(scene);
+			}			
+		}
+
+		public void RenderTransparent(Scene scene)
+		{			
+			foreach (var actor in _actors) {
+				if (actor.IsVisible)
+					actor.RenderTransparent(scene);
 			}
 			
+		}
+
+		public void RenderOpaque(Scene scene)
+		{
+			scene.RenderManager.BeginSolids();
+			scene.Camera.Place();
+			// place the camera for 3D rendering
+			foreach (var actor in _actors) {
+				if (actor.IsVisible)
+					actor.RenderOpaque(scene);
+			}			
 		}
 
 		#endregion

@@ -424,6 +424,11 @@ namespace MonoWorks.Controls
 				Decorate(control as DialogFrame);
 				return;
 			}
+			if (control is MessageBoxFrame)
+			{
+				Decorate(control as MessageBoxFrame);
+				return;
+			}
 			if (control is SceneButton)
 			{
 				Decorate(control as SceneButton);
@@ -585,6 +590,12 @@ namespace MonoWorks.Controls
 			FillRectangle(Coord.Zeros, new Coord(dialog.RenderWidth, DialogFrame.TitleHeight), 
 			              Corner.NE | Corner.NW, FillType.Background, HitState.None, AnchorLocation.S);
 			StrokeRectangle(Coord.Zeros, dialog.RenderSize, AllCorners, HitState.None);
+		}
+		
+		protected virtual void Decorate(MessageBoxFrame box)
+		{
+			FillRectangle(Coord.Zeros, box.RenderSize, AllCorners, FillType.Background, HitState.None, AnchorLocation.SE);
+			StrokeRectangle(Coord.Zeros, box.RenderSize, AllCorners, HitState.None);
 		}
 		
 		protected virtual void Decorate(TextBox textBox)

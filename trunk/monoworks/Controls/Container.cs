@@ -87,6 +87,19 @@ namespace MonoWorks.Controls
 		}
 
 		/// <summary>
+		/// Inserts a child control at the given index of the stack.
+		/// </summary>
+		/// <remarks>Negative indices count from the back.</remarks>
+		public virtual void InsertChild(SceneType child, int index)
+		{
+			if (index < 0)
+				index = NumChildren + index;
+			_children.Insert(index, child);
+			child.ParentControl = this;
+			MakeDirty();
+		}
+
+		/// <summary>
 		/// Removes the given child from the children collection.
 		/// </summary>
 		public virtual void RemoveChild(SceneType child)        {
