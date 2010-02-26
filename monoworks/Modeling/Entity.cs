@@ -69,6 +69,8 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		protected Entity()
 		{
+			MetaData = GetMetadata(this);
+			
 			ParentEntity = null;
 			IdCounter++;
 			id = IdCounter;
@@ -96,21 +98,33 @@ namespace MonoWorks.Modeling
 			}
 		}
 		
+		private static Dictionary<string, EntityMetaData> _metaData = new Dictionary<string, EntityMetaData>();
+		
+		
+		protected EntityMetaData GetMetadata(Entity e)
+		{
+			var className = e.ClassName;
+			EntityMetaData metaData = null;
+			if (_metaData.TryGetValue(className, out metaData))
+				return metaData;
+			metaData = new EntityMetaData(e.GetType());
+			_metaData[className] = metaData;
+			return metaData;
+		}
+		
 		/// <value>
 		/// This entity's meta data.
 		/// </value>
-		public EntityMetaData MetaData
-		{
-			get {return EntityMetaData.TopLevel.GetEntity(ClassName);}
-		}
+		public EntityMetaData MetaData { get; private set; }
 
 		/// <summary>
 		/// This is a queue to the user interface to determine if the entity is editable.
 		/// </summary>
+		[MwxProperty]
 		public bool IsLocked
 		{
-			get { return (bool)this["locked"]; }
-			set { this["locked"] = value; } 
+			get { return (bool)this["IsLocked"]; }
+			set { this["IsLocked"] = value; } 
 		}
 
 
@@ -119,8 +133,8 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		public readonly string[] DimensionNames = { "X", "Y", "Z" };
 
-		
-#region The Drawing
+					
+			#region The Drawing
 		
 		protected Drawing drawing;
 		
@@ -132,11 +146,11 @@ namespace MonoWorks.Modeling
 			get {return drawing;}
 			set { drawing = value; }
 		}
-		
-#endregion
+				
+		#endregion
 			
-
-#region Momentos
+		
+		#region Momentos
 		
 		/// <summary>
 		/// List of momentos.
@@ -159,12 +173,12 @@ namespace MonoWorks.Modeling
 		protected Momento DefaultMomento()
 		{
 			Momento momento = new Momento();
-			foreach (AttributeMetaData attribute in MetaData.AttributeList)
+			foreach (var attribute in MetaData.Attributes)
 			{
 				//Console.WriteLine("creating default attribute {0} for entity {1}", attribute.Name, MetaData.Name);
-				if (attribute.IsEntity)
-					momento[attribute.Name] = null;
-				else
+//				if (attribute.IsEntity)
+//					momento[attribute.Name] = null;
+//				else
 					momento[attribute.Name] = attribute.Instantiate();
 			}
 			momento["name"] = ClassName + GetCount(ClassName).ToString();
@@ -177,7 +191,6 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		public void RemoveLeadingMomentos()
 		{
-//			Console.WriteLine("current momento: {0}, num momentos: {1}", currentMomentoIndex, momentos.Count);
 			if (currentMomentoIndex < momentos.Count-1)
 				momentos.RemoveRange(currentMomentoIndex+1, momentos.Count-currentMomentoIndex);
 		}
@@ -237,7 +250,7 @@ namespace MonoWorks.Modeling
 			if (MetaData.ContainsAttribute(name))
 				return workingMomento[name];
 			else
-				throw new Exception("This entity does not contain an attribute named " + name + ".");
+				throw new Exception(ClassName + " does not contain an attribute named " + name + ".");
 		}
 		
 		/// <summary>
@@ -255,7 +268,7 @@ namespace MonoWorks.Modeling
 					AttributeUpdated(this, name);
 			}
 			else
-				throw new Exception("This entity does not contain an attribute named " + name + ".");
+				throw new Exception(ClassName + " does not contain an attribute named " + name + ".");
 		}
 
 		/// <summary>
@@ -309,11 +322,11 @@ namespace MonoWorks.Modeling
 		{
 			get {return id;}
 		}
+				
+		#endregion		
 		
-#endregion		
 		
-
-#region Children
+		#region Children
 		
 		protected List<Entity> children;	
 		
@@ -429,11 +442,11 @@ namespace MonoWorks.Modeling
 		{
 			return children.Contains(child);
 		}
+				
+		#endregion
 		
-#endregion
 		
-
-#region Dependencies
+		#region Dependencies
 		
 		protected List<Entity> dependencies;			
 	
@@ -465,12 +478,11 @@ namespace MonoWorks.Modeling
 			AddChild(child);
 			AddDependency(child);
 		}
-		
-#endregion
-		
-		
-#region Rendering
-			
+				
+		#endregion
+				
+				
+		#region Rendering			
 		
 		/// <summary>
 		/// Makes the entity dirty.
@@ -584,12 +596,11 @@ namespace MonoWorks.Modeling
 			foreach (Entity child in children)
 				child.RenderOverlay(scene);
 		}
-
 		
-#endregion
-
-
-#region File I/O
+		#endregion
+		
+		
+		#region File I/O
 
 		/// <summary>
 		/// Recursively writes the entity and all of its children to an XML file.
@@ -602,12 +613,13 @@ namespace MonoWorks.Modeling
 			writer.WriteAttributeString("id", id.ToString());
 
 			// write the attributes
-			foreach (AttributeMetaData attribute in MetaData.AttributeList)
+			foreach (var attribute in MetaData.Attributes)
 			{
 				object attrObject = this[attribute.Name];
-				if (attribute.IsEntity)
-					writer.WriteAttributeString(attribute.Name, (attrObject as Entity).Id.ToString());
-				else if (attrObject is IList)
+		//				if (attribute.IsEntity)
+		//					writer.WriteAttributeString(attribute.Name, (attrObject as Entity).Id.ToString());
+		//				else 
+				if (attrObject is IList)
 					writer.WriteAttributeString(attribute.Name, (attrObject as IList).ListString());
 				else
 					writer.WriteAttributeString(attribute.Name, attrObject.ToString());
@@ -619,10 +631,8 @@ namespace MonoWorks.Modeling
 
 			writer.WriteEndElement();
 		}
-
-
-
-#endregion
+		
+		#endregion
 
 	}
 }

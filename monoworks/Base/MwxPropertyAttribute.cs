@@ -21,6 +21,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Reflection;
 
 namespace MonoWorks.Base
 {
@@ -35,5 +36,32 @@ namespace MonoWorks.Base
 		public MwxPropertyAttribute()
 		{
 		}
+		
+		/// <summary>
+		/// Constructor allowing the user to specify a name different than the property.
+		/// </summary>
+		public MwxPropertyAttribute(string name) : this()
+		{
+			Name = name;
+		}
+		
+		/// <summary>
+		/// The name of the property.
+		/// </summary>
+		public string Name { get; set; }
+		
+		/// <summary>
+		/// Info for the property associated with this attribute.
+		/// </summary>
+		public PropertyInfo PropertyInfo { get; set; }
+		
+		/// <summary>
+		/// Instantiates the attribute as an object.
+		/// </summary>
+		public object Instantiate()
+		{
+			return Activator.CreateInstance(PropertyInfo.PropertyType);
+		}
+		
 	}
 }

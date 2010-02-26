@@ -90,7 +90,7 @@ namespace MonoWorks.Base
 				val = Activator.CreateInstance(prop.PropertyType);
 				(val as IStringParsable).Parse(valString);
 			}
-			else 
+			else
 				throw new NotImplementedException(String.Format("Don't know what to do with properties of type {0}", prop.PropertyType));
 			
 			prop.SetValue(target, val, null);

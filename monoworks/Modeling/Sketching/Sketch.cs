@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.Modeling.Sketching
@@ -28,29 +29,37 @@ namespace MonoWorks.Modeling.Sketching
 	/// </summary>
 	public class Sketch : Entity
 	{
-		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		/// <param name="plane">The reference plane that the sketch lies on.</param>
-		public Sketch(RefPlane plane) : base()
+		public Sketch() : base()
+		{
+		}
+		
+		/// <summary>
+		/// Constructor with a plane.
+		/// </summary>
+		/// <param name="plane">The reference plane that the sketch lies on.</param>
+		public Sketch(RefPlane plane) : this()
 		{
 			Plane = plane;
 		}
 				
-		
-#region Attributes
+				
+		#region Attributes
 						
 		/// <summary>
 		/// The plane that the sketch lies on.
 		/// </summary>
+		[MwxProperty]
 		public RefPlane Plane
 		{
-			get {return (RefPlane)this["plane"];}
-			set {this["plane"]= value;}
+			get {return (RefPlane)this["Plane"];}
+			set {this["Plane"]= value;}
 		}
-		
-#endregion
+				
+		#endregion
 		
 		
 		/// <summary>

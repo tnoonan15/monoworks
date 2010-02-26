@@ -55,31 +55,32 @@ namespace MonoWorks.Modeling.Sketching
 			Sweep = sweep;
 		}
 		
-	
-		
-#region Attributes
+					
+		#region Attributes
 
 		/// <value>
 		/// The center.
 		/// </value>
+		[MwxProperty]
 		public Point Center
 		{
-			get {return (Point)this["center"];}
+			get {return (Point)this["Center"];}
 			set
 			{
-				this["center"] = value;
+				this["Center"] = value;
 			}
 		}
 
 		/// <value>
 		/// The starting point.
 		/// </value>
+		[MwxProperty]
 		public Point Start
 		{
-			get {return (Point)this["start"];}
+			get {return (Point)this["Start"];}
 			set
 			{
-				this["start"] = value;
+				this["Start"] = value;
 			}
 		}
 
@@ -95,16 +96,17 @@ namespace MonoWorks.Modeling.Sketching
 		/// The sweep angle.
 		/// Rotations are applied using the right hand rule around the normal vector.
 		/// </value>
+		[MwxProperty]
 		public Angle Sweep
 		{
-			get {return (Angle)this["sweep"];}
+			get {return (Angle)this["Sweep"];}
 			set
 			{
-				this["sweep"] = value;
+				this["Sweep"] = value;
 			}
 		}
-			
-#endregion
+					
+		#endregion
 		
 		
 #region Rendering

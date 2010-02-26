@@ -66,28 +66,29 @@ namespace MonoWorks.Modeling
 			//}
 		}		
 
-
-#region Momentos
+		
+		#region Momentos
 								
 		/// <value>
 		/// The feature's sketch.
 		/// </value>
+		[MwxProperty]
 		public Sketch Sketch
 		{
-			get {return (Sketch)this["sketch"];}
+			get {return (Sketch)this["Sketch"];}
 			set
 			{
 				// remove the old sketch if there was one
 //				if (Sketch != null)
 //					RemoveChild(Sketch);
-				this["sketch"] = value;
+				this["Sketch"] = value;
 				// assign the sketch as a child of this feature
 				value.ParentEntity.RemoveChild(value);
 				AddChild(value);
 			}
 		}
-	
-#endregion
+			
+		#endregion
 		
 
 #region Display Lists

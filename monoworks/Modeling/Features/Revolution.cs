@@ -43,29 +43,31 @@ namespace MonoWorks.Modeling
 			Travel = Angle.TwoPi;
 		}
 		
-			
-#region Attributes
+					
+		#region Attributes
 		
 		/// <value>
 		/// Revolution axis.
 		/// </value>
+		[MwxProperty]
 		public RefLine Axis
 		{
-			get {return (RefLine)this["axis"];}
-			set {this["axis"] = value;}
+			get {return (RefLine)this["Axis"];}
+			set {this["Axis"] = value;}
 		}	
 
 		
 		/// <value>
 		/// Revolution travel.
 		/// </value>
+		[MwxProperty]
 		public Angle Travel
 		{
-			get {return (Angle)this["travel"];}
-			set {this["travel"] = value;}
+			get {return (Angle)this["Travel"];}
+			set {this["Travel"] = value;}
 		}			
-				
-#endregion
+						
+		#endregion
 		
 		
 		

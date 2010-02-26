@@ -33,11 +33,9 @@ namespace MonoWorks.Modeling.SceneControls
 	/// </summary>
 	public class DrawingController : StandardSceneController
 	{
-		public DrawingController(Scene scene, IAttributePanel attributePanel)
+		public DrawingController(Scene scene)
 			: base(scene)
-		{
-			this.attributePanel = attributePanel;
-			
+		{			
 			OnSolidModeChanged();
 
 			LoadStandardToolbars();
@@ -176,7 +174,7 @@ namespace MonoWorks.Modeling.SceneControls
 
 			if (drawing.EntityManager.NumSelected == 0) // nothing selected
 			{
-				attributePanel.Hide();
+//				attributePanel.Hide();
 				if (IsSketching)
 					AddPrimaryContext("Sketch");
 				else
@@ -248,7 +246,7 @@ namespace MonoWorks.Modeling.SceneControls
 
 #region Entity Editing
 
-		protected IAttributePanel attributePanel;
+//		protected IAttributePanel attributePanel;
 
 		[ActionHandler()]
 		public void Edit()
@@ -256,26 +254,26 @@ namespace MonoWorks.Modeling.SceneControls
 			if (entity == null)
 				throw new Exception("The Edit action should never be called without lastEntity set.");
 
-			attributePanel.Show(this, entity);
+//			attributePanel.Show(this, entity);
 		}
 
 		/// <summary>
 		/// Handles an attribute being changed by an attribute control.
 		/// </summary>
 		/// <param name="attrControl"></param>
-		public void OnAttributeChanged(IAttributeControl attrControl)
-		{
-			Scene.Paint();
-		}
+//		public void OnAttributeChanged(IAttributeControl attrControl)
+//		{
+//			Scene.Paint();
+//		}
 
 		/// <summary>
 		/// Handles an attribute panel being hiddein.
 		/// </summary>
 		/// <param name="panel"></param>
-		public void OnAttributePanelHidden(IAttributePanel panel)
-		{
-			Scene.Paint();
-		}
+//		public void OnAttributePanelHidden(IAttributePanel panel)
+//		{
+//			Scene.Paint();
+//		}
 
 		[ActionHandler()]
 		public void Delete()
@@ -380,7 +378,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// </summary>
 		public void OnSketchableChanged(Sketchable skethable)
 		{
-			attributePanel.Show(this, skethable);
+//			attributePanel.Show(this, skethable);
 		}
 
 		/// <summary>

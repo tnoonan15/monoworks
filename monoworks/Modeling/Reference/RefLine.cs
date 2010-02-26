@@ -53,30 +53,31 @@ namespace MonoWorks.Modeling
 			Direction = direction;
 		}
 		
-		
-#region Attributes
+				
+		#region Attributes
 								
 		/// <value>
 		/// A point that is intersected by the line.
 		/// </value>
+		[MwxProperty]
 		public Point Center
 		{
-			get {return (Point)this["center"];}
-			set { this["center"] = value;}
+			get {return (Point)this["Center"];}
+			set { this["Center"] = value;}
 		}
 		
 		
 		/// <value>
 		/// The direction of the line.
 		/// </value>
+		[MwxProperty]
 		public Vector Direction
 		{
-			get {return (Vector)this["direction"];}
-			set { this["direction"] = value;}
-		}
-		
-		
-#endregion
+			get {return (Vector)this["Direction"];}
+			set { this["Direction"] = value;}
+		}		
+				
+		#endregion
 		
 		
 #region Geometry

@@ -18,6 +18,7 @@
 
 using System;
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 
 namespace MonoWorks.Modeling
@@ -34,19 +35,21 @@ namespace MonoWorks.Modeling
 		/// <value>
 		/// The part's material (used in realistic mode).
 		/// </value>
+		[MwxProperty]
 		public Material Material
 		{
-			get { return (Material)this["material"]; }
-			set { this["material"] = value; }
+			get { return (Material)this["Material"]; }
+			set { this["Material"] = value; }
 		}
 
 		/// <value>
 		/// The part's color when being rendered in cartoon mode.
 		/// </value>
+		[MwxProperty]
 		public Color CartoonColor
 		{
-			get { return (Color)this["cartoonColor"]; }
-			set { this["cartoonColor"] = value; }
+			get { return (Color)this["CartoonColor"]; }
+			set { this["CartoonColor"] = value; }
 		}
 
 		public override void RenderOpaque(Scene scene)

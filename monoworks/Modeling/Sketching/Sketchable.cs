@@ -50,13 +50,15 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// The sketch this sketchable belongs to.
 		/// </summary>
+		[MwxProperty]
 		public Sketch Sketch
 		{
-			get { return GetAttribute("sketch") as Sketch; }
-			set { SetAttribute("sketch", value); }
+			get { return GetAttribute("Sketch") as Sketch; }
+			set { SetAttribute("Sketch", value); }
 		}
+				
 		
-#region Points
+		#region Points
 		
 		protected Vector[] solidPoints;
 		/// <summary>
@@ -87,8 +89,9 @@ namespace MonoWorks.Modeling.Sketching
 		{
 			get {return directions;}
 		}
+				
+		#endregion
 		
-#endregion
 		
 #region Rendering
 

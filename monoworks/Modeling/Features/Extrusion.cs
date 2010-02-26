@@ -46,50 +46,50 @@ namespace MonoWorks.Modeling
 			Travel = new Length(1);
 		}
 			
-		
-#region Attributes
-		
+				
+		#region Attributes		
 
 		/// <value>
 		/// Extrusion path.
 		/// </value>
+		[MwxProperty]
 		public RefLine Path
 		{
-			get {return (RefLine)this["path"];}
-			set {this["path"] = value;}
-		}		
-		
+			get {return (RefLine)this["Path"];}
+			set {this["Path"] = value;}
+		}				
 
 		/// <value>
 		/// Spin angle.
 		/// </value>
+		[MwxProperty]
 		public Angle Spin
 		{
-			get {return (Angle)this["spin"];}
-			set {this["spin"] = value;}
-		}
-		
+			get {return (Angle)this["Spin"];}
+			set {this["Spin"] = value;}
+		}		
 		
 		/// <value>
 		/// Scaling factor.
 		/// </value>
+		[MwxProperty]
 		public double Scale
 		{
-			get {return (double)this["scale"];}
-			set {this["scale"] = value;}
-		}
-		
+			get {return (double)this["Scale"];}
+			set {this["Scale"] = value;}
+		}		
 		
 		/// <value>
 		/// Travel distance.
 		/// </value>
+		[MwxProperty]
 		public Length Travel
 		{
-			get {return (Length)this["travel"];}
-			set {this["travel"] = value;}
+			get {return (Length)this["Travel"];}
+			set {this["Travel"] = value;}
 		}
-		
-#endregion
+				
+		#endregion
 		
 		
 		
