@@ -47,10 +47,11 @@ namespace MonoWorks.Modeling
 		/// <value>
 		/// The origin of the plane.
 		/// </value>
+		[MwxProperty]
 		public Point Position
 		{
-			get {return (Point)this["position"];}
-			set { this["position"] = value;}
+			get {return (Point)this["Position"];}
+			set { this["Position"] = value;}
 		}
 		
 		public Vector Origin
@@ -62,19 +63,21 @@ namespace MonoWorks.Modeling
 		/// <summary>
 		/// The normal of the plane.
 		/// </summary>
+		[MwxProperty]
 		public Vector Normal
 		{
-			get {return (Vector)this["normal"];}
-			set { this["normal"] = value;}
+			get {return (Vector)this["Normal"];}
+			set { this["Normal"] = value;}
 		}
 		
 		/// <summary>
 		/// The x axis of the plane.
 		/// </summary>
+		[MwxProperty]
 		public Vector XAxis
 		{
-			get {return (Vector)this["xAxis"];}
-			set { this["xAxis"] = value;}
+			get {return (Vector)this["XAxis"];}
+			set { this["XAxis"] = value;}
 		}
 		
 #endregion

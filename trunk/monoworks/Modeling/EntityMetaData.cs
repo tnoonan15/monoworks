@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Xml;
 
 using MonoWorks.Base;
@@ -30,24 +31,26 @@ namespace MonoWorks.Modeling
 	/// Singleton class that stores meta data about entities.
 	/// </summary>
 	public class EntityMetaData
-	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public EntityMetaData(EntityMetaData parent)
+	{	
+		
+		public EntityMetaData(Type type)
 		{
-			this.parent = parent;
-			children = new Dictionary<string,EntityMetaData>();
-			attributes = new Dictionary<string,AttributeMetaData>();  
+			_children = new Dictionary<string, EntityMetaData>();
+			_attributes = new Dictionary<string, MwxPropertyAttribute>();
+			foreach (var prop in type.GetProperties())
+			{
+				var mwxProps = prop.GetCustomAttributes<MwxPropertyAttribute>();
+				if (mwxProps.Length > 0) 
+				{
+					var mwxProp = mwxProps[0];
+					mwxProp.PropertyInfo = prop;
+					if (mwxProp.Name == null)
+						mwxProp.Name = prop.Name;
+					_attributes[mwxProp.Name] = mwxProp;
+				}
+			}
 		}
-		
-		protected EntityMetaData parent;		
-		
-		/// <summary>
-		/// The the top-level (Entity) instance.
-		/// </summary>
-		public static EntityMetaData TopLevel = CreateFromStream(ResourceHelper.GetStream("EntityMetaData.xml"));
-		
+				
 		
 		private string name;
 		/// <value>
@@ -55,13 +58,14 @@ namespace MonoWorks.Modeling
 		/// </value>
 		public string Name
 		{
-			get {return name;}
+			get { return name; }
 		}
 		
 		
-#region Children
+				
+		#region Children
 		
-		protected Dictionary<string, EntityMetaData> children;
+		protected Dictionary<string, EntityMetaData> _children;
 		
 		/// <summary>
 		/// Gets the entity of a given name by recursively climbing the meta data tree.
@@ -70,12 +74,12 @@ namespace MonoWorks.Modeling
 		/// <returns> The <see cref="EntityMetaData"/> representing the entity. </returns>
 		public EntityMetaData GetEntity(string entityName)
 		{
-			if (children.ContainsKey(entityName))
-				return children[entityName];
+			if (_children.ContainsKey(entityName))
+				return _children[entityName];
 			else
 			{
 				EntityMetaData data = null;
-				foreach (EntityMetaData child in children.Values)
+				foreach (EntityMetaData child in _children.Values)
 				{
 					data = child.GetEntity(entityName);
 					if (data != null)
@@ -84,29 +88,20 @@ namespace MonoWorks.Modeling
 			}
 			return null;
 		}
+				
+		#endregion
 		
-#endregion
-		
-		
-		
-#region Attributes
+						
+		#region Attributes
 
-		protected Dictionary<string, AttributeMetaData> attributes;
+		protected Dictionary<string, MwxPropertyAttribute> _attributes;
 		
 		/// <value>
 		/// Returns all attributes in a list.
 		/// </value>
-		public List<AttributeMetaData> AttributeList
+		public IEnumerable<MwxPropertyAttribute> Attributes
 		{
-			get
-			{
-				List<AttributeMetaData> data = new List<AttributeMetaData>();
-				if (parent != null)
-					data.AddRange(parent.AttributeList);
-				foreach (string key in attributes.Keys)
-					data.Add(attributes[key]);
-				return data;
-			}
+			get { return _attributes.Values; }
 		}
 		
 		/// <summary>
@@ -115,7 +110,7 @@ namespace MonoWorks.Modeling
 		/// <param name="name"> The name of the attribute. </param>
 		public bool ContainsAttribute(string name)
 		{
-			foreach (AttributeMetaData attribute in AttributeList)
+			foreach (var attribute in Attributes)
 			{
 				if (attribute.Name == name)
 					return true;
@@ -131,9 +126,9 @@ namespace MonoWorks.Modeling
 		/// have an attribute with the given name.
 		/// There is no exception thrown since the caller should choose how
 		/// to deal with this situation.</returns>
-		public AttributeMetaData GetAttribute(string name)
+		public MwxPropertyAttribute GetAttribute(string name)
 		{
-			foreach (AttributeMetaData attribute in AttributeList)
+			foreach (var attribute in Attributes)
 			{
 				if (attribute.Name == name)
 					return attribute;
@@ -141,79 +136,9 @@ namespace MonoWorks.Modeling
 			return null;
 		}
 		
-#endregion
-		
-
-#region File I/O
-		
-		/// <summary>
-		/// Creates an instance from an XML file.
-		/// </summary>
-		/// <param name="fileName"> The file name. </param>
-		/// <returns> A new <see cref="EntityMetaData"/>. </returns>
-		public static EntityMetaData CreateFromFile(string fileName)
-		{
-			EntityMetaData data  = new EntityMetaData(null);
-			data.FromFile(fileName);
-			return data;
-		}
-
-		/// <summary>
-		/// Creates an instance from an XML stream.
-		/// </summary>
-		/// <param name="stream"> The stream. </param>
-		/// <returns> A new <see cref="EntityMetaData"/>. </returns>
-		public static EntityMetaData CreateFromStream(Stream stream)
-		{
-			EntityMetaData data = new EntityMetaData(null);
-			XmlReader reader = new XmlTextReader(stream);
-			reader.Read();
-			data.FromXML(reader);
-			return data;
-		}
-		
-		/// <summary>
-		/// Loads the meta data from an XML file.
-		/// </summary>
-		/// <param name="fileName"> The file name. </param>
-		public void FromFile(string fileName)
-		{			
-			XmlTextReader reader = new XmlTextReader(fileName);
-			reader.Read();
-			FromXML(reader);
-			reader.Close();
-		}
-		
-		/// <summary>
-		/// Reads the meta data in from the specified XML reader.
-		/// </summary>
-		public void FromXML(XmlReader reader)
-		{
-			name = reader.GetAttribute("name");
-			if (name == null)
-				throw new Exception("All entity tags must have a name attribute.");
-			
-			while (!reader.EOF)
-			{
-				reader.Read();
-				if (reader.NodeType == XmlNodeType.Element && reader.Name=="Attribute")
-				{
-					AttributeMetaData attribute = new AttributeMetaData();
-					attribute.FromXML(reader);
-					attributes[attribute.Name] = attribute;
-				}
-				else if (reader.NodeType == XmlNodeType.Element && reader.Name=="Entity")
-				{
-					EntityMetaData child = new EntityMetaData(this);
-					child.FromXML(reader);
-					children[child.Name] = child;
-				}
-				else if (reader.NodeType == XmlNodeType.EndElement && reader.Name=="Entity")
-					break;
-			}
-		}
-
-#endregion
+		#endregion
+				
+	
 		
 	}
 }

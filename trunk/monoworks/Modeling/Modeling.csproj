@@ -66,7 +66,6 @@
     <Compile Include="Actions\EntityAction.cs" />
     <Compile Include="Assembly.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="AttributeMetaData.cs" />
     <Compile Include="IDrawingView.cs" />
     <Compile Include="Sketching\BoxedSketchable.cs" />
     <Compile Include="Drawing.cs" />
@@ -100,8 +99,6 @@
     <Compile Include="Sketching\SplineSketcher.cs" />
     <Compile Include="SceneControls\DrawingInteractor.cs" />
     <Compile Include="SceneControls\DrawingController.cs" />
-    <Compile Include="SceneControls\IAttributeControl.cs" />
-    <Compile Include="SceneControls\IAttributePanel.cs" />
     <Compile Include="DrawingScene.cs" />
   </ItemGroup>
   <ItemGroup>

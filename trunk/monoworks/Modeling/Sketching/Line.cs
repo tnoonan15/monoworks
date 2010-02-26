@@ -53,15 +53,16 @@ namespace MonoWorks.Modeling.Sketching
 			Points.Add(p2);
 		}
 		
-		
-#region Attributes
+				
+		#region Attributes
 
 		/// <value>
 		/// The list of points.
 		/// </value>
+		[MwxProperty]
 		public List<Point> Points
 		{
-			get { return this["points"] as List<Point>; }
+			get { return this["Points"] as List<Point>; }
 		}
 
 		/// <summary>
@@ -69,22 +70,23 @@ namespace MonoWorks.Modeling.Sketching
 		/// </summary>
 		public void PointsUpdated()
 		{
-			RaiseAttributeUpdated("points");
+			RaiseAttributeUpdated("Points");
 		}
 
 		/// <summary>
 		/// Whether or not the line is closed on itself.
 		/// </summary>
+		[MwxProperty]
 		public bool IsClosed
 		{
-			get { return (bool)this["isClosed"]; }
-			set { this["isClosed"] = value; }
+			get { return (bool)this["IsClosed"]; }
+			set { this["IsClosed"] = value; }
 		}
-			
-#endregion
+					
+		#endregion
 		
-		
-#region Geometry
+				
+		#region Geometry
 		
 		/// <summary>
 		/// Computes the raw points needed to draw the sketch.
@@ -141,8 +143,8 @@ namespace MonoWorks.Modeling.Sketching
 				ComputeGeometry();
 			base.DrawVertices();
 		}
-		
-#endregion
+				
+		#endregion
 
 
 #region Hit Testing
