@@ -1,5 +1,5 @@
 // 
-//  Action.cs - MonoWorks Project
+//  DrawingTests.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -20,57 +20,33 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-using System.Collections.Generic;
+using System;
 
-namespace MonoWorks.Base
+using NUnit.Framework;
+
+using MonoWorks.Modeling;
+
+namespace MonoWorks.Modeling.Tests
 {
-	
-	
-	public class UiAction : IMwxObject
+	/// <summary>
+	/// Test fixture for drawings.
+	/// </summary>
+	[TestFixture]
+	public class DrawingTests
 	{
-		public UiAction()
+		public DrawingTests()
 		{
 		}
 		
-		
-		public void AddChild(IMwxObject child)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public IEnumerable<IMwxObject> GetMwxChildren()
-		{
-			return new List<IMwxObject>();
-		}
-		
 		/// <summary>
-		/// The name of the action.
+		/// Tests reading and writing a part to a mwp file.
 		/// </summary>
-		[MwxProperty]
-		public string Name {get; set;}
-
-		
-		/// <value>
-		/// The name of the icon to use for the action.
-		/// </value>
-		[MwxProperty]
-		public string IconName {get; set;}
-		
-		
-		public IMwxObject Parent { get; set; }
-		
-		/// <summary>
-		/// Gets called when the event is activated.
-		/// </summary>
-		public event System.EventHandler Activated;
-		
-		/// <summary>
-		/// Activates the action.
-		/// </summary>
-		public void Activate(object sender, System.EventArgs args)
+		[Test]
+		public void TestPartIo()
 		{
-			if (Activated != null)
-				Activated(sender, args);
+			var part = new TestPart();
+			part.SaveAs("test.mwp");
+			
 		}
 		
 	}

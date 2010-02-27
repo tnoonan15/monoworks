@@ -76,7 +76,7 @@ namespace MonoWorks.Modeling
 			id = IdCounter;
 			IsDirty = false;
 			bounds = new Bounds();
-			children = new List<Entity>();
+			_children = new List<Entity>();
 			dependencies = new List<Entity>();
 			
 			// initialize momentos
@@ -134,18 +134,18 @@ namespace MonoWorks.Modeling
 		public readonly string[] DimensionNames = { "X", "Y", "Z" };
 
 					
-			#region The Drawing
+		#region The Drawing
 		
-		protected Drawing drawing;
-		
-		/// <value>
-		/// Returns the drawing this entity belongs to.
-		/// </value>
-		public virtual Drawing TheDrawing
-		{
-			get {return drawing;}
-			set { drawing = value; }
-		}
+//		protected Drawing drawing;
+//		
+//		/// <value>
+//		/// Returns the drawing this entity belongs to.
+//		/// </value>
+//		public virtual Drawing TheDrawing
+//		{
+//			get {return drawing;}
+//			set { drawing = value; }
+//		}
 				
 		#endregion
 			
@@ -175,11 +175,7 @@ namespace MonoWorks.Modeling
 			Momento momento = new Momento();
 			foreach (var attribute in MetaData.Attributes)
 			{
-				//Console.WriteLine("creating default attribute {0} for entity {1}", attribute.Name, MetaData.Name);
-//				if (attribute.IsEntity)
-//					momento[attribute.Name] = null;
-//				else
-					momento[attribute.Name] = attribute.Instantiate();
+				momento[attribute.Name] = attribute.Instantiate();
 			}
 			momento["name"] = ClassName + GetCount(ClassName).ToString();
 			momento["locked"] = false;
@@ -328,14 +324,14 @@ namespace MonoWorks.Modeling
 		
 		#region Children
 		
-		protected List<Entity> children;	
+		private List<Entity> _children;	
 		
 		/// <value>
 		/// Read-only access to the children.
 		/// </value>
 		public IEnumerable<Entity> Children
 		{
-			get {return children;}
+			get {return _children;}
 		}
 
 		/// <summary>
@@ -344,16 +340,9 @@ namespace MonoWorks.Modeling
 		/// <typeparam name="T">Entity or one of its subclasses.</typeparam>
 		public IEnumerable<T> GetChildren<T>() where T : Entity
 		{
-			return from child in children
+			return from child in _children
 				   where child is T
 				   select child as T;
-//			var kids = new List<T>();
-//			foreach (var child in children)
-//			{
-//				if (child is T)
-//					kids.Add(child as T);
-//			}
-//			return kids;
 		}
 
 		/// <summary>
@@ -363,7 +352,7 @@ namespace MonoWorks.Modeling
 		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
 		protected void RegisterEntity(Entity entity)
 		{
-			TheDrawing.EntityManager.RegisterEntity(entity);
+//			TheDrawing.EntityManager.RegisterEntity(entity);
 		}	
 		
 		/// <value>
@@ -380,6 +369,23 @@ namespace MonoWorks.Modeling
 				ParentEntity = value as Entity;
 			}
 		}
+		
+		public override void AddChild(IMwxObject child)
+		{
+			if (child is Entity)
+				AddChild(child as Entity);
+			else
+				throw new Exception("Entities can only have children that are other entities.");
+		}
+
+		public override IEnumerable<IMwxObject> GetMwxChildren()
+		{
+			var kids = new List<IMwxObject>();
+			foreach (var icon in Children)
+				kids.Add(icon);
+			return kids;
+		}
+
 	
 		/// <summary>
 		/// AddChild a child.
@@ -387,8 +393,7 @@ namespace MonoWorks.Modeling
 		/// <param name="child"> An <see cref="Entity"/> to add as a child. </param>
 		protected virtual void AddChild(Entity child)
 		{
-			children.Add(child);
-			child.TheDrawing = TheDrawing;
+			_children.Add(child);
 			child.Parent = this;
 			RegisterEntity(child);
 			MakeDirty();
@@ -400,7 +405,7 @@ namespace MonoWorks.Modeling
 		/// <param name="child"> The <see cref="Entity"/> to remove. </param>
 		public virtual void RemoveChild(Entity child)
 		{
-			children.Remove(child);
+			_children.Remove(child);
 		}
 		
 		/// <value>
@@ -408,7 +413,7 @@ namespace MonoWorks.Modeling
 		/// </value>
 		public virtual int NumChildren
 		{
-			get {return children.Count;}
+			get {return _children.Count;}
 		}
 		
 		/// <summary>
@@ -419,8 +424,8 @@ namespace MonoWorks.Modeling
 		/// <returns> The nth child of the entity. </returns>
 		public virtual Entity GetNthChild(int n)
 		{
-			if (n>-1 && n<children.Count)
-				return children[n];
+			if (n>-1 && n<_children.Count)
+				return _children[n];
 			else
 				throw new Exception("n is out of range.");
 		}
@@ -432,7 +437,7 @@ namespace MonoWorks.Modeling
 		/// <returns> The child's index. </returns>
 		public virtual int ChildIndex(Entity child)
 		{
-			return children.IndexOf(child);
+			return _children.IndexOf(child);
 		}
 
 		/// <summary>
@@ -440,7 +445,7 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		public bool ContainsChild(Entity child)
 		{
-			return children.Contains(child);
+			return _children.Contains(child);
 		}
 				
 		#endregion
@@ -490,13 +495,7 @@ namespace MonoWorks.Modeling
 		public override void MakeDirty()
 		{
 			base.MakeDirty();
-
-			//if (parent != null)
-			//    parent.MakeDirty();
 			ParentDirty();
-
-			if (TheDrawing != null)
-				TheDrawing.ChildDirty(this);
 		}
 
 		/// <summary>
@@ -571,7 +570,7 @@ namespace MonoWorks.Modeling
 		public override void RenderOpaque(Scene scene)
 		{
 			base.RenderOpaque(scene);
-			foreach (Entity child in children)
+			foreach (Entity child in _children)
 				child.RenderOpaque(scene);
 		}
 		
@@ -582,7 +581,7 @@ namespace MonoWorks.Modeling
 		public override void RenderTransparent(Scene scene)
 		{
 			base.RenderTransparent(scene);
-			foreach (Entity child in children)
+			foreach (Entity child in _children)
 				child.RenderTransparent(scene);
 		}
 		
@@ -593,7 +592,7 @@ namespace MonoWorks.Modeling
 		public override void RenderOverlay(Scene scene)
 		{
 			base.RenderOverlay(scene);
-			foreach (Entity child in children)
+			foreach (Entity child in _children)
 				child.RenderOverlay(scene);
 		}
 		
@@ -626,7 +625,7 @@ namespace MonoWorks.Modeling
 			}
 
 			// write the children
-			foreach (Entity child in children)
+			foreach (Entity child in _children)
 				child.ToXml(writer);
 
 			writer.WriteEndElement();

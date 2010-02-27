@@ -33,7 +33,7 @@ namespace MonoWorks.Modeling
 	/// <summary>
 	/// Features are entities that map sketches into 3D surfaces.
 	/// </summary>
-	public class Feature : Entity
+	public class Feature : PartMember
 	{
 		
 		/// <summary>
@@ -41,13 +41,12 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		public Feature(Sketch sketch) : base()
 		{
-			this.drawing = sketch.TheDrawing;
 			this.Sketch = sketch;
 			
 			// Copy the working momento back to the first momento to take into account 
 			// the sketch. This has to be done becuase the Entity constructor sets the first 
 			// momento but we want the sketch to be included.
-			momentos[0]["sketch"] = sketch;
+			momentos[0]["Sketch"] = sketch;
 			
 			// initialize the display lists
 			displayLists = 0;
@@ -90,8 +89,8 @@ namespace MonoWorks.Modeling
 			
 		#endregion
 		
-
-#region Display Lists
+		
+		#region Display Lists
 		
 		/// <value>
 		/// The display lists.
@@ -113,12 +112,11 @@ namespace MonoWorks.Modeling
 		/// </value>
 		protected const int WireframeListOffset = 0;
 		
-		
-#endregion
-		
-			
-		
-#region Rendering
+				
+		#endregion
+					
+				
+		#region Rendering
 
 		/// <summary>
 		/// Computes the feature's geometry.
@@ -186,7 +184,7 @@ namespace MonoWorks.Modeling
 			// render solid geometry
 			if (scene.RenderManager.SolidMode != SolidMode.None)
 			{
-				ColorManager.Global["Gray"].Setup();
+				ParentPart.CartoonColor.Setup();
 				gl.glCallList(displayLists+SolidListOffset);
 			}
 			

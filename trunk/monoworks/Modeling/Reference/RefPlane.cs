@@ -156,22 +156,27 @@ namespace MonoWorks.Modeling
 			base.ComputeGeometry();
 
 			// get the radius of the drawing
-			double radius = TheDrawing.Bounds.MaxWidth; // radius of the bounds
-			if (radius == 0) // when there's nothing in the drawing
+			double radius = ParentEntity.Bounds.MaxWidth;
+			// radius of the bounds
+			if (radius == 0)
+				// when there's nothing in the drawing
 				radius = 1;
+		
 
 			// find one corner of the plane to draw
 			Vector direction = Normal;
 			Vector corner;
-			if (direction[1]==0 && direction[2]==0) // the plane is in the Y-Z axis
+			if (direction[1] == 0 && direction[2] == 0)
+				// the plane is in the Y-Z axis
 				corner = new Vector(0.0, 1.0, 0.0);
-			else // the plane is not in the Y-Z axis
-				corner = new Vector(1.0, 0.0, 0.0);			
+			else
+				// the plane is not in the Y-Z axis
+				corner = new Vector(1.0, 0.0, 0.0);
 			corner = direction.Cross(corner).Normalize();
-			corner = corner.Rotate(direction, new Angle(Angle.PI/4.0)) * (1.0 * radius);
+			corner = corner.Rotate(direction, new Angle(Angle.PI / 4.0)) * (1.0 * radius);
 			
 			// find the center of the plane to draw
-			Vector boundsCenter = TheDrawing.Bounds.Center;
+			Vector boundsCenter = ParentEntity.Bounds.Center;
 			if (boundsCenter == null)
 				boundsCenter = new Vector();
 			Vector planeCenter = Origin;

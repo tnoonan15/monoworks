@@ -48,11 +48,11 @@ namespace MonoWorks.Demo
 			
 			// northeast buttons
 			var cornerButtons = new CornerButtons(Corner.NE);
-			cornerButtons.Image1 = Image.GetIcon("apply", 22);
+			//			cornerButtons.Image1 = Image.GetIcon("apply", 22);
 			cornerButtons.Action1 += delegate(object sender, EventArgs e) {
 				   Console.WriteLine("clicked apply");
 			   };
-			cornerButtons.Image2 = Image.GetIcon("cancel", 22);
+			//			cornerButtons.Image2 = Image.GetIcon("cancel", 22);
 			cornerButtons.Action2 += delegate(object sender, EventArgs e) {
 				   Console.WriteLine("clicked cancel");
 			   };
@@ -62,11 +62,11 @@ namespace MonoWorks.Demo
 			
 			// northwest buttons
 			cornerButtons = new CornerButtons(Corner.NW);
-			cornerButtons.Image1 = Image.GetIcon("zoom-in", 22);
+			//			cornerButtons.Image1 = Image.GetIcon("zoom-in", 22);
 			cornerButtons.Action1 += delegate(object sender, EventArgs e) {
 				  Console.WriteLine("clicked zoom-in");
 			  };
-			cornerButtons.Image2 = Image.GetIcon("zoom-out", 22);
+			//			cornerButtons.Image2 = Image.GetIcon("zoom-out", 22);
 			cornerButtons.Action2 += delegate(object sender, EventArgs e) {
 				  Console.WriteLine("clicked zoom-out");
 			  };
@@ -78,14 +78,15 @@ namespace MonoWorks.Demo
 			var stack = new Stack();
 			stack.Orientation = Orientation.Vertical;
 			
-			var image = Image.GetIcon("apply", 48);
+			var image = new Image(ResourceHelper.GetStream("plugin.png"));
+//			var image = Image.GetIcon("apply", 48);
 			var button = new Button("Apply", image) {ButtonStyle = ButtonStyle.ImageOverLabel};
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked apply");
 			 };
 			stack.AddChild(button);
 			
-			image = Image.GetIcon("cancel", 48);
+//			image = Image.GetIcon("cancel", 48);
 			button = new Button("Cancel", image) {ButtonStyle = ButtonStyle.ImageOverLabel};
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked cancel");
@@ -124,7 +125,7 @@ namespace MonoWorks.Demo
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 			
-			image = Image.GetIcon("controls-dialog", 48);
+//			image = Image.GetIcon("controls-dialog", 48);
 			button = new Button("General Controls", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
 				ShowModal(controlsDialog);

@@ -60,6 +60,14 @@
     <Reference Include="Mono.Cairo">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
@@ -100,9 +108,10 @@
     <Compile Include="SceneControls\DrawingInteractor.cs" />
     <Compile Include="SceneControls\DrawingController.cs" />
     <Compile Include="DrawingScene.cs" />
+    <Compile Include="Tests\DrawingTests.cs" />
+    <Compile Include="PartMember.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EntityMetaData.xml" />
     <EmbeddedResource Include="DefaultModelingOptions.xml" />
     <EmbeddedResource Include="DefaultColors.xml" />
     <EmbeddedResource Include="SceneControls\icons\edit.png" />
@@ -160,4 +169,7 @@
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Tests\" />
+  </ItemGroup>
 </Project>

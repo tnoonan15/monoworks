@@ -23,6 +23,8 @@ using System.IO;
 
 using gl = Tao.OpenGl.Gl;
 
+using Ionic.Zip;
+
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Modeling.Sketching;
@@ -80,15 +82,6 @@ namespace MonoWorks.Modeling
 			}
 		}
 		
-		
-		/// <value>
-		/// Returns itself.
-		/// </value>
-		public override Drawing TheDrawing
-		{
-			get { return this; }
-		}
-		
 		/// <value>
 		/// The color manager for this drawing.
 		/// </value>
@@ -124,10 +117,22 @@ namespace MonoWorks.Modeling
 		{
 			IsModified = false;
 
-			XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.ASCII);
-			writer.Formatting = Formatting.Indented;
-			ToXml(writer);
-			writer.Close();
+			using (var zipFile = new ZipFile())
+			{
+				var tempDir = Path.Combine(Path.GetTempPath(), "mwtemp");
+				if (!Directory.Exists(tempDir))
+					Directory.CreateDirectory(tempDir);
+				
+				// write the mwx file
+				var mwxPath = Path.Combine(tempDir, "drawing.mwx");
+				var writer = new MwxWriter();
+				writer.Add(this);
+				writer.Write(mwxPath);
+				zipFile.AddFile(mwxPath, "");
+				
+				zipFile.Save(fileName);
+			}
+			
 			FileName = fileName;
 		}
 

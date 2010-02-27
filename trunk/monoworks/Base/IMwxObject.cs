@@ -1,5 +1,5 @@
 // 
-//  MwxBase.cs - MonoWorks Project
+//  IMwxObject.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -21,6 +21,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace MonoWorks.Base
@@ -44,6 +45,11 @@ namespace MonoWorks.Base
 		/// Adds a child to this object.
 		/// </summary>
 		void AddChild(IMwxObject child);
+		
+		/// <summary>
+		/// Gets all Mwx children that need to be persisted.
+		/// </summary>
+		IEnumerable<IMwxObject> GetMwxChildren();
 	}
 	
 	
@@ -61,7 +67,12 @@ namespace MonoWorks.Base
 		[MwxProperty]
 		public string Name {get; set;}
 				
-		public IMwxObject Parent {get; set;}
+		public IMwxObject Parent { get; set; }
+		
+		public IEnumerable<IMwxObject> GetMwxChildren()
+		{
+			return new List<IMwxObject>();
+		}
 	}
 	
 }

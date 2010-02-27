@@ -33,13 +33,19 @@ namespace MonoWorks.Modeling
 		}
 
 		/// <value>
-		/// The part's material (used in realistic mode).
+		/// The name of the part's material (used in realistic mode).
 		/// </value>
 		[MwxProperty]
-		public Material Material
+		public string MaterialName
 		{
-			get { return (Material)this["Material"]; }
-			set { this["Material"] = value; }
+			get { return (string)this["MaterialName"]; }
+			set { this["MaterialName"] = value; }
+		}
+		
+		public Material Material {
+			get {
+				throw new NotImplementedException();
+			}
 		}
 
 		/// <value>

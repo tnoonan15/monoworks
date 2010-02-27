@@ -79,6 +79,14 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
+		/// Default implementation that returns an empty list.
+		/// </summary>
+		public virtual IEnumerable<IMwxObject> GetMwxChildren()
+		{
+			return new List<IMwxObject>();
+		}
+
+		/// <summary>
 		/// Called when the scene changes size.
 		/// </summary>
 		/// <param name="scene"> A <see cref="Scene"/>. </param>
