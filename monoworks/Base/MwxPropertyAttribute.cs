@@ -60,6 +60,8 @@ namespace MonoWorks.Base
 		/// </summary>
 		public object Instantiate()
 		{
+			if (PropertyInfo.PropertyType == typeof(string))
+				return "";
 			return Activator.CreateInstance(PropertyInfo.PropertyType);
 		}
 		

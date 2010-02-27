@@ -79,7 +79,7 @@ namespace MonoWorks.Modeling.Sketching
 			get
 			{
 				List<Sketchable> kids = new List<Sketchable>();
-				foreach (Entity child in children)
+				foreach (Entity child in Children)
 				{
 					kids.Add((Sketchable)child);
 				}

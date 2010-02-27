@@ -154,7 +154,7 @@ namespace MonoWorks.Base
 					var isEmpty = reader.IsEmptyElement;
 					
 					// create the obj
-					if (reader.LocalName == "Ui")
+					if (reader.LocalName == "Mwx") // ignore root element
 						continue;
 					var obj = CreateMwxBase(reader);
 					var name = obj.Name;

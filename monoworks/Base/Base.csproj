@@ -85,6 +85,7 @@
     <Compile Include="UiAction.cs" />
     <Compile Include="IOrientable.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="MwxWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

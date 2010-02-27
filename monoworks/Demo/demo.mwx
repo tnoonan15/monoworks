@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mwx:Ui xmlns:mwx="http://monoworksproject.org/mwx" 
+<mwx:Mwx xmlns:mwx="http://monoworksproject.org/mwx" 
 		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
 	<mwc:Dialog Name="controls-dialog" Title="MonoWorks Controls">
 		<mwc:Stack Orientation="Vertical">
@@ -67,4 +67,4 @@
 		</mwc:TreeView>
 	</mwc:Dialog>
 	
-</mwx:Ui>
+</mwx:Mwx>
