@@ -50,7 +50,7 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// The sketch this sketchable belongs to.
 		/// </summary>
-		[MwxProperty]
+		[MwxProperty(MwxPropertyType.Reference)]
 		public Sketch Sketch
 		{
 			get { return GetAttribute("Sketch") as Sketch; }

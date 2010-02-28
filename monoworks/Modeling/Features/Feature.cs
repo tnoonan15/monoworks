@@ -71,7 +71,7 @@ namespace MonoWorks.Modeling
 		/// <value>
 		/// The feature's sketch.
 		/// </value>
-		[MwxProperty]
+		[MwxProperty(MwxPropertyType.Child)]
 		public Sketch Sketch
 		{
 			get {return (Sketch)this["Sketch"];}

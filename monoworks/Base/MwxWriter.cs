@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 
@@ -99,39 +100,74 @@ namespace MonoWorks.Base
 		{
 			writer.WriteStartElement(GetLocalName(obj.GetType()));
 			
-			// write the properties
-			foreach (var prop in obj.GetType().GetProperties()) {
-				var mwxProps = prop.GetCustomAttributes<MwxPropertyAttribute>();
-				if (mwxProps.Length > 0) {
-					var mwxProp = mwxProps[0];
+			// retrieve the mwx properties
+			var mwxProps = new List<MwxPropertyAttribute>();
+			foreach (var prop in obj.GetType().GetProperties())
+			{
+				var mwxProps_ = Attribute.GetCustomAttributes(prop, typeof(MwxPropertyAttribute), true);
+				if (mwxProps_.Length > 0)
+				{
+					var mwxProp = mwxProps_[0] as MwxPropertyAttribute;
 					mwxProp.PropertyInfo = prop;
-					if (mwxProp.Name == null)
+					if (mwxProp.Name == null || mwxProp.Name == "")
 						mwxProp.Name = prop.Name;
-					WriteProperty(writer, obj, mwxProp);
+					mwxProps.Add(mwxProp);
 				}
+			}
+			
+			// write the attribute properties
+			var attrProps = from prop in mwxProps
+				where prop.Type == MwxPropertyType.Attribute
+				select prop;
+			foreach (var prop in attrProps)
+			{
+				var val = prop.PropertyInfo.GetValue(obj, new object[] {  });
+				writer.WriteAttributeString(prop.Name, val.ToString());
+			}
+			
+			// write the reference properties
+			var refProps = from prop in mwxProps
+				where prop.Type == MwxPropertyType.Reference
+				select prop;
+			foreach (var prop in refProps) {
+				var val = prop.PropertyInfo.GetValue(obj, new object[] {  });
+				if (val is IMwxObject)
+					writer.WriteAttributeString(prop.Name, (val as IMwxObject).Name);
+				else
+					throw new NotImplementedException("Don't know how to reference non-mwx objects like " + prop.PropertyInfo.PropertyType);
+			}
+			
+			// write the child properties
+			var excludeChildren = new List<IMwxObject>();
+			var childProps = from prop in mwxProps
+				where prop.Type == MwxPropertyType.Child
+				select prop;
+			foreach (var prop in childProps) {
+				var val = prop.PropertyInfo.GetValue(obj, new object[] {  });
+				if (val is IMwxObject)
+				{
+					WriteObject(writer, val as IMwxObject);
+					excludeChildren.Add(val as IMwxObject);
+				}
+				else
+					throw new NotImplementedException("Child properties need to implement IMwxObject, unlike " + prop.PropertyInfo.PropertyType);
 			}
 			
 			// write the mwx children
 			foreach (var child in obj.GetMwxChildren())
-				WriteObject(writer, child);
+			{
+				if (child is IMwxObject)
+				{
+					var mwxChild = child as IMwxObject;
+					if (excludeChildren.Contains(mwxChild))
+						continue;
+					WriteObject(writer, child);
+				}
+				else
+					throw new NotImplementedException("Can't write children that don't implement IMwxObject, like " + child);
+			}
 			
 			writer.WriteEndElement();
-		}
-		
-		/// <summary>
-		/// Writes the given property to the xml writer.
-		/// </summary>
-		private void WriteProperty(XmlWriter writer, IMwxObject obj, MwxPropertyAttribute prop)
-		{
-			var val = prop.PropertyInfo.GetValue(obj, new object[] {  });
-			string valString = val.ToString();
-			
-//			if (prop.PropertyInfo.PropertyType == typeof(int))
-//			{
-//				valString = ((int)val);
-//			}
-			
-			writer.WriteAttributeString(prop.Name, valString);
 		}
 		
 	}

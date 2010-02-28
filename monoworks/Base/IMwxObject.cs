@@ -34,6 +34,7 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// The name of the object.
 		/// </summary>
+		[MwxProperty]
 		string Name {get; set;}
 		
 		/// <summary>

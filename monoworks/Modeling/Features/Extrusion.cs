@@ -52,7 +52,7 @@ namespace MonoWorks.Modeling
 		/// <value>
 		/// Extrusion path.
 		/// </value>
-		[MwxProperty]
+		[MwxProperty(MwxPropertyType.Reference)]
 		public RefLine Path
 		{
 			get {return (RefLine)this["Path"];}
@@ -90,10 +90,9 @@ namespace MonoWorks.Modeling
 		}
 				
 		#endregion
-		
-		
-		
-#region Rendering
+				
+				
+		#region Rendering
 		
 		/// <summary>
 		/// Computes the wireframe geometry.
@@ -240,7 +239,7 @@ namespace MonoWorks.Modeling
 			gl.glEndList();
 		}
 		
-#endregion
+		#endregion
 		
 	}
 }

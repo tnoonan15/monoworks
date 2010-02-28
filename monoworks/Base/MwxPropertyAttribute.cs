@@ -27,7 +27,12 @@ namespace MonoWorks.Base
 {
 
 	/// <summary>
-	/// Place this attribute on properties or Renderables that can be stored in mwx files.
+	/// Tells how to interpret a MwxProperty when navigating the mwx tree.
+	/// </summary>
+	public enum MwxPropertyType {Attribute, Child, Reference};
+	
+	/// <summary>
+	/// Controls the serialization and deserialization of object properties into mwx files.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Property)]
 	public class MwxPropertyAttribute : Attribute
@@ -46,9 +51,22 @@ namespace MonoWorks.Base
 		}
 		
 		/// <summary>
+		/// Constructor allowing the user to specify the property type.
+		/// </summary>
+		public MwxPropertyAttribute(MwxPropertyType type) : this()
+		{
+			Type = type;
+		}
+		
+		/// <summary>
 		/// The name of the property.
 		/// </summary>
 		public string Name { get; set; }
+		
+		/// <summary>
+		/// The type of the property (how it's placed in the mwx tree).
+		/// </summary>
+		public MwxPropertyType Type { get; set; }
 		
 		/// <summary>
 		/// Info for the property associated with this attribute.
