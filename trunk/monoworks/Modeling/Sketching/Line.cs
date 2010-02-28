@@ -59,10 +59,10 @@ namespace MonoWorks.Modeling.Sketching
 		/// <value>
 		/// The list of points.
 		/// </value>
-		[MwxProperty]
-		public List<Point> Points
+		[MwxProperty(MwxPropertyType.Child)]
+		public MwxList<Point> Points
 		{
-			get { return this["Points"] as List<Point>; }
+			get { return this["Points"] as MwxList<Point>; }
 		}
 
 		/// <summary>

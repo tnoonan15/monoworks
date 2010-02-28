@@ -26,7 +26,7 @@ namespace MonoWorks.Base
 	/// The Point class represents a point real in 3D space.
 	/// The point is defined by 3 Length dimensionals.
 	/// </summary>
-	public class Point : ICloneable
+	public class Point : MwxDummyObject, ICloneable
 	{
 		/// <summary>
 		/// Default constructor.
@@ -68,8 +68,8 @@ namespace MonoWorks.Base
 			val = new Length[] {new Length(vec.X), new Length(vec.Y), new Length(vec.Z)};
 		}
 			
-			
-#region Position
+					
+		#region Position
 
 		/// <summary>
 		/// The position of the point.
@@ -108,8 +108,8 @@ namespace MonoWorks.Base
 			for (int i = 0; i < val.Length; i++)
 				val[i].Value = vector[i];
 		}
-
-#endregion
+		
+		#endregion
 
 
 
@@ -201,6 +201,6 @@ namespace MonoWorks.Base
 				point.val[i] = val[i].Clone() as Length;
 			return point;
 		}
-
+		
 	}
 }

@@ -64,30 +64,24 @@ namespace MonoWorks.Modeling
 			//    gl.glDeleteLists(displayLists, NumLists); // delete the lists
 			//}
 		}		
-
-		
-		#region Momentos
 								
+		private Sketch _sketch;
 		/// <value>
 		/// The feature's sketch.
 		/// </value>
-		[MwxProperty(MwxPropertyType.Child)]
 		public Sketch Sketch
 		{
-			get {return (Sketch)this["Sketch"];}
+			get { return _sketch; }
 			set
 			{
 				// remove the old sketch if there was one
-//				if (Sketch != null)
-//					RemoveChild(Sketch);
-				this["Sketch"] = value;
-				// assign the sketch as a child of this feature
+				if (_sketch != null)
+					RemoveChild(_sketch);
+				_sketch = value;
 				value.ParentEntity.RemoveChild(value);
 				AddChild(value);
 			}
 		}
-			
-		#endregion
 		
 		
 		#region Display Lists
