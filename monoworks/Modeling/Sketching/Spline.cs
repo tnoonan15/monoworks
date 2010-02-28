@@ -55,7 +55,7 @@ namespace MonoWorks.Modeling.Sketching
 			base.ComputeGeometry();
 			
 			int pathDivs = 24; // the number of divisions in each path segemnt
-			List<Point> points = Points; // reduce calls to the attribute system
+			var points = Points; // reduce calls to the attribute system
 			int numPoints = Points.Count;
 			int numFullPaths = (int)Math.Truncate((double)(numPoints-2) / 2); // the number of full paths
 			int remainder = numPoints - numFullPaths*2; // number of points after the full paths

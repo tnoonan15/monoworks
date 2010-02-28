@@ -53,7 +53,7 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Returns the first element of a list.
 		/// </summary>
-		public static T First<T>(this List<T> list)
+		public static T First<T>(this IList<T> list)
 		{
 			return list[0];
 		}
@@ -61,7 +61,7 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Returns the last element of a list.
 		/// </summary>
-		public static T Last<T>(this List<T> list)
+		public static T Last<T>(this IList<T> list)
 		{
 			return list[list.Count - 1];
 		}

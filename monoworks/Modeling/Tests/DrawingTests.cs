@@ -47,6 +47,7 @@ namespace MonoWorks.Modeling.Tests
 			var part = new TestPart();
 			part.SaveAs("test.mwp");
 			
+			
 		}
 		
 	}

@@ -122,7 +122,10 @@ namespace MonoWorks.Base
 			foreach (var prop in attrProps)
 			{
 				var val = prop.PropertyInfo.GetValue(obj, new object[] {  });
-				writer.WriteAttributeString(prop.Name, val.ToString());
+				var valString = "";
+				if (val != null)
+					valString = val.ToString();
+				writer.WriteAttributeString(prop.Name, valString);
 			}
 			
 			// write the reference properties
@@ -146,7 +149,10 @@ namespace MonoWorks.Base
 				var val = prop.PropertyInfo.GetValue(obj, new object[] {  });
 				if (val is IMwxObject)
 				{
+					writer.WriteStartElement("MwxProperty");
+					writer.WriteAttributeString("Name", prop.Name);
 					WriteObject(writer, val as IMwxObject);
+					writer.WriteEndElement();
 					excludeChildren.Add(val as IMwxObject);
 				}
 				else
