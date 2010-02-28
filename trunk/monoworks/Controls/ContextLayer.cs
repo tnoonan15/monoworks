@@ -66,65 +66,6 @@ namespace MonoWorks.Controls
 				anchors[(AnchorLocation)loc].Control = stack;
 			}
 		}
-		
-		
-#region The Toolbars
-		
-				
-		protected Dictionary<string, ToolBar> toolBars = new Dictionary<string, ToolBar>();
-		
-		/// <summary>
-		/// Sets the given context with the associated toolbar.
-		/// </summary>
-		/// <remarks>The same as contextBar[context] = toolBar;</remarks>
-		public void AddToolbar(string context, ToolBar toolBar)
-		{
-			if (HasToolbar(context))
-				toolBars[context].ParentControl = null;
-			toolBars[context] = toolBar;	
-//			toolBar.Parent = this;
-		}		
-		
-		/// <summary>
-		/// Returns true if the given context is present.
-		/// </summary>
-		public bool HasToolbar(string context)
-		{
-			return toolBars.ContainsKey(context);
-		}
-		
-		/// <summary>
-		/// Removes the given context.
-		/// </summary>
-		public void RemoveToolbar(string context)
-		{
-			if (!HasToolbar(context))
-				throw new InvalidContextException(context);
-			toolBars.Remove(context);	
-		}
-		
-		/// <summary>
-		/// Gets the toolbar for the given context.
-		/// </summary>
-		/// <remarks>The same as contextBar[context];</remarks>
-		public ToolBar GetToolbar(string context)
-		{
-			if (!HasToolbar(context))
-				throw new InvalidContextException(context);
-			return toolBars[context];
-		}
-		
-		/// <summary>
-		/// Indexer for getting and setting contexts.
-		/// </summary>
-		public ToolBar this[string context]
-		{
-			get { return GetToolbar(context); }
-			set { AddToolbar(context, value); }
-		}
-		
-		
-#endregion
 
 
 #region The Anchors and Stacks
@@ -164,16 +105,14 @@ namespace MonoWorks.Controls
 #region The Contexts
 
 		/// <summary>
-		/// Adds the given context to the location.
+		/// Adds the given control to the location.
 		/// </summary>
-		/// <param name="loc"></param>
-		/// <param name="context"></param>
-		public void AddContext(Side loc, string context)
+		public void AddContext(Side loc, Control2D control)
 		{
-			ToolBar toolbar = GetToolbar(context);
-			toolbar.Orientation = ContextOrientation(loc);
-			stacks[loc].AddChild(toolbar);
-			anchors[(AnchorLocation)loc].MakeDirty();
+			//			ToolBar toolbar = GetToolbar(context);
+		//			toolbar.Orientation = ContextOrientation(loc);
+			stacks[loc].AddChild(control);
+			anchors[(AnchorLocation)loc].MakeDirty();			
 		}
 
 		/// <summary>

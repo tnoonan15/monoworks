@@ -49,7 +49,7 @@ namespace MonoWorks.Modeling
 		/// <value>
 		/// Revolution axis.
 		/// </value>
-		[MwxProperty]
+		[MwxProperty(MwxPropertyType.Reference)]
 		public RefLine Axis
 		{
 			get {return (RefLine)this["Axis"];}
@@ -68,10 +68,9 @@ namespace MonoWorks.Modeling
 		}			
 						
 		#endregion
-		
-		
-		
-#region Rendering
+				
+				
+		#region Rendering
 
 		/// <summary>
 		/// Computes the wireframe geometry. 
@@ -207,10 +206,9 @@ namespace MonoWorks.Modeling
 			
 			gl.glEndList();
 		}
+				
+		#endregion
 		
-
-		
-#endregion
 	}
 	
 	

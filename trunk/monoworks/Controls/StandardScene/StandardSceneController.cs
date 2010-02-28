@@ -40,29 +40,39 @@ namespace MonoWorks.Controls.StandardScene
         {
         	Scene.Camera.ProjectionChanged += ExternalProjectionChanged;
 
-			Mwx.Parse(ResourceHelper.GetStream("Scene.ui"));
+//			Mwx.Parse(ResourceHelper.GetStream("Scene.ui"));
 
-//			Scene.RenderList.AddOverlay(UiManager.ContextLayer);
+        	ContextLayer = new ContextLayer();
+			Scene.RenderList.AddOverlay(ContextLayer);
         }
 
 		/// <summary>
 		/// The context layer containing all of the toolbars.
 		/// </summary>
-		public ContextLayer ContextLayer
-		{
-			get { return null; }
-		}
+		public ContextLayer ContextLayer { get; private set;}
 
 		/// <summary>
 		/// Loads the standard (View and Interaction) toolbars from the UiManager.
 		/// </summary>
 		protected void LoadStandardToolbars()
 		{
-			ContextLayer.AddContext(Side.N, "View");
-//			ContextLayer.AddContext(Side.N, "Interaction");
-			ContextLayer.AddContext(Side.N, "Export");
+			Context(Side.N, "View");
+			//			ContextLayer.AddContext(Side.N, "Interaction");
+			Context(Side.N, "Export");
 			OnProjectionChanged();
-//			OnInteractionStateChanged();
+		//			OnInteractionStateChanged();
+		}
+		
+		/// <summary>
+		/// Loads the control with the given name into the context layer at the given location. 
+		/// </summary>
+		public void Context(Side loc, string name)
+		{
+			var obj = Mwx.Get(name);
+			if (obj is Control2D)
+				ContextLayer.AddContext(loc, obj as Control2D);
+			else
+				throw new Exception("Context " + name + " is not a control!");
 		}
 		
 #region View Direction Actions

@@ -41,8 +41,8 @@ namespace MonoWorks.Modeling
 		}
 		
 		
-		
-#region Attributes
+				
+		#region Attributes
 		
 		/// <value>
 		/// The origin of the plane.
@@ -79,11 +79,11 @@ namespace MonoWorks.Modeling
 			get {return (Vector)this["XAxis"];}
 			set { this["XAxis"] = value;}
 		}
+				
+		#endregion
 		
-#endregion
-		
-		
-#region Geometry
+				
+		#region Geometry
 
 		/// <summary>
 		/// The corners of the quadrilateral that represents the plane.
@@ -141,9 +141,8 @@ namespace MonoWorks.Modeling
 					return Math.Abs((quadCorners[0] - quadCorners[1]).Magnitude);
 			}
 		}
-
-		
-#endregion		
+				
+		#endregion		
 		
 		
 #region Rendering

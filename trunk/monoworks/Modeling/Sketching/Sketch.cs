@@ -52,7 +52,7 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// The plane that the sketch lies on.
 		/// </summary>
-		[MwxProperty]
+		[MwxProperty(MwxPropertyType.Reference)]
 		public RefPlane Plane
 		{
 			get {return (RefPlane)this["Plane"];}
