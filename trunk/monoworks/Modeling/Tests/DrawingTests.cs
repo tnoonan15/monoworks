@@ -42,12 +42,13 @@ namespace MonoWorks.Modeling.Tests
 		/// Tests reading and writing a part to a mwp file.
 		/// </summary>
 		[Test]
-		public void TestPartIo()
+		public void PartIo()
 		{
 			var part = new TestPart();
 			part.SaveAs("test.mwp");
 			
-			
+			var newPart = Drawing.FromFile("test.mwp") as Part;
+//			Assert.AreEqual(typeof(Sketching.Sketch), newPart.Gets)
 		}
 		
 	}

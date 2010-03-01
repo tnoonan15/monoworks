@@ -100,13 +100,28 @@ namespace MonoWorks.Modeling
 		/// Loads a drawing from a file.
 		/// </summary>
 		/// <param name="fileName">The name of the file.</param>
-		/// <returns>A drawing or part, depending on file extension.</returns>
+		/// <returns>An assembly or part, depending on file extension.</returns>
 		public static Drawing FromFile(string fileName)
 		{
-			if (fileName.EndsWith("mwp")) // a part file
+			Drawing drawing = null;
+			if (fileName.EndsWith("mwp"))
+				drawing = new Part();
+			else if (fileName.EndsWith("mwa"))
+				drawing = new Assembly();
+			else
+				throw new NotImplementedException("Don't know how to load files with extension " + Path.GetExtension(fileName));
+			return drawing;
+		}
+		
+		/// <summary>
+		/// Loads the drawing from a file.
+		/// </summary>
+		public virtual void Load(string fileName)
+		{
+			using (var zip = new ZipFile(fileName))
 			{
+//				zip.
 			}
-			return null;
 		}
 
 		/// <summary>
