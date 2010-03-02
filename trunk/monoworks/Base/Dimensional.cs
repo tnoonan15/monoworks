@@ -43,7 +43,7 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// The Dimensional class represents dimensional quantities. 
 	/// </summary>
-	public class Dimensional : ICloneable
+	public class Dimensional : ICloneable, IStringParsable
 	{
 		
 		/// <summary>
@@ -51,7 +51,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public Dimensional() 
 		{
-			val = 0;
+			_val = 0;
 		}
 		
 		/// <summary>
@@ -60,7 +60,7 @@ namespace MonoWorks.Base
 		/// <param name="val">Value in default units.</param>
 		public Dimensional(double val) : this()
 		{
-			this.val = val;
+			this._val = val;
 		}
 		
 		/// <summary>
@@ -68,7 +68,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public override string ToString()
 		{
-			return val.ToString();
+			return _val.ToString();
 		}
 
 		/// <summary>
@@ -78,10 +78,17 @@ namespace MonoWorks.Base
 		public object Clone()
 		{
 			Dimensional other = (Dimensional)System.Activator.CreateInstance(this.GetType());
-			other.val = val;
+			other._val = _val;
 			return other;
 		}
 
+		/// <summary>
+		/// Parses the dimensional from a string.
+		/// </summary>
+		public void Parse(string valString)
+		{
+			
+		}
 		
 		
 #region Units
@@ -148,15 +155,15 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// The value of the dimensional.
 		/// </summary>
-		protected double val;
+		protected double _val;
 		
 		/// <value>
 		/// The raw value of the Dimensional (in default units).
 		/// </value>
 		public double Value
 		{
-			get {return val;}
-			set {val = value;}
+			get {return _val;}
+			set {_val = value;}
 		}
 		
 		/// <value>
@@ -179,14 +186,14 @@ namespace MonoWorks.Base
 				double unitFactor;
 				if (!UnitFactors.TryGetValue(units, out unitFactor))
 					throw new UnitException(units);
-				return val / unitFactor;
+				return _val / unitFactor;
 			}
 			set
 			{
 				double unitFactor;
 				if (!UnitFactors.TryGetValue(units, out unitFactor))
 					throw new UnitException(units);
-				val = value * unitFactor; 
+				_val = value * unitFactor; 
 			}
 		}
 				

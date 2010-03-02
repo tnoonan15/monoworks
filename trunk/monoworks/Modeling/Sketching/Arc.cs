@@ -37,6 +37,14 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
+		public Arc()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public Arc(Sketch sketch) : this(sketch, null, null, new Angle())
 		{
 		}

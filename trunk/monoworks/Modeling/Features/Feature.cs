@@ -35,11 +35,19 @@ namespace MonoWorks.Modeling
 	/// </summary>
 	public class Feature : PartMember
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Feature() : base()
+		{		
+			// initialize the display lists
+			displayLists = 0;
+		}
 		
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Feature(Sketch sketch) : base()
+		public Feature(Sketch sketch) : this()
 		{
 			this.Sketch = sketch;
 			
@@ -47,9 +55,6 @@ namespace MonoWorks.Modeling
 			// the sketch. This has to be done becuase the Entity constructor sets the first 
 			// momento but we want the sketch to be included.
 			momentos[0]["Sketch"] = sketch;
-			
-			// initialize the display lists
-			displayLists = 0;
 		}
 		
 		

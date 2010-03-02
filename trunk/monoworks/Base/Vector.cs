@@ -25,7 +25,7 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// The Vector class represents a vector in 3D space. 
 	/// </summary>
-	public class Vector
+	public class Vector : IStringParsable
 	{
 		/// <summary>
 		/// Default initializer.
@@ -33,7 +33,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public Vector()
 		{
-			val = new double[]{0.0, 0.0, 0.0};
+			_val = new double[]{0.0, 0.0, 0.0};
 		}
 		
 		
@@ -45,7 +45,7 @@ namespace MonoWorks.Base
 		/// <param name="z"> A <see cref="System.Double"/> representing z. </param>
 		public Vector(double x, double y, double z)
 		{
-			val = new double[]{x, y, z};
+			_val = new double[]{x, y, z};
 		}
 		
 		
@@ -54,7 +54,7 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Actual value of the coordinates.
 		/// </summary>
-		protected double [] val;
+		protected double [] _val;
 		
 		/// <summary>
 		/// Access the coordinate (x,y,z) values by index.
@@ -66,14 +66,14 @@ namespace MonoWorks.Base
 				// ensure the index has appropriate range
 				if (index<0 || index>2)
 					throw new Exception("index is out of bounds!");	
-				return val[index];
+				return _val[index];
 			}
 			set
 			{
 				// ensure the index has appropriate range
 				if (index<0 || index>2)
 					throw new Exception("index is out of bounds!");	
-				val[index] = value;
+				_val[index] = value;
 			}
 		}
 
@@ -82,8 +82,8 @@ namespace MonoWorks.Base
 		/// </summary>
 		public double X
 		{
-			get { return val[0]; }
-			set { val[0] = value; }
+			get { return _val[0]; }
+			set { _val[0] = value; }
 		}
 
 		/// <summary>
@@ -91,8 +91,8 @@ namespace MonoWorks.Base
 		/// </summary>
 		public double Y
 		{
-			get { return val[1]; }
-			set { val[1] = value; }
+			get { return _val[1]; }
+			set { _val[1] = value; }
 		}
 
 		/// <summary>
@@ -100,8 +100,8 @@ namespace MonoWorks.Base
 		/// </summary>
 		public double Z
 		{
-			get { return val[2]; }
-			set { val[2] = value; }
+			get { return _val[2]; }
+			set { _val[2] = value; }
 		}
 
 		/// <value>
@@ -111,8 +111,8 @@ namespace MonoWorks.Base
 		{
 			get
 			{
-				double max = Math.Max(Math.Max(val[0], val[1]), val[2]);
-				return Array.IndexOf(val, max);
+				double max = Math.Max(Math.Max(_val[0], _val[1]), _val[2]);
+				return Array.IndexOf(_val, max);
 			}
 		}
 		
@@ -126,7 +126,7 @@ namespace MonoWorks.Base
 		/// </value>
 		public double Magnitude
 		{
-			get {return Math.Sqrt(Math.Pow(val[0], 2) + Math.Pow(val[1], 2) + Math.Pow(val[2], 2));}
+			get {return Math.Sqrt(Math.Pow(_val[0], 2) + Math.Pow(_val[1], 2) + Math.Pow(_val[2], 2));}
 		}
 		
 		
@@ -136,7 +136,7 @@ namespace MonoWorks.Base
 		public Vector Normalize()
 		{
 			double mag = Magnitude;
-			return new Vector(val[0] / mag, val[1] / mag, val[2] / mag);
+			return new Vector(_val[0] / mag, _val[1] / mag, _val[2] / mag);
 		}
 				
 		
@@ -148,9 +148,9 @@ namespace MonoWorks.Base
 		public Vector Cross(Vector rhs)
 		{
 			Vector res = new Vector();
-			res[0] = val[1]*rhs[2] - val[2]*rhs[1];
-			res[1] = val[2]*rhs[0] - val[0]*rhs[2];
-			res[2] = val[0]*rhs[1] - val[1]*rhs[0];
+			res[0] = _val[1]*rhs[2] - _val[2]*rhs[1];
+			res[1] = _val[2]*rhs[0] - _val[0]*rhs[2];
+			res[2] = _val[0]*rhs[1] - _val[1]*rhs[0];
 			return res;
 		}
 		
@@ -161,7 +161,7 @@ namespace MonoWorks.Base
 		/// <returns> The resulting value. </returns>
 		public double Dot(Vector rhs)
 		{
-			return val[0]*rhs[0] + val[1]*rhs[1] + val[2]*rhs[2];
+			return _val[0]*rhs[0] + _val[1]*rhs[1] + _val[2]*rhs[2];
 		}
 		
 #endregion
@@ -276,7 +276,7 @@ namespace MonoWorks.Base
 		public void KeepMinima(Vector other)
 		{
 			for (int i=0; i<3; i++)
-				val[i] = Math.Min( val[i], other[i]);
+				_val[i] = Math.Min( _val[i], other[i]);
 		}
 		
 		/// <summary>
@@ -284,9 +284,9 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void KeepMinima(double x, double y, double z)
 		{
-			val[0] = Math.Min(val[0], x);
-			val[1] = Math.Min(val[1], y);
-			val[2] = Math.Min(val[1], z);
+			_val[0] = Math.Min(_val[0], x);
+			_val[1] = Math.Min(_val[1], y);
+			_val[2] = Math.Min(_val[1], z);
 		}
 		
 		/// <summary>
@@ -296,7 +296,7 @@ namespace MonoWorks.Base
 		public void KeepMaxima(Vector other)
 		{
 			for (int i=0; i<3; i++)
-				val[i] = Math.Max( val[i], other[i]);
+				_val[i] = Math.Max( _val[i], other[i]);
 		}
 
 		/// <summary>
@@ -304,9 +304,9 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void KeepMaxima(double x, double y, double z)
 		{
-			val[0] = Math.Max(val[0], x);
-			val[1] = Math.Max(val[1], y);
-			val[2] = Math.Max(val[1], z);
+			_val[0] = Math.Max(_val[0], x);
+			_val[1] = Math.Max(_val[1], y);
+			_val[2] = Math.Max(_val[1], z);
 		}
 		
 #endregion
@@ -317,7 +317,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public Vector Copy()
 		{
-			return new Vector(val[0], val[1], val[2]);
+			return new Vector(_val[0], _val[1], _val[2]);
 		}
 		
 		/// <summary>
@@ -325,7 +325,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public override string ToString()
 		{
-			return String.Format("[{0:g4},{1:g4},{2:g4}]", val[0], val[1], val[2]);
+			return String.Format("[{0:g4},{1:g4},{2:g4}]", _val[0], _val[1], _val[2]);
 		}
 		
 		/// <summary>
@@ -339,8 +339,8 @@ namespace MonoWorks.Base
 				return false;
 			if (!(other is Vector))
 				throw new Exception("Only compare Vectors to other Vectors.");
-			double[] otherVal = (other as Vector).val;
-			return val[0]==otherVal[0] && val[1]==otherVal[1] && val[2]==otherVal[2]; 
+			double[] otherVal = (other as Vector)._val;
+			return _val[0]==otherVal[0] && _val[1]==otherVal[1] && _val[2]==otherVal[2]; 
 		}
 
 		/// <summary>
@@ -373,6 +373,21 @@ namespace MonoWorks.Base
 			return base.GetHashCode();
 		}
 
+		/// <summary>
+		/// Parses a string defining a vector with the form [x,y,z].
+		/// </summary>
+		public void Parse(string valString)
+		{
+			if (!valString.StartsWith("[") || !valString.EndsWith("]"))
+				throw new Exception("Vector literals should be surrounded by []");
+			var comps = valString.Substring(1, valString.Length - 2).Split(',');
+			if (comps.Length != 3)
+				throw new Exception("Vector literals should have 3 comma-separated components");
+			for (int i = 0; i < 3; i++)
+			{
+				_val[i] = double.Parse(comps[i]);
+			}
+		}
 		
 	}
 }

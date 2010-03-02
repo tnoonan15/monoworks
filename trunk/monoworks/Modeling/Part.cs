@@ -52,10 +52,18 @@ namespace MonoWorks.Modeling
 		/// The part's color when being rendered in cartoon mode.
 		/// </value>
 		[MwxProperty]
+		public string CartoonColorName
+		{
+			get { return (string)this["CartoonColorName"]; }
+			set { this["CartoonColorName"] = value; }
+		}
+		
+		/// <summary>
+		/// The color used to render in cartoon mode.
+		/// </summary>
 		public Color CartoonColor
 		{
-			get { return (Color)this["CartoonColor"]; }
-			set { this["CartoonColor"] = value; }
+			get { return new Color();}
 		}
 
 		public override void RenderOpaque(Scene scene)

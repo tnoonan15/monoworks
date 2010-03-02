@@ -35,7 +35,7 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		public TestPart() : base()
 		{
-			CartoonColor = ColorManager["Blue"];
+			CartoonColorName = "Blue";
 			
 			// add the reference line
 			refLine = new RefLine(new Point(0.0, 0.0, 0.5), new Vector(0.0, 0.0, 1.0));

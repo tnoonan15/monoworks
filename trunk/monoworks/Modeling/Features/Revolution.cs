@@ -33,14 +33,21 @@ namespace MonoWorks.Modeling
 	/// </summary>
 	public class Revolution : Feature
 	{		
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Revolution() : base()
+		{
+			Travel = Angle.TwoPi;
+		}
 		
 		/// <summary>
 		/// Constructor that initializes the sketch.
 		/// </summary>
 		/// <param name="sketch"> A <see cref="Sketch"/> to extrude. </param>
-		public Revolution(Sketch sketch) : base(sketch)
+		public Revolution(Sketch sketch) : this()
 		{
-			Travel = Angle.TwoPi;
+			Sketch = sketch;
 		}
 		
 					

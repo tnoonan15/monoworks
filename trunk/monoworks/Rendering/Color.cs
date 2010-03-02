@@ -39,7 +39,7 @@ namespace MonoWorks.Rendering
 	/// <summary>
 	/// The color class represents a single color.
 	/// </summary>
-	public class Color : IFill
+	public class Color : IFill, IStringParsable
 	{
 			
 		/// <value>
@@ -357,8 +357,8 @@ namespace MonoWorks.Rendering
 		
 #endregion
 		
-		
-#region XML Loading
+				
+		#region XML Loading
 		
 		/// <summary>
 		/// Creates a color from cString.
@@ -368,37 +368,9 @@ namespace MonoWorks.Rendering
 		/// <returns> </returns>
 		public static Color FromString(string cString)
 		{
-			byte red = 0;
-			byte green = 0;
-			byte blue = 0;
-			byte alpha = 255;
-			
-			// check for valid string length
-			switch (cString.Length)
-			{
-			case 3:
-			case 4:
-				red = Convert.ToByte(cString.Substring(0, 1) + "F", 16);
-				green = Convert.ToByte(cString.Substring(1, 1) + "F", 16);
-				blue = Convert.ToByte(cString.Substring(2, 1) + "F", 16);
-				if (cString.Length == 4) // there's an alpha component					
-					alpha = Convert.ToByte(cString.Substring(3, 1) + "F", 16);
-				break;
-				
-			case 6:
-			case 8:
-				red = Convert.ToByte(cString.Substring(0, 2), 16);
-				green = Convert.ToByte(cString.Substring(2, 2), 16);
-				blue = Convert.ToByte(cString.Substring(4, 2), 16);
-				if (cString.Length == 8) // there's an alpha component					
-					alpha = Convert.ToByte(cString.Substring(6, 2), 16);
-				break;
-				
-			default:
-				throw new InvalidColorStringException(cString);
-			}
-			
-			return new Color(red, green, blue, alpha);
+			var color = new Color();
+			color.Parse(cString);
+			return color;
 		}
 		
 		
@@ -414,13 +386,52 @@ namespace MonoWorks.Rendering
 			// try to find global color
 			string name = reader.GetAttribute("name");
 			if (name != null && ColorManager.Global.HasColor(name))
-				return ColorManager.Global[name];				
+				return ColorManager.Global[name];
 			
 			// try to read as hex values
 			return FromString(reader.GetRequiredString("value"));
 		}
 		
-#endregion
+		public void Parse(string valString)
+		{
+			byte red = 0;
+			byte green = 0;
+			byte blue = 0;
+			byte alpha = 255;
+			
+			// check for valid string length
+			switch (valString.Length)
+			{
+			case 3:
+			case 4:
+				red = Convert.ToByte(valString.Substring(0, 1) + "F", 16);
+				green = Convert.ToByte(valString.Substring(1, 1) + "F", 16);
+				blue = Convert.ToByte(valString.Substring(2, 1) + "F", 16);
+				if (valString.Length == 4)
+					alpha = Convert.ToByte(valString.Substring(3, 1) + "F", 16);
+				break;
+			
+			case 6:
+			case 8:
+				red = Convert.ToByte(valString.Substring(0, 2), 16);
+				green = Convert.ToByte(valString.Substring(2, 2), 16);
+				blue = Convert.ToByte(valString.Substring(4, 2), 16);
+				if (valString.Length == 8)
+					alpha = Convert.ToByte(valString.Substring(6, 2), 16);
+				break;
+			
+			default:
+				throw new InvalidColorStringException(valString);
+			}
+			
+			this.rgba[0] = red;
+			this.rgba[1] = green;
+			this.rgba[2] = blue;
+			this.rgba[3] = alpha;
+		}
+				
+		#endregion
+		
 
 
 	}
