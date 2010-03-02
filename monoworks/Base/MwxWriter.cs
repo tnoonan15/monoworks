@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace MonoWorks.Base
 {
@@ -58,8 +59,14 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void Write(XmlWriter writer)
 		{
+			writer.WriteStartDocument();
+			
 			writer.WriteStartElement("mwx:Mwx");
 			writer.WriteAttributeString("xmlns:mwx", MwxSource.MwxUri);
+			foreach (var kv in _namespaceAbbrevs)
+			{
+				writer.WriteAttributeString("xmlns:" + kv.Value, MwxSource.MwxUri + "/" + kv.Key);
+			}
 			
 			foreach (var obj in _objects)
 			{
@@ -80,6 +87,16 @@ namespace MonoWorks.Base
 		}
 		
 		/// <summary>
+		/// Maps assembly names to namespace abbreviations.
+		/// </summary>
+		private static Dictionary<string,string> _namespaceAbbrevs = new Dictionary<string, string>() {
+			{"Base", "mwb"},
+			{"Rendering", "mwr"},
+			{"Controls", "mwc"},
+			{"Modeling", "mwm"}
+		};
+		
+		/// <summary>
 		/// Gets the local mwx name for the given type.
 		/// </summary>
 		/// <example>
@@ -90,6 +107,14 @@ namespace MonoWorks.Base
 			var typeName = type.ToString();
 			if (!typeName.StartsWith("MonoWorks"))
 				throw new Exception(typeName + " is not a MonoWorks type. Can't handle non-MonoWorks types yet.");
+			
+			// replace namespace designation
+			foreach (var kv in _namespaceAbbrevs)
+			{
+				var asm = "MonoWorks." + kv.Key + ".";
+				if (typeName.Contains(asm))
+					return typeName.Replace(asm, kv.Value + ":");
+			}
 			return typeName.Replace("MonoWorks.", "mwx:");
 		}
 		
@@ -98,7 +123,22 @@ namespace MonoWorks.Base
 		/// </summary>
 		private void WriteObject(XmlWriter writer, IMwxObject obj)
 		{
-			writer.WriteStartElement(GetLocalName(obj.GetType()));
+			
+			// replace generic declarations
+			var typeName = GetLocalName(obj.GetType());
+			if (typeName.Contains("`"))
+			{
+				var genericType = typeName.Split('[').Last();
+				genericType = genericType.Substring(0, genericType.Length-1);
+				typeName = typeName.Split('`')[0];
+				writer.WriteStartElement(typeName);
+				writer.WriteAttributeString("GenericType", genericType);
+			}
+			else // non-generic
+			{
+				writer.WriteStartElement(typeName);
+			}
+				
 			
 			// retrieve the mwx properties
 			var mwxProps = new List<MwxPropertyAttribute>();

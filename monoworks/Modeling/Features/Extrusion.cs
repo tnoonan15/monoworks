@@ -34,16 +34,22 @@ namespace MonoWorks.Modeling
 	/// </summary>
 	public class Extrusion : Feature
 	{		
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Extrusion() : base()
+		{
+			Scale = 1;
+			Travel = new Length(1);
+		}
 		
 		/// <summary>
 		/// Constructor that initializes the sketch.
 		/// </summary>
 		/// <param name="sketch"> A <see cref="Sketch"/> to extrude. </param>
-		public Extrusion(Sketch sketch) : base(sketch)
+		public Extrusion(Sketch sketch) : this()
 		{
-
-			Scale = 1;
-			Travel = new Length(1);
+			Sketch = sketch;
 		}
 			
 				

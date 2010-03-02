@@ -110,6 +110,7 @@ namespace MonoWorks.Modeling
 				drawing = new Assembly();
 			else
 				throw new NotImplementedException("Don't know how to load files with extension " + Path.GetExtension(fileName));
+			drawing.Load(fileName);
 			return drawing;
 		}
 		
@@ -120,8 +121,19 @@ namespace MonoWorks.Modeling
 		{
 			using (var zip = new ZipFile(fileName))
 			{
-//				zip.
+				var mwxEntry = zip["drawing.mwx"];
+				var stream = new MemoryStream();
+				mwxEntry.Extract(stream);
+				stream.Seek(0, SeekOrigin.Begin);
+//				using (var reader = new StreamReader(stream))
+//				{
+//					Console.WriteLine("drawing.mwx:");
+//					Console.WriteLine(reader.ReadToEnd());
+//				}
+				var mwx = new MwxSource(stream);
 			}
+			
+			
 		}
 
 		/// <summary>

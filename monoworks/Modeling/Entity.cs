@@ -375,7 +375,7 @@ namespace MonoWorks.Modeling
 			if (child is Entity)
 				AddChild(child as Entity);
 			else
-				throw new Exception("Entities can only have children that are other entities.");
+				throw new Exception("Entities can only have children that are other entities, not " + child.GetType());
 		}
 
 		public override IEnumerable<IMwxObject> GetMwxChildren()

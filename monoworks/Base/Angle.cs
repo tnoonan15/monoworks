@@ -75,7 +75,7 @@ namespace MonoWorks.Base
 		/// </param>
 		public Angle(double val) : this()
 		{
-			this.val = val;
+			this._val = val;
 		}
 		
 		
@@ -111,7 +111,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator +(Angle lhs, Angle rhs)
 		{
-			return new Angle(lhs.val+rhs.val);
+			return new Angle(lhs._val+rhs._val);
 		}
 		
 		/// <summary>
@@ -119,7 +119,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator -(Angle lhs, Angle rhs)
 		{
-			return new Angle(lhs.val-rhs.val);
+			return new Angle(lhs._val-rhs._val);
 		}
 		
 		/// <summary>
@@ -127,7 +127,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator *(Angle lhs, double rhs)
 		{
-			return new Angle(lhs.val*rhs);
+			return new Angle(lhs._val*rhs);
 		}
 		
 		/// <summary>
@@ -135,7 +135,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Angle operator /(Angle lhs, double rhs)
 		{
-			return new Angle(lhs.val/rhs);
+			return new Angle(lhs._val/rhs);
 		}
 
 		/// <summary>
@@ -143,7 +143,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void IncByPi()
 		{
-			val += PI;
+			_val += PI;
 		}
 
 		/// <summary>
@@ -151,7 +151,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void DecByPi()
 		{
-			val -= PI;
+			_val -= PI;
 		}
 
 		/// <summary>
@@ -159,7 +159,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void IncByHalfPi()
 		{
-			val += 0.5*PI;
+			_val += 0.5*PI;
 		}
 
 		/// <summary>
@@ -167,7 +167,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void DecByHalfPi()
 		{
-			val -= 0.5*PI;
+			_val -= 0.5*PI;
 		}
 		
 #endregion
@@ -184,7 +184,7 @@ namespace MonoWorks.Base
 		/// </returns>
 		public double Sin()
 		{
-			return Math.Sin(val);
+			return Math.Sin(_val);
 		}
 		
 		
@@ -196,7 +196,7 @@ namespace MonoWorks.Base
 		/// </returns>
 		public double Cos()
 		{
-			return Math.Cos(val);
+			return Math.Cos(_val);
 		}
 		
 		
@@ -208,7 +208,7 @@ namespace MonoWorks.Base
 		/// </returns>
 		public double Tan()
 		{
-			return Math.Tan(val);
+			return Math.Tan(_val);
 		}
 		
 		

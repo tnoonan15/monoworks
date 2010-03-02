@@ -34,9 +34,17 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public Line(Sketch sketch) : base(sketch)
+		public Line()
 		{
 			IsClosed = false;
+		}
+		
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Line(Sketch sketch) : this()
+		{
+			Sketch = sketch;
 		}
 		
 		
@@ -63,6 +71,7 @@ namespace MonoWorks.Modeling.Sketching
 		public MwxList<Point> Points
 		{
 			get { return this["Points"] as MwxList<Point>; }
+			set { this["Points"] = value; }
 		}
 
 		/// <summary>

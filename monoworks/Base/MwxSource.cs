@@ -38,6 +38,10 @@ namespace MonoWorks.Base
 			: base(String.Format("Unable to resolve element {0} into a concrete object instance. {1}", reader.Name, details))
 		{			
 		}
+		public InvalidMwxElementException(string typeName, string details)
+			: base(String.Format("Unable to resolve element {0} into a concrete object instance. {1}", typeName, details))
+		{
+		}
 	}
 	
 	public class UnknownObjectException : Exception
@@ -141,6 +145,11 @@ namespace MonoWorks.Base
 		}
 		
 		/// <summary>
+		/// Name of the current child property being parsed.
+		/// </summary>
+		private string _childPropertyName = null;
+		
+		/// <summary>
 		/// Parses a mwx source through a xml reader.
 		/// </summary>
 		public void Parse(XmlReader reader)
@@ -154,9 +163,22 @@ namespace MonoWorks.Base
 					var isEmpty = reader.IsEmptyElement;
 					
 					// create the obj
-					if (reader.LocalName == "Mwx") // ignore root element
+					if (reader.LocalName == "Mwx")
+						// ignore root element
 						continue;
-					var obj = CreateMwxBase(reader);
+					if (reader.LocalName == "MwxProperty")
+					{
+						// parse as a child property
+						_childPropertyName = reader.GetAttribute("Name");
+						if (_childPropertyName == null)
+							throw new Exception("MwxProperty elements need to have a Name attribute");
+						reader.Read();
+						while (reader.NodeType != XmlNodeType.Element)
+							reader.Read();
+					}
+					else
+						_childPropertyName = null;
+					var obj = CreateMwxObject(reader);
 					var name = obj.Name;
 					if (name != null)
 						_objects[name] = obj;
@@ -164,7 +186,10 @@ namespace MonoWorks.Base
 					// add it to the current parent
 					if (parent != null)
 					{
-						parent.AddChild(obj);
+						if (_childPropertyName == null)
+							parent.AddChild(obj);
+						else
+							SetProperty(parent, _childPropertyName, obj);
 					}
 					
 					// make this the current parent
@@ -197,28 +222,57 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Gets the fully qualified class name associated with a mwx element.
 		/// </summary>
-		private string GetElementClassName(XmlReader reader)
+		private string GetClassName(XmlReader reader)
 		{
-			if (reader.NamespaceURI.StartsWith(MwxUri)) // this is a MonoWorks class
+			return GetClassName(reader.NamespaceURI, reader.LocalName);
+		}
+		
+		/// <summary>
+		/// Gets the class name for a string containing the colon-separated namespace and type.
+		/// </summary>
+		private string GetClassName(XmlReader reader, string valString)
+		{
+			var comps = valString.Split(':');
+			if (comps.Length != 2)
+				throw new Exception("Types should be colon-separated namespace and type names, unlike " + valString);
+			return GetClassName(reader.LookupNamespace(comps[0]), comps[1]);
+		}
+		
+		/// <summary>
+		/// Gets the class name for the given xml namespace and element type.
+		/// </summary>
+		private string GetClassName(string ns, string typeName)
+		{
+			if (ns.StartsWith(MwxUri)) // this is a MonoWorks class
 			{
-				var asm = reader.NamespaceURI.Replace(MwxUri, "MonoWorks").Replace('/', '.');
-				return String.Format("{0}.{1},{0}", asm, reader.LocalName);
+				var asm = ns.Replace(MwxUri, "MonoWorks").Replace('/', '.');
+				return String.Format("{0}.{1},{0}", asm, typeName);
 			}
 			else
-				throw new InvalidMwxElementException(reader, "Haven't implemented non-MonoWorks classes in mwx yet.");
+				throw new InvalidMwxElementException(typeName, "Haven't implemented non-MonoWorks classes in mwx yet.");
 		}
 		
 		/// <summary>
 		/// Creates an object based on the current mwx element.
 		/// </summary>
-		private IMwxObject CreateMwxBase(XmlReader reader)
+		private IMwxObject CreateMwxObject(XmlReader reader)
 		{
 			// get the type
-			var className = GetElementClassName(reader);
+			var className = GetClassName(reader);
 			Type type = null;
+			var genericTypeName = reader.GetAttribute("GenericType");
 			try
 			{
-				type = Type.GetType(className, true);
+				if (genericTypeName != null)
+				{
+					var genericType = Type.GetType(GetClassName(reader, genericTypeName), true);
+					type = Type.GetType(String.Format("{0}`1[{1}]", className.Split(',')[0], genericType.FullName), true);
+				}
+				else 
+				{
+					// non-generic type
+					type = Type.GetType(className, true);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -258,14 +312,40 @@ namespace MonoWorks.Base
 				// handle it as a property
 				var propInfo = obj.GetType().GetProperty(prop.Key);
 				if (propInfo == null)
-					throw new Exception(String.Format("No property named {0} for type {1}", prop.Key, obj.GetType()));
-				if (propInfo.GetCustomAttributes<MwxPropertyAttribute>().Length == 0)
+				{
+					if (prop.Key == "GenericType")
+						continue;
+					else
+						throw new Exception(String.Format("No property named {0} for type {1}", prop.Key, obj.GetType()));
+				}
+				var mwxProps = Attribute.GetCustomAttributes(propInfo, typeof(MwxPropertyAttribute), true);
+				if (mwxProps.Length == 0)
 					throw new Exception(String.Format("Property {0} for type {1} is not a MwxProperty", prop.Key, obj.GetType()));
-				propInfo.SetFromString(obj, prop.Value);
+				var mwxProp = mwxProps[0] as MwxPropertyAttribute;
+				switch (mwxProp.Type)
+				{
+				case MwxPropertyType.Reference:
+					
+					break;
+				
+				case MwxPropertyType.Attribute:
+					propInfo.SetFromString(obj, prop.Value);
+					break;
+				}
 			}
 			
 		}
 		
+		/// <summary>
+		/// Sets the given property on the mwx object.
+		/// </summary>
+		private void SetProperty(IMwxObject obj, string name, object val)
+		{
+			var propInfo = obj.GetType().GetProperty(name);
+			if (propInfo == null)
+				throw new Exception("Type " + obj.GetType() + " does not have a property named " + name);
+			propInfo.SetValue(obj, val, new object[] {  });
+		}
 		
 		
 	}

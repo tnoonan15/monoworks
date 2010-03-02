@@ -31,14 +31,19 @@ namespace MonoWorks.Modeling.Sketching
 	/// </summary>
 	public abstract class Sketchable : Entity
 	{
-		
-		public Sketchable(Sketch sketch) : base()
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Sketchable()
 		{
-			Sketch = sketch;
-			sketch.AddChild(this);
 			solidPoints = new Vector[0];
 			wireframePoints = new Vector[0];
 			directions = new Vector[0];
+		}
+		
+		public Sketchable(Sketch sketch) : this()
+		{
+			Sketch = sketch;
 		}
 
 
@@ -54,7 +59,10 @@ namespace MonoWorks.Modeling.Sketching
 		public Sketch Sketch
 		{
 			get { return GetAttribute("Sketch") as Sketch; }
-			set { SetAttribute("Sketch", value); }
+			set {
+				SetAttribute("Sketch", value);
+				value.AddChild(this);
+			}
 		}
 				
 		

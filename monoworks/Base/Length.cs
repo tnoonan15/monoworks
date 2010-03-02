@@ -42,7 +42,7 @@ namespace MonoWorks.Base
 		/// </param>
 		public Length(double val) : this()
 		{
-			this.val = val;
+			this._val = val;
 		}
 		
 		
@@ -53,7 +53,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator +(Length lhs, Length rhs)
 		{
-			return new Length(lhs.val+rhs.val);
+			return new Length(lhs._val+rhs._val);
 		}
 		
 		/// <summary>
@@ -61,7 +61,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator -(Length lhs, Length rhs)
 		{
-			return new Length(lhs.val-rhs.val);
+			return new Length(lhs._val-rhs._val);
 		}
 		
 		/// <summary>
@@ -69,7 +69,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator *(Length lhs, double rhs)
 		{
-			return new Length(lhs.val*rhs);
+			return new Length(lhs._val*rhs);
 		}
 		
 		/// <summary>
@@ -77,7 +77,7 @@ namespace MonoWorks.Base
 		/// </summary>
 		public static Length operator /(Length lhs, double rhs)
 		{
-			return new Length(lhs.val/rhs);
+			return new Length(lhs._val/rhs);
 		}
 		
 #endregion
