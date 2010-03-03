@@ -31,8 +31,8 @@ namespace MonoWorks.Controls
 	/// </summary>
 	public class ImageParseException : Exception
 	{
-		public ImageParseException() : 
-			base("Image literals must be a comma-separated resource and assembly names, like \"myImage.png,MyAssembly\" ")
+		public ImageParseException(string name) : 
+			base("Image literals must be a comma-separated resource and assembly names, like \"myImage.png,MyAssembly\", not " + name)
 		{
 			
 		}
@@ -104,7 +104,7 @@ namespace MonoWorks.Controls
 		{
 			var comps = valString.Split(',');
 			if (comps.Length != 2)
-				throw new ImageParseException();
+				throw new ImageParseException(valString);
 			LoadStream(ResourceHelper.GetStream(comps[0], comps[1]));
 		}
 		

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mwx:Mwx xmlns:mwx="http://monoworksproject.org/mwx" 
+		xmlns:mwb="http://monoworksproject.org/mwx/Base"
+		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
+		
+	<mwb:UiAction Name="Standard View" IconName="standard-view.png,MonoWorks.Controls" ToolTip="Standard 3D view"/>
+	<mwb:UiAction Name="Front View" IconName="front-view.png,MonoWorks.Controls" ToolTip="Front view"/>
+	<mwb:UiAction Name="Back View" IconName="back-view.png,MonoWorks.Controls" ToolTip="Back view"/>
+	<mwb:UiAction Name="Left View" IconName="left-view.png,MonoWorks.Controls" ToolTip="Left view"/>
+	<mwb:UiAction Name="Right View" IconName="right-view.png,MonoWorks.Controls" ToolTip="Right view"/>
+	<mwb:UiAction Name="Top View" IconName="top-view.png,MonoWorks.Controls" ToolTip="Top view"/>
+	<mwb:UiAction Name="Bottom View" IconName="bottom-view.png,MonoWorks.Controls" ToolTip="Bottom view"/>
+	<mwb:UiAction Name="Projection" IconName="perspective.png,MonoWorks.Controls" ToolTip="Toggle between parallel and perspective projection" IsTogglable="true"/>
+			
+	<mwb:UiAction Name="Export" IconName="export.png,MonoWorks.Controls" ToolTip="Export viewport to a file"/>
+		
+	<mwc:ToolBar Name="ViewToolbar" ButtonStyle="Image">
+		<mwc:Button Action="Standard View"/>
+		<mwc:Button Action="Front View"/>
+		<mwc:Button Action="Back View"/>
+		<mwc:Button Action="Left View"/>
+		<mwc:Button Action="Right View"/>
+		<mwc:Button Action="Top View"/>
+		<mwc:Button Action="Bottom View"/>
+		<mwc:Button Action="Projection"/>
+	</mwc:ToolBar>
+		
+	<mwc:ToolBar Name="ExportToolbar" ButtonStyle="Image">
+		<mwc:Button Action="Export"/>
+	</mwc:ToolBar>
+</mwx:Mwx>

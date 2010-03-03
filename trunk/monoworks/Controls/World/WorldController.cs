@@ -1,4 +1,4 @@
-// SceneController.cs - MonoWorks Project
+// WorldController.cs - MonoWorks Project
 //
 //  Copyright (C) 2009 Andy Selvig
 //
@@ -24,23 +24,23 @@ using MonoWorks.Rendering;
 using MonoWorks.Controls;
 using MonoWorks.Rendering.Interaction;
 
-namespace MonoWorks.Controls.StandardScene
+namespace MonoWorks.Controls.World
 {
     /// <summary>
     /// Implements a controller for a "standard" scene.
     /// </summary>
-    public class StandardSceneController : AbstractController<Scene>
+    public class WorldController : AbstractController<Scene>
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="scene">The scene that this controller controls.</param>
-        public StandardSceneController(Scene scene)
+        public WorldController(Scene scene)
             : base(scene)
         {
         	Scene.Camera.ProjectionChanged += ExternalProjectionChanged;
 
-//			Mwx.Parse(ResourceHelper.GetStream("Scene.ui"));
+			Mwx.Parse(ResourceHelper.GetStream("World.mwx"));
 
         	ContextLayer = new ContextLayer();
 			Scene.RenderList.AddOverlay(ContextLayer);
@@ -50,18 +50,6 @@ namespace MonoWorks.Controls.StandardScene
 		/// The context layer containing all of the toolbars.
 		/// </summary>
 		public ContextLayer ContextLayer { get; private set;}
-
-		/// <summary>
-		/// Loads the standard (View and Interaction) toolbars from the UiManager.
-		/// </summary>
-		protected void LoadStandardToolbars()
-		{
-			Context(Side.N, "View");
-			//			ContextLayer.AddContext(Side.N, "Interaction");
-			Context(Side.N, "Export");
-			OnProjectionChanged();
-		//			OnInteractionStateChanged();
-		}
 		
 		/// <summary>
 		/// Loads the control with the given name into the context layer at the given location. 
@@ -79,49 +67,49 @@ namespace MonoWorks.Controls.StandardScene
 		
 		
 		[ActionHandler("Standard View")]
-		public void OnStandardView()
+		public void OnStandardView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Standard);
 		}
 		
 		[ActionHandler("Front View")]
-		public void OnFrontView()
+		public void OnFrontView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Front);
 		}
 		
 		[ActionHandler("Back View")]
-		public void OnBackView()
+		public void OnBackView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Back);
 		}
 		
 		[ActionHandler("Left View")]
-		public void OnLeftView()
+		public void OnLeftView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Left);
 		}
 		
 		[ActionHandler("Right View")]
-		public void OnRightView()
+		public void OnRightView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Right);
 		}
 		
 		[ActionHandler("Top View")]
-		public void OnTopView()
+		public void OnTopView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Top);
 		}
 		
 		[ActionHandler("Bottom View")]
-		public void OnBottomView()
+		public void OnBottomView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
 			Scene.Camera.AnimateTo(ViewDirection.Bottom);
@@ -134,7 +122,7 @@ namespace MonoWorks.Controls.StandardScene
 
 
 		[ActionHandler("Projection")]
-		public void OnChangeProjection()
+		public void OnChangeProjection(object sender, EventArgs args)
 		{
 			Scene.Camera.ToggleProjection();
 			OnProjectionChanged();

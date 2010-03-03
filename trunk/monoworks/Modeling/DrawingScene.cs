@@ -36,6 +36,8 @@ namespace MonoWorks.Modeling
 			: base(viewport)
 		{
 			Camera.SetViewDirection(ViewDirection.Standard);
+			
+			new DrawingController(this);
 		}
 				
 		public DrawingScene(Viewport viewport, Drawing drawing) : this(viewport)
