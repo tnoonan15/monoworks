@@ -32,7 +32,7 @@ namespace MonoWorks.Controls
 	public class InvalidContextException : Exception
 	{
 		public InvalidContextException(string context) : 
-			base(context + " is not a valid context in this context laye.")
+			base(context + " is not a valid context in this context layer.")
 		{
 		}
 	}

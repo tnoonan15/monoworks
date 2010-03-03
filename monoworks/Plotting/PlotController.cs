@@ -19,19 +19,17 @@
 
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
-using MonoWorks.Controls.StandardScene;
+using MonoWorks.Controls.World;
 
 namespace MonoWorks.Plotting
 {
-	public class PlotController : StandardSceneController
+	public class PlotController : WorldController
 	{
 
 		public PlotController(Scene scene)
 			: base(scene)
 		{
 //			UiManager.LoadStream(ResourceHelper.GetStream("plotting.ui"));
-
-			LoadStandardToolbars();
 
 			Legend = new Legend();
 			ContextLayer.AnchorControl(Legend, AnchorLocation.NE);

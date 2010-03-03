@@ -48,14 +48,24 @@ namespace MonoWorks.Base
 		/// </summary>
 		[MwxProperty]
 		public string Name {get; set;}
-
 		
 		/// <value>
 		/// The name of the icon to use for the action.
 		/// </value>
 		[MwxProperty]
 		public string IconName {get; set;}
+
+		/// <value>
+		/// The tooltip to display when hovering over controls that link to this action.
+		/// </value>
+		[MwxProperty]
+		public string ToolTip { get; set; }
 		
+		/// <summary>
+		/// If true, the action is bistate and can be toggled.
+		/// </summary>
+		[MwxProperty]
+		public bool IsTogglable { get; set; }
 		
 		public IMwxObject Parent { get; set; }
 		

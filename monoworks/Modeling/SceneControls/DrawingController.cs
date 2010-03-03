@@ -23,7 +23,7 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Controls;
-using MonoWorks.Controls.StandardScene;
+using MonoWorks.Controls.World;
 using MonoWorks.Modeling.Sketching;
 
 namespace MonoWorks.Modeling.SceneControls
@@ -31,15 +31,12 @@ namespace MonoWorks.Modeling.SceneControls
 	/// <summary>
 	/// Controller for a Model Scene.
 	/// </summary>
-	public class DrawingController : StandardSceneController
+	public class DrawingController : WorldController
 	{
 		public DrawingController(Scene scene)
 			: base(scene)
-		{			
+		{
 			OnSolidModeChanged();
-
-			LoadStandardToolbars();
-			Context(Side.N, "Shading");
 
 			// get ready for sketching
 			AnchorPane sketchAnchor = new AnchorPane(AnchorLocation.NE);
@@ -47,10 +44,16 @@ namespace MonoWorks.Modeling.SceneControls
 			sketchApplyCancel.IsVisible = false;
 			sketchApplyCancel.Action1 += OnApplySketch;
 			sketchApplyCancel.Action2 += OnCancelSketch;
-			sketchApplyCancel.Image1 = new Image(ResourceHelper.GetStream("apply.png", "MonoWorks.Rendering"));
-			sketchApplyCancel.Image2 = new Image(ResourceHelper.GetStream("cancel.png", "MonoWorks.Rendering"));
+			sketchApplyCancel.Image1 = new Image(ResourceHelper.GetStream("dialog-ok.png"));
+			sketchApplyCancel.Image2 = new Image(ResourceHelper.GetStream("dialog-cancel.png"));
 			sketchAnchor.Control = sketchApplyCancel;
 			Scene.RenderList.AddOverlay(sketchAnchor);
+			
+			// load the default toolbars
+			Context(Side.N, "ViewToolbar");
+			Context(Side.N, "ExportToolbar");
+			//			Context(Side.N, "Shading");
+			OnProjectionChanged();
 			
 		}
 

@@ -80,10 +80,10 @@
     <Compile Include="TreeItem.cs" />
     <Compile Include="IconList.cs" />
     <Compile Include="AbstractController.cs" />
-    <Compile Include="StandardScene\StandardSceneController.cs" />
     <Compile Include="ActionHandlerAttribute.cs" />
     <Compile Include="SceneButton.cs" />
     <Compile Include="MessageBox.cs" />
+    <Compile Include="World\WorldController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
@@ -92,28 +92,28 @@
     <EmbeddedResource Include="icons\dock.png" />
     <EmbeddedResource Include="icons\float.png" />
     <EmbeddedResource Include="icons\minimize.png" />
-    <EmbeddedResource Include="StandardScene\Scene.ui" />
-    <EmbeddedResource Include="StandardScene\icons\2d.png" />
-    <EmbeddedResource Include="StandardScene\icons\3d-interact.png" />
-    <EmbeddedResource Include="StandardScene\icons\3d-view.png" />
-    <EmbeddedResource Include="StandardScene\icons\3d.png" />
-    <EmbeddedResource Include="StandardScene\icons\apply.png" />
-    <EmbeddedResource Include="StandardScene\icons\back-view.png" />
-    <EmbeddedResource Include="StandardScene\icons\bottom-view.png" />
-    <EmbeddedResource Include="StandardScene\icons\cancel.png" />
-    <EmbeddedResource Include="StandardScene\icons\export.png" />
-    <EmbeddedResource Include="StandardScene\icons\front-view.png" />
-    <EmbeddedResource Include="StandardScene\icons\left-view.png" />
-    <EmbeddedResource Include="StandardScene\icons\perspective.png" />
-    <EmbeddedResource Include="StandardScene\icons\right-view.png" />
-    <EmbeddedResource Include="StandardScene\icons\standard-view.png" />
-    <EmbeddedResource Include="StandardScene\icons\top-view.png" />
     <EmbeddedResource Include="icons\expand.png" />
     <EmbeddedResource Include="icons\tree-expanded.png" />
     <EmbeddedResource Include="icons\tree-hidden.png" />
     <EmbeddedResource Include="icons\dialog-error.png" />
     <EmbeddedResource Include="icons\dialog-information.png" />
     <EmbeddedResource Include="icons\dialog-warning.png" />
+    <EmbeddedResource Include="World\World.mwx" />
+    <EmbeddedResource Include="World\icons\2d.png" />
+    <EmbeddedResource Include="World\icons\3d-interact.png" />
+    <EmbeddedResource Include="World\icons\3d-view.png" />
+    <EmbeddedResource Include="World\icons\3d.png" />
+    <EmbeddedResource Include="World\icons\apply.png" />
+    <EmbeddedResource Include="World\icons\back-view.png" />
+    <EmbeddedResource Include="World\icons\bottom-view.png" />
+    <EmbeddedResource Include="World\icons\cancel.png" />
+    <EmbeddedResource Include="World\icons\export.png" />
+    <EmbeddedResource Include="World\icons\front-view.png" />
+    <EmbeddedResource Include="World\icons\left-view.png" />
+    <EmbeddedResource Include="World\icons\perspective.png" />
+    <EmbeddedResource Include="World\icons\right-view.png" />
+    <EmbeddedResource Include="World\icons\standard-view.png" />
+    <EmbeddedResource Include="World\icons\top-view.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

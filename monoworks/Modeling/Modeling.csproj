@@ -133,6 +133,8 @@
     <EmbeddedResource Include="SceneControls\drawing.ui" />
     <EmbeddedResource Include="SceneControls\icons\ellipse.png" />
     <EmbeddedResource Include="SceneControls\icons\rectangle.png" />
+    <EmbeddedResource Include="SceneControls\icons\dialog-cancel.png" />
+    <EmbeddedResource Include="SceneControls\icons\dialog-ok.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
