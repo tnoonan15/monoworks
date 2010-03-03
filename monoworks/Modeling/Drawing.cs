@@ -103,37 +103,16 @@ namespace MonoWorks.Modeling
 		/// <returns>An assembly or part, depending on file extension.</returns>
 		public static Drawing FromFile(string fileName)
 		{
-			Drawing drawing = null;
-			if (fileName.EndsWith("mwp"))
-				drawing = new Part();
-			else if (fileName.EndsWith("mwa"))
-				drawing = new Assembly();
-			else
-				throw new NotImplementedException("Don't know how to load files with extension " + Path.GetExtension(fileName));
-			drawing.Load(fileName);
-			return drawing;
-		}
-		
-		/// <summary>
-		/// Loads the drawing from a file.
-		/// </summary>
-		public virtual void Load(string fileName)
-		{
-			using (var zip = new ZipFile(fileName))
-			{
+			MwxSource mwx;
+			using (var zip = new ZipFile(fileName)) {
 				var mwxEntry = zip["drawing.mwx"];
 				var stream = new MemoryStream();
 				mwxEntry.Extract(stream);
 				stream.Seek(0, SeekOrigin.Begin);
-//				using (var reader = new StreamReader(stream))
-//				{
-//					Console.WriteLine("drawing.mwx:");
-//					Console.WriteLine(reader.ReadToEnd());
-//				}
-				var mwx = new MwxSource(stream);
+				mwx = new MwxSource(stream);
 			}
-			
-			
+			var drawings = mwx.GetAll<Drawing>();
+			return drawings.First();
 		}
 
 		/// <summary>

@@ -38,7 +38,10 @@ namespace MonoWorks.Modeling
 			CartoonColorName = "Blue";
 			
 			// add the reference line
-			refLine = new RefLine(new Point(0.0, 0.0, 0.5), new Vector(0.0, 0.0, 1.0));
+				
+			refLine = new RefLine(new Point(0.0, 0.0, 0.5), new Vector(0.0, 0.0, 1.0)) {
+				Name = "TestRefLine1"
+			};
 			
 			AddReference(refLine);
 
@@ -67,7 +70,7 @@ namespace MonoWorks.Modeling
 			new Arc(extSketch, p2, p3, Angle.Pi()/-2.0);
 			
 			// add the extrusion
-			Extrusion ext1 = new Extrusion(extSketch);
+			Extrusion ext1 = new Extrusion(extSketch) {Name = "TestExtrusion"};
 			ext1.Path = refLine;
 			ext1.Travel = new Length(1.0);
 			ext1.Snapshot();
@@ -95,10 +98,10 @@ namespace MonoWorks.Modeling
 			line2.Points.Add(new Point(0.0, 1.5, 2.0));
 			
 			// add the arc			
-			new Arc(revolutionSketch, middle, bottom, Angle.Pi()/2);
+			new Arc(revolutionSketch, middle, bottom, Angle.Pi() / 2);
 			
 			// create the revolution
-			Revolution revolution1 = new Revolution(revolutionSketch);
+			Revolution revolution1 = new Revolution(revolutionSketch) { Name = "TestRevolution" };
 			revolution1.Axis = refLine;
 			revolution1.Travel = Angle.Pi()*-1;
 			revolution1.Snapshot();

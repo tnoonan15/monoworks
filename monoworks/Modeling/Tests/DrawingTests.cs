@@ -48,7 +48,7 @@ namespace MonoWorks.Modeling.Tests
 			part.SaveAs("test.mwp");
 			
 			var newPart = Drawing.FromFile("test.mwp") as Part;
-//			Assert.AreEqual(typeof(Sketching.Sketch), newPart.Gets)
+			Assert.AreEqual(9, newPart.NumChildren);
 		}
 		
 	}

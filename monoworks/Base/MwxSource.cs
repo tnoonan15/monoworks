@@ -148,6 +148,11 @@ namespace MonoWorks.Base
 		/// Name of the current child property being parsed.
 		/// </summary>
 		private string _childPropertyName = null;
+
+		/// <summary>
+		/// Stores reference properties for resolution at the end of parsing.
+		/// </summary>
+		private List<ReferenceProperty> _refProps = new List<ReferenceProperty>();
 		
 		/// <summary>
 		/// Parses a mwx source through a xml reader.
@@ -214,6 +219,14 @@ namespace MonoWorks.Base
 					}
 				}
 			}
+			
+			// resolve reference properties
+			foreach (var prop in _refProps)
+			{
+				var obj = Get(prop.ReferenceName);
+				prop.Resolve(obj);
+			}
+			_refProps.Clear();
 			
 			if (ParseCompleted != null)
 				ParseCompleted(this, new EventArgs());
@@ -325,7 +338,12 @@ namespace MonoWorks.Base
 				switch (mwxProp.Type)
 				{
 				case MwxPropertyType.Reference:
-					
+					// store the property to resolve it later
+					_refProps.Add(new ReferenceProperty() {
+						Property = propInfo,
+						ReferenceName = prop.Value,
+						Owner = obj
+					});
 					break;
 				
 				case MwxPropertyType.Attribute:
@@ -349,4 +367,43 @@ namespace MonoWorks.Base
 		
 		
 	}
+	
+	/// <summary>
+	/// Temporary storage for all the information needed to resolve a reference property.
+	/// </summary>
+	internal class ReferenceProperty
+	{
+		/// <summary>
+		/// The property defining the reference.
+		/// </summary>
+		public PropertyInfo Property {
+			get;
+			set;
+		}
+		
+		/// <summary>
+		/// The name of the reference object.
+		/// </summary>
+		public string ReferenceName {
+			get;
+			set;
+		}
+		
+		/// <summary>
+		/// The object that the property value should be assigned to.
+		/// </summary>
+		public IMwxObject Owner {
+			get;
+			set;
+		}
+		
+		/// <summary>
+		/// Attempts to resolve the reference property with the given value.
+		/// </summary>
+		internal void Resolve(IMwxObject propVal)
+		{
+			Property.SetValue(Owner, propVal, new object[] {  });
+		}
+	}
+	
 }
