@@ -393,6 +393,9 @@ namespace MonoWorks.Modeling
 		/// <param name="child"> An <see cref="Entity"/> to add as a child. </param>
 		protected virtual void AddChild(Entity child)
 		{
+			var existing = GetChild(child.Name);
+			if (existing != null)
+				RemoveChild(existing);
 			_children.Add(child);
 			child.Parent = this;
 			RegisterEntity(child);
@@ -446,6 +449,22 @@ namespace MonoWorks.Modeling
 		public bool ContainsChild(Entity child)
 		{
 			return _children.Contains(child);
+		}
+		
+		/// <summary>
+		/// Gets a child entity by name.
+		/// </summary>
+		/// <remarks>This doesn't enforce type safety. Consider using GetChild<T> instead.</remarks>
+		public Entity GetChild(string name)
+		{
+			var kids = from child in Children
+				where child.Name == name
+				select child;
+			if (kids.Count() > 1)
+				throw new Exception("Child name " + name + " didn't resolve to a unique child of " + Name + ". This should never happen!");
+			if (kids.Count() == 1)
+				return kids.First();
+			return null;
 		}
 				
 		#endregion
