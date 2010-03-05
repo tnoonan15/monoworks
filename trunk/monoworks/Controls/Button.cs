@@ -378,6 +378,7 @@ namespace MonoWorks.Controls
 			}
 			
 			Clicked += action.Activate;
+			IsTogglable = action.IsTogglable;
 		}
 		
 		#endregion
