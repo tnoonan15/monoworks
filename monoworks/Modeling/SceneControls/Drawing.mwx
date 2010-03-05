@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mwx:Mwx xmlns:mwx="http://monoworksproject.org/mwx" 
+		xmlns:mwb="http://monoworksproject.org/mwx/Base"
+		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
+
+
+	<mwb:UiAction Name="Wireframe" IconName="wireframe.png,MonoWorks.Modeling" ToolTip="Render only the wireframe" IsTogglable="true"/>
+	<mwb:UiAction Name="No Solid" IconName="nosolid.png,MonoWorks.Modeling" ToolTip="No solid rendering" IsTogglable="true"/>
+	<mwb:UiAction Name="Flat Shaded" IconName="flat.png,MonoWorks.Modeling" ToolTip="Flat shaded rendering" IsTogglable="true"/>
+	<mwb:UiAction Name="Smooth Shaded" IconName="smooth.png,MonoWorks.Modeling" ToolTip="Smooth shaded rendering" IsTogglable="true"/>
+
+	<mwb:UiAction Name="Edit" IconName="edit.png,MonoWorks.Modeling" ToolTip="Edit the currently selected entity"/>
+	<mwb:UiAction Name="Delete" IconName="delete.png,MonoWorks.Modeling" ToolTip="Delete the currently selected entity(s)"/>
+
+	<mwb:UiAction Name="Add Sketch" IconName="sketch.png,MonoWorks.Modeling" ToolTip="Add a new sketch"/>
+	<mwb:UiAction Name="Edit Sketch" IconName="sketch.png,MonoWorks.Modeling" ToolTip="Edit the selected sketch"/>
+	<mwb:UiAction Name="Line" IconName="line.png,MonoWorks.Modeling" ToolTip="Add a line to the sketch"/>
+	<mwb:UiAction Name="Rectangle" IconName="rectangle.png,MonoWorks.Modeling" ToolTip="Add a rectanlge to the sketch"/>
+	<mwb:UiAction Name="Arc" IconName="arc.png,MonoWorks.Modeling" ToolTip="Add an arc to the sketch"/>
+	<mwb:UiAction Name="Ellipse" IconName="ellipse.png,MonoWorks.Modeling" ToolTip="Add an ellipse to the sketch"/>
+	<mwb:UiAction Name="Spline" IconName="spline.png,MonoWorks.Modeling" ToolTip="Add a spline to the sketch"/>
+
+	<mwb:UiAction Name="Ref Point" IconName="refpoint.png,MonoWorks.Modeling" ToolTip="Add a new reference point"/>
+	<mwb:UiAction Name="Ref Line" IconName="refline.png,MonoWorks.Modeling" ToolTip="Add a new reference line"/>
+	<mwb:UiAction Name="Ref Plane" IconName="refplane.png,MonoWorks.Modeling" ToolTip="Add a new reference plane"/>
+
+	<mwb:UiAction Name="Extrusion" IconName="extrusion.png,MonoWorks.Modeling" ToolTip="Add a new extrusion based on the sketch"/>
+	<mwb:UiAction Name="Revolution" IconName="revolution.png,MonoWorks.Modeling" ToolTip="Add a new revolution based on the sketch"/>
+	<mwb:UiAction Name="Sweep" IconName="sweep.png,MonoWorks.Modeling" ToolTip="Add a new sweep based on the sketch"/>
+    
+
+	<mwc:ToolBar Name="ShadingToolbar" ButtonStyle="Image">
+		<mwc:Button Action="Wireframe"/>
+		<mwc:Button Action="No Solid"/>
+		<mwc:Button Action="Flat Shaded"/>
+		<mwc:Button Action="Smooth Shaded"/>
+	</mwc:ToolBar>
+
+	<mwc:ToolBar Name="EditToolbar" ButtonStyle="ImageOverLabel">
+		<mwc:Button Action="Edit"/>
+	</mwc:ToolBar>
+
+	<mwc:ToolBar Name="DeleteToolbar" ButtonStyle="ImageOverLabel">
+		<mwc:Button Action="Delete"/>
+	</mwc:ToolBar>
+
+	<mwc:ToolBar Name="AddSketchToolbar" ButtonStyle="ImageOverLabel">
+		<mwc:Button Action="Add Sketch"/>
+	</mwc:ToolBar>
+
+	<mwc:ToolBar Name="EditSketchToolbar" ButtonStyle="ImageOverLabel">
+		<mwc:Button Action="Edit Sketch"/>
+	</mwc:ToolBar>
+
+	<mwc:ToolBar Name="AddRefToolbar" ButtonStyle="ImageOverLabel">
+		<mwc:Button Action="Ref Point"/>
+		<mwc:Button Action="Ref Line"/>
+		<mwc:Button Action="Ref Plane"/>
+	</mwc:ToolBar>
+
+	<mwc:ToolBar Name="SketchToolbar" ButtonStyle="ImageOverLabel">
+		<mwc:Button Action="Line"/>
+		<mwc:Button Action="Rectangle"/>
+		<mwc:Button Action="Arc"/>
+		<mwc:Button Action="Ellipse"/>
+		<mwc:Button Action="Spline"/>
+	</mwc:ToolBar>
+
+	<mwc:ToolBar Name="FeaturesToolbar" ButtonStyle="ImageOverLabel">
+		<mwc:Button Action="Extrusion"/>
+		<mwc:Button Action="Revolution"/>
+		<mwc:Button Action="Sweep"/>
+	</mwc:ToolBar>
+	
+</mwx:Mwx>

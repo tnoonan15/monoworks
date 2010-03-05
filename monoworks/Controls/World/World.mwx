@@ -14,7 +14,7 @@
 			
 	<mwb:UiAction Name="Export" IconName="export.png,MonoWorks.Controls" ToolTip="Export viewport to a file"/>
 		
-	<mwc:ToolBar Name="ViewToolbar" ButtonStyle="Image">
+	<mwc:ToolBar Name="FullViewToolbar" ButtonStyle="Image">
 		<mwc:Button Action="Standard View"/>
 		<mwc:Button Action="Front View"/>
 		<mwc:Button Action="Back View"/>
@@ -22,6 +22,14 @@
 		<mwc:Button Action="Right View"/>
 		<mwc:Button Action="Top View"/>
 		<mwc:Button Action="Bottom View"/>
+		<mwc:Button Action="Projection"/>
+	</mwc:ToolBar>
+		
+	<mwc:ToolBar Name="ShortViewToolbar" ButtonStyle="Image">
+		<mwc:Button Action="Standard View"/>
+		<mwc:Button Action="Front View"/>
+		<mwc:Button Action="Right View"/>
+		<mwc:Button Action="Top View"/>
 		<mwc:Button Action="Projection"/>
 	</mwc:ToolBar>
 		

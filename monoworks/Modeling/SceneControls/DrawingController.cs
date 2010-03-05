@@ -36,6 +36,8 @@ namespace MonoWorks.Modeling.SceneControls
 		public DrawingController(Scene scene)
 			: base(scene)
 		{
+			Mwx.Parse(ResourceHelper.GetStream("Drawing.mwx"));
+			
 			OnSolidModeChanged();
 
 			// get ready for sketching
@@ -50,9 +52,9 @@ namespace MonoWorks.Modeling.SceneControls
 			Scene.RenderList.AddOverlay(sketchAnchor);
 			
 			// load the default toolbars
-			Context(Side.N, "ViewToolbar");
+			Context(Side.N, "FullViewToolbar");
 			Context(Side.N, "ExportToolbar");
-			//			Context(Side.N, "Shading");
+			Context(Side.N, "ShadingToolbar");
 			OnProjectionChanged();
 			
 		}
@@ -68,40 +70,38 @@ namespace MonoWorks.Modeling.SceneControls
 		}
 
 
-
-#region Shading Actions
-
 		
-		protected readonly Dictionary<SolidMode, string> solidModeNames = new Dictionary<SolidMode, string>
-		{{SolidMode.None,"No Solid"}, {SolidMode.Flat,"Flat Shaded"}, {SolidMode.Smooth,"Smooth Shaded"}};
+		#region Shading Actions
+		
+		protected static readonly Dictionary<SolidMode, string> _solidModeNames = new Dictionary<SolidMode, string> {
+			{SolidMode.None,"No Solid"}, 
+			{SolidMode.Flat,"Flat Shaded"}, 
+			{SolidMode.Smooth,"Smooth Shaded"}
+		};
 		
 		
 		[ActionHandler("Wireframe")]
-		public void OnWireframe()
+		public void OnWireframe(object sender, EventArgs args)
 		{
-//			if (UiManager.HasToolbar("Shading"))
-//			{
-//				ToolBar toolbar = UiManager.GetToolbar("Shading");
-//				Scene.RenderManager.ShowWireframe = toolbar.GetButton("Wireframe").IsSelected;
-//			}
+			Scene.RenderManager.ShowWireframe = (sender as Button).IsSelected;
 		}
 
 		[ActionHandler("No Solid")]
-		public void OnNoSolid()
+		public void OnNoSolid(object sender, EventArgs args)
 		{
 			Scene.RenderManager.SolidMode = SolidMode.None;
 			OnSolidModeChanged();
 		}
 
 		[ActionHandler("Flat Shaded")]
-		public void OnFlatShaded()
+		public void OnFlatShaded(object sender, EventArgs args)
 		{
 			Scene.RenderManager.SolidMode = SolidMode.Flat;
 			OnSolidModeChanged();
 		}
 
 		[ActionHandler("Smooth Shaded")]
-		public void OnSmoothShaded()
+		public void OnSmoothShaded(object sender, EventArgs args)
 		{
 			Scene.RenderManager.SolidMode = SolidMode.Smooth;
 			OnSolidModeChanged();
@@ -112,24 +112,24 @@ namespace MonoWorks.Modeling.SceneControls
 		/// </summary>
 		public void OnSolidModeChanged()
 		{
-//			if (UiManager.HasToolbar("Shading"))
-//			{
-//				ToolBar toolbar = UiManager.GetToolbar("Shading");
-//				string solidString = solidModeNames[Scene.RenderManager.SolidMode];
-//				foreach (Button button in toolbar)
-//				{
-//					if (button.LabelString == solidString)
-//						button.IsSelected = true;
-//					else if (button.LabelString != "Wireframe") // don't touch the wireframe button
-//						button.IsSelected = false;
-//				}
-//			}
+			var shadingToolbar = Mwx.Get<ToolBar>("ShadingToolbar");
+			if (shadingToolbar != null)
+			{
+				string solidString = _solidModeNames[Scene.RenderManager.SolidMode];
+				foreach (Button button in shadingToolbar)
+				{
+					if (button.LabelString == solidString)
+						button.IsSelected = true;
+					else if (button.LabelString != "Wireframe") // don't touch the wireframe button
+						button.IsSelected = false;
+				}
+			}
 		}
+		
+		#endregion
 
-#endregion
-
-
-#region Context Management
+		
+		#region Context Management
 
 		/// <summary>
 		/// The location of the primary toolbar.
@@ -179,9 +179,9 @@ namespace MonoWorks.Modeling.SceneControls
 			{
 //				attributePanel.Hide();
 				if (IsSketching)
-					AddPrimaryContext("Sketch");
+					AddPrimaryContext("SketchToolbar");
 				else
-					AddPrimaryContext("AddRef");
+					AddPrimaryContext("AddRefToolbar");
 			}
 			else // something selected
 			{
@@ -191,16 +191,16 @@ namespace MonoWorks.Modeling.SceneControls
 
 					// add sketch context if it's a plane
 					if (entity is RefPlane && !IsSketching)
-						AddPrimaryContext("AddSketch");
+						AddPrimaryContext("AddSketchToolbar");
 					else if (entity is Sketch)
 					{
-						AddPrimaryContext("EditSketch");
-						AddPrimaryContext("Features");
+						AddPrimaryContext("EditSketchToolbar");
+						AddPrimaryContext("FeaturesToolbar");
 					}
 					else if (!entity.IsLocked) // only edit if it's not locked
 					{
-						AddPrimaryContext("Edit");
-						AddPrimaryContext("Delete");
+						AddPrimaryContext("EditToolbar");
+						AddPrimaryContext("DeleteToolbar");
 					}
 				}
 				else // multiple entities selected
@@ -214,8 +214,8 @@ namespace MonoWorks.Modeling.SceneControls
 
 			Scene.Paint();
 		}
-
-#endregion
+		
+		#endregion
 
 
 #region References
