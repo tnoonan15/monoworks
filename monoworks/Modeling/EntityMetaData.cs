@@ -51,17 +51,6 @@ namespace MonoWorks.Modeling
 			}
 		}
 				
-		
-		private string name;
-		/// <value>
-		/// The attribute's name.
-		/// </value>
-		public string Name
-		{
-			get { return name; }
-		}
-		
-		
 				
 		#region Children
 		
