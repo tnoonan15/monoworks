@@ -484,6 +484,11 @@ namespace MonoWorks.Controls
 				Decorate(control as ProgressDial);
 				return;
 			}
+			if (control is TreeItem)
+			{
+				Decorate(control as TreeItem);
+				return;
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -728,6 +733,18 @@ namespace MonoWorks.Controls
 			
 			
 			Context.Pop();
+		}
+
+		protected virtual void Decorate(TreeItem item)
+		{
+			if (item.IsHovering)
+			{
+				StrokeRectangle(Coord.Zeros, item.RenderSize, AllCorners, item.HitState);
+				if (item.IsSelected)
+				{					
+					FillRectangle(Coord.Zeros, item.RenderSize, AllCorners, FillType.Background, item.HitState, AnchorLocation.S);	
+				}
+			}
 		}
 				
 		#endregion

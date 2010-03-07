@@ -30,11 +30,37 @@ using MonoWorks.Rendering.Events;
 namespace MonoWorks.Controls
 {
 	/// <summary>
-	/// A hierarchical view of items. Each item has text and possibly an icon.
+	/// Interface for tree views since the base class is generic.
 	/// </summary>
-	public class TreeView : GenericContainer<TreeItem>
+	public interface ITreeView
 	{
-		public TreeView()
+		/// <summary>
+		/// Icon list used to store the icons used for the tree items.
+		/// </summary>
+		IconList IconList { get; }
+		
+		/// <summary>
+		/// Font size for rendering tree items.
+		/// </summary>
+		double FontSize { get; }
+		
+		/// <summary>
+		/// The indentation for each depth level.
+		/// </summary>
+		double Indent { get; }
+		
+		/// <summary>
+		/// Select the given item.
+		/// </summary>
+		void Select(object sender, TreeItem item);
+	}
+	
+	/// <summary>
+	/// A generic hierarchical view of items. Each item has text and possibly an icon.
+	/// </summary>
+	public class GenericTreeView<T> : GenericContainer<T>, ITreeView where T : TreeItem
+	{
+		public GenericTreeView()
 		{
 			IconList = new IconList();
 			_fontSize = 12;
@@ -55,8 +81,8 @@ namespace MonoWorks.Controls
 				child.Parent = this;
 				IconList = child as IconList;
 			}
-			else if (child is TreeItem)
-				AddChild(child as TreeItem);
+			else if (child is T)
+				AddChild(child as T);
 			else
 				throw new Exception("Don't know what to do with TreeView children of type " + child.GetType());
 		}
@@ -185,6 +211,14 @@ namespace MonoWorks.Controls
 		
 	}
 	
+	
+	/// <summary>
+	/// GenericTreeView that handles TreeItems.
+	/// </summary>
+	public class TreeView : GenericTreeView<TreeItem>
+	{
+		
+	}
 	
 }
 

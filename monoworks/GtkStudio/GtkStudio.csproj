@@ -29,11 +29,6 @@
     <OutputPath>bin\Debug</OutputPath>
     <WarningLevel>3</WarningLevel>
     <AssemblyName>MonoWorks.GtkStudio</AssemblyName>
-    <CustomCommands>
-      <CustomCommands>
-        <Command type="AfterBuild" command="cp ${SolutionDir}/extbin/FreeSans.ttf FreeSans.ttf" workingdir="${TargetDir}" />
-      </CustomCommands>
-    </CustomCommands>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

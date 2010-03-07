@@ -37,13 +37,16 @@ namespace MonoWorks.Modeling
 		{
 			Camera.SetViewDirection(ViewDirection.Standard);
 			
-			new DrawingController(this);
+			_controller = new DrawingController(this);
 		}
 				
 		public DrawingScene(Viewport viewport, Drawing drawing) : this(viewport)
 		{
 			Drawing = drawing;
 		}
+		
+		
+		private DrawingController _controller;
 		
 		private Drawing _drawing;
 		/// <summary>
@@ -61,6 +64,8 @@ namespace MonoWorks.Modeling
 				_drawing.AttributeUpdated += OnDrawingAttributeUpdated;
 				PrimaryInteractor = new DrawingInteractor(this, Drawing);
 				UpdateName();
+				
+				_controller.ReloadTree();
 			}
 		}
 

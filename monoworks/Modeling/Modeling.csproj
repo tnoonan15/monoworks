@@ -110,6 +110,8 @@
     <Compile Include="DrawingScene.cs" />
     <Compile Include="Tests\DrawingTests.cs" />
     <Compile Include="PartMember.cs" />
+    <Compile Include="EntityTreeView.cs" />
+    <Compile Include="EntityTreeItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultModelingOptions.xml" />
@@ -135,6 +137,18 @@
     <EmbeddedResource Include="SceneControls\icons\dialog-cancel.png" />
     <EmbeddedResource Include="SceneControls\icons\dialog-ok.png" />
     <EmbeddedResource Include="SceneControls\Drawing.mwx" />
+    <EmbeddedResource Include="Icons\tree-arc.png" />
+    <EmbeddedResource Include="Icons\tree-assembly.png" />
+    <EmbeddedResource Include="Icons\tree-extrusion.png" />
+    <EmbeddedResource Include="Icons\tree-line.png" />
+    <EmbeddedResource Include="Icons\tree-part.png" />
+    <EmbeddedResource Include="Icons\tree-rectangle.png" />
+    <EmbeddedResource Include="Icons\tree-refline.png" />
+    <EmbeddedResource Include="Icons\tree-refplane.png" />
+    <EmbeddedResource Include="Icons\tree-revolution.png" />
+    <EmbeddedResource Include="Icons\tree-sketch.png" />
+    <EmbeddedResource Include="Icons\tree-spline.png" />
+    <EmbeddedResource Include="Icons\tree-sweep.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -173,5 +187,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Tests\" />
+    <Folder Include="Icons\" />
   </ItemGroup>
 </Project>

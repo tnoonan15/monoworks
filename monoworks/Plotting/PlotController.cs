@@ -23,7 +23,7 @@ using MonoWorks.Controls.World;
 
 namespace MonoWorks.Plotting
 {
-	public class PlotController : WorldController
+	public class PlotController : WorldController<Scene>
 	{
 
 		public PlotController(Scene scene)

@@ -31,9 +31,9 @@ namespace MonoWorks.Modeling.SceneControls
 	/// <summary>
 	/// Controller for a Model Scene.
 	/// </summary>
-	public class DrawingController : WorldController
+	public class DrawingController : WorldController<DrawingScene>
 	{
-		public DrawingController(Scene scene)
+		public DrawingController(DrawingScene scene)
 			: base(scene)
 		{
 			Mwx.Parse(ResourceHelper.GetStream("Drawing.mwx"));
@@ -57,8 +57,10 @@ namespace MonoWorks.Modeling.SceneControls
 			Context(Side.N, "ShadingToolbar");
 			OnProjectionChanged();
 			
+			// load the tree view
+			_treeView = Mwx.Get<EntityTreeView>("TreeView");
+			Context(Side.W, "TreeView");
 		}
-
 
 
 		/// <summary>
@@ -217,6 +219,22 @@ namespace MonoWorks.Modeling.SceneControls
 		
 		#endregion
 
+		
+		#region Tree
+
+		private EntityTreeView _treeView;
+		
+		/// <summary>
+		/// Reloads the tree based on the current drawing. 
+		/// </summary>
+		public void ReloadTree()
+		{
+			_treeView.Drawing = Scene.Drawing;
+		}
+		
+		
+		#endregion
+		
 
 #region References
 
