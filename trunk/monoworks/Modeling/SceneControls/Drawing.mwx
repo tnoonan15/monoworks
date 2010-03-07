@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <mwx:Mwx xmlns:mwx="http://monoworksproject.org/mwx" 
 		xmlns:mwb="http://monoworksproject.org/mwx/Base"
-		xmlns:mwc="http://monoworksproject.org/mwx/Controls">
+		xmlns:mwc="http://monoworksproject.org/mwx/Controls"
+		xmlns:mwm="http://monoworksproject.org/mwx/Modeling">
 
 
 	<mwb:UiAction Name="Wireframe" IconName="wireframe.png,MonoWorks.Modeling" ToolTip="Render only the wireframe" IsTogglable="true"/>
@@ -71,5 +72,7 @@
 		<mwc:Button Action="Revolution"/>
 		<mwc:Button Action="Sweep"/>
 	</mwc:ToolBar>
+	
+	<mwm:EntityTreeView Name="TreeView"></mwm:EntityTreeView>
 	
 </mwx:Mwx>

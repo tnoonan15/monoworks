@@ -29,13 +29,13 @@ namespace MonoWorks.Controls.World
     /// <summary>
     /// Implements a controller for a "standard" scene.
     /// </summary>
-    public class WorldController : AbstractController<Scene>
+    public class WorldController<SceneType> : AbstractController<SceneType> where SceneType : Scene
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="scene">The scene that this controller controls.</param>
-        public WorldController(Scene scene)
+        public WorldController(SceneType scene)
             : base(scene)
         {
         	Scene.Camera.ProjectionChanged += ExternalProjectionChanged;

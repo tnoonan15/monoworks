@@ -96,15 +96,15 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The tree view this item belongs to.
 		/// </summary>
-		public TreeView TreeView
+		public ITreeView TreeView
 		{
 			get {
 				if (Parent != null)
 				{
 					if (Parent is TreeItem)
 						return (Parent as TreeItem).TreeView;
-					else if (Parent is TreeView)
-						return Parent as TreeView;
+					else if (Parent is ITreeView)
+						return (ITreeView)Parent;
 					else
 						throw new Exception("Tree items should only be children of other tree items and tree views.");
 				}
@@ -202,18 +202,7 @@ namespace MonoWorks.Controls
 			base.Render(context);
 			
 			var point = context.Cairo.CurrentPoint;
-			
-			// highlighting
-			if (IsHovering || IsSelected)
-			{
-				context.Cairo.Save();
-				context.Cairo.Color = context.Decorator.GetColor(ColorType.HighlightStart, HitState).Cairo;
-				context.Cairo.Rectangle(point, RenderWidth, _myHeight);
-				context.Cairo.Fill();
-				context.Cairo.MoveTo(point);
-				context.Cairo.Restore();
-			}
-			
+						
 			// render the text
 			context.Cairo.MoveTo(point.X + Padding + _expandIconWidth, point.Y + Padding + context.Cairo.FontExtents.Height - 2);
 			if (_icon != null) {
@@ -287,6 +276,9 @@ namespace MonoWorks.Controls
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
+			
+			if (RenderSize == null || LastPosition == null)
+				return;
 			
 			IsHovering = evt.Pos >= LastPosition && evt.Pos.X <= (LastPosition.X + RenderWidth) && 
 				evt.Pos.Y - LastPosition.Y <= _myHeight;
