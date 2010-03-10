@@ -37,12 +37,15 @@ namespace MonoWorks.Controls
 		public TreeItem()
 		{
 			IsExpanded = true;
+			HoverOffset = new Coord();
+			HoverSize = new Coord();
+			Padding = 3;
 		}
 		
 		
 		static TreeItem()
 		{
-			
+			// load the icons used by all items
 			_hiddenIcon = new Image(ResourceHelper.GetStream("tree-hidden.png"));
 			_expandedIcon = new Image(ResourceHelper.GetStream("tree-expanded.png"));
 		}
@@ -137,9 +140,14 @@ namespace MonoWorks.Controls
 		private Image _icon;
 		
 		/// <summary>
-		/// The height taken up by just this item (not its children) during the last render.
+		/// The size of the box to draw the hover rectangle around (doesn't include children).
 		/// </summary>
-		private double _myHeight;
+		public Coord HoverSize { get; private set; }
+		
+		/// <summary>
+		/// The origin of the box to draw the hover rectangle around.
+		/// </summary>
+		public Coord HoverOffset { get; private set; }
 		
 		public override void ComputeGeometry()
 		{
@@ -147,23 +155,24 @@ namespace MonoWorks.Controls
 			
 			if (TreeView == null)
 				return;
-		
 			var treeView = TreeView;
 			
 			// get the icon
 			if (IconName != null)
-				_icon = treeView.IconList[IconName];
+				_icon = treeView.IconList.Get(IconName);
 			if (_icon != null)
 			{
 				if (_icon.IsDirty)
 					_icon.ComputeGeometry();
 				MinSize.X = _icon.RenderWidth + Padding + _expandIconWidth;
-				MinSize.Y = _icon.RenderHeight;
+				MinSize.Y = _icon.RenderHeight + 2 * Padding;
+				HoverSize.X = _icon.RenderWidth + Padding;
 			}
 			else
 			{
 				MinSize.X = _expandIconWidth;
 				MinSize.Y = 0;
+				HoverSize.X = 0;
 			}
 			
 			// compute the text extents
@@ -172,10 +181,12 @@ namespace MonoWorks.Controls
 				var extents = cr.TextExtents(Text);
 				MinSize.X += extents.Width + 2 * Padding;
 				MinSize.Y = Math.Max(MinSize.Y, extents.Height + 2 * Padding);
+				HoverSize.X += extents.Width + 2 * Padding;
 			}
 			
-			// store my height
-			_myHeight = MinSize.Y;
+			// store hover information
+			HoverOffset.X = _expandIconWidth - Padding;
+			HoverSize.Y = MinSize.Y + Padding;
 			
 			// compute size of children
 			if (IsExpanded)
@@ -183,6 +194,7 @@ namespace MonoWorks.Controls
 				var indent = treeView.Indent;
 				foreach (var child in Children)
 				{
+					MinSize.Y += Padding;
 					child.Origin.X = indent;
 					child.Origin.Y = MinSize.Y;
 					MinSize.Y += child.RenderHeight;
@@ -202,14 +214,15 @@ namespace MonoWorks.Controls
 			base.Render(context);
 			
 			var point = context.Cairo.CurrentPoint;
-						
+			
 			// render the text
 			context.Cairo.MoveTo(point.X + Padding + _expandIconWidth, point.Y + Padding + context.Cairo.FontExtents.Height - 2);
 			if (_icon != null) {
-				context.Cairo.RelMoveTo(_icon.RenderWidth + Padding, context.Cairo.FontExtents.Height - _icon.RenderHeight);
+				context.Cairo.RelMoveTo(_icon.RenderWidth + Padding, _icon.RenderHeight - context.Cairo.FontExtents.Height);
 			}
 			context.Cairo.ShowText(Text);
 			context.Cairo.MoveTo(point);
+			context.Cairo.RelMoveTo(0, Padding);
 			
 			// render the expand icon, if applicable
 			if (NumChildren > 0)
@@ -251,7 +264,7 @@ namespace MonoWorks.Controls
 				return;
 			
 			// whether it hit me and not my children
-			var hitMe = evt.Pos.Y - LastPosition.Y <= _myHeight;
+			var hitMe = evt.Pos.Y - LastPosition.Y <= HoverSize.Y;
 			
 			if (evt.Button == 1)
 			{
@@ -281,7 +294,7 @@ namespace MonoWorks.Controls
 				return;
 			
 			IsHovering = evt.Pos >= LastPosition && evt.Pos.X <= (LastPosition.X + RenderWidth) && 
-				evt.Pos.Y - LastPosition.Y <= _myHeight;
+				evt.Pos.Y - LastPosition.Y <= HoverSize.Y;
 			QueuePaneRender();
 		}
 

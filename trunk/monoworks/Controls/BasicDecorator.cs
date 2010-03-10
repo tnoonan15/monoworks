@@ -737,12 +737,12 @@ namespace MonoWorks.Controls
 
 		protected virtual void Decorate(TreeItem item)
 		{
-			if (item.IsHovering)
+			if (item.IsHovering || item.IsSelected)
 			{
-				StrokeRectangle(Coord.Zeros, item.RenderSize, AllCorners, item.HitState);
+				StrokeRectangle(item.HoverOffset, item.HoverSize, AllCorners, item.HitState);
 				if (item.IsSelected)
-				{					
-					FillRectangle(Coord.Zeros, item.RenderSize, AllCorners, FillType.Background, item.HitState, AnchorLocation.S);	
+				{
+					FillRectangle(item.HoverOffset, item.HoverSize, AllCorners, FillType.Background, item.HitState, AnchorLocation.S);	
 				}
 			}
 		}

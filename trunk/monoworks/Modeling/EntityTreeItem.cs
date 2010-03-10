@@ -60,6 +60,7 @@ namespace MonoWorks.Modeling
 		public void Refresh()
 		{
 			Text = Entity.Name;
+			IconName = Entity.ClassName.ToLower();
 			Clear();
 			foreach (var child in Entity.Children)
 			{
