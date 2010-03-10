@@ -21,7 +21,9 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Reflection;
 
+using MonoWorks.Base;
 using MonoWorks.Controls;
 
 namespace MonoWorks.Modeling
@@ -33,6 +35,18 @@ namespace MonoWorks.Modeling
 	{
 		public EntityTreeView()
 		{
+			// populate the icon list
+			var asm = System.Reflection.Assembly.GetExecutingAssembly();
+			var iconPrefix = "MonoWorks.Modeling.Icons.tree-";
+			foreach (var name in asm.GetManifestResourceNames())
+			{
+				if (name.StartsWith(iconPrefix))
+				{
+					var iconName = name.Remove(0, iconPrefix.Length);
+					iconName = iconName.Split('.')[0];
+					IconList.Add(iconName, new Image(asm.GetManifestResourceStream(name)));
+				}
+			}
 		}
 		
 		private Drawing _drawing;

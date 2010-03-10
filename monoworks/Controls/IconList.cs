@@ -86,6 +86,17 @@ namespace MonoWorks.Controls
 			return children;
 		}
 		
+		/// <summary>
+		/// Gets the icon with the given name, or null if the name isn't present in the list.
+		/// </summary>
+		public Image Get(string name)
+		{
+			Image icon = null;
+			if (TryGetValue(name, out icon))
+				return icon;
+			return null;
+		}
+		
 	}
 	
 	/// <summary>
