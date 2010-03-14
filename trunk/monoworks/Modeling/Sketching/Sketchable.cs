@@ -110,7 +110,7 @@ namespace MonoWorks.Modeling.Sketching
 			scene.RenderManager.Lighting.Disable();
 
 			// edges
-			ModelingOptions.Global.GetColor("sketchable", hitState).Setup();
+			ModelingOptions.Global.GetColor("sketchable", HitState).Setup();
 			gl.glLineWidth(2);
 			gl.glBegin(gl.GL_LINE_STRIP);
 			DrawEdges();

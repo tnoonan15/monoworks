@@ -170,7 +170,7 @@ namespace MonoWorks.Rendering
 		
 		#region Hit Test and selection
 
-		protected HitState hitState = HitState.None;
+		private HitState _hitState = HitState.None;
 		
 		/// <summary>
 		/// Gets raised when the hit state of teh renderable changes.
@@ -182,17 +182,26 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public HitState HitState 
 		{
-			get {return hitState;}
+			get {return _hitState;}
 		}		
 		
+		/// <summary>
+		/// Forcably sets the hit state.
+		/// </summary>
+		/// <remarks>This should only be done if you know what you're doing.
+		/// Otherwise, use IsHovering, IsSelected, etc.</remarks>
+		public virtual void SetHitState(object sender, HitState newVal)
+		{
+			_hitState = newVal;
+		}
 		
 		/// <summary>
 		/// Gets called whenever the hit state of the renderable changes.
 		/// </summary>
-		protected virtual void OnHitStateChanged(HitState oldVal)
+		private void OnHitStateChanged(object sender, HitState oldVal)
 		{
-			if (HitStateChanged != null)
-				HitStateChanged(this, oldVal);
+			if (HitStateChanged != null && oldVal != HitState)
+				HitStateChanged(sender, new HitStateChangedEvent(oldVal, HitState, this));
 		}
 
 		/// <value>
@@ -200,15 +209,15 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public virtual bool IsHovering
 		{
-			get {return hitState.IsHovering();}
+			get {return _hitState.IsHovering();}
 			set
 			{
-				var oldVal = hitState;
+				var oldVal = _hitState;
 				if (value)
-					hitState |= HitState.Hovering;
+					_hitState |= HitState.Hovering;
 				else
-					hitState &= ~HitState.Hovering;
-				OnHitStateChanged(oldVal);
+					_hitState &= ~HitState.Hovering;
+				OnHitStateChanged(this, oldVal);
 			}
 		}
 		
@@ -217,15 +226,15 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public bool IsSelected
 		{
-			get {return hitState.IsSelected();}
+			get { return _hitState.IsSelected(); }
 			set
 			{
-				var oldVal = hitState;
+				var oldVal = _hitState;
 				if (value)
-					hitState |= HitState.Selected;
+					_hitState |= HitState.Selected;
 				else
-					hitState &= ~HitState.Selected;
-				OnHitStateChanged(oldVal);
+					_hitState &= ~HitState.Selected;
+				OnHitStateChanged(this, oldVal);
 			}
 		}
 		
@@ -259,15 +268,15 @@ namespace MonoWorks.Rendering
 		/// <remarks>Doesn't generally have much meaning, but it's used for specific things like controls.</remarks>
 		public bool IsFocused
 		{
-			get {return hitState.IsFocused();}
+			get { return _hitState.IsFocused(); }
 			set
 			{
-				var oldVal = hitState;
+				var oldVal = _hitState;
 				if (value)
-					hitState |= HitState.Focused;
+					_hitState |= HitState.Focused;
 				else
-					hitState &= ~HitState.Focused;
-				OnHitStateChanged(oldVal);
+					_hitState &= ~HitState.Focused;
+				OnHitStateChanged(this, oldVal);
 			}
 		}
 		

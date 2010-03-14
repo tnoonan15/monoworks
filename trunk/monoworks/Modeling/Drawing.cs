@@ -92,7 +92,14 @@ namespace MonoWorks.Modeling
 		/// </summary>
 		public EntityManager EntityManager {get; private set; }
 
-
+		
+		public override Drawing ParentDrawing
+		{
+			get { 
+				return this;
+			}
+		}
+		
 		
 		#region File I/O
 				

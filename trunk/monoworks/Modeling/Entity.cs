@@ -77,7 +77,6 @@ namespace MonoWorks.Modeling
 			IsDirty = false;
 			bounds = new Bounds();
 			_children = new List<Entity>();
-			dependencies = new List<Entity>();
 			
 			// initialize momentos
 			momentos = new List<Momento>();
@@ -136,16 +135,15 @@ namespace MonoWorks.Modeling
 					
 		#region The Drawing
 		
-//		protected Drawing drawing;
-//		
-//		/// <value>
-//		/// Returns the drawing this entity belongs to.
-//		/// </value>
-//		public virtual Drawing TheDrawing
-//		{
-//			get {return drawing;}
-//			set { drawing = value; }
-//		}
+		/// <value>
+		/// Returns the drawing this entity belongs to.
+		/// </value>
+		public virtual Drawing ParentDrawing
+		{
+			get {
+				return ParentEntity.ParentDrawing;
+			}
+		}
 				
 		#endregion
 			
@@ -468,42 +466,6 @@ namespace MonoWorks.Modeling
 		}
 				
 		#endregion
-		
-		
-		#region Dependencies
-		
-		protected List<Entity> dependencies;			
-	
-		/// <summary>
-		/// AddChild a dependency.
-		/// </summary>
-		/// <param name="child"> An <see cref="Entity"/> to add as a dependency. </param>
-		protected virtual void AddDependency(Entity child)
-		{
-			dependencies.Add(child);
-		}
-		
-		/// <summary>
-		/// Removes the child from the entity's dependency list.
-		/// </summary>
-		/// <param name="child"> The <see cref="Entity"/> to remove. </param>
-		protected virtual void RemoveDependency(Entity child)
-		{
-			dependencies.Remove(child);
-		}
-		
-		
-		/// <summary>
-		/// Adds an entity as a child and dependencty.
-		/// </summary>
-		/// <param name="child"> A <see cref="Entity"/> that's a child and dependency. </param>
-		protected virtual void AddDependantChild(Entity child)
-		{
-			AddChild(child);
-			AddDependency(child);
-		}
-				
-		#endregion
 				
 				
 		#region Rendering			
@@ -617,40 +579,6 @@ namespace MonoWorks.Modeling
 		
 		#endregion
 		
-		
-		#region File I/O
-
-		/// <summary>
-		/// Recursively writes the entity and all of its children to an XML file.
-		/// </summary>
-		/// <param name="writer"></param>
-		public virtual void ToXml(XmlWriter writer)
-		{
-			writer.WriteStartElement(ClassName);
-
-			writer.WriteAttributeString("id", id.ToString());
-
-			// write the attributes
-			foreach (var attribute in MetaData.Attributes)
-			{
-				object attrObject = this[attribute.Name];
-		//				if (attribute.IsEntity)
-		//					writer.WriteAttributeString(attribute.Name, (attrObject as Entity).Id.ToString());
-		//				else 
-				if (attrObject is IList)
-					writer.WriteAttributeString(attribute.Name, (attrObject as IList).ListString());
-				else
-					writer.WriteAttributeString(attribute.Name, attrObject.ToString());
-			}
-
-			// write the children
-			foreach (Entity child in _children)
-				child.ToXml(writer);
-
-			writer.WriteEndElement();
-		}
-		
-		#endregion
 
 	}
 }

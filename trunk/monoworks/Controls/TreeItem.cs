@@ -181,7 +181,7 @@ namespace MonoWorks.Controls
 				var extents = cr.TextExtents(Text);
 				MinSize.X += extents.Width + 2 * Padding;
 				MinSize.Y = Math.Max(MinSize.Y, extents.Height + 2 * Padding);
-				HoverSize.X += extents.Width + 2 * Padding;
+				HoverSize.X += extents.Width + 3 * Padding;
 			}
 			
 			// store hover information
