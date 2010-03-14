@@ -22,6 +22,7 @@
 
 using System;
 
+using MonoWorks.Rendering;
 using MonoWorks.Controls;
 
 namespace MonoWorks.Modeling
@@ -33,6 +34,7 @@ namespace MonoWorks.Modeling
 	{
 		public EntityTreeItem()
 		{
+			HitStateChanged += OnHitStateChanged;
 		}
 		
 		public EntityTreeItem(Entity entity) : this()
@@ -50,7 +52,21 @@ namespace MonoWorks.Modeling
 			}
 			set {
 				_entity = value;
+				_entity.HitStateChanged += OnEntityHitStateChanged;
 				Refresh();
+			}
+		}
+
+		/// <summary>
+		/// Handles the entity's HitStateChanged event.
+		/// </summary>
+		private void OnEntityHitStateChanged(object sender, HitStateChangedEvent evt)
+		{
+			if (sender != this)
+			{
+				Console.WriteLine("{0} changed hitstate from {1} to {2} with sender {3}", 
+					Entity.Name, evt.OldValue, evt.NewValue, sender);
+				SetHitState(this, evt.NewValue);
 			}
 		}
 		
@@ -67,6 +83,17 @@ namespace MonoWorks.Modeling
 				AddChild(new EntityTreeItem(child));
 			}
 		}
+		
+		
+		private void OnHitStateChanged(object sender, HitStateChangedEvent evt)
+		{
+			Console.WriteLine("tree item for {0} changed from {1} to {2} with sender {3}", 
+				Entity.Name, evt.OldValue, evt.NewValue, sender);
+			
+			if (Entity != null && sender == this)
+				Entity.SetHitState(this, evt.NewValue);
+		}
+		
 	}
 }
 

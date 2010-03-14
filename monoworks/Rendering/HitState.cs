@@ -24,6 +24,8 @@
 using System;
 using System.Collections.Generic;
 
+using MonoWorks.Base;
+
 namespace MonoWorks.Rendering
 {
 
@@ -38,10 +40,26 @@ namespace MonoWorks.Rendering
 		Focused = 4
 	};
 	
+	
+	public class HitStateChangedEvent : ValueChangedEvent<HitState>
+	{
+		public HitStateChangedEvent(HitState oldVal, HitState newVal, Renderable renderable)
+			: base(oldVal, newVal)
+		{
+			Renderable = renderable;
+		}
+		
+		/// <summary>
+		/// The renderable whos hit state was changed.
+		/// </summary>
+		public Renderable Renderable { get; private set; }
+		
+	}
+	
 	/// <summary>
 	/// Delegate for handling hit state changed events.
 	/// </summary>
-	public delegate void HitStateChangedHandler(Renderable sender, HitState oldVal);
+	public delegate void HitStateChangedHandler(object sender, HitStateChangedEvent evt);
 	
 	/// <summary>
 	/// Extension methods for HitState.

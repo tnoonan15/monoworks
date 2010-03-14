@@ -27,30 +27,7 @@ using System.Runtime.InteropServices;
 
 
 namespace MonoWorks.Controls
-{
-
-	/// <summary>
-	/// An event that's used for a value changing.
-	/// </summary>
-	public class ValueChangedEvent<T> : EventArgs
-	{
-		public ValueChangedEvent(T oldVal, T newVal)
-		{
-			OldValue = oldVal;
-			NewValue = newVal;
-		}
-		
-		/// <summary>
-		/// The old value.
-		/// </summary>
-		public T OldValue { get; private set; }
-		
-		/// <summary>
-		/// The new value.
-		/// </summary>
-		public T NewValue { get; private set; }
-	}
-	
+{	
 	
 	/// <summary>
 	/// Handler for simple control events.
@@ -68,6 +45,8 @@ namespace MonoWorks.Controls
 			ToolTip = "";
 			
 			Origin = new Coord();
+			
+			HitStateChanged += OnHitStateChanged;
 		}
 
 		/// <value>
@@ -441,22 +420,22 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public override void OnKeyPress(KeyEvent evt)
 		{
-			
+		
 		}
 		
-		
-		protected override void OnHitStateChanged(HitState oldVal)
+		/// <summary>
+		/// Raises the FocusEnter and FocusLeave events based on the hit state changing.
+		/// </summary>
+		private void OnHitStateChanged(object sender, HitStateChangedEvent evt)
 		{
-			base.OnHitStateChanged(oldVal);
-			
 			var pane = Pane;
-			if (!oldVal.IsFocused() && IsFocused) // became focused
+			if (!evt.OldValue.IsFocused() && IsFocused) // became focused
 			{
 				if (pane != null)
 					pane.InFocus = this;
 				OnFocusEnter();
 			}
-			else if (oldVal.IsFocused() && !IsFocused) // lost focus
+			else if (evt.OldValue.IsFocused() && !IsFocused) // lost focus
 			{
 				if (pane != null)
 					pane.InFocus = null;

@@ -87,6 +87,7 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="MwxWriter.cs" />
     <Compile Include="MwxList.cs" />
+    <Compile Include="Events.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

@@ -54,18 +54,18 @@ namespace MonoWorks.Modeling
 			scene.RenderManager.Lighting.Disable();
 			base.RenderTransparent(scene);
 
-			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
+			Color fill = ModelingOptions.Global.GetColor("ref-fill", HitState);
 			if (!fill.IsOpaque)
 			{
 				fill.Setup();
 				RenderFill(scene);
 			}
 
-			Color edge = ModelingOptions.Global.GetColor("ref-edge", hitState);
+			Color edge = ModelingOptions.Global.GetColor("ref-edge", HitState);
 			if (!edge.IsOpaque)
 			{
 				edge.Setup();
-				if (hitState == HitState.None)
+				if (HitState == HitState.None)
 					gl.glLineWidth(1f);
 				else
 					gl.glLineWidth(2f);
@@ -84,18 +84,18 @@ namespace MonoWorks.Modeling
 			scene.RenderManager.Lighting.Disable();
 			base.RenderOpaque(scene);
 
-			Color fill = ModelingOptions.Global.GetColor("ref-fill", hitState);
+			Color fill = ModelingOptions.Global.GetColor("ref-fill", HitState);
 			if (fill.IsOpaque)
 			{
 				fill.Setup();
 				RenderFill(scene);
 			}
 
-			Color edge = ModelingOptions.Global.GetColor("ref-edge", hitState);
+			Color edge = ModelingOptions.Global.GetColor("ref-edge", HitState);
 			if (edge.IsOpaque)
 			{
 				edge.Setup();
-				if (hitState == HitState.None)
+				if (HitState == HitState.None)
 					gl.glLineWidth(1f);
 				else
 					gl.glLineWidth(2f);

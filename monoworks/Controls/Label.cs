@@ -59,6 +59,8 @@ namespace MonoWorks.Controls
 			Body = "";
 			FontSize = 12;
 			IsHoverable = true;
+			
+			HitStateChanged += OnHitStateChanged;
 		}
 		
 		/// <summary>
@@ -407,11 +409,9 @@ namespace MonoWorks.Controls
 			MakeDirty();
 		}
 		
-		protected override void OnHitStateChanged (HitState oldVal)
+		private void OnHitStateChanged(object sender, HitStateChangedEvent evt)
 		{
-			base.OnHitStateChanged(oldVal);
-			
-			if (oldVal.IsFocused() && !IsFocused) // lost focus
+			if (evt.OldValue.IsFocused() && !IsFocused) // lost focus
 			{
 				Cursor = null;
 				Anchor = null;
