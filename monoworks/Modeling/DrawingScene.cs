@@ -38,6 +38,8 @@ namespace MonoWorks.Modeling
 			Camera.SetViewDirection(ViewDirection.Standard);
 			
 			_controller = new DrawingController(this);
+			
+			EnableViewInteractor = true;
 		}
 				
 		public DrawingScene(Viewport viewport, Drawing drawing) : this(viewport)

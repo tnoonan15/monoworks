@@ -232,7 +232,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonPress(evt);
 
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			hitRegion = HitRegion(evt.Pos);
@@ -247,7 +247,7 @@ namespace MonoWorks.Controls
 
 				Select(hitRegion);
 
-				evt.Handle();
+				evt.Handle(this);
 				if (hitRegion == Region.Button1)
 					RaiseAction1();
 				else
@@ -271,7 +271,7 @@ namespace MonoWorks.Controls
 			if (hitRegion != Region.None)
 			{
 				hitRegion = Region.None;
-				evt.Handle();
+				evt.Handle(this);
 				MakeDirty();
 			}
 

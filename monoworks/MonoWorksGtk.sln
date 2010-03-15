@@ -118,6 +118,11 @@ Global
 		$6.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $7
 		$7.EventBraceStyle = NextLine
+		$7.PlaceElseOnNewLine = True
+		$7.PlaceElseIfOnNewLine = True
+		$7.PlaceCatchOnNewLine = True
+		$7.PlaceFinallyOnNewLine = True
+		$7.PlaceWhileOnNewLine = True
 		$7.BeforeMethodCallParentheses = False
 		$7.BeforeMethodDeclarationParentheses = False
 		$7.BeforeConstructorDeclarationParentheses = False

@@ -43,43 +43,43 @@ namespace MonoWorks.Plotting
 			base.OnButtonPress(evt);
 	
 			// handle double click
-			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double) 
+			if (!evt.IsHandled && evt.Multiplicity == ClickMultiplicity.Double)
 			{
-				if (_scene.Use2dInteraction) 
+				if (_scene.Use2dInteraction)
 				{
 					_scene.RenderList.ResetBounds();
 					_scene.Resize();
-					evt.Handle();
+					evt.Handle(this);
 				}
 			}
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 	
 			base.OnButtonRelease(evt);
 	
 
-			if (evt.Button == 1) 
+			if (evt.Button == 1)
 			{
 				// TODO: handle multiple hits with depth checking
 				Actor hitRend = null;
-				foreach (Actor rend in renderList.Actors) 
+				foreach (Actor rend in renderList.Actors)
 				{
 					rend.OnButtonRelease(evt);
-					if (evt.Handled)
+					if (evt.IsHandled)
 						hitRend = rend;
 				}
 				
 				// show the selection tooltip
-				if (hitRend != null) 
+				if (hitRend != null)
 				{
 					string description = hitRend.SelectionDescription;
 					if (description.Length > 0)
 						_scene.ToolTip = description;
-					evt.Handle();
+					evt.Handle(this);
 				} 
 				else
 					_scene.ClearToolTip();

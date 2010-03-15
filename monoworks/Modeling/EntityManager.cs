@@ -200,13 +200,13 @@ namespace MonoWorks.Modeling
 			Selected.Clear();
 			foreach (Entity entity in entityRegistry.Values)
 			{
-			        entity.Select();
-			        Selected.Add(entity);
+				entity.Select();
+				Selected.Add(entity);
 			}
 			foreach (ISelectionListener listener in selectionListeners)
 			{
-			        if (listener != sender)
-			                listener.OnSelectAll();
+				if (listener != sender)
+					listener.OnSelectAll();
 			}
 			RaiseSelectionChanged();
 		}

@@ -326,6 +326,11 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
+		/// Whether or not to send interaction events to the view interactor.
+		/// </summary>
+		public bool EnableViewInteractor { get; set; }
+
+		/// <summary>
 		/// Raised when the interaction state changes.
 		/// </summary>
 		public EventHandler InteractionStateChanged;
@@ -371,11 +376,24 @@ namespace MonoWorks.Rendering
 			evt.Scene = this;
 
 			OverlayInteractor.OnButtonPress(evt);
+			if (evt.IsHandled)
+			{
+				evt.Scene = parentScene;
+				return;
+			}
 			
 			if (PrimaryInteractor != null)
+			{
 				PrimaryInteractor.OnButtonPress(evt);
+				if (evt.IsHandled)
+				{
+					evt.Scene = parentScene;
+					return;
+				}
+			}
 			
-			ViewInteractor.OnButtonPress(evt);
+			if (EnableViewInteractor)
+				ViewInteractor.OnButtonPress(evt);
 			evt.Scene = parentScene;
 		}
 
@@ -386,11 +404,29 @@ namespace MonoWorks.Rendering
 			evt.Scene = this;
 			
 			OverlayInteractor.OnButtonRelease(evt);
+			if (evt.IsHandled)
+			{
+				if (EnableViewInteractor)
+					ViewInteractor.Cancel();
+				evt.Scene = parentScene;
+				Console.WriteLine("release event handled by {0}", evt.LastHandler);
+				return;
+			}
 			
 			if (PrimaryInteractor != null)
+			{
 				PrimaryInteractor.OnButtonRelease(evt);
-
-			ViewInteractor.OnButtonRelease(evt);
+				if (evt.IsHandled)
+				{
+					if (EnableViewInteractor)
+						ViewInteractor.Cancel();
+					evt.Scene = parentScene;
+					return;
+				}
+			}
+						
+			if (EnableViewInteractor)
+				ViewInteractor.OnButtonRelease(evt);
 			evt.Scene = parentScene;
 		}
 
@@ -401,11 +437,24 @@ namespace MonoWorks.Rendering
 			evt.Scene = this;
 			
 			OverlayInteractor.OnMouseMotion(evt);
+			if (evt.IsHandled)
+			{
+				evt.Scene = parentScene;
+				return;
+			}
 			
 			if (PrimaryInteractor != null)
+			{
 				PrimaryInteractor.OnMouseMotion(evt);
-
-			ViewInteractor.OnMouseMotion(evt);
+				if (evt.IsHandled)
+				{
+					evt.Scene = parentScene;
+					return;
+				}
+			}
+						
+			if (EnableViewInteractor)
+				ViewInteractor.OnMouseMotion(evt);
 			evt.Scene = parentScene;
 		}
 
@@ -466,7 +515,8 @@ namespace MonoWorks.Rendering
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnKeyPress(evt);
 			
-			ViewInteractor.OnKeyPress(evt);
+			if (EnableViewInteractor)
+				ViewInteractor.OnKeyPress(evt);
 		}
 
 		public virtual void OnKeyRelease(KeyEvent evt)
@@ -478,7 +528,8 @@ namespace MonoWorks.Rendering
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.OnKeyRelease(evt);
 			
-			ViewInteractor.OnKeyRelease(evt);
+			if (EnableViewInteractor)
+				ViewInteractor.OnKeyRelease(evt);
 		}
 
 		#endregion

@@ -64,8 +64,6 @@ namespace MonoWorks.Modeling
 		{
 			if (sender != this)
 			{
-				Console.WriteLine("{0} changed hitstate from {1} to {2} with sender {3}", 
-					Entity.Name, evt.OldValue, evt.NewValue, sender);
 				SetHitState(this, evt.NewValue);
 			}
 		}
@@ -86,10 +84,7 @@ namespace MonoWorks.Modeling
 		
 		
 		private void OnHitStateChanged(object sender, HitStateChangedEvent evt)
-		{
-			Console.WriteLine("tree item for {0} changed from {1} to {2} with sender {3}", 
-				Entity.Name, evt.OldValue, evt.NewValue, sender);
-			
+		{			
 			if (Entity != null && sender == this)
 				Entity.SetHitState(this, evt.NewValue);
 		}

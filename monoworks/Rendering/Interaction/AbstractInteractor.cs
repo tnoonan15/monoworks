@@ -83,6 +83,13 @@ namespace MonoWorks.Rendering.Interaction
 		/// Every interactor gets a rubber band to use as it pleases.
 		/// </summary>
 		protected RubberBand RubberBand { get; private set; }
+		
+		/// <summary>
+		/// Cancels the current interaction. 
+		/// </summary>
+		public virtual void Cancel()
+		{			
+		}
 
 		/// <summary>
 		/// Registers a button press event.

@@ -83,7 +83,7 @@ namespace MonoWorks.Controls
 
 			// catch hover even if the buttons didn't
 			if (HitTest(evt.Pos))
-				evt.Handle();
+				evt.Handle(this);
 		}
 
 

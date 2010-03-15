@@ -323,13 +323,13 @@ namespace MonoWorks.Controls
 			if (relPos >= IndicatorPosition && relPos <= IndicatorPosition + IndicatorSize)
 			{
 				_isDragging = true;
-				evt.Handle();
+				evt.Handle(this);
 				GrabFocus();
 			}
 			else if (HitTest(evt.Pos))
 			{
 				SetClosestValue(evt.Pos);
-				evt.Handle();
+				evt.Handle(this);
 				GrabFocus();
 			}
 		}
@@ -341,7 +341,7 @@ namespace MonoWorks.Controls
 			if (_isDragging)
 			{
 				_isDragging = false;
-				evt.Handle();
+				evt.Handle(this);
 			}
 		}
 
