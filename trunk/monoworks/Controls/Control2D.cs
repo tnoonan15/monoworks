@@ -172,6 +172,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// If not null, the layout system will attempt to use this size over the MinSize when computing RenderSize.
 		/// </value>
+		[MwxProperty]
 		public Coord UserSize {get; set;}
 		
 		/// <summary>

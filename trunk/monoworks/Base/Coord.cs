@@ -24,7 +24,7 @@ namespace MonoWorks.Base
 	/// <summary>
 	/// Stores a pair of coordinates (representing a position on the screen).
 	/// </summary>
-	public class Coord
+	public class Coord : IStringParsable
 	{
 		public Coord() : this(0,0)
 		{
@@ -66,6 +66,18 @@ namespace MonoWorks.Base
 		public override string ToString()
 		{
 			return String.Format("[{0}, {1}]", X, Y);
+		}
+
+		/// <summary>
+		/// Parses the coord from a string with format "x,y".
+		/// </summary>
+		public void Parse(string valString)
+		{
+			var comps = valString.Split(',');
+			if (comps.Length != 2)
+				throw new Exception("Value string for coord must have form x,y, unlike: " + valString);
+			X = double.Parse(comps[0]);
+			Y = double.Parse(comps[1]);
 		}
 		
 		/// <summary>
@@ -303,6 +315,7 @@ namespace MonoWorks.Base
 		}
 
 		#endregion
+		
 
 	}
 }
