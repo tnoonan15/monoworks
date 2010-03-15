@@ -36,4 +36,6 @@
 	<mwc:ToolBar Name="ExportToolbar" ButtonStyle="Image">
 		<mwc:Button Action="Export"/>
 	</mwc:ToolBar>
+	
+	<mwc:Label Name="WorldInfoLabel"></mwc:Label>
 </mwx:Mwx>

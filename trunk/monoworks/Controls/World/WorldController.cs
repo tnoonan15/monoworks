@@ -41,6 +41,8 @@ namespace MonoWorks.Controls.World
         	Scene.Camera.ProjectionChanged += ExternalProjectionChanged;
 
 			Mwx.Parse(ResourceHelper.GetStream("World.mwx"));
+   
+			_worldInfoLabel = Mwx.Get<Label>("WorldInfoLabel");
 
         	ContextLayer = new ContextLayer();
 			Scene.RenderList.AddOverlay(ContextLayer);
@@ -63,8 +65,44 @@ namespace MonoWorks.Controls.World
 				throw new Exception("Context " + name + " is not a control!");
 		}
 		
-#region View Direction Actions
 		
+		#region World Info
+		
+		private Label _worldInfoLabel;
+
+		private bool _showWorldInfo;
+		/// <summary>
+		/// Whether or not to show the world information in the bottom right corner. 
+		/// </summary>
+		public bool ShowWorldInfo {
+			set {
+				_showWorldInfo = value;
+				if (_showWorldInfo) {
+					ContextLayer.AnchorControl(_worldInfoLabel, AnchorLocation.SE);
+					Scene.Rendered += OnSceneRendered;
+				}
+				else
+				{
+					Scene.Rendered -= OnSceneRendered;
+				}
+			}
+		}
+
+		private DateTime _lastRenderTime = DateTime.Now;
+		
+		private void OnSceneRendered(object sender, SceneRenderEvent evt)
+		{
+			var now = DateTime.Now;
+			var dif = now - _lastRenderTime;
+			var frameRate = 1000 / dif.TotalMilliseconds;
+			_worldInfoLabel.Body = String.Format("{0} x {1} at {2:##.#} fps", Scene.Width, Scene.Height, frameRate);
+			_lastRenderTime = now;
+		}
+		
+		#endregion
+		
+				
+		#region View Direction Actions		
 		
 		[ActionHandler("Standard View")]
 		public void OnStandardView(object sender, EventArgs args)
@@ -115,11 +153,10 @@ namespace MonoWorks.Controls.World
 			Scene.Camera.AnimateTo(ViewDirection.Bottom);
 		}
 		
-#endregion
-
-
-#region Projection Actions
-
+		#endregion
+		
+		
+		#region Projection Actions
 
 		[ActionHandler("Projection")]
 		public void OnChangeProjection(object sender, EventArgs args)
@@ -148,11 +185,11 @@ namespace MonoWorks.Controls.World
 		{
 			OnProjectionChanged();
 		}
-
-#endregion
-
-
-#region Exporting
+		
+		#endregion
+		
+		
+		#region Exporting
 
 		/// <summary>
 		/// Exports the scene to a file, prompting the user for the file location.
@@ -162,8 +199,8 @@ namespace MonoWorks.Controls.World
 		{
 //			Scene.Export();
 		}
-
-#endregion
+		
+		#endregion
 
 	}
 }

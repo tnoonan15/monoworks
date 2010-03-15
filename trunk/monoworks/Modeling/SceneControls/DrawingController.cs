@@ -60,6 +60,8 @@ namespace MonoWorks.Modeling.SceneControls
 			// load the tree view
 			_treeView = Mwx.Get<EntityTreeView>("TreeView");
 			Context(Side.W, "TreeView");
+			
+			ShowWorldInfo = true;
 		}
 
 

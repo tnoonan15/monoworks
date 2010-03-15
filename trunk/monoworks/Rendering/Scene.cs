@@ -30,6 +30,21 @@ namespace MonoWorks.Rendering
 {	
 	
 	/// <summary>
+	/// Event for handling when a scene is about to render.
+	/// </summary>
+	public class SceneRenderEvent : Event
+	{
+		public SceneRenderEvent(Scene scene) : base(scene)
+		{
+		}		
+	}
+	
+	/// <summary>
+	/// Delegate for handling SceneRenderedEvents.
+	/// </summary>
+	public delegate void SceneRenderEventHandler(object sender, SceneRenderEvent evt);
+	
+	/// <summary>
 	/// Gets sent with a scene closing event. Lets the handler cancel the operation.
 	/// </summary>
 	public class SceneClosingEvent : Event
@@ -238,6 +253,10 @@ namespace MonoWorks.Rendering
 			Viewport.RemotePaint();
 		}
 		
+		/// <summary>
+		/// Gets raised when the scene is rendered (but before the actual rendering takes place).
+		/// </summary>
+		public event SceneRenderEventHandler Rendered;
 		
 		public virtual void Paint()
 		{
@@ -249,6 +268,9 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public virtual void RenderOverlay()
 		{
+			if (Rendered != null)
+				Rendered(this, new SceneRenderEvent(this));
+			
 			Camera.Setup();
 			Camera.PlaceOverlay();
 			
