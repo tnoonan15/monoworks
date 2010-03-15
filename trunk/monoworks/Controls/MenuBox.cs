@@ -237,7 +237,7 @@ namespace MonoWorks.Controls
 				return;
 
 			_justHit = true;
-			evt.Handle();
+			evt.Handle(this);
 			GrabFocus();
 			
 			if (IsCurrentEditable)
@@ -258,7 +258,7 @@ namespace MonoWorks.Controls
 			if (_justHit)
 			{
 				_justHit = false;
-				evt.Handle();
+				evt.Handle(this);
 			}
 		}
 

@@ -288,12 +288,12 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonPress(evt);
 			
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			if (HitTest(evt.Pos) && !justClicked)
 			{
-				evt.Handle();
+				evt.Handle(this);
 				justClicked = true;
 				IsSelected = true;
 				IsFocused = true;
@@ -312,7 +312,7 @@ namespace MonoWorks.Controls
 			if (justClicked)
 			{
 				justClicked = false;
-				evt.Handle();
+				evt.Handle(this);
 				QueuePaneRender();
 				Click();
 			}
@@ -350,7 +350,7 @@ namespace MonoWorks.Controls
 			
 			if (evt.SpecialKey == SpecialKey.Enter || evt.SpecialKey == SpecialKey.Space)
 			{
-				evt.Handle();
+				evt.Handle(this);
 				_justKeyActivated = true;
 				IsSelected = true;
 				IsFocused = true;

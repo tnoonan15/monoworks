@@ -49,21 +49,28 @@ namespace MonoWorks.Rendering.Events
 		/// </summary>
 		public Scene Scene { get; set; }
 		
-		private bool handled = false;
 		/// <value>
 		/// Whether the event has been handled.
 		/// </value>
-		public bool Handled
+		public bool IsHandled
 		{
-			get {return handled;}
+			get; 
+			private set;
 		}
+		
+		/// <summary>
+		/// The last object that handled this event.
+		/// </summary>
+		public Renderable LastHandler {get; private set;}
 		
 		/// <summary>
 		/// Marks the event as handled.
 		/// </summary>
-		public void Handle()
+		/// <param name="handler">The object responsible for handling the event.</param>
+		public void Handle(Renderable handler)
 		{
-			handled = true;	
+			IsHandled = true;
+			LastHandler = handler;
 		}
 		
 	}

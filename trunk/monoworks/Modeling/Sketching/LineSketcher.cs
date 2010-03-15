@@ -142,7 +142,7 @@ namespace MonoWorks.Modeling.Sketching
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			base.OnButtonPress(evt);
@@ -156,7 +156,7 @@ namespace MonoWorks.Modeling.Sketching
 				addingVertex = false;
 				Apply();
 				Sketchable.PointsUpdated();
-				evt.Handle();
+				evt.Handle(this);
 			}
 			else if (addingVertex) // add a vertex
 			{
@@ -167,7 +167,7 @@ namespace MonoWorks.Modeling.Sketching
 				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				point.SetPosition(intersect);
 				Sketchable.PointsUpdated();
-				evt.Handle();
+				evt.Handle(this);
 			}
 			else if (evt.Button == 1) // look for a hit
 			{
@@ -179,7 +179,7 @@ namespace MonoWorks.Modeling.Sketching
 					Apply();
 				else
 					isDragging = true;
-				evt.Handle();
+				evt.Handle(this);
 			}
 			Sketchable.MakeDirty();
 		}
@@ -192,13 +192,13 @@ namespace MonoWorks.Modeling.Sketching
 			if (isDragging)
 			{
 				isDragging = false;
-				evt.Handle();
+				evt.Handle(this);
 			}
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			base.OnMouseMotion(evt);
@@ -221,7 +221,7 @@ namespace MonoWorks.Modeling.Sketching
 						closePoint = null;
 				}
 				Sketchable.PointsUpdated();
-				evt.Handle();
+				evt.Handle(this);
 			}
 		}
 

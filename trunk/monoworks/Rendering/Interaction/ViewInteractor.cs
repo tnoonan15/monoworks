@@ -101,13 +101,21 @@ namespace MonoWorks.Rendering.Interaction
 		{
 			get
 			{
-                if (_scene.Use2dInteraction
+				if (_scene.Use2dInteraction
 					&& mouseType == InteractionType.Dolly)
-                    return InteractionType.Zoom;
-                else
+					return InteractionType.Zoom;
+				else
 					return mouseType;
 			}
 		}
+		
+		public override void Cancel()
+		{
+			base.Cancel();
+			
+			mouseType = InteractionType.None;
+		}
+
 		
 		/// <summary>
 		/// Gets set to true if an interaction has actually been performed during a mouse motion event.
@@ -125,23 +133,25 @@ namespace MonoWorks.Rendering.Interaction
 			// don't interact if modal overlays are present
 			if (_scene.RenderList.ModalCount > 0)
 				return;
+		
 
 			int key = GetKey(evt.Button, evt.Modifier);
 			if (mouseTypes.ContainsKey(key))
 				mouseType = mouseTypes[key];
 			else
 				mouseType = InteractionType.None;
+		
 
 			// TODO: make this work for rubber band selection
 			if (MouseType == InteractionType.Zoom)
 			{
 				RubberBand.Reset(evt.Pos);
 				RubberBand.Enabled = true;
-				evt.Handle();
+				evt.Handle(this);
 			}
 
 			// handle double click
-			if (!evt.Handled && evt.Multiplicity == ClickMultiplicity.Double)
+			if (!evt.IsHandled && evt.Multiplicity == ClickMultiplicity.Double)
 			{
 				if (_scene.Use2dInteraction)
 					_scene.Camera.AnimateTo(ViewDirection.Front);
@@ -187,7 +197,7 @@ namespace MonoWorks.Rendering.Interaction
 			{
 				mouseType = InteractionType.None;
 				if (interactionPerformed)
-					evt.Handle();
+					evt.Handle(this);
 				interactionPerformed = false;
 			}
 		}
@@ -198,7 +208,7 @@ namespace MonoWorks.Rendering.Interaction
 		/// <remarks>If no one handles the event, then OnMouseMotion(MouseEvent, Camera) is called.</remarks>
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			// don't interact if modal overlays are present

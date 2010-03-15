@@ -657,7 +657,7 @@ namespace MonoWorks.Plotting
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 			{
 				Deselect();
 				return;
@@ -669,7 +669,7 @@ namespace MonoWorks.Plotting
 				Deselect();
 			if (HitTest(evt.HitLine))
 			{
-				evt.Handle();
+				evt.Handle(this);
 			}
 		}
 

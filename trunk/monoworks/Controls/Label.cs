@@ -385,7 +385,7 @@ namespace MonoWorks.Controls
 			IsFocused = true;
 			_isDragging = true;
 			
-			evt.Handle();
+			evt.Handle(this);
 			
 			
 			MakeDirty();

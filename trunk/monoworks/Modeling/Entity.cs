@@ -350,8 +350,18 @@ namespace MonoWorks.Modeling
 		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
 		protected void RegisterEntity(Entity entity)
 		{
-//			TheDrawing.EntityManager.RegisterEntity(entity);
+			//			TheDrawing.EntityManager.RegisterEntity(entity);
 		}	
+		
+		
+		public override void Deselect()
+		{
+			base.Deselect();
+			
+			foreach (var child in _children)
+				child.Deselect();
+		}
+
 		
 		/// <value>
 		/// The parent of this entity.

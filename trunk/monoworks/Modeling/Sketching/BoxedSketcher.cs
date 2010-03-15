@@ -50,7 +50,7 @@ namespace MonoWorks.Modeling.Sketching
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			base.OnButtonPress(evt);
@@ -72,7 +72,7 @@ namespace MonoWorks.Modeling.Sketching
 				}
 				Sketchable.MakeDirty();
 				Sketchable.AnchorsUpdated();
-				evt.Handle();
+				evt.Handle(this);
 			}
 			else // not dragging anything, look for hit
 			{
@@ -123,7 +123,7 @@ namespace MonoWorks.Modeling.Sketching
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			base.OnMouseMotion(evt);
@@ -134,7 +134,7 @@ namespace MonoWorks.Modeling.Sketching
 				dragPoint.SetPosition(intersect);
 				Sketchable.MakeDirty();
 				Sketchable.AnchorsUpdated();
-				evt.Handle();
+				evt.Handle(this);
 			}
 		}
 

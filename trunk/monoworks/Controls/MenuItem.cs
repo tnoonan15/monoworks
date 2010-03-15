@@ -129,7 +129,7 @@ namespace MonoWorks.Controls
 			if (!HitTest(evt.Pos))
 				return;
 			
-			evt.Handle();
+			evt.Handle(this);
 			
 			if (ParentControl != null && ParentControl is Menu)
 				(ParentControl as Menu).ActivateItem(this);

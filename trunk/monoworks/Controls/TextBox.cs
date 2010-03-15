@@ -85,7 +85,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
-			evt.Handle();
+			evt.Handle(this);
 			MakeDirty();
 			
 			// look for special keys

@@ -369,14 +369,14 @@ namespace MonoWorks.Controls
 		
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			if (_isHoverable && !evt.Handled)
+			if (_isHoverable && !evt.IsHandled)
 			{
 				if (HitTest(evt.Pos)) // it's hovering now
 				{
 					if (!IsHovering) // it wasn't hovering already
 						OnEnter(evt);
 					IsHovering = true;
-					evt.Handle();
+					evt.Handle(this);
 				}
 				else // it's not hovering now
 				{

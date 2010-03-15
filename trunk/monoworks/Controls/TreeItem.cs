@@ -37,6 +37,7 @@ namespace MonoWorks.Controls
 		public TreeItem()
 		{
 			IsExpanded = true;
+			IsHoverable = true;
 			HoverOffset = new Coord();
 			HoverSize = new Coord();
 			Padding = 3;
@@ -256,6 +257,14 @@ namespace MonoWorks.Controls
 			IsExpanded = !IsExpanded;
 		}
 		
+		public override bool HitTest(Coord pos)
+		{
+			return pos >= LastPosition && pos.X <= (LastPosition.X + RenderWidth) && 
+				pos.Y - LastPosition.Y <= HoverSize.Y;
+		}
+
+		private bool _justSelected = false;
+		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
@@ -271,6 +280,7 @@ namespace MonoWorks.Controls
 				if (hitMe)
 				{
 					Select();
+					_justSelected = true;
 					QueuePaneRender();
 				}
 				
@@ -284,18 +294,17 @@ namespace MonoWorks.Controls
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
+			
+			if (_justSelected)
+			{
+				_justSelected = false;
+				evt.Handle(this);
+			}
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
-			
-			if (RenderSize == null || LastPosition == null)
-				return;
-			
-			IsHovering = evt.Pos >= LastPosition && evt.Pos.X <= (LastPosition.X + RenderWidth) && 
-				evt.Pos.Y - LastPosition.Y <= HoverSize.Y;
-			QueuePaneRender();
 		}
 
 		

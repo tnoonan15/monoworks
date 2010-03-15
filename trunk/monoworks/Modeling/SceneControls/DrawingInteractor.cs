@@ -53,7 +53,7 @@ namespace MonoWorks.Modeling.SceneControls
 		{
 			base.OnButtonRelease(evt);
 
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			if (sketcher != null)
@@ -66,7 +66,8 @@ namespace MonoWorks.Modeling.SceneControls
 				// deselect everything, if necessary
 				if (evt.Modifier != InteractionModifier.Shift)
 				{
-					drawing.EntityManager.DeselectAll(null);
+					//					drawing.EntityManager.DeselectAll(null);
+					drawing.Deselect();
 				}
 
 				// find which entity was hit
@@ -75,11 +76,13 @@ namespace MonoWorks.Modeling.SceneControls
 					hitEntity = HitEntity<Sketchable>(Sketch, evt);
 				else
 					hitEntity = HitEntity(evt);
-
+			
 				if (hitEntity != null)
 				{
-					drawing.EntityManager.Select(null, hitEntity);
-					evt.Handle();
+//					drawing.EntityManager.Select(null, hitEntity);
+					hitEntity.Select();
+					
+					evt.Handle(this);
 
 					if (hitEntity is Sketchable && IsSketching && Sketch.ContainsChild(hitEntity))
 						SetSketachable(hitEntity as Sketchable);
@@ -103,7 +106,7 @@ namespace MonoWorks.Modeling.SceneControls
 			if (sketcher != null)
 				sketcher.OnMouseMotion(evt);
 			
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			Entity hitEntity = null;
@@ -125,7 +128,7 @@ namespace MonoWorks.Modeling.SceneControls
 
 		public override void OnKeyPress(KeyEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			if (evt.SpecialKey == SpecialKey.Enter || evt.SpecialKey == SpecialKey.Escape)

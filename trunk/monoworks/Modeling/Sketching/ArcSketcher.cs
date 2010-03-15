@@ -60,7 +60,7 @@ namespace MonoWorks.Modeling.Sketching
 
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			if (evt.Handled)
+			if (evt.IsHandled)
 				return;
 
 			base.OnButtonPress(evt);
@@ -146,7 +146,7 @@ namespace MonoWorks.Modeling.Sketching
 			{
 				currentPoint = null;
 				Sketchable.MakeDirty();
-				evt.Handle();
+				evt.Handle(this);
 			}
 		}
 
@@ -158,7 +158,7 @@ namespace MonoWorks.Modeling.Sketching
 			{
 				Vector intersect = Sketch.Plane.GetIntersection(evt.HitLine);
 				currentPoint.SetPosition(intersect);
-				evt.Handle();
+				evt.Handle(this);
 
 				if (currentPoint != Sketchable.Center && currentPoint != Sketchable.Start)
 					UpdateRadius(evt.HitLine.Camera);

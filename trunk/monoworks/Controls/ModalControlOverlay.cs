@@ -116,7 +116,7 @@ namespace MonoWorks.Controls
 
 			_overlayPane.OnButtonPress(evt);
 			
-			if (CloseOnOutsideClick && !evt.Handled && !_overlayPane.Control.HitTest(evt.Pos))
+			if (CloseOnOutsideClick && !evt.IsHandled && !_overlayPane.Control.HitTest(evt.Pos))
 				Close();
 		}
 
