@@ -83,6 +83,8 @@ namespace MonoWorks.Modeling
 			workingMomento = DefaultMomento();
 			currentMomentoIndex = 0;
 			Snapshot();
+			
+			HitStateChanged += OnHitStateChanged;
 		}
 		
 		/// <value>
@@ -131,6 +133,15 @@ namespace MonoWorks.Modeling
 		/// Names of the primary dimensions.
 		/// </summary>
 		public readonly string[] DimensionNames = { "X", "Y", "Z" };
+
+		private void OnHitStateChanged(object sender, HitStateChangedEvent evt)
+		{
+			var parent = ParentDrawing;
+			if (parent != null && 
+				((evt.OldValue.IsSelected() && !evt.NewValue.IsSelected()) || 
+					(!evt.OldValue.IsSelected() && evt.NewValue.IsSelected())))
+				parent.OnSelectionChanged();
+		}
 
 					
 		#region The Drawing
@@ -341,18 +352,7 @@ namespace MonoWorks.Modeling
 			return from child in _children
 				   where child is T
 				   select child as T;
-		}
-
-		/// <summary>
-		/// Registers an entity with the entity manager.
-		/// The entity manager keeps a flat list of entities it contains that can be looked up by id.
-		/// </summary>
-		/// <param name="entity"> A <see cref="Entity"/> to add to the drawing. </param>
-		protected void RegisterEntity(Entity entity)
-		{
-			//			TheDrawing.EntityManager.RegisterEntity(entity);
-		}	
-		
+		}		
 		
 		public override void Deselect()
 		{
@@ -406,7 +406,6 @@ namespace MonoWorks.Modeling
 				RemoveChild(existing);
 			_children.Add(child);
 			child.Parent = this;
-			RegisterEntity(child);
 			MakeDirty();
 		}
 		
@@ -473,6 +472,21 @@ namespace MonoWorks.Modeling
 			if (kids.Count() == 1)
 				return kids.First();
 			return null;
+		}
+		
+		
+		public List<Entity> GetSelected()
+		{
+			var selected = new List<Entity>();
+			var mine = from child in Children
+				where child.IsSelected
+				select child;
+			selected.AddRange(mine);
+			foreach (var child in Children)
+			{
+				selected.AddRange(child.GetSelected());
+			}
+			return selected;
 		}
 				
 		#endregion

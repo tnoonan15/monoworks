@@ -31,6 +31,21 @@ using MonoWorks.Modeling.Sketching;
 
 namespace MonoWorks.Modeling
 {
+	/// <summary>
+	/// Event for a drawing value changing.
+	/// </summary>
+	public class DrawingChangedEvent : ValueChangedEvent<Drawing>
+	{
+		public DrawingChangedEvent(Scene scene, Drawing oldVal, Drawing newVal) 
+			: base(oldVal, newVal)
+		{			
+		}
+	}
+	
+	/// <summary>
+	/// Handler for drawing changed events.
+	/// </summary>
+	public delegate void DrawingChangedHandler(object sender, DrawingChangedEvent evt);
 	
 	/// <summary>
 	/// The Drawing entity represents the root entity for a drawing.
@@ -45,11 +60,7 @@ namespace MonoWorks.Modeling
 		/// Default constructor.
 		/// </summary>
 		public Drawing() : base()
-		{
-			EntityManager = new EntityManager(this);
-			
-			RegisterEntity(this);
-			
+		{						
 			ColorManager = new ColorManager();
 			
 			DocCounter++;
@@ -86,11 +97,6 @@ namespace MonoWorks.Modeling
 		/// The color manager for this drawing.
 		/// </value>
 		public ColorManager ColorManager { get; private set; }
-				
-		/// <summary>
-		/// Handles entity selection.
-		/// </summary>
-		public EntityManager EntityManager {get; private set; }
 
 		
 		public override Drawing ParentDrawing
@@ -223,8 +229,8 @@ namespace MonoWorks.Modeling
 		
 #endregion
 		
-		
-#region Children
+				
+		#region Children
 	
 		/// <summary>
 		/// Adds a sketch as a top-level entity.
@@ -284,8 +290,19 @@ namespace MonoWorks.Modeling
 			foreach (Entity ref_ in GetChildren<Reference>())
 				ref_.MakeDirty();
 		}
-			
-#endregion
+		
+		/// <summary>
+		/// Children should call this when their selection state changes.
+		/// </summary>
+		public void OnSelectionChanged()
+		{
+			if (SelectionChanged != null)
+				SelectionChanged(this, new EventArgs());
+		}
+		
+		public event EventHandler SelectionChanged;
+					
+		#endregion
 
 
 #region Default Reference Entities

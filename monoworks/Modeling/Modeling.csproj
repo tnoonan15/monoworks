@@ -78,7 +78,6 @@
     <Compile Include="Sketching\BoxedSketchable.cs" />
     <Compile Include="Drawing.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="EntityManager.cs" />
     <Compile Include="EntityMetaData.cs" />
     <Compile Include="Features\Extrusion.cs" />
     <Compile Include="Features\Feature.cs" />

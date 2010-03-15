@@ -62,6 +62,16 @@ namespace MonoWorks.Modeling.SceneControls
 			Context(Side.W, "TreeView");
 			
 			ShowWorldInfo = true;
+			
+			Scene.DrawingChanged += OnDrawingChanged;
+		}
+
+		/// <summary>
+		/// Handles the scene's drawing changing. 
+		/// </summary>
+		private void OnDrawingChanged(object sender, DrawingChangedEvent evt)
+		{
+			Scene.Drawing.SelectionChanged += OnSelectionChanged;
 		}
 
 
@@ -150,11 +160,6 @@ namespace MonoWorks.Modeling.SceneControls
 		}
 
 		/// <summary>
-		/// The last drawing to be used on the Scene.
-		/// </summary>
-		protected Drawing drawing = null;
-
-		/// <summary>
 		/// The last entity to be selected.
 		/// </summary>
 		protected Entity entity = null;
@@ -163,9 +168,8 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Handles the selection being changed, 
 		/// update the context toolbar.
 		/// </summary>
-		public void OnSelectionChanged(Drawing drawing)
+		private void OnSelectionChanged(object sender, EventArgs args)
 		{
-			this.drawing = drawing;
 			(Scene.PrimaryInteractor as DrawingInteractor).SketchableChanged += OnSketchableChanged;
 			OnContextChanged();
 		}
@@ -178,8 +182,10 @@ namespace MonoWorks.Modeling.SceneControls
 		{
 
 			ContextLayer.ClearContexts(primaryLoc);
+			
+			var selected = Scene.Drawing.GetSelected();
 
-			if (drawing.EntityManager.NumSelected == 0) // nothing selected
+			if (selected.Count == 0) // nothing selected
 			{
 //				attributePanel.Hide();
 				if (IsSketching)
@@ -189,9 +195,9 @@ namespace MonoWorks.Modeling.SceneControls
 			}
 			else // something selected
 			{
-				if (drawing.EntityManager.NumSelected == 1) // only one selected 
+				if (selected.Count == 1) // only one selected 
 				{
-					entity = drawing.EntityManager.Selected[0];
+					entity = selected[0];
 
 					// add sketch context if it's a plane
 					if (entity is RefPlane && !IsSketching)
@@ -210,7 +216,7 @@ namespace MonoWorks.Modeling.SceneControls
 				else // multiple entities selected
 				{
 					Console.WriteLine("muliple selection:");
-					foreach (Entity entity in drawing.EntityManager.Selected)
+					foreach (Entity entity in selected)
 						Console.WriteLine("  entity: " + entity.Name);
 				}
 
@@ -331,12 +337,12 @@ namespace MonoWorks.Modeling.SceneControls
 			if (entity is RefPlane)
 			{
 				Sketch sketch = new Sketch(entity as RefPlane);
-				drawing.AddSketch(sketch);
+				Scene.Drawing.AddSketch(sketch);
 				Scene.Camera.AnimateTo(entity as RefPlane);
 				DrawingInteractor.BeginSketching(sketch);
-//				Scene.UsePrimaryInteractor = true;
+				//				Scene.UsePrimaryInteractor = true;
 
-				drawing.EntityManager.DeselectAll(null);
+				Scene.Drawing.Deselect();
 
 				sketchApplyCancel.IsVisible = true;
 				OnContextChanged();
@@ -357,9 +363,9 @@ namespace MonoWorks.Modeling.SceneControls
 				Sketch sketch = entity as Sketch;
 				Scene.Camera.AnimateTo(sketch.Plane);
 				DrawingInteractor.BeginSketching(sketch);
-//				Scene.UsePrimaryInteractor = true;
+				//				Scene.UsePrimaryInteractor = true;
 
-				drawing.EntityManager.DeselectAll(null);
+				Scene.Drawing.Deselect();
 
 				sketchApplyCancel.IsVisible = true;
 				OnContextChanged();
@@ -373,7 +379,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// </summary>
 		private void OnEndSketch()
 		{
-			drawing.MakeReferencesDirty();
+			Scene.Drawing.MakeReferencesDirty();
 			sketchApplyCancel.IsVisible = false;
 			OnContextChanged();
 		}
@@ -460,15 +466,15 @@ namespace MonoWorks.Modeling.SceneControls
 		[ActionHandler("Extrusion")]
 		public void OnAddExtrusion()
 		{
-			if (drawing.EntityManager.NumSelected != 1 ||
-				!(drawing.EntityManager.Selected[0] is Sketch))
+			var selected = Scene.Drawing.GetSelected();
+			if (selected.Count != 1 || !(selected[0] is Sketch))
 				throw new Exception("Attempting to add a feature to something other than a sketch. This should never happen.");
 			
-			Sketch sketch = drawing.EntityManager.Selected[0] as Sketch;
+			Sketch sketch = selected[0] as Sketch;
 			Extrusion extrusion = new Extrusion(sketch);
-			drawing.AddFeature(extrusion);
-			drawing.EntityManager.DeselectAll(null);
-			drawing.EntityManager.Select(null, extrusion);
+			Scene.Drawing.AddFeature(extrusion);
+			Scene.Drawing.Deselect();
+			extrusion.Select();
 			entity = extrusion;
 			Edit(); // edit the extrusion
 
@@ -481,15 +487,15 @@ namespace MonoWorks.Modeling.SceneControls
 		[ActionHandler("Revolution")]
 		public void OnAddRevolution()
 		{
-			if (drawing.EntityManager.NumSelected != 1 ||
-				!(drawing.EntityManager.Selected[0] is Sketch))
+			var selected = Scene.Drawing.GetSelected();
+			if (selected.Count != 1 || !(selected[0] is Sketch))
 				throw new Exception("Attempting to add a feature to something other than a sketch. This should never happen.");
 
-			Sketch sketch = drawing.EntityManager.Selected[0] as Sketch;
+			Sketch sketch = selected[0] as Sketch;
 			Revolution revolution = new Revolution(sketch);
-			drawing.AddFeature(revolution);
-			drawing.EntityManager.DeselectAll(null);
-			drawing.EntityManager.Select(null, revolution);
+			Scene.Drawing.AddFeature(revolution);
+			Scene.Drawing.Deselect();
+			revolution.Select();
 			entity = revolution;
 
 			Scene.Camera.AnimateTo(ViewDirection.Standard);

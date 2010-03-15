@@ -259,7 +259,7 @@ namespace MonoWorks.Modeling.SceneControls
 		public void AddSketchable(Sketchable sketchable)
 		{
 			SetSketachable(sketchable);
-			drawing.EntityManager.Select(null, sketchable);
+			sketchable.Select();
 		}
 
 		/// <summary>
@@ -300,7 +300,7 @@ namespace MonoWorks.Modeling.SceneControls
 		public void OnSketchApplied()
 		{
 			sketcher = null;
-			drawing.EntityManager.DeselectAll(null);
+			drawing.Deselect();
 		}
 
 #endregion
