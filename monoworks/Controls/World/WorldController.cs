@@ -90,12 +90,15 @@ namespace MonoWorks.Controls.World
 
 		private DateTime _lastRenderTime = DateTime.Now;
 		
+		private RunningAverager _frameRateAverager = new RunningAverager(32);
+		
 		private void OnSceneRendered(object sender, SceneRenderEvent evt)
 		{
 			var now = DateTime.Now;
 			var dif = now - _lastRenderTime;
 			var frameRate = 1000 / dif.TotalMilliseconds;
-			_worldInfoLabel.Body = String.Format("{0} x {1} at {2:##.#} fps", Scene.Width, Scene.Height, frameRate);
+			_frameRateAverager.Add(frameRate);
+			_worldInfoLabel.Body = String.Format("{0} x {1} at {2:##.#} fps", Scene.Width, Scene.Height, _frameRateAverager.Compute());
 			_lastRenderTime = now;
 		}
 		
