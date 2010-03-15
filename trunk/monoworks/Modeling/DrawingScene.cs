@@ -50,6 +50,11 @@ namespace MonoWorks.Modeling
 		
 		private DrawingController _controller;
 		
+		/// <summary>
+		/// Gets raised when the drawing in the scene changes.
+		/// </summary>
+		public event DrawingChangedHandler DrawingChanged;
+		
 		private Drawing _drawing;
 		/// <summary>
 		/// The drawing in this scene.
@@ -58,6 +63,7 @@ namespace MonoWorks.Modeling
 		{
 			get { return _drawing; }
 			set {
+				Drawing oldDrawing = _drawing;
 				if (_drawing != null)
 					RenderList.RemoveActor(_drawing);
 				_drawing = value;
@@ -68,6 +74,9 @@ namespace MonoWorks.Modeling
 				UpdateName();
 				
 				_controller.ReloadTree();
+				
+				if (DrawingChanged != null)
+					DrawingChanged(this, new DrawingChangedEvent(this, oldDrawing, _drawing));
 			}
 		}
 
