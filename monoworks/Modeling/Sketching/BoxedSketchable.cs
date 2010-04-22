@@ -44,6 +44,7 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// First anchor of the sketchable.
 		/// </summary>
+		[MwxProperty("anchor1")]
 		public Point Anchor1
 		{
 			get { return GetAttribute("anchor1") as Point; }
@@ -53,6 +54,7 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// Second anchor of the sketchable.
 		/// </summary>
+		[MwxProperty("anchor2")]
 		public Point Anchor2
 		{
 			get { return GetAttribute("anchor2") as Point; }
@@ -82,6 +84,7 @@ namespace MonoWorks.Modeling.Sketching
 		/// <summary>
 		/// The tilt from the x axis.
 		/// </summary>
+		[MwxProperty("tilt")]
 		public Angle Tilt
 		{
 			get { return GetAttribute("tilt") as Angle; }

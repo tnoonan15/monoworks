@@ -278,7 +278,7 @@ namespace MonoWorks.Modeling.SceneControls
 //		protected IAttributePanel attributePanel;
 
 		[ActionHandler()]
-		public void Edit()
+		public void Edit(object sender, EventArgs args)
 		{
 			if (entity == null)
 				throw new Exception("The Edit action should never be called without lastEntity set.");
@@ -305,7 +305,7 @@ namespace MonoWorks.Modeling.SceneControls
 //		}
 
 		[ActionHandler()]
-		public void Delete()
+		public void Delete(object sender, EventArgs args)
 		{
 			Console.WriteLine("delete");
 		}
@@ -331,8 +331,8 @@ namespace MonoWorks.Modeling.SceneControls
 		/// <summary>
 		/// Creates a sketch.
 		/// </summary>
-		[ActionHandler("AddChild Sketch")]
-		public void OnAddSketch()
+		[ActionHandler("Add Sketch")]
+		public void OnAddSketch(object sender, EventArgs args)
 		{
 			if (entity is RefPlane)
 			{
@@ -356,7 +356,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Edits a sketch.
 		/// </summary>
 		[ActionHandler("Edit Sketch")]
-		public void OnEditSketch()
+		public void OnEditSketch(object sender, EventArgs args)
 		{
 			if (entity is Sketch)
 			{
@@ -414,7 +414,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds a line to the current sketch.
 		/// </summary>
 		[ActionHandler("Line")]
-		public void OnSketchLine()
+		public void OnSketchLine(object sender, EventArgs args)
 		{
 			DrawingInteractor.AddSketchable(new Line(DrawingInteractor.Sketch));
 		}
@@ -423,7 +423,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds a rectangle to the current sketch.
 		/// </summary>
 		[ActionHandler("Rectangle")]
-		public void OnSketchRectangle()
+		public void OnSketchRectangle(object sender, EventArgs args)
 		{
 			DrawingInteractor.AddSketchable(new Rectangle(DrawingInteractor.Sketch));
 		}
@@ -432,7 +432,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds a arc to the current sketch.
 		/// </summary>
 		[ActionHandler("Arc")]
-		public void OnSketchArc()
+		public void OnSketchArc(object sender, EventArgs args)
 		{
 			DrawingInteractor.AddSketchable(new Arc(DrawingInteractor.Sketch));
 		}
@@ -441,7 +441,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds a ellipse to the current sketch.
 		/// </summary>
 		[ActionHandler("Ellipse")]
-		public void OnSketchEllipse()
+		public void OnSketchEllipse(object sender, EventArgs args)
 		{
 			DrawingInteractor.AddSketchable(new Ellipse(DrawingInteractor.Sketch));
 		}
@@ -450,7 +450,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds a spline to the current sketch.
 		/// </summary>
 		[ActionHandler("Spline")]
-		public void OnSketchSpline()
+		public void OnSketchSpline(object sender, EventArgs args)
 		{
 			DrawingInteractor.AddSketchable(new Spline(DrawingInteractor.Sketch));
 		}
@@ -464,7 +464,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds an extrusion based on a selected sketch.
 		/// </summary>
 		[ActionHandler("Extrusion")]
-		public void OnAddExtrusion()
+		public void OnAddExtrusion(object sender, EventArgs args)
 		{
 			var selected = Scene.Drawing.GetSelected();
 			if (selected.Count != 1 || !(selected[0] is Sketch))
@@ -485,7 +485,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds a revolution based on a selected sketch.
 		/// </summary>
 		[ActionHandler("Revolution")]
-		public void OnAddRevolution()
+		public void OnAddRevolution(object sender, EventArgs args)
 		{
 			var selected = Scene.Drawing.GetSelected();
 			if (selected.Count != 1 || !(selected[0] is Sketch))
@@ -506,7 +506,7 @@ namespace MonoWorks.Modeling.SceneControls
 		/// Adds a sweep based on a selected sketch.
 		/// </summary>
 		[ActionHandler("Sweep")]
-		public void OnAddSweep()
+		public void OnAddSweep(object sender, EventArgs args)
 		{
 
 		}

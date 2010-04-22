@@ -337,7 +337,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public virtual bool HitTest(Coord pos)
 		{
-			if (RenderSize == null || LastPosition == null)
+			if (RenderSize == null || LastPosition == null || RenderSize == null)
 				return false;
 			return pos >= LastPosition && pos <= (LastPosition + RenderSize);
 		}

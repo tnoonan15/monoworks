@@ -259,6 +259,8 @@ namespace MonoWorks.Controls
 		
 		public override bool HitTest(Coord pos)
 		{
+			if (LastPosition == null || RenderSize == null)
+				return false;
 			return pos >= LastPosition && pos.X <= (LastPosition.X + RenderWidth) && 
 				pos.Y - LastPosition.Y <= HoverSize.Y;
 		}

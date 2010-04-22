@@ -37,29 +37,29 @@
 		<mwc:Button Action="Smooth Shaded"/>
 	</mwc:ToolBar>
 
-	<mwc:ToolBar Name="EditToolbar" ButtonStyle="ImageOverLabel">
+	<mwc:ToolBar Name="EditToolbar" ButtonStyle="ImageOverLabel" Orientation="Vertical">
 		<mwc:Button Action="Edit"/>
 	</mwc:ToolBar>
 
-	<mwc:ToolBar Name="DeleteToolbar" ButtonStyle="ImageOverLabel">
+	<mwc:ToolBar Name="DeleteToolbar" ButtonStyle="ImageOverLabel" Orientation="Vertical">
 		<mwc:Button Action="Delete"/>
 	</mwc:ToolBar>
 
-	<mwc:ToolBar Name="AddSketchToolbar" ButtonStyle="ImageOverLabel">
+	<mwc:ToolBar Name="AddSketchToolbar" ButtonStyle="ImageOverLabel" Orientation="Vertical">
 		<mwc:Button Action="Add Sketch"/>
 	</mwc:ToolBar>
 
-	<mwc:ToolBar Name="EditSketchToolbar" ButtonStyle="ImageOverLabel">
+	<mwc:ToolBar Name="EditSketchToolbar" ButtonStyle="ImageOverLabel" Orientation="Vertical">
 		<mwc:Button Action="Edit Sketch"/>
 	</mwc:ToolBar>
 
-	<mwc:ToolBar Name="AddRefToolbar" ButtonStyle="ImageOverLabel">
+	<mwc:ToolBar Name="AddRefToolbar" ButtonStyle="ImageOverLabel" Orientation="Vertical">
 		<mwc:Button Action="Ref Point"/>
 		<mwc:Button Action="Ref Line"/>
 		<mwc:Button Action="Ref Plane"/>
 	</mwc:ToolBar>
 
-	<mwc:ToolBar Name="SketchToolbar" ButtonStyle="ImageOverLabel">
+	<mwc:ToolBar Name="SketchToolbar" ButtonStyle="ImageOverLabel" Orientation="Vertical">
 		<mwc:Button Action="Line"/>
 		<mwc:Button Action="Rectangle"/>
 		<mwc:Button Action="Arc"/>
@@ -67,7 +67,7 @@
 		<mwc:Button Action="Spline"/>
 	</mwc:ToolBar>
 
-	<mwc:ToolBar Name="FeaturesToolbar" ButtonStyle="ImageOverLabel">
+	<mwc:ToolBar Name="FeaturesToolbar" ButtonStyle="ImageOverLabel" Orientation="Vertical">
 		<mwc:Button Action="Extrusion"/>
 		<mwc:Button Action="Revolution"/>
 		<mwc:Button Action="Sweep"/>
