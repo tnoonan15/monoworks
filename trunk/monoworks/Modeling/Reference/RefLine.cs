@@ -127,6 +127,8 @@ namespace MonoWorks.Modeling
 		
 		public override bool HitTest(HitLine hitLine)
 		{
+			if (start == null || stop == null)
+				return false;
 			HitLine line = new HitLine();
 			line.Front = start;
 			line.Back = stop;
