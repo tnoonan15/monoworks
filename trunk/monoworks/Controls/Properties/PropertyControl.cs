@@ -68,7 +68,10 @@ namespace MonoWorks.Controls.Properties
 			if (typeof(string).IsAssignableFrom(type))
 				return new StringControl(obj, property);
 			if (typeof(Enum).IsAssignableFrom(type))
-				return new EnumControl(obj, property);
+			{
+				var genericType = typeof(EnumControl<>).MakeGenericType(new Type[] { type });
+				return Activator.CreateInstance(genericType, new object[] { obj, property }) as PropertyControl;
+			}
 			
 			throw new Exception("Don't know how to create a property control for type " + type);
 		}
