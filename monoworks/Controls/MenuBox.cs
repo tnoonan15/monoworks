@@ -30,6 +30,16 @@ using System.IO;
 
 namespace MonoWorks.Controls
 {
+	
+	public class MenuItemChangedEvent : ValueChangedEvent<MenuItem>
+	{
+		public MenuItemChangedEvent(MenuItem oldVal, MenuItem newVal) : base(oldVal, newVal)
+		{
+			
+		}
+	}
+	
+	public delegate void MenuBoxChangedHandler(MenuBox sender, MenuItemChangedEvent evt);
 
 	/// <summary>
 	/// Displays a list of items with one selected at a time.
@@ -87,6 +97,11 @@ namespace MonoWorks.Controls
 		{
 			get { return _menu; }
 		}
+		
+		/// <summary>
+		/// Gets raised when the current value changes.
+		/// </summary>
+		public event MenuBoxChangedHandler Changed;
 
 		private MenuItem _current;
 		/// <summary>
@@ -99,9 +114,12 @@ namespace MonoWorks.Controls
 			{
 				if (!_menu.ContainsChild(value))
 					throw new Exception("The menu doesn't contain the item " + value);
+				var oldVal = CurrentItem;
 				_current = value;
 				GrabFocus();
 				MakeDirty();
+				if (Changed != null)
+					Changed(this, new MenuItemChangedEvent(oldVal, _current));
 			}
 		}
 

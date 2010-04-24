@@ -52,6 +52,10 @@ namespace MonoWorks.GtkDemo
 			var controls = new ControlsScene(adapter.Viewport);
 			book.Add(controls);
 			
+			// create the controls scene
+			var mwx = new MwxScene(adapter.Viewport);
+			book.Add(mwx);
+			
 			// create the 2D plotting scene
 			var plot2d = new Plot2dScene(adapter.Viewport);
 			book.Add(plot2d);

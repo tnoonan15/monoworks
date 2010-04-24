@@ -21,6 +21,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace MonoWorks.Base
@@ -45,11 +46,30 @@ namespace MonoWorks.Base
 		public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider provider, bool inherit) where T : Attribute
 		{
 			if (provider == null)
-				throw new ArgumentNullException("provider");			
+				throw new ArgumentNullException("provider");
 			T[] attributes = provider.GetCustomAttributes(typeof(T), inherit) as T[];
 			if (attributes == null)
 				return new T[0];
 			return attributes;
+		}
+		
+		/// <summary>
+		/// Gets the Mwx properties from an Mwx object.
+		/// </summary>
+		public static IEnumerable<MwxPropertyAttribute> GetMwxProperties(this IMwxObject obj)
+		{
+			var mwxProps = new List<MwxPropertyAttribute>();
+			foreach (var prop in obj.GetType().GetProperties()) {
+				var mwxProps_ = Attribute.GetCustomAttributes(prop, typeof(MwxPropertyAttribute), true);
+				if (mwxProps_.Length > 0) {
+					var mwxProp = mwxProps_[0] as MwxPropertyAttribute;
+					mwxProp.PropertyInfo = prop;
+					if (mwxProp.Name == null || mwxProp.Name == "")
+						mwxProp.Name = prop.Name;
+					mwxProps.Add(mwxProp);
+				}
+			}
+			return mwxProps;
 		}
 		
 		
