@@ -141,19 +141,7 @@ namespace MonoWorks.Base
 				
 			
 			// retrieve the mwx properties
-			var mwxProps = new List<MwxPropertyAttribute>();
-			foreach (var prop in obj.GetType().GetProperties())
-			{
-				var mwxProps_ = Attribute.GetCustomAttributes(prop, typeof(MwxPropertyAttribute), true);
-				if (mwxProps_.Length > 0)
-				{
-					var mwxProp = mwxProps_[0] as MwxPropertyAttribute;
-					mwxProp.PropertyInfo = prop;
-					if (mwxProp.Name == null || mwxProp.Name == "")
-						mwxProp.Name = prop.Name;
-					mwxProps.Add(mwxProp);
-				}
-			}
+			var mwxProps = obj.GetMwxProperties();
 			
 			// write the attribute properties
 			var attrProps = from prop in mwxProps

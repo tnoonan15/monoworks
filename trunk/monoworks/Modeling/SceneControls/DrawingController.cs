@@ -476,7 +476,7 @@ namespace MonoWorks.Modeling.SceneControls
 			Scene.Drawing.Deselect();
 			extrusion.Select();
 			entity = extrusion;
-			Edit(); // edit the extrusion
+			Edit(this, new EventArgs()); // edit the extrusion
 
 			Scene.Camera.AnimateTo(ViewDirection.Standard);
 		}
@@ -499,7 +499,7 @@ namespace MonoWorks.Modeling.SceneControls
 			entity = revolution;
 
 			Scene.Camera.AnimateTo(ViewDirection.Standard);
-			Edit(); // edit the extrusion
+			Edit(this, new EventArgs()); // edit the extrusion
 		}
 
 		/// <summary>

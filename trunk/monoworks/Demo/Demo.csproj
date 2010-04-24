@@ -49,6 +49,8 @@
     <Compile Include="ControlsScene.cs" />
     <Compile Include="Plot2dScene.cs" />
     <Compile Include="Plot3dScene.cs" />
+    <Compile Include="MwxScene.cs" />
+    <Compile Include="MwxDemo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
