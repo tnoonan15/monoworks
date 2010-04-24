@@ -30,21 +30,26 @@ namespace MonoWorks.Controls.Properties
 	/// <summary>
 	/// Property control for an enum property.
 	/// </summary>
-	public class EnumControl : GenericPropertyControl<Enum>
+	public class EnumControl<T> : GenericPropertyControl<T>
 	{
 		public EnumControl(IMwxObject obj, MwxPropertyAttribute property) : base(obj, property)
 		{
 			_menuBox = new MenuBox();
 			AddChild(_menuBox);
-			foreach (var val in Enum.GetValues(Value.GetType()))
+			MenuItem currentItem = null;
+			T currentVal = Value;
+			foreach (var val in Enum.GetValues(typeof(T)))
 			{
 				var item = new MenuItem() {
 					Text = val.ToString()
 				};
 				_menuBox.Add(item);
-				if (Value == val)
-					_menuBox.CurrentItem = item;
+				if (currentVal.Equals(val))
+					currentItem = item;
 			}
+			if (currentItem != null)
+				_menuBox.CurrentItem = currentItem;
+			
 			
 			_menuBox.Changed += delegate(MenuBox sender, MenuItemChangedEvent evt) {
 				Property.PropertyInfo.SetFromString(MwxObject, _menuBox.CurrentItem.Text);
