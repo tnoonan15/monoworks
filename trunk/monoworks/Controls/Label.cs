@@ -59,6 +59,7 @@ namespace MonoWorks.Controls
 			Body = "";
 			FontSize = 12;
 			IsHoverable = true;
+			_textColor = new Color(0, 0, 0);
 			
 			HitStateChanged += OnHitStateChanged;
 		}
@@ -111,6 +112,21 @@ namespace MonoWorks.Controls
 				MakeDirty();
 				if (BodyChanged != null)
 					BodyChanged(this, new TextChangedEvent(oldVal, value));
+			}
+		}
+		
+		
+		private Color _textColor;
+		/// <summary>
+		/// The color of the text.
+		/// </summary>
+		[MwxProperty]
+		public Color TextColor
+		{
+			get { return _textColor; }
+			set {
+				_textColor = value;
+				MakeDirty();
 			}
 		}
 		
@@ -221,7 +237,7 @@ namespace MonoWorks.Controls
 					var absPos = Cursor.Position + LastPosition + Padding;
 					
 					// draw the cursor
-					context.Cairo.Color = new Cairo.Color(0, 0, 0);
+					context.Cairo.Color = TextColor.Cairo;
 					context.Cairo.LineWidth = 2;
 					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 3); // I don't know why we need to subtract 
 					context.Cairo.RelLineTo(0, LineHeight);
