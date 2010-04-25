@@ -67,6 +67,10 @@ namespace MonoWorks.Controls.Properties
 			var type = property.PropertyInfo.PropertyType;
 			if (typeof(string).IsAssignableFrom(type))
 				return new StringControl(obj, property);
+			if (type == typeof(int) || type == typeof(float) || type == typeof(double)) {
+				var genericType = typeof(NumericControl<>).MakeGenericType(new Type[] { type });
+				return Activator.CreateInstance(genericType, new object[] { obj, property }) as PropertyControl;
+			}
 			if (typeof(Enum).IsAssignableFrom(type))
 			{
 				var genericType = typeof(EnumControl<>).MakeGenericType(new Type[] { type });
@@ -92,9 +96,13 @@ namespace MonoWorks.Controls.Properties
 		public T Value
 		{
 			get {
-				return (T)Property.PropertyInfo.GetValue(MwxObject, new object[]{});
+				return (T)Property.PropertyInfo.GetValue(MwxObject, new object[] {  });
+			}
+			set {
+				Property.PropertyInfo.SetFromString(MwxObject, value.ToString());
 			}
 		}
+		
 	}
 }
 

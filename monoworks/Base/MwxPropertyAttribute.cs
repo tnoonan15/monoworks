@@ -32,6 +32,11 @@ namespace MonoWorks.Base
 	public enum MwxPropertyType {Attribute, Child, Reference};
 	
 	/// <summary>
+	/// Possible representations of a numeric property.
+	/// </summary>
+	public enum MwxNumericType {Slider, Spinner};
+	
+	/// <summary>
 	/// Controls the serialization and deserialization of object properties into mwx files.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Property)]
@@ -67,6 +72,11 @@ namespace MonoWorks.Base
 		/// The type of the property (how it's placed in the mwx tree).
 		/// </summary>
 		public MwxPropertyType Type { get; set; }
+		
+		/// <summary>
+		/// The way to represent the property if it's a number.
+		/// </summary>
+		public MwxNumericType NumericType { get; set; }
 		
 		/// <summary>
 		/// Info for the property associated with this attribute.

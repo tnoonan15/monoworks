@@ -1,5 +1,5 @@
 // 
-//  MwxDemo.cs - MonoWorks Project
+//  NumericControl.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -21,37 +21,34 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
-using System.Collections.Generic;
 
 using MonoWorks.Base;
-using MonoWorks.Rendering;
 using MonoWorks.Controls;
 
-namespace MonoWorks.Demo
+namespace MonoWorks.Controls.Properties
 {
 	/// <summary>
-	/// A dummy class that is used to demo all of the Mwx controls.
+	/// A property control for a number containing either a Spinner or Slider.
 	/// </summary>
-	public class MwxDemo : MwxDummyObject
+	public class NumericControl<T> : GenericPropertyControl<T>
 	{
-		public MwxDemo()
+		public NumericControl(IMwxObject obj, MwxPropertyAttribute property) : base(obj, property)
 		{
-			SpinnerValue = 4;
-			SliderValue = 2.8;
+			if (property.NumericType == MwxNumericType.Slider)
+				_control = new Slider();
+			else if (property.NumericType == MwxNumericType.Spinner)
+				_control = new Spinner();
+			else
+				throw new Exception("Don't know how to make a control for numeric type " + property.NumericType);
+			AddChild(_control);
+			
+			_control.ValueChanged += delegate {
+				Value = (T)Convert.ChangeType(_control.Value, typeof(T));
+			};
 		}
-
-		[MwxProperty]
-		public string Description { get; set; }
-
-		[MwxProperty]
-		public Orientation Orientation { get; set; }
 		
-		[MwxProperty(NumericType=MwxNumericType.Spinner)]
-		public int SpinnerValue { get; set; }
-
-		[MwxProperty(NumericType = MwxNumericType.Slider)]
-		public double SliderValue { get; set; }
+		
+		private MonoWorks.Controls.NumericControl _control;
 	}
 }
-
 

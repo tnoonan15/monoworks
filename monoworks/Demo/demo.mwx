@@ -26,6 +26,10 @@
 				<mwc:Label Name="sliderValue"></mwc:Label>
 			</mwc:Stack>
 			<mwc:Stack Orientation="Horizontal">
+				<mwc:Label>Spinner</mwc:Label>
+				<mwc:Spinner Name="spinner" Value="3"/>
+			</mwc:Stack>
+			<mwc:Stack Orientation="Horizontal">
 				<mwc:Label>Menu Box</mwc:Label>
 				<mwc:MenuBox Name="menuBox">Apples,Oranges,Bananas,Grapes,Strawberries,Cherries</mwc:MenuBox>				
 			</mwc:Stack>

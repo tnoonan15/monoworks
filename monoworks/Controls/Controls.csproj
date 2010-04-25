@@ -88,6 +88,9 @@
     <Compile Include="Properties\StringControl.cs" />
     <Compile Include="Properties\PropertyPanel.cs" />
     <Compile Include="Properties\EnumControl.cs" />
+    <Compile Include="Properties\NumericControl.cs" />
+    <Compile Include="NumericControl.cs" />
+    <Compile Include="Spinner.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
@@ -118,6 +121,8 @@
     <EmbeddedResource Include="World\icons\right-view.png" />
     <EmbeddedResource Include="World\icons\standard-view.png" />
     <EmbeddedResource Include="World\icons\top-view.png" />
+    <EmbeddedResource Include="icons\down.png" />
+    <EmbeddedResource Include="icons\up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
