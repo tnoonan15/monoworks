@@ -1,0 +1,135 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plotting", "Plotting\Plotting.csproj", "{2235DD77-21A7-40AE-9384-0C56DE649540}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rendering", "Rendering\Rendering.csproj", "{DE891509-B350-4CDB-B68E-B76DACB6CAFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", "{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modeling", "Modeling\Modeling.csproj", "{857385F0-7861-4D80-9D73-995A24FB8602}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Controls\Controls.csproj", "{784C93E6-C181-4328-934B-449066348931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{A1C2EA7B-F619-44DE-830A-114140AD3C03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Studio", "Studio\Studio.csproj", "{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Qt", "Qt", "{50C5A468-8CC7-43E3-9779-B098745F4023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Qt\Backend\Backend.csproj", "{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		WpfDebug|Any CPU = WpfDebug|Any CPU
+		GtkDebug|Any CPU = GtkDebug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2235DD77-21A7-40AE-9384-0C56DE649540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784C93E6-C181-4328-934B-449066348931}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{857385F0-7861-4D80-9D73-995A24FB8602}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C2EA7B-F619-44DE-830A-114140AD3C03}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.GtkDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.GtkDebug|Any CPU.Build.0 = Debug|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE891509-B350-4CDB-B68E-B76DACB6CAFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
+		{3BDA6E33-AEFE-4661-BA66-011224A9B5B5}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5} = {50C5A468-8CC7-43E3-9779-B098745F4023}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Plotting\Plotting.csproj
+		Policies = $0
+		$0.VersionControlPolicy = $1
+		$1.CommitMessageStyle = $2
+		$2.FirstFilePrefix = 
+		$2.FileSeparator = ", "
+		$2.LineAlign = 0
+		$2.InterMessageLines = 0
+		$1.inheritsSet = Mono
+		$0.ChangeLogPolicy = $3
+		$3.UpdateMode = Nearest
+		$3.MessageStyle = $4
+		$4.LineAlign = 0
+		$3.inheritsSet = Mono
+		$0.StandardHeader = $5
+		$5.Text = @\n ${FileName} - MonoWorks Project\n \n Author:\n      ${AuthorName} <${AuthorEmail}>\n\n Copyright (c) ${Year} MonoWorks Project\n\n This library is free software; you can redistribute it and/or modify\n it under the terms of the GNU Lesser General Public License as\n published by the Free Software Foundation; either version 2.1 of the\n License, or (at your option) any later version.\n\n This library is distributed in the hope that it will be useful, but\n WITHOUT ANY WARRANTY; without even the implied warranty of\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU\n Lesser General Public License for more details.\n\n You should have received a copy of the GNU Lesser General Public\n License along with this library; if not, write to the Free Software\n Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+		$5.inheritsSet = Apache2License
+		$0.TextStylePolicy = $6
+		$6.inheritsSet = null
+		$6.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $7
+		$7.EventBraceStyle = NextLine
+		$7.PlaceElseOnNewLine = True
+		$7.PlaceElseIfOnNewLine = True
+		$7.PlaceCatchOnNewLine = True
+		$7.PlaceFinallyOnNewLine = True
+		$7.PlaceWhileOnNewLine = True
+		$7.BeforeMethodCallParentheses = False
+		$7.BeforeMethodDeclarationParentheses = False
+		$7.BeforeConstructorDeclarationParentheses = False
+		$7.BeforeDelegateDeclarationParentheses = False
+		$7.NewParentheses = False
+		$7.inheritsSet = Mono
+		$7.inheritsScope = text/x-csharp
+		$7.scope = text/x-csharp
+		name = MonoWorks
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
