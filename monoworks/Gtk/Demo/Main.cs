@@ -17,19 +17,20 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using gtk = Gtk;
 
-namespace MonoWorks.GtkDemo
+namespace MonoWorks.Gtk.Demo
 {	
 	public class DemoMain
 	{
 		
 		public static void Main()
 		{
-			Gtk.Application.Init();
+			gtk.Application.Init();
 			MainWindow window = new MainWindow();
-			window.Resize(1000,800);
+			window.Resize(1000, 800);
 			window.ShowAll();
-			Gtk.Application.Run();
+			gtk.Application.Run();
 		}
 	}
 }

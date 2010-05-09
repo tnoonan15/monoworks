@@ -5,22 +5,22 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>MonoWorks.GtkStudio</RootNamespace>
+    <ProjectGuid>{93981ADD-F7E7-45F1-934F-13B2EB7088DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>MonoWorks.Gtk.Backend</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GtkDebug|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\GtkDebug</OutputPath>
+    <OutputPath>bin\GtkDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command type="AfterBuild" command="cp ${SolutionDir}/extbin/FreeSans.ttf ${TargetDir}" workingdir="${TargetDir}" />
-      </CustomCommands>
-    </CustomCommands>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoWorks.GuiGtk</RootNamespace>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <AssemblyName />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -28,7 +28,7 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <WarningLevel>3</WarningLevel>
-    <AssemblyName>MonoWorks.GtkStudio</AssemblyName>
+    <AssemblyName>MonoWorks.Gtk.Backend</AssemblyName>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -36,51 +36,54 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <AssemblyName>StudioGtk</AssemblyName>
+    <AssemblyName>GuiGtk</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\extbin\Tao.OpenGl.dll</HintPath>
+    </Reference>
     <Reference Include="gtkglarea-sharp, Version=0.0.3.0, Culture=neutral, PublicKeyToken=7df758c0fb49fe62">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\extbin\gtkglarea-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
+      <Package>gtkglarea-sharp</Package>
     </Reference>
     <Reference Include="Mono.Cairo">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base\Base.csproj">
+    <Compile Include="ViewportAdapter.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\Base.csproj">
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Rendering\Rendering.csproj">
+    <ProjectReference Include="..\..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modeling\Modeling.csproj">
+    <ProjectReference Include="..\..\Plotting\Plotting.csproj">
+      <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>
+      <Name>Plotting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modeling\Modeling.csproj">
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
       <Name>Modeling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Controls\Controls.csproj">
+    <ProjectReference Include="..\..\Controls\Controls.csproj">
       <Project>{784C93E6-C181-4328-934B-449066348931}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GtkBackend\GtkBackend.csproj">
-      <Project>{93981ADD-F7E7-45F1-934F-13B2EB7088DC}</Project>
-      <Name>GtkBackend</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Studio\Studio.csproj">
-      <Project>{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}</Project>
-      <Name>Studio</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="MainWindow.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
