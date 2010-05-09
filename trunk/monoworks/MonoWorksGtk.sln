@@ -7,12 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rendering", "Rendering\Rend
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", "{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkBackend", "GtkBackend\GtkBackend.csproj", "{93981ADD-F7E7-45F1-934F-13B2EB7088DC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkDemo", "GtkDemo\GtkDemo.csproj", "{03901B82-65B6-4112-B3CF-CE4E9DFC363B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkStudio", "GtkStudio\GtkStudio.csproj", "{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modeling", "Modeling\Modeling.csproj", "{857385F0-7861-4D80-9D73-995A24FB8602}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Controls\Controls.csproj", "{784C93E6-C181-4328-934B-449066348931}"
@@ -21,15 +15,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Studio", "Studio\Studio.csproj", "{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gtk", "Gtk", "{D0B88E56-DA46-40B1-A5F7-41F1DD8329B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Gtk\Backend\Backend.csproj", "{93981ADD-F7E7-45F1-934F-13B2EB7088DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Gtk\Demo\Demo.csproj", "{03901B82-65B6-4112-B3CF-CE4E9DFC363B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Studio", "Gtk\Studio\Studio.csproj", "{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 		WpfDebug|Any CPU = WpfDebug|Any CPU
+		GtkDebug|Any CPU = GtkDebug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Release|Any CPU.ActiveCfg = GtkDebug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.Release|Any CPU.Build.0 = GtkDebug|Any CPU
 		{03901B82-65B6-4112-B3CF-CE4E9DFC363B}.WpfDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
@@ -40,6 +45,8 @@ Global
 		{2235DD77-21A7-40AE-9384-0C56DE649540}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D}.WpfDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
@@ -64,6 +71,8 @@ Global
 		{857385F0-7861-4D80-9D73-995A24FB8602}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
 		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.GtkDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.GtkDebug|Any CPU.Build.0 = GtkDebug|Any CPU
 		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93981ADD-F7E7-45F1-934F-13B2EB7088DC}.WpfDebug|Any CPU.ActiveCfg = GtkDebug|Any CPU
@@ -95,8 +104,13 @@ Global
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{458B12ED-A4FB-4596-AF6D-A8F0CB051077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93981ADD-F7E7-45F1-934F-13B2EB7088DC} = {D0B88E56-DA46-40B1-A5F7-41F1DD8329B8}
+		{03901B82-65B6-4112-B3CF-CE4E9DFC363B} = {D0B88E56-DA46-40B1-A5F7-41F1DD8329B8}
+		{2F9846DA-BCB9-4D21-B298-F3832FF10F9D} = {D0B88E56-DA46-40B1-A5F7-41F1DD8329B8}
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = GtkDemo\GtkDemo.csproj
+		StartupItem = Gtk\Demo\Demo.csproj
 		Policies = $0
 		$0.VersionControlPolicy = $1
 		$1.CommitMessageStyle = $2
@@ -112,7 +126,7 @@ Global
 		$3.inheritsSet = Mono
 		$0.StandardHeader = $5
 		$5.Text = @\n ${FileName} - MonoWorks Project\n \n Author:\n      ${AuthorName} <${AuthorEmail}>\n\n Copyright (c) ${Year} ${CopyrightHolder}\n\n This library is free software; you can redistribute it and/or modify\n it under the terms of the GNU Lesser General Public License as\n published by the Free Software Foundation; either version 2.1 of the\n License, or (at your option) any later version.\n\n This library is distributed in the hope that it will be useful, but\n WITHOUT ANY WARRANTY; without even the implied warranty of\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU\n Lesser General Public License for more details.\n\n You should have received a copy of the GNU Lesser General Public\n License along with this library; if not, write to the Free Software\n Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-		$5.inheritsSet = Apache2License
+		$5.inheritsSet = MITX11License
 		$0.TextStylePolicy = $6
 		$6.inheritsSet = null
 		$6.scope = text/x-csharp

@@ -17,22 +17,24 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 
-using MonoWorks.GtkBackend;
+using MonoWorks.Gtk.Backend;
 using MonoWorks.Controls;
 using MonoWorks.Demo;
 
-namespace MonoWorks.GtkDemo
+using gtk = Gtk;
+
+namespace MonoWorks.Gtk.Demo
 {
 	
 	/// <summary>
 	/// Main window for the Gtk port of the plotting demo.
 	/// </summary>
-	public class MainWindow : Gtk.Window
+	public class MainWindow : gtk.Window
 	{
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public MainWindow() : base(Gtk.WindowType.Toplevel)
+		public MainWindow() : base(gtk.WindowType.Toplevel)
 		{
 			Title = "MonoWorks Demo";
 			
@@ -67,10 +69,10 @@ namespace MonoWorks.GtkDemo
 			ShowAll();
 		}
 				
-		protected void OnDeleteEvent(object sender, Gtk.DeleteEventArgs args)
+		protected void OnDeleteEvent(object sender, gtk.DeleteEventArgs args)
 		{
 			args.RetVal = true;
-			Gtk.Application.Quit();
+			gtk.Application.Quit();
 		}
 		
 	}

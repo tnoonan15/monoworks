@@ -16,16 +16,17 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-using MonoWorks.GtkBackend;
+using MonoWorks.Gtk.Backend;
 using MonoWorks.Modeling;
 using MonoWorks.Studio;
+using gtk = Gtk;
 
-namespace MonoWorks.GtkStudio
+namespace MonoWorks.Gtk.Studio
 {	
 	/// <summary>
 	/// Main application window for the Studio.
 	/// </summary>
-	public class MainWindow : Gtk.Window
+	public class MainWindow : gtk.Window
 	{
 
 		/// <summary>
@@ -33,14 +34,14 @@ namespace MonoWorks.GtkStudio
 		/// </summary>
 		public static void Main()
 		{
-			Gtk.Application.Init();
+			gtk.Application.Init();
 			MainWindow window = new MainWindow();
 			window.Resize(1100, 1000);
 			window.ShowAll();
-			Gtk.Application.Run();
+			gtk.Application.Run();
 		}
 		
-		public MainWindow() : base(Gtk.WindowType.Toplevel)
+		public MainWindow() : base(gtk.WindowType.Toplevel)
 		{
 			Title = "MonoWorks Studio";
 			
@@ -51,7 +52,7 @@ namespace MonoWorks.GtkStudio
 			_adapter.Viewport.RootScene = _scene;
 			
 			DeleteEvent += delegate {
-				Gtk.Application.Quit();
+				gtk.Application.Quit();
 			};
 			
 		}

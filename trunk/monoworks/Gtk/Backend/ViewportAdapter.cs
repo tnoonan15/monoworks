@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using gl=Tao.OpenGl.Gl;
 using glu=Tao.OpenGl.Glu;
 
+using gtk=Gtk;
 using GtkGL;
 
 using MonoWorks.Base;
@@ -29,7 +30,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 using MonoWorks.Rendering.Interaction;
 
-namespace MonoWorks.GtkBackend
+namespace MonoWorks.Gtk.Backend
 {
 	
 	/// <summary>
@@ -94,9 +95,9 @@ namespace MonoWorks.GtkBackend
 		public Viewport Viewport { get; private set; }
 		
 		
-		private void OnWindowDeleteEvent(object sender, Gtk.DeleteEventArgs a) 
+		private void OnWindowDeleteEvent(object sender, gtk.DeleteEventArgs a) 
 		{
-			Gtk.Application.Quit ();
+			gtk.Application.Quit ();
 			a.RetVal = true;
 		}
 		
@@ -117,7 +118,7 @@ namespace MonoWorks.GtkBackend
 			return InteractionModifier.None;
 		}
 		
-		protected void OnButtonPress(object sender, Gtk.ButtonPressEventArgs args)
+		protected void OnButtonPress(object sender, gtk.ButtonPressEventArgs args)
 		{
 			GrabFocus();
 			
@@ -134,7 +135,7 @@ namespace MonoWorks.GtkBackend
 
 		}
 		
-		protected void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
+		protected void OnButtonRelease(object sender, gtk.ButtonReleaseEventArgs args)
 		{
 			MouseButtonEvent evt = new MouseButtonEvent(Viewport.RootScene, new Coord(args.Event.X, HeightGL - args.Event.Y), 
 			                                      (int)args.Event.Button, GetModifier(args.Event.State));
@@ -143,7 +144,7 @@ namespace MonoWorks.GtkBackend
 			PaintGL();
 		}
 		
-		protected virtual void OnMotionNotify(object sender, Gtk.MotionNotifyEventArgs args)
+		protected virtual void OnMotionNotify(object sender, gtk.MotionNotifyEventArgs args)
 		{
 			MouseEvent evt = new MouseEvent(Viewport.RootScene, new Coord(args.Event.X, HeightGL - args.Event.Y), GetModifier(args.Event.State));			
 			Viewport.OnMouseMotion(evt);
@@ -151,7 +152,7 @@ namespace MonoWorks.GtkBackend
 			PaintGL();
 		}
 		
-		protected virtual void OnScroll(object sender, Gtk.ScrollEventArgs args)
+		protected virtual void OnScroll(object sender, gtk.ScrollEventArgs args)
 		{
 			WheelDirection direction = WheelDirection.Up;
 			if (args.Event.Direction == Gdk.ScrollDirection.Down)
@@ -245,7 +246,7 @@ namespace MonoWorks.GtkBackend
 			return new KeyEvent(null, val, modifier);
 		}
 		
-		protected virtual void OnKeyPress(object sender, Gtk.KeyPressEventArgs args)
+		protected virtual void OnKeyPress(object sender, gtk.KeyPressEventArgs args)
 		{
 			var evt = GetKeyEvent(args.Event);
 			Viewport.OnKeyPress(evt);
@@ -254,7 +255,7 @@ namespace MonoWorks.GtkBackend
 			PaintGL();
 		}
 
-		protected virtual void OnKeyRelease(object sender, Gtk.KeyReleaseEventArgs args)
+		protected virtual void OnKeyRelease(object sender, gtk.KeyReleaseEventArgs args)
 		{
 			var evt = GetKeyEvent(args.Event);
 			Viewport.OnKeyRelease(evt);
@@ -305,7 +306,7 @@ namespace MonoWorks.GtkBackend
 		/// <summary>
 		/// Called when the viewport is resized.
 		/// </summary>
-		void OnSizeAllocated(object o, Gtk.SizeAllocatedArgs e)
+		void OnSizeAllocated(object o, gtk.SizeAllocatedArgs e)
 		{
 			ResizeGL();
 		}
@@ -346,7 +347,7 @@ namespace MonoWorks.GtkBackend
 		/// </summary>
 		public void RemotePaintGL()
 		{
-			Gtk.Application.Invoke(delegate {QueueDraw();});
+			gtk.Application.Invoke(delegate {QueueDraw();});
 		}		
 		
 		/// <summary>
@@ -400,37 +401,37 @@ namespace MonoWorks.GtkBackend
 		public bool FileDialog(FileDialogDef def)
 		{
 			// decide which action to use
-			Gtk.FileChooserAction action = Gtk.FileChooserAction.Save;
+			gtk.FileChooserAction action = gtk.FileChooserAction.Save;
 			string accept = "";
 			if (def.Type == FileDialogType.Open)
 			{
-				action = Gtk.FileChooserAction.Open;
+				action = gtk.FileChooserAction.Open;
 				accept = "Open";
 			}
 			else if (def.Type == FileDialogType.SaveAs)
 			{
-				action = Gtk.FileChooserAction.Save;
+				action = gtk.FileChooserAction.Save;
 				accept = "Save";
 			}
 			
-			var dialog = new Gtk.FileChooserDialog(def.Title, 
-							this.Toplevel as Gtk.Window, action,
-							"Cancel", Gtk.ResponseType.Cancel,
-                            accept, Gtk.ResponseType.Accept);
+			var dialog = new gtk.FileChooserDialog(def.Title, 
+							this.Toplevel as gtk.Window, action,
+							"Cancel", gtk.ResponseType.Cancel,
+                            accept, gtk.ResponseType.Accept);
 			if (def.FileName != null)
 				dialog.SetFilename(def.FileName);
 			
 			// assemble the filters
 			foreach (var ext in def.Extensions)
 			{
-				var filter = new Gtk.FileFilter();
+				var filter = new gtk.FileFilter();
 				var pattern = "*." + ext;
 				filter.AddPattern(pattern);
 				filter.Name = def.GetDescription(ext) + " (" + pattern + ")";
 				dialog.AddFilter(filter);
 			}
 			
-			var ret = dialog.Run() == (int)Gtk.ResponseType.Accept;
+			var ret = dialog.Run() == (int)gtk.ResponseType.Accept;
 			def.FileName = dialog.Filename;
 			dialog.Destroy();
 			return ret;
