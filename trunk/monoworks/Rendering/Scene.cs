@@ -431,7 +431,6 @@ namespace MonoWorks.Rendering
 				if (EnableViewInteractor)
 					ViewInteractor.Cancel();
 				evt.Scene = parentScene;
-				Console.WriteLine("release event handled by {0}", evt.LastHandler);
 				return;
 			}
 			

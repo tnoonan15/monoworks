@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Qt", "Qt", "{50C5A468-8CC7-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Qt\Backend\Backend.csproj", "{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Qt\QtDemo\Demo.csproj", "{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,14 @@ Global
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.WpfDebug|Any CPU.ActiveCfg = WpfDebug|Any CPU
 		{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}.WpfDebug|Any CPU.Build.0 = WpfDebug|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.GtkDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.GtkDebug|Any CPU.Build.0 = Debug|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.WpfDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8}.WpfDebug|Any CPU.Build.0 = Debug|Any CPU
 		{784C93E6-C181-4328-934B-449066348931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{784C93E6-C181-4328-934B-449066348931}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{784C93E6-C181-4328-934B-449066348931}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,9 +96,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A5DD6F28-33CC-4635-8FD2-F5DCB24A04E5} = {50C5A468-8CC7-43E3-9779-B098745F4023}
+		{3AE723DA-3E2F-4878-9FCF-7E2E866C22B8} = {50C5A468-8CC7-43E3-9779-B098745F4023}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Plotting\Plotting.csproj
+		StartupItem = Qt\QtDemo\Demo.csproj
 		Policies = $0
 		$0.VersionControlPolicy = $1
 		$1.CommitMessageStyle = $2

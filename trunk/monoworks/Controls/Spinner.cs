@@ -60,7 +60,6 @@ namespace MonoWorks.Controls
 				return base.Value;
 			}
 			set {
-				Console.WriteLine("value changed to " + value.ToString());
 				if (!_internalUpdate)
 				{
 					_internalUpdate = true;
