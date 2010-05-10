@@ -3,9 +3,9 @@
 using MonoWorks.Rendering;
 using System.Windows;
 
-using MonoWorks.SwfBackend;
+using MonoWorks.Swf.Backend;
 
-namespace MonoWorks.WpfBackend
+namespace MonoWorks.Wpf.Backend
 {
 	/// <summary>
 	/// Wraps the SWF viewport into WPF.

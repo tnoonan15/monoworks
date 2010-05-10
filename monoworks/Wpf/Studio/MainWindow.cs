@@ -20,10 +20,10 @@
 using System.Windows;
 using System.Windows.Controls;
 
-using MonoWorks.WpfBackend;
+using MonoWorks.Wpf.Backend;
 using MonoWorks.Studio;
 
-namespace MonoWorks.WpfStudio
+namespace MonoWorks.Wpf.Studio
 {
 	/// <summary>
 	/// The main window for the WPF port of MonoWorks Studio.

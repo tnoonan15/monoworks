@@ -25,7 +25,7 @@ using sd = System.Drawing;
 using swf = System.Windows.Forms;
 
 
-namespace MonoWorks.WpfBackend
+namespace MonoWorks.Wpf.Backend
 {
 	/// <summary>
 	/// Extensions for the combo box control.

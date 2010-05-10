@@ -8,12 +8,12 @@
     <ProjectGuid>{9B52CB99-58BF-4F59-8754-19F5F187D23E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonoWorks.DemoWpf</RootNamespace>
+    <RootNamespace>MonoWorks.Wpf.Demo</RootNamespace>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AssemblyName>MonoWorks.DemoWpf</AssemblyName>
+    <AssemblyName>MonoWorks.Wpf.Demo</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,16 +47,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Tao.OpenGl.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Tao.Platform.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\extbin\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\extbin\Tao.Platform.Windows.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -86,7 +86,17 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -94,37 +104,43 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base\Base.csproj">
+    <ProjectReference Include="..\..\Base\Base.csproj">
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Controls\Controls.csproj">
+    <ProjectReference Include="..\..\Controls\Controls.csproj">
       <Project>{784C93E6-C181-4328-934B-449066348931}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Demo\Demo.csproj">
+    <ProjectReference Include="..\..\Demo\Demo.csproj">
       <Project>{A1C2EA7B-F619-44DE-830A-114140AD3C03}</Project>
       <Name>Demo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WpfBackend\WpfBackend.csproj">
-      <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
-      <Name>WpfBackend</Name>
+    <ProjectReference Include="..\..\Winforms\Backend\Backend.csproj">
+      <Project>{EEE37458-9824-4938-A2AC-B9E877405FD1}</Project>
+      <Name>Backend %28Winforms\Backend%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modeling\Modeling.csproj">
+    <ProjectReference Include="..\Backend\Backend.csproj">
+      <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
+      <Name>Backend %28Wpf\Backend%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modeling\Modeling.csproj">
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>
       <Name>Modeling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plotting\Plotting.csproj">
+    <ProjectReference Include="..\..\Plotting\Plotting.csproj">
       <Project>{2235DD77-21A7-40AE-9384-0C56DE649540}</Project>
       <Name>Plotting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Rendering\Rendering.csproj">
+    <ProjectReference Include="..\..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>

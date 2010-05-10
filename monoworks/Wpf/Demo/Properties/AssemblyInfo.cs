@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DemoWpf")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MonoWorks.Wpf.Demo")]
+[assembly: AssemblyDescription("Demo application for the WPF backend")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DemoWpf")]
+[assembly: AssemblyProduct("MonoWorks")]
 [assembly: AssemblyCopyright("Copyright © Andy Selvig 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

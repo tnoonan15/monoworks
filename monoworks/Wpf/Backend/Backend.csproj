@@ -8,10 +8,10 @@
     <ProjectGuid>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonoWorks.WpfBackend</RootNamespace>
+    <RootNamespace>MonoWorks.Wpf.Backend</RootNamespace>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AssemblyName>MonoWorks.WpfBackend</AssemblyName>
+    <AssemblyName>MonoWorks.Wpf.Backend</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
