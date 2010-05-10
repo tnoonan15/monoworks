@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
-using MonoWorks.WpfStudio;
 
-namespace MonoWorks.StudioWpf
+namespace MonoWorks.Wpf.Studio
 {
 	/// <summary>
 	/// Interaction logic for App.xaml

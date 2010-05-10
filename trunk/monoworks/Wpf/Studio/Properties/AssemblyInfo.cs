@@ -7,8 +7,8 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WpfStudio")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MonoWorks.Wpf.Studio")]
+[assembly: AssemblyDescription("Studio with WPF backend")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MonoWorks")]

@@ -4,12 +4,12 @@ using System.Windows;
 using System.Windows.Controls;
 using MonoWorks.Controls;
 using MonoWorks.Demo;
-using MonoWorks.WpfBackend;
+using MonoWorks.Wpf.Backend;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.Modeling;
 
-namespace MonoWorks.DemoWpf
+namespace MonoWorks.Wpf.Demo
 {
 	/// <summary>
 	/// Interaction logic for Window1.xaml

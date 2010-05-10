@@ -8,7 +8,7 @@
     <ProjectGuid>{E9B921AC-9AAF-4AE9-AD20-1B5015F45274}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonoWorks.WpfStudio</RootNamespace>
+    <RootNamespace>MonoWorks.Wpf.Studio</RootNamespace>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -17,7 +17,7 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
-    <AssemblyName>MonoWorks.WpfStudio</AssemblyName>
+    <AssemblyName>MonoWorks.Wpf.Studio</AssemblyName>
     <ApplicationIcon>monoworks.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -122,13 +122,17 @@
       <Project>{784C93E6-C181-4328-934B-449066348931}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Studio\Studio.csproj">
+    <ProjectReference Include="..\..\Studio\Studio.csproj">
       <Project>{C6746A8A-5A82-40A9-9201-5FEB3E1A8854}</Project>
       <Name>Studio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Winforms\Backend\Backend.csproj">
+      <Project>{EEE37458-9824-4938-A2AC-B9E877405FD1}</Project>
+      <Name>Backend %28Winforms\Backend%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Backend\Backend.csproj">
       <Project>{DA0BF6C7-FDC9-474B-B8CD-E9DE12085C60}</Project>
-      <Name>WpfBackend</Name>
+      <Name>Backend %28Wpf\Backend%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Modeling\Modeling.csproj">
       <Project>{857385F0-7861-4D80-9D73-995A24FB8602}</Project>

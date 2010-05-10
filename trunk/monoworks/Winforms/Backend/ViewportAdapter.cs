@@ -26,7 +26,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 
-namespace MonoWorks.SwfBackend
+namespace MonoWorks.Swf.Backend
 {
 
 	/// <summary>

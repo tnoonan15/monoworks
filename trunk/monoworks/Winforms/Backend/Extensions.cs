@@ -22,7 +22,7 @@ using Point = System.Drawing.Point;
 using MonoWorks.Base;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.SwfBackend
+namespace MonoWorks.Swf.Backend
 {
 
 	/// <summary>
