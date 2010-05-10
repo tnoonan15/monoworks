@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\extbin\Tao.Platform.Windows.dll</HintPath>
+      <HintPath>..\..\extbin\Tao.Platform.Windows.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -64,15 +64,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base\Base.csproj">
+    <ProjectReference Include="..\..\Base\Base.csproj">
       <Project>{355D9982-D6CF-4D43-B84C-0C70ACD55B2E}</Project>
       <Name>Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Controls\Controls.csproj">
+    <ProjectReference Include="..\..\Controls\Controls.csproj">
       <Project>{784C93E6-C181-4328-934B-449066348931}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Rendering\Rendering.csproj">
+    <ProjectReference Include="..\..\Rendering\Rendering.csproj">
       <Project>{DE891509-B350-4CDB-B68E-B76DACB6CAFD}</Project>
       <Name>Rendering</Name>
     </ProjectReference>

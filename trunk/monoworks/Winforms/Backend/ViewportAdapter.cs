@@ -178,7 +178,7 @@ namespace MonoWorks.SwfBackend
 			                               Extensions.GetModifier(ModifierKeys));
 			Viewport.OnButtonPress(evt);
 
-			_lastClickHandled = evt.Handled;
+			_lastClickHandled = evt.IsHandled;
 
 			PaintGL();
 		}
@@ -279,7 +279,7 @@ namespace MonoWorks.SwfBackend
 
 			Viewport.OnKeyPress(evt);
 
-			e.Handled = evt.Handled;
+			e.Handled = evt.IsHandled;
 
 			PaintGL();
 		}
