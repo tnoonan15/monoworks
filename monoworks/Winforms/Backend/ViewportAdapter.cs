@@ -149,9 +149,8 @@ namespace MonoWorks.Swf.Backend
 			return false;
 		}
 
+
 		#region Mouse Interaction
-
-
 
 		/// <summary>
 		/// Convenience method that converts a mouse event point into a proper viewport coord.
@@ -284,7 +283,6 @@ namespace MonoWorks.Swf.Backend
 			PaintGL();
 		}
 
-
 		#endregion
 
 
@@ -302,16 +300,26 @@ namespace MonoWorks.Swf.Backend
 			PaintGL();
 		}
 
+		protected override void OnResize(System.EventArgs e)
+		{
+			base.OnResize(e);
+
+			ResizeGL();
+		}
+
 		/// <summary>
 		/// Called when the widget is resized.
 		/// </summary>
 		public void ResizeGL()
 		{
-			MakeCurrent();
+			if (Viewport != null)
+			{
+				MakeCurrent();
 
-			Viewport.Resize();
+				Viewport.Resize();
 
-			PaintGL();
+				PaintGL();
+			}
 		}
 
 		protected override void OnPaintBackground(PaintEventArgs e)
