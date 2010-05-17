@@ -565,7 +565,7 @@ namespace MonoWorks.Plotting
 			if (!IsVisible)
 				return;
 
-			scene.RenderManager.Lighting.Disable();
+			scene.Lighting.Disable();
 
 			CallDisplayList();
 
@@ -585,7 +585,7 @@ namespace MonoWorks.Plotting
 			}
 			gl.glEnd();
 
-			scene.RenderManager.Lighting.Enable();
+			scene.Lighting.Enable();
 		}
 
 

@@ -107,7 +107,7 @@ namespace MonoWorks.Modeling.Sketching
 		{
 			base.RenderOpaque(scene);
 
-			scene.RenderManager.Lighting.Disable();
+			scene.Lighting.Disable();
 
 			// edges
 			ModelingOptions.Global.GetColor("sketchable", HitState).Setup();

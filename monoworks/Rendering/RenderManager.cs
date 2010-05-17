@@ -52,8 +52,6 @@ namespace MonoWorks.Rendering
 			WireframeWidth = 1.5f;
 			
 			ReferenceColor = new Color(0, 128, 0, 32);
-			
-			Lighting = new Lighting();
 		}
 		
 		
@@ -121,7 +119,6 @@ namespace MonoWorks.Rendering
 				 Gl.GL_TEXTURE_MAG_FILTER,
 				 Gl.GL_LINEAR);
 			
-			Lighting.Initialize();
 		}
 
 
@@ -151,7 +148,6 @@ namespace MonoWorks.Rendering
 					Gl.glShadeModel(Gl.GL_SMOOTH);
 					break;
 			}
-//			Lighting.Enable();
 			Gl.glEnable(Gl.GL_DEPTH_TEST);
 			Gl.glEnable(Gl.GL_POLYGON_OFFSET_FILL);
 		}
@@ -163,7 +159,6 @@ namespace MonoWorks.Rendering
 		{
 			Gl.glDisable(Gl.GL_DEPTH_TEST);
 			Gl.glShadeModel(Gl.GL_SMOOTH);
-			Lighting.Disable();
 			Gl.glDisable(Gl.GL_POLYGON_OFFSET_FILL);
 		}
 
@@ -224,12 +219,6 @@ namespace MonoWorks.Rendering
 		/// The feature's color mode.
 		/// </value>
 		public ColorMode ColorMode { get; set; }
-
-
-		/// <summary>
-		/// The lighting settings.
-		/// </summary>
-		public Lighting Lighting { get; private set; }
 		
 #endregion
 				

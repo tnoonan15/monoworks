@@ -268,7 +268,7 @@ namespace MonoWorks.Modeling
 			yMax = Math.Ceiling(yMax / Grid.Step) * Grid.Step;
 
 			// draw the grid
-			scene.RenderManager.Lighting.Disable();
+			scene.Lighting.Disable();
 			gl.glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			gl.glLineWidth(1f);
 			gl.glBegin(gl.GL_LINES);

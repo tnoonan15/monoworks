@@ -277,7 +277,7 @@ namespace MonoWorks.Controls
 			
 			
 			// render the texture
-//			scene.Lighting.Disable();
+			scene.Lighting.Disable();
 			Gl.glEnable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
 			Gl.glBegin(Gl.GL_QUADS);
@@ -292,7 +292,7 @@ namespace MonoWorks.Controls
 			Gl.glVertex2d(Origin.X, Origin.Y + RenderHeight);
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
-//			scene.Lighting.Enable();
+			scene.Lighting.Enable();
 		}
 		
 		#endregion

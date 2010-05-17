@@ -245,7 +245,7 @@ namespace MonoWorks.Controls
 		protected override void Render(RenderContext context)
 		{
 			base.Render(context);
-			
+
 			context.Cairo.Color = context.Decorator.GetColor(ColorType.BackgroundStart, HitState.Selected).Cairo;
 			context.Cairo.LineWidth = 2;
 			context.Cairo.MoveTo(0, RenderHeight - 1);

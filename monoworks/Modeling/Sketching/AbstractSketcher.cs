@@ -84,7 +84,7 @@ namespace MonoWorks.Modeling.Sketching
 		/// </summary>
 		protected void HighlightPoint(Scene scene, Point point, Color color, float size)
 		{
-			scene.RenderManager.Lighting.Disable();
+			scene.Lighting.Disable();
 			gl.glPointSize(size);
 			color.Setup();
 			gl.glBegin(gl.GL_POINTS);
