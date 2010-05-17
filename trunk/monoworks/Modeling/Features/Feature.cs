@@ -164,7 +164,7 @@ namespace MonoWorks.Modeling
 		{
 			base.RenderOpaque(scene);
 			scene.RenderManager.EnableAntialiasing();
-			scene.RenderManager.Lighting.Enable();
+			scene.Lighting.Enable();
 
 			// render the highlights
 			if (IsHovering)

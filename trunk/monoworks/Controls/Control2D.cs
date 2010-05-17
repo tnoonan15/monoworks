@@ -298,6 +298,7 @@ namespace MonoWorks.Controls
 				_gch = GCHandle.Alloc(_imageData, GCHandleType.Pinned);
 				_surface = new ImageSurface(ref _imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth); // windows
 				//_surface = new ImageSurface(_imageData, Format.ARGB32, IntWidth, IntHeight, 4 * IntWidth);
+				
 			}
 			
 			// render the control to the surface
@@ -306,7 +307,7 @@ namespace MonoWorks.Controls
 				cr.Operator = Operator.Source;
 				cr.Color = new Cairo.Color(1, 1, 1, 0);
 				cr.Paint();
-				
+
 				cr.Operator = Operator.Over;
 				cr.MoveTo(0,0);
 				RenderCairo(new RenderContext(cr, DecoratorService.Get(scene)));

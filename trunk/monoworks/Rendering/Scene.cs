@@ -131,7 +131,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public Lighting Lighting
 		{
-			get { return RenderManager.Lighting; }
+			get { return Viewport.Lighting; }
 		}
 
 		/// <summary>

@@ -38,7 +38,7 @@ namespace MonoWorks.Rendering
 
 		public Viewport(IViewportAdapter adapter)
 		{
-
+			Lighting = new Lighting();
 			this.adapter = adapter;
 			RootScene = new Scene(this);
 		}
@@ -56,10 +56,16 @@ namespace MonoWorks.Rendering
 		#region Rendering
 
 		/// <summary>
+		/// The OpenGL lighting for this viewport.
+		/// </summary>
+		public Lighting Lighting { get; private set; }
+
+		/// <summary>
 		/// Initialize rendering.
 		/// </summary>
 		public void Initialize()
 		{
+			Lighting.Initialize();
 			RootScene.Initialize();
 		}
 
