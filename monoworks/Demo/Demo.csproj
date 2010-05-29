@@ -51,6 +51,7 @@
     <Compile Include="Plot3dScene.cs" />
     <Compile Include="MwxScene.cs" />
     <Compile Include="MwxDemo.cs" />
+    <Compile Include="CardScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -97,5 +98,6 @@
     <EmbeddedResource Include="icons\folder-green.png" />
     <EmbeddedResource Include="icons\folder-yellow.png" />
     <EmbeddedResource Include="icons\view-tree.png" />
+    <EmbeddedResource Include="cards.mwx" />
   </ItemGroup>
 </Project>

@@ -149,6 +149,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The minimum size that the control needs to render correctly.
 		/// </value>
+		[MwxProperty]
 		public Coord MinSize { get; protected set; }
 
 		/// <summary>

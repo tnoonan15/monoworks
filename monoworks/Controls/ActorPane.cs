@@ -38,7 +38,7 @@ namespace MonoWorks.Controls
 			Origin = new Vector();
 			XAxis = new Vector(1, 0, 0);
 			Normal = new Vector(0, 0, 1);
-			Scaling = 1;
+			_scaling = 1;
 		}
 				
 		public ActorPane(Control2D control) : this()
@@ -71,11 +71,14 @@ namespace MonoWorks.Controls
 			get {return RenderSize.Y;}
 		}
 		
-		public Vector Origin {get; set;}
+		[MwxProperty]
+		public Vector Origin { get; set; }
 		
-		public Vector Normal {get; set;}
+		[MwxProperty]
+		public Vector Normal { get; set; }
 		
-		public Vector XAxis {get; set;}
+		[MwxProperty]
+		public Vector XAxis { get; set; }
 		
 		private Control2D control;
 		
@@ -126,7 +129,7 @@ namespace MonoWorks.Controls
 			if (RenderSize == null)
 				return new Coord();
 			var intersection = hitLine.GetIntersection(this);
-			var point = this.Project(intersection) / Scaling;
+			var point = this.Project(intersection) / _scaling;
 			point.Y = RenderHeight - point.Y;
 			return point;
 		}
@@ -192,6 +195,19 @@ namespace MonoWorks.Controls
 #region Rendering
 		
 		/// <summary>
+		/// If null, the pane will always be scaled so that the control's coordinates map closely to screen coordinates.
+		/// Otherwise, this scaling will be used to go between world and screen coordinates.
+		/// </summary>
+		[MwxProperty]
+		public double? Scaling { get; set; }
+		
+		/// <summary>
+		/// Actual scaling used in geometry calculations.
+		/// </summary>
+		/// <remarks>Could be the one specified in Scaling, or the default on computed.</remarks>
+		private double _scaling;
+		
+		/// <summary>
 		/// This is set true if the pane was dirty last render cycle.
 		/// </summary>
 		private bool wasDirty = false;
@@ -205,11 +221,6 @@ namespace MonoWorks.Controls
 		/// Handle to the OpenGL texture that the control will be rendered to.
 		/// </summary>
 		private uint texture = 0;
-		
-		/// <summary>
-		/// The scaling to go from scene to world coordinates.
-		/// </summary>
-		public double Scaling { get; private set; }
 		
 		public override void ComputeGeometry()
 		{
@@ -253,32 +264,49 @@ namespace MonoWorks.Controls
 			}
 			
 			// determine how big the control should be 
-			Scaling = scene.Camera.SceneToWorldScaling;
-			double width = RenderWidth * Scaling;
-			double height = RenderHeight * Scaling;
-						
+			double width = RenderWidth;
+			double height = RenderHeight;
+			if (Scaling == null) {
+				_scaling = scene.Camera.SceneToWorldScaling;
+			}
+			
+			else
+			{
+				_scaling = (double)Scaling;
+			}
+			if (_scaling != 1) {
+				width *= _scaling;
+				height *= _scaling;
+			}
+			
+			bounds.Reset();
+			
 			// render the texture
 			scene.Lighting.Disable();
 			Gl.glEnable(Gl.GL_TEXTURE_RECTANGLE_ARB);
-			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
+			Gl.glBindTexture(Gl.GL_TEXTURE_RECTANGLE_ARB, texture);
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
 			
-			Gl.glTexCoord2d(0.0,Control.RenderHeight);
+			Gl.glTexCoord2d(0.0, Control.RenderHeight);
 			var vert = Origin;
 			vert.glVertex();
+			bounds.Resize(vert);
 			
-			Gl.glTexCoord2d(Control.RenderWidth, Control.RenderHeight);			
+			Gl.glTexCoord2d(Control.RenderWidth, Control.RenderHeight);
 			vert += XAxis * width;
 			vert.glVertex();
+			bounds.Resize(vert);
 			
-			Gl.glTexCoord2d(Control.RenderWidth,0.0);			
+			Gl.glTexCoord2d(Control.RenderWidth, 0.0);
 			vert += this.YAxis() * height;
 			vert.glVertex();
+			bounds.Resize(vert);
 			
-			Gl.glTexCoord2d(0.0,0.0);			
+			Gl.glTexCoord2d(0.0, 0.0);
 			vert -= XAxis * width;
 			vert.glVertex();
+			bounds.Resize(vert);
 			
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);

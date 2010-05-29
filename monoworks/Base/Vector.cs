@@ -366,7 +366,7 @@ namespace MonoWorks.Base
 		}
 
 		/// <summary>
-		/// For some reason I have to imeplement this because I override Equals().
+		/// For some reason I have to implement this because I override Equals().
 		/// </summary>
 		public override int GetHashCode()
 		{
@@ -378,9 +378,11 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void Parse(string valString)
 		{
-			if (!valString.StartsWith("[") || !valString.EndsWith("]"))
-				throw new Exception("Vector literals should be surrounded by []");
-			var comps = valString.Substring(1, valString.Length - 2).Split(',');
+			if (valString.StartsWith("["))
+				valString = valString.Substring(1);
+			if (valString.EndsWith("]"))
+				valString = valString.Substring(0, valString.Length - 1);
+			var comps = valString.Split(',');
 			if (comps.Length != 3)
 				throw new Exception("Vector literals should have 3 comma-separated components");
 			for (int i = 0; i < 3; i++)

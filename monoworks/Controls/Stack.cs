@@ -82,7 +82,8 @@ namespace MonoWorks.Controls
 			base.ComputeGeometry();
 
 			// compute the size
-			RenderSize = new Coord();
+			MinHeight = 0;
+			MinWidth = 0;
 			double span = 0;
 			foreach (var child in ChildrenCopy)
 			{
@@ -92,22 +93,22 @@ namespace MonoWorks.Controls
 				{
 					child.Origin = new Coord(span, Padding);
 					span += size_.X;
-					RenderSize.Y = Math.Max(RenderSize.Y, size_.Y);
+					MinHeight = Math.Max(RenderSize.Y, size_.Y);
 				}
 				else // vertical
 				{
 					child.Origin = new Coord(Padding, span);
 					span += size_.Y;
-					RenderSize.X = Math.Max(RenderSize.X, size_.X);
+					MinWidth = Math.Max(RenderSize.X, size_.X);
 				}
 				span += Padding;
 			}
 			
 			// assign the size
 			if (_orientation == Orientation.Horizontal)
-				RenderSize.X = span;
+				MinWidth = span;
 			else 
-				RenderSize.Y = span;
+				MinHeight = span;
 			
 			// force the children to fill their area
 			if (ForceFill)
@@ -115,17 +116,19 @@ namespace MonoWorks.Controls
 				foreach (Control2D child in Children)
 				{
 					if (_orientation == Orientation.Horizontal)
-						child.RenderHeight = RenderSize.Y;
+						child.RenderHeight = MinHeight;
 					else
-						child.RenderWidth = RenderSize.X;
+						child.RenderWidth = MinHeight;
 				}
 			}
 			
+			ApplyUserSize();
+			
 			// add padding to the size
 			if (_orientation == Orientation.Horizontal)
-				RenderSize.Y += 2 * Padding;
+				MinHeight += 2 * Padding;
 			else
-				RenderSize.X += 2 * Padding;
+				MinWidth += 2 * Padding;
 			
 		}		
 

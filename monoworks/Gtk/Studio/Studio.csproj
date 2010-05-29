@@ -39,7 +39,9 @@
     <AssemblyName>StudioGtk</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-2.0</Package>
+    </Reference>
     <Reference Include="gtkglarea-sharp, Version=0.0.3.0, Culture=neutral, PublicKeyToken=7df758c0fb49fe62">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\extbin\gtkglarea-sharp.dll</HintPath>
