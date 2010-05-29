@@ -90,6 +90,7 @@ namespace MonoWorks.Rendering
 			// initialize the interactors
 			ViewInteractor = new ViewInteractor(this);
 			OverlayInteractor = new OverlayInteractor(this);
+			EnableViewInteractor = true;
 			
 			Animator = new Animator(this);
 			

@@ -690,8 +690,9 @@ namespace MonoWorks.Rendering
 		/// <param name="upVecOut"> The up vector. </param>
 		public void GetDirectionVectors(ViewDirection direction, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
-			_scene.RenderList.ResetBounds();
+//			_scene.RenderList.ResetBounds();
 			Bounds bounds = _scene.RenderList.Bounds;
+			Console.WriteLine("renderlist bounds {0}", bounds);
 			
 			// determine the distance needed to view all renderables
 			double dist = 0;
@@ -760,7 +761,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void GetPlaneVectors(IPlane plane, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
-			_scene.RenderList.ResetBounds();
+//			_scene.RenderList.ResetBounds();
 			Bounds bounds = _scene.RenderList.Bounds;
 
 			// determine the distance needed to view all renderables

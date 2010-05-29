@@ -258,8 +258,23 @@ namespace MonoWorks.Base
 		{
 			if (ns.StartsWith(MwxUri)) // this is a MonoWorks class
 			{
-				var asm = ns.Replace(MwxUri, "MonoWorks").Replace('/', '.');
-				return String.Format("{0}.{1},{0}", asm, typeName);
+				// find out which assembly it belongs to
+				var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+				ns = ns.Replace(MwxUri, "MonoWorks").Replace('/', '.');
+				var comps = ns.Split('.');
+				var asmName = "";
+				foreach (var comp in comps) {
+					asmName += comp;
+					var match = from assembly in assemblies
+								where assembly.GetName().Name == asmName
+								select assembly;
+					if (match.Count() > 0)
+						break;
+					asmName += ".";
+				}
+				if (asmName.EndsWith("."))
+					throw new InvalidMwxElementException(typeName, "Could not find an assembly as a part of the namespace " + ns);
+				return String.Format("{0}.{1},{2}", ns, typeName, asmName);
 			}
 			else
 				throw new InvalidMwxElementException(typeName, "Haven't implemented non-MonoWorks classes in mwx yet.");
@@ -367,6 +382,9 @@ namespace MonoWorks.Base
 		
 		
 	}
+	
+	
+	
 	
 	/// <summary>
 	/// Temporary storage for all the information needed to resolve a reference property.

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mwx:Mwx xmlns:mwx="http://monoworksproject.org/mwx" 
+		xmlns:mwc="http://monoworksproject.org/mwx/Controls"
+		xmlns:cards="http://monoworksproject.org/mwx/Controls/Cards">
+	<cards:CardBook Name="Book">
+		<cards:Card Name="Card1">
+			<cards:CardContents UserSize="200,400">
+			</cards:CardContents>			
+		</cards:Card>
+		<cards:Card Name="Card2" Origin="0.2,0,0">
+			<cards:CardContents UserSize="400,200">
+			</cards:CardContents>			
+		</cards:Card>
+	</cards:CardBook>
+</mwx:Mwx>
