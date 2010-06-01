@@ -48,11 +48,11 @@ namespace MonoWorks.Controls.Cards
 		{
 			rc.Push();
 			rc.Cairo.Color = new Cairo.Color(0, 1, 1);
-			rc.Cairo.Rectangle(0, 0, RenderWidth, RenderHeight);
+			rc.Cairo.Rectangle(-0.5, -0.5, RenderWidth, RenderHeight);
 			rc.Cairo.Fill();
 			rc.Cairo.Color = new Cairo.Color(0, 0, 0);
 			rc.Cairo.LineWidth = 4;
-			rc.Cairo.Rectangle(0, 0, RenderWidth, RenderHeight);
+			rc.Cairo.Rectangle(-0.5, -0.5, RenderWidth, RenderHeight);
 			rc.Cairo.Stroke();
 			rc.Pop();
 			base.Render(rc);

@@ -21,6 +21,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Collections.Generic;
 
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
@@ -39,6 +40,15 @@ namespace MonoWorks.Controls.Cards
 		public CardInteractor(Scene scene) : base(scene)
 		{
 			_mouseType = InteractionType.None;
+
+			_animationOptions[InteractionType.Pan] = new AnimationOptions() {
+				Duration = 3,
+				EaseType = EaseType.Quadratic
+			};
+			_animationOptions[InteractionType.Zoom] = new AnimationOptions() {
+				Duration = 1,
+				EaseType = EaseType.Quadratic
+			};
 		}
 		
 		
@@ -141,6 +151,20 @@ namespace MonoWorks.Controls.Cards
 
 			
 		#region Camera Motion
+
+		/// <summary>
+		/// Store the animation options for each interaction type.
+		/// </summary>
+		private Dictionary<InteractionType, AnimationOptions> _animationOptions 
+			= new Dictionary<InteractionType, AnimationOptions>();
+
+		/// <summary>
+		/// Sets the animation options to use for the given type of interaction.
+		/// </summary>
+		public void SetAnimationOptions(InteractionType type, AnimationOptions opts)
+		{
+			_animationOptions[type] = opts;
+		}
 		
 		/// <summary>
 		/// Initializes the camera for interacting with cards.
@@ -188,7 +212,7 @@ namespace MonoWorks.Controls.Cards
 			var position = camera.Position.Copy();
 			position.X = coord.X;
 			position.Y = coord.Y;
-			camera.AnimateTo(center, position, camera.UpVector);
+			camera.AnimateTo(center, position, camera.UpVector, _animationOptions[InteractionType.Pan]);
 		}
 		
 		/// <summary>
@@ -236,7 +260,7 @@ namespace MonoWorks.Controls.Cards
 			position.Z = z + offset;
 			var center = position.Copy();
 			center.Z = z;
-			camera.AnimateTo(center, position, camera.UpVector);
+			camera.AnimateTo(center, position, camera.UpVector, _animationOptions[InteractionType.Zoom]);
 		}
 		
 		#endregion
