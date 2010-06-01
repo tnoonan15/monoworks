@@ -879,10 +879,22 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
+		/// Gets raised when an animation ends.
+		/// </summary>
+		public event EventHandler AnimationEnded;
+
+		/// <summary>
 		/// Gets called when an animation ends.
 		/// </summary>
+		/// <remarks>This gets cleared every time an animation ends, 
+		/// so any handlers only see one event.</remarks>
 		public void EndAnimation()
 		{
+			if (AnimationEnded != null)
+			{
+				AnimationEnded(this, new EventArgs());
+				AnimationEnded = null;
+			}
 		}	
 		
 		

@@ -38,7 +38,7 @@ namespace MonoWorks.Controls.Cards
 		public CardBook() : base()
 		{
 			ChildrenVisible = true;
-			LayerDepth = 1000;
+			LayerDepth = 5000;
 		}
 		
 

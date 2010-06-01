@@ -140,7 +140,6 @@ namespace MonoWorks.Rendering.Interaction
 				mouseType = mouseTypes[key];
 			else
 				mouseType = InteractionType.None;
-		
 
 			// TODO: make this work for rubber band selection
 			if (MouseType == InteractionType.Zoom)
