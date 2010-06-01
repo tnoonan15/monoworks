@@ -226,6 +226,12 @@ namespace MonoWorks.Rendering
 			Camera.Configure();
 			
 			renderList.OnSceneResized(this);
+			
+			if (PrimaryInteractor != null)
+				PrimaryInteractor.OnSceneResized(this);
+			if (EnableViewInteractor)
+				ViewInteractor.OnSceneResized(this);
+			OverlayInteractor.OnSceneResized(this);
 		}
 		
 		/// <summary>
@@ -259,6 +265,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public event SceneRenderEventHandler Rendered;
 		
+
 		public virtual void Paint()
 		{
 			Viewport.Paint();
@@ -500,7 +507,12 @@ namespace MonoWorks.Rendering
 					blocked = true;
 			}
 			
-			if (!blocked)
+			// allow the primary interactor to handle it
+			if (PrimaryInteractor != null) {
+				PrimaryInteractor.OnMouseWheel(evt);
+			}
+			
+			if (!blocked && !evt.IsHandled)
 				Camera.Dolly(factor);
 			evt.Scene = parentScene;
 		}

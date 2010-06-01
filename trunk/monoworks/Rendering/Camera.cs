@@ -204,10 +204,6 @@ namespace MonoWorks.Rendering
 				// prevent divide by zero
 				height = 1;
 			double ar = width / height;
-//			var offset = _scene.ViewportOffset;
-			//			gl.glViewport((int)offset.X, (int)offset.Y, (int)width, (int)height);
-			
-//			gl.glTranslated(-offset.X, -offset.Y, 0);
 			
 			if (projection == Projection.Perspective)
 			{								
@@ -761,16 +757,15 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void GetPlaneVectors(IPlane plane, out Vector centerOut, out Vector posOut, out Vector upVecOut)
 		{
-//			_scene.RenderList.ResetBounds();
 			Bounds bounds = _scene.RenderList.Bounds;
-
+		
 			// determine the distance needed to view all renderables
 			double dist = 0;
 			if (_scene.RenderList.ActorCount > 0 && bounds.IsSet)
 				dist = bounds.MaxWidth / (fov * 0.5).Tan();
 			else
 				dist = 2 / (fov * 0.5).Tan();
-
+		
 			centerOut = plane.Origin;
 			posOut = centerOut + plane.Normal.Normalize() * dist * 0.8;
 			if (plane.Normal[1] == 0 && plane.Normal[2] == 0) // the normal is in the Y-Z axis
@@ -832,6 +827,7 @@ namespace MonoWorks.Rendering
 		/// <remarks>All other AnimateTo() methods should call this one.</remarks>
 		public void AnimateTo(Vector center, Vector position, Vector upVec)
 		{
+			Configure();
 			animStartCenter = this.center;
 			animStartDir = Direction.Normalize();
 			animStartUpVec = this.upVec;

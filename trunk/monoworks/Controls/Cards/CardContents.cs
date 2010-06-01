@@ -36,16 +36,24 @@ namespace MonoWorks.Controls.Cards
 
 		public CardContents() : base(Orientation.Vertical)
 		{
-			AddChild(new Button("Button 1"));
-			AddChild(new Button("Button 2"));
 		}
+		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+		}
+
 		
 		protected override void Render(RenderContext rc)
 		{
 			rc.Push();
-			rc.Cairo.Color = new Cairo.Color(1, 0, 0);
+			rc.Cairo.Color = new Cairo.Color(0, 1, 1);
 			rc.Cairo.Rectangle(0, 0, RenderWidth, RenderHeight);
 			rc.Cairo.Fill();
+			rc.Cairo.Color = new Cairo.Color(0, 0, 0);
+			rc.Cairo.LineWidth = 4;
+			rc.Cairo.Rectangle(0, 0, RenderWidth, RenderHeight);
+			rc.Cairo.Stroke();
 			rc.Pop();
 			base.Render(rc);
 		}

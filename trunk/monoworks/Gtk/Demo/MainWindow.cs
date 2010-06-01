@@ -50,13 +50,13 @@ namespace MonoWorks.Gtk.Demo
 			var book = new SceneBook(adapter.Viewport);
 			sceneSpace.Root = book;
 			
-			// create the controls scene
-			var controls = new ControlsScene(adapter.Viewport);
-			book.Add(controls);
-			
 			// create the cards scene
 			var cards = new CardScene(adapter.Viewport);
 			book.Add(cards);
+			
+			// create the controls scene
+			var controls = new ControlsScene(adapter.Viewport);
+			book.Add(controls);
 			
 			// create the controls scene
 			var mwx = new MwxScene(adapter.Viewport);

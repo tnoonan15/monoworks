@@ -51,6 +51,8 @@ namespace MonoWorks.Controls
 			
 			foreach (var side in Enum.GetValues(typeof(Side)))
 				_gutterOverlays[(Side)side].Control = _gutters[(Side)side];
+			
+			EnableViewInteractor = false;
 		}
 		
 		private SceneContainer _root;
