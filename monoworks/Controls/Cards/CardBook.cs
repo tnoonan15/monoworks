@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
@@ -29,77 +30,27 @@ using MonoWorks.Rendering;
 namespace MonoWorks.Controls.Cards
 {
 	/// <summary>
-	/// A collection of cards.
+	/// The top-level collection of cards.
 	/// </summary>
-	public class CardBook : Actor
+	public class CardBook : Card
 	{
 
-		public CardBook()
+		public CardBook() : base()
 		{
+			ChildrenVisible = true;
+			LayerDepth = 1000;
 		}
 		
-		private List<Card> _children = new List<Card>();
-		
-		/// <summary>
-		/// Adds a card to the book.
-		/// </summary>
-		public void Add(Card card)
-		{
-			_children.Add(card);
-		}
-		
-		/// <summary>
-		/// Removes a card from the book.
-		/// </summary>
-		public void Remove(Card card)
-		{
-			_children.Remove(card);
-		}
-		
-		/// <summary>
-		/// Adds a card as an MWX object.
-		/// </summary>
-		public override void AddChild(IMwxObject child)
-		{
-			if (child is Card)
-				Add(child as Card);
-			else
-				throw new Exception(child.Name + " must be a card to belong to a CardBook.");
-		}
-		
-		/// <summary>
-		/// Returns the card collection.
-		/// </summary>
-		public override IEnumerable<IMwxObject> GetMwxChildren()
-		{
-			return _children as IEnumerable<IMwxObject>;
-		}
-		
-		
-		#region Rendering
-		
-		public override void RenderOpaque(Scene scene)
-		{
-			base.RenderOpaque(scene);
-			
-			foreach (var card in _children) {
-				card.RenderOpaque(scene);
-			}
-		}
 
-		public override void RenderTransparent(Scene scene)
-		{
-			base.RenderTransparent(scene);
-			
-//			bounds.Reset();
-			foreach (var card in _children) {
-				card.RenderTransparent(scene);
-				bounds.Resize(card.Bounds);
-			}
-		}
-
+		#region Layout
+		
+		/// <summary>
+		/// The z depth between layers.
+		/// </summary>
+		[MwxProperty]
+		public double LayerDepth { get; set; }
+		
 		#endregion
-
 		
 	}
 }

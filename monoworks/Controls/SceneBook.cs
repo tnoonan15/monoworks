@@ -40,6 +40,8 @@ namespace MonoWorks.Controls
 			_selector.UserSize = new Coord();
 			_pane = new OverlayPane(_selector);
 			RenderList.AddOverlay(_pane);
+			
+			EnableViewInteractor = false;
 		}
 		
 		private readonly SceneBookSelector _selector;

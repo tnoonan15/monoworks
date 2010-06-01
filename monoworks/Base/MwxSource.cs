@@ -155,6 +155,11 @@ namespace MonoWorks.Base
 		private List<ReferenceProperty> _refProps = new List<ReferenceProperty>();
 		
 		/// <summary>
+		/// Keeps track of a count for each type name to use for automatic name generation.
+		/// </summary>
+		private Dictionary<string,int> _nameCounts = new Dictionary<string, int>();
+		
+		/// <summary>
 		/// Parses a mwx source through a xml reader.
 		/// </summary>
 		public void Parse(XmlReader reader)
@@ -183,16 +188,23 @@ namespace MonoWorks.Base
 					}
 					else
 						_childPropertyName = null;
+					
+					// create the object
 					var obj = CreateMwxObject(reader);
-					var name = obj.Name;
-					if (name != null)
-						_objects[name] = obj;
+					
+					// get or generate its name
+					if (obj.Name == null) {
+						GenerateName(obj);
+					}
+					_objects[obj.Name] = obj;
 					
 					// add it to the current parent
 					if (parent != null)
 					{
-						if (_childPropertyName == null)
+						if (_childPropertyName == null) {
 							parent.AddChild(obj);
+							obj.Parent = parent;
+						}
 						else
 							SetProperty(parent, _childPropertyName, obj);
 					}
@@ -318,6 +330,21 @@ namespace MonoWorks.Base
 			AssignProperties(obj, reader);
 			
 			return obj;
+		}
+		
+		/// <summary>
+		/// Generates a unique name for obj.
+		/// </summary>
+		private void GenerateName(IMwxObject obj)
+		{
+			var typeName = obj.GetType().ToString();
+			int count = 0;
+			if (!_nameCounts.TryGetValue(typeName, out count)) {
+				count = 0;
+				_nameCounts[typeName] = count;
+			}
+			obj.Name = typeName + count.ToString();
+			_nameCounts[typeName]++;
 		}
 		
 		/// <summary>

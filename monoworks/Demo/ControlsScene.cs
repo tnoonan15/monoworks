@@ -79,15 +79,15 @@ namespace MonoWorks.Demo
 			stack.Orientation = Orientation.Vertical;
 			
 			var image = new Image(ResourceHelper.GetStream("plugin.png"));
-//			var image = Image.GetIcon("apply", 48);
-			var button = new Button("Apply", image) {ButtonStyle = ButtonStyle.ImageOverLabel};
+		//			var image = Image.GetIcon("apply", 48);
+			var button = new Button("Apply", image) { ButtonStyle = ButtonStyle.ImageOverLabel };
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked apply");
 			 };
 			stack.AddChild(button);
 			
-//			image = Image.GetIcon("cancel", 48);
-			button = new Button("Cancel", image) {ButtonStyle = ButtonStyle.ImageOverLabel};
+		//			image = Image.GetIcon("cancel", 48);
+			button = new Button("Cancel", image) { ButtonStyle = ButtonStyle.ImageOverLabel };
 			button.Clicked += delegate(object sender, EventArgs e) {
 				 Console.WriteLine("clicked cancel");
 			 };
@@ -125,7 +125,7 @@ namespace MonoWorks.Demo
 			toolbar.Orientation = Orientation.Vertical;
 			toolbar.ButtonStyle = ButtonStyle.ImageNextToLabel;
 			
-//			image = Image.GetIcon("controls-dialog", 48);
+		//			image = Image.GetIcon("controls-dialog", 48);
 			button = new Button("General Controls", image);
 			button.Clicked += delegate(object sender, EventArgs e) { 
 				ShowModal(controlsDialog);
@@ -168,11 +168,12 @@ namespace MonoWorks.Demo
 				ShowModal(treeDialog);
 			};
 			toolbar.AddChild(button);
+		
 
 			var toolActor = new ActorPane(toolbar);
 			toolActor.Normal = new Vector(0, -1, 0);
 			RenderList.AddActor(toolActor);
-						
+			toolActor.ComputeGeometry();
 			
 			Camera.SetViewDirection(ViewDirection.Standard);
 		}

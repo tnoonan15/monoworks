@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+
+using System;
 using Tao.OpenGl;
 
 using MonoWorks.Base;
@@ -240,9 +242,6 @@ namespace MonoWorks.Controls
 			
 			if (Control.IsDirty)
 				Control.ComputeGeometry();
-						
-			if (texture == 0)
-				Gl.glGenTextures(1, out texture);
 			
 			wasDirty = true;
 						
@@ -257,6 +256,11 @@ namespace MonoWorks.Controls
 			
 			if (Control.IsDirty)
 				ComputeGeometry();
+			
+			// generate the texture
+			if (texture == 0) {
+				Gl.glGenTextures(1, out texture);
+			}
 			
 			// render the control to the texture
 			if (wasDirty)

@@ -47,28 +47,30 @@ namespace MonoWorks.Controls
 		}
 		
 		
+		private Coord _renderSize = new Coord();
 		/// <value>
 		/// The size of the pane.
 		/// </value>
 		public Coord RenderSize
 		{
-			get
-			{
-				if (Control != null)
-					return Control.RenderSize;
-				else
-					return new Coord();
+			get {
+				return _renderSize;
+			}
+			protected set {
+				_renderSize = value;
 			}
 		}
 		
 		public double RenderWidth
 		{
-			get {return RenderSize.X;}
+			get { return RenderSize.X; }
+			set { RenderSize.X = value; }
 		}
 		
 		public double RenderHeight
 		{
-			get {return RenderSize.Y;}
+			get { return RenderSize.Y;}
+			set { RenderSize.Y = value; }
 		}
 		
 		[MwxProperty]
@@ -228,9 +230,35 @@ namespace MonoWorks.Controls
 			
 			if (Control == null)
 				return;
-						
-			if (texture == 0)
-				Gl.glGenTextures(1, out texture);
+			
+			if (Control.IsDirty)
+				Control.ComputeGeometry();
+			
+			// determine how big the control should be 
+			RenderWidth = Control.RenderWidth;
+			RenderHeight = Control.RenderHeight;
+			if (Scaling == null) {
+				//				_scaling = scene.Camera.SceneToWorldScaling;
+				_scaling = 1;
+			}
+			else {
+				_scaling = (double)Scaling;
+			}
+			if (_scaling != 1) {
+				RenderWidth *= _scaling;
+				RenderHeight *= _scaling;
+			}
+			
+			// resize the bounds
+			bounds.Reset();
+			var vert = Origin.Copy();
+			bounds.Resize(vert);
+			vert += XAxis * RenderWidth;
+			bounds.Resize(vert);
+			vert += this.YAxis() * RenderHeight;
+			bounds.Resize(vert);
+			vert -= XAxis * RenderWidth;
+			bounds.Resize(vert);
 			
 			wasDirty = true;
 			
@@ -245,6 +273,11 @@ namespace MonoWorks.Controls
 			
 			if (Control.IsDirty)
 				ComputeGeometry();
+			
+			// generate the texture
+			if (texture == 0) {
+				Gl.glGenTextures(1, out texture);
+			}
 			
 			// render the control to the texture
 			if (wasDirty)
@@ -263,24 +296,6 @@ namespace MonoWorks.Controls
 				wasDirty = false;
 			}
 			
-			// determine how big the control should be 
-			double width = RenderWidth;
-			double height = RenderHeight;
-			if (Scaling == null) {
-				_scaling = scene.Camera.SceneToWorldScaling;
-			}
-			
-			else
-			{
-				_scaling = (double)Scaling;
-			}
-			if (_scaling != 1) {
-				width *= _scaling;
-				height *= _scaling;
-			}
-			
-			bounds.Reset();
-			
 			// render the texture
 			scene.Lighting.Disable();
 			Gl.glEnable(Gl.GL_TEXTURE_RECTANGLE_ARB);
@@ -289,24 +304,20 @@ namespace MonoWorks.Controls
 			Gl.glColor3f(1f, 1f, 1f);
 			
 			Gl.glTexCoord2d(0.0, Control.RenderHeight);
-			var vert = Origin;
+			var vert = Origin.Copy();
 			vert.glVertex();
-			bounds.Resize(vert);
 			
 			Gl.glTexCoord2d(Control.RenderWidth, Control.RenderHeight);
-			vert += XAxis * width;
+			vert += XAxis * RenderWidth;
 			vert.glVertex();
-			bounds.Resize(vert);
 			
 			Gl.glTexCoord2d(Control.RenderWidth, 0.0);
-			vert += this.YAxis() * height;
+			vert += this.YAxis() * RenderHeight;
 			vert.glVertex();
-			bounds.Resize(vert);
 			
 			Gl.glTexCoord2d(0.0, 0.0);
-			vert -= XAxis * width;
+			vert -= XAxis * RenderWidth;
 			vert.glVertex();
-			bounds.Resize(vert);
 			
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);

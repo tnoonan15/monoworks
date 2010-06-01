@@ -89,6 +89,7 @@
     <Compile Include="MwxList.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="RunningAverager.cs" />
+    <Compile Include="IntCoord.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

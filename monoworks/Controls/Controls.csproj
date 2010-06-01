@@ -95,6 +95,7 @@
     <Compile Include="Cards\CardManager.cs" />
     <Compile Include="Cards\CardBook.cs" />
     <Compile Include="Cards\CardContents.cs" />
+    <Compile Include="Cards\CardInteractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />

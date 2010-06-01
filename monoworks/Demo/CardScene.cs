@@ -41,9 +41,13 @@ namespace MonoWorks.Demo
 			Name = "Cards";
 			Mwx = new MwxSource(ResourceHelper.GetStream("cards.mwx"));
 			
-			RenderList.AddActor(Mwx.Get<CardBook>("Book"));
+			var book = Mwx.Get<CardBook>("Book");
+			RenderList.AddActor(book);
+			book.ComputeGeometry();
 			
-			Camera.SetViewDirection(ViewDirection.Top);
+			var interactor = new CardInteractor(this) { CardBook = book };
+			PrimaryInteractor = interactor;
+			
 		}
 		
 		/// <summary>

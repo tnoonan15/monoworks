@@ -175,9 +175,17 @@ namespace MonoWorks.Base
 		/// <param name="lhs"> The left hand operand. </param>
 		/// <param name="rhs"> The right hand operand. </param>
 		/// <returns> The resulting <see cref="Vector"/>. </returns>
-		public static Vector operator+(Vector lhs, Vector rhs)
+		public static Vector operator +(Vector lhs, Vector rhs)
 		{
-			return new Vector(lhs[0]+rhs[0], lhs[1]+rhs[1], lhs[2]+rhs[2]);
+			return new Vector(lhs[0] + rhs[0], lhs[1] + rhs[1], lhs[2] + rhs[2]);
+		}
+
+		/// <summary>
+		/// Adds the scalar to the elements of the vector.
+		/// </summary>
+		public static Vector operator +(Vector lhs, double rhs)
+		{
+			return new Vector(lhs[0] + rhs, lhs[1] + rhs, lhs[2] + rhs);
 		}
 		
 		/// <summary>

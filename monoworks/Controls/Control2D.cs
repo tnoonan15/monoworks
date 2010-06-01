@@ -17,6 +17,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 using System;
+using System.Collections.Generic;
+
 using Cairo;
 
 using MonoWorks.Base;
@@ -47,22 +49,26 @@ namespace MonoWorks.Controls
 			Origin = new Coord();
 			
 			HitStateChanged += OnHitStateChanged;
+			
+			var typeName = GetType().ToString().Split('.').Last();
+			int count = 0;
+			_nameCounts.TryGetValue(typeName, out count);
+			Name = String.Format("{0}_{1}", typeName, count);
+			_nameCounts[typeName] = count + 1;
 		}
 
+		/// <summary>
+		/// Keeps track of how many off each type have been created.
+		/// </summary>
+		private static Dictionary<string,int> _nameCounts = new Dictionary<string, int>();
+		
+		
 		/// <value>
 		/// The control's parent.
 		/// </value>
-		public Control2D ParentControl { get; set; }
-
-
-		public override IMwxObject Parent
-		{
-			get {
-				return ParentControl;
-			}
-			set {
-				ParentControl = value as Control2D;
-			}
+		public Control2D ParentControl {
+			get { return Parent as Control2D; }
+			set { Parent = value; }
 		}
 
 

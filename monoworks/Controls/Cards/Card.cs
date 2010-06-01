@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using MonoWorks.Controls;
 using MonoWorks.Base;
@@ -36,7 +37,8 @@ namespace MonoWorks.Controls.Cards
 	{
 		public Card()
 		{
-			Scaling = 1/200.0;
+			Scaling = 1;
+			Padding = 100;
 		}
 		
 		/// <summary>
@@ -44,9 +46,33 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public Card(CardContents card) : base(card)
 		{
+			Padding = 100;
 		}
 		
-		private List<Card> _children = new List<Card>();
+		/// <summary>
+		/// The card book this card belongs to.
+		/// </summary>
+		public CardBook CardBook
+		{
+			get {
+				if (this is CardBook)
+					return this as CardBook;
+				if (Parent is Card)
+					return (Parent as Card).CardBook;
+				return null;
+			}
+		}
+		
+		/// <summary>
+		/// This card's coordinate in the grid system.
+		/// </summary>
+		[MwxProperty]
+		public IntCoord GridCoord { get; set; }
+		
+		
+		#region Children
+		
+		protected List<Card> _children = new List<Card>();
 
 		/// <summary>
 		/// Adds a card as a child.
@@ -68,7 +94,7 @@ namespace MonoWorks.Controls.Cards
 		{
 			if (child is Card)
 				Add(child as Card);
-			if (child is CardContents)
+			else if (child is CardContents)
 				Control = child as CardContents;
 			else
 				throw new Exception(child.Name + " must be a Card or CardContents.");
@@ -81,6 +107,189 @@ namespace MonoWorks.Controls.Cards
 		{
 			return _children as IEnumerable<IMwxObject>;
 		}
+
+		/// <summary>
+		/// Find all cards in the given row.
+		/// </summary>
+		public IEnumerable<Card> FindByRow(int row)
+		{
+			return from card in _children
+				where card.GridCoord.Y == row
+				select card;
+		}
+
+		/// <summary>
+		/// Find all cards in the given column.
+		/// </summary>
+		public IEnumerable<Card> FindByColumn(int column)
+		{
+			return from card in _children
+				where card.GridCoord.X == column
+				select card;
+		}
+
+		#endregion
+
+
+		#region Layout
+		
+		private bool _childrenVisible = false;
+		/// <summary>
+		/// If true, the card's children will be visible.
+		/// </summary>
+		[MwxProperty]
+		public bool ChildrenVisible {
+			get { return _childrenVisible; }
+			set {
+				_childrenVisible = value;
+				MakeDirty();
+			} 
+		}
+
+		/// <summary>
+		/// The padding between cards.
+		/// </summary>
+		[MwxProperty]
+		public double Padding { get; set; }
+		
+		/// <summary>
+		/// The start of each grid column, stored during ComputeGeometry().
+		/// </summary>
+		private double[] _xGrid;
+
+		/// <summary>
+		/// The start of each grid row, stored during ComputeGeometry().
+		/// </summary>
+		private double[] _yGrid;
+
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			var book = CardBook;
+			if (book == null)
+				return;
+			
+			
+			if (ChildrenVisible && _children.Count > 0)
+			{
+				// compute grid min and max grid coordinates and card geometry
+				IntCoord min = null;
+				IntCoord max = null;
+				foreach (var card in _children) {
+					if (min == null) {
+						min = card.GridCoord.Copy();
+						max = card.GridCoord.Copy();
+					}
+					else {
+						min.Min(card.GridCoord);
+						max.Max(card.GridCoord);
+					}
+					card.Origin.Z = Origin.Z - book.LayerDepth;
+					if (card.Control.IsDirty)
+						card.Control.ComputeGeometry();
+				}
+				
+				bounds.Reset();
+				bounds.Resize(0, 0, 0);
+				
+				// align the columns
+				_xGrid = new double[max.X - min.X + 2];
+				_xGrid[0] = 0;
+				double x = 0;
+				for (int col = min.X; col <= max.X; col++) 
+				{
+					// determine the width of the column and set the x positions
+					var thisCol = FindByColumn(col);
+					double width = 0;
+					foreach (var card in thisCol) {
+						if (card.Control.RenderWidth > width) {
+							width = card.Control.RenderWidth;
+						}
+						card.Origin.X = x;
+					}
+					x += width + Padding;
+					_xGrid[col - min.X + 1] = x;
+				}
+				
+				// align the rows
+				_yGrid = new double[max.Y - min.Y + 2];
+				_yGrid[0] = 0;
+				double y = 0;
+				for (int row = min.Y; row <= max.Y; row++)
+				{
+					// determine the height of the row and set the y positions
+					var thisRow = FindByRow(row);
+					double height = 0;
+					foreach (var card in thisRow) {
+						if (card.Control.RenderHeight > height) {
+							height = card.Control.RenderHeight;
+						}
+						card.Origin.Y = y - height;
+					}
+					y -= height + Padding;
+					_yGrid[row - min.Y + 1] = y;
+				}
+				Array.Reverse(_yGrid);
+				
+				foreach (var card in _children) {
+					card.ComputeGeometry();
+				}					
+				
+				bounds.Resize(x, y, 0);
+			}
+			else // arrange children in a stack behind the parent
+			{
+				Vector offset = new Vector();
+				double diff = Padding / 4.0;
+				foreach (var card in _children) {
+					offset.X += diff;
+					offset.Y -= diff;
+					offset.Z -= diff;
+					card.Origin = Origin + offset;
+					card.ComputeGeometry();
+				}
+			}
+			
+		}
+		
+		
+
+		/// <summary>
+		/// Rounds to the nearest grid coord to the given spatial coordinate.
+		/// </summary>
+		public void RoundToNearestGrid(Coord coord)
+		{
+			// compute the x coordinate
+			for (int i = 0; i < _xGrid.Length; i++)
+			{
+				if (_xGrid[i] >= coord.X) {
+					if (i == 0)
+						coord.X = (_xGrid[0] + _xGrid[1]) / 2.0;
+					else
+						coord.X = (_xGrid[i - 1] + _xGrid[i]) / 2.0;
+					break;
+				}
+			}
+			if (coord.X > _xGrid.Last())
+				coord.X = (_xGrid[_xGrid.Length - 2] + _xGrid.Last()) / 2.0;
+			
+			// compute the y coordinate
+			for (int i = 0; i < _yGrid.Length; i++)
+			{
+				if (_yGrid[i] > coord.Y) {
+					if (i == 0)
+						coord.Y = (_yGrid[0] + _yGrid[1]) / 2.0;
+					else
+						coord.Y = (_yGrid[i - 1] + _yGrid[i]) / 2.0;
+					break;
+				}
+			}
+			if (coord.Y > _yGrid.Last())
+				coord.Y = (_yGrid[_yGrid.Length - 2] + _yGrid.Last()) / 2.0;
+		}
+
+		#endregion
 
 		
 		#region Rendering
@@ -97,8 +306,12 @@ namespace MonoWorks.Controls.Cards
 		{
 			base.RenderTransparent(scene);
 			
-			foreach (var card in _children)
+//			Console.WriteLine("rendering " + Name);
+			
+			foreach (var card in _children) {
 				card.RenderTransparent(scene);
+				bounds.Resize(card.Bounds);
+			}
 		}
 		
 		#endregion
