@@ -24,6 +24,10 @@ namespace Demo
 			var book = new SceneBook(_viewportAdapter.Viewport);
 			sceneSpace.Root = book;
 
+			// create the cards scene
+			var cards = new CardScene(_viewportAdapter.Viewport);
+			book.Add(cards);
+
 			// create the controls scene
 			var controls = new ControlsScene(_viewportAdapter.Viewport);
 			book.Add(controls);

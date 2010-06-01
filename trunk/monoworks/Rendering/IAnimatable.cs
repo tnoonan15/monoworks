@@ -23,6 +23,22 @@ using System.Collections.Generic;
 namespace MonoWorks.Rendering
 {
 	/// <summary>
+	/// Stores options that can be set for animations.
+	/// </summary>
+	public struct AnimationOptions
+	{
+		/// <summary>
+		/// The amount of time the animation lasts.
+		/// </summary>
+		public double Duration;
+
+		/// <summary>
+		/// The ease function used to map progress to some other measure (like physical distance) during the animation.
+		/// </summary>
+		public EaseType EaseType;
+	}
+
+	/// <summary>
 	/// Interface for objects that can animate their behavior.
 	/// </summary>
 	public interface IAnimatable

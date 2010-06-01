@@ -64,6 +64,9 @@ namespace MonoWorks.Rendering
 			lastDirection = ViewDirection.Front;
 
 			Frustum = new FrustumDef();
+
+			DefaultAnimationOptions.Duration = 3;
+			DefaultAnimationOptions.EaseType = EaseType.Quadratic;
 		}
 		
 
@@ -799,6 +802,16 @@ namespace MonoWorks.Rendering
 		double animStartDist, animStopDist;
 
 		/// <summary>
+		/// The default options for all camera animations.
+		/// </summary>
+		public AnimationOptions DefaultAnimationOptions;
+
+		/// <summary>
+		/// Store the options for the current animation.
+		/// </summary>
+		private AnimationOptions _currentAnimationOptions;
+
+		/// <summary>
 		/// Animates to the given view direction.
 		/// </summary>
 		/// <param name="direction"></param>
@@ -822,10 +835,18 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
+		/// Performs an animation with default duration and ease type.
+		/// </summary>
+		public void AnimateTo(Vector center, Vector position, Vector upVec)
+		{
+			AnimateTo(center, position, upVec, DefaultAnimationOptions);
+		}
+
+		/// <summary>
 		/// Animates to the given set of vectors. 
 		/// </summary>
 		/// <remarks>All other AnimateTo() methods should call this one.</remarks>
-		public void AnimateTo(Vector center, Vector position, Vector upVec)
+		public void AnimateTo(Vector center, Vector position, Vector upVec, AnimationOptions opts)
 		{
 			Configure();
 			animStartCenter = this.center;
@@ -839,12 +860,16 @@ namespace MonoWorks.Rendering
 			animStopDist = animStopDir.Magnitude;
 			animStopDir = animStopDir.Normalize();
 
-			_scene.Animator.RegisterAnimation(this, 3);
+			_currentAnimationOptions = opts;
+			_scene.Animator.RegisterAnimation(this, opts.Duration);
 		}
 
+		/// <summary>
+		/// Callback for the animation step.
+		/// </summary>
 		public void Animate(double progress)
 		{
-			var f = Ease.InOutFactor(progress, EaseType.Quadratic);
+			var f = Ease.InOutFactor(progress, _currentAnimationOptions.EaseType);
 			center = (animStopCenter - animStartCenter) * f + animStartCenter;
 			double dist = (animStopDist - animStartDist) * f + animStartDist;
 			Vector dir = (animStopDir - animStartDir) * f + animStartDir;
@@ -853,9 +878,11 @@ namespace MonoWorks.Rendering
 			RecomputeUpVector();
 		}
 
+		/// <summary>
+		/// Gets called when an animation ends.
+		/// </summary>
 		public void EndAnimation()
 		{
-//			_scene.QueueResize();
 		}	
 		
 		
