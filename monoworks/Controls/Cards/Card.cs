@@ -75,6 +75,14 @@ namespace MonoWorks.Controls.Cards
 		protected List<Card> _children = new List<Card>();
 
 		/// <summary>
+		/// The number of children the card has.
+		/// </summary>
+		public int NumChildren
+		{
+			get { return _children.Count; }
+		}
+
+		/// <summary>
 		/// Adds a card as a child.
 		/// </summary>
 		public void Add(Card card)
@@ -126,6 +134,32 @@ namespace MonoWorks.Controls.Cards
 			return from card in _children
 				where card.GridCoord.X == column
 				select card;
+		}
+
+		/// <summary>
+		/// Finds the child at the given grid coord (if any).
+		/// </summary>
+		public Card FindByGridCoord(IntCoord coord)
+		{
+			var res = from card in _children
+					where card.GridCoord.X == coord.X && card.GridCoord.Y == coord.Y
+					select card;
+			if (res.Count() > 0)
+				return res.First();
+			return null;
+		}
+
+		private Card _focusedChild;
+		/// <summary>
+		/// The child that is currently in focus (if any).
+		/// </summary>
+		public Card FocusedChild {
+			get { return _focusedChild; }
+			set	{
+				if (!_children.Contains(value))
+					throw new Exception(String.Format("Card {0} does not belong to {1}", value.Name, Name));
+				_focusedChild = value;
+			}
 		}
 
 		#endregion
@@ -258,8 +292,12 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Rounds to the nearest grid coord to the given spatial coordinate.
 		/// </summary>
-		public void RoundToNearestGrid(Coord coord)
+		/// <returns>The card at that location, if any.</returns>
+		/// <remarks>The return value is also set as FocusedChild.</remarks>
+		public Card RoundToNearestGrid(Coord coord)
 		{
+			IntCoord gridCoord = new IntCoord();
+
 			// compute the x coordinate
 			for (int i = 0; i < _xGrid.Length; i++)
 			{
@@ -268,11 +306,15 @@ namespace MonoWorks.Controls.Cards
 						coord.X = (_xGrid[0] + _xGrid[1]) / 2.0;
 					else
 						coord.X = (_xGrid[i - 1] + _xGrid[i]) / 2.0;
+					gridCoord.X = i - 1;
 					break;
 				}
 			}
 			if (coord.X > _xGrid.Last())
+			{
 				coord.X = (_xGrid[_xGrid.Length - 2] + _xGrid.Last()) / 2.0;
+				gridCoord.X = _xGrid.Length - 1;
+			}
 			
 			// compute the y coordinate
 			for (int i = 0; i < _yGrid.Length; i++)
@@ -282,11 +324,17 @@ namespace MonoWorks.Controls.Cards
 						coord.Y = (_yGrid[0] + _yGrid[1]) / 2.0;
 					else
 						coord.Y = (_yGrid[i - 1] + _yGrid[i]) / 2.0;
+					gridCoord.Y = _yGrid.Length - i - 1;
 					break;
 				}
 			}
-			if (coord.Y > _yGrid.Last())
+			if (coord.Y > _yGrid.Last()) {
 				coord.Y = (_yGrid[_yGrid.Length - 2] + _yGrid.Last()) / 2.0;
+				gridCoord.Y = 0;
+			}
+
+			_focusedChild = FindByGridCoord(gridCoord);
+			return _focusedChild;
 		}
 
 		#endregion
@@ -304,14 +352,18 @@ namespace MonoWorks.Controls.Cards
 
 		public override void RenderTransparent(Scene scene)
 		{
-			base.RenderTransparent(scene);
-			
-//			Console.WriteLine("rendering " + Name);
-			
-			foreach (var card in _children) {
+			// render the children
+			foreach (var card in _children)
+			{
 				card.RenderTransparent(scene);
 				bounds.Resize(card.Bounds);
 			}
+
+			// don't render ourselves if the children are visible, we won't be able to see them
+			if (ChildrenVisible)
+				return;
+
+			base.RenderTransparent(scene);
 		}
 		
 		#endregion

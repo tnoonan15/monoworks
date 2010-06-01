@@ -47,7 +47,7 @@ namespace MonoWorks.Controls.Cards
 		protected override void Render(RenderContext rc)
 		{
 			rc.Push();
-			rc.Cairo.Color = new Cairo.Color(0, 1, 1);
+			rc.Cairo.Color = new Cairo.Color(0.8, 1, 1);
 			rc.Cairo.Rectangle(-0.5, -0.5, RenderWidth, RenderHeight);
 			rc.Cairo.Fill();
 			rc.Cairo.Color = new Cairo.Color(0, 0, 0);

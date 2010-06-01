@@ -273,6 +273,9 @@ namespace MonoWorks.Controls
 			
 			if (Control.IsDirty)
 				ComputeGeometry();
+
+			if (!IsVisible)
+				return;
 			
 			// generate the texture
 			if (texture == 0) {

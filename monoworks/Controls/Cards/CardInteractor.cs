@@ -42,11 +42,11 @@ namespace MonoWorks.Controls.Cards
 			_mouseType = InteractionType.None;
 
 			_animationOptions[InteractionType.Pan] = new AnimationOptions() {
-				Duration = 3,
+				Duration = 2,
 				EaseType = EaseType.Quadratic
 			};
-			_animationOptions[InteractionType.Zoom] = new AnimationOptions() {
-				Duration = 1,
+			_animationOptions[InteractionType.Dolly] = new AnimationOptions() {
+				Duration = 1.5,
 				EaseType = EaseType.Quadratic
 			};
 		}
@@ -62,11 +62,26 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public Card CurrentRoot { get; set; }
 		
-		
+		private double _zoom = 1;
 		/// <summary>
 		/// The factor between screen coordinates and card coordinates.
 		/// </summary>
-		public double Zoom { get; set; }
+		public double Zoom { 
+			get {return _zoom;}
+			set {
+				_zoom = Math.Min(MaxZoom, Math.Max(MinZoom, value));
+			}
+		}
+
+		/// <summary>
+		/// The minimum allowed zoom level (most zoomed out).
+		/// </summary>
+		public const double MinZoom = 0.25;
+
+		/// <summary>
+		/// The maximum allowed zoom level (most zoomed in).
+		/// </summary>
+		public const double MaxZoom = 2.0;
 		
 		private InteractionType _mouseType;
 		
@@ -78,7 +93,35 @@ namespace MonoWorks.Controls.Cards
 			
 			switch (evt.Button) {
 			case 1:
-				_mouseType = InteractionType.Pan;
+				if (evt.Multiplicity == ClickMultiplicity.Double)
+				{
+					if (CurrentRoot.FocusedChild != null && CurrentRoot.FocusedChild.HitTest(evt.HitLine))
+					{
+						if (CurrentRoot.FocusedChild.NumChildren > 0) // go down one level
+						{
+							CurrentRoot = CurrentRoot.FocusedChild;
+							CurrentRoot.ChildrenVisible = true;
+							CurrentRoot.ComputeGeometry();
+							MoveTo(evt.Scene.Camera, CurrentRoot.FocusedChild);
+							AnimateToZoom(evt.Scene.Camera, Zoom);
+						}
+					}
+					else if (CurrentRoot.Parent is Card) // try to go up on level
+					{
+						var oldRoot = CurrentRoot;
+						CurrentRoot = CurrentRoot.Parent as Card;
+						MoveTo(evt.Scene.Camera, CurrentRoot.FocusedChild);
+						evt.Scene.Camera.AnimationEnded += delegate {
+							oldRoot.ChildrenVisible = false;
+							CurrentRoot.ComputeGeometry();
+						};
+						AnimateToZoom(evt.Scene.Camera, Zoom);
+					}
+				}
+				else if (evt.Multiplicity == ClickMultiplicity.Single)
+				{
+					_mouseType = InteractionType.Pan;
+				}
 				break;
 			}
 		}
@@ -88,7 +131,8 @@ namespace MonoWorks.Controls.Cards
 			base.OnButtonRelease(evt);
 			
 			// snap to the nearest grid location
-			if (_mouseType == InteractionType.Pan && CardBook != null)
+			if (_mouseType == InteractionType.Pan && CardBook != null &&
+				(evt.Pos - Anchor).MagnitudeSquared > 4)
 			{
 				AnimateToNearest(evt.Scene.Camera);
 			}
@@ -118,14 +162,13 @@ namespace MonoWorks.Controls.Cards
 			
 			if (evt.Direction == WheelDirection.Up)
 				// zoom in
-				AnimateToZoom(evt.Scene.Camera, Zoom * 2);
+				AnimateToZoom(evt.Scene.Camera, Zoom + 0.5);
 			else
 				// zoom out
-				AnimateToZoom(evt.Scene.Camera, Zoom / 2.0);
+				AnimateToZoom(evt.Scene.Camera, Zoom - 0.5);
 			evt.Handle(this);
 		}
-
-
+		
 		
 		public override void OnSceneResized(Scene scene)
 		{
@@ -133,8 +176,7 @@ namespace MonoWorks.Controls.Cards
 			
 			MoveToZoom(scene.Camera, Zoom);
 		}
-
-
+		
 
 		private bool _isInitialized = false;
 		
@@ -195,6 +237,25 @@ namespace MonoWorks.Controls.Cards
 		}
 
 		/// <summary>
+		/// Moves to look at the given card.
+		/// </summary>
+		/// <remarks>If the card is null, moves to the nearest grid point.</remarks>
+		public void MoveTo(Camera camera, Card card)
+		{
+			if (card == null)
+				MoveToNearest(camera);
+			else
+			{
+				var x = card.Origin.X + card.RenderWidth / 2.0;
+				var y = card.Origin.Y + card.RenderHeight / 2.0;
+				camera.Center.X = x;
+				camera.Center.Y = y;
+				camera.Position.X = x;
+				camera.Position.Y = y;
+			}
+		}
+
+		/// <summary>
 		/// Animates the camera to the nearest card.
 		/// </summary>
 		public void AnimateToNearest(Camera camera)
@@ -243,12 +304,12 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public void AnimateToZoom(Camera camera, double zoom)
 		{
-			if (Zoom == zoom)
-				return;
+			//if (Zoom == zoom)
+			//    return;
 			Zoom = zoom;
 			
 			// determine how far back the camera needs to be for the zoom level
-			var offset = camera.ViewportHeight / (camera.FoV / 2.0).Tan() / zoom / 2;
+			var offset = camera.ViewportHeight / (camera.FoV / 2.0).Tan() / Zoom / 2;
 			
 			// get the z position of the current level
 			if (CurrentRoot == null)
@@ -260,7 +321,7 @@ namespace MonoWorks.Controls.Cards
 			position.Z = z + offset;
 			var center = position.Copy();
 			center.Z = z;
-			camera.AnimateTo(center, position, camera.UpVector, _animationOptions[InteractionType.Zoom]);
+			camera.AnimateTo(center, position, camera.UpVector, _animationOptions[InteractionType.Dolly]);
 		}
 		
 		#endregion

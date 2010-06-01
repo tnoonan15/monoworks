@@ -224,8 +224,9 @@ namespace MonoWorks.Swf.Backend
 		{
 			base.OnMouseDoubleClick(args);
 
-			if (_lastClickHandled)
-				return;
+			// not sure why we really need this, but it breaks the card interactor
+			//if (_lastClickHandled)
+			//    return;
 
 			var evt = new MouseButtonEvent(Viewport.RootScene, MouseToViewport(args.Location),
 			                               Extensions.ButtonNumber(args.Button),
