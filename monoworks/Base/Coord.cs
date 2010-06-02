@@ -314,6 +314,15 @@ namespace MonoWorks.Base
 			return angle;
 		}
 
+		/// <summary>
+		/// Rotates the coord around the origina by the given angle.
+		/// </summary>
+		public Coord Rotate(Angle angle)
+		{
+			return new Coord(X * angle.Cos() - Y * angle.Sin(),
+				X * angle.Sin() - Y * angle.Cos());
+		}
+
 		#endregion
 		
 

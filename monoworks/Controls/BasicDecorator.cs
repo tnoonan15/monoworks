@@ -489,6 +489,16 @@ namespace MonoWorks.Controls
 				Decorate(control as TreeItem);
 				return;
 			}
+			if (control is RingBar)
+			{
+				Decorate(control as RingBar);
+				return;
+			}
+			if (control is RingButton)
+			{
+				Decorate(control as RingButton);
+				return;
+			}
 		}
 		
 		protected virtual void Decorate(Button button)
@@ -719,10 +729,10 @@ namespace MonoWorks.Controls
 			Context.Cairo.Stroke();
 						
 			// draw the inner circle
-			Context.Cairo.Pattern = GenerateGradient(new Coord(pos.X + dial.RenderWidth/2.0 - dial.InnerRadius, 
-														pos.Y + dial.RenderHeight/2.0 - dial.InnerRadius),
-														new Coord(dial.InnerRadius * 2, dial.InnerRadius * 2), 
-														AnchorLocation.SE, 
+			var start = new Coord(pos.X + dial.RenderWidth/2.0 - dial.InnerRadius, 
+									pos.Y + dial.RenderHeight/2.0 - dial.InnerRadius);
+			var size = new Coord(dial.InnerRadius * 2, dial.InnerRadius * 2);
+			Context.Cairo.Pattern = GenerateGradient(start, size, AnchorLocation.SE, 
 			                                            GetColor(ColorType.BackgroundStart, dial.HitState),
 			                                            GetColor(ColorType.BackgroundStop, dial.HitState));
 			Context.Cairo.Arc(cx, cy, dial.InnerRadius, 0, 2 * Math.PI);
@@ -745,6 +755,48 @@ namespace MonoWorks.Controls
 					FillRectangle(item.HoverOffset, item.HoverSize, AllCorners, FillType.Background, item.HitState, AnchorLocation.S);	
 				}
 			}
+		}
+
+		protected virtual void Decorate(RingBar ringBar)
+		{
+			//Context.Push();
+
+
+			//// draw the outlines
+			//Context.Cairo.Color = GetColor(ColorType.Stroke, HitState.None).Cairo;
+			//Context.Cairo.LineWidth = 1;
+			//ringBar.DrawOutlines(Context.Cairo);
+
+			//Context.Pop();
+		}
+
+		protected virtual void Decorate(RingButton ringButton)
+		{
+			Context.Push();
+
+			// generate the gradient for the background
+			var ringBar = ringButton.Parent as RingBar;
+			if (ringBar == null)
+				return;
+			var outerRadius = ringBar.OuterRadius;
+			var innerRadius = ringBar.InnerRadius;
+			var grad = new Cairo.RadialGradient(outerRadius, outerRadius, innerRadius,
+				outerRadius, outerRadius, outerRadius);
+			grad.AddColorStop(1, GetColor(ColorType.BackgroundStop, ringBar.HitState).Cairo);
+			grad.AddColorStop(0, GetColor(ColorType.BackgroundStart, ringBar.HitState).Cairo);
+			Context.Cairo.Pattern = grad;
+
+			// draw the background
+			ringButton.DrawOutline(Context.Cairo);
+			Context.Cairo.Fill();
+
+			// draw the outline
+			Context.Cairo.Color = GetColor(ColorType.Stroke, ringButton.HitState).Cairo;
+			Context.Cairo.LineWidth = 1;
+			ringButton.DrawOutline(Context.Cairo);
+			Context.Cairo.Stroke();
+			Context.Pop();
+
 		}
 				
 		#endregion

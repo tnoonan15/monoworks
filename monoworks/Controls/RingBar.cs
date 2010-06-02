@@ -48,35 +48,64 @@ namespace MonoWorks.Controls
 		/// </summary>
 		[MwxProperty]
 		public double InnerRadius { get; set; }
-		
+
+		/// <summary>
+		/// The angle span of the child button.
+		/// </summary>
+		public Angle DiffAngle { get; private set; }
+
+
 		#region Rendering
 				
 		public override void ComputeGeometry()
 		{
-			base.ComputeGeometry();
+			//base.ComputeGeometry();
 			
 			RenderWidth = OuterRadius * 2;
 			RenderHeight = OuterRadius * 2;
+
+			DiffAngle = Angle.TwoPi / NumChildren;
+			var currentAngle = new Angle();
+			foreach (var child in Children)
+			{
+				child.CenterAngle = currentAngle;
+				currentAngle += DiffAngle;
+				child.ComputeGeometry();
+			}
 		}
 
-		protected override void Render(RenderContext rc)
+		/// <summary>
+		/// Draws the outlines to the given context.
+		/// </summary>
+		/// <remarks>This can be used by decorators to avoid doing the geometry themselves.</remarks>
+		public void DrawOutlines(Cairo.Context cr)
 		{
-			base.Render(rc);
-			
-			rc.Push();
-			rc.Cairo.Color = new Cairo.Color(0, 0, 1);
-			rc.Cairo.LineWidth = 1;
-			rc.Cairo.MoveTo(OuterRadius * 2, OuterRadius);
-			rc.Cairo.Arc(OuterRadius, OuterRadius, OuterRadius, 0, 2 * Math.PI);
-			rc.Cairo.Stroke();
-			rc.Cairo.MoveTo(OuterRadius + InnerRadius , OuterRadius);
-			rc.Cairo.Arc(OuterRadius, OuterRadius, InnerRadius, 0, 2 * Math.PI);
-			rc.Cairo.Stroke();
-			rc.Pop();
+			// outer circle
+			cr.MoveTo(OuterRadius * 2 - 1, OuterRadius);
+			cr.Arc(OuterRadius, OuterRadius, OuterRadius - 1, 0, 2 * Math.PI);
+			cr.Stroke();
+
+			// inner circle
+			cr.MoveTo(OuterRadius + InnerRadius - 1, OuterRadius);
+			cr.Arc(OuterRadius, OuterRadius, InnerRadius - 1, 0, 2 * Math.PI);
+			cr.Stroke();
+
+			// division lines
+			var startAngle = DiffAngle / 2;
+			var lineStart = new Coord(0, InnerRadius).Rotate(startAngle);
+			var lineStop = new Coord(0, OuterRadius).Rotate(startAngle);
+			for (int i = 0; i < NumChildren; i++)
+			{
+				cr.MoveTo(OuterRadius + lineStart.X, OuterRadius + lineStart.Y);
+				cr.LineTo(OuterRadius + lineStop.X, OuterRadius + lineStop.Y);
+				cr.Stroke();
+				lineStart = lineStart.Rotate(DiffAngle);
+				lineStop = lineStop.Rotate(DiffAngle);
+			}
+
 		}
 
-		
 		#endregion
-		
+
 	}
 }

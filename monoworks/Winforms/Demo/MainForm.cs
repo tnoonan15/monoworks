@@ -24,13 +24,13 @@ namespace Demo
 			var book = new SceneBook(_viewportAdapter.Viewport);
 			sceneSpace.Root = book;
 
-			// create the cards scene
-			var cards = new CardScene(_viewportAdapter.Viewport);
-			book.Add(cards);
-
 			// create the controls scene
 			var controls = new ControlsScene(_viewportAdapter.Viewport);
 			book.Add(controls);
+
+			// create the cards scene
+			var cards = new CardScene(_viewportAdapter.Viewport);
+			book.Add(cards);
 
 			// create the 2D plotting scene
 			var plot2D = new Plot2dScene(_viewportAdapter.Viewport);

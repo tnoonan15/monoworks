@@ -182,8 +182,20 @@ namespace MonoWorks.Demo
 			toolActor.XAxis = new Vector(0, 1, 0);
 			RenderList.AddActor(toolActor);
 			toolActor.ComputeGeometry();
-			
-		
+
+			mwx.Get<RingButton>("forward-button").Clicked += delegate {
+				Console.WriteLine("forward pushed");
+			};
+			mwx.Get<RingButton>("backward-button").Clicked += delegate {
+				Console.WriteLine("backward pushed");
+			};
+			mwx.Get<RingButton>("play-button").Clicked += delegate {
+				Console.WriteLine("play pushed");
+			};
+			mwx.Get<RingButton>("pause-button").Clicked += delegate {
+				Console.WriteLine("pause pushed");
+			};
+
 			
 			Camera.SetViewDirection(ViewDirection.Standard);
 		}

@@ -71,11 +71,11 @@
 		</mwc:TreeView>
 	</mwc:Dialog>
 	
-	<mwc:RingBar Name="ring-bar" OuterRadius="96" InnerRadius="48">
-		<mwc:RingButton ButtonStyle="Image" Image="rating.png,MonoWorks.Demo"></mwc:RingButton>
-		<mwc:RingButton ButtonStyle="Image" Image="image-loading.png,MonoWorks.Demo"></mwc:RingButton>
-		<mwc:RingButton ButtonStyle="Image" Image="plugin.png,MonoWorks.Demo"></mwc:RingButton>
-		<mwc:RingButton ButtonStyle="Image" Image="view-tree.png,MonoWorks.Demo"></mwc:RingButton>
+	<mwc:RingBar Name="ring-bar" OuterRadius="70" InnerRadius="28">
+    <mwc:RingButton Name="forward-button" ButtonStyle="Image" Image="media-seek-forward.png,MonoWorks.Demo"></mwc:RingButton>
+    <mwc:RingButton Name="play-button" ButtonStyle="Image" Image="media-playback-start.png,MonoWorks.Demo"></mwc:RingButton>
+    <mwc:RingButton Name="backward-button" ButtonStyle="Image" Image="media-seek-backward.png,MonoWorks.Demo"></mwc:RingButton>
+    <mwc:RingButton Name="pause-button" ButtonStyle="Image" Image="media-playback-pause.png,MonoWorks.Demo"></mwc:RingButton>
 	</mwc:RingBar>
 	
 </mwx:Mwx>
