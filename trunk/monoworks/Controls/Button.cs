@@ -26,15 +26,10 @@ namespace MonoWorks.Controls
 {
 	
 	/// <summary>
-	/// Defines how the button image and label are laid out.
-	/// </summary>
-	public enum ButtonStyle {Image, Label, ImageOverLabel, ImageNextToLabel};
-	
-	/// <summary>
 	/// Control that can be clicked by the user.
 	/// </summary>
-	/// <remarks> Buttons can contain an image and/or label.</remarks>
-	public class Button : Control2D, IActionPopulatable
+	/// <remarks> Buttons can contain an Image and/or Label.</remarks>
+	public class Button : AbstractButton
 	{
 
 		/// <summary>
@@ -42,139 +37,43 @@ namespace MonoWorks.Controls
 		/// </summary>
 		public Button() : base()
 		{
-			IsHoverable = true;
 		}
 		
 		/// <summary>
 		/// Create a button with the given text.
 		/// </summary>
-		public Button(string text) : this(new Label(text))
-		{
-
-		}
-
-		/// <summary>
-		/// Create a button with the given label.
-		/// </summary>
-		public Button(Label label) : this(label, null)
-		{
-			ButtonStyle = ButtonStyle.Label;
-		}
-
-		/// <summary>
-		/// Create a button with the given image.
-		/// </summary>
-		public Button(Image image) : this("", image)
-		{
-			ButtonStyle = ButtonStyle.Image;
-		}
-
-		/// <summary>
-		/// Creates a button with the given label text and image.
-		/// </summary>
-		public Button(string text, Image image) : this(new Label(text), image)
+		public Button(string text) : base(text)
 		{
 		}
 
 		/// <summary>
-		/// Create a button with the given label and image.
+		/// Create a button with the given Label.
 		/// </summary>
-		public Button(Label label, Image image) 
-			: this()
+		public Button(Label label) : base(label)
 		{
-			this.label = label;
-			label.IsHoverable = false;
-			this.image = image;
-			ButtonStyle = ButtonStyle.ImageOverLabel;
 		}
 
-		private Label label;
-		/// <value>
-		/// The label on the button.
-		/// </value>
-		public Label Label
+		/// <summary>
+		/// Create a button with the given Image.
+		/// </summary>
+		public Button(Image Image) : base(Image)
 		{
-			get { return label; }
-			set
-			{
-				label = value;
-				label.IsHoverable = false;
-				MakeDirty();
-			}
 		}
 
-		/// <value>
-		/// The string of the label.
-		/// </value>
-		[MwxProperty]
-		public string LabelString
+		/// <summary>
+		/// Creates a button with the given label text and Image.
+		/// </summary>
+		public Button(string text, Image Image) : base(text, Image)
 		{
-			get
-			{
-				if (label == null)
-					return "";
-				return label.Body;
-			}
-			set
-			{
-				if (label == null)
-				{
-					label = new Label();
-					label.IsHoverable = false;
-				}
-				label.Body = value;
-			}
 		}
-		
-		private Image image;
-		/// <value>
-		/// The image on the button.
-		/// </value>
-		[MwxProperty]
-		public Image Image
-		{
-			get
-			{
-				if (image == null)
-					image = new Image();
-				return image;
-			}
-			set {image = value;}
-		}
-		
-			
-		#region Layout		
 
-		/// <value>
-		/// The style used to layout the image and label.
-		/// </value>
-		[MwxProperty]
-		public ButtonStyle ButtonStyle {get; set;}
-		
-		
-		/// <value>
-		/// The button style to use to render.
-		/// </value>
-		/// <remarks>This may be different than the current style
-		/// if some of the controls are missing.</remarks>
-		protected ButtonStyle StyleToUse
+		/// <summary>
+		/// Create a button with the given label and Image.
+		/// </summary>
+		public Button(Label label, Image Image) : base(label, Image)
 		{
-			get
-			{				
-				// if one of the correct controls isn't present
-				if (ButtonStyle == ButtonStyle.ImageOverLabel || 
-				          ButtonStyle == ButtonStyle.ImageNextToLabel)
-				{
-					if (label == null)
-						return ButtonStyle.Image;
-					else if (image == null)
-						return ButtonStyle.Label;
-				}
-				return ButtonStyle;
-			}
-		}		
+		}
 		
-		#endregion
 		
 		
 		#region Rendering
@@ -184,204 +83,67 @@ namespace MonoWorks.Controls
 			base.ComputeGeometry();
 
 			Coord pad = new Coord(Padding, Padding);
-			Coord pad2 = new Coord(Padding, Padding) * 2;
+			Coord pad2 = pad * 2;
 			
 			// the correct control is not present
-			if ((ButtonStyle == ButtonStyle.Label && label == null) || 
-			    (ButtonStyle == ButtonStyle.Image && image == null) ||
-			    (label == null && image == null))
+			if ((ButtonStyle == ButtonStyle.Label && Label == null) || 
+			    (ButtonStyle == ButtonStyle.Image && Image == null) ||
+			    (Label == null && Image == null))
 			{
 				MinSize = pad2;
 				return;
 			}
-				
-			if (image != null && image.IsDirty)
-				image.ComputeGeometry();
-			if (label != null && label.IsDirty)
-				label.ComputeGeometry();
-
+			
+			if (Image != null && Image.IsDirty)
+				Image.ComputeGeometry();
+			if (Label != null && Label.IsDirty)
+				Label.ComputeGeometry();
+		
 			switch (StyleToUse)
 			{
-			case ButtonStyle.Label: // only show the label
-				if (image != null)
-					image.IsVisible = false;
-				label.Origin = pad;
-				MinSize = label.RenderSize + pad2;
+			case ButtonStyle.Label:
+				// only show the label
+				if (Image != null)
+					Image.IsVisible = false;
+				Label.Origin = pad;
+				MinSize = Label.RenderSize + pad2;
 				ApplyUserSize();
 				break;
 				
-			case ButtonStyle.Image: // only show the image
-				if (label != null)
-					label.IsVisible = false;
-				image.IsVisible = true;
-				image.Origin = pad;
-				MinSize = image.RenderSize + pad2;
+			case ButtonStyle.Image: // only show the Image
+				if (Label != null)
+					Label.IsVisible = false;
+				Image.IsVisible = true;
+				Image.Origin = pad;
+				MinSize = Image.RenderSize + pad2;
 				ApplyUserSize();
 				break;
 				
-			case ButtonStyle.ImageOverLabel: // place the image over the label
-				image.IsVisible = true;
-				label.IsVisible = true;
-				MinSize = new Coord(Math.Max(image.RenderWidth, label.RenderWidth),
-								 image.RenderHeight + label.RenderHeight + Padding) + pad2;
+			case ButtonStyle.ImageOverLabel: // place the Image over the label
+				Image.IsVisible = true;
+				Label.IsVisible = true;
+				MinSize = new Coord(Math.Max(Image.RenderWidth, Label.RenderWidth),
+								 Image.RenderHeight + Label.RenderHeight + Padding) + pad2;
 				ApplyUserSize();
-				image.Origin = pad + new Coord((RenderWidth - image.RenderWidth) / 2.0 - Padding, 0);
-				label.Origin = pad + new Coord((RenderWidth - label.RenderWidth) / 2.0 - Padding, image.RenderHeight + Padding);
+				Image.Origin = pad + new Coord((RenderWidth - Image.RenderWidth) / 2.0 - Padding, 0);
+				Label.Origin = pad + new Coord((RenderWidth - Label.RenderWidth) / 2.0 - Padding, Image.RenderHeight + Padding);
 				break;
 				
-			case ButtonStyle.ImageNextToLabel: // place the image to the right of the label
-				image.IsVisible = true;
-				label.IsVisible = true;
-				MinSize = new Coord(image.RenderWidth + label.RenderWidth + Padding, 
-				                 Math.Max(image.RenderHeight, label.RenderHeight)) + pad2;
+			case ButtonStyle.ImageNextToLabel: // place the Image to the right of the label
+				Image.IsVisible = true;
+				Label.IsVisible = true;
+				MinSize = new Coord(Image.RenderWidth + Label.RenderWidth + Padding, 
+				                 Math.Max(Image.RenderHeight, Label.RenderHeight)) + pad2;
 				ApplyUserSize();
-				image.Origin = pad;
-				label.Origin = pad + new Coord(image.RenderWidth + Padding, (RenderHeight - label.RenderHeight) / 2.0 - Padding);
+				Image.Origin = pad;
+				Label.Origin = pad + new Coord(Image.RenderWidth + Padding, (RenderHeight - Label.RenderHeight) / 2.0 - Padding);
 				break;
-			}
-		}
-
-		protected override void Render(RenderContext context)
-		{
-			base.Render(context);
-			
-			if (label != null && label.IsVisible)
-				label.RenderCairo(context);
-			
-			if (image != null && image.IsVisible)
-				image.RenderCairo(context);
-			
-			if (IsSelected && !IsTogglable && _justKeyActivated)
-			{
-				_justKeyActivated = false;
-				IsSelected = false;
-				MakeDirty();
 			}
 		}
 
 		#endregion
 				
 		
-		#region Interaction
-		
-		protected override void OnEnter(MouseEvent evt)
-		{
-			base.OnEnter(evt);
-			
-			evt.Scene.SetCursor(CursorType.Normal);
-		}
-
-
-		protected bool isTogglable = false;
-		/// <summary>
-		/// Whether the button toggles or just clicks.
-		/// </summary>
-		public bool IsTogglable
-		{
-			get { return isTogglable; }
-			set { isTogglable = value; }
-		}
-
-		protected bool justClicked = false;
-
-		public override void OnButtonPress(MouseButtonEvent evt)
-		{
-			base.OnButtonPress(evt);
-			
-			if (evt.IsHandled)
-				return;
-
-			if (HitTest(evt.Pos) && !justClicked)
-			{
-				evt.Handle(this);
-				justClicked = true;
-				IsSelected = true;
-				IsFocused = true;
-				QueuePaneRender();
-			}
-		}
-
-		public override void OnButtonRelease(MouseButtonEvent evt)
-		{
-			base.OnButtonRelease(evt);
-
-			if (IsSelected && !IsTogglable)
-				Deselect();
-
-			// if we were just clicked, we get to handle the next button release event
-			if (justClicked)
-			{
-				justClicked = false;
-				evt.Handle(this);
-				QueuePaneRender();
-				Click();
-			}
-
-		}
-
-		/// <summary>
-		/// Called when the button is clicked by the user.
-		/// </summary>
-		public event EventHandler Clicked;
-		
-		/// <summary>
-		/// Activates the button clicked event.
-		/// </summary>
-		public void Click()
-		{
-			if (Clicked != null)
-				Clicked(this, new EventArgs());
-		}
-		
-		/// <summary>
-		/// Activates the button clicked event with the given args.
-		/// </summary>
-		public void Click(object sender, EventArgs args)
-		{
-			if (Clicked != null)
-				Clicked(sender, args);
-		}
-		
-		private bool _justKeyActivated;
-		
-		public override void OnKeyPress(KeyEvent evt)
-		{
-			base.OnKeyPress(evt);
-			
-			if (evt.SpecialKey == SpecialKey.Enter || evt.SpecialKey == SpecialKey.Space)
-			{
-				evt.Handle(this);
-				_justKeyActivated = true;
-				IsSelected = true;
-				IsFocused = true;
-				QueuePaneRender();
-				Click();
-			}
-		}
-
-		
-		#endregion
-		
-		
-		#region Action Population
-		
-		/// <summary>
-		/// Populates the button from an action.
-		/// </summary>
-		public void Populate(MonoWorks.Base.UiAction action)
-		{
-			LabelString = action.Name;
-			if (action.IconName != null)
-			{
-				Image = new Image();
-				Image.Parse(action.IconName);
-			}
-			
-			Clicked += action.Activate;
-			IsTogglable = action.IsTogglable;
-		}
-		
-		#endregion
 
 
 		
