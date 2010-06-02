@@ -165,8 +165,7 @@ namespace MonoWorks.Controls
 		}		
 		
 		#endregion
-		
-		
+			
 		
 		#region Interaction
 		

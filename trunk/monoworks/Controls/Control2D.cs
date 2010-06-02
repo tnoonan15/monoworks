@@ -47,6 +47,7 @@ namespace MonoWorks.Controls
 			ToolTip = "";
 			
 			Origin = new Coord();
+			RenderSize = new Coord();
 			
 			HitStateChanged += OnHitStateChanged;
 			
