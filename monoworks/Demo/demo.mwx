@@ -71,4 +71,11 @@
 		</mwc:TreeView>
 	</mwc:Dialog>
 	
+	<mwc:RingBar Name="ring-bar" OuterRadius="96" InnerRadius="48">
+		<mwc:RingButton ButtonStyle="Image" Image="rating.png,MonoWorks.Demo"></mwc:RingButton>
+		<mwc:RingButton ButtonStyle="Image" Image="image-loading.png,MonoWorks.Demo"></mwc:RingButton>
+		<mwc:RingButton ButtonStyle="Image" Image="plugin.png,MonoWorks.Demo"></mwc:RingButton>
+		<mwc:RingButton ButtonStyle="Image" Image="view-tree.png,MonoWorks.Demo"></mwc:RingButton>
+	</mwc:RingBar>
+	
 </mwx:Mwx>

@@ -96,6 +96,9 @@
     <Compile Include="Cards\CardBook.cs" />
     <Compile Include="Cards\CardContents.cs" />
     <Compile Include="Cards\CardInteractor.cs" />
+    <Compile Include="RingBar.cs" />
+    <Compile Include="RingButton.cs" />
+    <Compile Include="AbstractButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
