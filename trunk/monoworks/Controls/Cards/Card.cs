@@ -142,8 +142,22 @@ namespace MonoWorks.Controls.Cards
 		public Card FindByGridCoord(IntCoord coord)
 		{
 			var res = from card in _children
-					where card.GridCoord.X == coord.X && card.GridCoord.Y == coord.Y
-					select card;
+				where card.GridCoord.X == coord.X && card.GridCoord.Y == coord.Y
+				select card;
+			if (res.Count() > 0)
+				return res.First();
+			return null;
+		}
+
+		/// <summary>
+		/// Finds the child at the given spatial position (if any).
+		/// </summary>
+		public Card FindByPosition(Coord coord)
+		{
+			var res = from card in _children
+				where card.Origin.X <= coord.X && card.Origin.X + card.RenderWidth >= coord.X &&
+					card.Origin.Y <= coord.Y && card.Origin.Y + card.RenderHeight >= coord.Y
+				select card;
 			if (res.Count() > 0)
 				return res.First();
 			return null;
@@ -155,7 +169,11 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public Card FocusedChild {
 			get { return _focusedChild; }
-			set	{
+			set {
+				if (value == null) {
+					_focusedChild = null;
+					return;
+				}
 				if (!_children.Contains(value))
 					throw new Exception(String.Format("Card {0} does not belong to {1}", value.Name, Name));
 				_focusedChild = value;
@@ -185,14 +203,24 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		[MwxProperty]
 		public double Padding { get; set; }
+
+		/// <summary>
+		/// The index of each grid column, stored during ComputeGeometry().
+		/// </summary>
+		private int[] _xIndex;
 		
 		/// <summary>
-		/// The start of each grid column, stored during ComputeGeometry().
+		/// The center of each grid column, stored during ComputeGeometry().
 		/// </summary>
 		private double[] _xGrid;
 
 		/// <summary>
-		/// The start of each grid row, stored during ComputeGeometry().
+		/// The index of each grid row, stored during ComputeGeometry().
+		/// </summary>
+		private int[] _yIndex;
+
+		/// <summary>
+		/// The center of each grid row, stored during ComputeGeometry().
 		/// </summary>
 		private double[] _yGrid;
 
@@ -228,43 +256,60 @@ namespace MonoWorks.Controls.Cards
 				bounds.Resize(0, 0, 0);
 				
 				// align the columns
-				_xGrid = new double[max.X - min.X + 2];
-				_xGrid[0] = 0;
+				_xIndex = new int[max.X - min.X + 1];
+				_xGrid = new double[max.X - min.X + 1];
 				double x = 0;
+				int i = 0;
 				for (int col = min.X; col <= max.X; col++) 
 				{
-					// determine the width of the column and set the x positions
+					_xIndex[i] = col;
+					_xGrid[i] = x;
+					
+					// determine the width of the column
 					var thisCol = FindByColumn(col);
 					double width = 0;
 					foreach (var card in thisCol) {
 						if (card.Control.RenderWidth > width) {
 							width = card.Control.RenderWidth;
 						}
-						card.Origin.X = x;
 					}
+					
+					// set the x positions
+					foreach (var card in thisCol) {
+						card.Origin.X = x - width / 2;
+					}
+					
 					x += width + Padding;
-					_xGrid[col - min.X + 1] = x;
+					i++;
 				}
 				
 				// align the rows
-				_yGrid = new double[max.Y - min.Y + 2];
-				_yGrid[0] = 0;
+				_yIndex = new int[max.Y - min.Y + 1];
+				_yGrid = new double[max.Y - min.Y + 1];
 				double y = 0;
+				i = 0;
 				for (int row = min.Y; row <= max.Y; row++)
 				{
-					// determine the height of the row and set the y positions
+					_yIndex[i] = row;
+					_yGrid[i] = y;
+					
+					// determine the height of the row
 					var thisRow = FindByRow(row);
 					double height = 0;
 					foreach (var card in thisRow) {
 						if (card.Control.RenderHeight > height) {
 							height = card.Control.RenderHeight;
 						}
-						card.Origin.Y = y - height;
 					}
-					y -= height + Padding;
-					_yGrid[row - min.Y + 1] = y;
+					
+					// set the y positions
+					foreach (var card in thisRow) {
+						card.Origin.Y = y - height/2;
+					}
+					
+					y += height + Padding;
+					i++;
 				}
-				Array.Reverse(_yGrid);
 				
 				foreach (var card in _children) {
 					card.ComputeGeometry();
@@ -294,47 +339,13 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		/// <returns>The card at that location, if any.</returns>
 		/// <remarks>The return value is also set as FocusedChild.</remarks>
-		public Card RoundToNearestGrid(Coord coord)
+		public void RoundToNearestGrid(Coord coord)
 		{
-			IntCoord gridCoord = new IntCoord();
-
 			// compute the x coordinate
-			for (int i = 0; i < _xGrid.Length; i++)
-			{
-				if (_xGrid[i] >= coord.X) {
-					if (i == 0)
-						coord.X = (_xGrid[0] + _xGrid[1]) / 2.0;
-					else
-						coord.X = (_xGrid[i - 1] + _xGrid[i]) / 2.0;
-					gridCoord.X = i - 1;
-					break;
-				}
-			}
-			if (coord.X > _xGrid.Last())
-			{
-				coord.X = (_xGrid[_xGrid.Length - 2] + _xGrid.Last()) / 2.0;
-				gridCoord.X = _xGrid.Length - 1;
-			}
+			coord.X = _xGrid.Round(coord.X);
 			
 			// compute the y coordinate
-			for (int i = 0; i < _yGrid.Length; i++)
-			{
-				if (_yGrid[i] > coord.Y) {
-					if (i == 0)
-						coord.Y = (_yGrid[0] + _yGrid[1]) / 2.0;
-					else
-						coord.Y = (_yGrid[i - 1] + _yGrid[i]) / 2.0;
-					gridCoord.Y = _yGrid.Length - i - 1;
-					break;
-				}
-			}
-			if (coord.Y > _yGrid.Last()) {
-				coord.Y = (_yGrid[_yGrid.Length - 2] + _yGrid.Last()) / 2.0;
-				gridCoord.Y = 0;
-			}
-
-			_focusedChild = FindByGridCoord(gridCoord);
-			return _focusedChild;
+			coord.Y = _yGrid.Round(coord.Y);
 		}
 
 		#endregion

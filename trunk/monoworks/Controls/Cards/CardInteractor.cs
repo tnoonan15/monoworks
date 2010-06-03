@@ -228,6 +228,7 @@ namespace MonoWorks.Controls.Cards
 				CurrentRoot = CardBook;
 			var coord = new Coord(camera.Position.X, camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
+			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
 			
 			// move the camera
 			camera.Center.X = coord.X;
@@ -265,6 +266,7 @@ namespace MonoWorks.Controls.Cards
 				CurrentRoot = CardBook;
 			var coord = new Coord(camera.Position.X, camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
+			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
 			
 			// create the animation
 			var center = camera.Center.Copy();

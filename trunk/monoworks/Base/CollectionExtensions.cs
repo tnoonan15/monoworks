@@ -66,6 +66,22 @@ namespace MonoWorks.Base
 			return list[list.Count - 1];
 		}
 
+		/// <summary>
+		/// Rounds val to the nearest value in array. 
+		/// </summary>
+		public static double Round(this double[] array, double val)
+		{
+			if (array.Length == 0)
+				return val;
+			if (val <= array[0])
+				return array[0];
+			for (int i = 1; i < array.Length; i++)
+			{
+				if (val < (array[i]+array[i-1])/2.0)
+					return array[i-1];
+			}
+			return array.Last();
+		}
 
 	}
 }
