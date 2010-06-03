@@ -169,6 +169,14 @@ namespace MonoWorks.Base
 		{
 			_val -= 0.5*PI;
 		}
+
+		/// <summary>
+		/// Returns an angle with the inverted value.
+		/// </summary>
+		public Angle Negate()
+		{
+			return new Angle(-Value);
+		}
 		
 #endregion
 	

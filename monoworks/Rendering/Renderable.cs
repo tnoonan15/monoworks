@@ -43,7 +43,18 @@ namespace MonoWorks.Rendering
 		{
 			IsVisible = true;
 			IsDirty = true;
+
+			var typeName = GetType().ToString().Split('.').Last();
+			int count = 0;
+			_nameCounts.TryGetValue(typeName, out count);
+			Name = String.Format("{0}_{1}", typeName, count);
+			_nameCounts[typeName] = count + 1;
 		}
+
+		/// <summary>
+		/// Keeps track of how many off each type have been created.
+		/// </summary>
+		private static Dictionary<string, int> _nameCounts = new Dictionary<string, int>();
 
 		/// <summary>
 		/// True if the renderable is dirty and needs its geometry recomputed.
