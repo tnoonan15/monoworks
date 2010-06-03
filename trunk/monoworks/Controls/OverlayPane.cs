@@ -221,7 +221,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// This is set true if the pane was dirty last render cycle.
 		/// </summary>
-		private bool wasDirty = false;
+		private bool wasDirty = true;
 				
 		public void QueueRender()
 		{
@@ -251,11 +251,11 @@ namespace MonoWorks.Controls
 		{
 			if (Control == null || !Control.IsVisible)
 				return;
+
+			if (Control.IsDirty || wasDirty)
+				ComputeGeometry();
 			
 			base.RenderOverlay(scene);
-			
-			if (Control.IsDirty)
-				ComputeGeometry();
 			
 			// generate the texture
 			if (texture == 0) {

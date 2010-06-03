@@ -212,7 +212,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// This is set true if the pane was dirty last render cycle.
 		/// </summary>
-		private bool wasDirty = false;
+		private bool wasDirty = true;
 
 		public void QueueRender()
 		{
@@ -260,22 +260,18 @@ namespace MonoWorks.Controls
 			vert -= XAxis * RenderWidth;
 			bounds.Resize(vert);
 			
-			wasDirty = true;
 			
 		}
 		
 		public override void RenderTransparent(Scene scene)
 		{
-			if (Control == null)
+			if (Control == null || !IsVisible)
 				return;
 			
-			base.RenderTransparent(scene);
-			
-			if (Control.IsDirty)
+			if (Control.IsDirty || wasDirty)
 				ComputeGeometry();
 
-			if (!IsVisible)
-				return;
+			base.RenderTransparent(scene);
 			
 			// generate the texture
 			if (texture == 0) {

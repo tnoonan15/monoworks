@@ -42,7 +42,7 @@ namespace MonoWorks.Controls
 	/// </summary>
 	public abstract class Control2D : Renderable
 	{
-		protected Control2D()
+		protected Control2D() : base()
 		{
 			ToolTip = "";
 			
@@ -50,18 +50,7 @@ namespace MonoWorks.Controls
 			RenderSize = new Coord();
 			
 			HitStateChanged += OnHitStateChanged;
-			
-			var typeName = GetType().ToString().Split('.').Last();
-			int count = 0;
-			_nameCounts.TryGetValue(typeName, out count);
-			Name = String.Format("{0}_{1}", typeName, count);
-			_nameCounts[typeName] = count + 1;
 		}
-
-		/// <summary>
-		/// Keeps track of how many off each type have been created.
-		/// </summary>
-		private static Dictionary<string,int> _nameCounts = new Dictionary<string, int>();
 		
 		
 		/// <value>
@@ -387,14 +376,14 @@ namespace MonoWorks.Controls
 						OnEnter(evt);
 					IsHovering = true;
 					evt.Handle(this);
+					QueuePaneRender();
 				}
-				else // it's not hovering now
+				else if (IsHovering) // it's not hovering now
 				{
-					if (IsHovering) // it was hovering before
-						OnLeave(evt);
+					OnLeave(evt);
 					IsHovering = false;
+					QueuePaneRender();
 				}
-				QueuePaneRender();
 			}
 			else
 				IsHovering = false;

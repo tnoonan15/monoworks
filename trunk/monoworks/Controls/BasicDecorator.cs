@@ -782,8 +782,8 @@ namespace MonoWorks.Controls
 			var innerRadius = ringBar.InnerRadius;
 			var grad = new Cairo.RadialGradient(outerRadius, outerRadius, innerRadius,
 				outerRadius, outerRadius, outerRadius);
-			grad.AddColorStop(1, GetColor(ColorType.BackgroundStop, ringBar.HitState).Cairo);
-			grad.AddColorStop(0, GetColor(ColorType.BackgroundStart, ringBar.HitState).Cairo);
+			grad.AddColorStop(1, GetColor(ColorType.BackgroundStop, ringButton.HitState).Cairo);
+			grad.AddColorStop(0, GetColor(ColorType.BackgroundStart, ringButton.HitState).Cairo);
 			Context.Cairo.Pattern = grad;
 
 			// draw the background

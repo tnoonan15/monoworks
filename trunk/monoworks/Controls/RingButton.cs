@@ -120,13 +120,6 @@ namespace MonoWorks.Controls
 				Math.Abs((angle-CenterAngle).Radians) <= ringBar.DiffAngle.Radians/2;
 		}
 
-		protected override void OnEnter(MonoWorks.Rendering.Events.MouseEvent evt)
-		{
-			base.OnEnter(evt);
-
-			Console.WriteLine("entered " + Name);
-		}
-
 		#endregion
 
 
@@ -138,14 +131,13 @@ namespace MonoWorks.Controls
 		/// <remarks>This can be used by decorators to avoid doing the geometry themselves.</remarks>
 		public void DrawOutline(Cairo.Context cr)
 		{
-
 			// can't do anything if we're not inside a ring bar
 			if (!(ParentControl is RingBar))
 				return;
 			var ringBar = ParentControl as RingBar;
 			var outerRadius = ringBar.OuterRadius;
 
-			var startAngle = CenterAngle - ringBar.DiffAngle / 2;
+			var startAngle = CenterAngle.Negate() - ringBar.DiffAngle / 2;
 			var stopAngle = startAngle + ringBar.DiffAngle;
 			var inner = new Coord(ringBar.InnerRadius, 0).Rotate(startAngle);
 			var outer = new Coord(ringBar.OuterRadius-2, 0).Rotate(startAngle);
