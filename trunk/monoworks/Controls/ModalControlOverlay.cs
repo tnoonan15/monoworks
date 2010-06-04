@@ -30,21 +30,26 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// A general modal overlay that hosts a single control.
 	/// </summary>
-	public class ModalControlOverlay : ModalOverlay
+	public class GenericModalControlOverlay<ControlType> : ModalOverlay where ControlType : Control2D
 	{
-		public ModalControlOverlay()
+		public GenericModalControlOverlay()
 		{
 			_overlayPane = new OverlayPane();
 			CloseOnOutsideClick = true;
 		}
-
+		
+		public GenericModalControlOverlay(ControlType control) : this()
+		{
+			Control = control;
+		}
+		
 		private readonly OverlayPane _overlayPane;
 
 
 		public override void AddChild(IMwxObject child)
 		{
-			if (child is Control2D)
-				Control = child as Control2D;
+			if (child is ControlType)
+				Control = child as ControlType;
 			else
 				throw new Exception("Children of ModalControlOverlay must be a Control2D.");
 		}
@@ -52,9 +57,9 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The contents of the dialog.
 		/// </summary>
-		public virtual Control2D Control
+		public virtual ControlType Control
 		{
-			get { return _overlayPane.Control; }
+			get { return _overlayPane.Control as ControlType; }
 			set {
 				_overlayPane.Control = value;
 				MakeDirty();
@@ -144,4 +149,11 @@ namespace MonoWorks.Controls
 		#endregion
 
 	}
+	
+	
+	public class ModalControlOverlay : GenericModalControlOverlay<Control2D>
+	{
+		
+	}
+	
 }
