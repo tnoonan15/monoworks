@@ -99,6 +99,7 @@
     <Compile Include="RingBar.cs" />
     <Compile Include="RingButton.cs" />
     <Compile Include="AbstractButton.cs" />
+    <Compile Include="RingMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\contracted.png" />
@@ -131,6 +132,12 @@
     <EmbeddedResource Include="World\icons\top-view.png" />
     <EmbeddedResource Include="icons\down.png" />
     <EmbeddedResource Include="icons\up.png" />
+    <EmbeddedResource Include="icons\edit.png" />
+    <EmbeddedResource Include="icons\edit-copy.png" />
+    <EmbeddedResource Include="icons\edit-delete.png" />
+    <EmbeddedResource Include="icons\edit-paste.png" />
+    <EmbeddedResource Include="icons\transform-move.png" />
+    <EmbeddedResource Include="icons\document-new.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

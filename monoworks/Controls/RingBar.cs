@@ -34,6 +34,8 @@ namespace MonoWorks.Controls
 
 		public RingBar()
 		{
+			OuterRadius = 72;
+			InnerRadius = 30;
 		}
 		
 		

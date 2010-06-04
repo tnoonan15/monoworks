@@ -49,6 +49,8 @@ namespace MonoWorks.Controls.Cards
 				Duration = 1.5,
 				EaseType = EaseType.Quadratic
 			};
+			
+			CreateContextMenus();
 		}
 		
 		
@@ -136,6 +138,10 @@ namespace MonoWorks.Controls.Cards
 			{
 				AnimateToNearest(evt.Scene.Camera);
 			}
+			else if (evt.Button == 3)
+			{
+				OnRightClick(evt);
+			}
 			
 			_mouseType = InteractionType.None;
 			
@@ -190,6 +196,104 @@ namespace MonoWorks.Controls.Cards
 			}
 		}
 
+		#region Context Actions
+		
+		private void CreateContextMenus()
+		{
+			OccupiedContextMenu = new RingMenu();
+			var editButton = new RingButton(new Image(ResourceHelper.GetStream("edit.png")));
+			editButton.Clicked += EditCurrent;
+			OccupiedContextMenu.Add(editButton);
+			var moveButton = new RingButton(new Image(ResourceHelper.GetStream("transform-move.png")));
+			moveButton.Clicked += BeginMoveCurrent;
+			OccupiedContextMenu.Add(moveButton);
+			var deleteButton = new RingButton(new Image(ResourceHelper.GetStream("edit-delete.png")));
+			deleteButton.Clicked += DeleteCurrent;
+			OccupiedContextMenu.Add(deleteButton);
+			var copyButton = new RingButton(new Image(ResourceHelper.GetStream("edit-copy.png")));
+			copyButton.Clicked += CopyCurrent;
+			OccupiedContextMenu.Add(copyButton);
+			
+			EmptyContextMenu = new RingMenu();
+			var newButton = new RingButton(new Image(ResourceHelper.GetStream("document-new.png")));
+			newButton.Clicked += NewCard;
+			EmptyContextMenu.Add(newButton);
+			var pasteButton = new RingButton(new Image(ResourceHelper.GetStream("edit-paste.png")));
+			pasteButton.Clicked += Paste;
+			EmptyContextMenu.Add(pasteButton);
+		}
+		
+		/// <summary>
+		/// The ring menu that appears when the user right clicks on a card.
+		/// </summary>
+		public RingMenu OccupiedContextMenu {get; private set;}
+		
+		/// <summary>
+		/// The ring menu that appears when the user right clicks on an empty space.
+		/// </summary>
+		public RingMenu EmptyContextMenu {get; private set;}
+		
+		protected virtual void OnRightClick(MouseButtonEvent evt)
+		{
+			if (CurrentRoot == null)
+				return;
+			if (CurrentRoot.FocusedChild == null)
+				// no current card
+				EmptyContextMenu.Show(evt);
+			else
+				// there is a current card
+				OccupiedContextMenu.Show(evt);
+		}
+		
+		/// <summary>
+		/// Puts the current card in edit mode.
+		/// </summary>
+		public virtual void EditCurrent(object sender, EventArgs args)
+		{
+		
+		}
+		
+		/// <summary>
+		/// Deletes the current card.
+		/// </summary>
+		public virtual void DeleteCurrent(object sender, EventArgs args)
+		{
+		
+		}
+		
+		/// <summary>
+		/// Begins moving the current card.
+		/// </summary>
+		public virtual void BeginMoveCurrent(object sender, EventArgs args)
+		{
+		
+		}
+		
+		/// <summary>
+		/// Copies the current card to the internal clipboard.
+		/// </summary>
+		public virtual void CopyCurrent(object sender, EventArgs args)
+		{
+		
+		}
+		
+		/// <summary>
+		/// Pastes the internal clipboard into an empty space.
+		/// </summary>
+		public virtual void Paste(object sender, EventArgs args)
+		{
+		
+		}
+		
+		/// <summary>
+		/// Creates a new card at the current empty location.
+		/// </summary>
+		public virtual void NewCard(object sender, EventArgs args)
+		{
+			
+		}
+		
+		#endregion
 
 			
 		#region Camera Motion
