@@ -139,6 +139,15 @@ namespace MonoWorks.Controls
 			_overlayPane.OnMouseMotion(evt);
 		}
 
+		public override void OnMouseWheel(MouseWheelEvent evt)
+		{
+			base.OnMouseWheel(evt);
+
+			_overlayPane.OnMouseWheel(evt);
+			if (!evt.IsHandled) // don't let anyone else handle the event
+				evt.Handle(this);
+		}
+
 		public override void OnKeyPress(KeyEvent evt)
 		{
 			base.OnKeyPress(evt);

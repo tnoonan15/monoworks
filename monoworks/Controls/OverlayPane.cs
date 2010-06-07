@@ -60,12 +60,14 @@ namespace MonoWorks.Controls
 		
 		public double RenderWidth
 		{
-			get {return RenderSize.X;}
+			get { return RenderSize.X; }
+			set { RenderSize.X = value; }
 		}
 		
 		public double RenderHeight
 		{
-			get {return RenderSize.Y;}
+			get { return RenderSize.Y; }
+			set { RenderSize.Y = value; }
 		}
 		
 		/// <value>
@@ -157,6 +159,8 @@ namespace MonoWorks.Controls
 			if (Control != null)
 			{
 				var controlEvt = new MouseEvent(evt.Scene, GetControlPoint(evt.Pos), evt.Modifier);
+				if (evt.IsHandled)
+					controlEvt.Handle(this);
 				Control.OnMouseMotion(controlEvt);
 				if (controlEvt.IsHandled)
 					evt.Handle(this);
@@ -242,6 +246,9 @@ namespace MonoWorks.Controls
 			
 			if (Control.IsDirty)
 				Control.ComputeGeometry();
+
+			RenderWidth = Control.RenderWidth;
+			RenderHeight = Control.RenderHeight;
 			
 			wasDirty = true;
 						

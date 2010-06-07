@@ -29,25 +29,20 @@ namespace MonoWorks.Controls
 {
 
 
-	public class Dialog : ModalControlOverlay
+	public class Dialog : GenericModalControlOverlay<DialogFrame>
 	{
 
-		public Dialog ()
+		public Dialog() : base(new DialogFrame())
 		{
-			_frame = new DialogFrame();
-			base.Control = _frame;
-			_frame.Closed += (sender, e) => Close();
+			Control.Closed += (sender, e) => Close();
 			GrayScene = true;                 
 			CloseOnOutsideClick = false;
-		}
-		
-		private readonly DialogFrame _frame;
-		
+		}		
 		
 		public override void AddChild(IMwxObject child)
 		{
 			if (child is Control2D)
-				Control = child as Control2D;
+				Children.AddChild(child as Control2D);
 			else
 				throw new Exception("Children of Dialog must be a Control2D.");
 		}
@@ -59,23 +54,16 @@ namespace MonoWorks.Controls
 		[MwxProperty]
 		public string Title
 		{
-			get {return _frame.Title;}
-			set {_frame.Title = value;}
+			get {return Control.Title;}
+			set { Control.Title = value; }
 		}		
 		
 		/// <summary>
 		/// The contents of the dialog.
 		/// </summary>
-		public override Control2D Control
+		public Container Children
 		{
-			get {
-				if (_frame.NumChildren > 0)
-					return _frame[0];
-				return null;
-			}
-			set {
-				_frame.SetChild(0, value);
-			}
+			get { return Control; }
 		}
 
 		public override void OnShown(Scene scene)

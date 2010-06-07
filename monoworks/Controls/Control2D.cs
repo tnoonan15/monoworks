@@ -114,11 +114,6 @@ namespace MonoWorks.Controls
 		/// <remarks>Use this for hit testing.</remarks>
 		protected Coord LastPosition { get; private set; }
 
-		/// <summary>
-		/// This will be true if the control was made dirty after the last rendering cycle.
-		/// </summary>
-//		private bool wasDirty = true;
-
 		/// <value>
 		/// The last rendered size of the control.
 		/// </value>
@@ -387,6 +382,7 @@ namespace MonoWorks.Controls
 			}
 			else
 				IsHovering = false;
+			//QueuePaneRender(); // this makes it refresh all the time, but it doesn't seem right
 			
 		}
 		
