@@ -56,7 +56,6 @@ namespace MonoWorks.Rendering
 
 		public override void RenderOverlay(Scene scene)
 		{
-			base.RenderOverlay(scene);
 
 			if (GrayScene)
 			{
@@ -69,6 +68,7 @@ namespace MonoWorks.Rendering
 				gl.glVertex2d(0, scene.Height);
 				gl.glEnd();
 			}
+			base.RenderOverlay(scene);
 		}
 		
 		

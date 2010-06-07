@@ -81,8 +81,6 @@ namespace MonoWorks.Controls
 			MinSize = new Coord();
 			foreach (var child in Children)
 			{
-				if (child.IsDirty)
-					child.ComputeGeometry();
 				MinSize = Coord.Max(MinSize, child.RenderSize);
 			}
 			MinSize.Y += TitleHeight;
@@ -131,8 +129,6 @@ namespace MonoWorks.Controls
 			base.OnButtonPress(evt);
 			
 			CloseButton.OnButtonPress(evt);
-//			foreach (var child in Children)
-//				child.OnButtonPress(evt);
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
@@ -140,8 +136,6 @@ namespace MonoWorks.Controls
 			base.OnButtonRelease(evt);
 			
 			CloseButton.OnButtonRelease(evt);
-//			foreach (var child in Children)
-//				child.OnButtonRelease(evt);
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)
@@ -149,8 +143,6 @@ namespace MonoWorks.Controls
 			base.OnMouseMotion(evt);
 			
 			CloseButton.OnMouseMotion(evt);
-//			foreach (var child in Children)
-//				child.OnMouseMotion(evt);
 		}
 		
 		#endregion

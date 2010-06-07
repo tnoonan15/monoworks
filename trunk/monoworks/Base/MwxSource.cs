@@ -203,7 +203,8 @@ namespace MonoWorks.Base
 					{
 						if (_childPropertyName == null) {
 							parent.AddChild(obj);
-							obj.Parent = parent;
+							if (obj.Parent == null) // don't want to override what the parent set
+								obj.Parent = parent;
 						}
 						else
 							SetProperty(parent, _childPropertyName, obj);
