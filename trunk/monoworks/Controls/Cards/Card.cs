@@ -35,10 +35,9 @@ namespace MonoWorks.Controls.Cards
 	/// </summary>
 	public class Card : ActorPane
 	{
-		public Card()
+		public Card() : this(new CardContents())
 		{
-			Scaling = 1;
-			Padding = 100;
+			Control.UserSize = new Coord(300, 300);
 		}
 		
 		/// <summary>
@@ -47,6 +46,7 @@ namespace MonoWorks.Controls.Cards
 		public Card(CardContents card) : base(card)
 		{
 			Padding = 100;
+			Scaling = 1;
 		}
 		
 		/// <summary>
@@ -88,6 +88,8 @@ namespace MonoWorks.Controls.Cards
 		public void Add(Card card)
 		{
 			_children.Add(card);
+			card.Parent = this;
+			MakeDirty();
 		}
 
 		/// <summary>
@@ -247,6 +249,7 @@ namespace MonoWorks.Controls.Cards
 						min.Min(card.GridCoord);
 						max.Max(card.GridCoord);
 					}
+					Console.WriteLine("origin: {0}, card origin: {1}, layer depth: {2}", Origin, card.Origin, book.LayerDepth);
 					card.Origin.Z = Origin.Z - book.LayerDepth;
 					if (card.Control.IsDirty)
 						card.Control.ComputeGeometry();
@@ -332,13 +335,9 @@ namespace MonoWorks.Controls.Cards
 			
 		}
 		
-		
-
 		/// <summary>
 		/// Rounds to the nearest grid coord to the given spatial coordinate.
 		/// </summary>
-		/// <returns>The card at that location, if any.</returns>
-		/// <remarks>The return value is also set as FocusedChild.</remarks>
 		public void RoundToNearestGrid(Coord coord)
 		{
 			// compute the x coordinate
@@ -346,6 +345,18 @@ namespace MonoWorks.Controls.Cards
 			
 			// compute the y coordinate
 			coord.Y = _yGrid.Round(coord.Y);
+		}
+		
+		/// <summary>
+		/// Finds the grid coord for the given spatial coord.
+		/// </summary>
+		public IntCoord GetGridCoord(Coord coord)
+		{
+			var rounded = new Coord(_xGrid.Round(coord.X), _yGrid.Round(coord.Y));
+			var gridCoord = new IntCoord();
+			gridCoord.X = _xIndex[Array.IndexOf(_xGrid, rounded.X)];
+			gridCoord.Y = _yIndex[Array.IndexOf(_yGrid, rounded.Y)];
+			return gridCoord;
 		}
 
 		#endregion

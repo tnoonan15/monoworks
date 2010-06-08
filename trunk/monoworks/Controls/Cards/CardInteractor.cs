@@ -32,12 +32,14 @@ namespace MonoWorks.Controls.Cards
 {
 
 	/// <summary>
-	/// Interactor for cards.
+	/// Generic interactor for cards.
 	/// </summary>
-	public class CardInteractor : AbstractInteractor
+	/// <remarks>By using this class and specifying a card type, the interactor knows which cards to 
+	/// create based on user interactions.</remarks>
+	public class GenericCardInteractor<CardType> : AbstractInteractor where CardType : Card, new()
 	{
 
-		public CardInteractor(Scene scene) : base(scene)
+		public GenericCardInteractor(Scene scene) : base(scene)
 		{
 			_mouseType = InteractionType.None;
 
@@ -290,7 +292,10 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public virtual void NewCard(object sender, EventArgs args)
 		{
-			
+			if (CurrentRoot.FocusedChild != null)
+				throw new Exception("Can't insert a card, there is already one at the current position.");
+			var card = new CardType() {GridCoord = _currentGridCoord.Copy()};
+			CurrentRoot.Add(card);
 		}
 		
 		#endregion
@@ -304,6 +309,8 @@ namespace MonoWorks.Controls.Cards
 		private Dictionary<InteractionType, AnimationOptions> _animationOptions 
 			= new Dictionary<InteractionType, AnimationOptions>();
 
+		private IntCoord _currentGridCoord;
+		
 		/// <summary>
 		/// Sets the animation options to use for the given type of interaction.
 		/// </summary>
@@ -333,6 +340,7 @@ namespace MonoWorks.Controls.Cards
 			var coord = new Coord(camera.Position.X, camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
 			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
+			_currentGridCoord = CurrentRoot.GetGridCoord(coord);
 			
 			// move the camera
 			camera.Center.X = coord.X;
@@ -371,6 +379,7 @@ namespace MonoWorks.Controls.Cards
 			var coord = new Coord(camera.Position.X, camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
 			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
+			_currentGridCoord = CurrentRoot.GetGridCoord(coord);
 			
 			// create the animation
 			var center = camera.Center.Copy();
@@ -434,4 +443,17 @@ namespace MonoWorks.Controls.Cards
 		
 		
 	}
+	
+	
+	/// <summary>
+	/// Non-generic card interactor that works on plain cards.
+	/// </summary>
+	public class CardInteractor : GenericCardInteractor<Card>
+	{
+		
+		public CardInteractor(Scene scene) : base(scene)
+		{
+		}
+	}
+	
 }
