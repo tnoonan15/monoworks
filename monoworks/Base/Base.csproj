@@ -90,6 +90,7 @@
     <Compile Include="Events.cs" />
     <Compile Include="RunningAverager.cs" />
     <Compile Include="IntCoord.cs" />
+    <Compile Include="Plane.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />

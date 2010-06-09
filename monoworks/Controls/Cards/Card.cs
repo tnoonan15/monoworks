@@ -37,7 +37,7 @@ namespace MonoWorks.Controls.Cards
 	{
 		public Card() : this(new CardContents())
 		{
-			Control.UserSize = new Coord(300, 300);
+			Control.UserSize = new Coord(300, 400);
 		}
 		
 		/// <summary>
@@ -98,6 +98,7 @@ namespace MonoWorks.Controls.Cards
 		public void Remove(Card card)
 		{
 			_children.Remove(card);
+			MakeDirty();
 		}
 
 		public override void AddChild(IMwxObject child)
@@ -156,13 +157,8 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public Card FindByPosition(Coord coord)
 		{
-			var res = from card in _children
-				where card.Origin.X <= coord.X && card.Origin.X + card.RenderWidth >= coord.X &&
-					card.Origin.Y <= coord.Y && card.Origin.Y + card.RenderHeight >= coord.Y
-				select card;
-			if (res.Count() > 0)
-				return res.First();
-			return null;
+			var grid = GetGridCoord(coord);
+			return FindByGridCoord(grid);
 		}
 
 		private Card _focusedChild;
@@ -249,7 +245,7 @@ namespace MonoWorks.Controls.Cards
 						min.Min(card.GridCoord);
 						max.Max(card.GridCoord);
 					}
-					Console.WriteLine("origin: {0}, card origin: {1}, layer depth: {2}", Origin, card.Origin, book.LayerDepth);
+//					Console.WriteLine("origin: {0}, card origin: {1}, layer depth: {2}", Origin, card.Origin, book.LayerDepth);
 					card.Origin.Z = Origin.Z - book.LayerDepth;
 					if (card.Control.IsDirty)
 						card.Control.ComputeGeometry();
