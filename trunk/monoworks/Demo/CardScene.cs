@@ -47,7 +47,9 @@ namespace MonoWorks.Demo
 			
 			var interactor = new CardInteractor(this) { CardBook = book };
 			PrimaryInteractor = interactor;
-			
+
+			var sceneInfo = new SceneInfoOverlay(this);
+			RenderList.AddOverlay(sceneInfo);
 		}
 		
 		/// <summary>

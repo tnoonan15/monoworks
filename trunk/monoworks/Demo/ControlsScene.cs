@@ -196,7 +196,10 @@ namespace MonoWorks.Demo
 				Console.WriteLine("pause pushed");
 			};
 
-			
+
+			var sceneInfo = new SceneInfoOverlay(this);
+			RenderList.AddOverlay(sceneInfo);
+
 			Camera.SetViewDirection(ViewDirection.Standard);
 		}
 	}
