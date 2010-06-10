@@ -426,7 +426,6 @@ namespace MonoWorks.Controls.Cards
 				throw new Exception("There's nothing to move!");
 			var scenePos = ScenePos(evt);
 			_movingCard.Origin.X = scenePos.X - _movingCard.RenderWidth/2.0;
-//			_movingCard.Origin.Y = (evt.Scene.Height - scenePos.Y);// + _movingCard.RenderHeight/2.0;
 			_movingCard.Origin.Y = scenePos.Y - _movingCard.RenderHeight/2.0;
 		}
 		
@@ -438,11 +437,9 @@ namespace MonoWorks.Controls.Cards
 			var newCoord = ScenePos(evt);
 			var existingCard = CurrentRoot.FindByPosition(newCoord);
 			var newGrid = CurrentRoot.GetGridCoord(newCoord);
-			Console.WriteLine("new grid coord: {0}", newCoord);
 			if (existingCard != null)
 			{
 				existingCard.GridCoord = _movingCard.GridCoord;
-				Console.WriteLine("swapped {0} with {1}", _movingCard.Name, existingCard.Name);
 			}
 			_movingCard.GridCoord = newGrid;
 			CurrentRoot.MakeDirty();
