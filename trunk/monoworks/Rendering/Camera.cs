@@ -49,9 +49,9 @@ namespace MonoWorks.Rendering
 			_scene = scene;
 			
 			// set default positioning
-			pos = new Vector(0.0, 0.0, 9.0);
-			upVec = new Vector(0.0, 1.0, 0.0);
-			center = new Vector();
+			_position = new Vector(0.0, 0.0, 9.0);
+			_upVec = new Vector(0.0, 1.0, 0.0);
+			_center = new Vector();
 			
 			// set default field of view
 			fov = new Angle();
@@ -105,17 +105,17 @@ namespace MonoWorks.Rendering
 			}
 		}
 		
-		protected Vector pos;
+		protected Vector _position;
 		/// <value>
 		/// Accesses the position of the camera.
 		/// </value>
 		public Vector Position
 		{
-			get	{return pos;}
-			set	{pos = value;}
+			get	{return _position;}
+			set	{_position = value;}
 		}
 				
-		protected Vector upVec;
+		protected Vector _upVec;
 		/// <value>
 		/// Accesses the up-vector of the camera.
 		/// The vector normalized and forced orthagonal to the 
@@ -123,22 +123,22 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public Vector UpVector
 		{
-			get {return upVec;}
+			get {return _upVec;}
 			set 
 			{
-				upVec = value.Normalize();
+				_upVec = value.Normalize();
 				RecomputeUpVector();
 			}
 		}
 		
-		protected Vector center;
+		protected Vector _center;
 		/// <value>
 		/// Accesses the point the camera is looking at.
 		/// </value>
 		public Vector Center
 		{
-			get	{return center;}
-			set	{center = value;}
+			get	{return _center;}
+			set	{_center = value;}
 		}
 		
 		/// <value>
@@ -147,7 +147,7 @@ namespace MonoWorks.Rendering
 		/// <remarks> This is generated when needed so you can do whatever you want with the reference.</remarks>
 		public Vector RightVec
 		{
-			get {return upVec.Cross( (center-pos).Normalize() );}
+			get {return _upVec.Cross( (_center-_position).Normalize() );}
 		}
 		
 		/// <value>
@@ -155,7 +155,7 @@ namespace MonoWorks.Rendering
 		/// </value>
 		public Vector Direction
 		{
-			get {return pos - center;}
+			get {return _position - _center;}
 		}
 		
 		/// <value>
@@ -171,7 +171,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public double GetDistance(Vector vec)
 		{
-			return Math.Abs((pos - vec).Magnitude);
+			return Math.Abs((_position - vec).Magnitude);
 		}
 		
 		
@@ -211,7 +211,7 @@ namespace MonoWorks.Rendering
 			if (projection == Projection.Perspective)
 			{								
 				// store the frustum
-				Frustum = new FrustumDef(fov, 0.001*Distance, 100*Distance, ar);
+				Frustum = new FrustumDef(fov, 0.0001*Distance, 1000*Distance, ar);
 				// set the perspective projection matrix
 				glu.gluPerspective((float)fov["deg"], (float)Frustum.AR, (float)Frustum.NearDist, (float)Frustum.FarDist);
 
@@ -324,9 +324,9 @@ namespace MonoWorks.Rendering
 			gl.glLoadIdentity();
 			
 			// place the camera
-			glu.gluLookAt(pos[0], pos[1], pos[2], 
-			              center[0], center[1], center[2],
-			              upVec[0], upVec[1], upVec[2]);
+			glu.gluLookAt(_position[0], _position[1], _position[2], 
+			              _center[0], _center[1], _center[2],
+			              _upVec[0], _upVec[1], _upVec[2]);
 
 
 			//  store the model-view matrix
@@ -363,13 +363,13 @@ namespace MonoWorks.Rendering
 
 		
 		/// <summary>
-		/// Recomputes the up vector to ensure it is orthographic to the viewing direction.
+		/// Recomputes the up vector to ensure it is orthoganal to the viewing direction.
 		/// </summary>
 		public virtual void RecomputeUpVector()
 		{
-			Vector direction = (center-pos).Normalize();
-			Vector lateral = direction.Cross( upVec);
-			upVec = lateral.Cross( direction);
+			Vector direction = (_center-_position).Normalize();
+			Vector lateral = direction.Cross( _upVec);
+			_upVec = lateral.Cross( direction);
 		}		
 
 
@@ -511,7 +511,7 @@ namespace MonoWorks.Rendering
 		public void Dolly(double factor)
 		{
 			Vector travel = Direction * -factor;
-			pos = travel + pos;
+			_position = travel + _position;
 			if (projection == Projection.Parallel)
 				Configure(); // dollying in parallel requires reconfiguration
 		}		
@@ -552,14 +552,14 @@ namespace MonoWorks.Rendering
 			double scaling = SceneToWorldScaling;
 			
 			// compute the view up (y) component of the tranformation
-			Vector yPan = upVec * -dy * scaling;
+			Vector yPan = _upVec * -dy * scaling;
 			
 			// compute the lateral (x) compoment of the transformation
-			Vector xPan = upVec.Cross( (center-pos).Normalize() ) * dx * scaling;
+			Vector xPan = _upVec.Cross( (_center-_position).Normalize() ) * dx * scaling;
 			
 			// add the x and y components to the position and center
-			pos += (xPan+yPan);
-			center += (xPan+yPan);
+			_position += (xPan+yPan);
+			_center += (xPan+yPan);
 		}	
 		
 		/// <summary>
@@ -622,18 +622,18 @@ namespace MonoWorks.Rendering
 			Vector xRotate = RightVec * dx * scaling;
 			
 			// compute the view up (y) component of the tranformation
-			Vector yRotate = upVec * -dy * scaling;
+			Vector yRotate = _upVec * -dy * scaling;
 			
 			// compute the current distance from the center
-			double currentDistance = (pos-center).Magnitude;
+			double currentDistance = (_position-_center).Magnitude;
 			
 			// add the x and y components to the position and center
-			pos += (xRotate+yRotate);
+			_position += (xRotate+yRotate);
 			
 			// maintain the distance to the center
-			Vector distanceVec = pos-center;
+			Vector distanceVec = _position-_center;
 			double newDistance = distanceVec.Magnitude;
-			pos = distanceVec * currentDistance / newDistance + center;
+			_position = distanceVec * currentDistance / newDistance + _center;
 			
 			// ensure the up vector is still orthagonal to the viewing direction
 			RecomputeUpVector();
@@ -660,8 +660,8 @@ namespace MonoWorks.Rendering
 			double newRatio = Math.Max(newH, newW);		
 			
 			// move the camera closer to the center
-			Vector distance = pos - center;
-			pos = center + distance*newRatio;
+			Vector distance = _position - _center;
+			_position = _center + distance*newRatio;
 		}
 		
 		
@@ -749,7 +749,7 @@ namespace MonoWorks.Rendering
 		public void SetViewDirection(ViewDirection direction)
 		{
 			lastDirection = direction;
-			GetDirectionVectors(direction, out center, out pos, out upVec);
+			GetDirectionVectors(direction, out _center, out _position, out _upVec);
 			RecomputeUpVector();
 //			_scene.Resize();
 			_scene.OnDirectionChanged();
@@ -784,7 +784,7 @@ namespace MonoWorks.Rendering
 		/// <param name="plane"></param>
 		public void LookAt(IPlane plane)
 		{
-			GetPlaneVectors(plane, out center, out pos, out upVec);
+			GetPlaneVectors(plane, out _center, out _position, out _upVec);
 			RecomputeUpVector();
 //			_scene.Resize();
 			_scene.OnDirectionChanged();
@@ -849,9 +849,9 @@ namespace MonoWorks.Rendering
 		public void AnimateTo(Vector center, Vector position, Vector upVec, AnimationOptions opts)
 		{
 			Configure();
-			animStartCenter = this.center;
+			animStartCenter = this._center;
 			animStartDir = Direction.Normalize();
-			animStartUpVec = this.upVec;
+			animStartUpVec = this._upVec;
 			animStartDist = Distance;
 
 			animStopCenter = center;
@@ -870,11 +870,11 @@ namespace MonoWorks.Rendering
 		public void Animate(double progress)
 		{
 			var f = Ease.InOutFactor(progress, _currentAnimationOptions.EaseType);
-			center = (animStopCenter - animStartCenter) * f + animStartCenter;
+			_center = (animStopCenter - animStartCenter) * f + animStartCenter;
 			double dist = (animStopDist - animStartDist) * f + animStartDist;
 			Vector dir = (animStopDir - animStartDir) * f + animStartDir;
-			pos = center + dir * dist;
-			upVec = (animStopUpVec - animStartUpVec) * f + animStartUpVec;
+			_position = _center + dir * dist;
+			_upVec = (animStopUpVec - animStartUpVec) * f + animStartUpVec;
 			RecomputeUpVector();
 		}
 
