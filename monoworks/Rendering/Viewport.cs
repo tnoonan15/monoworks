@@ -86,9 +86,7 @@ namespace MonoWorks.Rendering
 			adapter.MakeCurrent();
 			
 			RootScene.RenderManager.ClearScene();
-			RootScene.RenderOpaque();
-			RootScene.RenderTransparent();
-			RootScene.RenderOverlay();
+			RootScene.Render();
 		}
 
 		/// <summary>

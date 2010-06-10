@@ -37,11 +37,5 @@ namespace MonoWorks.Rendering
 		protected abstract bool HitTest(Coord pos);
 
 
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-		}
-
-
 	}
 }

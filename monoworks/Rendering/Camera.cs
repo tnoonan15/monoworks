@@ -334,7 +334,7 @@ namespace MonoWorks.Rendering
 		}		
 		
 		/// <summary>
-		/// Places the camera for overla drawing.
+		/// Places the camera for overlay drawing.
 		/// </summary>
 		public virtual void PlaceOverlay()
 		{

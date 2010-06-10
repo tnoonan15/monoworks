@@ -265,10 +265,22 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public event SceneRenderEventHandler Rendered;
 		
-
+		/// <summary>
+		/// Asks the viewport to repaint the window.
+		/// </summary>
 		public virtual void Paint()
 		{
 			Viewport.Paint();
+		}
+
+		/// <summary>
+		/// Renders the scene and all its children.
+		/// </summary>
+		public virtual void Render()
+		{
+			RenderOpaque();
+			RenderTransparent();
+			RenderOverlay();
 		}
 
 		/// <summary>

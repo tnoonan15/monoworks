@@ -90,28 +90,15 @@ namespace MonoWorks.Controls
 			}
 		}
 
-		public override void RenderOpaque()
+		public override void Render()
 		{
-			base.RenderOpaque();
-			
-			if (Current != null)
-				Current.RenderOpaque();
-		}
+			base.Render();
 
-		public override void RenderOverlay()
-		{
-			base.RenderOverlay();
-			
-			if (Current != null)
-				Current.RenderOverlay();
-		}
 
-		public override void RenderTransparent()
-		{
-			base.RenderTransparent();
-			
 			if (Current != null)
-				Current.RenderTransparent();
+			{
+				Current.Render();
+			}
 		}
 		
 		
