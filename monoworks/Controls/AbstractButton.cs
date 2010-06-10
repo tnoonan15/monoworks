@@ -196,7 +196,7 @@ namespace MonoWorks.Controls
 			if (evt.IsHandled)
 				return;
 
-			if (HitTest(evt.Pos) && !justClicked)
+			if (evt.Button == 1 && HitTest(evt.Pos) && !justClicked)
 			{
 				evt.Handle(this);
 				justClicked = true;
@@ -214,7 +214,7 @@ namespace MonoWorks.Controls
 				Deselect();
 
 			// if we were just clicked, we get to handle the next button release event
-			if (justClicked)
+			if (evt.Button == 1 && justClicked)
 			{
 				justClicked = false;
 				evt.Handle(this);

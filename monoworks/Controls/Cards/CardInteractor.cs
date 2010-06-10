@@ -287,30 +287,50 @@ namespace MonoWorks.Controls.Cards
 		
 
 		#region Context Actions
+
+		/// <summary>
+		/// The user actions available through the context menus.
+		/// </summary>
+		public enum ContextAction { Edit, Move, Delete, Copy, Paste, New }
+
+		public Dictionary<ContextAction, RingButton> ContextButtons { get; private set; }
 		
 		private void CreateContextMenus()
 		{
+			ContextButtons = new Dictionary<ContextAction, RingButton>();
+
 			OccupiedContextMenu = new RingMenu();
 			var editButton = new RingButton(new Image(ResourceHelper.GetStream("edit.png")));
 			editButton.Clicked += EditCurrent;
 			OccupiedContextMenu.Add(editButton);
+			ContextButtons[ContextAction.Edit] = editButton;
+
 			var moveButton = new RingButton(new Image(ResourceHelper.GetStream("transform-move.png")));
 			moveButton.Clicked += BeginMoveCurrent;
 			OccupiedContextMenu.Add(moveButton);
+			ContextButtons[ContextAction.Move] = moveButton;
+
 			var deleteButton = new RingButton(new Image(ResourceHelper.GetStream("edit-delete.png")));
 			deleteButton.Clicked += DeleteCurrent;
 			OccupiedContextMenu.Add(deleteButton);
+			ContextButtons[ContextAction.Delete] = deleteButton;
+
 			var copyButton = new RingButton(new Image(ResourceHelper.GetStream("edit-copy.png")));
 			copyButton.Clicked += CopyCurrent;
 			OccupiedContextMenu.Add(copyButton);
+			ContextButtons[ContextAction.Copy] = copyButton;
 			
 			EmptyContextMenu = new RingMenu();
 			var newButton = new RingButton(new Image(ResourceHelper.GetStream("document-new.png")));
 			newButton.Clicked += NewCard;
 			EmptyContextMenu.Add(newButton);
+			ContextButtons[ContextAction.New] = newButton;
+			
 			var pasteButton = new RingButton(new Image(ResourceHelper.GetStream("edit-paste.png")));
 			pasteButton.Clicked += Paste;
 			EmptyContextMenu.Add(pasteButton);
+			ContextButtons[ContextAction.Paste] = pasteButton;
+			
 		}
 		
 		/// <summary>
@@ -339,8 +359,8 @@ namespace MonoWorks.Controls.Cards
 				return;
 			ContextCoord = ScenePos(evt);
 			ContextCard = CurrentRoot.FindByPosition(ContextCoord);
-			Console.WriteLine("context menu at {0} (with camera position {1}) on card {2}", 
-				ContextCoord, evt.Scene.Camera.Position, ContextCard!=null ? ContextCard.Name : "null");
+			Console.WriteLine("context menu at {0} on card {1}", 
+				ContextCoord, ContextCard!=null ? ContextCard.Name : "null");
 			if (ContextCard == null) 
 				// no current card
 				EmptyContextMenu.Show(evt);
@@ -404,7 +424,12 @@ namespace MonoWorks.Controls.Cards
 		/// The card that is currently being moved.
 		/// </summary>
 		private Card _movingCard;
-		
+
+		/// <summary>
+		/// The Z offset to apply while moving a card.
+		/// </summary>
+		private const double _moveZOffset = 50;
+
 		/// <summary>
 		/// Begins moving the current card.
 		/// </summary>
@@ -414,7 +439,7 @@ namespace MonoWorks.Controls.Cards
 				throw new Exception("There's nothing to move!");
 			_movingCard = ContextCard;
 			Mode = CardInteractionMode.Move;
-			_movingCard.Origin.Z += 0.01;
+			_movingCard.Origin.Z += _moveZOffset;
 		}
 		
 		/// <summary>
@@ -442,6 +467,7 @@ namespace MonoWorks.Controls.Cards
 				existingCard.GridCoord = _movingCard.GridCoord;
 			}
 			_movingCard.GridCoord = newGrid;
+			_movingCard.Origin.Z -= _moveZOffset;
 			CurrentRoot.MakeDirty();
 			Mode = CardInteractionMode.Normal;
 		}
