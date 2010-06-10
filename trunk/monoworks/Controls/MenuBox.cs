@@ -50,7 +50,7 @@ namespace MonoWorks.Controls
 		public MenuBox()
 		{
 			_menu = new Menu();
-			_overlay = new ModalControlOverlay { Control = _menu };
+			_overlay = new GenericModalControlOverlay<Menu> { Control = _menu };
 			_menu.ItemActivated += delegate(object sender, MenuItem item) {
 				_overlay.Close();
 				CurrentItem = item;
@@ -243,7 +243,7 @@ namespace MonoWorks.Controls
 		[MwxProperty]
 		public bool IsCurrentEditable { get; set; }
 
-		private readonly ModalControlOverlay _overlay;
+		private readonly GenericModalControlOverlay<Menu> _overlay;
 		
 		private bool _justHit;
 

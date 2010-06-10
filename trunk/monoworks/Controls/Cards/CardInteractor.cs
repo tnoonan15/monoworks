@@ -578,6 +578,7 @@ namespace MonoWorks.Controls.Cards
 			var position = camera.Position.Copy();
 			position.X = coord.X;
 			position.Y = coord.Y;
+			//camera.AnimationEnded += delegate { camera.Configure(); };
 			camera.AnimateTo(center, position, camera.UpVector, _animationOptions[InteractionType.Pan]);
 		}
 		
@@ -628,6 +629,7 @@ namespace MonoWorks.Controls.Cards
 			var center = position.Copy();
 			center.Z = z;
 			_levelPlane.Origin.Z = z;
+			//camera.AnimationEnded += delegate { camera.Configure(); };
 			camera.AnimateTo(center, position, camera.UpVector, _animationOptions[InteractionType.Dolly]);
 		}
 		

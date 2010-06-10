@@ -84,8 +84,8 @@ namespace MonoWorks.Controls
 		}
 		
 		private bool _relayout;
-		
-		public override void RenderOverlay()
+
+		public override void Render()
 		{
 			// see if the gutters need their geometry computed
 			foreach (var side in _gutters.Keys)
@@ -96,42 +96,29 @@ namespace MonoWorks.Controls
 					break;
 				}
 			}
-			
-			base.RenderOverlay();
-			
+
+			base.Render();
+
 			// relayout the gutters
 			if (_relayout)
 			{
 				_gutterOverlays[Side.W].Origin.Y = Height - _gutterOverlays[Side.N].RenderHeight;
 				_gutterOverlays[Side.N].Origin.Y = Height - _gutterOverlays[Side.N].RenderHeight;
 				// TODO: implement SceneSpace layout for east and south gutters
-				
+
 				var rootOrigin = new Coord(_gutters[Side.W].RenderWidth, _gutters[Side.S].RenderHeight);
 				Root.ViewportOffset = rootOrigin;
-				Root.Resize(Width - rootOrigin.X - _gutters[Side.E].RenderWidth, 
+				Root.Resize(Width - rootOrigin.X - _gutters[Side.E].RenderWidth,
 					Height - rootOrigin.Y - _gutters[Side.N].RenderHeight);
 				_relayout = false;
 			}
-			
-			if (Root != null)
-				Root.RenderOverlay();
-		}
 
-		public override void RenderOpaque()
-		{
-			base.RenderOpaque();
-			
 			if (Root != null)
-				Root.RenderOpaque();
+			{
+				Root.Render();
+			}
 		}
-
-		public override void RenderTransparent()
-		{
-			base.RenderTransparent();
-			
-			if (Root != null)
-				Root.RenderTransparent();
-		}
+		
 		
 		
 		#region Gutters

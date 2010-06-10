@@ -231,7 +231,8 @@ namespace MonoWorks.Rendering
 
 		public void RenderOverlay(Scene scene)
 		{
-			scene.Camera.PlaceOverlay(); // place the camera for overlay rendering
+			scene.RenderManager.BeginOverlays();
+
 			foreach (var actor in _actors)
 			{
 				if (actor.IsVisible)
@@ -239,7 +240,6 @@ namespace MonoWorks.Rendering
 			}
 
 			// render the overlays
-			scene.RenderManager.BeginOverlays();
 			foreach (var overlay in _overlays)
 			{
 				if (overlay.IsVisible)
@@ -266,7 +266,7 @@ namespace MonoWorks.Rendering
 		public void RenderOpaque(Scene scene)
 		{
 			scene.RenderManager.BeginSolids();
-			scene.Camera.Place();
+
 			// place the camera for 3D rendering
 			foreach (var actor in _actors) {
 				if (actor.IsVisible)

@@ -51,7 +51,7 @@ namespace MonoWorks.Controls
 			if (child is ControlType)
 				Control = child as ControlType;
 			else
-				throw new Exception("Children of ModalControlOverlay must be a Control2D.");
+				throw new Exception("Children of ModalControlOverlay must be a " + typeof(ControlType).ToString());
 		}
 
 		/// <summary>

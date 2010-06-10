@@ -44,7 +44,7 @@
 			this._viewportAdapter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._viewportAdapter.Location = new System.Drawing.Point(0, 0);
 			this._viewportAdapter.Name = "_viewportAdapter";
-			this._viewportAdapter.Size = new System.Drawing.Size(1024, 869);
+			this._viewportAdapter.Size = new System.Drawing.Size(1024, 571);
 			this._viewportAdapter.StencilBits = ((byte)(0));
 			this._viewportAdapter.TabIndex = 0;
 			// 
@@ -52,7 +52,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1024, 869);
+			this.ClientSize = new System.Drawing.Size(1024, 571);
 			this.Controls.Add(this._viewportAdapter);
 			this.Name = "MainForm";
 			this.Text = "MonoWorks Demo";

@@ -33,10 +33,11 @@ namespace MonoWorks.Controls
 		public SceneInfoOverlay(Scene scene)
 			: base(AnchorLocation.SE)
 		{
+			Scene = scene;
 			_label = new Label();
 			Control = _label;
 
-			_fpsAverager = new RunningAverager(50);
+			_fpsAverager = new RunningAverager(20);
 			_stopwatch = new Stopwatch();
 		}
 
@@ -66,8 +67,9 @@ namespace MonoWorks.Controls
 				_stopwatch.Start();
 			}
 
-			_label.Body = String.Format("{0:###.#} fps", _fpsAverager.Compute());
-			OnSceneResized(scene);
+			_label.Body = String.Format("{0:###.#} fps ({1} x {2})", 
+				_fpsAverager.Compute(), Scene.Width, Scene.Height);
+			OnSceneResized(Scene);
 
 			base.RenderOverlay(scene);
 		}
