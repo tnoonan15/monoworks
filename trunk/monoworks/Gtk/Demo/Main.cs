@@ -28,7 +28,7 @@ namespace MonoWorks.Gtk.Demo
 		{
 			gtk.Application.Init();
 			MainWindow window = new MainWindow();
-			window.Resize(1000, 800);
+			window.Resize(1200, 1024);
 			window.ShowAll();
 			gtk.Application.Run();
 		}

@@ -45,7 +45,7 @@ namespace MonoWorks.Controls.Cards
 	/// </summary>
 	/// <remarks>By using this class and specifying a card type, the interactor knows which cards to 
 	/// create based on user interactions.</remarks>
-	public class GenericCardInteractor<CardType> : AbstractInteractor where CardType : Card, new()
+	public class GenericCardInteractor<CardType> : AbstractInteractor where CardType : AbstractCard, new()
 	{
 
 		public GenericCardInteractor(Scene scene) : base(scene)
@@ -77,7 +77,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// The card whos children we are currently viewing.
 		/// </summary>
-		public Card CurrentRoot { get; set; }
+		public AbstractCard CurrentRoot { get; set; }
 		
 		private double _zoom = 1;
 		/// <summary>
@@ -351,7 +351,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// The card where the last context menu was clicked.
 		/// </summary>
-		public Card ContextCard { get; private set; }
+		public AbstractCard ContextCard { get; private set; }
 		
 		protected virtual void OnRightClick(MouseButtonEvent evt)
 		{
@@ -411,7 +411,8 @@ namespace MonoWorks.Controls.Cards
 		{
 			if (ContextCard != null)
 				throw new Exception("Can't insert a card, there is already one at the current position.");
-			var card = new CardType() {GridCoord = _currentGridCoord.Copy()};
+			var grid = CurrentRoot.GetGridCoord(ContextCoord);
+			var card = new CardType() {GridCoord = grid};
 			CurrentRoot.Add(card);
 		}
 		
@@ -423,7 +424,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// The card that is currently being moved.
 		/// </summary>
-		private Card _movingCard;
+		private AbstractCard _movingCard;
 
 		/// <summary>
 		/// The Z offset to apply while moving a card.
@@ -449,9 +450,8 @@ namespace MonoWorks.Controls.Cards
 		{
 			if (_movingCard == null)
 				throw new Exception("There's nothing to move!");
-			var scenePos = ScenePos(evt);
-			_movingCard.Origin.X = scenePos.X - _movingCard.RenderWidth/2.0;
-			_movingCard.Origin.Y = scenePos.Y - _movingCard.RenderHeight/2.0;
+			var scenePos = ScenePos(evt) - _movingCard.RenderSize/2.0;
+			_movingCard.MoveTo(scenePos);
 		}
 		
 		/// <summary>
@@ -543,7 +543,7 @@ namespace MonoWorks.Controls.Cards
 		/// Moves to look at the given card.
 		/// </summary>
 		/// <remarks>If the card is null, moves to the nearest grid point.</remarks>
-		public void MoveTo(Camera camera, Card card)
+		public void MoveTo(Camera camera, AbstractCard card)
 		{
 			if (card == null)
 				MoveToNearest(camera);

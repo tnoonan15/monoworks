@@ -30,30 +30,18 @@ using MonoWorks.Rendering;
 
 namespace MonoWorks.Controls.Cards
 {
-	/// <summary>
-	/// A card that is represented as a pane in the 3D world. It can contain CardContents and other cards.
-	/// </summary>
-	public class Card : ActorPane
+	
+	public abstract class AbstractCard : ActorPane
 	{
-		public Card() : this(new CardContents())
+		public AbstractCard(Control2D control) : base(control)
 		{
-			Control.UserSize = new Coord(300, 400);
+			
 		}
-		
-		/// <summary>
-		/// Create the card and assign its contents.
-		/// </summary>
-		public Card(CardContents card) : base(card)
-		{
-			Padding = 100;
-			Scaling = 1;
-		}
-		
+
 		/// <summary>
 		/// The card book this card belongs to.
 		/// </summary>
-		public CardBook CardBook
-		{
+		public CardBook CardBook {
 			get {
 				if (this is CardBook)
 					return this as CardBook;
@@ -62,30 +50,29 @@ namespace MonoWorks.Controls.Cards
 				return null;
 			}
 		}
-		
+
 		/// <summary>
 		/// This card's coordinate in the grid system.
 		/// </summary>
 		[MwxProperty]
 		public IntCoord GridCoord { get; set; }
-		
-		
+
+
 		#region Children
-		
-		protected List<Card> _children = new List<Card>();
+
+		protected List<AbstractCard> _children = new List<AbstractCard>();
 
 		/// <summary>
 		/// The number of children the card has.
 		/// </summary>
-		public int NumChildren
-		{
+		public int NumChildren {
 			get { return _children.Count; }
 		}
 
 		/// <summary>
 		/// Adds a card as a child.
 		/// </summary>
-		public void Add(Card card)
+		public void Add(AbstractCard card)
 		{
 			_children.Add(card);
 			card.Parent = this;
@@ -95,7 +82,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Removes a card child.
 		/// </summary>
-		public void Remove(Card card)
+		public void Remove(AbstractCard card)
 		{
 			_children.Remove(card);
 			MakeDirty();
@@ -103,10 +90,10 @@ namespace MonoWorks.Controls.Cards
 
 		public override void AddChild(IMwxObject child)
 		{
-			if (child is Card)
-				Add(child as Card);
-			else if (child is CardContents)
-				Control = child as CardContents;
+			if (child is AbstractCard)
+				Add(child as AbstractCard);
+			else if (child is Control2D)
+				Control = child as Control2D;
 			else
 				throw new Exception(child.Name + " must be a Card or CardContents.");
 		}
@@ -122,7 +109,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Find all cards in the given row.
 		/// </summary>
-		public IEnumerable<Card> FindByRow(int row)
+		public IEnumerable<AbstractCard> FindByRow(int row)
 		{
 			return from card in _children
 				where card.GridCoord.Y == row
@@ -132,7 +119,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Find all cards in the given column.
 		/// </summary>
-		public IEnumerable<Card> FindByColumn(int column)
+		public IEnumerable<AbstractCard> FindByColumn(int column)
 		{
 			return from card in _children
 				where card.GridCoord.X == column
@@ -142,7 +129,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Finds the child at the given grid coord (if any).
 		/// </summary>
-		public Card FindByGridCoord(IntCoord coord)
+		public AbstractCard FindByGridCoord(IntCoord coord)
 		{
 			var res = from card in _children
 				where card.GridCoord.X == coord.X && card.GridCoord.Y == coord.Y
@@ -155,17 +142,17 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Finds the child at the given spatial position (if any).
 		/// </summary>
-		public Card FindByPosition(Coord coord)
+		public AbstractCard FindByPosition(Coord coord)
 		{
 			var grid = GetGridCoord(coord);
 			return FindByGridCoord(grid);
 		}
 
-		private Card _focusedChild;
+		private AbstractCard _focusedChild;
 		/// <summary>
 		/// The child that is currently in focus (if any).
 		/// </summary>
-		public Card FocusedChild {
+		public AbstractCard FocusedChild {
 			get { return _focusedChild; }
 			set {
 				if (value == null) {
@@ -177,9 +164,9 @@ namespace MonoWorks.Controls.Cards
 				_focusedChild = value;
 			}
 		}
-
+		
 		#endregion
-
+		
 
 		#region Layout
 		
@@ -332,6 +319,28 @@ namespace MonoWorks.Controls.Cards
 		}
 		
 		/// <summary>
+		/// Moves the card and its children to the given 2D position.
+		/// </summary>
+		public void MoveTo(Coord pos)
+		{
+			Origin.X = pos.X;
+			Origin.Y = pos.Y;
+			
+			if (!ChildrenVisible)
+			{
+				Vector offset = new Vector();
+				double diff = Padding / 4.0;
+				foreach (var card in _children) {
+					offset.X += diff;
+					offset.Y -= diff;
+					offset.Z -= diff;
+					card.Origin = Origin + offset;
+				}
+			}
+		}
+		
+		
+		/// <summary>
 		/// Rounds to the nearest grid coord to the given spatial coordinate.
 		/// </summary>
 		public void RoundToNearestGrid(Coord coord)
@@ -356,6 +365,28 @@ namespace MonoWorks.Controls.Cards
 		}
 
 		#endregion
+	}
+	
+
+	/// <summary>
+	/// A card that is represented as a pane in the 3D world. It can contain CardContents and other cards.
+	/// </summary>
+	public class GenericCard<ContentType> : AbstractCard where ContentType : Control2D, new()
+	{
+		public GenericCard() : this(new ContentType())
+		{
+			Control.UserSize = new Coord(300, 400);
+		}
+		
+		/// <summary>
+		/// Create the card and assign its contents.
+		/// </summary>
+		public GenericCard(ContentType contents) : base(contents)
+		{
+			Padding = 100;
+			Scaling = 1;
+		}
+
 
 		
 		#region Rendering
@@ -387,4 +418,15 @@ namespace MonoWorks.Controls.Cards
 		#endregion
 		
 	}
+	
+	
+	/// <summary>
+	/// Non-generic card that stores a Stack.
+	/// </summary>
+	public class Card : GenericCard<Stack>
+	{
+		
+	}
+	
+	
 }

@@ -1,67 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mwx:Mwx xmlns:mwx="http://monoworksproject.org/mwx" 
 		xmlns:mwc="http://monoworksproject.org/mwx/Controls"
-		xmlns:cards="http://monoworksproject.org/mwx/Controls/Cards">
+		xmlns:cards="http://monoworksproject.org/mwx/Controls/Cards"
+		xmlns:demo="http://monoworksproject.org/mwx/Demo">
 	<cards:CardBook Name="Book">
-		<cards:Card Name="Card1" GridCoord="0,0">
-			<cards:CardContents UserSize="320,480">
-				<mwc:Label FontSize="72">Card 1</mwc:Label>
-			</cards:CardContents>			
-		</cards:Card>
-		<cards:Card Name="Card2" GridCoord="1,0">
-			<cards:CardContents UserSize="320,480">
-				<mwc:Label FontSize="72">Card 2</mwc:Label>	
-			</cards:CardContents>	
-			<cards:Card Name="Card2-1" GridCoord="0,0">
-				<cards:CardContents UserSize="320,480">
-					<mwc:Label FontSize="72">Card 2-1</mwc:Label>	
-				</cards:CardContents>		
-			</cards:Card>
-			<cards:Card Name="Card2-2" GridCoord="1,0">
-				<cards:CardContents UserSize="320,480">
-					<mwc:Label FontSize="72">Card 2-2</mwc:Label>	
-				</cards:CardContents>		
-			</cards:Card>
-			<cards:Card Name="Card2-3" GridCoord="0,1">
-				<cards:CardContents UserSize="320,480">
-					<mwc:Label FontSize="72">Card 2-3</mwc:Label>	
-				</cards:CardContents>		
-			</cards:Card>
-		</cards:Card>
-		<cards:Card Name="Card3" GridCoord="0,1">
-			<cards:CardContents UserSize="320,480">
-				<mwc:Label FontSize="72">Card 3</mwc:Label>
-			</cards:CardContents>
-      <cards:Card Name="Card3-1" GridCoord="0,0">
-        <cards:CardContents UserSize="320,480">
-          <mwc:Label FontSize="72">Card 3-1</mwc:Label>
-        </cards:CardContents>
-      </cards:Card>
-      <cards:Card Name="Card3-2" GridCoord="1,0">
-        <cards:CardContents UserSize="320,480">
-          <mwc:Label FontSize="72">Card 3-2</mwc:Label>
-        </cards:CardContents>
-      </cards:Card>
-      <cards:Card Name="Card3-3" GridCoord="1,1">
-        <cards:CardContents UserSize="320,480">
-          <mwc:Label FontSize="72">Card 3-3</mwc:Label>
-        </cards:CardContents>
-      </cards:Card>	
-		</cards:Card>
-		<cards:Card Name="Card4" GridCoord="1,1">
-			<cards:CardContents UserSize="320,480">
-				<mwc:Label FontSize="72">Card 4</mwc:Label>
-			</cards:CardContents>			
-		</cards:Card>
-		<cards:Card Name="Card5" GridCoord="2,0">
-			<cards:CardContents UserSize="320,480">
-				<mwc:Label FontSize="72">Card 5</mwc:Label>
-			</cards:CardContents>			
-		</cards:Card>
-		<cards:Card Name="Card6" GridCoord="2,1">
-			<cards:CardContents UserSize="320,480">
-				<mwc:Label FontSize="72">Card 6</mwc:Label>
-			</cards:CardContents>			
-		</cards:Card>
+		<demo:DemoCard Name="Card1" GridCoord="0,0">
+			<demo:DemoCardContents>
+				<mwc:Button ButtonStyle="Label" LabelString="Button 1"></mwc:Button>
+			</demo:DemoCardContents>			
+		</demo:DemoCard>
+		<demo:DemoCard Name="Card2" GridCoord="1,0">
+			<demo:DemoCardContents>
+			</demo:DemoCardContents>	
+			<demo:DemoCard Name="Card2-1" GridCoord="0,0">
+				<demo:DemoCardContents>	
+				</demo:DemoCardContents>		
+			</demo:DemoCard>
+			<demo:DemoCard Name="Card2-2" GridCoord="1,0">
+				<demo:DemoCardContents>
+				</demo:DemoCardContents>		
+			</demo:DemoCard>
+			<demo:DemoCard Name="Card2-3" GridCoord="0,1">
+				<demo:DemoCardContents>
+				</demo:DemoCardContents>		
+			</demo:DemoCard>
+		</demo:DemoCard>
+		<demo:DemoCard Name="Card3" GridCoord="0,1">
+			<demo:DemoCardContents>
+			</demo:DemoCardContents>
+      <demo:DemoCard Name="Card3-1" GridCoord="0,0">
+        <demo:DemoCardContents>
+        </demo:DemoCardContents>
+      </demo:DemoCard>
+      <demo:DemoCard Name="Card3-2" GridCoord="1,0">
+        <demo:DemoCardContents>
+        </demo:DemoCardContents>
+      </demo:DemoCard>
+      <demo:DemoCard Name="Card3-3" GridCoord="1,1">
+        <demo:DemoCardContents>
+        </demo:DemoCardContents>
+      </demo:DemoCard>	
+		</demo:DemoCard>
+		<demo:DemoCard Name="Card4" GridCoord="1,1">
+			<demo:DemoCardContents>
+			</demo:DemoCardContents>			
+		</demo:DemoCard>
+		<demo:DemoCard Name="Card5" GridCoord="2,0">
+			<demo:DemoCardContents>
+			</demo:DemoCardContents>			
+		</demo:DemoCard>
+		<demo:DemoCard Name="Card6" GridCoord="2,1">
+			<demo:DemoCardContents>
+			</demo:DemoCardContents>			
+		</demo:DemoCard>
 	</cards:CardBook>
 </mwx:Mwx>
