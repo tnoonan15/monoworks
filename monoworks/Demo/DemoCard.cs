@@ -1,5 +1,5 @@
 // 
-//  Card.cs - MonoWorks Project
+//  DemoCard.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -22,41 +22,20 @@
 
 using System;
 
-using MonoWorks.Base;
-using MonoWorks.Rendering;
 using MonoWorks.Controls;
+using MonoWorks.Controls.Cards;
 
-namespace MonoWorks.Controls.Cards
+namespace MonoWorks.Demo
 {
 	/// <summary>
-	/// Stack that contains the contents of a card.
+	/// Card used in the CardScene.
 	/// </summary>
-	public class CardContents : Stack
+	public class DemoCard : GenericCard<DemoCardContents>
 	{
-
-		public CardContents() : base(Orientation.Vertical)
+		public DemoCard() : base(new DemoCardContents())
 		{
-		}
-		
-		public override void ComputeGeometry()
-		{
-			base.ComputeGeometry();
-		}
-
-		
-		protected override void Render(RenderContext rc)
-		{
-			rc.Push();
-			rc.Cairo.Color = new Cairo.Color(0.8, 1, 1);
-			rc.Cairo.Rectangle(-0.5, -0.5, RenderWidth, RenderHeight);
-			rc.Cairo.Fill();
-			rc.Cairo.Color = new Cairo.Color(0, 0, 0);
-			rc.Cairo.LineWidth = 4;
-			rc.Cairo.Rectangle(-0.5, -0.5, RenderWidth, RenderHeight);
-			rc.Cairo.Stroke();
-			rc.Pop();
-			base.Render(rc);
 		}
 		
 	}
 }
+

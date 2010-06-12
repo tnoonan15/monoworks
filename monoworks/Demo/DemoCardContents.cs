@@ -1,5 +1,5 @@
 // 
-//  CardManager.cs - MonoWorks Project
+//  DemoCardContent.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -22,19 +22,39 @@
 
 using System;
 
-namespace MonoWorks.Controls.Cards
+using MonoWorks.Base;
+using MonoWorks.Controls;
+using MonoWorks.Controls.Cards;
+
+namespace MonoWorks.Demo
 {
 	/// <summary>
-	/// Manages a collection of cards.
+	/// Content for the DemoCard.
 	/// </summary>
-	public class CardManager
+	public class DemoCardContents : Stack
 	{
-
-		public CardManager()
+		public DemoCardContents() : base(Orientation.Vertical)
 		{
+			var label = new Label(Name);
+			AddChild(label);
+			
+			UserSize = new Coord(320, 480);
 		}
 		
 		
-		
+		protected override void Render(RenderContext rc)
+		{
+			rc.Push();
+			rc.Cairo.Color = new Cairo.Color(1, 1, 1);
+			rc.Cairo.Rectangle(-0.5, -0.5, RenderWidth, RenderHeight);
+			rc.Cairo.Fill();
+			rc.Cairo.Color = new Cairo.Color(0, 0, 0);
+			rc.Cairo.LineWidth = 4;
+			rc.Cairo.Rectangle(-0.5, -0.5, RenderWidth, RenderHeight);
+			rc.Cairo.Stroke();
+			rc.Pop();
+			base.Render(rc);
+		}
 	}
 }
+

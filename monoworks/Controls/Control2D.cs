@@ -244,7 +244,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Performs the 2D rendering of the control.
 		/// </summary>
-		protected virtual void Render(RenderContext context)
+		protected virtual void Render(RenderContext rc)
 		{
 		}
 		
