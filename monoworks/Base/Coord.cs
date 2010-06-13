@@ -126,6 +126,14 @@ namespace MonoWorks.Base
 		{
 			return new Coord(lhs.X * rhs, lhs.Y * rhs);
 		}
+
+		/// <summary>
+		/// Multiplication operator (with IntCoord).
+		/// </summary>
+		public static Coord operator *(Coord lhs, IntCoord rhs)
+		{
+			return new Coord(lhs.X * rhs.X, lhs.Y * rhs.Y);
+		}
 		
 		/// <summary>
 		/// Division operator.
@@ -289,6 +297,15 @@ namespace MonoWorks.Base
 		public static Coord Max(Coord c1, Coord c2)
 		{
 			return new Coord(Math.Max(c1.X, c2.X), Math.Max(c1.Y, c2.Y));
+		}
+		
+		/// <summary>
+		/// Same as Coord.Max, but stores the max values in the current coord. 
+		/// </summary>
+		public void Max(Coord other)
+		{
+			X = Math.Max(X, other.X);
+			Y = Math.Max(Y, other.Y);
 		}
 
 		#endregion

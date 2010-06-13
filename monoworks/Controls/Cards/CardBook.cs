@@ -32,10 +32,10 @@ namespace MonoWorks.Controls.Cards
 	/// <summary>
 	/// The top-level collection of cards.
 	/// </summary>
-	public class CardBook : Card
+	public class CardBook : AbstractCard
 	{
 
-		public CardBook() : base()
+		public CardBook() : base(null)
 		{
 			ChildrenVisible = true;
 			LayerDepth = 5000;

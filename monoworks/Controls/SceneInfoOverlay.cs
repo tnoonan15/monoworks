@@ -22,6 +22,7 @@ using System.Diagnostics;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls
 {
@@ -53,6 +54,15 @@ namespace MonoWorks.Controls
 		public Scene Scene { get; set; }
 
 
+		private MouseEvent _lastMouseEvent;
+		
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+			
+			_lastMouseEvent = evt;
+		}
+
 		public override void RenderOverlay(Scene scene)
 		{
 			// compute the current frame rate
@@ -67,8 +77,15 @@ namespace MonoWorks.Controls
 				_stopwatch.Start();
 			}
 
-			_label.Body = String.Format("{0:###.#} fps ({1} x {2})", 
-				_fpsAverager.Compute(), Scene.Width, Scene.Height);
+			// get the last mouse position
+			Coord pos;
+			if (_lastMouseEvent != null)
+				pos = _lastMouseEvent.Pos;
+			else
+				pos = new Coord();
+					
+			_label.Body = String.Format("{0:###.#} fps -- {1} ({2} x {3})", 
+				_fpsAverager.Compute(), pos, Scene.Width, Scene.Height);
 			OnSceneResized(Scene);
 
 			base.RenderOverlay(scene);

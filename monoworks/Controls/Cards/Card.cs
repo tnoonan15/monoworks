@@ -33,9 +33,11 @@ namespace MonoWorks.Controls.Cards
 	
 	public abstract class AbstractCard : ActorPane
 	{
+		
 		public AbstractCard(Control2D control) : base(control)
 		{
-			
+			Padding = 100;
+			Scaling = 1;
 		}
 
 		/// <summary>
@@ -45,8 +47,8 @@ namespace MonoWorks.Controls.Cards
 			get {
 				if (this is CardBook)
 					return this as CardBook;
-				if (Parent is Card)
-					return (Parent as Card).CardBook;
+				if (Parent is AbstractCard)
+					return (Parent as AbstractCard).CardBook;
 				return null;
 			}
 		}
@@ -188,27 +190,17 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		[MwxProperty]
 		public double Padding { get; set; }
-
-		/// <summary>
-		/// The index of each grid column, stored during ComputeGeometry().
-		/// </summary>
-		private int[] _xIndex;
 		
 		/// <summary>
-		/// The center of each grid column, stored during ComputeGeometry().
+		/// The maximum size of a child card.
 		/// </summary>
-		private double[] _xGrid;
-
+		public Coord MaxChildSize { get; private set; }
+		
 		/// <summary>
-		/// The index of each grid row, stored during ComputeGeometry().
+		/// The total spacing between the center of cards.
 		/// </summary>
-		private int[] _yIndex;
-
-		/// <summary>
-		/// The center of each grid row, stored during ComputeGeometry().
-		/// </summary>
-		private double[] _yGrid;
-
+		public Coord Spacing { get; private set; }
+		
 		public override void ComputeGeometry()
 		{
 			base.ComputeGeometry();
@@ -217,91 +209,30 @@ namespace MonoWorks.Controls.Cards
 			if (book == null)
 				return;
 			
-			
 			if (ChildrenVisible && _children.Count > 0)
 			{
-				// compute grid min and max grid coordinates and card geometry
-				IntCoord min = null;
-				IntCoord max = null;
+				// find out the largest card size to compute the spacing
+				MaxChildSize = new Coord();
 				foreach (var card in _children) {
-					if (min == null) {
-						min = card.GridCoord.Copy();
-						max = card.GridCoord.Copy();
-					}
-					else {
-						min.Min(card.GridCoord);
-						max.Max(card.GridCoord);
-					}
-//					Console.WriteLine("origin: {0}, card origin: {1}, layer depth: {2}", Origin, card.Origin, book.LayerDepth);
 					card.Origin.Z = Origin.Z - book.LayerDepth;
 					if (card.Control.IsDirty)
 						card.Control.ComputeGeometry();
+					MaxChildSize.Max(card.Control.RenderSize);
 				}
+				Spacing = MaxChildSize + Padding;
 				
 				bounds.Reset();
 				bounds.Resize(0, 0, 0);
 				
-				// align the columns
-				_xIndex = new int[max.X - min.X + 1];
-				_xGrid = new double[max.X - min.X + 1];
-				double x = 0;
-				int i = 0;
-				for (int col = min.X; col <= max.X; col++) 
-				{
-					_xIndex[i] = col;
-					_xGrid[i] = x;
-					
-					// determine the width of the column
-					var thisCol = FindByColumn(col);
-					double width = 0;
-					foreach (var card in thisCol) {
-						if (card.Control.RenderWidth > width) {
-							width = card.Control.RenderWidth;
-						}
-					}
-					
-					// set the x positions
-					foreach (var card in thisCol) {
-						card.Origin.X = x - width / 2;
-					}
-					
-					x += width + Padding;
-					i++;
-				}
-				
-				// align the rows
-				_yIndex = new int[max.Y - min.Y + 1];
-				_yGrid = new double[max.Y - min.Y + 1];
-				double y = 0;
-				i = 0;
-				for (int row = min.Y; row <= max.Y; row++)
-				{
-					_yIndex[i] = row;
-					_yGrid[i] = y;
-					
-					// determine the height of the row
-					var thisRow = FindByRow(row);
-					double height = 0;
-					foreach (var card in thisRow) {
-						if (card.Control.RenderHeight > height) {
-							height = card.Control.RenderHeight;
-						}
-					}
-					
-					// set the y positions
-					foreach (var card in thisRow) {
-						card.Origin.Y = y - height/2;
-					}
-					
-					y += height + Padding;
-					i++;
-				}
-				
+				// layout the cards
 				foreach (var card in _children) {
+					var offset = Spacing * card.GridCoord - card.Control.RenderSize / 2.0;
+					card.Origin.X = offset.X;
+					card.Origin.Y = offset.Y;
+					bounds.Resize(card.Origin);
 					card.ComputeGeometry();
-				}					
+				}
 				
-				bounds.Resize(x, y, 0);
 			}
 			else // arrange children in a stack behind the parent
 			{
@@ -345,49 +276,20 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public void RoundToNearestGrid(Coord coord)
 		{
-			// compute the x coordinate
-			coord.X = _xGrid.Round(coord.X);
-			
-			// compute the y coordinate
-			coord.Y = _yGrid.Round(coord.Y);
+			coord.X = Math.Round(coord.X / Spacing.X) * Spacing.X;
+			coord.Y = Math.Round(coord.Y / Spacing.Y) * Spacing.Y;
 		}
 		
 		/// <summary>
 		/// Finds the grid coord for the given spatial coord.
 		/// </summary>
 		public IntCoord GetGridCoord(Coord coord)
-		{
-			var rounded = new Coord(_xGrid.Round(coord.X), _yGrid.Round(coord.Y));
-			var gridCoord = new IntCoord();
-			gridCoord.X = _xIndex[Array.IndexOf(_xGrid, rounded.X)];
-			gridCoord.Y = _yIndex[Array.IndexOf(_yGrid, rounded.Y)];
-			return gridCoord;
+		{			
+			return new IntCoord((int)Math.Round(coord.X / Spacing.X), (int)Math.Round(coord.Y / Spacing.Y));
 		}
 
 		#endregion
-	}
-	
-
-	/// <summary>
-	/// A card that is represented as a pane in the 3D world. It can contain CardContents and other cards.
-	/// </summary>
-	public class GenericCard<ContentType> : AbstractCard where ContentType : Control2D, new()
-	{
-		public GenericCard() : this(new ContentType())
-		{
-			Control.UserSize = new Coord(300, 400);
-		}
 		
-		/// <summary>
-		/// Create the card and assign its contents.
-		/// </summary>
-		public GenericCard(ContentType contents) : base(contents)
-		{
-			Padding = 100;
-			Scaling = 1;
-		}
-
-
 		
 		#region Rendering
 
@@ -416,17 +318,31 @@ namespace MonoWorks.Controls.Cards
 		}
 		
 		#endregion
-		
 	}
 	
-	
+
 	/// <summary>
-	/// Non-generic card that stores a Stack.
+	/// A card that is represented as a pane in the 3D world. It can contain CardContents and other cards.
 	/// </summary>
-	public class Card : GenericCard<Stack>
+	public class Card<ContentType> : AbstractCard where ContentType : Control2D, new()
 	{
+		/// <summary>
+		/// Default constructor (automatically creates the content).
+		/// </summary>
+		public Card() : this(new ContentType())
+		{
+		}
+		
+		/// <summary>
+		/// Create the card and assign its contents.
+		/// </summary>
+		public Card(ContentType contents) : base(contents)
+		{
+		}
+
 		
 	}
+	
 	
 	
 }
