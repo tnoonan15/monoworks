@@ -45,7 +45,7 @@ namespace MonoWorks.Demo
 			RenderList.AddActor(book);
 			book.ComputeGeometry();
 			
-			var interactor = new GenericCardInteractor<DemoCard>(this) { CardBook = book };
+			var interactor = new CardInteractor<DemoCard>(this) { CardBook = book };
 			PrimaryInteractor = interactor;
 
 			var sceneInfo = new SceneInfoOverlay(this);
@@ -58,3 +58,4 @@ namespace MonoWorks.Demo
 		public MwxSource Mwx { get; private set; }
 	}
 }
+

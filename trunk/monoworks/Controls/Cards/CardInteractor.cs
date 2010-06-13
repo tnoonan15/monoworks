@@ -23,6 +23,8 @@
 using System;
 using System.Collections.Generic;
 
+using gl=Tao.OpenGl.Gl;
+
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Events;
@@ -45,10 +47,10 @@ namespace MonoWorks.Controls.Cards
 	/// </summary>
 	/// <remarks>By using this class and specifying a card type, the interactor knows which cards to 
 	/// create based on user interactions.</remarks>
-	public class GenericCardInteractor<CardType> : AbstractInteractor where CardType : AbstractCard, new()
+	public class CardInteractor<CardType> : AbstractInteractor where CardType : AbstractCard, new()
 	{
 
-		public GenericCardInteractor(Scene scene) : base(scene)
+		public CardInteractor(Scene scene) : base(scene)
 		{
 			_mouseType = InteractionType.None;
 
@@ -133,10 +135,10 @@ namespace MonoWorks.Controls.Cards
 								AnimateToZoom(evt.Scene.Camera, Zoom);
 							}
 						}
-						else if (CurrentRoot.Parent is Card) // try to go up on level
+						else if (CurrentRoot.Parent is AbstractCard) // try to go up on level
 						{
 							var oldRoot = CurrentRoot;
-							CurrentRoot = CurrentRoot.Parent as Card;
+							CurrentRoot = CurrentRoot.Parent as AbstractCard;
 							MoveTo(evt.Scene.Camera, CurrentRoot.FocusedChild);
 							evt.Scene.Camera.AnimationEnded += delegate {
 								oldRoot.ChildrenVisible = false;
@@ -220,9 +222,26 @@ namespace MonoWorks.Controls.Cards
 			case CardInteractionMode.Edit:
 				
 				break;
-				
+			
 			default:
 				throw new Exception("Oops, someone forgot to update a switch statement!");
+			}
+			
+			// see if there's an empty card location under the cursor
+			if (Mode == CardInteractionMode.Normal || Mode == CardInteractionMode.Move)
+			{
+				var scenePos = ScenePos(evt);
+				var grid = CurrentRoot.GetGridCoord(scenePos);
+				var current = CurrentRoot.FindByGridCoord(grid);
+				if (current == null)
+				{
+					CurrentRoot.RoundToNearestGrid(scenePos);
+					_emptyCardPos = scenePos;
+				}
+				else
+				{
+					_emptyCardPos = null;
+				}
 			}
 			
 			evt.Handle(this);
@@ -280,6 +299,36 @@ namespace MonoWorks.Controls.Cards
 			if (!_isInitialized) {
 				_isInitialized = true;
 				InitCamera(scene.Camera);
+			}
+		
+		}
+		
+		private Coord _emptyCardPos;
+		
+		public override void RenderOpaque(Scene scene)
+		{
+			base.RenderOpaque(scene);
+			
+			// render the outline of an empty card location under the cursor
+			if (_emptyCardPos != null)
+			{
+				scene.Lighting.Disable();
+				gl.glLineWidth(2);
+				gl.glBegin(gl.GL_LINE_LOOP);
+				gl.glColor3d(0, 1, 0);
+				var pos = new Vector(_emptyCardPos.X - CurrentRoot.MaxChildSize.X / 2.0, 
+									_emptyCardPos.Y - CurrentRoot.MaxChildSize.Y / 2.0,
+									CurrentRoot.Origin.Z - CurrentRoot.CardBook.LayerDepth);
+				pos.glVertex();
+				pos.X += CurrentRoot.MaxChildSize.X;
+				pos.glVertex();
+				pos.Y += CurrentRoot.MaxChildSize.Y;
+				pos.glVertex();
+				pos.X -= CurrentRoot.MaxChildSize.X;
+				pos.glVertex();
+				pos.Y -= CurrentRoot.MaxChildSize.Y;
+				pos.glVertex();
+				gl.glEnd();
 			}
 		}
 		
@@ -638,16 +687,5 @@ namespace MonoWorks.Controls.Cards
 		
 	}
 	
-	
-	/// <summary>
-	/// Non-generic card interactor that works on plain cards.
-	/// </summary>
-	public class CardInteractor : GenericCardInteractor<Card>
-	{
-		
-		public CardInteractor(Scene scene) : base(scene)
-		{
-		}
-	}
 	
 }

@@ -30,7 +30,7 @@ namespace MonoWorks.Demo
 	/// <summary>
 	/// Card used in the CardScene.
 	/// </summary>
-	public class DemoCard : GenericCard<DemoCardContents>
+	public class DemoCard : Card<DemoCardContents>
 	{
 		public DemoCard() : base(new DemoCardContents())
 		{
