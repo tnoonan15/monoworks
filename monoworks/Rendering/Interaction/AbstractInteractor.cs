@@ -57,6 +57,14 @@ namespace MonoWorks.Rendering.Interaction
 		protected RenderList renderList;
 
 		protected Scene _scene;
+		
+		
+		/// <summary>
+		/// Stores the camera used during initialization.
+		/// </summary>
+		public Camera Camera {
+			get { return _scene.Camera;}
+		}
 
 
 		protected Coord anchor;

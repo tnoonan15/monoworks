@@ -50,6 +50,8 @@ namespace MonoWorks.Controls
 			RenderSize = new Coord();
 			
 			HitStateChanged += OnHitStateChanged;
+			
+			_isEnabled = true;
 		}
 		
 		
@@ -350,6 +352,20 @@ namespace MonoWorks.Controls
 			get {return _isHoverable;}
 			set {_isHoverable = value;}
 		}
+
+		private bool _isEnabled;
+		/// <value>
+		/// Whether the control responds to user interaction.
+		/// </value>
+		/// <remarks>Disabled controls should be rendered differently.</remarks>
+		[MwxProperty]
+		public bool IsEnabled {
+			get { return _isEnabled; }
+			set {
+				_isEnabled = value;
+				MakeDirty();
+			}
+		}
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
@@ -363,6 +379,9 @@ namespace MonoWorks.Controls
 		
 		public override void OnMouseMotion(MouseEvent evt)
 		{
+			if (!IsEnabled)
+				return;
+			
 			if (_isHoverable && !evt.IsHandled)
 			{
 				if (HitTest(evt.Pos)) // it's hovering now

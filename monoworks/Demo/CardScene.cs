@@ -25,6 +25,7 @@ using System.Reflection;
 
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Interaction;
 using MonoWorks.Controls;
 using MonoWorks.Controls.Cards;
 
@@ -47,6 +48,7 @@ namespace MonoWorks.Demo
 			
 			var interactor = new CardInteractor<DemoCard>(this) { CardBook = book };
 			PrimaryInteractor = interactor;
+			interactor.EditInteractor = new ActorInteractor(this);
 
 			var sceneInfo = new SceneInfoOverlay(this);
 			RenderList.AddOverlay(sceneInfo);

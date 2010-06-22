@@ -137,6 +137,8 @@
     <EmbeddedResource Include="icons\edit-paste.png" />
     <EmbeddedResource Include="icons\transform-move.png" />
     <EmbeddedResource Include="icons\document-new.png" />
+    <EmbeddedResource Include="icons\go-down.png" />
+    <EmbeddedResource Include="icons\go-up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

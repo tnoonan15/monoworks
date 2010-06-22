@@ -38,6 +38,7 @@ namespace MonoWorks.Controls
 		}
 	}
 	
+	
 	/// <summary>
 	/// Control containing an image.
 	/// </summary>
@@ -112,6 +113,13 @@ namespace MonoWorks.Controls
 		/// The surface containing the image.
 		/// </value>
 		protected Cairo.ImageSurface surface;
+		
+		/// <summary>
+		/// If true, the image will be desaturated when rendered.
+		/// </summary>
+		/// <remarks>Useful for things like disabled controls.</remarks>
+		[MwxProperty]
+		public bool IsGrayed { get; set; }
 
 		public override void ComputeGeometry()
 		{
@@ -125,14 +133,17 @@ namespace MonoWorks.Controls
 		}
 
 		
-		protected override void Render(RenderContext context)
+		protected override void Render(RenderContext rc)
 		{
-			base.Render(context);
+			base.Render(rc);
 
-			context.Cairo.Save();
-			context.Cairo.SetSourceSurface(surface, (int)LastPosition.X, (int)LastPosition.Y);
-			context.Cairo.Paint();
-			context.Cairo.Restore();
+			rc.Cairo.Save();
+			rc.Cairo.SetSourceSurface(surface, (int)LastPosition.X, (int)LastPosition.Y);
+			if (IsGrayed)
+				rc.Cairo.PaintWithAlpha(0.5);
+			else
+				rc.Cairo.Paint();
+			rc.Cairo.Restore();
 		}
 
 		
