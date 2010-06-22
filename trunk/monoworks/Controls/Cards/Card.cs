@@ -27,6 +27,7 @@ using System.Linq;
 using MonoWorks.Controls;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
+using MonoWorks.Rendering.Events;
 
 namespace MonoWorks.Controls.Cards
 {
@@ -288,6 +289,56 @@ namespace MonoWorks.Controls.Cards
 			return new IntCoord((int)Math.Round(coord.X / Spacing.X), (int)Math.Round(coord.Y / Spacing.Y));
 		}
 
+		#endregion
+		
+		
+		#region Interaction
+		
+		public override void OnButtonPress(MouseButtonEvent evt)
+		{
+			base.OnButtonPress(evt);
+			
+			if (ChildrenVisible)
+			{
+				foreach (var child in _children)
+					child.OnButtonPress(evt);
+			}
+		}
+		
+		public override void OnButtonRelease(MouseButtonEvent evt)
+		{
+			base.OnButtonRelease(evt);
+			
+			if (ChildrenVisible)
+			{
+				foreach (var child in _children)
+					child.OnButtonRelease(evt);
+			}
+		}
+		
+		public override void OnMouseMotion(MouseEvent evt)
+		{
+			base.OnMouseMotion(evt);
+			
+			if (ChildrenVisible)
+			{
+				foreach (var child in _children)
+					child.OnMouseMotion(evt);
+			}
+		}
+		
+		public override void OnMouseWheel(MouseWheelEvent evt)
+		{
+			base.OnMouseWheel(evt);
+			
+			if (ChildrenVisible)
+			{
+				foreach (var child in _children)
+					child.OnMouseWheel(evt);
+			}
+			
+		}
+		
 		#endregion
 		
 		

@@ -193,7 +193,7 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonPress(evt);
 			
-			if (evt.IsHandled)
+			if (evt.IsHandled || !IsEnabled)
 				return;
 
 			if (evt.Button == 1 && HitTest(evt.Pos) && !justClicked)
@@ -210,6 +210,9 @@ namespace MonoWorks.Controls
 		{
 			base.OnButtonRelease(evt);
 
+			if (!IsEnabled)
+				return;
+			
 			if (IsSelected && !IsTogglable)
 				Deselect();
 
@@ -253,6 +256,9 @@ namespace MonoWorks.Controls
 		{
 			base.OnKeyPress(evt);
 			
+			if (!IsEnabled)
+				return;
+			
 			if (evt.SpecialKey == SpecialKey.Enter || evt.SpecialKey == SpecialKey.Space)
 			{
 				evt.Handle(this);
@@ -269,6 +275,13 @@ namespace MonoWorks.Controls
 		
 		#region Rendering
 		
+		public override void ComputeGeometry()
+		{
+			base.ComputeGeometry();
+			
+			if (Image != null)
+				Image.IsGrayed = !IsEnabled;				
+		}
 
 		protected override void Render(RenderContext context)
 		{

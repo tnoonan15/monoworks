@@ -34,15 +34,6 @@ namespace MonoWorks.Controls.Cards
 {
 	
 	/// <summary>
-	/// Specifies the interaction mode for a card interactor.
-	/// </summary>
-	public enum CardInteractionMode {
-		Normal, // navigate between cards and levels
-		Edit, // editing the contents of on card
-		Move // moving a card from one location to another
-	};
-
-	/// <summary>
 	/// Generic interactor for cards.
 	/// </summary>
 	/// <remarks>By using this class and specifying a card type, the interactor knows which cards to 
@@ -105,9 +96,14 @@ namespace MonoWorks.Controls.Cards
 		private InteractionType _mouseType;
 		
 		/// <summary>
-		/// The current interaction mode for the interactor.
+		/// Interactor used for Edit mode.
 		/// </summary>
-		public CardInteractionMode Mode { get; protected set;}
+		public AbstractInteractor EditInteractor { get; set; }
+		
+		/// <summary>
+		/// The card that is currently being edited.
+		/// </summary>
+		public CardType EditingCard { get; set; }
 		
 		
 		#region Mouse Interaction
@@ -116,68 +112,54 @@ namespace MonoWorks.Controls.Cards
 		{
 			base.OnButtonPress(evt);
 			
-			evt.Handle(this);
+			evt.Handle(this);			
 			
-			switch (Mode) {
-			case CardInteractionMode.Normal:
-			
+			if (EditInteractor != null && EditingCard != null) // edit
+			{				
+				if (evt.Button == 1 && evt.Multiplicity == ClickMultiplicity.Double)
+					EndEdit();
+				else
+					EditInteractor.OnButtonPress(evt);
+			}
+			else if (_movingCard != null) // moving
+			{
+				
+			}
+			else // normal
+			{
 				if (evt.Button == 1) {
 					if (evt.Multiplicity == ClickMultiplicity.Double)
 					{
-						if (CurrentRoot.FocusedChild != null && CurrentRoot.FocusedChild.HitTest(evt.HitLine))
-						{
-							if (CurrentRoot.FocusedChild.NumChildren > 0) // go down one level
-							{
-								CurrentRoot = CurrentRoot.FocusedChild;
-								CurrentRoot.ChildrenVisible = true;
-								CurrentRoot.ComputeGeometry();
-								MoveTo(evt.Scene.Camera, CurrentRoot.FocusedChild);
-								AnimateToZoom(evt.Scene.Camera, Zoom);
-							}
-						}
-						else if (CurrentRoot.Parent is AbstractCard) // try to go up on level
-						{
-							var oldRoot = CurrentRoot;
-							CurrentRoot = CurrentRoot.Parent as AbstractCard;
-							MoveTo(evt.Scene.Camera, CurrentRoot.FocusedChild);
-							evt.Scene.Camera.AnimationEnded += delegate {
-								oldRoot.ChildrenVisible = false;
-								CurrentRoot.ComputeGeometry();
-							};
-							AnimateToZoom(evt.Scene.Camera, Zoom);
-						}
+						BeginEdit(evt);
 					}
 					else if (evt.Multiplicity == ClickMultiplicity.Single)
 					{
 						_mouseType = InteractionType.Pan;
 					}
 				}
-				break;
-			
-			case CardInteractionMode.Move:
-				
-				break;
-			
-			case CardInteractionMode.Edit:
-				
-				break;
-			
-			default:
-				throw new Exception("Oops, someone forgot to update a switch statement!");
 			}
+			
 		}
 		
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
 			
-			switch (Mode) {
-			case CardInteractionMode.Normal:
+			if (EditInteractor != null && EditingCard != null) // edit
+			{
+				EditInteractor.OnButtonRelease(evt);
+			}
+			else if (_movingCard != null) // moving
+			{
+				EndMoveCurrent(evt);
+			}
+			else // normal
+			{
 				if (_mouseType == InteractionType.Pan && CardBook != null &&
 					(evt.Pos - Anchor).MagnitudeSquared > 4)
 				{
 					// snap to the nearest grid location
-					AnimateToNearest(evt.Scene.Camera);
+					AnimateToNearest();
 				}
 				else if (evt.Button == 3)
 				{
@@ -185,20 +167,7 @@ namespace MonoWorks.Controls.Cards
 				}
 				
 				_mouseType = InteractionType.None;
-				break;
-			
-			case CardInteractionMode.Move:
-				EndMoveCurrent(evt);
-				break;
-			
-			case CardInteractionMode.Edit:
-				
-				break;
-				
-			default:
-				throw new Exception("Oops, someone forgot to update a switch statement!");
 			}
-			
 			
 			evt.Handle(this);
 		}
@@ -206,29 +175,27 @@ namespace MonoWorks.Controls.Cards
 
 		public override void OnMouseMotion(MouseEvent evt)
 		{
-			switch (Mode)
+			var highlightEmpties = false;
+			if (EditingCard != null && EditInteractor != null)
 			{
-			case CardInteractionMode.Normal:
+				EditInteractor.OnMouseMotion(evt);
+			}
+			else if (_movingCard != null) // moving
+			{
+				OnMoveCurrent(evt);
+				highlightEmpties = true;
+			}
+			else // normal
+			{
 				if (_mouseType == InteractionType.Pan)
 				{
-					evt.Scene.Camera.Pan(evt.Pos - lastPos);
+					Camera.Pan(evt.Pos - lastPos);
 				}
-				break;
-			
-			case CardInteractionMode.Move:
-				OnMoveCurrent(evt);
-				break;
-			
-			case CardInteractionMode.Edit:
-				
-				break;
-			
-			default:
-				throw new Exception("Oops, someone forgot to update a switch statement!");
+				highlightEmpties = true;
 			}
 			
 			// see if there's an empty card location under the cursor
-			if (Mode == CardInteractionMode.Normal || Mode == CardInteractionMode.Move)
+			if (highlightEmpties)
 			{
 				var scenePos = ScenePos(evt);
 				var grid = CurrentRoot.GetGridCoord(scenePos);
@@ -253,28 +220,23 @@ namespace MonoWorks.Controls.Cards
 		{
 			base.OnMouseWheel(evt);
 			
-			switch (Mode)
+			if (EditingCard != null && EditInteractor != null)
 			{
-			case CardInteractionMode.Normal:			
+				EditInteractor.OnMouseWheel(evt);
+			}
+			else if (_movingCard != null) // moving
+			{
+			}
+			else // normal
+			{
 				if (evt.Direction == WheelDirection.Up)
 					// zoom in
-					AnimateToZoom(evt.Scene.Camera, Zoom + 0.5);
+					AnimateToZoom(Zoom + 0.5);
 				else
 					// zoom out
-					AnimateToZoom(evt.Scene.Camera, Zoom - 0.5);
-				break;
-			
-			case CardInteractionMode.Move:
-				
-				break;
-			
-			case CardInteractionMode.Edit:
-				
-				break;
-				
-			default:
-				throw new Exception("Oops, someone forgot to update a switch statement!");
+					AnimateToZoom(Zoom - 0.5);
 			}
+			
 			evt.Handle(this);
 		}
 		
@@ -287,7 +249,7 @@ namespace MonoWorks.Controls.Cards
 		{
 			base.OnSceneResized(scene);
 			
-			MoveToZoom(scene.Camera, Zoom);
+			MoveToZoom(Zoom);
 		}		
 
 		private bool _isInitialized = false;
@@ -301,6 +263,8 @@ namespace MonoWorks.Controls.Cards
 				InitCamera(scene.Camera);
 			}
 		
+			if (EditingCard != null && EditInteractor != null)
+				EditInteractor.RenderOverlay(scene);
 		}
 		
 		private Coord _emptyCardPos;
@@ -330,6 +294,42 @@ namespace MonoWorks.Controls.Cards
 				pos.glVertex();
 				gl.glEnd();
 			}
+			
+		
+			if (EditingCard != null && EditInteractor != null)
+				EditInteractor.RenderOpaque(scene);
+		}
+		
+		
+		public override void RenderTransparent(Scene scene)
+		{
+			base.RenderTransparent(scene);
+			
+			// gray out the other cards if there's one being edited
+			if (EditingCard != null && EditInteractor != null)
+			{
+				scene.Lighting.Disable();
+				gl.glColor4d(0.5, 0.5, 0.5, 0.5);
+				gl.glBegin(gl.GL_QUADS);
+				var pos = EditingCard.Origin.Copy();
+				pos.Z = CurrentRoot.Origin.Z - CardBook.LayerDepth;
+				
+				pos.Y -= scene.Height;
+				pos.X -= scene.Width;
+				pos.glVertex();
+				pos.Y += 2 * scene.Height;
+				pos.glVertex();
+				pos.X += 2 * scene.Width;
+				pos.glVertex();
+				pos.Y -= 2 * scene.Height;
+				pos.glVertex();
+				pos.X -= 2 * scene.Width;
+				pos.glVertex();
+				
+				gl.glEnd();
+				
+				EditInteractor.RenderTransparent(scene);				
+			}
 		}
 		
 		#endregion
@@ -340,7 +340,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// The user actions available through the context menus.
 		/// </summary>
-		public enum ContextAction { Edit, Move, Delete, Copy, Paste, New }
+		public enum ContextAction { Edit, Move, Delete, Copy, Paste, New, GoIn, GoOut }
 
 		public Dictionary<ContextAction, RingButton> ContextButtons { get; private set; }
 		
@@ -349,15 +349,20 @@ namespace MonoWorks.Controls.Cards
 			ContextButtons = new Dictionary<ContextAction, RingButton>();
 
 			OccupiedContextMenu = new RingMenu();
-			var editButton = new RingButton(new Image(ResourceHelper.GetStream("edit.png")));
-			editButton.Clicked += EditCurrent;
-			OccupiedContextMenu.Add(editButton);
-			ContextButtons[ContextAction.Edit] = editButton;
+//			var editButton = new RingButton(new Image(ResourceHelper.GetStream("edit.png")));
+//			editButton.Clicked += EditCurrent;
+//			OccupiedContextMenu.Add(editButton);
+//			ContextButtons[ContextAction.Edit] = editButton;
 
 			var moveButton = new RingButton(new Image(ResourceHelper.GetStream("transform-move.png")));
 			moveButton.Clicked += BeginMoveCurrent;
 			OccupiedContextMenu.Add(moveButton);
 			ContextButtons[ContextAction.Move] = moveButton;
+
+			var goInButton = new RingButton(new Image(ResourceHelper.GetStream("go-up.png")));
+			goInButton.Clicked += GoInCurrent;
+			OccupiedContextMenu.Add(goInButton);
+			ContextButtons[ContextAction.GoIn] = goInButton;
 
 			var deleteButton = new RingButton(new Image(ResourceHelper.GetStream("edit-delete.png")));
 			deleteButton.Clicked += DeleteCurrent;
@@ -379,6 +384,11 @@ namespace MonoWorks.Controls.Cards
 			pasteButton.Clicked += Paste;
 			EmptyContextMenu.Add(pasteButton);
 			ContextButtons[ContextAction.Paste] = pasteButton;
+
+			var goOutButton = new RingButton(new Image(ResourceHelper.GetStream("go-down.png")));
+			goOutButton.Clicked += GoOut;
+			EmptyContextMenu.Add(goOutButton);
+			ContextButtons[ContextAction.GoOut] = goOutButton;
 			
 		}
 		
@@ -408,22 +418,44 @@ namespace MonoWorks.Controls.Cards
 				return;
 			ContextCoord = ScenePos(evt);
 			ContextCard = CurrentRoot.FindByPosition(ContextCoord);
-			Console.WriteLine("context menu at {0} on card {1}", 
-				ContextCoord, ContextCard!=null ? ContextCard.Name : "null");
-			if (ContextCard == null) 
-				// no current card
+			if (ContextCard == null)
+			{
 				EmptyContextMenu.Show(evt);
+			}
 			else
-				// there is a current card
+			{
+				ContextButtons[ContextAction.GoIn].IsEnabled = ContextCard.NumChildren > 0;
 				OccupiedContextMenu.Show(evt);
+			}
 		}
 		
 		/// <summary>
-		/// Puts the current card in edit mode.
+		/// Makes the current card the root, showing its children.
 		/// </summary>
-		public virtual void EditCurrent(object sender, EventArgs args)
+		public virtual void GoInCurrent(object sender, EventArgs args)
 		{
+			if (ContextCard == null)
+				throw new Exception("There's nothing to go into!");
+			CurrentRoot = ContextCard;
+			CurrentRoot.ChildrenVisible = true;
+			CurrentRoot.ComputeGeometry();
+			MoveTo(CurrentRoot.FocusedChild);
+			AnimateToZoom(Zoom);
+		}
 		
+		/// <summary>
+		/// Moves the current root up one level.
+		/// </summary>
+		public virtual void GoOut(object sender, EventArgs args)
+		{
+			var oldRoot = CurrentRoot;
+			CurrentRoot = CurrentRoot.Parent as AbstractCard;
+			MoveTo(CurrentRoot.FocusedChild);
+			Camera.AnimationEnded += delegate {
+				oldRoot.ChildrenVisible = false;
+				CurrentRoot.ComputeGeometry();
+			};
+			AnimateToZoom(Zoom);
 		}
 		
 		/// <summary>
@@ -468,6 +500,33 @@ namespace MonoWorks.Controls.Cards
 		#endregion
 		
 		
+		#region Editing Cards
+			
+		/// <summary>
+		/// Begins editing the card at the given location.
+		/// </summary>
+		public virtual void BeginEdit(MouseEvent evt)
+		{
+			var pos = ScenePos(evt);
+			var card = CurrentRoot.FindByPosition(pos);
+			if (card == null)
+				throw new Exception("No card to edit!");
+			EditingCard = card as CardType;
+			EditingCard.Origin.Z += 1;
+		}
+		
+		/// <summary>
+		/// Stops any current editing operation.
+		/// </summary>
+		public virtual void EndEdit()
+		{
+			EditingCard.Origin.Z -= 1;
+			EditingCard = null;
+		}
+		
+		#endregion
+		
+		
 		#region Moving Cards
 		
 		/// <summary>
@@ -488,7 +547,6 @@ namespace MonoWorks.Controls.Cards
 			if (ContextCard == null)
 				throw new Exception("There's nothing to move!");
 			_movingCard = ContextCard;
-			Mode = CardInteractionMode.Move;
 			_movingCard.Origin.Z += _moveZOffset;
 		}
 		
@@ -518,7 +576,7 @@ namespace MonoWorks.Controls.Cards
 			_movingCard.GridCoord = newGrid;
 			_movingCard.Origin.Z -= _moveZOffset;
 			CurrentRoot.MakeDirty();
-			Mode = CardInteractionMode.Normal;
+			_movingCard = null;
 		}
 		
 		#endregion
@@ -544,8 +602,6 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		protected Coord ScenePos(MouseEvent evt)
 		{
-			//			return new Coord(evt.Pos.X + evt.Scene.Camera.Position.X - evt.Scene.Width / 2.0, 
-			//				evt.Scene.Height / 2.0 - evt.Pos.Y + evt.Scene.Camera.Position.Y);
 			var intersect = evt.HitLine.GetIntersection(_levelPlane);
 			return new Coord(intersect.X, intersect.Y);
 		}
@@ -563,83 +619,82 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		public void InitCamera(Camera camera)
 		{
-			MoveToZoom(camera, 1);
-			MoveToNearest(camera);
+			MoveToZoom(1);
+			MoveToNearest();
 			camera.UpVector = new Vector(0, 1, 0);
 		}
 				
 		/// <summary>
 		/// Instantly moves the camera to the nearest card.
 		/// </summary>
-		public void MoveToNearest(Camera camera)
+		public void MoveToNearest()
 		{
 			// get the nearest grid point
 			if (CurrentRoot == null)
 				CurrentRoot = CardBook;
-			var coord = new Coord(camera.Position.X, camera.Position.Y);
+			var coord = new Coord(Camera.Position.X, Camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
 			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
 			_currentGridCoord = CurrentRoot.GetGridCoord(coord);
 			
 			// move the camera
-			camera.Center.X = coord.X;
-			camera.Center.Y = coord.Y;
-			camera.Position.X = coord.X;
-			camera.Position.Y = coord.Y;
+			Camera.Center.X = coord.X;
+			Camera.Center.Y = coord.Y;
+			Camera.Position.X = coord.X;
+			Camera.Position.Y = coord.Y;
 		}
 
 		/// <summary>
 		/// Moves to look at the given card.
 		/// </summary>
 		/// <remarks>If the card is null, moves to the nearest grid point.</remarks>
-		public void MoveTo(Camera camera, AbstractCard card)
+		public void MoveTo(AbstractCard card)
 		{
 			if (card == null)
-				MoveToNearest(camera);
+				MoveToNearest();
 			else
 			{
 				var x = card.Origin.X + card.RenderWidth / 2.0;
 				var y = card.Origin.Y + card.RenderHeight / 2.0;
-				camera.Center.X = x;
-				camera.Center.Y = y;
-				camera.Position.X = x;
-				camera.Position.Y = y;
+				Camera.Center.X = x;
+				Camera.Center.Y = y;
+				Camera.Position.X = x;
+				Camera.Position.Y = y;
 			}
 		}
 
 		/// <summary>
 		/// Animates the camera to the nearest card.
 		/// </summary>
-		public void AnimateToNearest(Camera camera)
+		public void AnimateToNearest()
 		{
 			// get the nearest grid point
 			if (CurrentRoot == null)
 				CurrentRoot = CardBook;
-			var coord = new Coord(camera.Position.X, camera.Position.Y);
+			var coord = new Coord(Camera.Position.X, Camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
 			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
 			_currentGridCoord = CurrentRoot.GetGridCoord(coord);
 			
 			// create the animation
-			var center = camera.Center.Copy();
+			var center = Camera.Center.Copy();
 			center.X = coord.X;
 			center.Y = coord.Y;
-			var position = camera.Position.Copy();
+			var position = Camera.Position.Copy();
 			position.X = coord.X;
 			position.Y = coord.Y;
-			//camera.AnimationEnded += delegate { camera.Configure(); };
-			camera.AnimateTo(center, position, camera.UpVector.Copy(), _animationOptions[InteractionType.Pan]);
+			Camera.AnimateTo(center, position, Camera.UpVector.Copy(), _animationOptions[InteractionType.Pan]);
 		}
 		
 		/// <summary>
 		/// Instantly moves the camera to the given zoom level.
 		/// </summary>
-		public void MoveToZoom(Camera camera, double zoom)
+		public void MoveToZoom(double zoom)
 		{
 			Zoom = zoom;
 			
 			// determine how far back the camera needs to be for the zoom level
-			var offset = camera.ViewportHeight / (camera.FoV / 2.0).Tan() / zoom / 2;
+			var offset = Camera.ViewportHeight / (Camera.FoV / 2.0).Tan() / zoom / 2;
 			
 			// get the z position of the current level
 			if (CurrentRoot == null)
@@ -647,25 +702,23 @@ namespace MonoWorks.Controls.Cards
 			var z = CurrentRoot.Origin.Z - CardBook.LayerDepth;
 			
 			// move the camera
-			camera.Position.Z = z + offset;
-			camera.Center = camera.Position.Copy();
-			camera.Center.Z = z;
+			Camera.Position.Z = z + offset;
+			Camera.Center = Camera.Position.Copy();
+			Camera.Center.Z = z;
 			_levelPlane.Origin.Z = z;
 			
-			camera.Configure();
+			Camera.Configure();
 		}
 
 		/// <summary>
 		/// Animates the camera to the given zoom level.
 		/// </summary>
-		public void AnimateToZoom(Camera camera, double zoom)
+		public void AnimateToZoom(double zoom)
 		{
-			//if (Zoom == zoom)
-			//    return;
 			Zoom = zoom;
 			
 			// determine how far back the camera needs to be for the zoom level
-			var offset = camera.ViewportHeight / (camera.FoV / 2.0).Tan() / Zoom / 2;
+			var offset = Camera.ViewportHeight / (Camera.FoV / 2.0).Tan() / Zoom / 2;
 			
 			// get the z position of the current level
 			if (CurrentRoot == null)
@@ -673,13 +726,12 @@ namespace MonoWorks.Controls.Cards
 			var z = CurrentRoot.Origin.Z - CardBook.LayerDepth;
 			
 			// create the animation
-			var position = camera.Position.Copy();
+			var position = Camera.Position.Copy();
 			position.Z = z + offset;
 			var center = position.Copy();
 			center.Z = z;
 			_levelPlane.Origin.Z = z;
-			//camera.AnimationEnded += delegate { camera.Configure(); };
-			camera.AnimateTo(center, position, camera.UpVector.Copy(), _animationOptions[InteractionType.Dolly]);
+			Camera.AnimateTo(center, position, Camera.UpVector.Copy(), _animationOptions[InteractionType.Dolly]);
 		}
 		
 		#endregion
