@@ -51,7 +51,7 @@ namespace MonoWorks.Base
 		/// <summary>
 		/// Gets all Mwx children that need to be persisted.
 		/// </summary>
-		IEnumerable<IMwxObject> GetMwxChildren();
+		IList<IMwxObject> GetMwxChildren();
 	}
 	
 	
@@ -71,7 +71,7 @@ namespace MonoWorks.Base
 				
 		public IMwxObject Parent { get; set; }
 		
-		public IEnumerable<IMwxObject> GetMwxChildren()
+		public IList<IMwxObject> GetMwxChildren()
 		{
 			return new List<IMwxObject>();
 		}

@@ -82,6 +82,21 @@ namespace MonoWorks.Base
 			}
 			return array.Last();
 		}
+		
+		
+		/// <summary>
+		/// Casts list to an IList of the new type. 
+		/// </summary>
+		/// <remarks>T should be a base class of whatever the list stores.</remarks>
+		public static IList<T> Cast<T>(this IList list)
+		{
+			var newList = new List<T>();
+			foreach (var item in list)
+			{
+				newList.Add((T)item);
+			}
+			return newList;
+		}
 
 	}
 }

@@ -146,7 +146,7 @@ namespace MonoWorks.Base
 				throw new Exception(String.Format("Can't convert type {0} to {1}", child.GetType(), typeof(T)));
 		}
 		
-		public IEnumerable<IMwxObject> GetMwxChildren()
+		public IList<IMwxObject> GetMwxChildren()
 		{
 			var list = new List<IMwxObject>();
 			foreach (var item in _internal)

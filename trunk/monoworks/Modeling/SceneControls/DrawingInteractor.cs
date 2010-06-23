@@ -186,7 +186,7 @@ namespace MonoWorks.Modeling.SceneControls
 			double frontDist = 0;
 			foreach (T entity in hits)
 			{
-				double dist_ = _scene.Camera.GetDistance(entity.LastHit);
+				double dist_ = Scene.Camera.GetDistance(entity.LastHit);
 				//double dist_ = scene.Camera.GetDistance(entity.Bounds.Center);
 				if (front == null || dist_ < frontDist)
 				{

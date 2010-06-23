@@ -1,5 +1,5 @@
 // 
-//  CardScene.cs - MonoWorks Project
+//  MwxTestObject.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -21,43 +21,40 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 
 using MonoWorks.Base;
-using MonoWorks.Rendering;
-using MonoWorks.Rendering.Interaction;
-using MonoWorks.Controls;
-using MonoWorks.Controls.Cards;
 
-namespace MonoWorks.Demo
+namespace MonoWorks.Base.Tests
 {
 	/// <summary>
-	/// A demo scene containing a card book.
+	/// Test object for Mwx tests.
 	/// </summary>
-	public class CardScene : Scene
+	public class MwxTestObject : IMwxObject
 	{
-
-		public CardScene(Viewport viewport) : base(viewport)
+		public MwxTestObject()
 		{
-			Name = "Cards";
-			Mwx = new MwxSource(ResourceHelper.GetStream("cards.mwx"));
-			
-			var book = Mwx.Get<CardBook>("Book");
-			RenderList.AddActor(book);
-			book.ComputeGeometry();
-			
-			var interactor = new CardInteractor<DemoCard>(this) { CardBook = book };
-			PrimaryInteractor = interactor;
-			interactor.EditInteractor = new SingleActorInteractor<DemoCard>(this);
-
-			var sceneInfo = new SceneInfoOverlay(this);
-			RenderList.AddOverlay(sceneInfo);
 		}
 		
-		/// <summary>
-		/// The mwx source containing the cards.
-		/// </summary>
-		public MwxSource Mwx { get; private set; }
+		[MwxProperty]
+		public string Name { get; set; }
+		
+		public IMwxObject Parent { get; set; }
+		
+		private List<MwxTestObject> _children = new List<MwxTestObject>();
+		
+		public void AddChild(IMwxObject child)
+		{
+			if (child is MwxTestObject)
+				_children.Add(child as MwxTestObject);
+			else
+				throw new Exception("Children must be of type MwxTestObject.");
+		}
+		
+		public IList<IMwxObject> GetMwxChildren()
+		{
+			return _children.Cast<IMwxObject>();
+		}
 	}
 }
 

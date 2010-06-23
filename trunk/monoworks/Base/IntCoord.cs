@@ -77,11 +77,12 @@ namespace MonoWorks.Base
 		/// </summary>
 		public void Parse(string valString)
 		{
+			valString = valString.Replace("[", "").Replace("]","");
 			var comps = valString.Split(',');
 			if (comps.Length != 2)
 				throw new Exception("Value string for coord must have form x,y, unlike: " + valString);
-			X = int.Parse(comps[0]);
-			Y = int.Parse(comps[1]);
+			X = int.Parse(comps[0].Trim());
+			Y = int.Parse(comps[1].Trim());
 		}
 		
 		/// <summary>

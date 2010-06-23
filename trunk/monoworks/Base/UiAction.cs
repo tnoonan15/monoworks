@@ -38,7 +38,7 @@ namespace MonoWorks.Base
 			throw new System.NotImplementedException();
 		}
 
-		public IEnumerable<IMwxObject> GetMwxChildren()
+		public IList<IMwxObject> GetMwxChildren()
 		{
 			return new List<IMwxObject>();
 		}

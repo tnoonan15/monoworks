@@ -52,10 +52,10 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnButtonPress(evt);
 
 			// don't interact if modal overlays are present
-			if (_scene.RenderList.ModalCount > 0)
+			if (Scene.RenderList.ModalCount > 0)
 				return;
 			
-			foreach (var actor in _scene.RenderList.ActorCopy)
+			foreach (var actor in Scene.RenderList.ActorCopy)
 				actor.OnButtonPress(evt);
 		}
 
@@ -65,10 +65,10 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnButtonRelease(evt);
 
 			// don't interact if modal overlays are present
-			if (_scene.RenderList.ModalCount > 0)
+			if (Scene.RenderList.ModalCount > 0)
 				return;
 			
-			foreach (var actor in _scene.RenderList.ActorCopy)
+			foreach (var actor in Scene.RenderList.ActorCopy)
 				actor.OnButtonRelease(evt);
 		}
 
@@ -78,10 +78,10 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnMouseMotion(evt);
 
 			// don't interact if modal overlays are present
-			if (_scene.RenderList.ModalCount > 0)
+			if (Scene.RenderList.ModalCount > 0)
 				return;
 			
-			foreach (var actor in _scene.RenderList.ActorCopy)
+			foreach (var actor in Scene.RenderList.ActorCopy)
 			{
 				Console.WriteLine("mouse motion on {0}", actor.Name);
 				actor.OnMouseMotion(evt);

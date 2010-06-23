@@ -92,7 +92,7 @@ namespace MonoWorks.Rendering
 		/// <summary>
 		/// Default implementation that returns an empty list.
 		/// </summary>
-		public virtual IEnumerable<IMwxObject> GetMwxChildren()
+		public virtual IList<IMwxObject> GetMwxChildren()
 		{
 			return new List<IMwxObject>();
 		}

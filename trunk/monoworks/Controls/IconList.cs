@@ -78,7 +78,7 @@ namespace MonoWorks.Controls
 				throw new Exception("Icon lists can only have children of type IconListEntry");
 		}
 
-		public IEnumerable<IMwxObject> GetMwxChildren()
+		public IList<IMwxObject> GetMwxChildren()
 		{
 			var children = new List<IMwxObject>();
 			foreach (var icon in Values)

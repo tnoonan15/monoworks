@@ -113,6 +113,7 @@
     <Compile Include="CairoHelper.cs" />
     <Compile Include="FileDialogDef.cs" />
     <Compile Include="SceneContainer.cs" />
+    <Compile Include="Interaction\SingleActorInteractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultColors.xml" />

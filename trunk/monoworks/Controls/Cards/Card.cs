@@ -104,9 +104,11 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Returns the card collection.
 		/// </summary>
-		public override IEnumerable<IMwxObject> GetMwxChildren()
+		public override IList<IMwxObject> GetMwxChildren()
 		{
-			return _children as IEnumerable<IMwxObject>;
+			var children = _children.Cast<IMwxObject>();
+			children.Add(Control);
+			return children;
 		}
 
 		/// <summary>

@@ -386,7 +386,7 @@ namespace MonoWorks.Modeling
 				throw new Exception("Entities can only have children that are other entities, not " + child.GetType());
 		}
 
-		public override IEnumerable<IMwxObject> GetMwxChildren()
+		public override IList<IMwxObject> GetMwxChildren()
 		{
 			var kids = new List<IMwxObject>();
 			foreach (var icon in Children)

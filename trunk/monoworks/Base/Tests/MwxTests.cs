@@ -1,5 +1,5 @@
 // 
-//  CardScene.cs - MonoWorks Project
+//  MwxTests.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -21,43 +21,39 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
-using System.Reflection;
+using NUnit.Framework;
 
 using MonoWorks.Base;
-using MonoWorks.Rendering;
-using MonoWorks.Rendering.Interaction;
-using MonoWorks.Controls;
-using MonoWorks.Controls.Cards;
 
-namespace MonoWorks.Demo
+namespace MonoWorks.Base.Tests
 {
 	/// <summary>
-	/// A demo scene containing a card book.
+	/// Tests for Mwx object handling.
 	/// </summary>
-	public class CardScene : Scene
+	[TestFixture()]
+	public class MwxTests
 	{
-
-		public CardScene(Viewport viewport) : base(viewport)
+		[Test()]
+		public void TestDeepCopy()
 		{
-			Name = "Cards";
-			Mwx = new MwxSource(ResourceHelper.GetStream("cards.mwx"));
+			var obj = new MwxTestObject() {
+				Name = "Test Object"
+			};
+			obj.AddChild(new MwxTestObject() {
+				Name = "Child 1"
+			});
 			
-			var book = Mwx.Get<CardBook>("Book");
-			RenderList.AddActor(book);
-			book.ComputeGeometry();
+			var copier = new MwxDeepCopier();
+			var newObj = copier.DeepCopy<MwxTestObject>(obj);
 			
-			var interactor = new CardInteractor<DemoCard>(this) { CardBook = book };
-			PrimaryInteractor = interactor;
-			interactor.EditInteractor = new SingleActorInteractor<DemoCard>(this);
-
-			var sceneInfo = new SceneInfoOverlay(this);
-			RenderList.AddOverlay(sceneInfo);
+			Assert.AreEqual("Test Object", newObj.Name);
+			obj.Name = "Modified Name";
+			Assert.AreEqual("Test Object", newObj.Name);
+			
+			Assert.AreEqual(1, newObj.GetMwxChildren().Count);
+			obj.GetMwxChildren()[0].Name = "New child 1";
+			Assert.AreEqual("Child 1", newObj.GetMwxChildren()[0].Name);
 		}
-		
-		/// <summary>
-		/// The mwx source containing the cards.
-		/// </summary>
-		public MwxSource Mwx { get; private set; }
 	}
 }
 
