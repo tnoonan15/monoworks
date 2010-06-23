@@ -98,7 +98,7 @@ namespace MonoWorks.Controls.Cards
 		/// <summary>
 		/// Interactor used for Edit mode.
 		/// </summary>
-		public AbstractInteractor EditInteractor { get; set; }
+		public SingleActorInteractor<CardType> EditInteractor { get; set; }
 		
 		/// <summary>
 		/// The card that is currently being edited.
@@ -467,24 +467,7 @@ namespace MonoWorks.Controls.Cards
 				throw new Exception("There's nothing to delete!");
 			CurrentRoot.Remove(ContextCard);
 		}
-		
-		/// <summary>
-		/// Copies the current card to the internal clipboard.
-		/// </summary>
-		public virtual void CopyCurrent(object sender, EventArgs args)
-		{
-			if (ContextCard == null)
-				throw new Exception("There's nothing to delete!");
-		}
-		
-		/// <summary>
-		/// Pastes the internal clipboard into an empty space.
-		/// </summary>
-		public virtual void Paste(object sender, EventArgs args)
-		{
-		
-		}
-		
+				
 		/// <summary>
 		/// Creates a new card at the current empty location.
 		/// </summary>
@@ -513,6 +496,8 @@ namespace MonoWorks.Controls.Cards
 				throw new Exception("No card to edit!");
 			EditingCard = card as CardType;
 			EditingCard.Origin.Z += 1;
+			if (EditInteractor != null)
+				EditInteractor.Actor = EditingCard;
 		}
 		
 		/// <summary>
@@ -580,6 +565,44 @@ namespace MonoWorks.Controls.Cards
 		}
 		
 		#endregion
+		
+		
+		#region Copying Cards
+		
+		/// <summary>
+		/// The card that will copied during the next paste operation.
+		/// </summary>
+		public CardType Clipboard { get; private set; }
+		
+		/// <summary>
+		/// Used to perform deep copies for copy/paste functionality.
+		/// </summary>
+		private MwxDeepCopier _deepCopier = new MwxDeepCopier();
+		
+		/// <summary>
+		/// Copies the current card to the internal clipboard.
+		/// </summary>
+		public virtual void CopyCurrent(object sender, EventArgs args)
+		{
+			if (ContextCard == null)
+				throw new Exception("There's nothing to delete!");
+			Clipboard = ContextCard as CardType;
+		}
+		
+		/// <summary>
+		/// Pastes the internal clipboard into an empty space.
+		/// </summary>
+		public virtual void Paste(object sender, EventArgs args)
+		{
+			if (ContextCard != null)
+				throw new Exception("Can't insert a card, there is already one at the current position.");
+			var grid = CurrentRoot.GetGridCoord(ContextCoord);
+			var card = _deepCopier.DeepCopy<CardType>(Clipboard);
+			card.GridCoord = grid;
+			CurrentRoot.Add(card);
+		}		
+		
+		#endregion
 
 			
 		#region Camera Motion
@@ -589,8 +612,6 @@ namespace MonoWorks.Controls.Cards
 		/// </summary>
 		private Dictionary<InteractionType, AnimationOptions> _animationOptions 
 			= new Dictionary<InteractionType, AnimationOptions>();
-
-		private IntCoord _currentGridCoord;
 		
 		/// <summary>
 		/// The plane at the current level.
@@ -635,7 +656,6 @@ namespace MonoWorks.Controls.Cards
 			var coord = new Coord(Camera.Position.X, Camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
 			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
-			_currentGridCoord = CurrentRoot.GetGridCoord(coord);
 			
 			// move the camera
 			Camera.Center.X = coord.X;
@@ -674,7 +694,6 @@ namespace MonoWorks.Controls.Cards
 			var coord = new Coord(Camera.Position.X, Camera.Position.Y);
 			CurrentRoot.RoundToNearestGrid(coord);
 			CurrentRoot.FocusedChild = CurrentRoot.FindByPosition(coord);
-			_currentGridCoord = CurrentRoot.GetGridCoord(coord);
 			
 			// create the animation
 			var center = Camera.Center.Copy();

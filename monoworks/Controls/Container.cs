@@ -174,6 +174,11 @@ namespace MonoWorks.Controls
 		{
 			return GetEnumerator();
 		}
+		
+		public override IList<IMwxObject> GetMwxChildren()
+		{
+			return _children.Cast<IMwxObject>();
+		}
 
 		#endregion
 		

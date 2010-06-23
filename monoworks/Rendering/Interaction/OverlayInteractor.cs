@@ -44,9 +44,9 @@ namespace MonoWorks.Rendering.Interaction
 			var wasHandled = evt.IsHandled;
 
 			// let the modals interact first
-			if (_scene.RenderList.ModalCount > 0)
+			if (Scene.RenderList.ModalCount > 0)
 			{
-				var top = _scene.RenderList.TopModal;
+				var top = Scene.RenderList.TopModal;
 				top.OnButtonPress(evt);
 				if (!wasHandled && evt.IsHandled)
 					Current = top;
@@ -71,9 +71,9 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnButtonRelease(evt);
 
 			// let the modals interact first
-			if (_scene.RenderList.ModalCount > 0)
+			if (Scene.RenderList.ModalCount > 0)
 			{
-				_scene.RenderList.TopModal.OnButtonRelease(evt);
+				Scene.RenderList.TopModal.OnButtonRelease(evt);
 				evt.Handle(this);
 				return; // don't interact with anything else if modal overlays are present
 			}
@@ -88,9 +88,9 @@ namespace MonoWorks.Rendering.Interaction
 			base.OnMouseMotion(evt);
 
 			// let the modals interact first
-			if (_scene.RenderList.ModalCount > 0)
+			if (Scene.RenderList.ModalCount > 0)
 			{
-				_scene.RenderList.TopModal.OnMouseMotion(evt);
+				Scene.RenderList.TopModal.OnMouseMotion(evt);
 				evt.Handle(this);
 				return; // don't interact with anything else if modal overlays are present
 			}
@@ -107,9 +107,9 @@ namespace MonoWorks.Rendering.Interaction
 		public override void OnKeyPress(KeyEvent evt)
 		{
 			// let the modals interact first
-			if (_scene.RenderList.ModalCount > 0)
+			if (Scene.RenderList.ModalCount > 0)
 			{
-				_scene.RenderList.TopModal.OnKeyPress(evt);
+				Scene.RenderList.TopModal.OnKeyPress(evt);
 				return; // don't interact with anything else if modal overlays are present
 			}
 			

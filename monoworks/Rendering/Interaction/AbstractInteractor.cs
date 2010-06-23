@@ -48,7 +48,7 @@ namespace MonoWorks.Rendering.Interaction
 		public AbstractInteractor(Scene scene)
 		{
 			this.renderList = scene.RenderList;
-			_scene = scene;
+			Scene = scene;
 
 			RubberBand = new RubberBand();
 		}
@@ -56,14 +56,17 @@ namespace MonoWorks.Rendering.Interaction
 
 		protected RenderList renderList;
 
-		protected Scene _scene;
+		/// <summary>
+		/// The scene this interactor acts on. 
+		/// </summary>
+		public Scene Scene {get; private set;}
 		
 		
 		/// <summary>
 		/// Stores the camera used during initialization.
 		/// </summary>
 		public Camera Camera {
-			get { return _scene.Camera;}
+			get { return Scene.Camera;}
 		}
 
 

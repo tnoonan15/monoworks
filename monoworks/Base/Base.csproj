@@ -59,6 +59,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="nunit.framework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Angle.cs" />
@@ -91,6 +92,9 @@
     <Compile Include="RunningAverager.cs" />
     <Compile Include="IntCoord.cs" />
     <Compile Include="Plane.cs" />
+    <Compile Include="MwxDeepCopier.cs" />
+    <Compile Include="Tests\MwxTests.cs" />
+    <Compile Include="Tests\MwxTestObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultUnits.xml" />
@@ -112,4 +116,7 @@
     <OutputPath>bin\Gtk Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Tests\" />
+  </ItemGroup>
 </Project>

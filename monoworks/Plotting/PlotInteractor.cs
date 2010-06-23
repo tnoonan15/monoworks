@@ -45,10 +45,10 @@ namespace MonoWorks.Plotting
 			// handle double click
 			if (!evt.IsHandled && evt.Multiplicity == ClickMultiplicity.Double)
 			{
-				if (_scene.Use2dInteraction)
+				if (Scene.Use2dInteraction)
 				{
-					_scene.RenderList.ResetBounds();
-					_scene.Resize();
+					Scene.RenderList.ResetBounds();
+					Scene.Resize();
 					evt.Handle(this);
 				}
 			}
@@ -78,11 +78,11 @@ namespace MonoWorks.Plotting
 				{
 					string description = hitRend.SelectionDescription;
 					if (description.Length > 0)
-						_scene.ToolTip = description;
+						Scene.ToolTip = description;
 					evt.Handle(this);
 				} 
 				else
-					_scene.ClearToolTip();
+					Scene.ClearToolTip();
 			} // button 1
 		}
 
