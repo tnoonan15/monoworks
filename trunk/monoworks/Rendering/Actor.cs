@@ -33,14 +33,14 @@ namespace MonoWorks.Rendering
 		{
 		}
 
-		protected Bounds bounds = new Bounds();
+		protected Bounds _bounds = new Bounds();
 		/// <summary>
 		/// The bounding box of the renderable.
 		/// Should be updated by ComputeGeometry().
 		/// </summary>
 		public Bounds Bounds
 		{
-			get {return bounds;}
+			get {return _bounds;}
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace MonoWorks.Rendering
 		/// <returns> True if the renderable was hit. </returns>
 		public virtual bool HitTest(HitLine hitLine)
 		{
-			return bounds.HitTest(hitLine, out lastHit);
+			return _bounds.HitTest(hitLine, out lastHit);
 		}
 
 		protected Vector lastHit = null;

@@ -118,7 +118,7 @@ namespace MonoWorks.Plotting
 		/// <remarks> This will only destroy data if you're making it smaller.</remarks>
 		public void SetSize(int rows, int cols)
 		{
-			// TODO: copy old data over
+			// TODO: Plotting - copy old data over
 			data = new double[rows, cols];
 			
 			// resize the display index

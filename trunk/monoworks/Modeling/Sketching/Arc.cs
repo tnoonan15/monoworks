@@ -147,7 +147,7 @@ namespace MonoWorks.Modeling.Sketching
 			{
 				Vector thisPos = centerVec + radius.Rotate(normal, dSweep*i);
 				solidPoints[i] = thisPos;
-				bounds.Resize(solidPoints[i]);
+				_bounds.Resize(solidPoints[i]);
 				
 				// compute the direction
 				directions[i] = (centerVec - thisPos).Cross(normal).Normalize();

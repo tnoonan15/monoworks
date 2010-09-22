@@ -250,15 +250,15 @@ namespace MonoWorks.Controls
 			}
 			
 			// resize the bounds
-			bounds.Reset();
+			_bounds.Reset();
 			var vert = Origin.Copy();
-			bounds.Resize(vert);
+			_bounds.Resize(vert);
 			vert += XAxis * RenderWidth;
-			bounds.Resize(vert);
+			_bounds.Resize(vert);
 			vert += this.YAxis() * RenderHeight;
-			bounds.Resize(vert);
+			_bounds.Resize(vert);
 			vert -= XAxis * RenderWidth;
-			bounds.Resize(vert);
+			_bounds.Resize(vert);
 			
 			
 		}

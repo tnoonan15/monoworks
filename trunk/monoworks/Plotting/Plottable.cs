@@ -76,14 +76,14 @@ namespace MonoWorks.Plotting
 		}
 
 
-		protected Color color = new Color();
+		protected Color _color = new Color();
 		/// <summary>
 		/// The color.
 		/// </summary>
 		public Color Color
 		{
-			get { return color; }
-			set { color = value; }
+			get { return _color; }
+			set { _color = value; }
 		}
 
 
@@ -99,15 +99,15 @@ namespace MonoWorks.Plotting
 
 		}
 
-		protected Bounds plotBounds = new Bounds();
+		protected Bounds _plotBounds = new Bounds();
 		/// <summary>
 		/// The bounds of the plottable in plot space.
 		/// </summary>
 		/// <remarks> This differs from bounds, which is in rendering space.</remarks>
 		public Bounds PlotBounds
 		{
-			get { return plotBounds; }
-			set { plotBounds = value; }
+			get { return _plotBounds; }
+			set { _plotBounds = value; }
 		}
 
 #endregion
@@ -119,7 +119,7 @@ namespace MonoWorks.Plotting
 		/// <summary>
 		/// Each plottable gets a display list.
 		/// </summary>
-		protected int displayList = 0;
+		protected int _displayList = 0;
 
 		/// <summary>
 		/// Ensures the display list is cleared.
@@ -127,9 +127,9 @@ namespace MonoWorks.Plotting
 		/// <remarks> Does nothing if this list hasn't been set yet.</remarks>
 		public void ClearDisplayList()
 		{
-			if (gl.glIsList(displayList) != 0)
+			if (gl.glIsList(_displayList) != 0)
 			{
-				gl.glDeleteLists(displayList, 1);
+				gl.glDeleteLists(_displayList, 1);
 			}
 		}
 		
@@ -139,8 +139,8 @@ namespace MonoWorks.Plotting
 		/// </summary>
 		public void CallDisplayList()
 		{			
-			if (gl.glIsList(displayList) != 0)
-				gl.glCallList(displayList);
+			if (gl.glIsList(_displayList) != 0)
+				gl.glCallList(_displayList);
 		}
 
 		public override void ComputeGeometry()
@@ -161,7 +161,7 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOpaque(scene);
 
-			color.Setup();
+			_color.Setup();
 		}
 
 
@@ -169,7 +169,7 @@ namespace MonoWorks.Plotting
 		{
 			base.RenderOverlay(scene);
 
-			color.Setup();
+			_color.Setup();
 		}
 
 #endregion

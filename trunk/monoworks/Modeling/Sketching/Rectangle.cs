@@ -66,9 +66,9 @@ namespace MonoWorks.Modeling.Sketching
 			solidPoints[4] = solidPoints[0];
 
 			// update the bounds
-			bounds.Reset();
+			_bounds.Reset();
 			foreach (var vector in solidPoints)
-				bounds.Resize(vector);
+				_bounds.Resize(vector);
 
 			// copy over the wireframe points
 			for (int i = 0; i < wireframePoints.Length; i++)

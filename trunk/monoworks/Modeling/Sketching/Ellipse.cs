@@ -73,13 +73,13 @@ namespace MonoWorks.Modeling.Sketching
 			var cosbeta = Tilt.Cos();
 			Angle theta = new Angle();
 			Angle dTheta = Angle.TwoPi / (N-1);
-			bounds.Reset();
+			_bounds.Reset();
 			for (int i = 0; i < N; i ++)
 			{
 				double dx = a * theta.Cos() * cosbeta - b * theta.Sin() * sinbeta;
 				double dy = a * theta.Cos() * sinbeta + b * theta.Sin() * cosbeta;
 				solidPoints[i] = center + x * dx + y * dy;
-				bounds.Resize(solidPoints[i]);
+				_bounds.Resize(solidPoints[i]);
 				theta += dTheta;
 			}
 

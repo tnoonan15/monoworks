@@ -126,7 +126,7 @@ namespace MonoWorks.Modeling.Sketching
 				else
 					directions[i] = new Vector();
 				
-				bounds.Resize(solidPoints[i]);
+				_bounds.Resize(solidPoints[i]);
 			}
 			
 			// if closed, the first point needs to be copied to the end

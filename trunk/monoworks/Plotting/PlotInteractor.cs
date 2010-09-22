@@ -43,15 +43,42 @@ namespace MonoWorks.Plotting
 			base.OnButtonPress(evt);
 	
 			// handle double click
-			if (!evt.IsHandled && evt.Multiplicity == ClickMultiplicity.Double)
+			if (!evt.IsHandled && evt.Button == 1) // unhandled left click
 			{
-				if (Scene.Use2dInteraction)
+				if (evt.Multiplicity == ClickMultiplicity.Double) //  double click
 				{
-					Scene.RenderList.ResetBounds();
-					Scene.Resize();
-					evt.Handle(this);
+					if (Scene.Use2dInteraction)
+					{
+						Scene.RenderList.ResetBounds();
+						Scene.Resize();
+						evt.Handle(this);
+					}
 				}
-			}
+				else if (evt.Multiplicity == ClickMultiplicity.Single) // single click
+				{
+					// TODO: Plotting - handle multiple hits with depth checking
+					Actor hitRend = null;
+					foreach (Actor rend in renderList.Actors)
+					{
+						rend.OnButtonRelease(evt);
+						if (evt.IsHandled)
+							hitRend = rend;
+					}
+
+					// show the selection tooltip
+					if (hitRend != null)
+					{
+						string description = hitRend.SelectionDescription;
+						if (description.Length > 0)
+							Scene.ToolTip = description;
+						evt.Handle(this);
+					}
+					else
+						Scene.ClearToolTip();
+				} 
+				// handle the event anyway, we don't want the view interactor to do anything
+				evt.Handle(this);
+			} // button 1
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
@@ -61,29 +88,6 @@ namespace MonoWorks.Plotting
 	
 			base.OnButtonRelease(evt);
 	
-
-			if (evt.Button == 1)
-			{
-				// TODO: handle multiple hits with depth checking
-				Actor hitRend = null;
-				foreach (Actor rend in renderList.Actors)
-				{
-					rend.OnButtonRelease(evt);
-					if (evt.IsHandled)
-						hitRend = rend;
-				}
-				
-				// show the selection tooltip
-				if (hitRend != null)
-				{
-					string description = hitRend.SelectionDescription;
-					if (description.Length > 0)
-						Scene.ToolTip = description;
-					evt.Handle(this);
-				} 
-				else
-					Scene.ClearToolTip();
-			} // button 1
 		}
 
 		public override void OnMouseMotion(MouseEvent evt)

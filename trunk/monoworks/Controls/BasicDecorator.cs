@@ -346,7 +346,7 @@ namespace MonoWorks.Controls
 		/// </summary>
 		protected virtual void OuterHighlightRectangle(Coord relPos, Coord size, Corner rounded)
 		{
-			// TODO: make outer highlight not suck
+			// TODO: Controls - make outer highlight not suck
 			var point = Context.Push();
 			
 			// create the gradient

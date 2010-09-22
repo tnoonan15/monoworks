@@ -224,15 +224,15 @@ namespace MonoWorks.Controls.Cards
 				}
 				Spacing = MaxChildSize + Padding;
 				
-				bounds.Reset();
-				bounds.Resize(0, 0, 0);
+				_bounds.Reset();
+				_bounds.Resize(0, 0, 0);
 				
 				// layout the cards
 				foreach (var card in _children) {
 					var offset = Spacing * card.GridCoord - card.Control.RenderSize / 2.0;
 					card.Origin.X = offset.X;
 					card.Origin.Y = offset.Y;
-					bounds.Resize(card.Origin);
+					_bounds.Resize(card.Origin);
 					card.ComputeGeometry();
 				}
 				
@@ -360,7 +360,7 @@ namespace MonoWorks.Controls.Cards
 			foreach (var card in _children)
 			{
 				card.RenderTransparent(scene);
-				bounds.Resize(card.Bounds);
+				_bounds.Resize(card.Bounds);
 			}
 
 			// don't render ourselves if the children are visible, we won't be able to see them

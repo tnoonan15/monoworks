@@ -133,15 +133,14 @@ namespace MonoWorks.Rendering.Interaction
 			// don't interact if modal overlays are present
 			if (Scene.RenderList.ModalCount > 0)
 				return;
-		
-
+			
 			int key = GetKey(evt.Button, evt.Modifier);
 			if (mouseTypes.ContainsKey(key))
 				mouseType = mouseTypes[key];
 			else
 				mouseType = InteractionType.None;
 
-			// TODO: make this work for rubber band selection
+			// rubber hand zoom
 			if (MouseType == InteractionType.Zoom)
 			{
 				RubberBand.Reset(evt.Pos);
@@ -181,7 +180,7 @@ namespace MonoWorks.Rendering.Interaction
 				}
 				if (!blocked)
 				{
-					// TODO: unblocked zoom
+					// TODO: Rendering - implement unblocked zoom in ViewInteractor
 				}
 				break;
 			}

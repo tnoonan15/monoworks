@@ -126,7 +126,7 @@ namespace MonoWorks.Modeling.Sketching
 			wireframePoints = new Vector[]{solidPoints[0], solidPoints[solidPoints.Length-1]};
 			
 			// compute directions and resize bounds
-			bounds.Reset();
+			_bounds.Reset();
 			directions = new Vector[solidPoints.Length];
 			for (int i=0; i<solidPoints.Length; i++)
 			{				
@@ -138,7 +138,7 @@ namespace MonoWorks.Modeling.Sketching
 				else
 					directions[i] = new Vector();
 				
-				bounds.Resize(solidPoints[i]);
+				_bounds.Resize(solidPoints[i]);
 			}
 		}
 

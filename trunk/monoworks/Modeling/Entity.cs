@@ -75,7 +75,7 @@ namespace MonoWorks.Modeling
 			IdCounter++;
 			id = IdCounter;
 			IsDirty = false;
-			bounds = new Bounds();
+			_bounds = new Bounds();
 			_children = new List<Entity>();
 			
 			// initialize momentos
@@ -525,7 +525,7 @@ namespace MonoWorks.Modeling
 
 			base.ComputeGeometry();
 
-			bounds.Reset();
+			_bounds.Reset();
 			
 			// update the children's geometry and resize the bounds
 			foreach (Entity child in GetChildren<Feature>())
@@ -534,7 +534,7 @@ namespace MonoWorks.Modeling
 				{
 					if (child.IsDirty)
 						child.ComputeGeometry();
-					bounds.Resize(child.Bounds);
+					_bounds.Resize(child.Bounds);
 				}
 			}
 			foreach (Entity child in GetChildren<Sketch>())
@@ -543,7 +543,7 @@ namespace MonoWorks.Modeling
 				{
 					if (child.IsDirty)
 						child.ComputeGeometry();
-					bounds.Resize(child.Bounds);
+					_bounds.Resize(child.Bounds);
 				}
 			}
 			foreach (Entity child in GetChildren<Sketchable>())
@@ -552,7 +552,7 @@ namespace MonoWorks.Modeling
 				{
 					if (child.IsDirty)
 						child.ComputeGeometry();
-					bounds.Resize(child.Bounds);
+					_bounds.Resize(child.Bounds);
 				}
 			}
 			foreach (Entity child in GetChildren<Reference>())
