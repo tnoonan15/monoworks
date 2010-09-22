@@ -56,7 +56,7 @@ namespace MonoWorks.Plotting
 		public PointPlot(AxesBox parent)
 			: base(parent)
 		{
-			color = ColorManager.Global["Blue"];
+			_color = ColorManager.Global["Blue"];
 			DefaultColumns();
 		}
 
@@ -278,8 +278,8 @@ namespace MonoWorks.Plotting
 
 			if (dataSet == null)
 			{
-				plotBounds.Minima = new Vector(-1, -1, -1);
-				plotBounds.Maxima = new Vector(1, 1, 1);
+				_plotBounds.Minima = new Vector(-1, -1, -1);
+				_plotBounds.Maxima = new Vector(1, 1, 1);
 			}
 			else // there's some data there
 			{
@@ -296,8 +296,8 @@ namespace MonoWorks.Plotting
 					minima[i] = min;
 					maxima[i] = max;
 				}
-				plotBounds.Minima = minima;
-				plotBounds.Maxima = maxima;
+				_plotBounds.Minima = minima;
+				_plotBounds.Maxima = maxima;
 			}
 		}
 
@@ -321,7 +321,7 @@ namespace MonoWorks.Plotting
 		{
 			base.ComputeGeometry();
 
-			bounds.Reset();
+			_bounds.Reset();
 			
 			// generate the colors			
 			double[] colorRange; // the range of values that the colors correspond to
@@ -330,7 +330,7 @@ namespace MonoWorks.Plotting
 			if (this[ColumnIndex.Color] < 0) // use the predefined color
 			{
 				colorRange = new double[]{0, 0};
-				colors = new Color[]{color};
+				colors = new Color[]{_color};
 				colorIndex = new PlotIndex(dataSet.NumRows);
 			}
 			else // generate the values from a color map
@@ -386,10 +386,10 @@ namespace MonoWorks.Plotting
 			
 			
 			
-			displayList = gl.glGenLists(1);
+			_displayList = gl.glGenLists(1);
 			
 			// generate the display list
-			gl.glNewList(displayList, gl.GL_COMPILE);
+			gl.glNewList(_displayList, gl.GL_COMPILE);
 
 				
 			for (int shapeI=0; shapeI<shapes.Length; shapeI++) // cycle through shapes
@@ -437,7 +437,7 @@ namespace MonoWorks.Plotting
 							ParentAxes.PlotToWorldSpace.Apply(ref x, ref y, ref z);
 							if (markersVisible)
 								gl.glVertex3d(x, y, z);
-							bounds.Resize(x, y, z);
+							_bounds.Resize(x, y, z);
 						}
 						if (markersVisible)
 							gl.glEnd();
@@ -571,7 +571,7 @@ namespace MonoWorks.Plotting
 
 			// render the selection highlight
 			gl.glPointSize(12);
-			color.Inverse.Setup();
+			_color.Inverse.Setup();
 			gl.glBegin(gl.GL_POINTS);
 			foreach (int r in selectedIndex)
 			{

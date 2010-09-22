@@ -48,7 +48,7 @@ namespace MonoWorks.Controls
 
 				if (attributes.Length > 0)
 				{
-                    // TODO: Make this work if Action() is not the first attribute
+                    // TODO: Controls - Make this work if Action() is not the first attribute
 					var handler = attributes[0] as ActionHandlerAttribute;
 
 					// assign the method name as the name if one wasn't assigned in the attribute

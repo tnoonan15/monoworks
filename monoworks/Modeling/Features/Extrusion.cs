@@ -213,14 +213,14 @@ namespace MonoWorks.Modeling
 						Vector normal = directions[i].Cross(direction).Normalize();
 						
 						// add the first vertex
-						bounds.Resize(vert);
+						_bounds.Resize(vert);
 //						poses.AddChild(vert);
 						normal.glNormal();
 //						normals.AddChild(normal);
 						vert.glVertex();
 						
 						Vector otherVert = vert + direction * dTravel;
-						bounds.Resize(otherVert);
+						_bounds.Resize(otherVert);
 //						poses.AddChild(otherVert);
 						normal.glNormal();
 //						normals.AddChild(normal);

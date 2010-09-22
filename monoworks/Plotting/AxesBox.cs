@@ -61,8 +61,8 @@ namespace MonoWorks.Plotting
 		public AxesBox(AxesBox parent)
 			: base(parent)
 		{
-			bounds.Minima = new Vector(-1, -1, -1);
-			bounds.Maxima = new Vector(1, 1, 1);
+			_bounds.Minima = new Vector(-1, -1, -1);
+			_bounds.Maxima = new Vector(1, 1, 1);
 
 			Arrangement = AxesArrangement.Outside;
 			
@@ -136,8 +136,8 @@ namespace MonoWorks.Plotting
 		public override void ResetBounds()
 		{
 
-			bounds.Minima = new Vector(-1, -1, -1);
-			bounds.Maxima = new Vector(1, 1, 1);
+			_bounds.Minima = new Vector(-1, -1, -1);
+			_bounds.Maxima = new Vector(1, 1, 1);
 
 			ResizeMode = ResizeMode.Auto;
 		}
@@ -150,30 +150,32 @@ namespace MonoWorks.Plotting
 			if (scene.Use2dInteraction)
 			{
 				double edgeFactor = 0.35 * scene.Camera.SceneToWorldScaling;
+				if (double.IsInfinity(edgeFactor))
+					return;
 				Vector center = scene.Camera.Center;
 //				Console.WriteLine("edge scaling: {0}, center: {1}, width: {2}, height: {3}", edgeFactor, center, scene.Width, scene.Height);
 				switch (scene.Camera.LastDirection)
 				{
 				case ViewDirection.Front:
 				case ViewDirection.Back:
-					bounds.Minima[0] = center[0] - edgeFactor * scene.Width;
-					bounds.Maxima[0] = center[0] + edgeFactor * scene.Width;
-					bounds.Minima[2] = center[2] - edgeFactor * scene.Height;
-					bounds.Maxima[2] = center[2] + edgeFactor * scene.Height;
+					_bounds.Minima[0] = center[0] - edgeFactor * scene.Width;
+					_bounds.Maxima[0] = center[0] + edgeFactor * scene.Width;
+					_bounds.Minima[2] = center[2] - edgeFactor * scene.Height;
+					_bounds.Maxima[2] = center[2] + edgeFactor * scene.Height;
 					break;
 				case ViewDirection.Left:
 				case ViewDirection.Right:
-					bounds.Minima[1] = center[1] - edgeFactor * scene.Width;
-					bounds.Maxima[1] = center[1] + edgeFactor * scene.Width;
-					bounds.Minima[2] = center[2] - edgeFactor * scene.Height;
-					bounds.Maxima[2] = center[2] + edgeFactor * scene.Height;
+					_bounds.Minima[1] = center[1] - edgeFactor * scene.Width;
+					_bounds.Maxima[1] = center[1] + edgeFactor * scene.Width;
+					_bounds.Minima[2] = center[2] - edgeFactor * scene.Height;
+					_bounds.Maxima[2] = center[2] + edgeFactor * scene.Height;
 					break;
 				case ViewDirection.Top:
 				case ViewDirection.Bottom:
-					bounds.Minima[0] = center[0] - edgeFactor * scene.Width;
-					bounds.Maxima[0] = center[0] + edgeFactor * scene.Width;
-					bounds.Minima[1] = center[1] - edgeFactor * scene.Height;
-					bounds.Maxima[1] = center[1] + edgeFactor * scene.Height;
+					_bounds.Minima[0] = center[0] - edgeFactor * scene.Width;
+					_bounds.Maxima[0] = center[0] + edgeFactor * scene.Width;
+					_bounds.Minima[1] = center[1] - edgeFactor * scene.Height;
+					_bounds.Maxima[1] = center[1] + edgeFactor * scene.Height;
 					break;
 				}
 			}
@@ -334,13 +336,13 @@ namespace MonoWorks.Plotting
 			switch (arrangement)
 			{
 			case AxesArrangement.Origin: // the axes should be placed at the lowest end of each range
-				axes[0].Start = bounds.Minima;
+				axes[0].Start = _bounds.Minima;
 				axes[1].Start = axes[0].Start;
 				axes[2].Start = axes[0].Start;
-				axes[0].Stop = new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]);
-				axes[1].Stop = new Vector(bounds.Minima[0], bounds.Maxima[1], bounds.Minima[2]);
-				axes[2].Stop = new Vector(bounds.Minima[0], bounds.Minima[1], bounds.Maxima[2]);
-				corner = new Vector(bounds.Maxima[0], bounds.Minima[1], bounds.Minima[2]);
+				axes[0].Stop = new Vector(_bounds.Maxima[0], _bounds.Minima[1], _bounds.Minima[2]);
+				axes[1].Stop = new Vector(_bounds.Minima[0], _bounds.Maxima[1], _bounds.Minima[2]);
+				axes[2].Stop = new Vector(_bounds.Minima[0], _bounds.Minima[1], _bounds.Maxima[2]);
+				corner = new Vector(_bounds.Maxima[0], _bounds.Minima[1], _bounds.Minima[2]);
 				if (lastCorner == null || corner != lastCorner)
 				{
 					foreach (Grid grid in grids)
@@ -350,7 +352,7 @@ namespace MonoWorks.Plotting
 				break;
 
 			case AxesArrangement.Outside: // the axes should be placed along the oustide of the viewable area
-				Vector[] edges = bounds.GetOutsideEdges(scene);
+				Vector[] edges = _bounds.GetOutsideEdges(scene);
 				for (int i = 0; i < 3; i++)
 				{
 					axes[i].Start = edges[2 * i];
@@ -431,30 +433,30 @@ namespace MonoWorks.Plotting
 				// get the new plot bounds if automatically sized
 				if (resizeMode == ResizeMode.Auto) // automatically resize
 				{
-					plotBounds.Reset();
+					_plotBounds.Reset();
 					foreach (Plottable child in children)
 					{
 						child.UpdateBounds();
 						if (child.PlotBounds.IsSet)
-							plotBounds.Resize(child.PlotBounds);
+							_plotBounds.Resize(child.PlotBounds);
 					}
 
 					// make the plot bounds pretty
-					plotBounds.Prettify();
+					_plotBounds.Prettify();
 
 					// ensure all dimensions have non-zero span
-					plotBounds.EnsureNonZeroRanges();
+					_plotBounds.EnsureNonZeroRanges();
 				}
 
 			}
 			else // no plot children
 			{
-				plotBounds.Minima = new Vector(-1, -1, -1);
-				plotBounds.Maxima = new Vector(1, 1, 1);
+				_plotBounds.Minima = new Vector(-1, -1, -1);
+				_plotBounds.Maxima = new Vector(1, 1, 1);
 			}
 
 			// compute the plot-render transformation
-			plotToWorldSpace.Compute(plotBounds, bounds);
+			plotToWorldSpace.Compute(_plotBounds, _bounds);
 
 			// udpate the axes
 			UpdateAxes();
@@ -494,10 +496,10 @@ namespace MonoWorks.Plotting
 			double top = 0;
 			double left = 0;
 			double right = 0;
-			foreach (Vector corner in bounds.Corners)
+			foreach (Vector corner in _bounds.Corners)
 			{
 				Coord coord = scene.Camera.WorldToScreen(corner);
-				if (Array.IndexOf(bounds.Corners, corner)==0) // the first one
+				if (Array.IndexOf(_bounds.Corners, corner)==0) // the first one
 				{
 					top = coord.Y;
 					left = coord.X;
@@ -527,17 +529,17 @@ namespace MonoWorks.Plotting
 		protected void EnableClipping(Scene scene)
 		{			
 			// define the clip planes
-			double[] eq = new double[]{1, 0, 0, bounds.Maxima[0]};
+			double[] eq = new double[]{1, 0, 0, _bounds.Maxima[0]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE0, eq);
-			eq = new double[]{-1, 0, 0, -bounds.Minima[0]};
+			eq = new double[]{-1, 0, 0, -_bounds.Minima[0]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE1, eq);
-			eq = new double[]{0, 1, 0, bounds.Maxima[1]};
+			eq = new double[]{0, 1, 0, _bounds.Maxima[1]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE2, eq);
-			eq = new double[]{0, -1, 0, -bounds.Minima[1]};
+			eq = new double[]{0, -1, 0, -_bounds.Minima[1]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE3, eq);
-			eq = new double[]{0, 0, 1, bounds.Maxima[2]};
+			eq = new double[]{0, 0, 1, _bounds.Maxima[2]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE4, eq);
-			eq = new double[]{0, 0, -1, -bounds.Minima[2]};
+			eq = new double[]{0, 0, -1, -_bounds.Minima[2]};
 			gl.glClipPlane(gl.GL_CLIP_PLANE5, eq);
 			
 			for (int i=0; i<6; i++)
@@ -633,7 +635,7 @@ namespace MonoWorks.Plotting
 				resizeMode = ResizeMode.Manual;
 				// determine the difference to apply to the axes ranges
 				Vector diff = (scene.Camera.RightVec * dx - scene.Camera.UpVector * dy) * scene.Camera.SceneToWorldScaling; 
-				plotBounds.Translate(diff / plotToWorldSpace.Scaling);
+				_plotBounds.Translate(diff / plotToWorldSpace.Scaling);
 				MakeDirty();
 				return true;
 			}
@@ -646,7 +648,7 @@ namespace MonoWorks.Plotting
 			if (scene.Use2dInteraction)
 			{
 				resizeMode = ResizeMode.Manual;
-				plotBounds.Expand(1 - factor);
+				_plotBounds.Expand(1 - factor);
 				MakeDirty();
 				return true;
 			}
@@ -668,24 +670,24 @@ namespace MonoWorks.Plotting
 				{
 				case ViewDirection.Front:
 				case ViewDirection.Back:
-					plotBounds.Minima[0] = min.X;
-					plotBounds.Minima[2] = min.Z;
-					plotBounds.Maxima[0] = max.X;
-					plotBounds.Maxima[2] = max.Z;
+					_plotBounds.Minima[0] = min.X;
+					_plotBounds.Minima[2] = min.Z;
+					_plotBounds.Maxima[0] = max.X;
+					_plotBounds.Maxima[2] = max.Z;
 					break;
 				case ViewDirection.Left:
 				case ViewDirection.Right:
-					plotBounds.Minima[1] = min[1];
-					plotBounds.Minima[2] = min[2];
-					plotBounds.Maxima[1] = max[1];
-					plotBounds.Maxima[2] = max[2];
+					_plotBounds.Minima[1] = min[1];
+					_plotBounds.Minima[2] = min[2];
+					_plotBounds.Maxima[1] = max[1];
+					_plotBounds.Maxima[2] = max[2];
 					break;
 				case ViewDirection.Top:
 				case ViewDirection.Bottom:
-					plotBounds.Minima[0] = min[0];
-					plotBounds.Minima[1] = min[1];
-					plotBounds.Maxima[0] = max[0];
-					plotBounds.Maxima[1] = max[1];
+					_plotBounds.Minima[0] = min[0];
+					_plotBounds.Minima[1] = min[1];
+					_plotBounds.Maxima[0] = max[0];
+					_plotBounds.Maxima[1] = max[1];
 					break;
 				}
 				MakeDirty();

@@ -188,11 +188,11 @@ namespace MonoWorks.Modeling
 			
 			// generate the corner points
 			quadCorners = new Vector[4];
-			bounds.Reset();
+			_bounds.Reset();
 			for (int i=0; i<4; i++)
 			{
 				quadCorners[i] = center + corner;
-				bounds.Resize(quadCorners[i]);
+				_bounds.Resize(quadCorners[i]);
 				corner = corner.Rotate(direction, new Angle(Angle.PI/2.0));
 			}
 

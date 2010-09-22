@@ -35,6 +35,7 @@ namespace MonoWorks.Demo
 			RenderList.AddActor(axes);
 			
 			Camera.Projection = Projection.Parallel;
+			PrimaryInteractor = new PlotInteractor(this);
 			Use2dInteraction = true;
 			Camera.SetViewDirection(ViewDirection.Front);
 			new PlotController(this);

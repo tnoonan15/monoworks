@@ -104,7 +104,7 @@ namespace MonoWorks.Controls
 			{
 				_gutterOverlays[Side.W].Origin.Y = Height - _gutterOverlays[Side.N].RenderHeight;
 				_gutterOverlays[Side.N].Origin.Y = Height - _gutterOverlays[Side.N].RenderHeight;
-				// TODO: implement SceneSpace layout for east and south gutters
+				// TODO: Controls - implement SceneSpace layout for east and south gutters
 
 				var rootOrigin = new Coord(_gutters[Side.W].RenderWidth, _gutters[Side.S].RenderHeight);
 				Root.ViewportOffset = rootOrigin;

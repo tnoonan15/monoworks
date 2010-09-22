@@ -171,13 +171,13 @@ namespace MonoWorks.Modeling
 			{
 				gl.glLineWidth(1.0f);
 				ColorManager.Global["Blue"].Setup();
-				bounds.Render(scene);
+				_bounds.Render(scene);
 			}
 			else if (IsSelected)
 			{
 				gl.glLineWidth(1.0f);
 				ColorManager.Global["Red"].Setup();
-				bounds.Render(scene);
+				_bounds.Render(scene);
 			}
 			
 			// render solid geometry

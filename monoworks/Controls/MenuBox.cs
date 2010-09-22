@@ -261,7 +261,7 @@ namespace MonoWorks.Controls
 			if (IsCurrentEditable)
 			{
 				_textBox.OnButtonPress(evt);
-				// TODO: Implement MenuBox.IsCurrentEditable=true functionality
+				// TODO: Controls - Implement MenuBox.IsCurrentEditable=true functionality
 			}
 			else
 			{
@@ -307,7 +307,7 @@ namespace MonoWorks.Controls
 				          -LastPosition.Y + pane.RenderHeight + dy - _menu.RenderHeight);
 				_overlay.Origin = pos;
 				
-				// TODO: improve menu placement at edges of the scene
+				// TODO: Controls - improve menu placement at edges of the scene
 			}
 		}
 				

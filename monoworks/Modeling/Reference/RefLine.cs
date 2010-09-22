@@ -100,9 +100,9 @@ namespace MonoWorks.Modeling
 			
 			double t=6;
 			start = Center.ToVector() - Direction * t;
-			bounds.Resize(start);
+			_bounds.Resize(start);
 			stop = Center.ToVector() + Direction * t;
-			bounds.Resize(stop);
+			_bounds.Resize(stop);
 		}
 
 		public override void RenderFill(Scene scene)

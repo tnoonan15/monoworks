@@ -172,7 +172,7 @@ namespace MonoWorks.Modeling
 					{
 						Vector relPos = verts[i] - axisCenter;
 						Vector pos = relPos.Rotate(Axis.Direction, dTravel * n) + axisCenter;
-						bounds.Resize(pos);
+						_bounds.Resize(pos);
 //						poses.AddChild(pos);
 						
 						// add the first normal
@@ -185,7 +185,7 @@ namespace MonoWorks.Modeling
 						
 						relPos = verts[i+1] - axisCenter;
 						pos = relPos.Rotate(Axis.Direction, dTravel * n) + axisCenter;			
-						bounds.Resize(pos);
+						_bounds.Resize(pos);
 //						poses.AddChild(pos);
 						
 						// add the second normal
