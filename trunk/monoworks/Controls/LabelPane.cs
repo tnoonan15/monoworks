@@ -24,12 +24,12 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// A pane that contains a single label.
 	/// </summary>
-	public class LabelPane : ActorPane
+	public class LabelPane : OverlayPane
 	{
 		
 		public LabelPane()
 		{
-			Label = new Label("");
+			Label = new Label("label");
 			this.Control = Label;
 		}
 		

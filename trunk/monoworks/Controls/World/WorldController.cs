@@ -105,7 +105,7 @@ namespace MonoWorks.Controls.World
 		#endregion
 		
 				
-		#region View Direction Actions		
+		#region View Direction Actions
 		
 		[ActionHandler("Standard View")]
 		public void OnStandardView(object sender, EventArgs args)
@@ -118,42 +118,60 @@ namespace MonoWorks.Controls.World
 		public void OnFrontView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
-			Scene.Camera.AnimateTo(ViewDirection.Front);
+			if (Scene.Use2dInteraction)
+				Scene.Camera.SetViewDirection(ViewDirection.Front);
+			else
+				Scene.Camera.AnimateTo(ViewDirection.Front);
 		}
 		
 		[ActionHandler("Back View")]
 		public void OnBackView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
-			Scene.Camera.AnimateTo(ViewDirection.Back);
+			if (Scene.Use2dInteraction)
+				Scene.Camera.SetViewDirection(ViewDirection.Back);
+			else
+				Scene.Camera.AnimateTo(ViewDirection.Back);
 		}
 		
 		[ActionHandler("Left View")]
 		public void OnLeftView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
-			Scene.Camera.AnimateTo(ViewDirection.Left);
+			if (Scene.Use2dInteraction)
+				Scene.Camera.SetViewDirection(ViewDirection.Left);
+			else
+				Scene.Camera.AnimateTo(ViewDirection.Left);
 		}
 		
 		[ActionHandler("Right View")]
 		public void OnRightView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
-			Scene.Camera.AnimateTo(ViewDirection.Right);
+			if (Scene.Use2dInteraction)
+				Scene.Camera.SetViewDirection(ViewDirection.Right);
+			else
+				Scene.Camera.AnimateTo(ViewDirection.Right);
 		}
 		
 		[ActionHandler("Top View")]
 		public void OnTopView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
-			Scene.Camera.AnimateTo(ViewDirection.Top);
+			if (Scene.Use2dInteraction)
+				Scene.Camera.SetViewDirection(ViewDirection.Top);
+			else
+				Scene.Camera.AnimateTo(ViewDirection.Top);
 		}
 		
 		[ActionHandler("Bottom View")]
 		public void OnBottomView(object sender, EventArgs args)
 		{
 			Scene.RenderList.ResetBounds();
-			Scene.Camera.AnimateTo(ViewDirection.Bottom);
+			if (Scene.Use2dInteraction)
+				Scene.Camera.SetViewDirection(ViewDirection.Bottom);
+			else
+				Scene.Camera.AnimateTo(ViewDirection.Bottom);
 		}
 		
 		#endregion

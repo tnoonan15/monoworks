@@ -125,7 +125,7 @@ namespace MonoWorks.Controls
 			Content.ComputeGeometry();
 			button.RenderWidth = Math.Max(button.RenderWidth, Content.RenderWidth);
 			
-			MinSize = Content.RenderSize + new Coord(0, button.RenderHeight);
+			MinSize = Content.RenderSize + button.RenderSize;
 			ApplyUserSize();
 			button.Origin = new Coord(0, Content.RenderHeight);
 

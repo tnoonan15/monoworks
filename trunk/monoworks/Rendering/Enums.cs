@@ -26,7 +26,7 @@ namespace MonoWorks.Rendering
 	/// Locations for an anchor.
 	/// </summary>
 	[Flags]
-	public enum AnchorLocation {None = 0, N = 1, E = 2, S = 4, W = 8, NE = 32, SE = 64, SW = 128, NW = 256 };
+	public enum AnchorLocation {None = 0, Center = 0, N = 1, E = 2, S = 4, W = 8, NE = 32, SE = 64, SW = 128, NW = 256 };
 	
 	/// <summary>
 	/// The locations in a corner of a rectangle, subset of AnchorLocation.
@@ -43,7 +43,8 @@ namespace MonoWorks.Rendering
 	/// </summary>
 	[Flags]
 	public enum Side { N = AnchorLocation.N, 
-								E = AnchorLocation.E, 
-								S = AnchorLocation.S, 
-								W = AnchorLocation.W};
+						E = AnchorLocation.E, 
+						S = AnchorLocation.S, 
+						W = AnchorLocation.W};
+
 }

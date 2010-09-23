@@ -79,9 +79,10 @@ namespace MonoWorks.Plotting
 			grids[2].Axes[0] = axes[0];
 			grids[2].Axes[1] = axes[2];
 
-			titlePane = new LabelPane();
-//			titleDef.HorizontalAlignment = HorizontalAlignment.Center;
-//			title.Text = "";
+			titlePane = new LabelPane() {
+				OriginLocation = AnchorLocation.Center
+			};
+			titlePane.Label.FontSize = 20;
 		}
 
 				
@@ -513,7 +514,7 @@ namespace MonoWorks.Plotting
 					right = coord.X;
 			}
 			
-			titlePane.Origin = new Vector((left+right)/2, top + 32, 0);
+			titlePane.Origin = new Coord((left+right)/2, top + 32);
 			titlePane.RenderOverlay(scene);
 		}
 
