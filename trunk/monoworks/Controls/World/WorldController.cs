@@ -216,9 +216,9 @@ namespace MonoWorks.Controls.World
 		/// Exports the scene to a file, prompting the user for the file location.
 		/// </summary>
 		[ActionHandler("Export")]
-		public void OnExport()
+		public void OnExport(object sender, EventArgs args)
 		{
-//			Scene.Export();
+			Scene.Viewport.Export();
 		}
 		
 		#endregion

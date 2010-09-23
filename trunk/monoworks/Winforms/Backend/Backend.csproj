@@ -8,8 +8,8 @@
     <ProjectGuid>{EEE37458-9824-4938-A2AC-B9E877405FD1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonoWorks.SwfBackend</RootNamespace>
-    <AssemblyName>MonoWorks.SwfBackend</AssemblyName>
+    <RootNamespace>MonoWorks.Winforms.Backend</RootNamespace>
+    <AssemblyName>MonoWorks.Winforms.Backend</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

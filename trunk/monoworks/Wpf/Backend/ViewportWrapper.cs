@@ -3,7 +3,7 @@
 using MonoWorks.Rendering;
 using System.Windows;
 
-using MonoWorks.Swf.Backend;
+using MonoWorks.Winforms.Backend;
 
 namespace MonoWorks.Wpf.Backend
 {
