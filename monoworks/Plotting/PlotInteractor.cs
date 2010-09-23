@@ -77,7 +77,7 @@ namespace MonoWorks.Plotting
 						Scene.ClearToolTip();
 				} 
 				// handle the event anyway, we don't want the view interactor to do anything
-				evt.Handle(this);
+				//evt.Handle(this);
 			} // button 1
 		}
 

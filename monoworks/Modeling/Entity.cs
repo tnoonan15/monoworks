@@ -314,7 +314,7 @@ namespace MonoWorks.Modeling
 			}
 			set {
 				base.Name = value;
-				workingMomento["name"] = value;
+				//workingMomento["name"] = value;
 			}
 		}
 		

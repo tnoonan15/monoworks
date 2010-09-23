@@ -42,7 +42,8 @@ namespace MonoWorks.Demo
 			
 			TestAxes3D axes = new TestAxes3D();
 			RenderList.AddActor(axes);
-			
+
+			PrimaryInteractor = new PlotInteractor(this);
 			Camera.SetViewDirection(ViewDirection.Standard);
 			new PlotController(this);
 		}

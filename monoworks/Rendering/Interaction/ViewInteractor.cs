@@ -140,6 +140,10 @@ namespace MonoWorks.Rendering.Interaction
 			else
 				mouseType = InteractionType.None;
 
+			// don't rotate in 2d mode
+			if (Scene.Use2dInteraction && mouseType == InteractionType.Rotate)
+				mouseType = InteractionType.None;
+
 			// rubber hand zoom
 			if (MouseType == InteractionType.Zoom)
 			{

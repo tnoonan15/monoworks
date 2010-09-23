@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._viewportAdapter = new MonoWorks.Swf.Backend.ViewportAdapter();
+			this._viewportAdapter = new MonoWorks.Winforms.Backend.ViewportAdapter();
 			this.SuspendLayout();
 			// 
 			// _viewportAdapter
@@ -62,7 +62,7 @@
 
 		#endregion
 
-		private MonoWorks.Swf.Backend.ViewportAdapter _viewportAdapter;
+		private MonoWorks.Winforms.Backend.ViewportAdapter _viewportAdapter;
 	}
 }
 

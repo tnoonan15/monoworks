@@ -84,7 +84,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Winforms\Backend\Backend.csproj">
       <Project>{EEE37458-9824-4938-A2AC-B9E877405FD1}</Project>
-      <Name>SwfBackend</Name>
+      <Name>Backend %28Winforms\Backend%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

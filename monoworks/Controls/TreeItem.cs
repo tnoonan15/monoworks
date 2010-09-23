@@ -167,7 +167,7 @@ namespace MonoWorks.Controls
 					_icon.ComputeGeometry();
 				MinSize.X = _icon.RenderWidth + Padding + _expandIconWidth;
 				MinSize.Y = _icon.RenderHeight + 2 * Padding;
-				HoverSize.X = _icon.RenderWidth + Padding;
+				HoverSize.X = _icon.RenderWidth + 2 * Padding;
 			}
 			else
 			{
