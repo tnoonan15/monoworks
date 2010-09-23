@@ -114,7 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="plotting.ui" />
+    <None Include="Plotting.mwx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test\array-data-hms.txt">

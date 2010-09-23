@@ -40,11 +40,12 @@ namespace MonoWorks.Plotting
 		public Axis(AxesBox parent)
 			: base(parent)
 		{
-			tickLength = 8;
-			
-			labelPane = new LabelPane();
-			labelPane.Label.Body = "label";
-//			label.HorizontalAlignment = HorizontalAlignment.Center;
+			_tickLength = 8;
+
+			_labelPane = new LabelPane() {
+				OriginLocation = AnchorLocation.Center
+			};
+			_labelPane.Label.Body = "label";
 
 			Start = new Vector();
 			Stop = new Vector();
@@ -70,15 +71,15 @@ namespace MonoWorks.Plotting
 		
 #region Label
 
-		protected LabelPane labelPane;
+		protected LabelPane _labelPane;
 		
 		/// <value>
 		/// The axis label.
 		/// </value>
 		public string Label
 		{
-			get {return labelPane.Label.Body;}
-			set {labelPane.Label.Body = value;}
+			get {return _labelPane.Label.Body;}
+			set {_labelPane.Label.Body = value;}
 		}
 		
 #endregion
@@ -86,49 +87,49 @@ namespace MonoWorks.Plotting
 
 #region Ticks
 
-		protected double tickLength;
+		protected double _tickLength;
 		/// <summary>
 		/// The length of the drawn tick.
 		/// </summary>
 		public double TickLength
 		{
-			get { return tickLength; }
-			set { tickLength = value; }
+			get { return _tickLength; }
+			set { _tickLength = value; }
 		}
 
 
-		protected double[] tickVals;
+		protected double[] _tickVals;
 		/// <summary>
 		/// The values of the ticks in plot space.
 		/// </summary>
 		public double[] TickVals
 		{
-			get { return tickVals; }
+			get { return _tickVals; }
 		}
 
-		protected LabelPane[] tickLabels;
+		protected LabelPane[] _tickLabels;
 		/// <summary>
 		/// The labels on the ticks.
 		/// </summary>
 		public LabelPane[] TickLabels
 		{
-			get { return tickLabels; }
+			get { return _tickLabels; }
 		}
 
 
-		protected int dimension;
+		protected int _dimension;
 		/// <summary>
 		/// The dimension that this axis represents.
 		/// </summary>
 		public int Dimension
 		{
-			get {return dimension;}
+			get {return _dimension;}
 		}
 
 		/// <summary>
 		/// The positions of the ticks in 3D world space.
 		/// </summary>
-		protected Vector[] tickPositions;
+		protected Vector[] _tickPositions;
 
 		/// <summary>
 		/// Automatically generates the ticks based on the parent's plot bounds.
@@ -136,19 +137,21 @@ namespace MonoWorks.Plotting
 		/// <param name="dim"> The dimension that this axis represents.</param>
 		public void GenerateTicks(int dim)
 		{
-			dimension = dim;
+			_dimension = dim;
 			double min = ParentAxes.PlotBounds.Minima[dim];
 			double max = ParentAxes.PlotBounds.Maxima[dim];
 			
 			// get the tick values
-			tickVals = Bounds.NiceRange(min, max, true);
+			_tickVals = Bounds.NiceRange(min, max, true);
 
 			// store the tick labels
-			tickLabels = new LabelPane[tickVals.Length];
-			for (int i = 0; i < tickVals.Length; i++)
+			_tickLabels = new LabelPane[_tickVals.Length];
+			for (int i = 0; i < _tickVals.Length; i++)
 			{
-				tickLabels[i] = new LabelPane();
-				tickLabels[i].Label.Body = String.Format("{0:0.###}", tickVals[i]);
+				_tickLabels[i] = new LabelPane() {
+					OriginLocation = AnchorLocation.Center
+				};
+				_tickLabels[i].Label.Body = String.Format("{0:0.###}", _tickVals[i]);
 			}
 		}
 
@@ -169,8 +172,8 @@ namespace MonoWorks.Plotting
 		{
 			get
 			{
-				double step = tickVals[0] - ParentAxes.PlotBounds.Minima[dimension];
-				return ParentAxes.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+				double step = _tickVals[0] - ParentAxes.PlotBounds.Minima[_dimension];
+				return ParentAxes.PlotToWorldSpace.Scaling[_dimension] * step; // the step in world coordinates
 			}
 		}	
 		
@@ -181,8 +184,8 @@ namespace MonoWorks.Plotting
 		{
 			get
 			{
-				double step = tickVals[1] - tickVals[0];
-				return ParentAxes.PlotToWorldSpace.Scaling[dimension] * step; // the step in world coordinates
+				double step = _tickVals[1] - _tickVals[0];
+				return ParentAxes.PlotToWorldSpace.Scaling[_dimension] * step; // the step in world coordinates
 			}
 		}		
 
@@ -197,21 +200,22 @@ namespace MonoWorks.Plotting
 				double worldStep = WorldTickStep;
 
 				// compute the tick positions
-				tickPositions = new Vector[tickVals.Length];
-				tickPositions[0] = Start.Copy();
-				tickPositions[0][dimension] += FirstWorldTickStep;
-				for (int i = 1; i < tickVals.Length; i++)
+				_tickPositions = new Vector[_tickVals.Length];
+				_tickPositions[0] = Start.Copy();
+				_tickPositions[0][_dimension] += FirstWorldTickStep;
+				for (int i = 1; i < _tickVals.Length; i++)
 				{
-					tickPositions[i] = tickPositions[i-1].Copy();
-					tickPositions[i][dimension] += worldStep;
+					_tickPositions[i] = _tickPositions[i-1].Copy();
+					_tickPositions[i][_dimension] += worldStep;
 				}
 				ticksDirty = false;
 			}
 		}
 
-#endregion
+		#endregion
 
 
+		#region Rendering
 
 		public override void RenderOverlay(Scene scene)
 		{
@@ -270,7 +274,6 @@ namespace MonoWorks.Plotting
 					tickAngle.DecByHalfPi();
 				else
 					tickAngle.IncByHalfPi();
-
 			}
 
 			// compute tick position
@@ -279,43 +282,39 @@ namespace MonoWorks.Plotting
 			// render the axis label
 			double labelOffset = 70;
 			Coord labelPos = (startCoord + stopCoord) / 2;
-			labelPane.Origin = (labelPos + tickAngle.ToCoord() * labelOffset).ToVector();
-//			if (labelPane.Label.Text.Length > 5 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
-//				labelPane.Angle = Angle.Pi() / 2;
-//			else
-//				label.Angle = new Angle();
-			labelPane.RenderOverlay(scene);
+			_labelPane.Origin = labelPos + tickAngle.ToCoord() * labelOffset;
+			//if (_labelPane.Label.Body.Length > 5 && tickAngle.ToCoord().Orientation == Orientation.Horizontal)
+			//    _labelPane.Angle = Angle.Pi() / 2;
+			//else
+			//    _labelPane.Angle = new Angle();
+			_labelPane.RenderOverlay(scene);
 
-			// update tick alignment
-//			HorizontalAlignment newAlignment = HorizontalAlignment.Center;
-
-			gl.glBegin(gl.GL_LINES);
 			// render the ticks
-			for (int i = 0; i < tickPositions.Length; i++)
+			gl.glBegin(gl.GL_LINES);
+			for (int i = 0; i < _tickPositions.Length; i++)
 			{
-				startCoord = scene.Camera.WorldToScreen(tickPositions[i]);
+				startCoord = scene.Camera.WorldToScreen(_tickPositions[i]);
 				gl.glVertex2d(startCoord.X, startCoord.Y); // the point where the tick intersects the axis
-				gl.glVertex2d(startCoord.X + tickLength * tickAngle.Cos(), startCoord.Y + tickLength * tickAngle.Sin()); //the other point 
+				gl.glVertex2d(startCoord.X + _tickLength * tickAngle.Cos(), startCoord.Y + _tickLength * tickAngle.Sin()); //the other point 
 
 				// store the label position
 				double labelFactor = 3;
 				if (tickAngle.ToCoord().Orientation == Orientation.Horizontal)
 					labelFactor = 4;
-				tickLabels[i].Origin = (startCoord + tickAngle.ToCoord() * labelFactor * tickLength).ToVector();
+				_tickLabels[i].Origin = startCoord + tickAngle.ToCoord() * labelFactor * _tickLength;
 			}
-
 			gl.glEnd();
 
 			// render the tick labels
-			for (int i = 0; i < tickPositions.Length; i++)
+			for (int i = 0; i < _tickPositions.Length; i++)
 			{
-//				tickLabels[i].HorizontalAlignment = newAlignment;
-				tickLabels[i].RenderOverlay(scene);
+				_tickLabels[i].RenderOverlay(scene);
 			}
-			
-			
+
+
 		}
-	
+
+		#endregion
 
 	}
 }

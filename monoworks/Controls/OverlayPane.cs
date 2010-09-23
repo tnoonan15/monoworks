@@ -36,6 +36,8 @@ namespace MonoWorks.Controls
 		public OverlayPane()
 		{
 			Origin = new Coord();
+			OriginLocation = AnchorLocation.NW;
+			Angle = new Angle();
 		}
 		
 		public OverlayPane(Control2D control) : this()
@@ -73,7 +75,27 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The position of the upper left corner of the pane.
 		/// </value>
-		public Coord Origin {get; set;}
+		public Coord Origin { get; set; }
+
+
+		private AnchorLocation _originLocation;
+		/// <summary>
+		/// The location of the origin with respect to the pane.
+		/// </summary>
+		public AnchorLocation OriginLocation
+		{
+			get { return _originLocation; }
+			set
+			{
+				_originLocation = value;
+				MakeDirty();
+			}
+		}
+
+		/// <summary>
+		/// The angle to rotate the pane before rendering to the scene.
+		/// </summary>
+		public Angle Angle { get; set; }
 		
 		
 		private Control2D control;
@@ -218,10 +240,10 @@ namespace MonoWorks.Controls
 		}
 		
 		#endregion
+
 		
-				
 		#region Rendering
-		
+
 		/// <summary>
 		/// This is set true if the pane was dirty last render cycle.
 		/// </summary>
@@ -286,6 +308,40 @@ namespace MonoWorks.Controls
 				wasDirty = false;
 			}
 			
+			// determine where to render the pane (based on origin and origin location)
+			double x, y;
+			switch (OriginLocation)
+			{
+				case AnchorLocation.NW:
+					x = Origin.X;
+					y = Origin.Y;
+					break;
+				case AnchorLocation.NE:
+					x = Origin.X - RenderWidth;
+					y = Origin.Y;
+					break;
+				case AnchorLocation.SW:
+					x = Origin.X;
+					y = Origin.Y - RenderHeight;
+					break;
+				case AnchorLocation.SE:
+					x = Origin.X - RenderWidth;
+					y = Origin.Y - RenderHeight;
+					break;
+				case AnchorLocation.None:
+					x = Origin.X - RenderWidth/2.0;
+					y = Origin.Y - RenderHeight/2.0;
+					break;
+				default:
+					throw new Exception("Don't know how to layout OverlayPane with OriginLocation " + OriginLocation.ToString());
+			}
+
+			// apply rotation
+			//if (Angle.Value != 0)
+			//{
+			//    //Gl.glPushMatrix();
+			//    Gl.glRotated(Angle.Radians, 0, 0, 1);
+			//}
 			
 			// render the texture
 			scene.Lighting.Disable();
@@ -293,17 +349,25 @@ namespace MonoWorks.Controls
 			Gl.glBindTexture( Gl.GL_TEXTURE_RECTANGLE_ARB, texture );
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
-			Gl.glTexCoord2d(0.0,Control.RenderHeight);
-			Origin.glVertex();
+			Gl.glTexCoord2d(0.0, Control.RenderHeight);
+			Gl.glVertex2d(x, y);
 			Gl.glTexCoord2d(Control.RenderWidth, Control.RenderHeight);
-			Gl.glVertex2d(Origin.X + RenderWidth, Origin.Y);
+			Gl.glVertex2d(x + RenderWidth, y);
 			Gl.glTexCoord2d(Control.RenderWidth,0.0);
-			Gl.glVertex2d(Origin.X + RenderWidth, Origin.Y + RenderHeight);
+			Gl.glVertex2d(x + RenderWidth, y + RenderHeight);
 			Gl.glTexCoord2d(0.0,0.0);
-			Gl.glVertex2d(Origin.X, Origin.Y + RenderHeight);
+			Gl.glVertex2d(x, y + RenderHeight);
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 			scene.Lighting.Enable();
+
+
+			// reverse rotation
+			//if (Angle.Value != 0)
+			//{
+			//    //Gl.glPopMatrix();
+			//    Gl.glRotated(-Angle.Radians, 0, 0, 1);
+			//}
 		}
 		
 		#endregion

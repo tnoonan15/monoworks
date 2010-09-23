@@ -17,6 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 
 
+using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Controls;
 using MonoWorks.Controls.World;
@@ -29,11 +30,11 @@ namespace MonoWorks.Plotting
 		public PlotController(Scene scene)
 			: base(scene)
 		{
-//			UiManager.LoadStream(ResourceHelper.GetStream("plotting.ui"));
-
 			Legend = new Legend();
 			ContextLayer.AnchorControl(Legend, AnchorLocation.NE);
 
+			Context(Side.N, "ShortViewToolbar");
+			Context(Side.N, "ExportToolbar");
 		}
 
 		/// <summary>
