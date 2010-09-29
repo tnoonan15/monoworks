@@ -26,16 +26,16 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Controls
+namespace MonoWorks.Controls.Dock
 {
 	
 	
 	/// <summary>
 	/// A button representing a scene in a SceneContainer.
 	/// </summary>
-	public class SceneButton : Container
+	public class DockButton : Container
 	{
-		internal SceneButton(Scene scene)
+		internal DockButton(Scene scene)
 		{
 			Scene = scene;
 			_label = new Label(scene.Name);
@@ -48,6 +48,8 @@ namespace MonoWorks.Controls
 			};
 			CloseButton.Clicked += Scene.AttemptClosing;
 			AddChild(CloseButton);
+
+			IsHoverable = true;
 		}
 
 		/// <summary>
@@ -108,13 +110,14 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// The relative point of the last button press.
 		/// </summary>
-//		private Coord _anchor;
+		private Coord _anchor;
 		
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
-			//			_anchor = evt.Pos - Origin;
+			_anchor = evt.Pos - Origin;
 			if (_label.HitTest(evt.Pos))
 			{
+				evt.Handle(this);
 				if (Clicked != null)
 					Clicked(this, new EventArgs());
 			}
@@ -127,6 +130,7 @@ namespace MonoWorks.Controls
 		
 		public override void OnMouseMotion(MouseEvent evt)
 		{
+			base.OnMouseMotion(evt);
 			CloseButton.OnMouseMotion(evt);
 		}
 		

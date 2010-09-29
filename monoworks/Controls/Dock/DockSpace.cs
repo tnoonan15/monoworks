@@ -27,14 +27,14 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Controls
+namespace MonoWorks.Controls.Dock
 {
 	/// <summary>
 	/// A space that can contain multiple scenes and arrange them like a tab book or next to each other.
 	/// </summary>
-	public class SceneSpace : Scene
+	public class DockSpace : Scene
 	{
-		public SceneSpace(Viewport viewport) : base(viewport)
+		public DockSpace(Viewport viewport) : base(viewport)
 		{
 			foreach (var side in Enum.GetValues(typeof(Side)))
 			{

@@ -45,6 +45,7 @@
     <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dock\DockInteractor.cs" />
     <Compile Include="ModalControlOverlay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActorPane.cs" />
@@ -72,9 +73,9 @@
     <Compile Include="DecoratorBase.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="CheckBox.cs" />
-    <Compile Include="SceneSpace.cs" />
-    <Compile Include="SceneBook.cs" />
-    <Compile Include="SceneStack.cs" />
+    <Compile Include="Dock\DockSpace.cs" />
+    <Compile Include="Dock\DockBook.cs" />
+    <Compile Include="Dock\DockStack.cs" />
     <Compile Include="MenuBox.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="IconList.cs" />
     <Compile Include="AbstractController.cs" />
     <Compile Include="ActionHandlerAttribute.cs" />
-    <Compile Include="SceneButton.cs" />
+    <Compile Include="Dock\DockButton.cs" />
     <Compile Include="MessageBox.cs" />
     <Compile Include="World\WorldController.cs" />
     <Compile Include="Properties\PropertyControl.cs" />

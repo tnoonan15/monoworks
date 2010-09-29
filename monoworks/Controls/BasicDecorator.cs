@@ -24,6 +24,7 @@ using System.Xml.Serialization;
 using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
+using MonoWorks.Controls.Dock;
 
 
 namespace MonoWorks.Controls
@@ -429,14 +430,14 @@ namespace MonoWorks.Controls
 				Decorate(control as MessageBoxFrame);
 				return;
 			}
-			if (control is SceneButton)
+			if (control is DockButton)
 			{
-				Decorate(control as SceneButton);
+				Decorate(control as DockButton);
 				return;
 			}
-			if (control is SceneBookSelector)
+			if (control is DockBookSelector)
 			{
-				Decorate(control as SceneBookSelector);
+				Decorate(control as DockBookSelector);
 				return;
 			}
 			if (control is Button)
@@ -506,7 +507,7 @@ namespace MonoWorks.Controls
 			var parent = button.ParentControl;
 			if (parent == null)
 				FillRectangle(Coord.Zeros, button.RenderSize, AllCorners, FillType.Background, button.HitState, DefaultBackgroundLocation);
-			else if (parent is ToolBar || parent is DialogFrame || parent is SceneButton)
+			else if (parent is ToolBar || parent is DialogFrame || parent is DockButton)
 			{
 				if (button.HitState != HitState.None)
 				{
@@ -523,8 +524,8 @@ namespace MonoWorks.Controls
 			if (button.IsFocused)
 				InnerHighlightRectangle(Coord.Zeros, button.RenderSize, AllCorners);
 		}
-		
-		protected virtual void Decorate(SceneButton button)
+
+		protected virtual void Decorate(DockButton button)
 		{
 			var parent = button.ParentControl;
 			if (parent == null)
@@ -535,8 +536,8 @@ namespace MonoWorks.Controls
 				StrokeRectangle(Coord.Zeros, button.RenderSize, Corner.None, button.HitState);
 			}
 		}
-		
-		protected virtual void Decorate(SceneBookSelector selector)
+
+		protected virtual void Decorate(DockBookSelector selector)
 		{
 			FillRectangle(Coord.Zeros, selector.RenderSize, Corner.None, FillType.Editable, selector.HitState, AnchorLocation.S);
 		}

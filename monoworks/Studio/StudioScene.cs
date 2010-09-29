@@ -25,23 +25,24 @@ using System;
 using MonoWorks.Rendering;
 using MonoWorks.Modeling;
 using MonoWorks.Controls;
+using MonoWorks.Controls.Dock;
 
 namespace MonoWorks.Studio
 {
 	/// <summary>
 	/// The top level scene for Studio.
 	/// </summary>
-	public class StudioScene : SceneSpace
+	public class StudioScene : DockSpace
 	{
 		public StudioScene(Viewport viewport) : base(viewport)
 		{
-			_drawingBook = new SceneBook(viewport);
+			_drawingBook = new DockBook(viewport);
 			Root = _drawingBook;
 			
 			new StudioController(this);
 		}
-		
-		private readonly SceneBook _drawingBook;
+
+		private readonly DockBook _drawingBook;
 		
 		
 		/// <summary>

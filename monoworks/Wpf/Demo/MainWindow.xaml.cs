@@ -8,6 +8,7 @@ using MonoWorks.Wpf.Backend;
 using MonoWorks.Rendering;
 using MonoWorks.Plotting;
 using MonoWorks.Modeling;
+using MonoWorks.Controls.Dock;
 
 namespace MonoWorks.Wpf.Demo
 {
@@ -21,9 +22,9 @@ namespace MonoWorks.Wpf.Demo
 			InitializeComponent();
 
 			// create the scene book
-			var sceneSpace = new SceneSpace(viewportWrapper.Viewport);
+			var sceneSpace = new DockSpace(viewportWrapper.Viewport);
 			viewportWrapper.Viewport.RootScene = sceneSpace;
-			var book = new SceneBook(viewportWrapper.Viewport);
+			var book = new DockBook(viewportWrapper.Viewport);
 			sceneSpace.Root = book;
 
 			// create the controls scene
