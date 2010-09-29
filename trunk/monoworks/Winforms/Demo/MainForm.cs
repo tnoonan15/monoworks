@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using MonoWorks.Demo;
 using MonoWorks.Controls;
+using MonoWorks.Controls.Dock;
 
 namespace Demo
 {
@@ -19,9 +20,9 @@ namespace Demo
 			InitializeComponent();
 
 			// create the scene book
-			var sceneSpace = new SceneSpace(_viewportAdapter.Viewport);
+			var sceneSpace = new DockSpace(_viewportAdapter.Viewport);
 			_viewportAdapter.Viewport.RootScene = sceneSpace;
-			var book = new SceneBook(_viewportAdapter.Viewport);
+			var book = new DockBook(_viewportAdapter.Viewport);
 			sceneSpace.Root = book;
 
 			// create the cards scene

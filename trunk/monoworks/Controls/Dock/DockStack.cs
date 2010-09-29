@@ -31,9 +31,9 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// A scene collection that arranges the scenes next to each other.
 	/// </summary>
-	public class SceneStack : SceneContainer
+	public class DockStack : SceneContainer
 	{
-		public SceneStack(Viewport viewport) : base(viewport)
+		public DockStack(Viewport viewport) : base(viewport)
 		{
 		}
 	}

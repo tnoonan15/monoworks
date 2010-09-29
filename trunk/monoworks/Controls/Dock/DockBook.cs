@@ -27,16 +27,17 @@ using MonoWorks.Base;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Controls
+namespace MonoWorks.Controls.Dock
 {
 	/// <summary>
 	/// A scene collection that arranges the scenes into a tab book.
 	/// </summary>
-	public class SceneBook : SceneContainer
+	public class DockBook : SceneContainer
 	{
-		public SceneBook(Viewport viewport) : base(viewport)
+		public DockBook(Viewport viewport)
+			: base(viewport)
 		{
-			_selector = new SceneBookSelector(this);
+			_selector = new DockBookSelector(this);
 			_selector.UserSize = new Coord();
 			_pane = new OverlayPane(_selector);
 			RenderList.AddOverlay(_pane);
@@ -44,7 +45,7 @@ namespace MonoWorks.Controls
 			EnableViewInteractor = false;
 		}
 		
-		private readonly SceneBookSelector _selector;
+		private readonly DockBookSelector _selector;
 		
 		private readonly OverlayPane _pane;
 		
@@ -162,10 +163,10 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// The buttons that allow the user to select scenes from a scene book.
 	/// </summary>
-	public class SceneBookSelector : GenericStack<SceneButton>
+	public class DockBookSelector : GenericStack<DockButton>
 	{
-		
-		internal SceneBookSelector(SceneBook book)
+
+		internal DockBookSelector(DockBook book)
 		{
 			RenderSize = new Coord();
 			MinSize = new Coord(0, 20);
@@ -173,8 +174,8 @@ namespace MonoWorks.Controls
 			_book = book;
 			Orientation = Orientation.Horizontal;
 		}
-		
-		private SceneBook _book;
+
+		private DockBook _book;
 		
 		/// <summary>
 		/// Forces the selector to remake its buttons based on the book's scenes.
@@ -184,7 +185,7 @@ namespace MonoWorks.Controls
 			Clear();
 			foreach (var scene in _book.Children)
 			{
-				var button = new SceneButton(scene);
+				var button = new DockButton(scene);
 				AddChild(button);
 				var sceneRef = scene;
 				button.Clicked += delegate(object sender, EventArgs e) {
@@ -216,7 +217,7 @@ namespace MonoWorks.Controls
 		{
 			foreach (var child in Children)
 			{
-				var button = child as SceneButton;
+				var button = child as DockButton;
 				if (_book.Current != null && button.Scene == _book.Current)
 					button.IsSelected = true;
 				else
