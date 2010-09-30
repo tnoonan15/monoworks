@@ -38,7 +38,7 @@ namespace MonoWorks.Controls.Cards
 	/// </summary>
 	/// <remarks>By using this class and specifying a card type, the interactor knows which cards to 
 	/// create based on user interactions.</remarks>
-	public class CardInteractor<CardType> : AbstractInteractor where CardType : AbstractCard, new()
+	public class CardInteractor<CardType> : GenericInteractor<Scene> where CardType : AbstractCard, new()
 	{
 
 		public CardInteractor(Scene scene) : base(scene)

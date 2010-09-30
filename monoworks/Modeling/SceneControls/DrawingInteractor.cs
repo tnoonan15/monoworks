@@ -30,10 +30,10 @@ namespace MonoWorks.Modeling.SceneControls
 	/// <summary>
 	/// Interactor for top level drawing entities (features, reference entities, sketches).
 	/// </summary>
-	public class DrawingInteractor : AbstractInteractor
+	public class DrawingInteractor : GenericInteractor<DrawingScene>
 	{
 		
-		public DrawingInteractor(Scene scene, Drawing drawing) : base(scene)
+		public DrawingInteractor(DrawingScene scene, Drawing drawing) : base(scene)
 		{
 			this.drawing = drawing;
 		}

@@ -30,6 +30,11 @@ using MonoWorks.Rendering.Events;
 namespace MonoWorks.Controls.Dock
 {
 	/// <summary>
+	/// Handler for events related to the docking mechanism.
+	/// </summary>
+	public delegate void DockEventHandler(Scene scene);
+
+	/// <summary>
 	/// A space that can contain multiple scenes and arrange them like a tab book or next to each other.
 	/// </summary>
 	public class DockSpace : Scene
@@ -53,6 +58,8 @@ namespace MonoWorks.Controls.Dock
 				_gutterOverlays[(Side)side].Control = _gutters[(Side)side];
 			
 			EnableViewInteractor = false;
+
+			PrimaryInteractor = new DockInteractor(this);
 		}
 		
 		private SceneContainer _root;
@@ -152,18 +159,40 @@ namespace MonoWorks.Controls.Dock
 		
 		#region Interaction
 
+		private DockButton _dragButton;
+
+		/// <summary>
+		/// This event gets raised when the user tries to undock a scene.
+		/// </summary>
+		/// <remarks>If nothing handles the even, the scene will not be undocked.</remarks>
+		public event DockEventHandler PreSceneUndocked;
+
 		public override void OnButtonPress(MouseButtonEvent evt)
 		{
 			base.OnButtonPress(evt);
-			
+
 			if (Root != null)
+			{
 				Root.OnButtonPress(evt);
+
+				// see if a DockButton caught it
+				if (evt.IsHandled && evt.LastHandler is DockButton)
+				{
+					_dragButton = evt.LastHandler as DockButton;
+				}
+				else
+				{
+					_dragButton = null;
+				}
+			}
 		}
 
 		public override void OnButtonRelease(MouseButtonEvent evt)
 		{
 			base.OnButtonRelease(evt);
-			
+
+			_dragButton = null;
+
 			if (Root != null)
 				Root.OnButtonRelease(evt);
 		}
@@ -171,9 +200,18 @@ namespace MonoWorks.Controls.Dock
 		public override void OnMouseMotion(MouseEvent evt)
 		{
 			base.OnMouseMotion(evt);
-			
-			if (Root != null)
-				Root.OnMouseMotion(evt);
+
+			if (_dragButton != null) // begin dragging
+			{
+				if (PreSceneUndocked != null)
+					PreSceneUndocked(_dragButton.Scene);
+				_dragButton = null;
+			}
+			else // normal
+			{
+				if (Root != null)
+					Root.OnMouseMotion(evt);
+			}
 		}
 
 		public override void OnMouseWheel(MouseWheelEvent evt)
@@ -194,7 +232,7 @@ namespace MonoWorks.Controls.Dock
 
 		
 		#endregion
-		
+
 	}
 }
 

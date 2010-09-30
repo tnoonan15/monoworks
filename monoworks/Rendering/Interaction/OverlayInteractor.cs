@@ -27,7 +27,7 @@ namespace MonoWorks.Rendering.Interaction
 	/// <summary>
 	/// Handles overlay interaction from the viewport.
 	/// </summary>
-	public class OverlayInteractor : AbstractInteractor
+	public class OverlayInteractor : GenericInteractor<Scene>
 	{
 
 		public OverlayInteractor(Scene scene)
@@ -54,7 +54,7 @@ namespace MonoWorks.Rendering.Interaction
 				return; // don't interact with anything else if modal overlays are present
 			}
 
-			foreach (Overlay overlay in renderList.OverlayCopy)
+			foreach (Overlay overlay in RenderList.OverlayCopy)
 			{
 				overlay.OnButtonPress(evt);
 				if (!wasHandled && evt.IsHandled)
@@ -78,7 +78,7 @@ namespace MonoWorks.Rendering.Interaction
 				return; // don't interact with anything else if modal overlays are present
 			}
 
-			foreach (Overlay overlay in renderList.OverlayCopy)
+			foreach (Overlay overlay in RenderList.OverlayCopy)
 				overlay.OnButtonRelease(evt);
 		}
 
@@ -95,7 +95,7 @@ namespace MonoWorks.Rendering.Interaction
 				return; // don't interact with anything else if modal overlays are present
 			}
 
-			foreach (Overlay overlay in renderList.OverlayCopy)
+			foreach (Overlay overlay in RenderList.OverlayCopy)
 				overlay.OnMouseMotion(evt);
 		}
 		
