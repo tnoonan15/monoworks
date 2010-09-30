@@ -47,7 +47,7 @@ namespace MonoWorks.Controls
 		/// <value>
 		/// The container's children.
 		/// </value>
-		public IEnumerable<ControlType> Children
+		public IList<ControlType> Children
 		{
 			get {return _children;}
 		}

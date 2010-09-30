@@ -1,5 +1,5 @@
 // 
-//  SceneSpace.cs - MonoWorks Project
+//  DockSpace.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -126,7 +126,16 @@ namespace MonoWorks.Controls.Dock
 			}
 		}
 		
-		
+		/// <summary>
+		/// Traverses the dock container tree to find a slot that fits the given mouse event.
+		/// </summary>
+		public DockSlot FindSlot(MouseEvent evt)
+		{
+			if (Root != null && Root is DockContainer)
+				return (Root as DockContainer).FindSlot(evt);
+			return null;
+		}
+
 		
 		#region Gutters
 

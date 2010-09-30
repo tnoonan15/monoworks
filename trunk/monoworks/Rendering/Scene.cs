@@ -530,6 +530,15 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
+		/// Performs a hit test on the scene.
+		/// </summary>
+		public bool HitTest(MouseEvent evt)
+		{
+			return this.ViewportOffset.X <= evt.ViewportPos.X && ViewportOffset.X + Width >= evt.ViewportPos.X &&
+				this.ViewportOffset.Y <= evt.ViewportPos.Y && ViewportOffset.Y + Height >= evt.ViewportPos.Y;
+		}
+
+		/// <summary>
 		/// Sets the tooltip on the viewport.
 		/// </summary>
 		public string ToolTip

@@ -35,18 +35,18 @@ namespace MonoWorks.Rendering.Events
 	public class MouseButtonEvent : MouseEvent
 	{
 		
-		public MouseButtonEvent(Scene scene, Coord pos, int button) 
-			: this(scene, pos, button, InteractionModifier.None)
-		{
-		}
-		
-		public MouseButtonEvent(Scene scene, Coord pos, int button, InteractionModifier modifier) 
-			: this(scene, pos, button, modifier, ClickMultiplicity.Single)
+		public MouseButtonEvent(Scene scene, Coord viewportPos, int button) 
+			: this(scene, viewportPos, button, InteractionModifier.None)
 		{
 		}
 
-		public MouseButtonEvent(Scene scene, Coord pos, int button, InteractionModifier modifier, ClickMultiplicity multiplicity)
-			: base(scene, pos, modifier)
+		public MouseButtonEvent(Scene scene, Coord viewportPos, int button, InteractionModifier modifier)
+			: this(scene, viewportPos, button, modifier, ClickMultiplicity.Single)
+		{
+		}
+
+		public MouseButtonEvent(Scene scene, Coord viewportPos, int button, InteractionModifier modifier, ClickMultiplicity multiplicity)
+			: base(scene, viewportPos, modifier)
 		{
 			Button = button;
 			Multiplicity = multiplicity;
@@ -62,7 +62,15 @@ namespace MonoWorks.Rendering.Events
 		/// The multiplicity for the click.
 		/// </value>
 		public ClickMultiplicity Multiplicity { get; private set; }
-		
+
+
+		/// <summary>
+		/// Makes a copy of the event.
+		/// </summary>
+		public new MouseButtonEvent Copy()
+		{
+			return new MouseButtonEvent(Scene, ViewportPos.Copy(), Button, Modifier, Multiplicity);
+		}
 		
 		public override string ToString()
 		{

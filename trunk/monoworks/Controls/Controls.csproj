@@ -45,7 +45,9 @@
     <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dock\DockContainer.cs" />
     <Compile Include="Dock\DockInteractor.cs" />
+    <Compile Include="Dock\DockSlot.cs" />
     <Compile Include="ModalControlOverlay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActorPane.cs" />
