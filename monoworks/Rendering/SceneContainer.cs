@@ -29,7 +29,7 @@ using MonoWorks.Rendering.Events;
 namespace MonoWorks.Rendering
 {
 	/// <summary>
-	/// Base class for containers of scenes like SceneBook and SceneStack.
+	/// Base class for scenes that contain other scenes.
 	/// </summary>
 	public class SceneContainer : Scene
 	{

@@ -93,6 +93,53 @@ namespace MonoWorks.Controls
 		}
 
 		/// <summary>
+		/// Gets the render origin of the pane (upper left corner).
+		/// </summary>
+		public Coord RenderOrigin
+		{
+			get
+			{
+				var coord = new Coord();
+				switch (OriginLocation)
+				{
+				case AnchorLocation.NW:
+					coord.X = Origin.X;
+					coord.Y = Origin.Y;
+					break;
+				case AnchorLocation.NE:
+					coord.X = Origin.X - RenderWidth;
+					coord.Y = Origin.Y;
+					break;
+				case AnchorLocation.SW:
+					coord.X = Origin.X;
+					coord.Y = Origin.Y - RenderHeight;
+					break;
+				case AnchorLocation.SE:
+					coord.X = Origin.X - RenderWidth;
+					coord.Y = Origin.Y - RenderHeight;
+					break;
+				case AnchorLocation.None:
+					coord.X = Origin.X - RenderWidth / 2.0;
+					coord.Y = Origin.Y - RenderHeight / 2.0;
+					break;
+				default:
+					throw new Exception("Don't know how to layout OverlayPane with OriginLocation " + OriginLocation.ToString());
+				}
+				return coord;
+			}
+		}
+
+		/// <summary>
+		/// Performs a hit test on the pane.
+		/// </summary>
+		public bool HitTest(MouseEvent evt)
+		{
+			var origin = RenderOrigin;
+			return origin.X <= evt.Pos.X && origin.X + RenderWidth >= evt.Pos.X &&
+				origin.Y <= evt.Pos.Y && origin.Y + RenderHeight >= evt.Pos.Y;
+		}
+
+		/// <summary>
 		/// The angle to rotate the pane before rendering to the scene.
 		/// </summary>
 		public Angle Angle { get; set; }
@@ -120,7 +167,7 @@ namespace MonoWorks.Controls
 		
 		private Control2D _inFocus;
 		/// <summary>
-		/// Sets the contro currently in focus.
+		/// Sets the control currently in focus.
 		/// </summary>
 		public Control2D InFocus
 		{
@@ -154,7 +201,8 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = evt.Copy();
+				controlEvt.Pos = GetControlPoint(evt.Pos);
 				Control.OnButtonPress(controlEvt);
 				if (controlEvt.IsHandled)
 					evt.Handle(controlEvt.LastHandler);
@@ -167,7 +215,8 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.Pos), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = evt.Copy();
+				controlEvt.Pos = GetControlPoint(evt.Pos);
 				Control.OnButtonRelease(controlEvt);
 				if (controlEvt.IsHandled)
 					evt.Handle(controlEvt.LastHandler);
@@ -180,7 +229,8 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseEvent(evt.Scene, GetControlPoint(evt.Pos), evt.Modifier);
+				var controlEvt = evt.Copy();
+				controlEvt.Pos = GetControlPoint(evt.Pos);
 				if (evt.IsHandled)
 					controlEvt.Handle(this);
 				Control.OnMouseMotion(controlEvt);
@@ -309,32 +359,7 @@ namespace MonoWorks.Controls
 			}
 			
 			// determine where to render the pane (based on origin and origin location)
-			double x, y;
-			switch (OriginLocation)
-			{
-				case AnchorLocation.NW:
-					x = Origin.X;
-					y = Origin.Y;
-					break;
-				case AnchorLocation.NE:
-					x = Origin.X - RenderWidth;
-					y = Origin.Y;
-					break;
-				case AnchorLocation.SW:
-					x = Origin.X;
-					y = Origin.Y - RenderHeight;
-					break;
-				case AnchorLocation.SE:
-					x = Origin.X - RenderWidth;
-					y = Origin.Y - RenderHeight;
-					break;
-				case AnchorLocation.None:
-					x = Origin.X - RenderWidth/2.0;
-					y = Origin.Y - RenderHeight/2.0;
-					break;
-				default:
-					throw new Exception("Don't know how to layout OverlayPane with OriginLocation " + OriginLocation.ToString());
-			}
+			var origin = RenderOrigin;
 
 			// apply rotation
 			//if (Angle.Value != 0)
@@ -350,13 +375,13 @@ namespace MonoWorks.Controls
 			Gl.glBegin(Gl.GL_QUADS);
 			Gl.glColor3f(1f, 1f, 1f);
 			Gl.glTexCoord2d(0.0, Control.RenderHeight);
-			Gl.glVertex2d(x, y);
+			Gl.glVertex2d(origin.X, origin.Y);
 			Gl.glTexCoord2d(Control.RenderWidth, Control.RenderHeight);
-			Gl.glVertex2d(x + RenderWidth, y);
+			Gl.glVertex2d(origin.X + RenderWidth, origin.Y);
 			Gl.glTexCoord2d(Control.RenderWidth,0.0);
-			Gl.glVertex2d(x + RenderWidth, y + RenderHeight);
+			Gl.glVertex2d(origin.X + RenderWidth, origin.Y + RenderHeight);
 			Gl.glTexCoord2d(0.0,0.0);
-			Gl.glVertex2d(x, y + RenderHeight);
+			Gl.glVertex2d(origin.X, origin.Y + RenderHeight);
 			Gl.glEnd();
 			Gl.glDisable(Gl.GL_TEXTURE_RECTANGLE_ARB);
 			scene.Lighting.Enable();

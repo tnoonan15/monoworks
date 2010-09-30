@@ -1,5 +1,5 @@
 // 
-//  SceneStack.cs - MonoWorks Project
+//  DockStack.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -26,16 +26,26 @@ using System.Collections.Generic;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
-namespace MonoWorks.Controls
+namespace MonoWorks.Controls.Dock
 {
 	/// <summary>
 	/// A scene collection that arranges the scenes next to each other.
 	/// </summary>
-	public class DockStack : SceneContainer
+	public class DockStack : DockContainer
 	{
 		public DockStack(Viewport viewport) : base(viewport)
 		{
 		}
+
+
+		#region Slot Testing
+
+		protected override DockSlot SlotTest(MouseEvent evt)
+		{
+			return null;
+		}
+
+		#endregion
 	}
 }
 

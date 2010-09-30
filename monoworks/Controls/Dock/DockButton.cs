@@ -1,5 +1,5 @@
 // 
-//  SceneButton.cs - MonoWorks Project
+//  DockButton.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>

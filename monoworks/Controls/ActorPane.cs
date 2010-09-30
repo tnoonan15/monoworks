@@ -142,7 +142,8 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = evt.Copy();
+				controlEvt.Pos = GetControlPoint(evt.HitLine);
 				if (evt.IsHandled)
 					controlEvt.Handle(this);
 				Control.OnButtonPress(controlEvt);
@@ -157,7 +158,8 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseButtonEvent(evt.Scene, GetControlPoint(evt.HitLine), evt.Button, evt.Modifier, evt.Multiplicity);
+				var controlEvt = evt.Copy();
+				controlEvt.Pos = GetControlPoint(evt.HitLine);
 				if (evt.IsHandled)
 					controlEvt.Handle(this);
 				Control.OnButtonRelease(controlEvt);
@@ -172,7 +174,8 @@ namespace MonoWorks.Controls
 			
 			if (Control != null)
 			{
-				var controlEvt = new MouseEvent(evt.Scene, GetControlPoint(evt.HitLine), evt.Modifier);
+				var controlEvt = evt.Copy();
+				controlEvt.Pos = GetControlPoint(evt.HitLine);
 				if (evt.IsHandled)
 					controlEvt.Handle(this);
 				Control.OnMouseMotion(controlEvt);

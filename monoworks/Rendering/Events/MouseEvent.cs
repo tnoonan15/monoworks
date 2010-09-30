@@ -29,21 +29,28 @@ namespace MonoWorks.Rendering.Events
 	/// </summary>
 	public class MouseEvent : Event
 	{
-		public MouseEvent(Scene scene, Coord pos)
-			: this(scene, pos, InteractionModifier.None)
+		public MouseEvent(Scene scene, Coord viewportPos)
+			: this(scene, viewportPos, InteractionModifier.None)
 		{
 		}
-		
-		public MouseEvent(Scene scene, Coord pos, InteractionModifier modifier) : base(scene)
+
+		public MouseEvent(Scene scene, Coord viewportPos, InteractionModifier modifier)
+			: base(scene)
 		{
-			Pos = pos;
+			ViewportPos = viewportPos;
+			Pos = viewportPos.Copy();
 			Modifier = modifier;
 		}
 		
 		/// <value>
+		/// The position of the event with respect to the viewport.
+		/// </value>
+		public Coord ViewportPos { get; private set; }
+
+		/// <value>
 		/// The position of the event.
 		/// </value>
-		public Coord Pos { get; private set; }
+		public Coord Pos { get; set; }
 
 		/// <value>
 		/// The modifier for the event.
@@ -54,5 +61,13 @@ namespace MonoWorks.Rendering.Events
 		/// The hit line in 3D space.
 		/// </summary>
 		public HitLine HitLine { get; set; }
+
+		/// <summary>
+		/// Makes a copy of the event.
+		/// </summary>
+		public MouseEvent Copy()
+		{
+			return new MouseEvent(Scene, ViewportPos.Copy(), Modifier);
+		}
 	}
 }

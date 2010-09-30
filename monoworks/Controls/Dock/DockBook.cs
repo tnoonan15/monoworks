@@ -1,5 +1,5 @@
 // 
-//  SceneBook.cs - MonoWorks Project
+//  DockBook.cs - MonoWorks Project
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -32,7 +32,7 @@ namespace MonoWorks.Controls.Dock
 	/// <summary>
 	/// A scene collection that arranges the scenes into a tab book.
 	/// </summary>
-	public class DockBook : SceneContainer
+	public class DockBook : DockContainer
 	{
 		public DockBook(Viewport viewport)
 			: base(viewport)
@@ -157,11 +157,27 @@ namespace MonoWorks.Controls.Dock
 		#endregion
 
 
+		#region Slot Testing
+
+		protected override DockSlot SlotTest(MouseEvent evt)
+		{
+			if (HitTest(evt))
+			{
+				var index = _selector.NearesIndex(evt.Pos.X);
+				var slot = new DockSlot(this, index);
+				_selector.PositionSlot(slot);
+				return slot;
+			}
+			return null;
+		}
+
+		#endregion
+
 	}
 	
 	
 	/// <summary>
-	/// The buttons that allow the user to select scenes from a scene book.
+	/// The buttons that allow the user to select scenes from a dock book.
 	/// </summary>
 	public class DockBookSelector : GenericStack<DockButton>
 	{
@@ -241,6 +257,41 @@ namespace MonoWorks.Controls.Dock
 			context.Cairo.MoveTo(0, RenderHeight - 1);
 			context.Cairo.RelLineTo(RenderWidth, 0);
 			context.Cairo.Stroke();
+		}
+
+		/// <summary>
+		/// Gets the nearest button index along the x dimension.
+		/// </summary>
+		public int NearesIndex(double x)
+		{
+			for (int i = 0; i < NumChildren; i++)
+			{
+				var button = Children[i];
+				if (x < button.Origin.X + button.RenderWidth / 2)
+					return i;
+			}
+			return NumChildren;
+		}
+
+		/// <summary>
+		/// Positions the slot according to its index.
+		/// </summary>
+		public void PositionSlot(DockSlot slot)
+		{
+			DockButton button;
+			if (slot.Index < NumChildren)
+			{
+				button = Children[slot.Index];
+				slot.Origin.X = button.Origin.X - button.RenderWidth/2;
+			}
+			else
+			{
+				button = Children.Last();
+				slot.Origin.X = button.Origin.X + button.RenderWidth/2;
+			}
+			slot.Size.X = button.RenderWidth;
+			slot.Size.Y = button.RenderHeight;
+			slot.Origin.Y = _book.Height - button.RenderHeight + _book.ViewportOffset.Y;
 		}
 	}
 	
