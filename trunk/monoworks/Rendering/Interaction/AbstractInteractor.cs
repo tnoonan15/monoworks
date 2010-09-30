@@ -24,51 +24,21 @@ using MonoWorks.Rendering.Events;
 
 
 namespace MonoWorks.Rendering.Interaction
-{
-	/// <summary>
-	/// The interaction modes.
-	/// </summary>
-//	public enum InteractionState {View3D, Interact3D, Interact2D};
-	
+{	
 	/// <summary>
 	/// Possible user interaction types.
 	/// </summary>
 	public enum InteractionType {None, Select, Rotate, Pan, Dolly, Zoom};
 
-
 	/// <summary>
-	/// Base class for classes that handle user interaction from the viewport.
+	/// Base class for classes that handle user interaction in a scene.
 	/// </summary>
 	public abstract class AbstractInteractor : Actor, IKeyHandler
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		/// <param name="scene">The scene to interact with.</param>
-		public AbstractInteractor(Scene scene)
+		public AbstractInteractor()
 		{
-			this.renderList = scene.RenderList;
-			Scene = scene;
-
 			RubberBand = new RubberBand();
 		}
-
-
-		protected RenderList renderList;
-
-		/// <summary>
-		/// The scene this interactor acts on. 
-		/// </summary>
-		public Scene Scene {get; private set;}
-		
-		
-		/// <summary>
-		/// Stores the camera used during initialization.
-		/// </summary>
-		public Camera Camera {
-			get { return Scene.Camera;}
-		}
-
 
 		protected Coord anchor;
 		/// <summary>
@@ -94,12 +64,12 @@ namespace MonoWorks.Rendering.Interaction
 		/// Every interactor gets a rubber band to use as it pleases.
 		/// </summary>
 		protected RubberBand RubberBand { get; private set; }
-		
+
 		/// <summary>
 		/// Cancels the current interaction. 
 		/// </summary>
 		public virtual void Cancel()
-		{			
+		{
 		}
 
 		/// <summary>
@@ -149,6 +119,43 @@ namespace MonoWorks.Rendering.Interaction
 
 			// render the rubberband
 			RubberBand.Render(scene);
+		}
+	}
+
+	/// <summary>
+	/// Generic interactor parameterized by scene type.
+	/// </summary>
+	public abstract class GenericInteractor<SceneType> : AbstractInteractor where SceneType : Scene
+	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		/// <param name="scene">The scene to interact with.</param>
+		public GenericInteractor(SceneType scene)
+		{
+			Scene = scene;
+
+		}
+		
+		/// <summary>
+		/// The scene this interactor acts on. 
+		/// </summary>
+		public SceneType Scene { get; private set; }
+
+		/// <summary>
+		/// The scene's camera.
+		/// </summary>
+		public Camera Camera
+		{
+			get { return Scene.Camera; }
+		}
+
+		/// <summary>
+		/// The scene's render list.
+		/// </summary>
+		public RenderList RenderList
+		{
+			get { return Scene.RenderList; }
 		}
 
 	}

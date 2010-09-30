@@ -29,7 +29,7 @@ namespace MonoWorks.Rendering.Interaction
 	/// <summary>
 	/// Interactor that handles viewing interaction (rotating, panning, zooming, dollying).
 	/// </summary>
-	public class ViewInteractor : AbstractInteractor
+	public class ViewInteractor : GenericInteractor<Scene>
 	{
 		/// <summary>
 		/// Default constructor.
@@ -177,7 +177,7 @@ namespace MonoWorks.Rendering.Interaction
 			{
 			case InteractionType.Zoom:
 				bool blocked = false;
-				foreach (Actor actor in renderList.Actors)
+				foreach (Actor actor in RenderList.Actors)
 				{
 					if (actor.HandleZoom(Scene, RubberBand))
 						blocked = true;
@@ -230,7 +230,7 @@ namespace MonoWorks.Rendering.Interaction
 				Coord diff = evt.Pos - lastPos;
 
 				// allow the renderables to deal with the interaction
-				foreach (Actor renderable in renderList.Actors)
+				foreach (Actor renderable in RenderList.Actors)
 				{
 					if (renderable.HandlePan(Scene, diff.X, diff.Y))
 						blocked = true;
@@ -241,7 +241,7 @@ namespace MonoWorks.Rendering.Interaction
 				double factor = (evt.Pos.Y - lastPos.Y) / Scene.Height;
 
 				// allow the renderables to deal with the interaction
-				foreach (Renderable renderable in renderList.Actors)
+				foreach (Renderable renderable in RenderList.Actors)
 				{
 					if (renderable.HandleDolly(Scene, factor))
 						blocked = true;

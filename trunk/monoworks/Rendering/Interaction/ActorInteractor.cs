@@ -34,7 +34,7 @@ namespace MonoWorks.Rendering.Interaction
 	/// be used for simple situations and as a demonstration of how the 
 	/// interaction system works.
 	/// </remarks>
-	public class ActorInteractor : AbstractInteractor
+	public class ActorInteractor : GenericInteractor<Scene>
 	{
 		/// <summary>
 		/// Default constructor that takes the scene.

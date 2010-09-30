@@ -28,7 +28,7 @@ namespace MonoWorks.Plotting
 	/// <summary>
 	/// Interactor for plots.
 	/// </summary>
-	public class PlotInteractor : AbstractInteractor
+	public class PlotInteractor : GenericInteractor<Scene>
 	{
 
 		public PlotInteractor(Scene scene)
@@ -58,7 +58,7 @@ namespace MonoWorks.Plotting
 				{
 					// TODO: Plotting - handle multiple hits with depth checking
 					Actor hitRend = null;
-					foreach (Actor rend in renderList.Actors)
+					foreach (Actor rend in RenderList.Actors)
 					{
 						rend.OnButtonRelease(evt);
 						if (evt.IsHandled)

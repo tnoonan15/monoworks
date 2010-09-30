@@ -33,7 +33,7 @@ namespace MonoWorks.Rendering.Interaction
 	/// </summary>
 	/// <remarks>Unlike ActorInteractor, which acts on all actors in the scene, 
 	/// a SingleActorInteractor is meant to act on one actor in the scene at a time.</remarks>
-	public class SingleActorInteractor<ActorType> : AbstractInteractor where ActorType : Actor
+	public class SingleActorInteractor<ActorType> : GenericInteractor<Scene> where ActorType : Actor
 	{
 		public SingleActorInteractor(Scene scene) : base(scene)
 		{
