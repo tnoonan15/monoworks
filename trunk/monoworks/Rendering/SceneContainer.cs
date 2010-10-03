@@ -46,6 +46,13 @@ namespace MonoWorks.Rendering
 		{
 			get { return _scenes; }
 		}
+
+		/// <summary>
+		/// Subclasses should override this method to perform actions when the children collection changes.
+		/// </summary>
+		protected virtual void OnChildrenChanged()
+		{
+		}
 		
 		/// <summary>
 		/// Adds a scene to the collection.
@@ -54,6 +61,21 @@ namespace MonoWorks.Rendering
 		{
 			_scenes.Add(scene);
 			scene.Parent = this;
+			if (NumScenes == 1)
+				Current = scene;
+			OnChildrenChanged();
+		}
+
+		/// <summary>
+		/// Inserts a scene to the collection at the given index.
+		/// </summary>
+		public virtual void Insert(int index, Scene scene)
+		{
+			_scenes.Insert(index, scene);
+			scene.Parent = this;
+			if (NumScenes == 1)
+				Current = scene;
+			OnChildrenChanged();
 		}
 
 		/// <summary>
@@ -76,6 +98,7 @@ namespace MonoWorks.Rendering
 				else
 					Current = null;
 			}
+			OnChildrenChanged();
 		}
 		
 		/// <summary>
@@ -84,6 +107,14 @@ namespace MonoWorks.Rendering
 		public int NumScenes
 		{
 			get { return _scenes.Count;}
+		}
+
+		/// <summary>
+		/// Gets the index of the child scene in the container.
+		/// </summary>
+		public int IndexOf(Scene scene)
+		{
+			return _scenes.IndexOf(scene);
 		}
 		
 		private Scene _current;

@@ -197,6 +197,8 @@ namespace MonoWorks.Rendering.Interaction
 			// if we've interacted, handle the event so others don't respond to it.
 			if (mouseType != InteractionType.None)
 			{
+				if (mouseType == InteractionType.Rotate)
+					Camera.EndRotate();
 				mouseType = InteractionType.None;
 				if (interactionPerformed)
 					evt.Handle(this);

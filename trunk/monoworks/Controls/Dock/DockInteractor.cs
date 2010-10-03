@@ -51,11 +51,15 @@ namespace MonoWorks.Controls.Dock
 
 		private OverlayPane _pane;
 
-		private DockSlot _slot;
+		private DockSlot _oldSlot;
+
+		private DockSlot _newSlot;
 
 		void OnSceneUndocked(Scene scene)
 		{
 			_dragScene = scene;
+			var parent = scene.Parent as DockContainer;
+			_oldSlot = new DockSlot(parent, parent.IndexOf(scene));
 			var container = _dragScene.Parent as SceneContainer;
 			if (container == null)
 				throw new Exception("Trying to begin dragging a scene that isn't in a container.");
@@ -76,6 +80,14 @@ namespace MonoWorks.Controls.Dock
 			if (_dragScene != null)
 			{
 				evt.Handle(this);
+				if (_newSlot != null)
+				{
+					_newSlot.Container.Insert(_newSlot.Index, _dragScene);
+				}
+				else
+				{
+					_oldSlot.Container.Insert(_oldSlot.Index, _dragScene);
+				}
 				_dragScene = null;
 			}
 		}
@@ -90,7 +102,7 @@ namespace MonoWorks.Controls.Dock
 				_pane.Origin = evt.Pos;
 				evt.Handle(this);
 
-				_slot = Scene.FindSlot(evt);
+				_newSlot = Scene.FindSlot(evt);
 			}
 		}
 
@@ -104,8 +116,8 @@ namespace MonoWorks.Controls.Dock
 			if (_dragScene != null)
 			{
 				_pane.RenderOverlay(scene);
-				if (_slot != null)
-					_slot.RenderOverlay(scene);
+				if (_newSlot != null)
+					_newSlot.RenderOverlay(scene);
 			}
 			
 		}

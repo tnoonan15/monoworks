@@ -55,11 +55,18 @@ namespace MonoWorks.Controls.Dock
 		{
 			base.RenderOverlay(scene);
 
-			Console.WriteLine("rendering slot at {0} with size {1}", Origin, Size);
-
-			gl.glLineWidth(2f);
+			scene.Lighting.Disable();
+			gl.glLineWidth(3f);
 			gl.glBegin(gl.GL_LINE_LOOP);
 			gl.glColor3f(1.0f, 0f, 0f);
+			gl.glVertex2d(Origin.X, Origin.Y);
+			gl.glVertex2d(Origin.X + Size.X, Origin.Y);
+			gl.glVertex2d(Origin.X + Size.X, Origin.Y + Size.Y);
+			gl.glVertex2d(Origin.X, Origin.Y + Size.Y);
+			gl.glEnd();
+
+			gl.glBegin(gl.GL_QUADS);
+			gl.glColor4f(1.0f, 0f, 0f, 0.5f);
 			gl.glVertex2d(Origin.X, Origin.Y);
 			gl.glVertex2d(Origin.X + Size.X, Origin.Y);
 			gl.glVertex2d(Origin.X + Size.X, Origin.Y + Size.Y);

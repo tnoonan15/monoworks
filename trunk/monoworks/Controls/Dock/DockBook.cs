@@ -49,20 +49,9 @@ namespace MonoWorks.Controls.Dock
 		
 		private readonly OverlayPane _pane;
 		
-		public override void Add(Scene scene)
-		{
-			base.Add(scene);
-			
-			if (NumScenes == 1)
-				Current = scene;
-			
-			_selector.RemakeButtons();
-		}
 
-		public override void Remove(Scene scene)
+		protected override void OnChildrenChanged()
 		{
-			base.Remove(scene);
-			
 			_selector.RemakeButtons();
 		}
 		
