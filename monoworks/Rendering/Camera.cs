@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using gl = Tao.OpenGl.Gl;
 using glu = Tao.OpenGl.Glu;
 using MonoWorks.Base;
+using MonoWorks.Rendering.Interaction;
 
 
 namespace MonoWorks.Rendering
@@ -67,6 +68,13 @@ namespace MonoWorks.Rendering
 
 			DefaultAnimationOptions.Duration = 3;
 			DefaultAnimationOptions.EaseType = EaseType.Quadratic;
+
+			UseInertia = true;
+			InertiaAnimationOptions = new AnimationOptions() {
+				Duration = 3.0,
+				EaseType = EaseType.Quadratic
+			};
+			InertiaType = InteractionType.None;
 		}
 		
 
@@ -597,7 +605,7 @@ namespace MonoWorks.Rendering
 #endregion
 		
 		
-#region Rotating
+		#region Rotating
 
 		/// <summary>
 		/// Rotate by diff.
@@ -614,7 +622,13 @@ namespace MonoWorks.Rendering
 		/// <param name="dx"> The delta in the x dimension. </param>
 		/// <param name="dy"> The delta in the y dimension. </param>
 		public void Rotate(double dx, double dy)
-		{			
+		{
+			if (dx < 0.1 && dy < 0.1) // don't perform infinitesmal animations
+				return;
+			InertiaType = InteractionType.Rotate;
+			_inertiaVelocity.X = dx;
+			_inertiaVelocity.Y = dy;
+
 			// determine the scaling from view to world coordinates
 			double scaling = SceneToWorldScaling * 6;
 			
@@ -638,8 +652,18 @@ namespace MonoWorks.Rendering
 			// ensure the up vector is still orthagonal to the viewing direction
 			RecomputeUpVector();
 		}		
+
+		/// <summary>
+		/// Signifies that the user stopped rotating the camera.
+		/// </summary>
+		public void EndRotate()
+		{
+			if (InertiaType == InteractionType.Rotate)
+				_scene.Animator.RegisterAnimation(this, InertiaAnimationOptions.Duration);
+		}
+
 		
-#endregion
+		#endregion
 		
 		
 #region Zooming
@@ -802,7 +826,7 @@ namespace MonoWorks.Rendering
 		double animStartDist, animStopDist;
 
 		/// <summary>
-		/// The default options for all camera animations.
+		/// The default options for all camera animations (except inertia).
 		/// </summary>
 		public AnimationOptions DefaultAnimationOptions;
 
@@ -869,13 +893,20 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Animate(double progress)
 		{
-			var f = Ease.InOutFactor(progress, _currentAnimationOptions.EaseType);
-			_center = (animStopCenter - animStartCenter) * f + animStartCenter;
-			double dist = (animStopDist - animStartDist) * f + animStartDist;
-			Vector dir = (animStopDir - animStartDir) * f + animStartDir;
-			_position = _center + dir * dist;
-			_upVec = (animStopUpVec - animStartUpVec) * f + animStartUpVec;
-			RecomputeUpVector();
+			if (InertiaType == InteractionType.None) // must be a regular animation
+			{
+				var f = Ease.InOutFactor(progress, _currentAnimationOptions.EaseType);
+				_center = (animStopCenter - animStartCenter) * f + animStartCenter;
+				double dist = (animStopDist - animStartDist) * f + animStartDist;
+				Vector dir = (animStopDir - animStartDir) * f + animStartDir;
+				_position = _center + dir * dist;
+				_upVec = (animStopUpVec - animStartUpVec) * f + animStartUpVec;
+				RecomputeUpVector();
+			}
+			else // an inertia animation
+			{
+				InertiaAnimate(progress);
+			}
 		}
 
 		/// <summary>
@@ -890,6 +921,7 @@ namespace MonoWorks.Rendering
 		/// so any handlers only see one event.</remarks>
 		public void EndAnimation()
 		{
+			InertiaType = InteractionType.None;
 			if (AnimationEnded != null)
 			{
 				AnimationEnded(this, new EventArgs());
@@ -901,6 +933,43 @@ namespace MonoWorks.Rendering
 #endregion
 
 
+		#region Inertia
+
+		/// <summary>
+		/// The velocity of the last interaction that has inertia.
+		/// </summary>
+		private Coord _inertiaVelocity = new Coord();
+
+		/// <summary>
+		/// Whether or not to use inertia during rotation actions.
+		/// </summary>
+		public bool UseInertia { get; set; }
+
+		/// <summary>
+		/// The options for all camera inertia animations.
+		/// </summary>
+		public AnimationOptions InertiaAnimationOptions;
+
+		/// <summary>
+		/// The type of interaction that is currently performing an inertia animation.
+		/// </summary>
+		public InteractionType InertiaType { get; private set; }
+
+		/// <summary>
+		/// Performs a step of the current inertia animation.
+		/// </summary>
+		protected void InertiaAnimate(double progress)
+		{
+			if (InertiaType == InteractionType.Rotate)
+			{
+				var velocity = _inertiaVelocity * (1 - progress);
+				Rotate(velocity);
+			}
+			else
+				throw new Exception("Don't know how to inertia animate type " + InertiaType);
+		}
+
+		#endregion
 	}
 
 
