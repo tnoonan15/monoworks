@@ -66,13 +66,13 @@ namespace MonoWorks.Rendering
 
 			Frustum = new FrustumDef();
 
-			DefaultAnimationOptions.Duration = 3;
+			DefaultAnimationOptions.Duration = 4.0;
 			DefaultAnimationOptions.EaseType = EaseType.Quadratic;
 
 			UseInertia = true;
 			InertiaAnimationOptions = new AnimationOptions() {
-				Duration = 3.0,
-				EaseType = EaseType.Quadratic
+				Duration = 6.0,
+				EaseType = EaseType.Linear
 			};
 			InertiaType = InteractionType.None;
 		}
@@ -527,7 +527,7 @@ namespace MonoWorks.Rendering
 #endregion
 		
 		
-#region Panning
+		#region Panning
 		
 		protected double panFactor;
 		/// <value>
@@ -556,6 +556,12 @@ namespace MonoWorks.Rendering
 		/// <param name="dy"> The delta in the y dimension. </param>
 		public void Pan(double dx, double dy)
 		{
+			if (Math.Abs(dx) < 0.01 && Math.Abs(dy) < 0.01) // don't perform infinitesmal pans
+				return;
+			InertiaType = InteractionType.Pan;
+			_inertiaVelocity.X = dx;
+			_inertiaVelocity.Y = dy;
+
 			// determine the scaling from view to world coordinates
 			double scaling = SceneToWorldScaling;
 			
@@ -601,8 +607,17 @@ namespace MonoWorks.Rendering
 		{
 			Pan(0, -panFactor*Height);
 		}
+
+		/// <summary>
+		/// Signifies that the user stopped panning the camera.
+		/// </summary>
+		public void EndPan()
+		{
+			if (UseInertia && InertiaType == InteractionType.Pan)
+				_scene.Animator.RegisterAnimation(this, InertiaAnimationOptions.Duration);
+		}
 		
-#endregion
+		#endregion
 		
 		
 		#region Rotating
@@ -623,7 +638,7 @@ namespace MonoWorks.Rendering
 		/// <param name="dy"> The delta in the y dimension. </param>
 		public void Rotate(double dx, double dy)
 		{
-			if (dx < 0.1 && dy < 0.1) // don't perform infinitesmal animations
+			if (Math.Abs(dx) < 0.01 && Math.Abs(dy) < 0.01) // don't perform infinitesmal rotations
 				return;
 			InertiaType = InteractionType.Rotate;
 			_inertiaVelocity.X = dx;
@@ -658,7 +673,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void EndRotate()
 		{
-			if (InertiaType == InteractionType.Rotate)
+			if (UseInertia && InertiaType == InteractionType.Rotate)
 				_scene.Animator.RegisterAnimation(this, InertiaAnimationOptions.Duration);
 		}
 
@@ -666,7 +681,7 @@ namespace MonoWorks.Rendering
 		#endregion
 		
 		
-#region Zooming
+		#region Zooming
 	
 		/// <summary>
 		/// Zooms to screen rectangle defined by the given start and stop points.
@@ -689,10 +704,10 @@ namespace MonoWorks.Rendering
 		}
 		
 		
-#endregion
+		#endregion
 
 				
-#region View Direction
+		#region View Direction
 		
 		
 		protected ViewDirection lastDirection;
@@ -715,7 +730,6 @@ namespace MonoWorks.Rendering
 		{
 //			_scene.RenderList.ResetBounds();
 			Bounds bounds = _scene.RenderList.Bounds;
-			Console.WriteLine("renderlist bounds {0}", bounds);
 			
 			// determine the distance needed to view all renderables
 			double dist = 0;
@@ -814,10 +828,10 @@ namespace MonoWorks.Rendering
 			_scene.OnDirectionChanged();
 		}
 
-#endregion
+		#endregion
 			
 		
-#region Animation
+		#region Animation
 
 		Vector animStartCenter, animStartDir, animStartUpVec;
 
@@ -872,6 +886,7 @@ namespace MonoWorks.Rendering
 		/// <remarks>All other AnimateTo() methods should call this one.</remarks>
 		public void AnimateTo(Vector center, Vector position, Vector upVec, AnimationOptions opts)
 		{
+			EndInertiaAnimation();
 			Configure();
 			animStartCenter = this._center;
 			animStartDir = Direction.Normalize();
@@ -893,7 +908,7 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		public void Animate(double progress)
 		{
-			if (InertiaType == InteractionType.None) // must be a regular animation
+			if (UseInertia && InertiaType == InteractionType.None) // must be a regular animation
 			{
 				var f = Ease.InOutFactor(progress, _currentAnimationOptions.EaseType);
 				_center = (animStopCenter - animStartCenter) * f + animStartCenter;
@@ -921,16 +936,15 @@ namespace MonoWorks.Rendering
 		/// so any handlers only see one event.</remarks>
 		public void EndAnimation()
 		{
-			InertiaType = InteractionType.None;
+			EndInertiaAnimation();
 			if (AnimationEnded != null)
 			{
 				AnimationEnded(this, new EventArgs());
 				AnimationEnded = null;
 			}
 		}	
-		
-		
-#endregion
+				
+		#endregion
 
 
 		#region Inertia
@@ -960,13 +974,26 @@ namespace MonoWorks.Rendering
 		/// </summary>
 		protected void InertiaAnimate(double progress)
 		{
+			var velocity = _inertiaVelocity * (1 - progress);
 			if (InertiaType == InteractionType.Rotate)
 			{
-				var velocity = _inertiaVelocity * (1 - progress);
 				Rotate(velocity);
+			}
+			else if (InertiaType == InteractionType.Pan)
+			{
+				Pan(velocity);
 			}
 			else
 				throw new Exception("Don't know how to inertia animate type " + InertiaType);
+		}
+
+		/// <summary>
+		/// Used internally to force the inertia animation to stop.
+		/// </summary>
+		/// <remarks>Presumably, this is to make way for another animation.</remarks>
+		protected void EndInertiaAnimation()
+		{
+			InertiaType = InteractionType.None;
 		}
 
 		#endregion

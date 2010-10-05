@@ -199,6 +199,8 @@ namespace MonoWorks.Rendering.Interaction
 			{
 				if (mouseType == InteractionType.Rotate)
 					Camera.EndRotate();
+				else if (mouseType == InteractionType.Pan)
+					Camera.EndPan();
 				mouseType = InteractionType.None;
 				if (interactionPerformed)
 					evt.Handle(this);
