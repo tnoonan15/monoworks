@@ -539,21 +539,6 @@ namespace MonoWorks.Rendering
 		}
 
 		/// <summary>
-		/// Sets the tooltip on the viewport.
-		/// </summary>
-		public string ToolTip
-		{
-			set {  }
-		}
-
-		/// <summary>
-		/// Clears the tooltip on the viewport.
-		/// </summary>
-		public void ClearToolTip()
-		{
-		}
-
-		/// <summary>
 		/// Set the current cursor to the given type.
 		/// </summary>
 		public void SetCursor(CursorType type)
@@ -589,9 +574,27 @@ namespace MonoWorks.Rendering
 
 		#endregion
 
-		
+
+		#region Tooltip
+
+		/// <summary>
+		/// Sets the tooltip on the viewport.
+		/// </summary>
+		public void SetToolTip(Overlay content, Overlay anchor)
+		{
+		}
+
+		/// <summary>
+		/// Clears the tooltip on the viewport.
+		/// </summary>
+		public void ClearToolTip()
+		{
+		}
+		#endregion
+
+
 		#region Scene Hierarchy
-		
+
 		/// <summary>
 		/// This scene's parent scene.
 		/// </summary>
