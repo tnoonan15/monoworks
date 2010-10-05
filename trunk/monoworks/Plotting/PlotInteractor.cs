@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using MonoWorks.Rendering;
 using MonoWorks.Rendering.Interaction;
 using MonoWorks.Rendering.Events;
+using MonoWorks.Controls;
 
 namespace MonoWorks.Plotting
 {
@@ -70,7 +71,7 @@ namespace MonoWorks.Plotting
 					{
 						string description = hitRend.SelectionDescription;
 						if (description.Length > 0)
-							Scene.ToolTip = description;
+							Scene.SetToolTip(description, null);
 						evt.Handle(this);
 					}
 					else

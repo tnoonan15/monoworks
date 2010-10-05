@@ -65,6 +65,7 @@
     <Compile Include="LabelPane.cs" />
     <Compile Include="OverlayPane.cs" />
     <Compile Include="RenderContext.cs" />
+    <Compile Include="SceneExtensions.cs" />
     <Compile Include="SceneInfoOverlay.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="ToolBar.cs" />
