@@ -83,7 +83,7 @@ namespace MonoWorks.Rendering.Interaction
 			
 			foreach (var actor in Scene.RenderList.ActorCopy)
 			{
-				Console.WriteLine("mouse motion on {0}", actor.Name);
+				//Console.WriteLine("mouse motion on {0}", actor.Name);
 				actor.OnMouseMotion(evt);
 			}
 		}
