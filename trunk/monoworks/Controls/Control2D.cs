@@ -50,6 +50,10 @@ namespace MonoWorks.Controls
 		
 		#region Rendering
 
+		/// <summary>
+		/// Background color for the control.
+		/// </summary>
+		public MonoWorks.Rendering.Color BackgroundColor { get; set; }
 		
 		/// <summary>
 		/// Renders the control to a Cairo context.
@@ -65,6 +69,15 @@ namespace MonoWorks.Controls
 			LastPosition = new Coord(point.X, point.Y);
 			
 			context.Decorator.Decorate(this);
+
+			if (BackgroundColor != null)
+			{
+				context.Cairo.Save();
+				context.Cairo.Color = BackgroundColor.ToCairo();
+				context.Cairo.Rectangle(Origin.X, Origin.Y, RenderWidth, RenderHeight);
+				context.Cairo.Fill();
+				context.Cairo.Restore();
+			}
 			
 			Render(context);
 			
@@ -133,7 +146,25 @@ namespace MonoWorks.Controls
 		private ImageSurface _surface;
 		
 		#endregion
-		
-		
+
+
+		#region ToolTip
+
+		/// <summary>
+		/// The control tooltip.
+		/// </summary>
+		[MwxProperty]
+		public string ToolTip { get; set; }
+
+		protected override void OnEnter(MouseEvent evt)
+		{
+			base.OnEnter(evt);
+
+			if (IsHoverable && ToolTip != null)
+				evt.Scene.SetToolTip(ToolTip, false);
+		}
+
+		#endregion
+
 	}
 }

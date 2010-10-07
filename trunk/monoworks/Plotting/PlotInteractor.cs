@@ -71,7 +71,7 @@ namespace MonoWorks.Plotting
 					{
 						string description = hitRend.SelectionDescription;
 						if (description.Length > 0)
-							Scene.SetToolTip(description, null);
+							Scene.SetToolTip(description, false);
 						evt.Handle(this);
 					}
 					else
