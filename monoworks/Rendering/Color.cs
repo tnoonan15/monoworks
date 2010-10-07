@@ -298,7 +298,7 @@ namespace MonoWorks.Rendering
 #endregion
 
 
-#region Other Operations
+		#region Other Operations
 
 		/// <summary>
 		/// Returns the "inverse" color.
@@ -319,10 +319,10 @@ namespace MonoWorks.Rendering
 			return new Color((c1.Redf + c2.Redf) / 2, (c1.Greenf + c2.Greenf) / 2, (c1.Bluef + c2.Bluef) / 2);
 		}
 
-#endregion
+		#endregion
 
 
-#region OpenGL Commands
+		#region OpenGL Commands
 
 		/// <summary>
 		/// Sets the color of the current OpenGL context.
@@ -347,7 +347,7 @@ namespace MonoWorks.Rendering
 			gl.glEnd();
 		}
 		
-#endregion
+		#endregion
 		
 				
 		#region XML Loading
@@ -423,8 +423,32 @@ namespace MonoWorks.Rendering
 		}
 				
 		#endregion
-		
 
 
+		#region Default Named Colors
+
+		public static readonly Color Red = new Color(1f, 0, 0);
+
+		public static readonly Color Green = new Color(0, 1f, 0);
+
+		public static readonly Color Blue = new Color(0, 0, 1f);
+
+		public static readonly Color Yellow = new Color(1f, 1f, 0);
+
+		public static readonly Color Black = new Color(0, 0, 0);
+
+		public static readonly Color White = new Color(1f, 1f, 1f);
+
+		public static readonly Color Gray = new Color(0.5f, 0.5f, 0.5f);
+
+		public static readonly Color LightGray = new Color(0.85f, 0.85f, 0.85f);
+
+		public static readonly Color DarkGray = new Color(0.25f, 0.25f, 0.25f);
+
+		public static readonly Color Orange = new Color(1f, 0.65f, 0);
+
+		public static readonly Color Cyan = new Color(0, 1f, 1f);
+
+		#endregion
 	}
 }

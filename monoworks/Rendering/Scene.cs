@@ -302,6 +302,10 @@ namespace MonoWorks.Rendering
 			OverlayInteractor.RenderOverlay(this);
 			if (PrimaryInteractor != null)
 				PrimaryInteractor.RenderOverlay(this);
+
+			// render the tooltip
+			if (_tooltipContent != null)
+				_tooltipOverlay.RenderOverlay(this);
 		}
 
 		/// <summary>
@@ -409,9 +413,16 @@ namespace MonoWorks.Rendering
 
 		#region Interaction
 
+		/// <summary>
+		/// The scene tracks the last position of all mouse interaction events.
+		/// </summary>
+		public Coord LastMousePosition { get; private set; }
+
 		public virtual void OnButtonPress(MouseButtonEvent evt)
 		{
 			MakeCurrent();
+
+			LastMousePosition = evt.Pos;
 			
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			var parentScene = evt.Scene;
@@ -441,6 +452,8 @@ namespace MonoWorks.Rendering
 
 		public virtual void OnButtonRelease(MouseButtonEvent evt)
 		{
+			LastMousePosition = evt.Pos;
+
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			var parentScene = evt.Scene;
 			evt.Scene = this;
@@ -473,6 +486,8 @@ namespace MonoWorks.Rendering
 
 		public virtual void OnMouseMotion(MouseEvent evt)
 		{
+			LastMousePosition = evt.Pos;
+
 			evt.HitLine = Camera.ScreenToWorld(evt.Pos);
 			var parentScene = evt.Scene;
 			evt.Scene = this;
@@ -497,6 +512,9 @@ namespace MonoWorks.Rendering
 			if (EnableViewInteractor)
 				ViewInteractor.OnMouseMotion(evt);
 			evt.Scene = parentScene;
+
+			if (_tooltipFollowCursor)
+				MoveTooltip(evt.Pos);
 		}
 
 
@@ -577,19 +595,40 @@ namespace MonoWorks.Rendering
 
 		#region Tooltip
 
+		private Renderable2D _tooltipContent;
+
+		private OverlayPane _tooltipOverlay = new OverlayPane();
+
+		public bool _tooltipFollowCursor = false;
+
 		/// <summary>
-		/// Sets the tooltip on the viewport.
+		/// Sets the tooltip for the scene.
 		/// </summary>
-		public void SetToolTip(Overlay content, Overlay anchor)
+		public void SetToolTip(Renderable2D content, bool followCursor)
 		{
+			_tooltipContent = content;
+			_tooltipOverlay.Control = content;
+			_tooltipFollowCursor = followCursor;
+			MoveTooltip(LastMousePosition);
 		}
 
 		/// <summary>
-		/// Clears the tooltip on the viewport.
+		/// Clears the tooltip for the scene.
 		/// </summary>
 		public void ClearToolTip()
 		{
+			_tooltipContent = null;
+			_tooltipOverlay.Control = null;
 		}
+
+		/// <summary>
+		/// Moves the tooltip to the given position, accounting for interference with the edge of the scene.
+		/// </summary>
+		protected void MoveTooltip(Coord pos)
+		{
+			_tooltipOverlay.Origin = pos;
+		}
+		
 		#endregion
 
 
@@ -658,8 +697,8 @@ namespace MonoWorks.Rendering
 		}
 		
 		#endregion
-		
-		
-		
+
+
+
 	}
 }

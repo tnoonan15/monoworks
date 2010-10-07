@@ -41,9 +41,7 @@ namespace MonoWorks.Rendering
 	public abstract class Renderable2D : Renderable
 	{
 		protected Renderable2D() : base()
-		{
-			ToolTip = "";
-			
+		{			
 			Origin = new Coord();
 			RenderSize = new Coord();
 			
@@ -81,11 +79,6 @@ namespace MonoWorks.Rendering
 			}
 		}
 		
-		
-		/// <summary>
-		/// The control tooltip.
-		/// </summary>
-		public string ToolTip { get; set; }
 
 		
 		public override void MakeDirty ()
