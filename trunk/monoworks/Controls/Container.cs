@@ -242,7 +242,7 @@ namespace MonoWorks.Controls
 
 		#region Focus
 		
-		public override Control2D GetNextFocus(Control2D child)
+		public override Renderable2D GetNextFocus(Renderable2D child)
 		{			
 			var kid = child as ControlType;
 			if (kid == null)
@@ -261,7 +261,7 @@ namespace MonoWorks.Controls
 			return _children[index + 1].GetFirstFocus();
 		}
 		
-		public override Control2D GetPreviousFocus(Control2D child)
+		public override Renderable2D GetPreviousFocus(Renderable2D child)
 		{
 			var kid = child as ControlType;
 			if (kid == null)
@@ -280,7 +280,7 @@ namespace MonoWorks.Controls
 			return _children[index - 1].GetLastFocus();
 		}
 
-		public override Control2D GetFirstFocus()
+		public override Renderable2D GetFirstFocus()
 		{
 			if (NumChildren == 0)
 			{
@@ -292,7 +292,7 @@ namespace MonoWorks.Controls
 			return _children[0].GetFirstFocus();
 		}
 		
-		public override Control2D GetLastFocus()
+		public override Renderable2D GetLastFocus()
 		{
 			if (NumChildren == 0)
 			{

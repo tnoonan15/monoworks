@@ -319,14 +319,6 @@ namespace MonoWorks.Rendering
 			return new Color((c1.Redf + c2.Redf) / 2, (c1.Greenf + c2.Greenf) / 2, (c1.Bluef + c2.Bluef) / 2);
 		}
 
-		/// <value>
-		/// Gets the color as a Cairo color.
-		/// </value>
-		public Cairo.Color Cairo
-		{
-			get {return new Cairo.Color(Redf, Greenf, Bluef, Alphaf);}
-		}
-
 #endregion
 
 

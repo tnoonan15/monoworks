@@ -21,8 +21,6 @@ using System.Collections.Generic;
 
 using Cairo;
 
-using MonoWorks.Rendering;
-
 
 namespace MonoWorks.Controls
 {

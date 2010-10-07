@@ -24,7 +24,7 @@ using MonoWorks.Rendering;
 using MonoWorks.Rendering.Events;
 
 
-namespace MonoWorks.Controls
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
@@ -40,7 +40,7 @@ namespace MonoWorks.Controls
 			Angle = new Angle();
 		}
 		
-		public OverlayPane(Control2D control) : this()
+		public OverlayPane(Renderable2D control) : this()
 		{
 			Control = control;
 		}
@@ -145,9 +145,9 @@ namespace MonoWorks.Controls
 		public Angle Angle { get; set; }
 		
 		
-		private Control2D control;
+		private Renderable2D control;
 		
-		public Control2D Control
+		public Renderable2D Control
 		{
 			get {return control;}
 			set
@@ -165,11 +165,11 @@ namespace MonoWorks.Controls
 						
 		#region Interaction
 		
-		private Control2D _inFocus;
+		private Renderable2D _inFocus;
 		/// <summary>
 		/// Sets the control currently in focus.
 		/// </summary>
-		public Control2D InFocus
+		public Renderable2D InFocus
 		{
 			get {return _inFocus;}
 			set {

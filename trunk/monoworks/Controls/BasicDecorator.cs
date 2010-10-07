@@ -202,10 +202,10 @@ namespace MonoWorks.Controls
 			// assign the colors
 			if (startColor == null)
 				startColor = defaultBackgroundColor;
-			grad.AddColorStop(0, startColor.Cairo);
+			grad.AddColorStop(0, startColor.ToCairo());
 			if (stopColor == null)
 				stopColor = defaultBackgroundColor;
-			grad.AddColorStop(1, stopColor.Cairo);
+			grad.AddColorStop(1, stopColor.ToCairo());
 			
 			return grad;
 		}
@@ -236,7 +236,7 @@ namespace MonoWorks.Controls
                                              GetColor(ColorType.HighlightStop, hitState));
 				break;
 			case FillType.Selection:
-				Context.Cairo.Color = SelectionColor.Cairo;
+				Context.Cairo.Color = SelectionColor.ToCairo();
 				break;
 			}
 			
@@ -330,7 +330,7 @@ namespace MonoWorks.Controls
 			var cy = point.Y + relPos.Y + size.Y / 2;
 			var grad = new Cairo.RadialGradient(cx, cy, radius / 4.0, cx, cy, radius);
 			grad.AddColorStop(0, new Cairo.Color(1, 1, 1, 0));
-			grad.AddColorStop(1, FocusColor.Cairo);
+			grad.AddColorStop(1, FocusColor.ToCairo());
 			Context.Cairo.Pattern = grad;
 			
 			// draw the rectangle path
@@ -355,7 +355,7 @@ namespace MonoWorks.Controls
 			var cx = point.X + relPos.X + size.X / 2;
 			var cy = point.Y + relPos.Y + size.Y / 2;
 			var grad = new Cairo.RadialGradient(cx, cy, radius, cx, cy, radius * 1.5);
-			grad.AddColorStop(0, FocusColor.Cairo);
+			grad.AddColorStop(0, FocusColor.ToCairo());
 			grad.AddColorStop(1, new Cairo.Color(1, 1, 1, 0));
 			Context.Cairo.Pattern = grad;
 			
@@ -398,7 +398,7 @@ namespace MonoWorks.Controls
 			
 			// draw the rectangle
 			Context.Cairo.Operator = Cairo.Operator.Source;
-			Context.Cairo.Color = GetColor(ColorType.Stroke, hitState).Cairo;
+			Context.Cairo.Color = GetColor(ColorType.Stroke, hitState).ToCairo();
 			if (hitState.IsFocused())
 				Context.Cairo.LineWidth = 2 * StrokeWidth;
 			else
@@ -413,7 +413,7 @@ namespace MonoWorks.Controls
 		
 		#region Decorating
 		
-		public override void Decorate(Control2D control)
+		public override void Decorate(Renderable2D control)
 		{
 			if (control is CornerButtons)
 			{
@@ -624,7 +624,7 @@ namespace MonoWorks.Controls
 		{
 			// draw the line
 			var pos = Context.Push();
-			Context.Cairo.Color = GetColor(ColorType.Stroke, slider.HitState).Cairo;
+			Context.Cairo.Color = GetColor(ColorType.Stroke, slider.HitState).ToCairo();
 			Context.Cairo.LineWidth = 3;
 			Context.Cairo.MoveTo(pos.X + slider.LineStart.X, pos.Y + slider.LineStart.Y);
 			Context.Cairo.LineTo(pos.X + slider.LineStop.X, pos.Y + slider.LineStop.Y);
@@ -648,7 +648,7 @@ namespace MonoWorks.Controls
 			if (checkBox.IsSelected)
 			{
 				var absPos = Context.Push();
-				Context.Cairo.Color = GetColor(ColorType.Stroke, checkBox.HitState).Cairo;
+				Context.Cairo.Color = GetColor(ColorType.Stroke, checkBox.HitState).ToCairo();
 				Context.Cairo.LineWidth = 2 *StrokeWidth;
 				Context.Cairo.MoveTo(absPos.X + pos.X + 1, absPos.Y + pos.Y + 1);
 				Context.Cairo.RelLineTo(CheckBox.BoxSize - 2, CheckBox.BoxSize - 2);
@@ -701,7 +701,7 @@ namespace MonoWorks.Controls
 			var coord = pos.Coord();
 			Context.Cairo.Operator = Cairo.Operator.Source;
 			Context.Cairo.LineWidth = StrokeWidth;
-			var strokeColor = GetColor(ColorType.Stroke, dial.HitState).Cairo;
+			var strokeColor = GetColor(ColorType.Stroke, dial.HitState).ToCairo();
 			var cx = dial.RenderWidth / 2.0 + pos.X;
 			var cy = dial.RenderHeight / 2.0 + pos.Y;
 			var outerRadius = dial.RenderWidth/2;
@@ -718,8 +718,8 @@ namespace MonoWorks.Controls
 			
 			// draw the outer highlighted circle
 			var grad = new Cairo.RadialGradient(cx, cy, dial.InnerRadius, cx, cy, outerRadius);
-			grad.AddColorStop(1, GetColor(ColorType.HighlightStart, dial.HitState).Cairo);
-			grad.AddColorStop(0, GetColor(ColorType.HighlightStop, dial.HitState).Cairo);
+			grad.AddColorStop(1, GetColor(ColorType.HighlightStart, dial.HitState).ToCairo());
+			grad.AddColorStop(0, GetColor(ColorType.HighlightStop, dial.HitState).ToCairo());
 			Context.Cairo.Pattern = grad;
 			Context.Cairo.Arc(cx, cy, outerRadius, -Math.PI/2.0, dial.Value * 2 * Math.PI - Math.PI/2.0);
 			Context.Cairo.LineTo(cx, cy);
@@ -783,8 +783,8 @@ namespace MonoWorks.Controls
 			var innerRadius = ringBar.InnerRadius;
 			var grad = new Cairo.RadialGradient(outerRadius, outerRadius, innerRadius,
 				outerRadius, outerRadius, outerRadius);
-			grad.AddColorStop(1, GetColor(ColorType.BackgroundStop, ringButton.HitState).Cairo);
-			grad.AddColorStop(0, GetColor(ColorType.BackgroundStart, ringButton.HitState).Cairo);
+			grad.AddColorStop(1, GetColor(ColorType.BackgroundStop, ringButton.HitState).ToCairo());
+			grad.AddColorStop(0, GetColor(ColorType.BackgroundStart, ringButton.HitState).ToCairo());
 			Context.Cairo.Pattern = grad;
 
 			// draw the background
@@ -792,7 +792,7 @@ namespace MonoWorks.Controls
 			Context.Cairo.Fill();
 
 			// draw the outline
-			Context.Cairo.Color = GetColor(ColorType.Stroke, ringButton.HitState).Cairo;
+			Context.Cairo.Color = GetColor(ColorType.Stroke, ringButton.HitState).ToCairo();
 			Context.Cairo.LineWidth = 1;
 			ringButton.DrawOutline(Context.Cairo);
 			Context.Cairo.Stroke();

@@ -30,7 +30,7 @@ namespace MonoWorks.Controls
 	/// <summary>
 	/// A general modal overlay that hosts a single control.
 	/// </summary>
-	public class GenericModalControlOverlay<ControlType> : ModalOverlay where ControlType : Control2D
+	public class GenericModalControlOverlay<ControlType> : ModalOverlay where ControlType : Renderable2D
 	{
 		public GenericModalControlOverlay()
 		{
@@ -160,7 +160,7 @@ namespace MonoWorks.Controls
 	}
 	
 	
-	public class ModalControlOverlay : GenericModalControlOverlay<Control2D>
+	public class ModalControlOverlay : GenericModalControlOverlay<Renderable2D>
 	{
 		
 	}

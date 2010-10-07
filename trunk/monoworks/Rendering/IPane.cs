@@ -1,5 +1,5 @@
 // 
-//  CairoHelper.cs - MonoWorks Project
+//  IPane.cs
 //  
 //  Author:
 //       Andy Selvig <ajselvig@gmail.com>
@@ -20,53 +20,40 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-using Cairo;
-using System.IO;
 
-using MonoWorks.Base;
+using System;
 
 namespace MonoWorks.Rendering
 {
+	
 	/// <summary>
-	/// Helper methods for cairo rendering
+	/// Interface for Panes.
+	/// Panes are invisible renderables that holds a 2D control, like a pane of glass.
+	/// It renders the control to a texture then places it in the scene, as well as pass 
+	/// keyboard and mouse events to it.
 	/// </summary>
-	public static class CairoHelper
+	public interface IPane
 	{
-		/// <summary>
-		/// Converts a Cairo point to a Coord. 
-		/// </summary>
-		public static Coord Coord(this PointD point)
-		{
-			return new Coord(point.X, point.Y);
-		}
-
-		/// <summary>
-		/// Converts a coord to a Cairo point. 
-		/// </summary>
-		public static PointD PointD(this Coord coord)
-		{
-			return new PointD(coord.X, coord.Y);
-		}
+		
+		/// <value>
+		/// The control that gets rendered on the pane.
+		/// </value>
+		Renderable2D Control {get; set;}
+		
+		/// <value>
+		/// Whether or not the pane is visible.
+		/// </value>
+		bool IsVisible {get; set;}
 		
 		/// <summary>
-		/// Creates an image surface from an image inside a stream.
+		/// The control currently in focus.
 		/// </summary>
-		public static ImageSurface ImageSurfaceFromStream(Stream stream)
-		{
-			// read the data
-			int N = (int)stream.Length;
-			byte[] data = new byte[N];
-			stream.Read(data, 0, N);
-			
-			// write to a file
-			string fileName = System.IO.Path.GetTempPath() + "temp.png";
-			FileStream fileStream = new FileStream(fileName, FileMode.Create);
-			fileStream.Write(data, 0, N);
-			fileStream.Close();
-			
-			return new ImageSurface(fileName);
-		}
+		Renderable2D InFocus {get; set;}
+		
+		/// <summary>
+		/// Queues the pane to redraw its control during the next render cycle.
+		/// </summary>
+		void QueueRender();
 		
 	}
 }
-

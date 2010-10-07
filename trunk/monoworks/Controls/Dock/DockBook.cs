@@ -241,7 +241,7 @@ namespace MonoWorks.Controls.Dock
 		{
 			base.Render(context);
 
-			context.Cairo.Color = context.Decorator.GetColor(ColorType.BackgroundStart, HitState.Selected).Cairo;
+			context.Cairo.Color = context.Decorator.GetColor(ColorType.BackgroundStart, HitState.Selected).ToCairo();
 			context.Cairo.LineWidth = 2;
 			context.Cairo.MoveTo(0, RenderHeight - 1);
 			context.Cairo.RelLineTo(RenderWidth, 0);
