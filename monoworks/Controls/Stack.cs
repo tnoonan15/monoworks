@@ -124,7 +124,7 @@ namespace MonoWorks.Controls
 			// force the children to fill their area
 			if (ForceFill)
 			{
-				foreach (Control2D child in Children)
+				foreach (Renderable2D child in Children)
 				{
 					if (_orientation == Orientation.Horizontal)
 						child.RenderHeight = RenderWidth - 2*Padding;

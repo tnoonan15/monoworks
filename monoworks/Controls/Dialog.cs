@@ -41,8 +41,8 @@ namespace MonoWorks.Controls
 		
 		public override void AddChild(IMwxObject child)
 		{
-			if (child is Control2D)
-				Children.AddChild(child as Control2D);
+			if (child is Renderable2D)
+				Children.AddChild(child as Renderable2D);
 			else
 				throw new Exception("Children of Dialog must be a Control2D.");
 		}

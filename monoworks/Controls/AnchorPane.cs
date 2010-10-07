@@ -36,11 +36,11 @@ namespace MonoWorks.Controls
 		{
 		}
 
-		public AnchorPane(Control2D Control) : this(Control, AnchorLocation.N)
+		public AnchorPane(Renderable2D Control) : this(Control, AnchorLocation.N)
 		{
 		}
 		
-		public AnchorPane(Control2D control, AnchorLocation location)
+		public AnchorPane(Renderable2D control, AnchorLocation location)
 		{
 			this.Control = control;
 			Location = location;	

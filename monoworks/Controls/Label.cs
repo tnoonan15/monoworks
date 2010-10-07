@@ -237,7 +237,7 @@ namespace MonoWorks.Controls
 					var absPos = Cursor.Position + LastPosition + Padding;
 					
 					// draw the cursor
-					context.Cairo.Color = TextColor.Cairo;
+					context.Cairo.Color = TextColor.ToCairo();
 					context.Cairo.LineWidth = 2;
 					context.Cairo.MoveTo(absPos.X - 2, absPos.Y - 3); // I don't know why we need to subtract 
 					context.Cairo.RelLineTo(0, LineHeight);
@@ -246,7 +246,7 @@ namespace MonoWorks.Controls
 					// draw the selection box
 					if (Anchor != null)
 					{
-						context.Cairo.Color = context.Decorator.SelectionColor.Cairo;
+						context.Cairo.Color = context.Decorator.SelectionColor.ToCairo();
 						var selectSize = Anchor.Position - Cursor.Position;
 						context.Cairo.Rectangle(absPos.X - 2, absPos.Y - 3, selectSize.X, LineHeight);
 						context.Cairo.Fill();
@@ -255,7 +255,7 @@ namespace MonoWorks.Controls
 				}
 								
 				// render the text
-				context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).Cairo;
+				context.Cairo.Color = context.Decorator.GetColor(ColorType.Text, HitState.None).ToCairo();
 				var point = context.Cairo.CurrentPoint;
 				for (int i = 0; i < Lines.Length; i++)
 				{

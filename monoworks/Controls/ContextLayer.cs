@@ -91,7 +91,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Anchors a control at the given location.
 		/// </summary>
-		public void AnchorControl(Control2D control, AnchorLocation location)
+		public void AnchorControl(Renderable2D control, AnchorLocation location)
 		{
 			if (anchors[location].Control != null)
 				throw new Exception("There's already something at this anchor.");
@@ -107,7 +107,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Adds the given control to the location.
 		/// </summary>
-		public void AddContext(Side loc, Control2D control)
+		public void AddContext(Side loc, Renderable2D control)
 		{
 			//			ToolBar toolbar = GetToolbar(context);
 		//			toolbar.Orientation = ContextOrientation(loc);

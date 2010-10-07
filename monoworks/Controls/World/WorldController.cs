@@ -59,8 +59,8 @@ namespace MonoWorks.Controls.World
 		public void Context(Side loc, string name)
 		{
 			var obj = Mwx.Get(name);
-			if (obj is Control2D)
-				ContextLayer.AddContext(loc, obj as Control2D);
+			if (obj is Renderable2D)
+				ContextLayer.AddContext(loc, obj as Renderable2D);
 			else
 				throw new Exception("Context " + name + " is not a control!");
 		}

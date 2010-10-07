@@ -35,7 +35,7 @@ namespace MonoWorks.Controls.Cards
 	public abstract class AbstractCard : ActorPane
 	{
 		
-		public AbstractCard(Control2D control) : base(control)
+		public AbstractCard(Renderable2D control) : base(control)
 		{
 			Padding = 100;
 			Scaling = 1;
@@ -95,8 +95,8 @@ namespace MonoWorks.Controls.Cards
 		{
 			if (child is AbstractCard)
 				Add(child as AbstractCard);
-			else if (child is Control2D)
-				Control = child as Control2D;
+			else if (child is Renderable2D)
+				Control = child as Renderable2D;
 			else
 				throw new Exception(child.Name + " must be a Card or CardContents.");
 		}
@@ -377,7 +377,7 @@ namespace MonoWorks.Controls.Cards
 	/// <summary>
 	/// A card that is represented as a pane in the 3D world. It can contain CardContents and other cards.
 	/// </summary>
-	public class Card<ContentType> : AbstractCard where ContentType : Control2D, new()
+	public class Card<ContentType> : AbstractCard where ContentType : Renderable2D, new()
 	{
 		/// <summary>
 		/// Default constructor (automatically creates the content).

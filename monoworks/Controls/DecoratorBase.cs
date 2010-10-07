@@ -102,7 +102,7 @@ namespace MonoWorks.Controls
 		/// <summary>
 		/// Draws the decorations for the given control.
 		/// </summary>
-		public abstract void Decorate(Control2D control);
+		public abstract void Decorate(Renderable2D control);
 		
 		
 		#region Colors

@@ -24,7 +24,7 @@ using MonoWorks.Rendering.Events;
 
 using Tao.OpenGl;
 
-namespace MonoWorks.Controls
+namespace MonoWorks.Rendering
 {
 	
 	/// <summary>
@@ -41,7 +41,7 @@ namespace MonoWorks.Controls
 			_scaling = 1;
 		}
 				
-		public ActorPane(Control2D control) : this()
+		public ActorPane(Renderable2D control) : this()
 		{
 			Control = control;
 		}
@@ -82,9 +82,9 @@ namespace MonoWorks.Controls
 		[MwxProperty]
 		public Vector XAxis { get; set; }
 		
-		private Control2D control;
+		private Renderable2D control;
 		
-		public Control2D Control
+		public Renderable2D Control
 		{
 			get {return control;}
 			set
@@ -103,11 +103,11 @@ namespace MonoWorks.Controls
 		
 #region Interaction
 		
-		private Control2D _inFocus;
+		private Renderable2D _inFocus;
 		/// <summary>
 		/// Sets the contro currently in focus.
 		/// </summary>
-		public Control2D InFocus
+		public Renderable2D InFocus
 		   {
 			get { return _inFocus; }
 			set {
